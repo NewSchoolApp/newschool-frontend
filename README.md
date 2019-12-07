@@ -2,6 +2,8 @@
 
 > Frontend da New School, desenvolvido em VueJs, Nuxt e Vuetify
 
+> **Ambiente de DEV:** https://newschoolbr.herokuapp.com/
+
 # Como rodar o projeto
 
 ``` bash
