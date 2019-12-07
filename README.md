@@ -1,4 +1,4 @@
-# newschool-frontend
+# NewSchool-frontend
 
 > Frontend da New School, desenvolvido em VueJs, Nuxt e Vuetify
 
@@ -8,7 +8,7 @@
 
 ``` bash
 # install dependencies
-$ npm run install
+$ npm install
 
 # serve with hot reload at localhost:3000
 $ npm run dev
@@ -63,5 +63,3 @@ Hora de colocar a mão na massa. A parte mais divertida, trabalhar no código-fo
 5 MISSÃO CUMPRIDA. VC AJUDOU O PROJETO. ❤️
 
 # Código de conduta
-
-# Bugs
