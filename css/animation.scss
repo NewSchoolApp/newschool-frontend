@@ -1,0 +1,39 @@
+/* Animações */
+
+@keyframes intro {
+  0% {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+  70% {
+    transform: translateX(5);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes down {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(100vh);
+  }
+}
+
+@keyframes nono {
+  0% {
+    transform: translateX(0);
+  }
+  35% {
+    transform: translateX(-15%);
+  }
+  70% {
+    transform: translateX(15%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
