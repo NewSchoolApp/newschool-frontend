@@ -1,0 +1,38 @@
+a {
+  color: rgb(241, 137, 222) !important;
+}
+
+::placeholder {
+  color: #9e66d3;
+  font-weight: 300;
+}
+
+.btn-block {
+  border-radius: 5px;
+  width: 100%;
+}
+.btn-primary {
+    background-color: #ffffff !important;
+    color: #651655 !important;
+    border-radius: unset !important;
+    font-weight: 900 !important;
+}
+.btn-secondary {
+  background-color: #f189de00 !important;
+  color: #f189de;
+  border: solid 1px #f189de;
+}
+
+.v-input__slot {
+    padding: 10px;
+    width: 100%;
+    border-radius: 5px;
+    border: solid 1px #7c39bb;
+    background-color: rgba(62, 6, 117, 0.87) !important;
+    box-shadow: none !important;
+}
+.theme--dark.v-application {
+  background: none !important;
+}
+
+
