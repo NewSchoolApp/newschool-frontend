@@ -6,8 +6,6 @@ import { http } from './config'
  * Serviço de auth do sistema
  */
 
- 
-
 export default {
 
   /**
@@ -23,11 +21,5 @@ export default {
     return http.post("/oauth/token",
       { body },
       { headers: { 'Authorization': + client_credentials } })
-      .then((res) => {
-        console.log(res)
-
-      }).catch((err) => {
-        console.error(err)
-      })
   }
 }

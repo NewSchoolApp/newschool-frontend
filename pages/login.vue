@@ -184,8 +184,18 @@ export default {
 
     submit() {
       if(this.$refs.form.validate()){
-        auth.login(this.email, this.password)
         this.animateForm(true)
+        auth.login(this.email, this.password) 
+            .then((res) => {
+                console.log(res)
+            })
+            .catch((err) => {
+                  setTimeout(() => {
+                    this.loading = false; 
+                  }, 500);
+                console.error(err)
+            })
+                
       }else{
         this.animateForm(false)
       }
@@ -197,7 +207,7 @@ export default {
         document.querySelector("html").style.overflow = "hidden";
         setTimeout(() => {
           this.loading = true;  
-        }, 500);
+        }, 300);
 
       }else{  
         this.$refs.flex.classList.add("error-form");
