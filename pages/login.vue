@@ -111,6 +111,11 @@
 .bg-symbol img {
     width: 40%;
 }
+.error--text{
+  color: #ff8080 !important;
+  caret-color: #ff8080 !important;
+
+}
 
 .hide-form {
   animation: down 300ms forwards;
@@ -119,6 +124,9 @@
 .error-form {
   animation: nono 300ms, intro paused;
 }
+
+
+/* Animações */
 
 @keyframes intro {
   0% {
