@@ -85,8 +85,8 @@ export default {
         this.animateForm(true);
         auth
           .login(this.email, this.password)
-          .then(res => {
-            console.log(res);
+          .then(() => {
+            $nuxt._router.push("/index");
           })
           .catch(err => {
             setTimeout(() => {
@@ -112,10 +112,6 @@ export default {
           this.$refs.flex.classList.remove("error-form");
         }, 500);
       }
-    },
-
-    reset() {
-      this.$refs.form.reset();
     }
   }
 };
