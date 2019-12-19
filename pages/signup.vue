@@ -91,7 +91,7 @@
 </template>
 
 <script>
-import auth from "../services/http/auth";
+import http from "../services/http/generic";
 
 export default {
   data: () => ({
@@ -147,6 +147,7 @@ export default {
     },
 
     clearFields() {
+      this.nome = "",
       this.email = "";
       this.password = "";
       this.confirmPassword = "";
