@@ -34,14 +34,15 @@
               <v-text-field
                 placeholder="Nome"
                 class="shadow-input"
-                v-model="nome"
+                v-model="form.nome"
+                :rules="nameRules"
                 solo
                 required
               ></v-text-field>
               <v-text-field
                 placeholder="Email"
                 class="shadow-input"
-                v-model="email"
+                v-model="form.email"
                 :rules="emailRules"
                 solo
                 required
@@ -50,7 +51,7 @@
                 placeholder="Senha"
                 class="shadow-input"
                 type="password"
-                v-model="password"
+                v-model="form.password"
                 :rules="passwordRules"
                 solo
                 required
@@ -59,8 +60,26 @@
                 placeholder="Confirmar senha"
                 class="shadow-input"
                 type="password"
-                v-model="confirmPassword"
+                v-model="form.confirmPassword"
                 :rules="confirmPasswordRules"
+                solo
+                required
+              ></v-text-field>
+              <v-text-field
+                placeholder="Facebook"
+                class="shadow-input"
+                type="text"
+                v-model="form.userFacebook"
+                :rules="facebookRules"
+                solo
+                required
+              ></v-text-field>
+              <v-text-field
+                placeholder="Instagram"
+                class="shadow-input"
+                type="text"
+                v-model="form.userInstagram"
+                :rules="instagramRules"
                 solo
                 required
               ></v-text-field>
@@ -94,31 +113,50 @@
 import http from "../services/http/generic";
 
 export default {
-  data: () => ({
-    status: true,
-    loading: false,
-    nome: "",
-    email: "",
-    emailRules: [
-      v => !!v || "Digite o e-mail",
-      v => /.+@.+\..+/.test(v) || "E-mail inválido"
-    ],
-    password: "",
-    passwordRules: [
-      v => !!v || "Digite a senha",
-      v => (v && v.length >= 6) || "A senha deve ter no mínimo 6 caractéres"
-    ],
-    confirmPassword: "",
-  }),
+  data() {
+    return {
+      status: true,
+      loading: false,
+      form: {
+        nome: "",
+        email: "",
+        password: "",
+        confirmPassword: "",
+        userFacebook: "",
+        userInstagram: "",  
+        roles : {}
+      },
+      nameRules: [
+        v => !!v || "Digite seu nome",
+        v => (v && v.legth >= 3) || "Seu nome deve ter pelo menos 3 caractéres"
+      ],
+      passwordRules: [
+        v => !!v || "Digite a senha",
+        v => (v && v.length >= 6) || "A senha deve ter no mínimo 6 caractéres"
+      ],
+      emailRules: [
+        v => !!v || "Digite o e-mail",
+        v => /.+@.  +\..+/.test(v) || "E-mail inválido"
+      ],
+      facebookRules: [
+        v => !!v || "Cole o link do seu Facebook",
+        v => (v.includes('facebook.com/')) || "ex: https://facebook.com/newschool"
+      ],
+      instagramRules: [
+        v => !!v || "Cole o link do seu Instagram",
+        v => (v.includes('instagram.com/')) || "ex: https://instagram.com/newschool"
+      ],
+    }
+  },
 
   methods: {
     submit() {
       if (this.$refs.form.validate()) {
         this.animateForm(true);
-        auth
-          .login(this.email, this.password)
+        http
+          .post("api/v1/user", this.form)
           .then(() => {
-            $nuxt._router.push("/index");
+            // invoke de modal confirmação.
           })
           .catch(err => {
             setTimeout(() => {
@@ -145,20 +183,23 @@ export default {
         }, 500);
       }
     },
-
+    
     clearFields() {
-      this.nome = "",
-      this.email = "";
-      this.password = "";
-      this.confirmPassword = "";
+      this.form.nome = "",
+      this.form.email = "";
+      this.form.password = "";
+      this.form.confirmPassword = "";
+      this.form.userFacebook = "";
+      this.form.userInstagram = "";
     }
   },
+
 
   computed: {
     confirmPasswordRules() {
       return [
         v => !!v || "Confirme a senha",
-        () => (this.password === this.confirmPassword) || "As senhas devem ser idênticas."
+        () => (this.form.password === this.form.confirmPassword) || "As senhas devem ser idênticas."
       ]
     }
   }
