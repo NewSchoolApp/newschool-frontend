@@ -20,5 +20,10 @@ export default {
 
     return http.post("/oauth/token",
       body, { headers: { 'Authorization': client_credentials } })
+  },
+
+  signUp: (form) =>{
+    let base64 = btoa(`${process.env.VUE_APP_CLIENT_CREDENTIAL_NAME}:${process.env.VUE_APP_CLIENT_CREDENTIAL_SECRET}`)
+    
   }
 }
