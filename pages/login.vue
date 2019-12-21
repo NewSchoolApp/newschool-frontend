@@ -11,9 +11,9 @@
         ></v-progress-circular>
       </div>
     </div>
-    <v-flex xs10 sm8 md4 ref="flex" v-else>
+    <v-flex role="main" xs10 sm8 md4 ref="flex" v-else >
       <div class="bg-symbol">
-        <img src="../assets/logo.svg" alt="castor" />
+        <img src="../assets/logo.svg" alt="New Schoool logo" />
       </div>
       <v-container>
         <v-row>
@@ -21,26 +21,29 @@
           <v-form ref="form" v-model="status" lazy-validation>
             <v-col cols="12">
               <v-text-field
-                placeholder="Email"
                 class="shadow-input"
                 v-model="email"
                 :rules="emailRules"
                 solo
                 required
-              ></v-text-field>
+              ><template v-slot:label>Email</template>
+              </v-text-field>
               <v-text-field
-                placeholder="Senha"
                 class="shadow-input"
                 type="password"
                 v-model="password"
                 :rules="passwordRules"
                 solo
                 required
-              ></v-text-field>
+              ><template v-slot:label>Senha</template>
+              </v-text-field>
             </v-col>
             <v-col cols="12">
               <v-btn
                 class="btn-block btn-primary btn-white"
+                role="button"
+                aria-haspopup="true"
+                aria-expanded="false"
                 depressed
                 large
                 @click="submit"
@@ -67,6 +70,8 @@ export default {
     status: true,
     loading: false,
 
+    title: "Entrar",
+
     email: "",
     emailRules: [
       v => !!v || "Digite o e-mail",
@@ -78,6 +83,12 @@ export default {
       v => (v && v.length >= 6) || "A senha deve ter no mínimo 6 caractéres"
     ]
   }),
+
+  head () {
+    return {
+      title: this.title
+    }
+  },
 
   methods: {
     submit() {

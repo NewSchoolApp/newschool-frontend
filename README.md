@@ -4,7 +4,7 @@
 
 > **Ambiente de DEV:** https://newschoolbr-dev.herokuapp.com/
 
-# Como rodar o projeto
+## Como rodar o projeto
 
 ``` bash
 # install dependencies
@@ -23,9 +23,9 @@ $ npm run generate
 
 For detailed explanation on how things work, check out [Nuxt.js docs](https://nuxtjs.org).
 
-# Guidelines
+## Guidelines
 
-# Como contribuir
+## Como contribuir
 
 1 - CONHEÇA O PROJETO **New School**
 
@@ -58,8 +58,17 @@ https://github.com/NewSchoolBR/newschool-frontend
 
 4.2 ESCREVA CÓDIGO
 
-Hora de colocar a mão na massa. A parte mais divertida, trabalhar no código-fonte. Depois de concluir e testar, envie e aguarde o PULL REQUEST ser aprovado.
+Hora de colocar a mão na massa. A parte mais divertida, trabalhar no código-fonte.
 
-5 MISSÃO CUMPRIDA. VC AJUDOU O PROJETO. ❤️
+O desenvolvimento está se concentrando na branch `develop`. Faça o checkout nela e crie uma branch nova para a sua tarefa, com os seguintes comandos:
 
-# Código de conduta
+```sh
+$ git checkout develop
+$ git checkout -b sua-nova-funcionalidade-ou-tarefa
+```
+
+Depois de concluir e testar, envie e aguarde o PULL REQUEST ser aprovado.
+
+5 - MISSÃO CUMPRIDA. VC AJUDOU O PROJETO. ❤️
+
+## Código de conduta
