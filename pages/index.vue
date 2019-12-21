@@ -1,17 +1,29 @@
 <template>
-  <div>
+  <div class="flex-container">
     <main>
       <h3>New School</h3>
       <p>Front-end</p>
-  </main>
+      <v-btn class="ma-2" tile outlined color="primary" to="/login">login</v-btn>
+    </main>
   </div>
-  
 </template>
 
 <script>
-
-
-export default {
-  
-}
+export default {};
 </script>
+<style>
+main {
+  color: #000;
+  text-align: center;
+}
+.flex-container {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+</style>
