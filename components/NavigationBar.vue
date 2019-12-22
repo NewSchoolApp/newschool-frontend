@@ -14,7 +14,7 @@
       </v-btn>
       <v-btn>
         <span>Perfil</span>
-        <v-icon>mdi-account-outline</v-icon>
+        <v-icon>mdi-account</v-icon>
       </v-btn>
 
       <v-btn>
