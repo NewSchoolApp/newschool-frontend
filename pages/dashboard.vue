@@ -1,5 +1,10 @@
 <template>
-  <navigation-bar />
+  <div>
+    <div id="page">aaaaaaaaaaa</div>
+    <client-only>
+      <navigation-bar />
+    </client-only>
+  </div>
 </template>
 
 <script>
