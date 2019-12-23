@@ -1,6 +1,7 @@
 <template>
   <div class="resources-list">
     <h2 class="resources-list__header">{{name}}</h2>
+    <n-link :to="`${path  || ''}new`">Adicionar {{name}}</n-link>
     <div v-for="eachOne in resources" v-bind:key="eachOne.id" class="resource">
       <div class="resource__info">
         <h3 class="resource__title">{{ eachOne.title }}</h3>
@@ -38,6 +39,7 @@ export default {
   text-transform: uppercase;
 
   color: #6600CC;
+  margin-bottom: 10px;
 }
 
 .resources-list {
