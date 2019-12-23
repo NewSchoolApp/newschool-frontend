@@ -15,12 +15,12 @@
         />
         <v-text-field
           :value="course.author"
-          label="Título"
+          label="Professor"
           required
         />
         <v-textarea
           :value="course.authorInfo"
-          label="Descrição"
+          label="Biografia do professor"
           required
         />
         <v-btn color="primary">Salvar</v-btn>
