@@ -1,15 +1,23 @@
 <template>
-  <div class="flex-container">
-    <main>
+  <div class="flex-container" >
+    <main id="page">
       <h3>New School</h3>
       <p>Front-end</p>
-      <v-btn class="ma-2" tile outlined color="primary" to="/login">login</v-btn>
+      <v-btn class="ma-2" tile outlined color="primary" to="/login">Login</v-btn>
+      <v-btn class="ma-2" tile outlined color="primary" to="/contribua">Contribua</v-btn>
+      <v-btn class="ma-2" tile outlined color="primary" to="/dashboard">Dashboard</v-btn>
     </main>
+    <navigation-bar />
   </div>
 </template>
 
 <script>
-export default {};
+import NavigationBar from "~/components/NavigationBar.vue";
+export default {
+  components: {
+    NavigationBar
+  }
+};
 </script>
 <style>
 main {

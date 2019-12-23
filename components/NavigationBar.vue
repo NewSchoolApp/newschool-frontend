@@ -1,10 +1,9 @@
 <template>
   <div>
     <v-bottom-navigation
-      scroll-target="#scroll-area-2"
-      hide-on-scroll
+      scroll-target="#page"
+      fixed
       scroll-threshold="500"
-      absolute
       color="write"
       horizontal
     >
@@ -30,13 +29,9 @@
         <v-icon>mdi-drag</v-icon>
       </v-btn>
     </v-bottom-navigation>
-
-    <v-sheet id="scroll-area-2" class="overflow-y-auto" max-height="600">
-      <v-container style="height: 1500px;"></v-container>
-    </v-sheet>
   </div>
 </template>
-
+  
 <script>
 export default {};
 </script>
@@ -47,5 +42,8 @@ export default {};
 }
 .v-icon {
   margin-right: 0 !important;
+}
+.v-application .overflow-y-auto {
+  margin-bottom: 3rem;
 }
 </style>
