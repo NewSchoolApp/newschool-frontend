@@ -46,12 +46,12 @@
     },
     asyncData({ store, data, params, $axios }) {
       const sectionPromise = $axios.get(
-        `http://localhost:3030/api/v1/sections/${params.section_id}`
+        `/api/v1/sections/${params.section_id}`
       ).then(res =>
         store.commit('courses/setCurrentSection', res.data.section)
       )
       const questionsPromise = $axios.get(
-        `http://localhost:3030/api/v1/sections/${params.section_id}/questions`
+        `/api/v1/sections/${params.section_id}/questions`
       ).then(res =>
         store.commit('courses/setSectionQuestions', res.data.questions)
       )

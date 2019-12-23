@@ -16,7 +16,7 @@ export default {
     courses () { return this.$store.state.courses.list }
   },
   asyncData: ({ store, data, $axios }) =>
-    $axios.get('http://localhost:3030/api/v1/courses')
+    $axios.get('/api/v1/courses')
       .then(res =>
         store.commit('courses/set', res.data.courses)
       )

@@ -15,7 +15,6 @@
           required
         />
         <v-select
-          v-model="model"
           :items="items.map(item => item.letter)"
           label="Alternativa correta"
         />
@@ -35,7 +34,7 @@
     },
     asyncData({ store, data, params, $axios }) {
       return $axios.get(
-        `http://localhost:3030/api/v1/questions/${params.question_id}`
+        `/api/v1/questions/${params.question_id}`
       ).then(res =>
         store.commit('courses/setCurrentQuestion', res.data.question)
       )
