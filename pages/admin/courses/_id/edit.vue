@@ -44,12 +44,12 @@
     },
     asyncData({ store, data, params, $axios }) {
       const coursePromise = $axios.get(
-        `http://localhost:3030/api/v1/courses/${params.id}`
+        `/api/v1/courses/${params.id}`
       ).then(res =>
         store.commit('courses/setCurrent', res.data.course)
       )
       const classesPromise = $axios.get(
-        `http://localhost:3030/api/v1/courses/${params.id}/classes`
+        `/api/v1/courses/${params.id}/classes`
       ).then(res =>
         store.commit('courses/setCurrentClasses', res.data.classes)
       )

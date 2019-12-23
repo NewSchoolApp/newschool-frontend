@@ -29,7 +29,6 @@ export const mutations = {
     state.currentSection.questions = questions
   },
   setCurrentQuestion (state, question) {
-    console.info(question)
     state.currentQuestion = question
   },
 }
