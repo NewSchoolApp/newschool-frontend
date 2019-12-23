@@ -1,6 +1,7 @@
 export const state = () => ({
   list: [],
-  current: {}
+  current: {},
+  currentClass: {},
 })
 
 export const mutations = {
@@ -12,5 +13,11 @@ export const mutations = {
   },
   setCurrentClasses (state, classes) {
     state.current.classes = classes
+  },
+  setCurrentClass (state, klass) {
+    state.currentClass = klass
+  },
+  setClassSections (state, sections) {
+    state.currentClass.sections = sections
   }
 }
