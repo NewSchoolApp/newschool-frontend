@@ -17,18 +17,11 @@
         <v-btn color="primary">Salvar</v-btn>
       </v-form>
 
-      <div class="sections">
-        <h2>Partes</h2>
-        <div v-for="section in klass.sections" v-bind:key="section.id" class="section">
-          <div class="section__info">
-            <p class="section__title">{{ section.title }}</p>
-          </div>
-          <div class="actions">
-            <nuxt-link v-bind:to="editLink(section)">Editar</nuxt-link>
-            <nuxt-link v-bind:to="deleteLink(section)">Excluir</nuxt-link>
-          </div>
-       </div>
-      </div>
+      <resources-list
+        :resources="klass.sections"
+        name="Partes"
+        path="sections/"
+      />
 
     </v-flex>
   </v-layout>
@@ -56,10 +49,6 @@
         store.commit('courses/setClassSections', res.data.sections)
       )
       return Promise.all([classPromise, sectionsPromise])
-    },
-    methods: {
-      editLink: section => `sections/${section.id}/edit`,
-      deleteLink: section => `sections/${section.id}/delete`
     }
   }
 </script>
@@ -73,51 +62,5 @@ h1 {
   text-transform: uppercase;
 
   color: #6600CC;
-}
-
-h2 {
-  font-weight: 700;
-  font-size: 20px;
-  line-height: 24px;
-  text-transform: uppercase;
-
-  color: #6600CC;
-}
-
-.sections {
-  margin-top: 20px;
-  padding: 20px 0;
-  border-top: 1px solid #e3e0e6;
-}
-
-
-.section {
-  border-bottom: 1px solid #e3e0e6;
-  padding: 10px 0;
-  display: flex;
-  justify-content: space-between;
-}
-
-.section__title {
-  font-family: Montserrat;
-  font-weight: 500;
-  font-size: 16px;
-  line-height: 24px;
-
-  color: #1A1A1A;
-  margin: 0;
-}
-
-.actions {
-  min-width: 120px;
-  display: flex;
-  align-items: center;
-}
-
-.actions a {
-  margin-left: 16px;
-}
-.actions a:first-child {
-  margin-left: 0;
 }
 </style>
