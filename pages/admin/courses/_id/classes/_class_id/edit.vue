@@ -2,7 +2,7 @@
   <v-layout justify-center>
     <v-flex ref="flex" xs10 sm8 md4>
       <h1>Editando aula</h1>
-      Aula <em>{{klass.title}}</em> do curso <n-link to="../../edit">{{klass.courseTitle}}</n-link>
+      <n-link to="../../edit">Voltar para curso</n-link>
       <v-form>
         <v-text-field
           :value="klass.title"
@@ -32,19 +32,17 @@
   export default {
     computed: {
       klass() {
-        // return { id: 1, title: 'Introdução', courseTitle: 'Fotografia básica',
-        // sections: [{id: 1, title: 'Fotografia', description: 'parte 1' }] }
         return this.$store.state.courses.currentClass
       }
     },
     asyncData({ store, data, params, $axios }) {
       const classPromise = $axios.get(
-        `http://localhost:3030/api/v1/courses/${params.id}/classes/${params.class_id}`
+        `http://localhost:3030/api/v1/classes/${params.class_id}`
       ).then(res =>
         store.commit('courses/setCurrentClass', res.data.class)
       )
       const sectionsPromise = $axios.get(
-        `http://localhost:3030/api/v1/courses/${params.id}/classes/${params.class_id}/sections`
+        `http://localhost:3030/api/v1/classes/${params.class_id}/sections`
       ).then(res =>
         store.commit('courses/setClassSections', res.data.sections)
       )
