@@ -74,6 +74,17 @@
             Continue
           </v-btn>
         </v-card-actions>
+
+        <v-card-actions>
+          <v-spacer />
+          <v-btn
+            color="primary"
+            nuxt
+            to="/quem_somos"
+          >
+            Quem Somos
+          </v-btn>
+        </v-card-actions>
       </v-card>
     </v-flex>
   </v-layout>
