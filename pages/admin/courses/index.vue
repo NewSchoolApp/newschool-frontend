@@ -23,14 +23,14 @@ export default {
   computed: {
     courses () { return this.$store.state.courses.list }
   },
-  asyncData: ({ store, data }) =>
-    Axios.get('http://localhost:3030/api/v1/courses')
+  asyncData: ({ store, data, $axios }) =>
+    $axios.get('http://localhost:3030/api/v1/courses')
       .then(res =>
         store.commit('courses/set', res.data.courses)
       ),
   methods: {
-    editLink: course => `courses/${course.id}/edit`,
-    deleteLink: course => `courses/${course.id}/delete`
+    editLink: course => `${course.id}/edit`,
+    deleteLink: course => `${course.id}/delete`
   }
 }
 
@@ -38,7 +38,6 @@ export default {
 
 <style scoped>
 h1 {
-  font-family: Montserrat;
   font-weight: 900;
   font-size: 20px;
   line-height: 24px;
