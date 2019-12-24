@@ -1,7 +1,5 @@
 <template>
   <v-layout align-center justify-center>
-    <!-- <div class="bg"></div> -->
-
     <div v-if="loading">
       <div class="container-spinner">
         <v-progress-circular
@@ -11,11 +9,12 @@
         ></v-progress-circular>
       </div>
     </div>
-    <v-flex xs10 sm8 md4 ref="flex" v-else>
+
+    <v-flex xs10 sm8 md6 ref="flex" v-else>
       <v-container>
         <v-row>
           <v-col cols="12">
-            <div class="bg-symbol">
+            <div class="logo-container">
               <img src="../assets/purple-logo.svg" alt="castor" />
             </div>
           </v-col>
@@ -28,11 +27,8 @@
         <v-row>
           <v-form ref="form" v-model="status" lazy-validation>
             <v-col cols="12">
-              <v-file-input prepend-icon="mdi-camera" />
-            </v-col>
-            <v-col cols="12">
               <v-text-field
-                placeholder="Nome"
+                placeholder="Nome *"
                 class="shadow-input"
                 v-model="form.nome"
                 :rules="nameRules"
@@ -40,7 +36,7 @@
                 required
               ></v-text-field>
               <v-text-field
-                placeholder="Email"
+                placeholder="Email *"
                 class="shadow-input"
                 v-model="form.email"
                 :rules="emailRules"
@@ -48,7 +44,7 @@
                 required
               ></v-text-field>
               <v-text-field
-                placeholder="Senha"
+                placeholder="Senha *"
                 class="shadow-input"
                 type="password"
                 v-model="form.password"
@@ -57,7 +53,7 @@
                 required
               ></v-text-field>
               <v-text-field
-                placeholder="Confirmar senha"
+                placeholder="Confirmar senha *"
                 class="shadow-input"
                 type="password"
                 v-model="form.confirmPassword"
@@ -95,13 +91,7 @@
             </v-col>
           </v-form>
           <v-col cols="12" class="text-center">
-            <v-btn
-                class="btn-block btn-reset"
-                depressed
-                large
-                @click="clearFields"
-                >Limpar campos</v-btn
-              >
+            <a class="login-link" @click="gotoLogin">Ops, já tenho conta</a>
           </v-col>
         </v-row>
       </v-container>
@@ -109,7 +99,7 @@
   </v-layout>
 </template>
 
-<script>
+<script scoped>
 import http from "../services/http/generic";
 
 export default {
@@ -184,13 +174,8 @@ export default {
       }
     },
     
-    clearFields() {
-      this.form.nome = "",
-      this.form.email = "";
-      this.form.password = "";
-      this.form.confirmPassword = "";
-      this.form.userFacebook = "";
-      this.form.userInstagram = "";
+    gotoLogin() {
+      $nuxt._router.push("/login")
     }
   },
 
@@ -207,36 +192,63 @@ export default {
 </script>
 
 <style>
-@import url('https://fonts.googleapis.com/css?family=Montserrat:400,900&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,500&display=swap');
 
+/* Global */
 * {
   font-family: 'Montserrat', Helvetica, Arial, sans-serif !important;
+  font-size: 14px;
 }
 
-.v-messages__message {
-  color: #d6adff !important;
-}
-::placeholder {
-  color: #aa56ff !important;
-}
-.bg {
-  width: 100%;
-  height: 100%;
-  position: fixed;
-  background: url("../assets/paraisopolis.png");
-  background-size: cover;
-  background-position: center;
+.flex {
+  animation: intro 300ms backwards;
+  animation-delay: 350ms;
 }
 
+.layout {
+  background: #fff !important;
+}
+
+/* Page */
+.page-title {
+  font-size: 24px;
+  font-weight: 500;
+  color: #6600CC;
+}
+
+/* Load spinner */
+.container-spinner,
+.flex {
+  z-index: 2;
+}
+
+/* Logo */
+.logo-container {
+  display: flex;
+  -webkit-box-pack: start;
+  justify-content: flex-start;
+  -webkit-box-align: start;
+  align-items: flex-start;
+}
+
+.logo-container img {
+  width: 12%;
+}
+
+/* Form */
 .v-form {
   width: 100%;
 }
 
+::placeholder {
+  color: #aa56ff !important;
+}
+
 .v-input__slot {
-  padding: 10px;
+  padding-left: 5px !important;
   width: 100%;
   border-radius: unset !important;
-  border: solid 0.5px #aa56ff;
+  border-bottom: solid 1.5px #6600CC;
   background-color: #fff !important;
   box-shadow: none !important;
 }
@@ -257,84 +269,15 @@ export default {
   color: #6600CC;
 }
 
-.v-file-input .v-input {
-  margin: 0!important;
-  color: #6600CC!important;
-}
-
-.v-file-input .v-input__slot {
-  width: 150px!important;
-  height: 150px!important;
-  border-radius: 50%!important;
-  border: none;
-  background: #6600CC!important;
-}
-
-.v-file-input .v-input__slot::before {
-  display: none;
-}
-
-.v-input__icon .v-input__prepend {
-  background: red!important;
-}
-
-
-.v-file-input .v-input__icon,
-.v-input__icon .v-input__prepend-outer {
-  position: absolute;
-  top: 65px;
-  left: 72px;
-  transform: scale(3);
-  opacity: .3;
-  z-index: 1;
-}
-
-.container-spinner,
-.flex {
-  z-index: 2;
-}
-
-.flex {
-  animation: intro 300ms backwards;
-  animation-delay: 350ms;
-}
-
-.layout {
-  background: #fff !important;
-}
-
-.page-title {
-  font-size: 2rem;
-  font-weight: 900;
-  text-transform: uppercase;
-  color: #6600CC;
-}
-
-.bg-symbol {
-  display: flex;
-  -webkit-box-pack: start;
-  justify-content: flex-start;
-  -webkit-box-align: start;
-  align-items: flex-start;
-}
-
-.bg-symbol img {
-  width: 20%;
-}
-
 .btn-submit {
   background: #6600CC!important;
-  border-radius: 0!important;
+  border-radius: 5px !important;
   color: #fff!important;
   font-weight: bold!important;
 }
 
-.btn-reset {
-  background: #fff!important;
-  border: 1px solid #6600CC!important;
-  border-radius: 0!important;
-  color: #6600CC!important;
-  font-weight: bold!important;
+.login-link {
+  color: #6600CC !important;
 }
 
 .hide-form {
@@ -343,5 +286,10 @@ export default {
 
 .error-form {
   animation: nono 300ms, intro paused;
+}
+
+/* Error messages */
+.v-messages__message {
+  color: red !important;
 }
 </style>
