@@ -16,10 +16,21 @@
           <v-col cols="12"></v-col>
           <v-form ref="form" v-model="status" lazy-validation>
             <v-col cols="12">
-              <v-text-field v-model="email" :rules="emailRules" label="Email" data-vv-name="email" required>
-              </v-text-field>
-              <v-text-field type="password" v-model="password" :rules="passwordRules" label="Senha" data-vv-name="password" required>
-              </v-text-field>
+              <v-text-field
+                v-model="email"
+                :rules="emailRules"
+                label="Email"
+                data-vv-name="email"
+                required
+              ></v-text-field>
+              <v-text-field
+                type="password"
+                v-model="password"
+                :rules="passwordRules"
+                label="Senha"
+                data-vv-name="password"
+                required
+              ></v-text-field>
             </v-col>
             <v-col cols="12">
               <v-btn
@@ -39,6 +50,11 @@
         </v-row>
       </v-container>
     </v-flex>
+    <v-dialog v-model="dialog" max-width="290">
+      <v-card-title class="headline">Ops!</v-card-title>
+      <v-card-text>Usuário ou senha incorretos!</v-card-text>
+      <v-btn color="primary" text @click="dialog = false">Ok</v-btn>
+    </v-dialog>
   </v-layout>
 </template>
 
@@ -49,6 +65,8 @@ export default {
   data: () => ({
     status: true,
     loading: false,
+
+    dialog: false,
 
     title: "Entrar",
 
@@ -77,10 +95,11 @@ export default {
         auth
           .login(this.email, this.password)
           .then(() => {
-            $nuxt._router.push("/index");
+            $nuxt._router.push("/dashboard");
           })
           .catch(err => {
             setTimeout(() => {
+              this.dialog = true;
               this.loading = false;
             }, 500);
             console.error(err);
@@ -123,19 +142,27 @@ export default {
   background-size: cover;
   background-position: center;
 }
+.v-dialog{
+  background: #fff;
+  text-align: center;
+}
+.v-card__title{
+  justify-content: center;
+}
 .v-form {
   width: 100%;
 }
-.v-input__slot:before, .v-input__slot::before{
+.v-input__slot:before,
+.v-input__slot::before {
   border-color: #c58aff !important;
 }
-.v-text-field > .v-input__control > .v-input__slot:after{
-  border-color: #FFF!important;
+.v-text-field > .v-input__control > .v-input__slot:after {
+  border-color: #fff !important;
 }
-.v-label{
+.v-label {
   color: #c58aff !important;
 }
-.v-application .primary--text{
+.v-application .primary--text {
   color: #c58aff !important;
   caret-color: #c58aff !important;
 }
@@ -172,15 +199,16 @@ export default {
   animation: nono 300ms, intro paused;
 }
 
-.theme--light.v-text-field>.v-input__control>.v-input__slot:before {
-    border-color: #c58aff;
+.theme--light.v-text-field > .v-input__control > .v-input__slot:before {
+  border-color: #c58aff;
 }
 
 .theme--light.v-label {
-    color: #c58aff;
+  color: #c58aff;
 }
 
-.theme--light.v-input:not(.v-input--is-disabled) input, .theme--light.v-input:not(.v-input--is-disabled) textarea {
-    color: #c58aff;
+.theme--light.v-input:not(.v-input--is-disabled) input,
+.theme--light.v-input:not(.v-input--is-disabled) textarea {
+  color: #c58aff;
 }
 </style>
