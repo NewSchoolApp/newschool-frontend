@@ -22,14 +22,10 @@ export default {
       body, { headers: { 'Authorization': client_credentials } })
   },
 
-  getCredentials: () =>{
-    let base64 = btoa(`${process.env.VUE_APP_CLIENT_CREDENTIAL_NAME}:${process.env.VUE_APP_CLIENT_CREDENTIAL_SECRET}`)
 
-    let client_credentials = `Basic ${base64}`;
 
-    let body = { grant_type: "CLIENT_CREDENTIALS" };   
+  signUp: (form) => {
+    return http.post("api/v1/user", form)
 
-    return http.post("/oauth/token",
-      body, { headers: { 'Authorization': client_credentials } })    
   }
 }

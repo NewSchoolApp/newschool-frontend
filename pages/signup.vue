@@ -2,11 +2,7 @@
   <v-layout align-center justify-center>
     <div v-if="loading">
       <div class="container-spinner">
-        <v-progress-circular
-          :size="70"
-          :width="5"
-          indeterminate
-        ></v-progress-circular>
+        <v-progress-circular :size="70" :width="5" indeterminate></v-progress-circular>
       </div>
     </div>
 
@@ -27,13 +23,7 @@
         <v-row>
           <v-form ref="form" v-model="status" lazy-validation>
             <v-col cols="12">
-              <v-text-field
-                placeholder="Nome *"
-                class="shadow-input"
-                v-model="form.nome"
-                solo
-                required
-              ></v-text-field>
+              <v-text-field class="shadow-input" v-model="form.nome" label="Nome" required></v-text-field>
               <v-text-field
                 placeholder="Email *"
                 class="shadow-input"
@@ -78,13 +68,7 @@
               ></v-text-field>
             </v-col>
             <v-col cols="12">
-              <v-btn
-                class="btn-block btn-submit"
-                depressed
-                large
-                @click="submit"
-                >Cadastrar</v-btn
-              >
+              <v-btn class="btn-block btn-submit" depressed large @click="submit">Cadastrar</v-btn>
             </v-col>
           </v-form>
           <v-col cols="12" class="text-center">
@@ -97,7 +81,7 @@
 </template>
 
 <script scoped>
-import http from "../services/http/generic";
+import auth from "../services/http/auth";
 
 export default {
   data() {
@@ -110,12 +94,10 @@ export default {
         password: "",
         confirmPassword: "",
         urlFacebook: "",
-        urlInstagram: "",  
-        roles : {}
+        urlInstagram: "",
+        roles: {}
       },
-      nameRules: [
-        v => !!v || "Digite seu nome"
-      ],
+      nameRules: [v => !!v || "Digite seu nome"],
       passwordRules: [
         v => !!v || "Digite a senha",
         v => (v && v.length >= 6) || "A senha deve ter no mínimo 6 caractéres"
@@ -123,16 +105,8 @@ export default {
       emailRules: [
         v => !!v || "Digite o e-mail",
         v => /.+@.+\..+/.test(v) || "E-mail inválido"
-      ],
-      // facebookRules: [
-      //   v => !!v || "Cole o link do seu Facebook",
-      //   v => (v.includes('facebook.com/')) || "ex: https://facebook.com/newschool"
-      // ],
-      // instagramRules: [
-      //   v => !!v || "Cole o link do seu Instagram",
-      //   v => (v.includes('instagram.com/')) || "ex: https://instagram.com/newschool"
-      // ],
-    }
+      ]
+    };
   },
 
   methods: {
@@ -140,12 +114,13 @@ export default {
       if (this.$refs.form.validate()) {
         this.animateForm(true);
         auth
-          .getCredentials(this.form)
-          .then((token) => {
-              this.signUp(token, this.form);
+          .signUp(this.form)
+          .then(res => {
+            console.log(res);
+            // MODAL CONFIRM
           })
           .catch(err => {
-              this.error();
+            console.error(err);
           });
       } else {
         this.animateForm(false);
@@ -166,56 +141,48 @@ export default {
         }, 500);
       }
     },
-    
+
     gotoLogin() {
       $nuxt._router.push("/login");
     },
-    signUp(token, form)
-    {
-      http.post("api/v1/user", form, { headers: { 'Authorization': `Bearer ${token.accessToken}`}})
-      .then(() => {
-        console.log("Cadastro efetuado com sucesso!");
-        this.gotoLogin();
-        // invoke de modal confirmação.
-        // precisamos definir com o Andrews algum componente de notificação
-        // exemplos 
-        // https://madewithvuejs.com/blog/best-vue-js-notification-components
-      })
-      .catch(err => {
-        this.error(err);
-      });                  
+
+    signUp(token, form) {
+      auth
+        .signUp(form)
+        .then(() => {})
+        .catch(err => {
+          this.error(err);
+        });
     },
-    confirmationModal() {
-      
-    },
-    error(err)
-    {
+    confirmationModal() {},
+    error(err) {
       console.error(err);
 
       setTimeout(() => {
-            this.loading = false;
-          }, 500);            
-    }  
+        this.loading = false;
+      }, 500);
+    }
   },
-
 
   computed: {
     confirmPasswordRules() {
       return [
         v => !!v || "Confirme a senha",
-        () => (this.form.password === this.form.confirmPassword) || "As senhas devem ser idênticas."
-      ]
+        () =>
+          this.form.password === this.form.confirmPassword ||
+          "As senhas devem ser idênticas."
+      ];
     }
   }
 };
 </script>
 
 <style>
-@import url('https://fonts.googleapis.com/css?family=Montserrat:400,500&display=swap');
+@import url("https://fonts.googleapis.com/css?family=Montserrat:400,500&display=swap");
 
 /* Global */
 * {
-  font-family: 'Montserrat', Helvetica, Arial, sans-serif !important;
+  font-family: "Montserrat", Helvetica, Arial, sans-serif !important;
   font-size: 14px;
 }
 
@@ -232,7 +199,7 @@ export default {
 .page-title {
   font-size: 24px;
   font-weight: 500;
-  color: #6600CC;
+  color: #6600cc;
 }
 
 /* Load spinner */
@@ -267,7 +234,7 @@ export default {
   padding-left: 5px !important;
   width: 100%;
   border-radius: unset !important;
-  border-bottom: solid 1.5px #6600CC;
+  border-bottom: solid 1.5px #6600cc;
   background-color: #fff !important;
   box-shadow: none !important;
 }
@@ -275,7 +242,7 @@ export default {
 .v-text-field {
   padding-top: 0;
   margin-top: 0;
-  color: #6600CC;
+  color: #6600cc;
 }
 
 .v-file-input {
@@ -285,18 +252,18 @@ export default {
 }
 
 .theme--dark.v-input:not(.v-input--is-disabled) input {
-  color: #6600CC;
+  color: #6600cc;
 }
 
 .btn-submit {
-  background: #6600CC!important;
+  background: #6600cc !important;
   border-radius: 5px !important;
-  color: #fff!important;
-  font-weight: bold!important;
+  color: #fff !important;
+  font-weight: bold !important;
 }
 
 .login-link {
-  color: #6600CC !important;
+  color: #6600cc !important;
 }
 
 .hide-form {
