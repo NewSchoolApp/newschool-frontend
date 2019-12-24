@@ -4,54 +4,37 @@
 
     <div v-if="loading">
       <div class="container-spinner">
-        <v-progress-circular
-          :size="70"
-          :width="5"
-          indeterminate
-        ></v-progress-circular>
+        <v-progress-circular :size="70" :width="5" indeterminate color="#fff"></v-progress-circular>
       </div>
     </div>
-    <v-flex xs10 sm8 md4 ref="flex" v-else>
+    <v-flex role="main" xs10 sm8 md4 ref="flex" v-else>
       <div class="bg-symbol">
-        <img src="../assets/logo.svg" alt="castor" />
+        <img src="../assets/logo.svg" alt="New Schoool logo" />
       </div>
       <v-container>
         <v-row>
-          <v-col cols="12"> </v-col>
+          <v-col cols="12"></v-col>
           <v-form ref="form" v-model="status" lazy-validation>
             <v-col cols="12">
-              <v-text-field
-                placeholder="Email"
-                class="shadow-input"
-                v-model="email"
-                :rules="emailRules"
-                solo
-                required
-              ></v-text-field>
-              <v-text-field
-                placeholder="Senha"
-                class="shadow-input"
-                type="password"
-                v-model="password"
-                :rules="passwordRules"
-                solo
-                required
-              ></v-text-field>
+              <v-text-field v-model="email" :rules="emailRules" label="Email" data-vv-name="email" required>
+              </v-text-field>
+              <v-text-field type="password" v-model="password" :rules="passwordRules" label="Senha" data-vv-name="password" required>
+              </v-text-field>
             </v-col>
             <v-col cols="12">
               <v-btn
                 class="btn-block btn-primary btn-white"
+                role="button"
+                aria-haspopup="true"
+                aria-expanded="false"
                 depressed
                 large
                 @click="submit"
-                >Login</v-btn
-              >
+              >Login</v-btn>
             </v-col>
           </v-form>
           <v-col cols="12" class="text-center">
-            <a class="text-white">
-              Esqueceu sua senha?
-            </a>
+            <a class="text-white">Esqueceu sua senha?</a>
           </v-col>
         </v-row>
       </v-container>
@@ -67,6 +50,8 @@ export default {
     status: true,
     loading: false,
 
+    title: "Entrar",
+
     email: "",
     emailRules: [
       v => !!v || "Digite o e-mail",
@@ -78,6 +63,12 @@ export default {
       v => (v && v.length >= 6) || "A senha deve ter no mínimo 6 caractéres"
     ]
   }),
+
+  head() {
+    return {
+      title: this.title
+    };
+  },
 
   methods: {
     submit() {
@@ -135,18 +126,18 @@ export default {
 .v-form {
   width: 100%;
 }
-
-.v-input__slot {
-  padding: 10px;
-  width: 100%;
-  border-radius: unset !important;
-  border: solid 0.5px #aa56ff;
-  background-color: #3e0675de !important;
-  box-shadow: none !important;
+.v-input__slot:before, .v-input__slot::before{
+  border-color: #c58aff !important;
 }
-.v-text-field {
-  padding-top: 0;
-  margin-top: 0;
+.v-text-field > .v-input__control > .v-input__slot:after{
+  border-color: #FFF!important;
+}
+.v-label{
+  color: #c58aff !important;
+}
+.v-application .primary--text{
+  color: #c58aff !important;
+  caret-color: #c58aff !important;
 }
 
 .container-spinner,
@@ -179,5 +170,17 @@ export default {
 
 .error-form {
   animation: nono 300ms, intro paused;
+}
+
+.theme--light.v-text-field>.v-input__control>.v-input__slot:before {
+    border-color: #c58aff;
+}
+
+.theme--light.v-label {
+    color: #c58aff;
+}
+
+.theme--light.v-input:not(.v-input--is-disabled) input, .theme--light.v-input:not(.v-input--is-disabled) textarea {
+    color: #c58aff;
 }
 </style>
