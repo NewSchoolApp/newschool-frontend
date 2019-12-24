@@ -31,7 +31,6 @@
                 placeholder="Nome *"
                 class="shadow-input"
                 v-model="form.nome"
-                :rules="nameRules"
                 solo
                 required
               ></v-text-field>
@@ -65,8 +64,7 @@
                 placeholder="Facebook"
                 class="shadow-input"
                 type="text"
-                v-model="form.userFacebook"
-                :rules="facebookRules"
+                v-model="form.urlFacebook"
                 solo
                 required
               ></v-text-field>
@@ -74,8 +72,7 @@
                 placeholder="Instagram"
                 class="shadow-input"
                 type="text"
-                v-model="form.userInstagram"
-                :rules="instagramRules"
+                v-model="form.urlInstagram"
                 solo
                 required
               ></v-text-field>
@@ -112,13 +109,12 @@ export default {
         email: "",
         password: "",
         confirmPassword: "",
-        userFacebook: "",
-        userInstagram: "",  
+        urlFacebook: "",
+        urlInstagram: "",  
         roles : {}
       },
       nameRules: [
-        v => !!v || "Digite seu nome",
-        v => (v && v.legth >= 3) || "Seu nome deve ter pelo menos 3 caractéres"
+        v => !!v || "Digite seu nome"
       ],
       passwordRules: [
         v => !!v || "Digite a senha",
@@ -126,16 +122,16 @@ export default {
       ],
       emailRules: [
         v => !!v || "Digite o e-mail",
-        v => /.+@.  +\..+/.test(v) || "E-mail inválido"
+        v => /.+@.+\..+/.test(v) || "E-mail inválido"
       ],
-      facebookRules: [
-        v => !!v || "Cole o link do seu Facebook",
-        v => (v.includes('facebook.com/')) || "ex: https://facebook.com/newschool"
-      ],
-      instagramRules: [
-        v => !!v || "Cole o link do seu Instagram",
-        v => (v.includes('instagram.com/')) || "ex: https://instagram.com/newschool"
-      ],
+      // facebookRules: [
+      //   v => !!v || "Cole o link do seu Facebook",
+      //   v => (v.includes('facebook.com/')) || "ex: https://facebook.com/newschool"
+      // ],
+      // instagramRules: [
+      //   v => !!v || "Cole o link do seu Instagram",
+      //   v => (v.includes('instagram.com/')) || "ex: https://instagram.com/newschool"
+      // ],
     }
   },
 
@@ -143,16 +139,13 @@ export default {
     submit() {
       if (this.$refs.form.validate()) {
         this.animateForm(true);
-        http
-          .post("api/v1/user", this.form)
-          .then(() => {
-            // invoke de modal confirmação.
+        auth
+          .getCredentials(this.form)
+          .then((token) => {
+              this.signUp(token, this.form);
           })
           .catch(err => {
-            setTimeout(() => {
-              this.loading = false;
-            }, 500);
-            console.error(err);
+              this.error();
           });
       } else {
         this.animateForm(false);
@@ -175,8 +168,34 @@ export default {
     },
     
     gotoLogin() {
-      $nuxt._router.push("/login")
-    }
+      $nuxt._router.push("/login");
+    },
+    signUp(token, form)
+    {
+      http.post("api/v1/user", form, { headers: { 'Authorization': `Bearer ${token.accessToken}`}})
+      .then(() => {
+        console.log("Cadastro efetuado com sucesso!");
+        this.gotoLogin();
+        // invoke de modal confirmação.
+        // precisamos definir com o Andrews algum componente de notificação
+        // exemplos 
+        // https://madewithvuejs.com/blog/best-vue-js-notification-components
+      })
+      .catch(err => {
+        this.error(err);
+      });                  
+    },
+    confirmationModal() {
+      
+    },
+    error(err)
+    {
+      console.error(err);
+
+      setTimeout(() => {
+            this.loading = false;
+          }, 500);            
+    }  
   },
 
 
