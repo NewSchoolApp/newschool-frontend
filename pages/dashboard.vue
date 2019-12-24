@@ -136,10 +136,9 @@ div h1,
 h2,
 h3,
 p {
-  font-family: "Montserrat";
-  color: #6600cc;
+   color: #6600cc;
 }
-
+/* Modificar nomes das clases, padrão ingles e nomes mais abstratos */
 @media (max-height: 768px) {
   .rodapé {
     position: relative;
