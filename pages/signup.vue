@@ -23,47 +23,44 @@
         <v-row>
           <v-form ref="form" v-model="status" lazy-validation>
             <v-col cols="12">
-              <v-text-field class="shadow-input" v-model="form.nome" label="Nome" required></v-text-field>
               <v-text-field
-                placeholder="Email *"
-                class="shadow-input"
-                v-model="form.email"
-                :rules="emailRules"
-                solo
+                v-model="form.nome"
+                label="Nome *"
                 required
               ></v-text-field>
               <v-text-field
-                placeholder="Senha *"
-                class="shadow-input"
+                v-model="form.email"
+                label="Email *"
+                :rules="emailRules"
+                required
+              ></v-text-field>
+              <v-text-field
                 type="password"
                 v-model="form.password"
+                label="Senha *"
                 :rules="passwordRules"
-                solo
+                :append-icon="eyeIcon"
+                @click:append="showPassword"
                 required
               ></v-text-field>
               <v-text-field
-                placeholder="Confirmar senha *"
-                class="shadow-input"
                 type="password"
                 v-model="form.confirmPassword"
+                label="Confirmar senha *"
                 :rules="confirmPasswordRules"
-                solo
+                :append-icon="eyeIcon2"
+                @click:append="showConfirmPassword"
                 required
               ></v-text-field>
               <v-text-field
-                placeholder="Facebook"
-                class="shadow-input"
-                type="text"
                 v-model="form.urlFacebook"
-                solo
+                label="Facebook"
                 required
               ></v-text-field>
               <v-text-field
-                placeholder="Instagram"
-                class="shadow-input"
                 type="text"
                 v-model="form.urlInstagram"
-                solo
+                label="Instagram"
                 required
               ></v-text-field>
             </v-col>
@@ -74,6 +71,22 @@
           <v-col cols="12" class="text-center">
             <a class="login-link" @click="gotoLogin">Ops, já tenho conta</a>
           </v-col>
+          <v-snackbar
+            v-model="snackbar"
+            :color="snackbarStatus"
+            :timeout="5000"
+            :bottom="true"
+            :right="true"
+          >
+            {{ snackbarText }}
+            <v-btn
+              color="#FFF"
+              text
+              @click="snackbar = false"
+            >
+              Fechar
+            </v-btn>
+          </v-snackbar>
         </v-row>
       </v-container>
     </v-flex>
@@ -88,14 +101,18 @@ export default {
     return {
       status: true,
       loading: false,
+      eyeIcon: 'mdi-eye',
+      eyeIcon2: 'mdi-eye',
+      snackbar: false,
+      snackbarText: '',
+      snackbarStatus: '',
       form: {
         nome: "",
         email: "",
         password: "",
         confirmPassword: "",
         urlFacebook: "",
-        urlInstagram: "",
-        roles: {}
+        urlInstagram: ""
       },
       nameRules: [v => !!v || "Digite seu nome"],
       passwordRules: [
@@ -117,9 +134,13 @@ export default {
           .signUp(this.form)
           .then(res => {
             console.log(res);
-            // MODAL CONFIRM
+            this.confirmSnackbar('Cadastro criado! ;)', 'success');
           })
           .catch(err => {
+            this.confirmSnackbar('Ocorreu um erro.', 'error');
+            setTimeout(() => {
+              this.loading = false;
+            }, 500);
             console.error(err);
           });
       } else {
@@ -142,26 +163,24 @@ export default {
       }
     },
 
+    showPassword() {
+      this.eyeIcon === 'mdi-eye' ? this.eyeIcon = 'mdi-eye-off' : this.eyeIcon = 'mdi-eye'
+    },
+
+    showConfirmPassword() {
+      this.eyeIcon2 === 'mdi-eye' ? this.eyeIcon2 = 'mdi-eye-off' : this.eyeIcon2 = 'mdi-eye'
+    },
+
     gotoLogin() {
       $nuxt._router.push("/login");
     },
 
-    signUp(token, form) {
-      auth
-        .signUp(form)
-        .then(() => {})
-        .catch(err => {
-          this.error(err);
-        });
-    },
-    confirmationModal() {},
-    error(err) {
-      console.error(err);
-
-      setTimeout(() => {
-        this.loading = false;
-      }, 500);
+    confirmSnackbar(text, status) {
+      this.snackbarText = text;
+      this.snackbarStatus = status;
+      this.snackbar = true;
     }
+
   },
 
   computed: {
@@ -226,11 +245,12 @@ export default {
   width: 100%;
 }
 
-::placeholder {
+.theme--light.v-label {
   color: #aa56ff !important;
 }
 
 .v-input__slot {
+  margin-top: 20px !important;
   padding-left: 5px !important;
   width: 100%;
   border-radius: unset !important;
@@ -243,12 +263,6 @@ export default {
   padding-top: 0;
   margin-top: 0;
   color: #6600cc;
-}
-
-.v-file-input {
-  position: relative;
-  width: 150px;
-  margin: 0 auto;
 }
 
 .theme--dark.v-input:not(.v-input--is-disabled) input {
@@ -277,5 +291,12 @@ export default {
 /* Error messages */
 .v-messages__message {
   color: red !important;
+  font-size: 12px !important;
+  margin-left: 5px;
+}
+
+/* Snackbar */
+.v-snack__content {
+  border-radius: 5px;
 }
 </style>
