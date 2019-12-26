@@ -33,7 +33,8 @@ export default {
   ** Plugins to load before mounting the App
   */
   plugins: [
-    '~/plugins/admin-components.js'
+    '~/plugins/admin-components.js',
+    { src: '~/plugins/ga.js', mode: 'client' } // adding google analytics to the
   ],
   /*
   ** Nuxt.js dev-modules
