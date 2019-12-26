@@ -35,21 +35,21 @@
                 required
               ></v-text-field>
               <v-text-field
-                type="password"
+                :type="showPass ? 'password' : 'text'"
                 v-model="form.password"
                 label="Senha *"
                 :rules="passwordRules"
-                :append-icon="eyeIcon"
-                @click:append="showPassword"
+                :append-icon="showPass ? 'mdi-eye' : 'mdi-eye-off'"
+                @click:append="() => (showPass = !showPass)"
                 required
               ></v-text-field>
               <v-text-field
-                type="password"
+                :type="showConfirmPass ? 'password' : 'text'"
                 v-model="form.confirmPassword"
                 label="Confirmar senha *"
                 :rules="confirmPasswordRules"
-                :append-icon="eyeIcon2"
-                @click:append="showConfirmPassword"
+                :append-icon="showConfirmPass ? 'mdi-eye' : 'mdi-eye-off'"
+                @click:append="() => (showConfirmPass = !showConfirmPass)"
                 required
               ></v-text-field>
               <v-text-field
@@ -101,8 +101,8 @@ export default {
     return {
       status: true,
       loading: false,
-      eyeIcon: 'mdi-eye',
-      eyeIcon2: 'mdi-eye',
+      showPass: String,
+      showConfirmPass: String,
       snackbar: false,
       snackbarText: '',
       snackbarStatus: '',
@@ -249,12 +249,23 @@ export default {
   color: #aa56ff !important;
 }
 
+.theme--light.v-text-field > .v-input__control > .v-input__slot:before {
+  border-color: #aa56ff;
+}
+
+.theme--light.v-text-field:not(.v-input--has-state) > .v-input__control > .v-input__slot:hover:before {
+  border-color: #6600CC;
+}
+
+.theme--light.v-input:not(.v-input--is-disabled) input {
+  color: #6600CC;
+}
+
 .v-input__slot {
   margin-top: 20px !important;
   padding-left: 5px !important;
   width: 100%;
   border-radius: unset !important;
-  border-bottom: solid 1.5px #6600cc;
   background-color: #fff !important;
   box-shadow: none !important;
 }
@@ -262,11 +273,16 @@ export default {
 .v-text-field {
   padding-top: 0;
   margin-top: 0;
-  color: #6600cc;
+  color: #6600CC;
 }
 
 .theme--dark.v-input:not(.v-input--is-disabled) input {
-  color: #6600cc;
+  color: #6600CC;
+}
+
+.v-icon.v-icon.v-icon--link {
+  color: #aa56ff;
+  padding-right: 5px;
 }
 
 .btn-submit {
