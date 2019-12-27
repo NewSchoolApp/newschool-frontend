@@ -44,10 +44,9 @@
 </template>
 
 <script>
-import Avatar from 'vue-avatar'
+import Avatar from "vue-avatar";
 
 export default {
-  
   data: () => ({
     user: {
       name: "Andrews",
@@ -56,9 +55,24 @@ export default {
     },
 
     menu: [
-      { id: 1, label: "Meus Cursos", icon: "mdi-library", link: "/aluno/meus-cursos" },
-      { id: 2, label: "Meus Certificados", icon: "mdi-school", link: "/aluno/certificados" },
-      { id: 3, label: "Contribua", icon: "mdi-source-fork", link: "/contribua" },
+      {
+        id: 1,
+        label: "Meus Cursos",
+        icon: "mdi-library",
+        link: "/aluno/meus-cursos"
+      },
+      {
+        id: 2,
+        label: "Meus Certificados",
+        icon: "mdi-school",
+        link: "/aluno/certificados"
+      },
+      {
+        id: 3,
+        label: "Contribua",
+        icon: "mdi-source-fork",
+        link: "/contribua"
+      },
       { id: 4, label: "Sobre", icon: " mdi-file-document-box", link: "/sobre" },
       { id: 5, label: "Ajuda", icon: "mdi-help-circle", link: "/ajuda" },
       { id: 6, label: "Contato", icon: "mdi-cellphone", link: "/contato" },
@@ -71,16 +85,12 @@ export default {
       document.getElementById("menu-btn").click();
     },
 
-    getInforUser(){
+    getInforUser() {
       // retornar informações salvas no local_storage
     }
-
   },
   components: {
     Avatar
-  },
-  mounted : {
-    
   }
 };
 </script>
