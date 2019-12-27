@@ -85,7 +85,7 @@ export default {
     password: "",
     passwordRules: [
       v => !!v || "Digite a senha",
-      v => (v && v.length >= 6) || "A senha deve ter no mínimo 6 caractéres"
+      v => (v && v.length >= 6) || "A senha deve ter no mínimo 6 caracteres"
     ]
   }),
 
