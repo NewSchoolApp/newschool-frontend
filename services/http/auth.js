@@ -23,10 +23,10 @@ export default {
     body.append("password", password)
 
     return http.post("/oauth/token",
-      body, { headers: { 'Authorization': client_credentials, 'Content-Type': 'application/json' } })
+      body, { headers: { 'Authorization': client_credentials } })
       .then(res => {
         // salvando propriedades da requisição no local storage
-        Object.keys(res).forEach(property=>{
+        Object.keys(res).forEach(property => {
           localStorage.setItem(property, res[property])
         })
       })

@@ -5,7 +5,7 @@
         <v-col cols="3" sm="2" md="3">
           <div class="flex-center border-profile-photo">
             <div class="flex-center profile-container">
-              <img :src="user.photo" alt />
+              <avatar username="Jane Doe" :size="90"></avatar>
             </div>
           </div>
         </v-col>
@@ -44,11 +44,12 @@
 </template>
 
 <script>
+import Avatar from 'vue-avatar'
+
 export default {
+  
   data: () => ({
     user: {
-      photo:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT2_XAoq1uMsC016P538PRKi7MZtlowBuUn7mKAaUQA6JRhnI5C7A&s",
       name: "Andrews",
       career: "Estudante",
       age: "25 Anos"
@@ -68,7 +69,18 @@ export default {
   methods: {
     closeMenu() {
       document.getElementById("menu-btn").click();
+    },
+
+    getInforUser(){
+      // retornar informações salvas no local_storage
     }
+
+  },
+  components: {
+    Avatar
+  },
+  mounted : {
+    
   }
 };
 </script>
