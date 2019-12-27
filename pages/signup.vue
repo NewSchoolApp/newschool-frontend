@@ -188,7 +188,8 @@ export default {
   mounted() {
     auth.getExternalCredentials().then(res => {      
         const { data } = res;
-        this.token = data.accessToken;                
+        this.token = data.accessToken;     
+        console.log(this.token);
       })
       .catch(err => {            
         console.error(err);
