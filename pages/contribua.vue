@@ -1,9 +1,10 @@
 <template>
-  <div>
-    <div id="page" class="overflow-y-auto" max-height="600">
+  <section>
+    <article id="page" class="overflow-y-auto" max-height="600">
       <v-container>
-        <h1>Contribua</h1>
-        <p>Que tal nosso stack tecnológico? Combinação boa heim! Em cada repositório GITHUB tem uma explicação passo-a-passo de como você fazer sua PRIMEIRA CONTRIBUIÇÃO no projeto. Bora?</p>
+        <article>
+        <div class="title">APOIE O PROJETO</div>
+        <p class="descricao">Que tal nosso stack tecnológico? Combinação boa heim! Em cada repositório GITHUB tem uma explicação passo-a-passo de como você fazer sua PRIMEIRA CONTRIBUIÇÃO no projeto. Bora?</p>
 
         <v-container fluid>
           <v-row dense>
@@ -22,9 +23,10 @@
             </v-col>
           </v-row>
         </v-container>
-
-        <h1 style="margin-top:50px">Ferramentas</h1>
-        <p>Nós temos um monte de ferramentas legais pra esse trabalho colaborativo. SLACK, TRELLO, GITHUB. Tudo integrado e bem explicado, fácil de entender.</p>
+        </article>
+        <article>
+        <div class="title">Ferramentas</div>
+        <p class="descricao">Nós temos um monte de ferramentas legais pra esse trabalho colaborativo. SLACK, TRELLO, GITHUB. Tudo integrado e bem explicado, fácil de entender.</p>
 
         <v-container fluid>
           <v-row dense>
@@ -43,11 +45,12 @@
             </v-col>
           </v-row>
         </v-container>
+        </article>
       </v-container>
-    </div>
+    </article>
 
     <navigation-bar />
-  </div>
+  </section>
 </template>
 
 <script>
@@ -147,3 +150,24 @@ export default {
   }
 };
 </script>
+
+<style>
+.title {
+  color: #6600cc;
+  font-family: Montserrat;
+  font-style: normal;
+  font-weight: 900;
+  font-size: 20px;
+  line-height: 24px;
+}
+
+.descricao {
+  margin-top: 16px;
+  font-family: Montserrat;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 15px;
+  color: #1a1a1a;
+}
+</style>
