@@ -1,4 +1,6 @@
-# NewSchool-frontend
+# NewSchool-frontend  
+![new school version](https://img.shields.io/badge/Version_of_Project-1.0.0-green)
+![nuxt version](https://img.shields.io/badge/Nuxt-%5E2.0.0-yellow)
 
 > Frontend da New School, desenvolvido em VueJs, Nuxt e Vuetify
 
@@ -70,5 +72,13 @@ $ git checkout -b sua-nova-funcionalidade-ou-tarefa
 Depois de concluir e testar, envie e aguarde o PULL REQUEST ser aprovado.
 
 5 - MISSÃO CUMPRIDA. VC AJUDOU O PROJETO. ❤️
+
+API NO AMBIENTE DEV: 
+
+http://newschoolbrapi-dev.herokuapp.com/swagger/#/default 
+
+CONHEÇA O PROJETO NO FIGMA: 
+
+https://www.figma.com/file/whTp4hE6ZQR3V8LBxSZnjv/NewSchool?node-id=0%3A1
 
 ## Código de conduta
