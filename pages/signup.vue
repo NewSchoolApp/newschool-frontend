@@ -106,6 +106,7 @@ export default {
       snackbar: false,
       snackbarText: '',
       snackbarStatus: '',
+      token: '',
       form: {
         nome: "",
         email: "",
@@ -131,10 +132,10 @@ export default {
       if (this.$refs.form.validate()) {
         this.animateForm(true);
         auth
-          .signUp(this.form)
-          .then(res => {
-            console.log(res);
-            this.confirmSnackbar('Cadastro criado! ;)', 'success');
+          .signUp(this.form, this.token)
+          .then(res => {            
+            this.confirmSnackbar('Cadastro efetuado! ;)', 'success');
+            this.gotoLogin();
           })
           .catch(err => {
             this.confirmSnackbar('Ocorreu um erro.', 'error');
@@ -172,7 +173,10 @@ export default {
     },
 
     gotoLogin() {
-      $nuxt._router.push("/login");
+      setTimeout(function()
+      {
+        $nuxt._router.push("/login");
+      }, 1500);      
     },
 
     confirmSnackbar(text, status) {
@@ -183,6 +187,15 @@ export default {
 
   },
 
+  mounted() {
+    auth.getExternalCredentials().then(res => {      
+        const { data } = res;
+        this.token = data.accessToken;                
+      })
+      .catch(err => {            
+        console.error(err);
+      });
+  },
   computed: {
     confirmPasswordRules() {
       return [
