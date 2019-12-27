@@ -1,10 +1,8 @@
 <template>
   <v-layout align-center justify-center>
-    <div v-if="loading">
-      <div class="container-spinner">
-        <v-progress-circular :size="70" :width="5" indeterminate></v-progress-circular>
-      </div>
-    </div>
+
+    <v-progress-circular v-if="loading" :size="70" :width="5" indeterminate></v-progress-circular>
+
 
     <v-flex xs10 sm8 md6 ref="flex" v-else>
       <v-container>
@@ -197,7 +195,7 @@ export default {
 </script>
 
 <style>
-@import url("https://fonts.googleapis.com/css?family=Montserrat:400,500&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Montserrat:400,500,900&display=swap");
 
 /* Global */
 * {
@@ -217,14 +215,9 @@ export default {
 /* Page */
 .page-title {
   font-size: 24px;
-  font-weight: 500;
+  font-weight: 900;
+  text-transform: uppercase;
   color: #6600cc;
-}
-
-/* Load spinner */
-.container-spinner,
-.flex {
-  z-index: 2;
 }
 
 /* Logo */
@@ -237,7 +230,7 @@ export default {
 }
 
 .logo-container img {
-  width: 12%;
+  width: 80px;
 }
 
 /* Form */
@@ -246,6 +239,7 @@ export default {
 }
 
 .theme--light.v-label {
+  font-weight: 500;
   color: #aa56ff !important;
 }
 
