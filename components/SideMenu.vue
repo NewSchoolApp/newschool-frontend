@@ -18,7 +18,7 @@
           </div>
         </v-col>
         <v-col cols="3" sm="2" md="1" class="col-flex-center">
-          <v-icon id="close-btn" color="primary">mdi-close-circle</v-icon>
+          <v-icon id="close-btn" color="primary" @click="closeMenu()">mdi-close-circle</v-icon>
         </v-col>
       </v-row>
     </main>
@@ -67,7 +67,7 @@ export default {
   }),
   methods: {
     closeMenu() {
-      this.$emit();
+      document.getElementById("menu-btn").click();
     }
   }
 };

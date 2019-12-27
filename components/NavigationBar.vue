@@ -1,6 +1,5 @@
 <template>
   <div>
-    
     <side-menu class="intro-transition" v-if="viewMenu"></side-menu>
 
     <v-bottom-navigation
@@ -10,24 +9,12 @@
       color="write"
       horizontal
     >
-      <v-btn class="btn-fixed">
-        <span>Home</span>
-        <v-icon>mdi-home</v-icon>
+      <v-btn class="btn-fixed" v-for="item in menu" v-bind:key="item.id" :to="item.link">
+        <span>{{item.name}}</span>
+        <v-icon>{{item.icon}}</v-icon>
       </v-btn>
-      <v-btn class="btn-fixed">
-        <span>Perfil</span>
-        <v-icon>mdi-account</v-icon>
-      </v-btn>
-
-      <v-btn class="btn-fixed">
-        <span>Meus Cursos</span>
-        <v-icon>mdi-library</v-icon>
-      </v-btn>
-      <v-btn class="btn-fixed">
-        <span>Certificados</span>
-        <v-icon>mdi-school</v-icon>
-      </v-btn>
-      <v-btn class="btn-fixed" @click="setViewMenu">
+    
+      <v-btn class="btn-fixed" @click="setViewMenu" id="menu-btn">
         <span>Outros</span>
         <v-icon>mdi-apps</v-icon>
       </v-btn>
@@ -39,17 +26,23 @@
 import SideMenu from "~/components/SideMenu.vue";
 export default {
   data: () => ({
-    viewMenu: false
+    viewMenu: false,
+
+    menu: [
+      { id: 1, name: "Home", icon: "mdi-home", link : "/aluno/home"},
+      { id: 2, name: "Perfil", icon: "mdi-account", link : "/aluno/perfil" },
+      { id: 3, name: "Meus Cursos", icon: "mdi-library", link : "/aluno/meus-cursos" },
+      { id: 4, name: "Certificados", icon: "mdi-school", link : "/aluno/certificados"},
+    ]
   }),
   components: {
     SideMenu
   },
-  methods : {
-    setViewMenu(){
-      this.viewMenu = !this.viewMenu
+  methods: {
+    setViewMenu() {
+      this.viewMenu = !this.viewMenu;
     }
   }
-  
 };
 </script>
 
@@ -66,8 +59,11 @@ export default {
 .btn-fixed {
   height: 100% !important;
 }
-.intro-transition{
-  animation-name: intro; 
-  animation-duration: .2s;
+.intro-transition {
+  animation-name: intro;
+  animation-duration: 0.2s;
+}
+.v-item-group.v-bottom-navigation .v-btn.v-btn--active .v-btn__content{
+  color: #6600cc;
 }
 </style>
