@@ -1,5 +1,6 @@
 <template>
-  <div>
+<div>
+  <div class="bg"></div>
     <v-layout
       text-left
       
@@ -21,9 +22,7 @@
       </v-flex>
 
       </v-layout>
- 
-
-  </div>
+ </div>
 </template>
 
 <script>
@@ -43,6 +42,14 @@ export default {
 }
 .subtext{
   font-size: 110%;
+}
+.bg {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  background: url("../assets/paraisopolis.png");
+  background-size: cover;
+  background-position: center;
 }
 
 
