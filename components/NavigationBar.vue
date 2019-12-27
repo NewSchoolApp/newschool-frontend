@@ -1,5 +1,8 @@
 <template>
   <div>
+    
+    <side-menu class="intro-transition" v-if="viewMenu"></side-menu>
+
     <v-bottom-navigation
       scroll-target="#page"
       fixed
@@ -24,16 +27,30 @@
         <span>Certificados</span>
         <v-icon>mdi-school</v-icon>
       </v-btn>
-      <v-btn class="btn-fixed">
+      <v-btn class="btn-fixed" @click="setViewMenu">
         <span>Outros</span>
-        <v-icon>mdi-drag</v-icon>
+        <v-icon>mdi-apps</v-icon>
       </v-btn>
     </v-bottom-navigation>
   </div>
 </template>
   
 <script>
-export default {};
+import SideMenu from "~/components/SideMenu.vue";
+export default {
+  data: () => ({
+    viewMenu: false
+  }),
+  components: {
+    SideMenu
+  },
+  methods : {
+    setViewMenu(){
+      this.viewMenu = !this.viewMenu
+    }
+  }
+  
+};
 </script>
 
 <style>
@@ -46,7 +63,11 @@ export default {};
 .v-application .overflow-y-auto {
   margin-bottom: 3rem;
 }
-.btn-fixed{
+.btn-fixed {
   height: 100% !important;
+}
+.intro-transition{
+  animation-name: intro; 
+  animation-duration: .2s;
 }
 </style>

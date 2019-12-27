@@ -7,9 +7,10 @@
         <v-progress-circular :size="70" :width="5" indeterminate color="#fff"></v-progress-circular>
       </div>
     </div>
+
     <v-flex role="main" xs10 sm8 md4 ref="flex" v-else>
       <div class="bg-symbol">
-        <img src="../assets/logo.svg" alt="New Schoool logo" />
+        <img src="../../assets/logo.svg" alt="New Schoool logo" />
       </div>
       <v-container>
         <v-row>
@@ -58,8 +59,14 @@
   </v-layout>
 </template>
 
+<router>
+  {
+    path: '/login'
+  }
+</router>
+
 <script>
-import auth from "../services/http/auth";
+import auth from "../../services/http/auth";
 
 export default {
   data: () => ({
@@ -100,7 +107,7 @@ export default {
           .catch(err => {
             setTimeout(() => {
               this.dialog = true;
-              this.loading = false;
+              this.loading = false; 
             }, 500);
             console.error(err);
           });
@@ -138,7 +145,7 @@ export default {
   width: 100%;
   height: 100%;
   position: fixed;
-  background: url("../assets/paraisopolis.png");
+  background: url("../../assets/paraisopolis.png");
   background-size: cover;
   background-position: center;
 }

@@ -45,10 +45,17 @@
         </v-container>
       </v-container>
     </div>
-
-    <navigation-bar />
+    <client-only>
+      <navigation-bar />
+    </client-only>
   </div>
 </template>
+
+<router>
+  {
+    path: '/contribua'
+  }
+</router>
 
 <script>
 import NavigationBar from "~/components/NavigationBar.vue";

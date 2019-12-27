@@ -1,11 +1,19 @@
 <template>
   <div>
-    <div id="page">aaaaaaaaaaa</div>
+    <div id="page">
+      <!-- HTML aqui! -->
+    </div>
     <client-only>
       <navigation-bar />
     </client-only>
   </div>
 </template>
+
+<router>
+  {
+    path: '/aluno/perfil'
+  }
+</router>
 
 <script>
 import NavigationBar from "~/components/NavigationBar.vue";

@@ -11,6 +11,13 @@
   </div>
 </template>
 
+
+<router>
+  {
+    path: '/index'
+  }
+</router>
+
 <script>
 import NavigationBar from "~/components/NavigationBar.vue";
 export default {

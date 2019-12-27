@@ -1,6 +1,16 @@
 import colors from 'vuetify/es5/util/colors'
 
 export default {
+  router: {
+    extendRoutes(routes, resolve) {
+      routes.push({
+        name: 'custom',
+        path: '*',
+        component: resolve(__dirname, 'pages/404.vue')
+      })
+    }
+  },
+  
   mode: 'universal',
   /*
   ** Headers of the page
@@ -41,7 +51,11 @@ export default {
   buildModules: [
     // Doc: https://github.com/nuxt-community/eslint-module
     // '@nuxtjs/eslint-module',
-    '@nuxtjs/vuetify'
+    '@nuxtjs/vuetify',
+    '@nuxtjs/router-extras',
+
+    ['@nuxtjs/router-extras', { /* module options */ }]
+
   ],
   /*
   ** Nuxt.js modules
