@@ -215,7 +215,6 @@ export default {
 </script>
 
 <style>
-@import url("https://fonts.googleapis.com/css?family=Montserrat:400,500,900&display=swap");
 
 /* Global */
 * {
