@@ -3,7 +3,6 @@
 
     <v-progress-circular v-if="loading" :size="70" :width="5" indeterminate></v-progress-circular>
 
-
     <v-flex xs10 sm8 md6 ref="flex" v-else>
       <v-container>
         <v-row>
@@ -13,6 +12,7 @@
             </div>
           </v-col>
         </v-row>
+
         <v-row>
           <v-col cols="12">
             <h2 class="page-title">Cadastro</h2>
@@ -98,7 +98,6 @@
 
 <script scoped>
 import auth from "../services/http/auth";
-
 export default {
   data() {
     return {
@@ -189,7 +188,6 @@ export default {
       this.snackbarStatus = status;
       this.snackbar = true;
     }
-
   },
 
   mounted() {
@@ -201,6 +199,7 @@ export default {
         console.error(err);
       });
   },
+
   computed: {
     confirmPasswordRules() {
       return [
@@ -229,8 +228,9 @@ export default {
 }
 
 .layout {
-  background: #fff;
+  background: #fff !important;
 }
+
 
 /* Page */
 .page-title {
@@ -239,6 +239,7 @@ export default {
   text-transform: uppercase;
   color: #6600cc;
 }
+
 
 /* Logo */
 .logo-container {
@@ -253,6 +254,7 @@ export default {
   width: 80px;
 }
 
+
 /* Form */
 .v-form {
   width: 100%;
@@ -260,7 +262,7 @@ export default {
 
 .theme--light.v-label {
   font-weight: 500;
-  color: #aa56ff;
+  color: #aa56ff !important;
 }
 
 .theme--light.v-text-field > .v-input__control > .v-input__slot:before {
@@ -276,12 +278,12 @@ export default {
 }
 
 .v-input__slot {
-  margin-top: 20px;
-  padding-left: 5px;
+  margin-top: 20px !important;
+  padding-left: 5px !important;
   width: 100%;
-  border-radius: unset;
-  background-color: #fff;
-  box-shadow: none;
+  border-radius: unset !important;
+  background-color: #fff !important;
+  box-shadow: none !important;
 }
 
 .v-text-field {
@@ -300,14 +302,14 @@ export default {
 }
 
 .theme--light.v-btn:not(.v-btn--flat):not(.v-btn--text):not(.v-btn--outlined) {
-  background: #6600cc;
-  border-radius: 5px;
-  color: #fff;
-  font-weight: bold;
+  background: #6600cc !important;
+  border-radius: 5px !important;
+  color: #fff !important;
+  font-weight: bold !important;
 }
 
 .login-link {
-  color: #6600cc;
+  color: #6600cc !important;
 }
 
 .hide-form {
@@ -318,12 +320,14 @@ export default {
   animation: nono 300ms, intro paused;
 }
 
+
 /* Error messages */
 .v-messages__message {
-  color: #ff5252;
-  font-size: 12px;
+  color: #ff5252 !important;
+  font-size: 12px !important;
   margin-left: 5px;
 }
+
 
 /* Snackbar */
 .v-snack__content {
