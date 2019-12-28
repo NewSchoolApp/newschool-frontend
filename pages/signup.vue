@@ -229,7 +229,7 @@ export default {
 }
 
 .layout {
-  background: #fff !important;
+  background: #fff;
 }
 
 /* Page */
@@ -260,7 +260,7 @@ export default {
 
 .theme--light.v-label {
   font-weight: 500;
-  color: #aa56ff !important;
+  color: #aa56ff;
 }
 
 .theme--light.v-text-field > .v-input__control > .v-input__slot:before {
@@ -276,12 +276,12 @@ export default {
 }
 
 .v-input__slot {
-  margin-top: 20px !important;
-  padding-left: 5px !important;
+  margin-top: 20px;
+  padding-left: 5px;
   width: 100%;
-  border-radius: unset !important;
-  background-color: #fff !important;
-  box-shadow: none !important;
+  border-radius: unset;
+  background-color: #fff;
+  box-shadow: none;
 }
 
 .v-text-field {
@@ -299,15 +299,15 @@ export default {
   padding-right: 5px;
 }
 
-.btn-submit {
-  background: #6600cc !important;
-  border-radius: 5px !important;
-  color: #fff !important;
-  font-weight: bold !important;
+.theme--light.v-btn:not(.v-btn--flat):not(.v-btn--text):not(.v-btn--outlined) {
+  background: #6600cc;
+  border-radius: 5px;
+  color: #fff;
+  font-weight: bold;
 }
 
 .login-link {
-  color: #6600cc !important;
+  color: #6600cc;
 }
 
 .hide-form {
@@ -320,8 +320,8 @@ export default {
 
 /* Error messages */
 .v-messages__message {
-  color: red !important;
-  font-size: 12px !important;
+  color: #ff5252;
+  font-size: 12px;
   margin-left: 5px;
 }
 
