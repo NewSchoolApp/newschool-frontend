@@ -1,25 +1,23 @@
 <template>
   <v-layout align-center justify-center>
-    <div class="bg"></div>
+    <div class="bg" />
 
     <div v-if="loading">
       <div class="container-spinner">
-        <v-progress-circular :size="70" :width="5" indeterminate color="#fff"></v-progress-circular>
+        <v-progress-circular :size="70" :width="5" indeterminate color="#fff" />
       </div>
     </div>
     <v-flex role="main" xs10 sm8 md4 ref="flex" v-else>
       <div class="bg-symbol">
-        <img src="../assets/logo.svg" alt="New Schoool logo" />
+        <img src="../assets/logo.svg" alt="New Schoool logo">
       </div>
       <v-container>
         <v-row>
-          <v-col cols="12"></v-col>
+          <v-col cols="12" />
           <v-form ref="form" v-model="status" lazy-validation>
             <v-col cols="12">
-              <v-text-field v-model="email" :rules="emailRules" label="Email" data-vv-name="email" required>
-              </v-text-field>
-              <v-text-field type="password" v-model="password" :rules="passwordRules" label="Senha" data-vv-name="password" required>
-              </v-text-field>
+              <v-text-field v-model="email" :rules="emailRules" label="Email" data-vv-name="email" required />
+              <v-text-field v-model="password" :rules="passwordRules" type="password" label="Senha" data-vv-name="password" required />
             </v-col>
             <v-col cols="12">
               <v-btn
@@ -43,69 +41,69 @@
 </template>
 
 <script>
-import auth from "../services/http/auth";
+import auth from '../services/http/auth'
 
 export default {
   data: () => ({
     status: true,
     loading: false,
 
-    title: "Entrar",
+    title: 'Entrar',
 
-    email: "",
+    email: '',
     emailRules: [
-      v => !!v || "Digite o e-mail",
-      v => /.+@.+\..+/.test(v) || "E-mail inválido"
+      v => !!v || 'Digite o e-mail',
+      v => /.+@.+\..+/.test(v) || 'E-mail inválido'
     ],
-    password: "",
+    password: '',
     passwordRules: [
-      v => !!v || "Digite a senha",
-      v => (v && v.length >= 6) || "A senha deve ter no mínimo 6 caractéres"
+      v => !!v || 'Digite a senha',
+      v => (v && v.length >= 6) || 'A senha deve ter no mínimo 6 caractéres'
     ]
   }),
 
-  head() {
+  head () {
     return {
       title: this.title
-    };
+    }
   },
 
   methods: {
-    submit() {
+    submit () {
       if (this.$refs.form.validate()) {
-        this.animateForm(true);
+        this.animateForm(true)
         auth
           .login(this.email, this.password)
           .then(() => {
-            $nuxt._router.push("/index");
+            $nuxt._router.push('/index')
           })
-          .catch(err => {
+          .catch((err) => {
             setTimeout(() => {
-              this.loading = false;
-            }, 500);
-            console.error(err);
-          });
+              this.loading = false
+            }, 500)
+            console.error(err)
+          })
       } else {
-        this.animateForm(false);
+        this.animateForm(false)
       }
     },
 
-    animateForm(status) {
+    animateForm (status) {
       if (status) {
-        this.$refs.flex.classList.add("hide-form");
-        document.querySelector("html").style.overflow = "hidden";
+        this.$refs.flex.classList.add('hide-form')
+        document.querySelector('html').style.overflow = 'hidden'
         setTimeout(() => {
-          this.loading = true;
-        }, 300);
+          this.loading = true
+        }, 300)
       } else {
-        this.$refs.flex.classList.add("error-form");
+        this.$refs.flex.classList.add('error-form')
         setTimeout(() => {
-          this.$refs.flex.classList.remove("error-form");
-        }, 500);
+          this.$refs.flex.classList.remove('error-form')
+        }, 500)
       }
     }
   }
-};
+}
 </script>
 
 <style>
