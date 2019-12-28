@@ -142,7 +142,7 @@ export default {
             this.confirmSnackbar('Cadastro efetuado! ;)', 'success');
             setTimeout(() => {
               this.gotoLogin();
-            }, 1500); 
+            }, 2500); 
           })
           .catch(err => {
             this.confirmSnackbar('Ocorreu um erro.', 'error');
