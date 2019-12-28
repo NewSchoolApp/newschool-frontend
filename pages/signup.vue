@@ -229,7 +229,7 @@ export default {
 }
 
 .layout {
-  background: #fff;
+  background: #fff !important;;
 }
 
 /* Page */
@@ -260,7 +260,7 @@ export default {
 
 .theme--light.v-label {
   font-weight: 500;
-  color: #aa56ff;
+  color: #aa56ff !important;
 }
 
 .theme--light.v-text-field > .v-input__control > .v-input__slot:before {
