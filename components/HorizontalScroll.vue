@@ -10,11 +10,16 @@ export default {
         gap: {
             type: Number,
             default: 0
+        },
+        horizontalPadding:{
+            type: Number,
+            default: 0
         }
     },
     computed: {
         cssVars() {
             return {
+                '--paddingH': `${this.horizontalPadding}px`,
                 '--gap': `${this.gap}px`
             }
         }
@@ -25,7 +30,14 @@ export default {
 <style>
 .horizontal-scroll-container{
     width: 100%;
-    overflow-x: auto;
+    overflow-x: scroll;
+    padding: 0 var(--paddingH) 4px;
+}
+
+.horizontal-scroll-container:after{
+    content:'';
+    flex: 0 0 auto;
+    width: var(--paddingH);
 }
 .horizontal-scroll-container > *{
     flex: 0 0 auto;
@@ -33,6 +45,6 @@ export default {
 }
 
 .horizontal-scroll-container > *:last-of-type{
-    margin-right: 0;
+    margin-right:0;
 }
 </style>
