@@ -1,0 +1,35 @@
+
+.text-watermark {
+  color: #d6adff !important;
+}
+.text-white {
+  color: #fff !important;
+}
+
+.btn-block {
+  border-radius: 5px;
+  width: 100%;
+}
+.btn-primary {
+  color: #6600cc !important;
+  border-radius: unset !important;
+  font-weight: 900 !important;
+}
+
+.btn-white {
+  background-color: #ffffff !important;
+}
+
+.btn-secondary {
+  background-color: #f189de00 !important;
+  color: #f189de;
+  border: solid 1px #f189de;
+}
+
+.theme--dark.v-application {
+  background: none !important;
+}
+
+.text-center {
+  text-align: center !important;
+}

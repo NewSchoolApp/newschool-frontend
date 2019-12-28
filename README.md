@@ -1,8 +1,11 @@
-# NewSchool-frontend
+# NewSchool-frontend  
+[![releases](https://img.shields.io/badge/Changelog-Releases-orange)](https://github.com/NewSchoolBR/newschool-frontend/releases)
 
 > Frontend da New School, desenvolvido em VueJs, Nuxt e Vuetify
 
-# Como rodar o projeto
+> **Ambiente de DEV:** https://newschoolbr-dev.herokuapp.com/
+
+## Como rodar o projeto
 
 ``` bash
 # install dependencies
@@ -21,9 +24,9 @@ $ npm run generate
 
 For detailed explanation on how things work, check out [Nuxt.js docs](https://nuxtjs.org).
 
-# Guidelines
+## Guidelines
 
-# Como contribuir
+## Como contribuir
 
 1 - CONHEÇA O PROJETO **New School**
 
@@ -56,8 +59,25 @@ https://github.com/NewSchoolBR/newschool-frontend
 
 4.2 ESCREVA CÓDIGO
 
-Hora de colocar a mão na massa. A parte mais divertida, trabalhar no código-fonte. Depois de concluir e testar, envie e aguarde o PULL REQUEST ser aprovado.
+Hora de colocar a mão na massa. A parte mais divertida, trabalhar no código-fonte.
 
-5 MISSÃO CUMPRIDA. VC AJUDOU O PROJETO. ❤️
+O desenvolvimento está se concentrando na branch `develop`. Faça o checkout nela e crie uma branch nova para a sua tarefa, com os seguintes comandos:
 
-# Código de conduta
+```sh
+$ git checkout develop
+$ git checkout -b sua-nova-funcionalidade-ou-tarefa
+```
+
+Depois de concluir e testar, envie e aguarde o PULL REQUEST ser aprovado.
+
+5 - MISSÃO CUMPRIDA. VC AJUDOU O PROJETO. ❤️
+
+API NO AMBIENTE DEV: 
+
+http://newschoolbrapi-dev.herokuapp.com/swagger/#/default 
+
+CONFIRA OS LAYOUTS NO FIGMA: 
+
+https://www.figma.com/file/whTp4hE6ZQR3V8LBxSZnjv/NewSchool?node-id=0%3A1
+
+## Código de conduta
