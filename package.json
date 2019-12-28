@@ -4,6 +4,9 @@
   "description": "My mathematical Nuxt.js project",
   "author": "news-school-team",
   "private": true,
+  "engines" : { 
+    "node" : ">=8.9.0 <12.0.0" 
+  },
   "scripts": {
     "dev": "nuxt",
     "build": "nuxt build",
