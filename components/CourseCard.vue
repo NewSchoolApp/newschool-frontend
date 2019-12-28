@@ -2,7 +2,7 @@
   <v-card
     elevation="0"
     color="transparent"
-    tile="true"
+    :tile="true"
     width="280"
   >
     <v-img
