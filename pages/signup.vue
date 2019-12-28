@@ -22,30 +22,33 @@
           <v-form ref="form" v-model="status" lazy-validation>
             <v-col cols="12">
               <v-text-field
-                v-model="form.nome"
+                v-model="form.name"
                 label="Nome *"
+                name="name"
                 required
               ></v-text-field>
               <v-text-field
                 v-model="form.email"
-                label="Email *"
                 :rules="emailRules"
+                label="Email *"
+                name="email"
                 required
               ></v-text-field>
               <v-text-field
-                :type="showPass ? 'password' : 'text'"
                 v-model="form.password"
                 label="Senha *"
+                name="password"
                 :rules="passwordRules"
+                :type="showPass ? 'password' : 'text'"
                 :append-icon="showPass ? 'mdi-eye' : 'mdi-eye-off'"
                 @click:append="() => (showPass = !showPass)"
                 required
               ></v-text-field>
               <v-text-field
-                :type="showConfirmPass ? 'password' : 'text'"
                 v-model="form.confirmPassword"
                 label="Confirmar senha *"
                 :rules="confirmPasswordRules"
+                :type="showConfirmPass ? 'password' : 'text'"
                 :append-icon="showConfirmPass ? 'mdi-eye' : 'mdi-eye-off'"
                 @click:append="() => (showConfirmPass = !showConfirmPass)"
                 required
@@ -53,12 +56,14 @@
               <v-text-field
                 v-model="form.urlFacebook"
                 label="Facebook"
+                name="urlFacebook"
                 required
               ></v-text-field>
               <v-text-field
                 type="text"
                 v-model="form.urlInstagram"
                 label="Instagram"
+                name="urlInstagram"
                 required
               ></v-text-field>
             </v-col>
@@ -106,12 +111,13 @@ export default {
       snackbarStatus: '',
       token: '',
       form: {
-        nome: "",
+        name: "",
         email: "",
         password: "",
         confirmPassword: "",
         urlFacebook: "",
-        urlInstagram: ""
+        urlInstagram: "",
+        role: 'STUDENT'
       },
       nameRules: [v => !!v || "Digite seu nome"],
       passwordRules: [
@@ -133,7 +139,9 @@ export default {
           .signUp(this.form, this.token)
           .then(res => {            
             this.confirmSnackbar('Cadastro efetuado! ;)', 'success');
-            this.gotoLogin();
+            setTimeout(() => {
+              this.gotoLogin();
+            }, 1500); 
           })
           .catch(err => {
             this.confirmSnackbar('Ocorreu um erro.', 'error');
@@ -171,10 +179,7 @@ export default {
     },
 
     gotoLogin() {
-      setTimeout(function()
-      {
-        $nuxt._router.push("/login");
-      }, 1500);      
+      $nuxt._router.push("/login");
     },
 
     confirmSnackbar(text, status) {
@@ -188,8 +193,7 @@ export default {
   mounted() {
     auth.getExternalCredentials().then(res => {      
         const { data } = res;
-        this.token = data.accessToken;     
-        console.log(this.token);
+        this.token = data.accessToken;   
       })
       .catch(err => {            
         console.error(err);
