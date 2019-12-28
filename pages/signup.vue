@@ -137,7 +137,8 @@ export default {
         this.animateForm(true);
         auth
           .signUp(this.form, this.token)
-          .then(res => {            
+          .then(res => {     
+            this.loading = false;  
             this.confirmSnackbar('Cadastro efetuado! ;)', 'success');
             setTimeout(() => {
               this.gotoLogin();
