@@ -168,6 +168,7 @@ export default {
           this.$refs.flex.classList.remove("error-form");
         }, 500);
       }
+      document.querySelector("html").style.overflow = "scroll";
     },
 
     showPassword() {
