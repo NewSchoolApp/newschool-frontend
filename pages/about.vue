@@ -1,13 +1,7 @@
 <template>
 <div>
   <div class="bg"></div>
-    <v-layout
-      text-left
-      
-  
-    >
-
-
+    <v-layout text-left>
       <v-flex  >
         <h2 class="font-weight-bold mr-3 ml-3 mt-3 mb-3 text">
           SOBRE A NEW SCHOOL
@@ -20,40 +14,34 @@
             para o público jovem, que estuda, como também os que não estudam mais o ensino escolar.
         </p>
       </v-flex>
-
-      </v-layout>
+    </v-layout>
  </div>
 </template>
 
 <script>
 export default {
   name: 'about',
-
   data: () => ({
    
   }),
 };
 </script>
 <style>
-.text{
-  color: #6600CC;
-  font-family: 'Montserrat';
-  
+  .text{
+    color: #6600CC;
+    font-family: 'Montserrat';  
+  }
+  .subtext{
+    font-size: 110%;
+  }
+  .bg {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    background: url("../assets/paraisopolis.png");
+    background-size: cover;
+    background-position: center;
 }
-.subtext{
-  font-size: 110%;
-}
-.bg {
-  width: 100%;
-  height: 100%;
-  position: fixed;
-  background: url("../assets/paraisopolis.png");
-  background-size: cover;
-  background-position: center;
-}
-
-
-
 </style>
 
 
