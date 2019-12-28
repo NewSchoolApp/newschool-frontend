@@ -13,7 +13,7 @@ export default {
    */
   login: (username, password) => {
 
-    let base64 = btoa(`${process.env.VUE_APP_CLIENT_CREDENTIAL_NAME}:${process.env.VUE_APP_CLIENT_CREDENTIAL_SECRET}`)
+    let base64 = btoa(`${process.env.credentials.name}:${process.env.credentials.secret}`)
 
     let client_credentials = `Basic ${base64}`;
     let body = { grant_type: "password", username: username, password: password };
@@ -24,7 +24,7 @@ export default {
 
   getExternalCredentials: () => {    
     
-    let base64 = btoa(`${process.env.VUE_APP_CLIENT_EXTERNAL_CREDENTIAL_NAME}:${process.env.VUE_APP_CLIENT_EXTERNAL_CREDENTIAL_SECRET}`)
+    let base64 = btoa(`${process.env.credentials.external.name}:${process.env.credentials.external.secret}`)
 
     let client_credentials = `Basic ${base64}`;
     let body = { grant_type: "client_credentials" };
