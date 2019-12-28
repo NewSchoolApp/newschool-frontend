@@ -5,8 +5,8 @@
   "author": "news-school-team",
   "private": true,
   "engines": {
-    "node": ">=10.0.0",
-    "npm": ">=6.0.0"
+    "node": "10.x",
+    "npm": "6.x"
   },
   "scripts": {
     "dev": "nuxt",
