@@ -8,7 +8,7 @@
         <v-row>
           <v-col cols="12">
             <div class="logo-container">
-              <img src="../assets/purple-logo.svg" alt="castor" />
+              <img src="~/assets/purple-logo.svg" alt="castor" />
             </div>
           </v-col>
         </v-row>
@@ -96,8 +96,9 @@
   </v-layout>
 </template>
 
-<script>
-import auth from "../services/http/auth";
+<script scoped>
+import auth from "../../services/http/auth";
+
 export default {
   data() {
     return {

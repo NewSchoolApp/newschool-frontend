@@ -57,14 +57,18 @@
   </section>
 </template>
 
+<router>
+  {
+    path: '/contribua'
+  }
+</router>
+
 <script>
 import NavigationBar from "~/components/NavigationBar.vue";
-
 export default {
   components: {
     NavigationBar
   },
-
   data() {
     return {
       stacks: [
@@ -164,7 +168,6 @@ export default {
   font-size: 20px;
   line-height: 24px;
 }
-
 .descricao {
   margin-top: 16px;
   font-family: Montserrat;

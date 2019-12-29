@@ -1,29 +1,23 @@
 <template>
-
-  
   <v-container>
-      <main>
-
+    <main>
       <h1>Desculpa :(</h1>
       <p>Página não encontrada</p>
-      <img src="../assets/page-404.svg" alt=""/>
-      </main>
+      <img src="~/assets/page-404.svg" alt />
+    </main>
   </v-container>
 </template>
 
 <script>
-export default {
-    
-
-}
+export default {};
 </script>
 
 <style>
 main {
-text-align: center;
+  text-align: center;
 }
 main h1 {
-  color: #6600CC;
+  color: #6600cc;
 }
 .container {
   height: 100%;
@@ -31,6 +25,4 @@ main h1 {
   justify-content: center;
   align-items: center;
 }
-
-
 </style>
