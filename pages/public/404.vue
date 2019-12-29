@@ -3,7 +3,7 @@
     <main>
       <h1>Desculpa :(</h1>
       <p>Página não encontrada</p>
-      <img src="../assets/page-404.svg" alt />
+      <img src="~/assets/page-404.svg" alt />
     </main>
   </v-container>
 </template>

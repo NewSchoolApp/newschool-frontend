@@ -25,6 +25,7 @@ export default {
     return http.post("/oauth/token",
       body, { headers: { 'Authorization': client_credentials } })
       .then(res => {
+        // armazenando tokens no storage
         let auth = {
           accessToken: `Bearer ${res.data.accessToken}`,
           refreshToken: res.data.refreshToken
@@ -56,13 +57,21 @@ export default {
   getInfoUser: () => {
     let auth = JSON.parse(localStorage.getItem("auth"));
 
-    return http.get("/api/v1/user/me", { headers: { 'Authorization': auth.accessToken } })
-      .then(
-        res => {
-          localStorage.setItem("user", JSON.stringify(res.data))
-        }
-      )
+    if (auth) {
+      return http.get("/api/v1/user/me", { headers: { 'Authorization': auth.accessToken } })
+        .then(
+          res => {
+            let user = {
+              name: res.data.name || "Anônimo",
+              type : res.data.type || "Visitante"
+            }
+            localStorage.setItem("user", JSON.stringify(user));
+          }
+        )
+    }
+    else {
+      $nuxt._router.push("/login");
+    }
+
   }
-
-
 }

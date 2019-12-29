@@ -1,6 +1,6 @@
 <template>
   <div class="container-page">
-    <main>
+    <main v-if="flagdisplayInfoUser">
       <v-row>
         <v-col cols="4" sm="2" md="3">
           <div class="flex-center border-profile-photo">
@@ -11,8 +11,8 @@
         </v-col>
         <v-col cols="6" sm="8" md="8">
           <div class="flex-center" id="flex-info-user">
-            <h4>{{user.name}}</h4>
-            <p>{{user.email}}</p>
+            <h1>{{user.name}}</h1>
+            <p>{{user.type}}</p>
             <router-link to="/aluno/perfil">Ver meu perfil</router-link>
           </div>
         </v-col>
@@ -47,12 +47,11 @@ import Avatar from "vue-avatar";
 
 export default {
   data: () => ({
+    flagdisplayInfoUser: false,
+
     user: {
-      id: "",
-      name: "Anônimo",
-      email: "Anônimo",
-      urlFacebook: "",
-      urlInstagram: ""
+      name: "",
+      type: ""
     },
     menu: [
       {
@@ -92,8 +91,9 @@ export default {
      */
     getInforUser() {
       let userStorage = JSON.parse(localStorage.getItem("user"));
-      if (userStorage != null) {
+      if (userStorage) {
         this.user = userStorage;
+        this.flagdisplayInfoUser = true;
       }
     }
   },
@@ -107,6 +107,12 @@ export default {
 </script>
 
 <style lang="scss">
+h1 {
+  font-size: 1.4rem;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
 .container-page {
   background-color: #fff;
   position: fixed;

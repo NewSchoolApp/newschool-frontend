@@ -14,15 +14,11 @@
 </router>
 
 <script>
-import auth from "../../services/http/auth";
 import NavigationBar from "~/components/NavigationBar.vue";
 
 export default {
   components: {
     NavigationBar
-  },
-  mounted() {
-    auth.getInfoUser();
   }
 };
 </script>

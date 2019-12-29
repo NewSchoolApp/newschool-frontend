@@ -102,6 +102,7 @@ export default {
         auth
           .login(this.email, this.password)
           .then(() => {
+            auth.getInfoUser();
             $nuxt._router.push("/aluno/home");
           })
           .catch(err => {
