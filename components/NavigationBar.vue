@@ -43,8 +43,8 @@ export default {};
 .v-icon {
   margin-right: 0 !important;
 }
-.v-application .overflow-y-auto {
-  margin-bottom: 3rem;
+#page{
+  margin-bottom: 5rem !important;
 }
 .btn-fixed{
   height: 100% !important;
