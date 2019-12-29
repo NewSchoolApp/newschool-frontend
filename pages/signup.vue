@@ -55,14 +55,14 @@
               ></v-text-field>
               <v-text-field
                 v-model="form.urlFacebook"
-                label="Facebook"
+                label="URL do Facebook"
                 name="urlFacebook"
                 required
               ></v-text-field>
               <v-text-field
                 type="text"
                 v-model="form.urlInstagram"
-                label="Instagram"
+                label="URL do Instagram"
                 name="urlInstagram"
                 required
               ></v-text-field>
