@@ -25,26 +25,43 @@ export default {
     return http.post("/oauth/token",
       body, { headers: { 'Authorization': client_credentials } })
       .then(res => {
-        // salvando propriedades da requisição no local storage
-        Object.keys(res).forEach(property => {
-          localStorage.setItem(property, res[property])
-        })
+        let auth = {
+          accessToken: `Bearer ${res.data.accessToken}`,
+          refreshToken: res.data.refreshToken
+        }
+        localStorage.setItem("auth", JSON.stringify(auth))
       })
   },
 
-  getExternalCredentials: () => {    
-    
+  getExternalCredentials: () => {
+
     let base64 = btoa(`${process.env.credentials.external.name}:${process.env.credentials.external.secret}`)
 
     let client_credentials = `Basic ${base64}`;
     let body = { grant_type: "client_credentials" };
 
     return http.post("oauth/token",
-      body, { headers: { 'Authorization': client_credentials } })    
+      body, { headers: { 'Authorization': client_credentials } })
   },
 
-  signUp: (form, token) => {             
-    return http.post("api/v1/user", form, { headers: { 'Authorization': `Bearer ${token}` } })      
+  signUp: (form, token) => {
+    return http.post("api/v1/user", form, { headers: { 'Authorization': `Bearer ${token}` } })
+  },
+
+  /**
+   * Método para salvar as informações do usuário no local storage
+   * 
+   * TODO - Ramificar em um serviço específico de usuário. 
+   */
+  getInfoUser: () => {
+    let auth = JSON.parse(localStorage.getItem("auth"));
+
+    return http.get("/api/v1/user/me", { headers: { 'Authorization': auth.accessToken } })
+      .then(
+        res => {
+          localStorage.setItem("user", JSON.stringify(res.data))
+        }
+      )
   }
 
 

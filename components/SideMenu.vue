@@ -5,16 +5,15 @@
         <v-col cols="3" sm="2" md="3">
           <div class="flex-center border-profile-photo">
             <div class="flex-center profile-container">
-              <avatar username="Jane Doe" :size="90"></avatar>
+              <avatar :username="this.user.name" :size="90"></avatar>
             </div>
           </div>
         </v-col>
         <v-col cols="6" sm="8" md="8">
           <div class="flex-center" id="flex-info-user">
             <h4>{{user.name}}</h4>
-            <p>{{user.career}}</p>
-            <p>{{user.age}}</p>
-            <router-link to="/index">Ver meu perfil</router-link>
+            <p>{{user.email}}</p>
+            <router-link to="/aluno/perfil">Ver meu perfil</router-link>
           </div>
         </v-col>
         <v-col cols="3" sm="2" md="1" class="col-flex-center">
@@ -49,11 +48,12 @@ import Avatar from "vue-avatar";
 export default {
   data: () => ({
     user: {
-      name: "Andrews",
-      career: "Estudante",
-      age: "25 Anos"
+      id: "",
+      name: "Anônimo",
+      email: "Anônimo",
+      urlFacebook: "",
+      urlInstagram: ""
     },
-
     menu: [
       {
         id: 1,
@@ -73,7 +73,7 @@ export default {
         icon: "mdi-source-fork",
         link: "/contribua"
       },
-      { id: 4, label: "Sobre", icon: " mdi-file-document-box", link: "/sobre" },
+      { id: 4, label: "Sobre", icon: "mdi-file-document-box", link: "/sobre" },
       { id: 5, label: "Ajuda", icon: "mdi-help-circle", link: "/ajuda" },
       { id: 6, label: "Contato", icon: "mdi-cellphone", link: "/contato" },
       { id: 7, label: "Imprensa", icon: "mdi-camcorder", link: "/imprensa" },
@@ -81,13 +81,24 @@ export default {
     ]
   }),
   methods: {
+    /**
+     * Método para fechar o side-menu
+     */
     closeMenu() {
       document.getElementById("menu-btn").click();
     },
-
+    /**
+     * Método para recuperar as informações do usuário no local storage
+     */
     getInforUser() {
-      // retornar informações salvas no local_storage
+      let userStorage = JSON.parse(localStorage.getItem("user"));
+      if (userStorage != null) {
+        this.user = userStorage;
+      }
     }
+  },
+  mounted() {
+    this.getInforUser();
   },
   components: {
     Avatar

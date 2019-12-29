@@ -77,61 +77,61 @@ export default {
 
     title: "Entrar",
 
-    email: '',
+    email: "",
     emailRules: [
-      v => !!v || 'Digite o e-mail',
-      v => /.+@.+\..+/.test(v) || 'E-mail inválido'
+      v => !!v || "Digite o e-mail",
+      v => /.+@.+\..+/.test(v) || "E-mail inválido"
     ],
-    password: '',
+    password: "",
     passwordRules: [
       v => !!v || "Digite a senha",
       v => (v && v.length >= 6) || "A senha deve ter no mínimo 6 caracteres"
     ]
   }),
 
-  head () {
+  head() {
     return {
       title: this.title
-    }
+    };
   },
 
   methods: {
-    submit () {
+    submit() {
       if (this.$refs.form.validate()) {
-        this.animateForm(true)
+        this.animateForm(true);
         auth
           .login(this.email, this.password)
           .then(() => {
-            $nuxt._router.push("/dashboard");
+            $nuxt._router.push("/aluno/home");
           })
-          .catch((err) => {
+          .catch(err => {
             setTimeout(() => {
               this.dialog = true;
-              this.loading = false; 
+              this.loading = false;
             }, 500);
             console.error(err);
           });
       } else {
-        this.animateForm(false)
+        this.animateForm(false);
       }
     },
 
-    animateForm (status) {
+    animateForm(status) {
       if (status) {
-        this.$refs.flex.classList.add('hide-form')
-        document.querySelector('html').style.overflow = 'hidden'
+        this.$refs.flex.classList.add("hide-form");
+        document.querySelector("html").style.overflow = "hidden";
         setTimeout(() => {
-          this.loading = true
-        }, 300)
+          this.loading = true;
+        }, 300);
       } else {
-        this.$refs.flex.classList.add('error-form')
+        this.$refs.flex.classList.add("error-form");
         setTimeout(() => {
-          this.$refs.flex.classList.remove('error-form')
-        }, 500)
+          this.$refs.flex.classList.remove("error-form");
+        }, 500);
       }
     }
   }
-}
+};
 </script>
 
 <style>
@@ -149,11 +149,11 @@ export default {
   background-size: cover;
   background-position: center;
 }
-.v-dialog{
+.v-dialog {
   background: #fff;
   text-align: center;
 }
-.v-card__title{
+.v-card__title {
   justify-content: center;
 }
 .v-form {
