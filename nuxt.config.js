@@ -11,6 +11,18 @@ export default {
     }
   },
   
+  env: {
+    baseUrl: process.env.VUE_APP_BASE_URL || 'https://newschoolbrapi-dev.herokuapp.com/',
+    credentials:{      
+      name: process.env.VUE_APP_CLIENT_CREDENTIAL_NAME || 'NEWSCHOOL@FRONT',
+      secret: process.env.VUE_APP_CLIENT_CREDENTIAL_SECRET || 'NEWSCHOOL@FRONTSECRET',      
+      external:
+      {
+        name: process.env.VUE_APP_CLIENT_EXTERNAL_CREDENTIAL_NAME || 'NEWSCHOOL@EXTERNAL',
+        secret: process.env.VUE_APP_CLIENT_EXTERNAL_CREDENTIAL_SECRET || 'NEWSCHOOL@EXTERNALSECRET',
+      }
+    }
+  },
   mode: 'universal',
   /*
   ** Headers of the page

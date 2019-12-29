@@ -6,11 +6,10 @@
       <v-btn class="ma-2" tile outlined color="primary" to="/contribua">Contribua</v-btn>
       <v-btn class="ma-2" tile outlined color="primary" to="/login">Login</v-btn>
       <v-btn class="ma-2" tile outlined color="primary" to="/dashboard">Dashboard</v-btn>
+      <v-btn class="ma-2" tile outlined color="primary" to="/quem_somos">Quem Somos</v-btn>
     </main>
-    <navigation-bar />
   </div>
 </template>
-
 
 <router>
   {
@@ -19,12 +18,7 @@
 </router>
 
 <script>
-import NavigationBar from "~/components/NavigationBar.vue";
-export default {
-  components: {
-    NavigationBar
-  }
-};
+export default {};
 </script>
 <style>
 main {

@@ -1,10 +1,10 @@
 <template>
   <v-layout align-center justify-center>
-    <div class="bg"></div>
+    <div class="bg" />
 
     <div v-if="loading">
       <div class="container-spinner">
-        <v-progress-circular :size="70" :width="5" indeterminate color="#fff"></v-progress-circular>
+        <v-progress-circular :size="70" :width="5" indeterminate color="#fff" />
       </div>
     </div>
 
@@ -14,7 +14,7 @@
       </div>
       <v-container>
         <v-row>
-          <v-col cols="12"></v-col>
+          <v-col cols="12" />
           <v-form ref="form" v-model="status" lazy-validation>
             <v-col cols="12">
               <v-text-field
@@ -77,34 +77,34 @@ export default {
 
     title: "Entrar",
 
-    email: "",
+    email: '',
     emailRules: [
-      v => !!v || "Digite o e-mail",
-      v => /.+@.+\..+/.test(v) || "E-mail inválido"
+      v => !!v || 'Digite o e-mail',
+      v => /.+@.+\..+/.test(v) || 'E-mail inválido'
     ],
-    password: "",
+    password: '',
     passwordRules: [
       v => !!v || "Digite a senha",
       v => (v && v.length >= 6) || "A senha deve ter no mínimo 6 caracteres"
     ]
   }),
 
-  head() {
+  head () {
     return {
       title: this.title
-    };
+    }
   },
 
   methods: {
-    submit() {
+    submit () {
       if (this.$refs.form.validate()) {
-        this.animateForm(true);
+        this.animateForm(true)
         auth
           .login(this.email, this.password)
           .then(() => {
             $nuxt._router.push("/dashboard");
           })
-          .catch(err => {
+          .catch((err) => {
             setTimeout(() => {
               this.dialog = true;
               this.loading = false; 
@@ -112,26 +112,26 @@ export default {
             console.error(err);
           });
       } else {
-        this.animateForm(false);
+        this.animateForm(false)
       }
     },
 
-    animateForm(status) {
+    animateForm (status) {
       if (status) {
-        this.$refs.flex.classList.add("hide-form");
-        document.querySelector("html").style.overflow = "hidden";
+        this.$refs.flex.classList.add('hide-form')
+        document.querySelector('html').style.overflow = 'hidden'
         setTimeout(() => {
-          this.loading = true;
-        }, 300);
+          this.loading = true
+        }, 300)
       } else {
-        this.$refs.flex.classList.add("error-form");
+        this.$refs.flex.classList.add('error-form')
         setTimeout(() => {
-          this.$refs.flex.classList.remove("error-form");
-        }, 500);
+          this.$refs.flex.classList.remove('error-form')
+        }, 500)
       }
     }
   }
-};
+}
 </script>
 
 <style>
