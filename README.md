@@ -26,6 +26,11 @@ For detailed explanation on how things work, check out [Nuxt.js docs](https://nu
 
 ## Guidelines
 
+> ### Variáveis de ambiente necessárias para execução do projeto
+```
+GA_TOKEN: Variável com o token do Google Analytics do ambiente
+```
+
 ## Como contribuir
 
 1 - CONHEÇA O PROJETO **New School**
