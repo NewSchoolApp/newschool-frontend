@@ -213,13 +213,12 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 @import url("https://fonts.googleapis.com/css?family=Montserrat:400,500,900&display=swap");
 
 /* Global */
 * {
   font-family: "Montserrat", Helvetica, Arial, sans-serif !important;
-  font-size: 14px;
 }
 
 .flex {
@@ -261,20 +260,20 @@ export default {
 }
 
 .theme--light.v-label {
-  font-weight: 500;
+  font-weight: 600;
   color: #aa56ff !important;
 }
 
 .theme--light.v-text-field > .v-input__control > .v-input__slot:before {
-  border-color: #aa56ff;
+  border-color: #aa56ff !important;
 }
 
 .theme--light.v-text-field:not(.v-input--has-state) > .v-input__control > .v-input__slot:hover:before {
-  border-color: #6600CC;
+  border-color: #6600CC !important;
 }
 
 .theme--light.v-input:not(.v-input--is-disabled) input {
-  color: #6600CC;
+  color: #6600CC !important;
 }
 
 .v-input__slot {
@@ -287,8 +286,8 @@ export default {
 }
 
 .v-text-field {
-  padding-top: 0;
-  margin-top: 0;
+  padding-top: 0 !important;
+  margin-top: 0 !important;
   color: #6600CC;
 }
 
