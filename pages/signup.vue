@@ -96,7 +96,7 @@
   </v-layout>
 </template>
 
-<script scoped>
+<script>
 import auth from "../services/http/auth";
 export default {
   data() {
@@ -213,7 +213,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
 @import url("https://fonts.googleapis.com/css?family=Montserrat:400,500,900&display=swap");
 
 /* Global */
