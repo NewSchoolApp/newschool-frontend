@@ -2,7 +2,7 @@
   <div class="container-page">
     <main>
       <v-row>
-        <v-col cols="3" sm="2" md="3">
+        <v-col cols="4" sm="2" md="3">
           <div class="flex-center border-profile-photo">
             <div class="flex-center profile-container">
               <avatar :username="this.user.name" :size="90"></avatar>
@@ -16,7 +16,7 @@
             <router-link to="/aluno/perfil">Ver meu perfil</router-link>
           </div>
         </v-col>
-        <v-col cols="3" sm="2" md="1" class="col-flex-center">
+        <v-col sm="2" md="1" cols="2" class="col-flex-center">
           <v-icon id="close-btn" color="primary" @click="closeMenu()">mdi-close-circle</v-icon>
         </v-col>
       </v-row>

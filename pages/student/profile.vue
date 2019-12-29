@@ -4,21 +4,21 @@
       <v-row>
         <v-col cols="6" md="8">
           <v-card class="mx-auto item" max-width="344">
-            <img src="../assets/perfil.png" alt />
+            <img src="~/assets/perfil.png" alt />
             <a href>Perfil</a>
           </v-card>
         </v-col>
 
         <v-col cols="6" md="8">
           <v-card class="mx-auto item" max-width="344">
-            <img src="../assets/cursos.png" alt />
+            <img src="~/assets/cursos.png" alt />
             <a href>Perfil</a>
           </v-card>
         </v-col>
 
         <v-col cols="6" md="8">
           <v-card class="mx-auto item" max-width="344">
-            <img src="../assets/configurações.png" alt />
+            <img src="~/assets/configurações.png" alt />
             <a href>Perfil</a>
           </v-card>
         </v-col>
@@ -114,7 +114,7 @@ export default {
   margin-top: 2%;
 }
 body {
-  background-image: url("../assets/paraisopolis.png");
+  background-image: url("../../assets/paraisopolis.png");
   background-repeat: repeat;
   background-size: cover;
 }

@@ -76,4 +76,11 @@ export default {
 .v-item-group.v-bottom-navigation .v-btn.v-btn--active .v-btn__content {
   color: #6600cc;
 }
+
+@media (max-width: 375px) {
+    .v-btn{
+      min-width: 55px !important;
+      font-size: 0.60rem !important;
+    }
+}
 </style>
