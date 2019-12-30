@@ -96,6 +96,13 @@
   </v-layout>
 </template>
 
+<router>
+{
+  path : "/cadastro"
+}
+  
+</router>
+
 <script scoped>
 import auth from "../../services/http/auth";
 
