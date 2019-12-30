@@ -9,8 +9,10 @@
         <v-container fluid>
           <v-row dense>
             <v-col v-for="stack in stacks" :key="stack.id" cols="xs12 sm6">
-              <v-card class="mx-auto" max-width="344" min-width="300">
-                <v-img :src="stack.cover" height="200px"></v-img>
+              <v-card class="mx-auto" max-width="344" min-width="200">
+                <v-img :src="stack.cover" 
+                contain
+                height="200px"></v-img>
 
                 <v-card-title>{{stack.title}}</v-card-title>
 
@@ -31,8 +33,10 @@
         <v-container fluid>
           <v-row dense>
             <v-col v-for="tool in tools" :key="tool.id" cols="xs12 sm6">
-              <v-card class="mx-auto" max-width="344" min-width="300">
-                <v-img :src="tool.cover" height="200px"></v-img>
+              <v-card class="mx-auto" max-width="344" min-width="200">
+                <v-img :src="tool.cover"
+                contain
+                height="200px"></v-img>
 
                 <v-card-title>{{tool.title}}</v-card-title>
 
@@ -53,14 +57,18 @@
   </section>
 </template>
 
+<router>
+  {
+    path: '/contribua'
+  }
+</router>
+
 <script>
 import NavigationBar from "~/components/NavigationBar.vue";
-
 export default {
   components: {
     NavigationBar
   },
-
   data() {
     return {
       stacks: [
@@ -160,7 +168,6 @@ export default {
   font-size: 20px;
   line-height: 24px;
 }
-
 .descricao {
   margin-top: 16px;
   font-family: Montserrat;

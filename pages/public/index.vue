@@ -7,17 +7,19 @@
       <v-btn class="ma-2" tile outlined color="primary" to="/login">Login</v-btn>
       <v-btn class="ma-2" tile outlined color="primary" to="/dashboard">Dashboard</v-btn>
       <v-btn class="ma-2" tile outlined color="primary" to="/quem_somos">Quem Somos</v-btn>
+      <v-btn class="ma-2" tile outlined color="primary" to="/fale_conosco">Fale Conosco</v-btn>
     </main>
   </div>
 </template>
 
-<script>
-import NavigationBar from "~/components/NavigationBar.vue";
-export default {
-  components: {
-    NavigationBar
+<router>
+  {
+    path: '/index'
   }
-};
+</router>
+
+<script>
+export default {};
 </script>
 <style>
 main {

@@ -7,17 +7,31 @@
         <v-progress-circular :size="70" :width="5" indeterminate color="#fff" />
       </div>
     </div>
+
     <v-flex role="main" xs10 sm8 md4 ref="flex" v-else>
       <div class="bg-symbol">
-        <img src="../assets/logo.svg" alt="New Schoool logo">
+        <img src="../../assets/logo.svg" alt="New Schoool logo" />
       </div>
       <v-container>
         <v-row>
           <v-col cols="12" />
           <v-form ref="form" v-model="status" lazy-validation>
             <v-col cols="12">
-              <v-text-field v-model="email" :rules="emailRules" label="Email" data-vv-name="email" required />
-              <v-text-field v-model="password" :rules="passwordRules" type="password" label="Senha" data-vv-name="password" required />
+              <v-text-field
+                v-model="email"
+                :rules="emailRules"
+                label="Email"
+                data-vv-name="email"
+                required
+              ></v-text-field>
+              <v-text-field
+                type="password"
+                v-model="password"
+                :rules="passwordRules"
+                label="Senha"
+                data-vv-name="password"
+                required
+              ></v-text-field>
             </v-col>
             <v-col cols="12">
               <v-btn
@@ -37,73 +51,88 @@
         </v-row>
       </v-container>
     </v-flex>
+    <v-dialog v-model="dialog" max-width="290">
+      <v-card-title class="headline">Ops!</v-card-title>
+      <v-card-text>Usuário ou senha incorretos!</v-card-text>
+      <v-btn color="primary" text @click="dialog = false">Ok</v-btn>
+    </v-dialog>
   </v-layout>
 </template>
 
+<router>
+  {
+    path: '/login'
+  }
+</router>
+
 <script>
-import auth from '../services/http/auth'
+import auth from "../../services/http/auth";
 
 export default {
   data: () => ({
     status: true,
     loading: false,
 
-    title: 'Entrar',
+    dialog: false,
 
-    email: '',
+    title: "Entrar",
+
+    email: "",
     emailRules: [
-      v => !!v || 'Digite o e-mail',
-      v => /.+@.+\..+/.test(v) || 'E-mail inválido'
+      v => !!v || "Digite o e-mail",
+      v => /.+@.+\..+/.test(v) || "E-mail inválido"
     ],
-    password: '',
+    password: "",
     passwordRules: [
-      v => !!v || 'Digite a senha',
-      v => (v && v.length >= 6) || 'A senha deve ter no mínimo 6 caractéres'
+      v => !!v || "Digite a senha",
+      v => (v && v.length >= 6) || "A senha deve ter no mínimo 6 caracteres"
     ]
   }),
 
-  head () {
+  head() {
     return {
       title: this.title
-    }
+    };
   },
 
   methods: {
-    submit () {
+    submit() {
       if (this.$refs.form.validate()) {
-        this.animateForm(true)
+        this.animateForm(true);
         auth
           .login(this.email, this.password)
           .then(() => {
-            $nuxt._router.push('/index')
+            auth.getInfoUser();
+            $nuxt._router.push("/aluno/home");
           })
-          .catch((err) => {
+          .catch(err => {
             setTimeout(() => {
-              this.loading = false
-            }, 500)
-            console.error(err)
-          })
+              this.dialog = true;
+              this.loading = false;
+            }, 500);
+            console.error(err);
+          });
       } else {
-        this.animateForm(false)
+        this.animateForm(false);
       }
     },
 
-    animateForm (status) {
+    animateForm(status) {
       if (status) {
-        this.$refs.flex.classList.add('hide-form')
-        document.querySelector('html').style.overflow = 'hidden'
+        this.$refs.flex.classList.add("hide-form");
+        document.querySelector("html").style.overflow = "hidden";
         setTimeout(() => {
-          this.loading = true
-        }, 300)
+          this.loading = true;
+        }, 300);
       } else {
-        this.$refs.flex.classList.add('error-form')
+        this.$refs.flex.classList.add("error-form");
         setTimeout(() => {
-          this.$refs.flex.classList.remove('error-form')
-        }, 500)
+          this.$refs.flex.classList.remove("error-form");
+        }, 500);
       }
     }
   }
-}
+};
 </script>
 
 <style>
@@ -117,23 +146,31 @@ export default {
   width: 100%;
   height: 100%;
   position: fixed;
-  background: url("../assets/paraisopolis.png");
+  background: url("../../assets/paraisopolis.png");
   background-size: cover;
   background-position: center;
+}
+.v-dialog {
+  background: #fff;
+  text-align: center;
+}
+.v-card__title {
+  justify-content: center;
 }
 .v-form {
   width: 100%;
 }
-.v-input__slot:before, .v-input__slot::before{
+.v-input__slot:before,
+.v-input__slot::before {
   border-color: #c58aff !important;
 }
-.v-text-field > .v-input__control > .v-input__slot:after{
-  border-color: #FFF!important;
+.v-text-field > .v-input__control > .v-input__slot:after {
+  border-color: #fff !important;
 }
-.v-label{
+.v-label {
   color: #c58aff !important;
 }
-.v-application .primary--text{
+.v-application .primary--text {
   color: #c58aff !important;
   caret-color: #c58aff !important;
 }
@@ -170,15 +207,16 @@ export default {
   animation: nono 300ms, intro paused;
 }
 
-.theme--light.v-text-field>.v-input__control>.v-input__slot:before {
-    border-color: #c58aff;
+.theme--light.v-text-field > .v-input__control > .v-input__slot:before {
+  border-color: #c58aff;
 }
 
 .theme--light.v-label {
-    color: #c58aff;
+  color: #c58aff;
 }
 
-.theme--light.v-input:not(.v-input--is-disabled) input, .theme--light.v-input:not(.v-input--is-disabled) textarea {
-    color: #c58aff;
+.theme--light.v-input:not(.v-input--is-disabled) input,
+.theme--light.v-input:not(.v-input--is-disabled) textarea {
+  color: #c58aff;
 }
 </style>

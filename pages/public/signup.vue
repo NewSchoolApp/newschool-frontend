@@ -8,7 +8,7 @@
         <v-row>
           <v-col cols="12">
             <div class="logo-container">
-              <img src="../assets/purple-logo.svg" alt="castor" />
+              <img src="~/assets/purple-logo.svg" alt="castor" />
             </div>
           </v-col>
         </v-row>
@@ -78,7 +78,7 @@
             v-model="snackbar"
             :color="snackbarStatus"
             :timeout="5000"
-            :bottom="true"
+            :top="true"
             :right="true"
           >
             {{ snackbarText }}
@@ -96,8 +96,15 @@
   </v-layout>
 </template>
 
-<script>
-import auth from "../services/http/auth";
+<router>
+  {
+    path: '/cadastrar'
+  }
+</router>
+
+<script scoped>
+import auth from "../../services/http/auth";
+
 export default {
   data() {
     return {
