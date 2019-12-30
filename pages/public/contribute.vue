@@ -5,7 +5,7 @@
         <div class="title">APOIE O PROJETO</div>
         <p class="descricao">Que tal nosso stack tecnológico? Combinação boa heim! Em cada repositório GITHUB tem uma explicação passo-a-passo de como você fazer sua PRIMEIRA CONTRIBUIÇÃO no projeto. Bora?</p>
        
-          <v-container fluid>
+          <v-container fluid max-width="700">
             <v-row>
               <v-col v-for="stack in stacks" :key="stack.id" :class="stack.class" cols="xs12 sm6">
                 <v-card class="mx-auto"  max-width="344" min-width="200" min-height="400"
