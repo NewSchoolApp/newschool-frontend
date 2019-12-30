@@ -1,11 +1,30 @@
 <template>
   <v-layout>
     <div v-if="isOpen" class="share-container">
-      <v-icon :color="iconColor">mdi-facebook</v-icon>
-      <v-icon :color="iconColor">mdi-twitter</v-icon>
-      <v-icon :color="iconColor">mdi-instagram</v-icon>
+      <social-sharing
+      :url="url"
+      :title="title"
+      :description="description"
+      :quote="quote"
+      :hashtags="hashtags"
+      :twitter-user="twitterUser"
+      :media="media"
+      inline-template
+    >
+      <div>
+          <network network="facebook">
+            <v-icon color="#fff" size="30">mdi-facebook</v-icon>
+          </network>
+           <network network="twitter">
+            <v-icon color="#fff" size="30">mdi-twitter</v-icon>
+          </network>
+          <network network="linkedin">
+            <v-icon color="#fff" size="30">mdi-linkedin</v-icon>
+          </network>
+      </div>
+    </social-sharing>
     </div>
-     
+
     <v-btn
       v-if="!isOpen"
       class="ma-2"
@@ -29,8 +48,17 @@ export default {
   },
 
   props: {
-    color: String,
-    iconColor: String
+    color: {
+      default: '#CCC'
+    },
+    url: String,
+    title: String,
+    description: String,
+    quote: String,
+    hashtags: String,
+    twitterUser: String,
+    media: String
+
   },
 
   data() {
