@@ -97,9 +97,10 @@
 </template>
 
 <router>
-  {
-    path: '/cadastrar'
-  }
+{
+  path : '/cadastro'
+}
+  
 </router>
 
 <script scoped>
@@ -220,7 +221,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 @import url("https://fonts.googleapis.com/css?family=Montserrat:400,500,900&display=swap");
 
 /* Global */
