@@ -63,7 +63,7 @@ export default {
 .v-icon {
   margin-right: 0 !important;
 }
-#page{
+#page {
   margin-bottom: 5rem !important;
 }
 .btn-fixed {
@@ -78,9 +78,9 @@ export default {
 }
 
 @media (max-width: 375px) {
-    .v-btn{
-      min-width: 55px !important;
-      font-size: 0.60rem !important;
-    }
+  .v-btn {
+    min-width: 55px !important;
+    font-size: 0.6rem !important;
+  }
 }
 </style>
