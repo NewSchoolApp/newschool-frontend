@@ -34,7 +34,7 @@ export default {
       })
   },
 
-  getExternalCredentials: () => {
+  getExternalCredentials: () => {    
 
     let base64 = btoa(`${process.env.credentials.external.name}:${process.env.credentials.external.secret}`)
 
