@@ -21,14 +21,17 @@
     <v-card>
       <v-img :src="require('../assets/equipe.jpg')" max-height="100%" class="grey darken-4" />
     </v-card>
+    <navigation-bar />
   </div>
 </template>
 
 <script>
+import NavigationBar from "~/components/NavigationBar.vue";
 
 export default {
-}
+  components: {
+    NavigationBar
+  }
+};
 </script>
 
-<style>
-</style>
