@@ -1,5 +1,6 @@
 <template>
   <div class="subtitle-2 text-center align-global">
+    <v-progress-circular v-if="loading" :size="70" :width="5" indeterminate></v-progress-circular>
       <v-layout mt-10>
           <v-flex ref="flex">
               <v-container>
