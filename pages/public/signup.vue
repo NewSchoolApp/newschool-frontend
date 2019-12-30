@@ -78,7 +78,7 @@
             v-model="snackbar"
             :color="snackbarStatus"
             :timeout="5000"
-            :bottom="true"
+            :top="true"
             :right="true"
           >
             {{ snackbarText }}
@@ -95,6 +95,12 @@
     </v-flex>
   </v-layout>
 </template>
+
+<router>
+  {
+    path: '/cadastrar'
+  }
+</router>
 
 <script scoped>
 import auth from "../../services/http/auth";
