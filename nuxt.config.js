@@ -4,9 +4,12 @@ export default {
   router: {
     extendRoutes(routes, resolve) {
       routes.push({
-        name: 'custom',
-        path: '*',
+        path: "*",
         component: resolve(__dirname, 'pages/public/404.vue')
+      })
+
+      routes.push({
+        path: "", redirect: "/login" 
       })
     }
   },
