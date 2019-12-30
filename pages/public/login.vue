@@ -45,6 +45,17 @@
               >Login</v-btn>
             </v-col>
           </v-form>
+          <v-col cols="12">
+              <v-btn
+                class="btn-block btn-transparent"
+                role="button"
+                aria-haspopup="true"
+                aria-expanded="false"
+                depressed
+                large
+                to="/cadastro"
+              >Cadastrar</v-btn>
+            </v-col>
           <v-col cols="12" class="text-center">
             <a class="text-white">Esqueceu sua senha?</a>
           </v-col>
@@ -170,7 +181,7 @@ export default {
 .v-label {
   color: #c58aff !important;
 }
-.v-application .primary--text {
+.primary--text {
   color: #c58aff !important;
   caret-color: #c58aff !important;
 }

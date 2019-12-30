@@ -6,18 +6,27 @@
   color: #fff !important;
 }
 
+.v-btn{
+  border-radius: unset !important;
+  font-weight: 900 !important;
+}
+
 .btn-block {
   border-radius: 5px;
   width: 100%;
 }
 .btn-primary {
   color: #6600cc !important;
-  border-radius: unset !important;
-  font-weight: 900 !important;
 }
 
 .btn-white {
   background-color: #ffffff !important;
+}
+
+.btn-transparent{
+  background-color: transparent !important;
+  color: #fff !important;
+  border: solid 1px #fff;
 }
 
 .btn-secondary {
