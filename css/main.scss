@@ -8,7 +8,6 @@
 
 .v-btn{
   border-radius: unset !important;
-  font-weight: 900 !important;
 }
 
 .btn-block {
@@ -16,6 +15,7 @@
   width: 100%;
 }
 .btn-primary {
+  font-weight: 900 !important;
   color: #6600cc !important;
 }
 
@@ -24,6 +24,7 @@
 }
 
 .btn-transparent{
+  font-weight: 900 !important;
   background-color: transparent !important;
   color: #fff !important;
   border: solid 1px #fff;

@@ -25,11 +25,13 @@
                 required
               ></v-text-field>
               <v-text-field
-                type="password"
                 v-model="password"
                 :rules="passwordRules"
                 label="Senha"
                 data-vv-name="password"
+                :type="showPass ? 'text' : 'password'"
+                :append-icon="showPass ? 'mdi-eye-off' : 'mdi-eye'"
+                @click:append="() => (showPass = !showPass)"
                 required
               ></v-text-field>
             </v-col>
@@ -81,10 +83,11 @@ import auth from "../../services/http/auth";
 
 export default {
   data: () => ({
+    //flags
     status: true,
     loading: false,
-
     dialog: false,
+    showPass: false,
 
     title: "Entrar",
 
@@ -147,13 +150,14 @@ export default {
 </script>
 
 <style>
-.v-messages__message {
+
+.v-icon {
   color: #d6adff !important;
 }
 ::placeholder {
   color: #aa56ff !important;
 }
-.bg {
+.bg { 
   width: 100%;
   height: 100%;
   position: fixed;
@@ -230,4 +234,6 @@ export default {
 .theme--light.v-input:not(.v-input--is-disabled) textarea {
   color: #c58aff;
 }
+
+
 </style>
