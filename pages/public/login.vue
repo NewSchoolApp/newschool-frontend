@@ -151,8 +151,8 @@ export default {
 
 <style>
 
-.v-icon {
-  color: #d6adff !important;
+.theme--light.v-icon {
+  color: #d6adff;
 }
 ::placeholder {
   color: #aa56ff !important;

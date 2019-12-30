@@ -78,7 +78,7 @@
             v-model="snackbar"
             :color="snackbarStatus"
             :timeout="5000"
-            :bottom="true"
+            :top="true"
             :right="true"
           >
             {{ snackbarText }}
