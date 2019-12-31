@@ -25,7 +25,7 @@ export default {
         secret: process.env.VUE_APP_CLIENT_EXTERNAL_CREDENTIAL_SECRET || 'NEWSCHOOL@EXTERNALSECRET',
       }
     },
-    GA_TOKEN: process.env.GA_TOKEN
+    GATOKEN: process.env.GA_TOKEN
   },
   mode: 'universal',
   /*
