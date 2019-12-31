@@ -75,7 +75,7 @@ export default {
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  padding: 10px 15px;
+  padding: 5px 10px;
   background: #60C;
 }
 </style>
