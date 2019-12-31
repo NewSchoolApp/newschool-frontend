@@ -1,42 +1,44 @@
 <template>
   <section>
-    <article id="page" class="overflow-y-auto" max-height="600">
+    <article id="page" class="overflow-x-auto" max-height="600">
       <v-container>
-        <article>
         <div class="title">APOIE O PROJETO</div>
         <p class="descricao">Que tal nosso stack tecnológico? Combinação boa heim! Em cada repositório GITHUB tem uma explicação passo-a-passo de como você fazer sua PRIMEIRA CONTRIBUIÇÃO no projeto. Bora?</p>
+       
+          <v-container fluid max-width="700">
+            <v-row>
+              <v-col v-for="stack in stacks" :key="stack.id" :class="stack.class" cols="xs12 sm6">
+                <v-card class="mx-auto"  max-width="344" min-width="200" min-height="400"
+                >
+                  <v-img :src="stack.cover" 
+                  margin-top="0"
+                  ></v-img>
+                 
+                  <v-card-title>{{stack.title}}</v-card-title>
 
-        <v-container fluid>
-          <v-row dense>
-            <v-col v-for="stack in stacks" :key="stack.id" cols="xs12 sm6">
-              <v-card class="mx-auto" max-width="344" min-width="200">
-                <v-img :src="stack.cover" 
-                contain
-                height="200px"></v-img>
+                  <v-card-subtitle>{{stack.description}}</v-card-subtitle>
 
-                <v-card-title>{{stack.title}}</v-card-title>
+                  <v-card-actions>
+                    <v-btn text :href="stack.linkUrl" target="_blank">{{stack.linkText}}</v-btn>
+                  </v-card-actions>
+                  
+                </v-card>
+              </v-col>
+            </v-row>
+          </v-container>
+       
 
-                <v-card-subtitle>{{stack.description}}</v-card-subtitle>
-
-                <v-card-actions>
-                  <v-btn text :href="stack.linkUrl" target="_blank">{{stack.linkText}}</v-btn>
-                </v-card-actions>
-              </v-card>
-            </v-col>
-          </v-row>
-        </v-container>
-        </article>
         <article>
         <div class="title">Ferramentas</div>
         <p class="descricao">Nós temos um monte de ferramentas legais pra esse trabalho colaborativo. SLACK, TRELLO, GITHUB. Tudo integrado e bem explicado, fácil de entender.</p>
 
         <v-container fluid>
-          <v-row dense>
-            <v-col v-for="tool in tools" :key="tool.id" cols="xs12 sm6">
-              <v-card class="mx-auto" max-width="344" min-width="200">
+          <v-row >
+            <v-col v-for="tool in tools" :key="tool.id" :class="tool.class" cols="xs12 sm6">
+              <v-card class="mx-auto" max-width="344" min-width="200" min-height="450"> 
                 <v-img :src="tool.cover"
                 contain
-                height="200px"></v-img>
+                ></v-img>
 
                 <v-card-title>{{tool.title}}</v-card-title>
 
@@ -98,7 +100,8 @@ export default {
           description: "Personas, User Stories, Figma, Material Design Icons",
           linkUrl:
             "https://www.figma.com/file/whTp4hE6ZQR3V8LBxSZnjv/NewSchool?node-id=0%3A1",
-          linkText: "Figma"
+          linkText: "Figma",
+          class: "figma"
         }
       ],
       tools: [
@@ -142,16 +145,29 @@ export default {
           description:
             "Solução fácil e amigável para integração e deploy contínuo. Integrado com Slack.",
           linkUrl: "https://www.appveyor.com",
-          linkText: "Website"
+          linkText: "Website",
+          class: "appveyor"
         },
         {
           id: 5,
           cover:
-            "https://images.g2crowd.com/uploads/product/image/social_landscape/social_landscape_bf0fb4cb7fe948c42f37ded73895638f/salesforce-heroku.png",
+            "https://www.stickpng.com/assets/images/58482feacef1014c0b5e4a8d.png",
+          title: "Rollbar",
+          description: "Monitoramento e notificação de erros integrado com nossas demais ferramentas.",
+          linkUrl: "https://rollbar.com/",
+          linkText: "Website",
+          class: "rollbar"
+        },
+        {
+          id: 6,
+          cover:
+            "http://assets.stickpng.com/thumbs/58480873cef1014c0b5e48ea.png",
           title: "Heroku",
           description: "Hospedagem gratuita para os ambientes DEV e STG.",
           linkUrl: "https://www.heroku.com/",
-          linkText: "Website"
+          linkText: "Website",
+          class: "heroku"
+          
         }
       ]
     };
@@ -160,13 +176,16 @@ export default {
 </script>
 
 <style>
+@import url("https://fonts.googleapis.com/css?family=Montserrat:400,500,900&display=swap");
+
 .title {
   color: #6600cc;
-  font-family: Montserrat;
+  font-family: 'Montserrat';
   font-style: normal;
   font-weight: 900;
   font-size: 20px;
   line-height: 24px;
+  
 }
 .descricao {
   margin-top: 16px;
@@ -176,5 +195,26 @@ export default {
   font-size: 12px;
   line-height: 15px;
   color: #1a1a1a;
+}
+.v-title__title{
+  margin-top: -57px;
+}
+.figma .v-image__image{
+ margin-top: -10px;
+}
+.figma .v-card__title{
+  margin-top: -33px;
+}
+.heroku .v-image__image{
+ height: 70%;
+ margin-top: 7%;
+}
+.heroku .v-card__title{
+  margin-top: -20%;
+}
+.rollbar .v-image__image{
+ width: 80%;
+ height:70%;
+ margin: 15% 10%
 }
 </style>
