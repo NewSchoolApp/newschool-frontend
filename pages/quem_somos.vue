@@ -16,10 +16,10 @@
       <v-img :src="require('../assets/projeto-1.jpg')" height="100%" class="grey darken-4" />
     </v-card>
     <v-card>
-      <v-img :src="require('../assets/projeto-2.jpg')" max-height="100%" class="grey darken-4" />
+      <v-img :src="require('../assets/projeto-2.jpg')" height="100%" class="grey darken-4" />
     </v-card>
     <v-card>
-      <v-img :src="require('../assets/equipe.jpg')" max-height="100%" class="grey darken-4" />
+      <v-img :src="require('../assets/equipe.jpg')" height="100%" class="grey darken-4" />
     </v-card>
     <navigation-bar />
   </div>
@@ -32,6 +32,5 @@ export default {
   components: {
     NavigationBar
   }
-};
+}
 </script>
-
