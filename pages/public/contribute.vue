@@ -75,7 +75,7 @@ export default {
     return {
       stacks: [
         {
-          id: 3,
+          id: 1,
           cover:
             "https://www.opus-software.com.br/wp-content/uploads/2018/09/nodejs.jpg",
           title: "Backend",
@@ -84,7 +84,7 @@ export default {
           linkText: "Github"
         },
         {
-          id: 3,
+          id: 2,
           cover:
             "https://miro.medium.com/max/900/1*vYKA-nnA_hvBZil2TTq37g.jpeg",
           title: "Frontend",
@@ -159,7 +159,7 @@ export default {
           class: "rollbar"
         },
         {
-          id: 5,
+          id: 6,
           cover:
             "http://assets.stickpng.com/thumbs/58480873cef1014c0b5e48ea.png",
           title: "Heroku",
