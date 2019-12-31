@@ -2,13 +2,12 @@
   <v-layout>
     <div v-if="isOpen" class="share-container">
       <social-sharing
+      @open="isOpen = !isOpen"
       :url="url"
       :title="title"
       :description="description"
-      :quote="quote"
       :hashtags="hashtags"
       :twitter-user="twitterUser"
-      :media="media"
       inline-template
     >
       <div>
@@ -54,11 +53,12 @@ export default {
     url: String,
     title: String,
     description: String,
-    quote: String,
-    hashtags: String,
-    twitterUser: String,
-    media: String
-
+    hashtags: {
+      default: 'MissaoNewSchoolApp'
+    },
+    twitterUser: {
+      default: 'NewSchoolApp'
+    },
   },
 
   data() {
@@ -75,8 +75,7 @@ export default {
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  width: 100px;
-  height: 50px;
+  padding: 10px 15px;
   background: #60C;
 }
 </style>
