@@ -9,9 +9,13 @@ module.exports = {
     '^.+\\.js$': 'babel-jest',
     '.*\\.(vue)$': 'vue-jest'
   },
-  'collectCoverage': true,
   'collectCoverageFrom': [
-    '<rootDir>/components/**/*.vue',
-    '<rootDir>/pages/**/*.vue'
+    '<rootDir>/**/*.vue',
+    '<rootDir>/**/*.js',
+    '!<rootDir>/node_modules/**',
+    '!<rootDir>/coverage/**',
+    '!<rootDir>/jest.config.js',
+    '!<rootDir>/nuxt.config.js',
+    '!<rootDir>/static/sw.js'
   ]
 }
