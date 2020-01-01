@@ -17,5 +17,13 @@ module.exports = {
     '!<rootDir>/jest.config.js',
     '!<rootDir>/nuxt.config.js',
     '!<rootDir>/static/sw.js'
-  ]
+  ],
+  'coverageThreshold': {
+    'global': {
+      'branches': 0,
+      'functions': 0,
+      'lines': 0,
+      'statements': 0
+    }
+  }
 }
