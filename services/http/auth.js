@@ -1,3 +1,4 @@
+import { ms } from 'ms';
 import { http } from "./config";
 
 /**
@@ -31,7 +32,9 @@ export default {
         // armazenando tokens no storage
         const auth = {
           accessToken: `Bearer ${res.data.accessToken}`,
-          refreshToken: res.data.refreshToken
+          refreshToken: res.data.refreshToken,
+          tokenGeneratedAt: new Date(),
+          tokenExpiresIn: ms(res.data.expiresIn)
         };
         localStorage.setItem("auth", JSON.stringify(auth));
       });
@@ -105,7 +108,9 @@ export default {
         .then(res => {
           const auth = {
             accessToken: `Bearer ${res.data.accessToken}`,
-            refreshToken
+            refreshToken: `Bearer ${res.data.refreshToken}`,
+            tokenGeneratedAt: new Date(),
+            tokenExpiresIn: ms(res.data.expiresIn)
           };
           localStorage.setItem("auth", JSON.stringify(auth));
         })
