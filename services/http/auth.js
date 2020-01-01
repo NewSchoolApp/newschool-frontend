@@ -72,6 +72,15 @@ export default {
     else {
       $nuxt._router.push("/login");
     }
-
+  },
+  getInfoAuth: () => {
+    try {
+      return JSON.parse(localStorage.getItem('auth'))
+    } catch (e) {
+      return {
+        accessToken: ``,
+        refreshToken: ``
+      }
+    }
   }
 }
