@@ -23,10 +23,10 @@
     "*.vue": "eslint --ignore-path .gitignore"
   },
   "husky": {
-      "hooks": {
-        "pre-commit": "npm run lint-staged",
-        "pre-push": "npm run test"
-      }
+    "hooks": {
+      "pre-commit": "npm run lint-staged",
+      "pre-push": "npm run test"
+    }
   },
   "dependencies": {
     "@mdi/font": "^4.6.95",
