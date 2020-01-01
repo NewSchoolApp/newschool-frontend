@@ -1,43 +1,36 @@
 <template>
   <div class="container-page">
     <main v-if="flagdisplayInfoUser">
-      <v-row>
-        <v-col cols="4" sm="2" md="3">
+      <section id="info">
+        <div id="avatar">
           <div class="flex-center border-profile-photo">
             <div class="flex-center profile-container">
               <avatar :username="this.user.name" :size="90"></avatar>
             </div>
           </div>
-        </v-col>
-        <v-col cols="6" sm="8" md="8">
-          <div class="flex-center" id="flex-info-user">
-            <h1>{{user.name}}</h1>
-            <p>{{user.type}}</p>
-            <router-link to="/aluno/perfil">Ver meu perfil</router-link>
-          </div>
-        </v-col>
-        <v-col sm="2" md="1" cols="2" class="col-flex-center">
-          <v-icon id="close-btn" color="primary" @click="closeMenu()">mdi-close-circle</v-icon>
-        </v-col>
-      </v-row>
+        </div>
+        <div class="flex-center" id="flex-info-user">
+          <h1>{{user.name}}</h1>
+          <p>{{user.type}}</p>
+        </div>
+      </section>
+      <div id="close">
+        <v-icon id="close-btn" color="primary" @click="closeMenu()">mdi-close-circle</v-icon>
+      </div>
     </main>
     <section class="menu-list">
-      <v-row>
-        <v-col cols="12">
-          <router-link
-            tag="div"
-            class="item-menu"
-            v-for="item in menu"
-            v-bind:key="item.id"
-            :to="item.link"
-          >
-            <div>
-              <v-icon color="primary">{{item.icon}}</v-icon>
-            </div>
-            <p>{{item.label}}</p>
-          </router-link>
-        </v-col>
-      </v-row>
+      <router-link
+        tag="div"
+        class="item-menu"
+        v-for="item in menu"
+        v-bind:key="item.id"
+        :to="item.link"
+      >
+        <div>
+          <v-icon color="primary">{{item.icon}}</v-icon>
+        </div>
+        <p>{{item.label}}</p>
+      </router-link>
     </section>
   </div>
 </template>
@@ -54,6 +47,12 @@ export default {
       type: ""
     },
     menu: [
+      {
+        id: 1,
+        label: "Meu Perfil",
+        icon: "mdi-account",
+        link: "/aluno/perfil"
+      },
       {
         id: 1,
         label: "Meus Cursos",
@@ -93,8 +92,17 @@ export default {
       let userStorage = JSON.parse(localStorage.getItem("user"));
       if (userStorage) {
         this.user = userStorage;
+        this.simplifyName();
         this.flagdisplayInfoUser = true;
       }
+    },
+    /*
+     * Método responsável por simplificar o nome com: primeiro_nome segundo_nome
+     */
+    simplifyName() {
+      let regex = /^(\S*\s+\S+).*/; // Regex para remover todos os caracteres após o segundo espaço em branco
+      let numberOfNames = this.user.name.split(" ").length;
+      if (numberOfNames > 2) this.user.name = regex.exec(this.user.name)[1];
     }
   },
   mounted() {
@@ -107,6 +115,21 @@ export default {
 </script>
 
 <style lang="scss">
+main {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem;
+  margin-top: 1rem;
+  width: 100%;
+}
+#info {
+  display: flex;
+}
+
+#avatar {
+  margin-right: 1rem;
+}
+
 h1 {
   font-size: 1.4rem;
   font-weight: 600;
@@ -117,6 +140,7 @@ h1 {
   background-color: #fff;
   position: fixed;
   width: 100%;
+  height: 100%;
   top: 0;
   left: 0;
 }
@@ -158,17 +182,22 @@ h1 {
 }
 
 .item-menu {
+  display: -webkit-box;
   display: flex;
   width: 100%;
-  padding: 15px;
-  margin-left: -6px;
-  border-bottom: solid 1px #d9d9d9;
+  padding: 13px;
+  border-bottom: solid 1px #e8e8e8;
+  -webkit-box-align: center;
   align-items: center;
   color: #6600cc !important;
   cursor: pointer;
-
   div {
-    width: 70px;
+    width: 50px;
+    display: -webkit-box;
+    display: flex;
+    -webkit-box-pack: center;
+    justify-content: center;
+    margin-right: 2rem;
   }
 }
 
