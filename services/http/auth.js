@@ -65,7 +65,8 @@ export default {
           res => {
             let user = {
               name: res.data.name || "Anônimo",
-              type : res.data.type || "Visitante"
+              type : res.data.type || "Visitante",
+              email: res.data.email || '',
             }
             localStorage.setItem("user", JSON.stringify(user));
           }

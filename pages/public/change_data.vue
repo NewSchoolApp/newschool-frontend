@@ -93,7 +93,7 @@
 
 <script scoped>
 import auth from "../../services/http/auth";
-import { user } from '../../services/http/user';
+import  users  from '../../services/http/users';
 
 
 export default {
@@ -122,27 +122,24 @@ export default {
     };
   },
   mounted(){
-      getUser: () => {
-    try {
-      return JSON.parse(localStorage.getItem('user'))
-      console.log()
-    } catch (e) {
-      return {
-        name: ``,
-        email: ``
+    getUser: () => {
+      try {
+        return JSON.parse(localStorage.getItem('user'))
+      } catch (e) {
+        return {
+          name: '',
+          email: ''
+        }
+        
+
       }
     }
-  }
-
-
-
   },
    methods: {
     submit() {
       if (this.$refs.form.validate()) {
         this.animateForm(true);
-          user
-          .update(this.form, this.token)
+          user.update(this.form, this.token)
           .then(res => {     
 
             this.loading = false;  
@@ -237,7 +234,7 @@ margin-top: -6%;
 }
 
 
-/* Logo */
+/* Botão */
 .btn-container {
   display: flex;
   -webkit-box-pack: start;
