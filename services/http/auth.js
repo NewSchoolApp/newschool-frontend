@@ -49,6 +49,8 @@ export default {
     return http.post("api/v1/user", form, { headers: { 'Authorization': `Bearer ${token}` } })
   },
 
+  
+
   /**
    * Método para salvar as informações do usuário no local storage
    * 

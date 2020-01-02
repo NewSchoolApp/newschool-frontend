@@ -73,6 +73,7 @@
           </div>
         </section>
       </main>-->
+      <button @click="gotoChangeData">alterar dados</button>
     </div>
     <client-only>
       <navigation-bar />
@@ -92,6 +93,11 @@ import NavigationBar from "~/components/NavigationBar.vue";
 export default {
   components: {
     NavigationBar
+  },
+  methods: {
+    gotoChangeData(){
+      $nuxt._router.push("/public/change_data");
+    }
   }
 };
 </script>
