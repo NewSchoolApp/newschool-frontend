@@ -115,7 +115,7 @@ export default {
 </script>
 
 <style lang="scss">
-main {
+.container-page > main {
   display: flex;
   justify-content: space-between;
   padding: 0.5rem;
