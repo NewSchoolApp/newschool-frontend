@@ -15,12 +15,6 @@
             </div>
           </v-col>
         </v-row>
-
-        <v-row>
-          <v-col cols="12">
-            
-          </v-col>
-        </v-row>
         <v-row>
           <v-form ref="form" v-model="status" lazy-validation>
             <v-col cols="12">
@@ -240,24 +234,24 @@ margin-top: -6%;
   width: 100%;
 }
 
-.theme--light.v-label {
+::v-deep .theme--light.v-label {
   font-weight: 600;
-  border: 2 px solid #6600CC !important;
+  color: #6600CC !important;
 }
 
-.theme--light.v-text-field > .v-input__control > .v-input__slot:before {
-  border: 2 px solid #6600CC !important;
+::v-deep .theme--light.v-text-field > .v-input__control > .v-input__slot:before {
+  border: 1px solid #6600CC !important;
 }
 
-.theme--light.v-text-field:not(.v-input--has-state) > .v-input__control > .v-input__slot:hover:before {
+::v-deep .theme--light.v-text-field:not(.v-input--has-state) > .v-input__control > .v-input__slot:hover:before {
   border-color: #6600CC !important;
 }
 
-.theme--light.v-input:not(.v-input--is-disabled) input {
-  border: 2 px solid #6600CC !important;
+::v-deep .theme--light.v-input:not(.v-input--is-disabled) input {
+  color: #6600CC !important;
 }
 
-.v-input__slot {
+::v-deep .v-input__slot {
   margin-top: 20px !important;
   padding-left: 5px !important;
   width: 100%;
@@ -266,29 +260,29 @@ margin-top: -6%;
   box-shadow: none !important;
 }
 
-.v-text-field {
+::v-deep .v-text-field {
   padding-top: 0 !important;
   margin-top: 0 !important;
   color: #6600CC;
 }
 
-.theme--dark.v-input:not(.v-input--is-disabled) input {
+::v-deep .theme--dark.v-input:not(.v-input--is-disabled) input {
   color: #6600CC;
 }
 
-.v-icon.v-icon.v-icon--link {
+::v-deep .v-icon.v-icon.v-icon--link {
   color: #aa56ff;
   padding-right: 5px;
 }
 
-.theme--light.v-btn:not(.v-btn--flat):not(.v-btn--text):not(.v-btn--outlined) {
+::v-deep .theme--light.v-btn:not(.v-btn--flat):not(.v-btn--text):not(.v-btn--outlined) {
   background: #6600cc !important;
   border-radius: 5px !important;
   color: #fff !important;
   font-weight: bold !important;
 }
 
-.login-link {
+::v-deep .login-link {
   color: #6600cc !important;
 }
 
