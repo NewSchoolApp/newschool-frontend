@@ -125,6 +125,7 @@ export default {
     getUser: () => {
       try {
         return JSON.parse(localStorage.getItem('user'))
+        
       } catch (e) {
         return {
           name: '',
@@ -139,7 +140,7 @@ export default {
     submit() {
       if (this.$refs.form.validate()) {
         this.animateForm(true);
-          user.update(this.form, this.token)
+          users.update(this.form, this.token)
           .then(res => {     
 
             this.loading = false;  
