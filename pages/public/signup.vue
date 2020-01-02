@@ -19,15 +19,17 @@
           </v-col>
         </v-row>
         <v-row>
-          <v-form ref="form" v-model="status" lazy-validation>
-            <v-col cols="12">
+          <v-col cols="12">
+            <v-form ref="form" v-model="status" lazy-validation>
               <v-text-field
+                color="#60c"
                 v-model="form.name"
                 label="Nome *"
                 name="name"
                 required
               ></v-text-field>
               <v-text-field
+                color="#60c"
                 v-model="form.email"
                 :rules="emailRules"
                 label="Email *"
@@ -35,42 +37,51 @@
                 required
               ></v-text-field>
               <v-text-field
+                color="#60c"
                 v-model="form.password"
                 label="Senha *"
                 name="password"
                 :rules="passwordRules"
                 :type="showPass ? 'password' : 'text'"
-                :append-icon="showPass ? 'mdi-eye' : 'mdi-eye-off'"
+                :append-icon="showPass ? 'mdi-eye-off' : 'mdi-eye'"
                 @click:append="() => (showPass = !showPass)"
                 required
               ></v-text-field>
               <v-text-field
+                color="#60c"
                 v-model="form.confirmPassword"
                 label="Confirmar senha *"
                 :rules="confirmPasswordRules"
                 :type="showConfirmPass ? 'password' : 'text'"
-                :append-icon="showConfirmPass ? 'mdi-eye' : 'mdi-eye-off'"
+                :append-icon="showConfirmPass ? 'mdi-eye-off' : 'mdi-eye'"
                 @click:append="() => (showConfirmPass = !showConfirmPass)"
                 required
               ></v-text-field>
               <v-text-field
+                color="#60c"
                 v-model="form.urlFacebook"
                 label="URL do Facebook"
                 name="urlFacebook"
                 required
               ></v-text-field>
               <v-text-field
+                color="#60c"
                 type="text"
                 v-model="form.urlInstagram"
                 label="URL do Instagram"
                 name="urlInstagram"
                 required
               ></v-text-field>
-            </v-col>
-            <v-col cols="12">
-              <v-btn class="btn-block btn-submit" depressed large @click="submit">Cadastrar</v-btn>
-            </v-col>
-          </v-form>
+              <v-btn
+                color="#60c"
+                dark
+                block
+                depressed
+                large
+                @click="submit"
+              >Cadastrar</v-btn>
+            </v-form>
+          </v-col>
           <v-col cols="12" class="text-center">
             <a class="login-link" @click="gotoLogin">Ops, já tenho conta</a>
           </v-col>
@@ -100,7 +111,7 @@
 {
   path : '/cadastro'
 }
-  
+
 </router>
 
 <script scoped>
@@ -144,12 +155,12 @@ export default {
         this.animateForm(true);
         auth
           .signUp(this.form, this.token)
-          .then(res => {     
-            this.loading = false;  
+          .then(res => {
+            this.loading = false;
             this.confirmSnackbar('Cadastro efetuado! ;)', 'success');
             setTimeout(() => {
               this.gotoLogin();
-            }, 2500); 
+            }, 2500);
           })
           .catch(err => {
             this.confirmSnackbar('Ocorreu um erro.', 'error');
@@ -199,11 +210,11 @@ export default {
   },
 
   mounted() {
-    auth.getExternalCredentials().then(res => {      
+    auth.getExternalCredentials().then(res => {
         const { data } = res;
-        this.token = data.accessToken;   
+        this.token = data.accessToken;
       })
-      .catch(err => {            
+      .catch(err => {
         console.error(err);
       });
   },
@@ -241,8 +252,9 @@ export default {
 
 /* Page */
 .page-title {
-  font-size: 24px;
+  font-size: 20px;
   font-weight: 900;
+  line-height: 24px;
   text-transform: uppercase;
   color: #6600cc;
 }
@@ -258,19 +270,58 @@ export default {
 }
 
 .logo-container img {
-  width: 80px;
+  width: 48px;
 }
 
+/* inputs */
+::v-deep .v-text-field {
+  margin-top: 0;
+}
 
-/* Form */
-.v-form {
+::v-deep .v-input:not(.v-input--is-disabled) input {
+  font-size: 12px;
+  color: #60c;
+}
+
+::v-deep .v-text-field:not(.v-input--has-state) > .v-input__control > .v-input__slot:hover:before {
+  border-color: #60c;
+}
+
+::v-deep .v-label,
+::v-deep .v-icon,
+::v-deep .v-btn__content {
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 15px;
+  color: #aa56ff;
+}
+
+::v-deep .v-icon {
+  font-size: 20px;
+}
+
+::v-deep .v-btn {
+  margin-top: 15px;
+}
+
+::v-deep .v-btn__content {
+  color: #fff;
+  font-weight: 900;
+}
+
+::v-deep .v-text-field > .v-input__control > .v-input__slot::before {
+  border-color: #aa56ff;
+}
+
+::v-deep .v-input--has-state > .v-input__control > .v-input__slot::before {
+  border-color: #ff5252; /* cor da borda quando der estado de erro */
+}
+
+/* .v-form {
   width: 100%;
 }
 
-.theme--light.v-label {
-  font-weight: 600;
-  color: #aa56ff !important;
-}
+
 
 .theme--light.v-text-field > .v-input__control > .v-input__slot:before {
   border-color: #aa56ff !important;
@@ -307,13 +358,7 @@ export default {
   color: #aa56ff;
   padding-right: 5px;
 }
-
-.theme--light.v-btn:not(.v-btn--flat):not(.v-btn--text):not(.v-btn--outlined) {
-  background: #6600cc !important;
-  border-radius: 5px !important;
-  color: #fff !important;
-  font-weight: bold !important;
-}
+*/
 
 .login-link {
   color: #6600cc !important;
