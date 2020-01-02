@@ -18,6 +18,8 @@
           <v-form ref="form" v-model="status" lazy-validation>
             <v-col cols="12">
               <v-text-field
+                dark
+                color="#fff"
                 v-model="email"
                 :rules="emailRules"
                 label="Email"
@@ -25,6 +27,8 @@
                 required
               ></v-text-field>
               <v-text-field
+                dark
+                color="#fff"
                 v-model="password"
                 :rules="passwordRules"
                 label="Senha"
@@ -149,15 +153,12 @@ export default {
 };
 </script>
 
-<style>
-
-.theme--light.v-icon {
-  color: #d6adff;
-}
+<style scoped>
 ::placeholder {
   color: #aa56ff !important;
 }
-.bg { 
+
+.bg {
   width: 100%;
   height: 100%;
   position: fixed;
@@ -165,26 +166,33 @@ export default {
   background-size: cover;
   background-position: center;
 }
-.v-dialog {
+
+::v-deep .v-dialog {
   background: #fff;
   text-align: center;
 }
+
 .v-card__title {
   justify-content: center;
 }
+
 .v-form {
   width: 100%;
 }
+
 .v-input__slot:before,
 .v-input__slot::before {
   border-color: #c58aff !important;
 }
+
 .v-text-field > .v-input__control > .v-input__slot:after {
   border-color: #fff !important;
 }
+
 .v-label {
   color: #c58aff !important;
 }
+
 .primary--text {
   color: #c58aff !important;
   caret-color: #c58aff !important;
@@ -199,9 +207,11 @@ export default {
   animation: intro 300ms backwards;
   animation-delay: 350ms;
 }
+
 .layout {
   background: #6600cc !important;
 }
+
 .bg-symbol {
   display: flex;
   -webkit-box-pack: center;
@@ -235,5 +245,11 @@ export default {
   color: #c58aff;
 }
 
+::v-deep .v-dialog {
+  background-color: #FFF;
+}
 
+::v-deep .v-card__title+.v-card__text {
+  text-align: center;
+}
 </style>
