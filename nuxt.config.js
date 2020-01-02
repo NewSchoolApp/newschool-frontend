@@ -4,7 +4,7 @@ export default {
   router: {
     extendRoutes(routes, resolve) {
       routes.push({
-        path: "/aluno/curso/*",
+        path: "/aluno/curso/:slug",
         component: resolve(__dirname, 'pages/student/course.vue')
       })
 
