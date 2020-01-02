@@ -34,22 +34,7 @@
                 :rules="emailRules"
                 name="email"
                 required
-              ></v-text-field>
-              <v-text-field
-                v-model="form.password"
-                name="password"
-                :type="showPass ? 'password' : 'text'"
-                :append-icon="showPass ? 'mdi-eye' : 'mdi-eye-off'"
-                @click:append="() => (showPass = !showPass)"
-                required
-              ></v-text-field>
-              <v-text-field
-                v-model="form.confirmPassword"
-                :type="showConfirmPass ? 'password' : 'text'"
-                :append-icon="showConfirmPass ? 'mdi-eye' : 'mdi-eye-off'"
-                @click:append="() => (showConfirmPass = !showConfirmPass)"
-                required
-              ></v-text-field>
+              ></v-text-field>             
               <v-text-field
                 v-model="form.urlFacebook"
                
@@ -65,8 +50,11 @@
               ></v-text-field>
             </v-col>
             <v-col cols="12">
-              <v-btn class="btn-block btn-submit" depressed large @click="submit">Alterar</v-btn>
+              <v-btn class="btn-block btn-submit" depressed large @click="submit">Alterar Dados</v-btn>              
             </v-col>
+            <v-col cols="12">
+              <v-btn class="btn-block btn-submit" depressed large @click="submit">Alterar Senha</v-btn>
+            </v-col>            
           </v-form>
           <v-snackbar
             v-model="snackbar"
@@ -90,6 +78,11 @@
   </v-layout>
 </template>
 
+<router>
+  {
+    path: '/aluno/alterar'
+  }
+</router>
 
 <script scoped>
 import auth from "../../services/http/auth";
@@ -100,19 +93,17 @@ export default {
   data() {
     return {
       status: true,
-      loading: false,
-      showPass: String,
-      showConfirmPass: String,
+      loading: false,            
       snackbar: false,
       snackbarText: '',
       snackbarStatus: '',
       token: '',
       form: {
+        id: '',
         name: '',
         email: '',
         urlFacebook: '',
-        urlInstagram: '',
-        role: 'STUDENT'
+        urlInstagram: ''
       },
       nameRules: [v => !!v || "Digite seu nome"],
       emailRules: [
@@ -121,28 +112,16 @@ export default {
       ]
     };
   },
-  mounted(){
-    getUser: () => {
-      try {
-        return JSON.parse(localStorage.getItem('user'))
-        
-      } catch (e) {
-        return {
-          name: '',
-          email: ''
-        }
-        
-
-      }
-    }
+  created(){       
+    let user = this.getUser();
+    this.form = { id: user.id, name: user.name, email: user.email, urlFacebook: user.urlFacebook, urlInstagram: user.urlInstagram };
   },
    methods: {
     submit() {
       if (this.$refs.form.validate()) {
         this.animateForm(true);
-          users.update(this.form, this.token)
+          users.update(this.form)
           .then(res => {     
-
             this.loading = false;  
             this.confirmSnackbar('Dados alterados com sucesso', 'success');
             setTimeout(() => {
@@ -175,27 +154,31 @@ export default {
         }, 500);
       }
       document.querySelector("html").style.overflow = "scroll";
-    },
-
-    showPassword() {
-      this.eyeIcon === 'mdi-eye' ? this.eyeIcon = 'mdi-eye-off' : this.eyeIcon = 'mdi-eye'
-    },
-
-    showConfirmPassword() {
-      this.eyeIcon2 === 'mdi-eye' ? this.eyeIcon2 = 'mdi-eye-off' : this.eyeIcon2 = 'mdi-eye'
-    },
+    },        
 
     gotoIndex() {
       $nuxt._router.push("/index");
     },
     back() {
-          $nuxt._router.push("/index");
+      $nuxt._router.push("/index");
     },
 
     confirmSnackbar(text, status) {
       this.snackbarText = text;
       this.snackbarStatus = status;
       this.snackbar = true;
+    },
+
+    getUser() {
+      try {
+        return JSON.parse(localStorage.getItem('user'))
+        
+      } catch (e) {
+        return {
+          name: '',
+          email: ''
+        }        
+      }
     }
   },
 

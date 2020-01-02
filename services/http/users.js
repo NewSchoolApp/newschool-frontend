@@ -4,14 +4,14 @@ import auth from './auth'
 /**
  * @author Leonardo Balsalobre
  * 
- * Serviço de alterar dados
+ * Serviço de alterar dados do usuário
  */
 
 export default {
 
     update: (form) => {
-        const{accessToken} = auth.getInfoAuth()
+        const{accessToken} = auth.getInfoAuth();
         
-        return http.put("api/v1/user/{id}", form, { headers: { 'Authorization': `Bearer ${accessToken}` } })
+        return http.put(`api/v1/user/${form.id}`, form, { headers: { 'Authorization': `${accessToken}` } });
     }
 }
