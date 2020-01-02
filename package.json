@@ -14,7 +14,7 @@
     "test": "jest"
   },
   "dependencies": {
-    "@mdi/font": "^4.6.95",
+    "@mdi/font": "^4.7.95",
     "@nuxtjs/axios": "^5.3.6",
     "@nuxtjs/dotenv": "^1.4.0",
     "@nuxtjs/pwa": "^3.0.0-0",
