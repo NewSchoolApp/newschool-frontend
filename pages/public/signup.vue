@@ -274,29 +274,29 @@ export default {
 }
 
 /* inputs */
-::v-deep .v-text-field {
+::v-deep .theme--light.v-text-field {
   margin-top: 0;
 }
 
-::v-deep .v-input:not(.v-input--is-disabled) input {
+
+::v-deep .theme--light.v-input:not(.v-input--is-disabled) input {
   font-size: 12px;
   color: #60c;
 }
 
-::v-deep .v-text-field:not(.v-input--has-state) > .v-input__control > .v-input__slot:hover:before {
+::v-deep .theme--light.v-text-field:not(.v-input--has-state)>.v-input__control>.v-input__slot:hover:before {
   border-color: #60c;
 }
 
-::v-deep .v-label,
-::v-deep .v-icon,
-::v-deep .v-btn__content {
+::v-deep .theme--light.v-label,
+::v-deep .theme--light.v-icon {
   font-size: 12px;
   font-weight: 600;
   line-height: 15px;
   color: #aa56ff;
 }
 
-::v-deep .v-icon {
+::v-deep .theme--light.v-icon {
   font-size: 20px;
 }
 
@@ -306,62 +306,29 @@ export default {
 
 ::v-deep .v-btn__content {
   color: #fff;
+  font-size: 12px;
   font-weight: 900;
+  line-height: 15px;
 }
 
-::v-deep .v-text-field > .v-input__control > .v-input__slot::before {
+::v-deep .theme--light.v-text-field > .v-input__control > .v-input__slot::before {
   border-color: #aa56ff;
 }
 
-::v-deep .v-input--has-state > .v-input__control > .v-input__slot::before {
+
+::v-deep .v-text-field.v-input--has-state>.v-input__control>.v-input__slot:before {
   border-color: #ff5252; /* cor da borda quando der estado de erro */
 }
 
-/* .v-form {
-  width: 100%;
+::v-deep .v-messages__message {
+  color: #ff5252;
+  font-size: 12px;
+  margin-left: 5px;
 }
-
-
-
-.theme--light.v-text-field > .v-input__control > .v-input__slot:before {
-  border-color: #aa56ff !important;
-}
-
-.theme--light.v-text-field:not(.v-input--has-state) > .v-input__control > .v-input__slot:hover:before {
-  border-color: #6600CC !important;
-}
-
-.theme--light.v-input:not(.v-input--is-disabled) input {
-  color: #6600CC !important;
-}
-
-.v-input__slot {
-  margin-top: 20px !important;
-  padding-left: 5px !important;
-  width: 100%;
-  border-radius: unset !important;
-  background-color: #fff !important;
-  box-shadow: none !important;
-}
-
-.v-text-field {
-  padding-top: 0 !important;
-  margin-top: 0 !important;
-  color: #6600CC;
-}
-
-.theme--dark.v-input:not(.v-input--is-disabled) input {
-  color: #6600CC;
-}
-
-.v-icon.v-icon.v-icon--link {
-  color: #aa56ff;
-  padding-right: 5px;
-}
-*/
 
 .login-link {
-  color: #6600cc !important;
+  font-size: 12px;
+  color: #6600cc;
 }
 
 .hide-form {
@@ -370,19 +337,5 @@ export default {
 
 .error-form {
   animation: nono 300ms, intro paused;
-}
-
-
-/* Error messages */
-.v-messages__message {
-  color: #ff5252 !important;
-  font-size: 12px !important;
-  margin-left: 5px;
-}
-
-
-/* Snackbar */
-.v-snack__content {
-  border-radius: 5px;
 }
 </style>
