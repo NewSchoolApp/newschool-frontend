@@ -1,5 +1,5 @@
-import { ms } from 'ms';
-import { http } from "./config";
+import { ms } from 'ms'
+import { http } from "./config"
 
 /**
  * @author Andrews
@@ -32,9 +32,8 @@ export default {
         // armazenando tokens no storage
         const auth = {
           accessToken: `Bearer ${res.data.accessToken}`,
-          refreshToken: res.data.refreshToken,
-          tokenGeneratedAt: new Date(),
-          tokenExpiresIn: ms(res.data.expiresIn)
+          refreshToken: `Bearer ${res.data.refreshToken}`,
+          tokenExpiresIn: Date.now() + ms(res.data.expiresIn)
         };
         localStorage.setItem("auth", JSON.stringify(auth));
       });
@@ -84,39 +83,45 @@ export default {
     }
   },
 
-  refreshToken: () => {
+  getNewAccessToken: refreshToken => {
+    const body = new FormData();
+
+    const base64 = btoa(
+      `${process.env.credentials.name}:${process.env.credentials.secret}`,
+    );
+
+    const clientCredentials = `Basic ${base64}`;
+
+    body.append("grant_type", "refresh_token");
+    body.append("refresh_token", refreshToken);
+
+    return http
+      .post("/oauth/token", body, {
+        headers: { Authorization: clientCredentials }
+      })
+      .then(res => {
+        const auth = {
+          accessToken: `Bearer ${res.data.accessToken}`,
+          refreshToken: `Bearer ${res.data.refreshToken}`,
+          tokenExpiresIn: Date.now() + ms(res.data.expiresIn)
+        };
+        localStorage.setItem("auth", JSON.stringify(auth));
+      })
+      .catch(() => {
+        $nuxt._router.push("/login");
+      });
+  },
+
+  isTokenValid: () => {
     const auth = JSON.parse(localStorage.getItem("auth"));
 
     if (auth) {
-      const { refreshToken } = auth;
+      const { refreshToken, tokenExpiresIn } = auth;
+      const currentTime = Date.now();
 
-      const body = new FormData();
-
-      const base64 = btoa(
-        `${process.env.credentials.name}:${process.env.credentials.secret}`
-      );
-
-      const clientCredentials = `Basic ${base64}`;
-
-      body.append("grant_type", "refresh_token");
-      body.append("refresh_token", refreshToken);
-
-      return http
-        .post("/oauth/token", body, {
-          headers: { Authorization: clientCredentials }
-        })
-        .then(res => {
-          const auth = {
-            accessToken: `Bearer ${res.data.accessToken}`,
-            refreshToken: `Bearer ${res.data.refreshToken}`,
-            tokenGeneratedAt: new Date(),
-            tokenExpiresIn: ms(res.data.expiresIn)
-          };
-          localStorage.setItem("auth", JSON.stringify(auth));
-        })
-        .catch(() => {
-          $nuxt._router.push("/login");
-        });
+      if (currentTime > tokenExpiresIn) {
+        this.getNewAccessToken(refreshToken);
+      }
     } else {
       $nuxt._router.push("/login");
     }

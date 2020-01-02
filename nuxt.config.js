@@ -9,11 +9,12 @@ export default {
       })
 
       routes.push({
-        path: "", redirect: "/login" 
+        path: "", redirect: "/login"
       })
-    }
+    },
+    middleware: 'auth',
   },
-  
+
   env: {
     baseUrl: process.env.VUE_APP_BASE_URL || 'https://newschoolbrapi-dev.herokuapp.com/',
     credentials:{
