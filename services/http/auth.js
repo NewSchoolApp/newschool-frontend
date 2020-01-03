@@ -32,8 +32,8 @@ const getNewAccessToken = refreshToken => {
       localStorage.setItem('auth', JSON.stringify(auth))
     })
     .catch(() => {
-      // eslint-disable-next-line no-undef
       localStorage.setItem('login_expired', true)
+      // eslint-disable-next-line no-undef
       $nuxt._router.push('/login')
     })
 }
@@ -106,6 +106,10 @@ export default {
           const user = {
             name: res.data.name || 'Anônimo',
             type: res.data.type || 'Visitante',
+            id: res.data.id || '',
+            email: res.data.email || '',
+            urlFacebook: res.data.urlFacebook || '',
+            urlInstagram: res.data.urlInstagram || '',
           }
           localStorage.setItem('user', JSON.stringify(user))
         })
