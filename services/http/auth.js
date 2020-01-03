@@ -13,14 +13,13 @@ export default {
    */
   login: (username, password) => {
     let body = new FormData()
-
     let base64 = btoa(`${process.env.credentials.name}:${process.env.credentials.secret}`)
 
     let client_credentials = `Basic ${base64}`;
 
     body.append("grant_type", "password");
     body.append("username", username);
-    body.append("password", password)
+    body.append("password", password);
 
     return http.post("/oauth/token",
       body, { headers: { 'Authorization': client_credentials } })
@@ -34,7 +33,7 @@ export default {
       })
   },
 
-  getExternalCredentials: () => {    
+  getExternalCredentials: () => {
 
     let base64 = btoa(`${process.env.credentials.external.name}:${process.env.credentials.external.secret}`)
 
@@ -56,14 +55,13 @@ export default {
    */
   getInfoUser: () => {
     let auth = JSON.parse(localStorage.getItem("auth"));
-
     if (auth) {
       return http.get("/api/v1/user/me", { headers: { 'Authorization': auth.accessToken } })
         .then(
           res => {
             let user = {
               name: res.data.name || "Anônimo",
-              type : res.data.type || "Visitante"
+              type: res.data.type || "Visitante"
             }
             localStorage.setItem("user", JSON.stringify(user));
           }

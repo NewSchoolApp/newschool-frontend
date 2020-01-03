@@ -2,7 +2,10 @@ import colors from 'vuetify/es5/util/colors'
 
 export default {
   router: {
+    middleware: "auth.guard",
+
     extendRoutes(routes, resolve) {
+
       routes.push({
         path: "/aluno/curso/:slug",
         component: resolve(__dirname, 'pages/student/course.vue')
@@ -14,14 +17,14 @@ export default {
       })
 
       routes.push({
-        path: "", redirect: "/login" 
+        path: "", redirect: "/login"
       })
     }
   },
-  
+
   env: {
     baseUrl: process.env.VUE_APP_BASE_URL || 'https://newschoolbrapi-dev.herokuapp.com/',
-    credentials:{
+    credentials: {
       name: process.env.VUE_APP_CLIENT_CREDENTIAL_NAME || 'NEWSCHOOL@FRONT',
       secret: process.env.VUE_APP_CLIENT_CREDENTIAL_SECRET || 'NEWSCHOOL@FRONTSECRET',
       external:
