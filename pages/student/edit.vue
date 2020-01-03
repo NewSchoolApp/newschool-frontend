@@ -46,10 +46,10 @@
               ></v-text-field>
             </v-col>
             <v-col cols="12">
-              <v-btn class="btn-block btn-submit" depressed large @click="submit">Alterar Dados</v-btn>              
+              <v-btn class="btn-block btn-submit btn-primary" depressed large @click="submit">Alterar Dados</v-btn>              
             </v-col>
             <v-col cols="12">
-              <v-btn class="btn-block btn-submit" depressed large @click="submit">Alterar Senha</v-btn>
+              <v-btn class="btn-block btn-submit btn-second" depressed large @click="submit">Alterar Senha</v-btn>
             </v-col>            
           </v-form>
           <v-snackbar
@@ -185,6 +185,7 @@ export default {
 
 <style scoped>
 @import url("https://fonts.googleapis.com/css?family=Montserrat:400,500,900&display=swap");
+@import url('https://fonts.googleapis.com/css?family=Lato&display=swap');
 
 /* Global */
 * {
@@ -207,7 +208,7 @@ export default {
 
 /* Page */
 .page-title {
-font-family: 'Montserrat';
+font-family: 'Lato', sans-serif;
 font-style: normal;
 font-weight: 900;
 font-size: 16px;
@@ -282,10 +283,17 @@ margin-top: -6%;
   padding-right: 5px;
 }
 
-::v-deep .theme--light.v-btn:not(.v-btn--flat):not(.v-btn--text):not(.v-btn--outlined) {
+::v-deep .btn-primary.theme--light.v-btn:not(.v-btn--flat):not(.v-btn--text):not(.v-btn--outlined) {
   background: #6600cc !important;
-  border-radius: 5px !important;
+  border-radius: 0 !important;
+  box-shadow: 0 4px 5px gray!important;
   color: #fff !important;
+  font-weight: bold !important;
+}
+::v-deep .btn-second.theme--light.v-btn:not(.v-btn--flat):not(.v-btn--text):not(.v-btn--outlined) {
+  background: #fff !important;
+  border: 1px solid #6600cc!important;
+  color: #6600cc !important;
   font-weight: bold !important;
 }
 
