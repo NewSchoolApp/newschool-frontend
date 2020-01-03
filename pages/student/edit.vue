@@ -8,7 +8,7 @@
         <v-row>
           <v-col cols="12">
             <div class="btn-container">
-              <img src="~/assets/btn-voltar.svg" alt="botão voltar" @click="back"/>
+              <img src="~/assets/btn-voltar.svg" alt="botão voltar" @click="gotoIndex"/>
             </div>
             <div class="title-container">
                  <h2 class="page-title">Alterar meus dados</h2>
@@ -20,25 +20,27 @@
             <v-col cols="12">
               <v-text-field
                 v-model="form.name"
+                placeholder="Nome"
                 name="name"
                 required
               ></v-text-field>
               <v-text-field
                 v-model="form.email"
                 :rules="emailRules"
+                placeholder="E-mail"
                 name="email"
                 required
               ></v-text-field>             
               <v-text-field
                 v-model="form.urlFacebook"
-               
+                placeholder="URL do Facebook"
                 name="urlFacebook"
                 required
               ></v-text-field>
               <v-text-field
                 type="text"
                 v-model="form.urlInstagram"
-                
+                placeholder="URL do Instagram"
                 name="urlInstagram"
                 required
               ></v-text-field>
@@ -157,9 +159,6 @@ export default {
     gotoIndex() {
       $nuxt._router.push("/index");
     },
-    back() {
-      $nuxt._router.push("/index");
-    },
 
     confirmSnackbar(text, status) {
       this.snackbarText = text;
@@ -199,6 +198,10 @@ export default {
 
 .layout {
   background: #fff !important;
+}
+
+::v-deep ::placeholder{
+  color: #6600CC!important;
 }
 
 
