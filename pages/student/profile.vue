@@ -96,13 +96,13 @@ export default {
   },
   methods: {
     gotoChangeData(){
-      $nuxt._router.push("/public/change_data");
+      $nuxt._router.push("/aluno/alterar");
     }
   }
 };
 </script>
 
-<style>
+<style scoped>
 .item {
   margin: 1rem;
   display: flex;
