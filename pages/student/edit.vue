@@ -103,7 +103,8 @@ export default {
         name: '',
         email: '',
         urlFacebook: '',
-        urlInstagram: ''
+        urlInstagram: '',
+        role: ''
       },
       nameRules: [v => !!v || "Digite seu nome"],
       emailRules: [
@@ -114,7 +115,10 @@ export default {
   },
   created(){       
     let user = this.getUser();
-    this.form = { id: user.id, name: user.name, email: user.email, urlFacebook: user.urlFacebook, urlInstagram: user.urlInstagram };
+    this.form = { 
+      ...user,
+      role: 'STUDENT'
+    };
   },
    methods: {
     submit() {
@@ -126,7 +130,7 @@ export default {
             this.confirmSnackbar('Dados alterados com sucesso', 'success');
             setTimeout(() => {
               this.gotoIndex();
-            }, 2500); 
+            }, 1500); 
           })
           .catch(err => {
             this.confirmSnackbar('Ocorreu um erro.', 'error');
