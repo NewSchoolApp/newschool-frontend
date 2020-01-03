@@ -25,6 +25,7 @@
                 label="Email"
                 data-vv-name="email"
                 required
+                @keyup.enter="submit()"
               ></v-text-field>
               <v-text-field
                 dark
@@ -36,6 +37,7 @@
                 :type="showPass ? 'text' : 'password'"
                 :append-icon="showPass ? 'mdi-eye-off' : 'mdi-eye'"
                 @click:append="() => (showPass = !showPass)"
+                @keyup.enter="submit()"
                 required
               ></v-text-field>
             </v-col>
@@ -59,6 +61,7 @@
               aria-expanded="false"
               depressed
               large
+              type="submit"
               @click="submit"
             >Login</v-btn>
           </v-col>
@@ -115,6 +118,7 @@ export default {
 
   methods: {
     submit() {
+      event.preventDefault()
       if (this.$refs.form.validate()) {
         this.animateForm(true)
         auth
