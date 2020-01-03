@@ -1,4 +1,4 @@
-import { ms } from 'ms'
+import ms from 'ms'
 import { http } from './config'
 
 /**
@@ -6,6 +6,37 @@ import { http } from './config'
  *
  * Serviço de auth do sistema
  */
+
+const getNewAccessToken = refreshToken => {
+  const body = new FormData()
+
+  const base64 = btoa(
+    `${process.env.credentials.name}:${process.env.credentials.secret}`,
+  )
+
+  const clientCredentials = `Basic ${base64}`
+
+  body.append('grant_type', 'refresh_token')
+  body.append('refresh_token', refreshToken)
+
+  return http
+    .post('/oauth/token', body, {
+      headers: { Authorization: clientCredentials },
+    })
+    .then(res => {
+      const auth = {
+        accessToken: `Bearer ${res.data.accessToken}`,
+        refreshToken: res.data.refreshToken,
+        expiresIn: Date.now() + ms(res.data.expiresIn),
+      }
+      localStorage.setItem('auth', JSON.stringify(auth))
+    })
+    .catch(() => {
+      // eslint-disable-next-line no-undef
+      localStorage.setItem('login_expired', true)
+      $nuxt._router.push('/login')
+    })
+}
 
 export default {
   /**
@@ -33,7 +64,7 @@ export default {
         const auth = {
           accessToken: `Bearer ${res.data.accessToken}`,
           refreshToken: res.data.refreshToken,
-          tokenExpiresIn: Date.now() + ms(res.data.expiresIn),
+          expiresIn: Date.now() + ms(res.data.expiresIn),
         }
         localStorage.setItem('auth', JSON.stringify(auth))
       })
@@ -84,45 +115,15 @@ export default {
     }
   },
 
-  getNewAccessToken: refreshToken => {
-    const body = new FormData()
-
-    const base64 = btoa(
-      `${process.env.credentials.name}:${process.env.credentials.secret}`,
-    )
-
-    const clientCredentials = `Basic ${base64}`
-
-    body.append('grant_type', 'refresh_token')
-    body.append('refresh_token', refreshToken)
-
-    return http
-      .post('/oauth/token', body, {
-        headers: { Authorization: clientCredentials },
-      })
-      .then(res => {
-        const auth = {
-          accessToken: `Bearer ${res.data.accessToken}`,
-          refreshToken: res.data.refreshToken,
-          tokenExpiresIn: Date.now() + ms(res.data.expiresIn),
-        }
-        localStorage.setItem('auth', JSON.stringify(auth))
-      })
-      .catch(() => {
-        // eslint-disable-next-line no-undef
-        $nuxt._router.push('/login')
-      })
-  },
-
   isTokenValid: () => {
     const auth = JSON.parse(localStorage.getItem('auth'))
 
     if (auth) {
-      const { refreshToken, tokenExpiresIn } = auth
+      const { refreshToken, expiresIn } = auth
       const currentTime = Date.now()
 
-      if (currentTime > tokenExpiresIn) {
-        this.getNewAccessToken(refreshToken)
+      if (currentTime > expiresIn) {
+        return getNewAccessToken(refreshToken)
       }
     } else {
       // eslint-disable-next-line no-undef
@@ -139,5 +140,15 @@ export default {
         refreshToken: ``,
       }
     }
+  },
+
+  isLoginExpired: () => {
+    if (typeof localStorage !== 'undefined') {
+      const loginExpired = localStorage.getItem('login_expired')
+      localStorage.removeItem('login_expired')
+      return loginExpired
+    }
+
+    return false
   },
 }

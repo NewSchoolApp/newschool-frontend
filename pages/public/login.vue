@@ -70,7 +70,7 @@
     </v-flex>
     <v-dialog v-model="dialog" max-width="290">
       <v-card-title class="headline">Ops!</v-card-title>
-      <v-card-text>Usuário ou senha incorretos!</v-card-text>
+      <v-card-text>{{ dialogMessage }}</v-card-text>
       <v-btn color="primary" text @click="dialog = false">Ok</v-btn>
     </v-dialog>
   </v-layout>
@@ -91,6 +91,7 @@ export default {
     status: true,
     loading: false,
     dialog: false,
+    dialogMessage: '',
     showPass: false,
 
     title: "Entrar",
@@ -113,6 +114,14 @@ export default {
     };
   },
 
+  // eslint-disable-next-line object-shorthand
+  created: function() {
+    if (auth.isLoginExpired()) {
+      this.dialogMessage = 'Sua sessão expirou. Por favor, faça o login novamente.';
+      this.dialog = true;
+    }
+  },
+
   methods: {
     submit() {
       if (this.$refs.form.validate()) {
@@ -125,6 +134,7 @@ export default {
           })
           .catch(err => {
             setTimeout(() => {
+              this.dialogMessage = 'Usuário ou senha incorretos!';
               this.dialog = true;
               this.loading = false;
             }, 500);
