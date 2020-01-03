@@ -98,8 +98,7 @@ export default {
         name: '',
         email: '',
         urlFacebook: '',
-        urlInstagram: '',
-        role: ''
+        urlInstagram: ''
       },
       nameRules: [v => !!v || "Digite seu nome"],
       emailRules: [
