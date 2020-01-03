@@ -82,7 +82,7 @@
 
 <script scoped>
 import auth from "../../services/http/auth";
-import  users  from '../../services/http/users';
+import users from '../../services/http/users';
 
 
 export default {
@@ -93,7 +93,6 @@ export default {
       snackbar: false,
       snackbarText: '',
       snackbarStatus: '',
-      token: '',
       form: {
         id: '',
         name: '',
@@ -171,14 +170,15 @@ export default {
         return JSON.parse(localStorage.getItem('user'))
         
       } catch (e) {
-        return {
-          name: '',
-          email: ''
-        }        
-      }
-    }
-  },
+         this.confirmSnackbar('Ocorreu um erro.', 'error');
+            setTimeout(() => {
+              this.loading = false;
+            }, 500);
+            console.error(e);
+          }
+        }     
 
+  }
   }
 
 </script>
