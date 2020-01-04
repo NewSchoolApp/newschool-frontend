@@ -108,11 +108,7 @@ export default {
     };
   },
   created(){       
-    let user = this.getUser();
-    this.form = { 
-      ...user,
-      role: 'STUDENT'
-    };
+    this.form = this.getUser();
   },
    methods: {
     submit() {
