@@ -12,6 +12,6 @@ export default {
     update: (form) => {
         const{accessToken} = auth.getInfoAuth();
         
-        return http.put(`api/v1/user/me/`, form, { headers: { 'Authorization': `${accessToken}` } });
+        return http.put(`api/v1/user/me`, form, { headers: { 'Authorization': `${accessToken}` } });
     }
 }
