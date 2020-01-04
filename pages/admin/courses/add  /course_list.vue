@@ -12,24 +12,27 @@
         <div class="mascara">
           <img src="~/assets/matematic.svg" alt />
         </div>
-        <div class="info-text">
-        <h1>Matemática na Prática</h1>
-        <p>Andrews, O Fera</p>
-        </div>
+        
+          <h1>Matemática na Prática</h1>
+          <p>Andrews, O Fera</p>
       </v-card>
       <v-card class="photo">
-        <img src="~/assets/photo.svg" alt />
-        <h4>Fotografica na Raça</h4>
+        <div class="camera">
+          <img src="~/assets/photo.svg" alt />
+        </div>
+        <h1>Fotografica na Raça</h1>
         <p>Tai, A Grandiosa</p>
       </v-card>
       <v-card class="contablie">
-        <img src="~/assets/contablie.svg" alt />
-        <h4>Contabilidade Pura</h4>
+        <div class="contas">
+          <img src="~/assets/contablie.svg" alt />
+        </div>
+        <h1>Contabilidade Pura</h1>
         <p>JP, O Mestre</p>
       </v-card>
-      <v-card>
-        <img src="~/assets/matematic.svg" alt=/>
-        <h4>O Hulmide programmer</h4>
+      <v-card class="course">
+        <div class="top"><img src="~/assets/matematic.svg" alt=/></div>
+        <h1>O Hulmide programmer</h1>
         <p>Jonathan,3 cachorro hulmide e foda.</p>
       </v-card>
 
@@ -67,7 +70,6 @@ export default {
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  
 }
 .add {
   margin-left: 80%;
@@ -80,13 +82,14 @@ export default {
   width: 100%;
   border-radius: 3px;
   margin: 11px;
-      box-shadow: 0px 13px 18px #00000069;
+  box-shadow: 0px 13px 18px #00000069;
 }
-.container h4 {
+.container h1 {
   position: absolute;
   text-align: center;
   left: 128px;
   top: 15px;
+  font-size: 110%
 }
 .container p {
   position: absolute;
@@ -94,17 +97,9 @@ export default {
   text-align: center;
   left: 34%;
 }
-.mascara {
-  width: 7rem;
+
+.container img {
+  width: 33%;
   display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.mascara img {
-  width: 100%;
-}
-.info-text {
-  display: flex;
-    padding: 13px;
 }
 </style>

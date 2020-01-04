@@ -49,6 +49,8 @@ export default {
     return http.post("api/v1/user", form, { headers: { 'Authorization': `Bearer ${token}` } })
   },
 
+  
+
   /**
    * Método para salvar as informações do usuário no local storage
    * 
@@ -59,11 +61,15 @@ export default {
 
     if (auth) {
       return http.get("/api/v1/user/me", { headers: { 'Authorization': auth.accessToken } })
-        .then(
-          res => {
-            let user = {
+        .then(          
+          res => {                        
+            let user = {              
               name: res.data.name || "Anônimo",
-              type : res.data.type || "Visitante"
+              type : res.data.type || "Visitante",
+              id: res.data.id || '',
+              email: res.data.email || '',
+              urlFacebook: res.data.urlFacebook || '',
+              urlInstagram: res.data.urlInstagram || ''              
             }
             localStorage.setItem("user", JSON.stringify(user));
           }
@@ -72,6 +78,15 @@ export default {
     else {
       $nuxt._router.push("/login");
     }
-
+  },
+  getInfoAuth: () => {
+    try {
+      return JSON.parse(localStorage.getItem('auth'))
+    } catch (e) {
+      return {
+        accessToken: ``,
+        refreshToken: ``
+      }
+    }
   }
 }

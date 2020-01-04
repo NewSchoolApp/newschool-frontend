@@ -73,6 +73,7 @@
           </div>
         </section>
       </main>-->
+      <button @click="gotoChangeData">alterar dados</button>
     </div>
     <client-only>
       <navigation-bar />
@@ -92,11 +93,16 @@ import NavigationBar from "~/components/NavigationBar.vue";
 export default {
   components: {
     NavigationBar
+  },
+  methods: {
+    gotoChangeData(){
+      $nuxt._router.push("/aluno/alterar");
+    }
   }
 };
 </script>
 
-<style>
+<style scoped>
 .item {
   margin: 1rem;
   display: flex;
