@@ -257,6 +257,9 @@ export default {
   line-height: 24px;
   text-transform: uppercase;
   color: #6600cc;
+  width: 90%;
+  margin-left: 50%;
+  transform: translateX(-50%);  
 }
 
 
@@ -276,6 +279,12 @@ export default {
 /* inputs */
 ::v-deep .theme--light.v-text-field {
   margin-top: 0;
+}
+
+::v-deep .v-input {
+ width: 90%;
+ margin-left: 50%;
+ transform: translateX(-50%);
 }
 
 
