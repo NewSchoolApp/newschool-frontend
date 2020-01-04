@@ -44,7 +44,7 @@
                 depressed
                 large
                 @click="submit"
-              >Login</v-btn>
+              >Entrar</v-btn>
             </v-col>
           </v-form>
           <v-col cols="12">
