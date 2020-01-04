@@ -1,105 +1,175 @@
 <template>
-  <div>
+  <div id="page">
     <header class="title">
       <h1>MEUS CURSOS</h1>
-
-      <div class="add">
-        <img src="~/assets/add.svg" alt />
-      </div>
+      <v-btn class="mx-2 btn-icon" icon>
+        <v-icon dark id="plus-icon">mdi-plus-circle</v-icon>
+      </v-btn>
     </header>
-    <v-container>
-      <v-card class="matematic">
-        <div class="mascara">
-          <img src="~/assets/matematic.svg" alt />
-        </div>
-        
-          <h1>Matemática na Prática</h1>
-          <p>Andrews, O Fera</p>
-      </v-card>
-      <v-card class="photo">
-        <div class="camera">
-          <img src="~/assets/photo.svg" alt />
-        </div>
-        <h1>Fotografica na Raça</h1>
-        <p>Tai, A Grandiosa</p>
-      </v-card>
-      <v-card class="contablie">
-        <div class="contas">
-          <img src="~/assets/contablie.svg" alt />
-        </div>
-        <h1>Contabilidade Pura</h1>
-        <p>JP, O Mestre</p>
-      </v-card>
-      <v-card class="course">
-        <div class="top"><img src="~/assets/matematic.svg" alt=/></div>
-        <h1>O Hulmide programmer</h1>
-        <p>Jonathan,3 cachorro hulmide e foda.</p>
-      </v-card>
+    <div class="body-list">
 
-      <navigation-bar />
-    </v-container>
+      <v-card v-for="item in list" v-bind:key="item.id" class="v-card-border">
+        <div class="content">
+          <div class="img-mask">
+            <img :src="item.thumbUrl" alt />
+          </div>
+
+          <div class="info-text">
+            <h1>{{item.title}}</h1>
+            <p>{{item.description}}</p>
+          </div>
+        </div>
+
+        <div class="group-buttons">
+          <v-btn class="btn-item bg-blue">
+            <v-icon class="text-white">mdi-border-color</v-icon>
+          </v-btn>
+          <v-btn class="btn-item bg-danger" @click="deleteCourse(item.id)">
+            <v-icon class="text-white">mdi-delete</v-icon>
+          </v-btn>
+        </div>
+      </v-card>
+    </div>
+    <navigation-bar />
   </div>
 </template>
 <router>
 {
-    path: '/course_list'
+    path: '/admin/listar-cursos'
   }
 </router>
 <script>
-import NavigationBar from "~/components/NavigationBar.vue";
+import NavigationBar from '~/components/NavigationBar.vue'
+import http from '~/services/http/generic'
+
 export default {
+  data: () => ({
+    list: [
+      {
+        id: 1,
+        title: 'Matemática na Prática',
+        description: 'Andrews, O Fera',
+        thumbUrl: require('@/assets/matematic.svg'),
+      },
+      {
+        id: 2,
+        title: 'Fotografica na Raça',
+        description: 'Tai, A Grandiosa',
+        thumbUrl: require('@/assets/photo.svg'),
+      },
+      {
+        id: 3,
+        title: 'Contabilidade Pura',
+        description: 'JP, O Mestre',
+        thumbUrl: require('@/assets/contablie.svg'),
+      },
+      {
+        id: 4,
+        title: 'O Hulmide programmer',
+        description: 'onathan,3 cachorro',
+        thumbUrl: require('@/assets/contablie.svg'),
+      },
+    ],
+  }),
   components: {
-    NavigationBar
-  }
-};
+    NavigationBar,
+  },
+  methods: {
+    getAllCourses() {
+      http
+        .getAll('/api/v1/course')
+        .then(res => {
+          list = res.data
+        })
+        .catch(err => {
+          alert(err)
+        })
+    },
+
+  },
+  mounted() {
+  },
+}
 </script>
 
-<style>
-.title {
-  background: white;
-  padding: 23px;
+<style scoped>
+#page {
+  font-family: 'Montserrat', sans-serif !important;
 }
-.title h1 {
-  font-family: "Montserrat", sans-serif;
-  font-size: 25px;
-  color: #6600cc;
+h1 {
+  font-size: 0.9rem;
 }
-.container {
-  width: 92%;
+p {
+  font-size: 0.7rem;
+}
+
+.body-list {
   display: flex;
-  justify-content: center;
   align-items: center;
   flex-direction: column;
 }
-.add {
-  margin-left: 80%;
-  margin-top: -30px;
+.img-mask {
+  display: flex;
+  width: 100px;
 }
-.container p {
-  font-family: "Montserrat", sans-serif;
-}
-.v-card {
+.img-mask img {
   width: 100%;
-  border-radius: 3px;
-  margin: 11px;
-  box-shadow: 0px 13px 18px #00000069;
 }
-.container h1 {
-  position: absolute;
-  text-align: center;
-  left: 128px;
-  top: 15px;
-  font-size: 110%
-}
-.container p {
-  position: absolute;
-  top: 45px;
-  text-align: center;
-  left: 34%;
+.info-text {
+  padding-left: 8px;
+  padding-top: 8px;
+  width: 13rem;
 }
 
-.container img {
-  width: 33%;
+.title {
+  background: white;
+  padding: 23px;
+  display: flex;
+  border-bottom: solid 1.5px #e4e4e4;
+  margin-bottom: 2rem;
+}
+.title h1 {
+  font-size: 25px;
+  color: #6600cc;
+  font-weight: 900;
+  font-family: 'Montserrat', sans-serif !important;
+}
+
+.v-card {
+  width: 90%;
+  border-radius: 3px;
+  margin: 11px;
+  box-shadow: 0px 13px 18px #0000002b;
+  display: flex;
+  justify-content: space-between;
+  overflow: hidden;
+}
+.group-buttons {
+  width: 2.1rem;
+  overflow: hidden;
+}
+.btn-item {
+  height: 50px !important;
+  min-width: unset !important;
+  border-radius: none !important;
+}
+
+.v-card > *:last-child:not(.v-btn):not(.v-chip) {
+  border-bottom-left-radius: unset !important;
+}
+.v-icon.v-icon {
+  font-size: 15px !important;
+}
+.btn-icon {
+  position: absolute;
+  right: 10px;
+  top: 58px;
+}
+#plus-icon {
+  font-size: 3.8rem !important;
+  color: #6600cc;
+}
+.content {
   display: flex;
 }
 </style>
