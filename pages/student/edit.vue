@@ -108,10 +108,7 @@ export default {
     };
   },
   created(){       
-    let user = this.getUser();
-    this.form = { 
-      ...user
-    };
+    this.form = this.getUser();
   },
    methods: {
     submit() {
