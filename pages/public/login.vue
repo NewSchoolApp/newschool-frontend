@@ -8,7 +8,7 @@
       </div>
     </div>
 
-    <v-flex role="main" xs10 sm8 md4 ref="flex" v-else>
+    <v-flex v-else ref="flex" role="main" xs10 sm8 md4>
       <div class="bg-symbol">
         <img src="../../assets/logo.svg" alt="New Schoool logo" />
       </div>
@@ -18,9 +18,9 @@
           <v-form ref="form" v-model="status" lazy-validation>
             <v-col cols="12">
               <v-text-field
+                v-model="email"
                 dark
                 color="#fff"
-                v-model="email"
                 :rules="emailRules"
                 label="Email"
                 data-vv-name="email"
@@ -28,17 +28,17 @@
                 @keyup.enter="submit()"
               ></v-text-field>
               <v-text-field
+                v-model="password"
                 dark
                 color="#fff"
-                v-model="password"
                 :rules="passwordRules"
                 label="Senha"
                 data-vv-name="password"
                 :type="showPass ? 'text' : 'password'"
                 :append-icon="showPass ? 'mdi-eye-off' : 'mdi-eye'"
+                required
                 @click:append="() => (showPass = !showPass)"
                 @keyup.enter="submit()"
-                required
               ></v-text-field>
             </v-col>
             <v-col cols="12">
@@ -50,32 +50,21 @@
                 depressed
                 large
                 @click="submit"
-              >Entrar</v-btn>
-            </v-col>
-          </v-form>
-          <v-col cols="12">
-              <v-btn
-                class="btn-block btn-transparent"
-                role="button"
-                aria-haspopup="true"
-                aria-expanded="false"
-                depressed
-                large
-                to="/cadastro"
-              >Cadastrar</v-btn>
+                >Entrar</v-btn
+              >
             </v-col>
           </v-form>
           <v-col cols="12">
             <v-btn
-              class="btn-block btn-primary btn-white"
+              class="btn-block btn-transparent"
               role="button"
               aria-haspopup="true"
               aria-expanded="false"
               depressed
               large
-              type="submit"
-              @click="submit"
-            >Login</v-btn>
+              to="/cadastro"
+              >Cadastrar</v-btn
+            >
           </v-col>
           <v-col cols="12" class="text-center">
             <a class="text-white">Esqueceu sua senha?</a>
@@ -102,7 +91,7 @@ import auth from '../../services/http/auth'
 
 export default {
   data: () => ({
-    //flags
+    // flags
     status: true,
     loading: false,
     dialog: false,
@@ -121,12 +110,6 @@ export default {
       v => (v && v.length >= 6) || 'A senha deve ter no mínimo 6 caracteres',
     ],
   }),
-
-  head() {
-    return {
-      title: this.title,
-    }
-  },
 
   methods: {
     submit() {
@@ -148,6 +131,12 @@ export default {
           })
       } else {
         this.animateForm(false)
+      }
+    },
+
+    head() {
+      return {
+        title: this.title,
       }
     },
 
