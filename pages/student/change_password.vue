@@ -5,11 +5,10 @@
 
     <v-flex xs10 sm8 md6 ref="flex" v-else>
       <v-container>
-        <v-row align-center justify-center>
+        <v-row>
           <v-col cols="12" class="relative-col">
             <v-btn
               class="btn-back"
-              color="#60c" 
               text
               icon
               @click="gotoHome"
@@ -42,7 +41,7 @@
               ></v-text-field>
               <v-text-field
                 color="#60c"
-                v-model="form.confirmPassword"
+                v-model="form.newPassword"
                 label="Nova senha *"
                 :rules="passwordRules"
                 :type="showNewPass ? 'password' : 'text'"
@@ -52,7 +51,7 @@
               ></v-text-field>
               <v-text-field
                 color="#60c"
-                v-model="form.confirmPassword"
+                v-model="form.confirmNewPassword"
                 label="Confirmar nova senha *"
                 :rules="confirmPasswordRules"
                 :type="showNewPass ? 'password' : 'text'"
@@ -79,7 +78,7 @@
 
 <router>
 {
-  path : '/recuperar-senha'
+  path : '/alterar-senha'
 }
 
 </router>
@@ -116,29 +115,29 @@ export default {
   },
 
   methods: {
-    switchPassword() {
-      if (this.$refs.form.validate()) {
-        this.animateForm(true);
-        auth
-          .signUp(this.form, this.token)
-          .then(res => {
-            this.loading = false;
-            this.confirmSnackbar('Cadastro efetuado! ;)', 'success');
-            setTimeout(() => {
-              this.gotoLogin();
-            }, 2500);
-          })
-          .catch(err => {
-            this.confirmSnackbar('Ocorreu um erro.', 'error');
-            setTimeout(() => {
-              this.loading = false;
-            }, 500);
-            console.error(err);
-          });
-      } else {
-        this.animateForm(false);
-      }
-    },
+    // switchPassword() {
+    //   if (this.$refs.form.validate()) {
+    //     this.animateForm(true);
+    //     auth
+    //       .signUp(this.form, this.token)
+    //       .then(res => {
+    //         this.loading = false;
+    //         this.confirmSnackbar('Cadastro efetuado! ;)', 'success');
+    //         setTimeout(() => {
+    //           this.gotoLogin();
+    //         }, 2500);
+    //       })
+    //       .catch(err => {
+    //         this.confirmSnackbar('Ocorreu um erro.', 'error');
+    //         setTimeout(() => {
+    //           this.loading = false;
+    //         }, 500);
+    //         console.error(err);
+    //       });
+    //   } else {
+    //     this.animateForm(false);
+    //   }
+    // },
 
     animateForm(status) {
       if (status) {
@@ -158,16 +157,7 @@ export default {
 
     gotoHome() {
       $nuxt._router.push("/");
-    }
-  },
-
-  mounted() {
-    auth.getInfoUser().then(res => {
-        console.log(res)
-      })
-      .catch(err => {
-        console.error(err);
-      });
+    },
   },
 
   computed: {
@@ -215,7 +205,7 @@ export default {
   position: relative;
 }
 
-.btn-back {
+::v-deep .btn-back {
   position: absolute;
   left: 0;
   top: 0;
@@ -223,6 +213,9 @@ export default {
 }
 
 .img-fluid {
+  display: block;
+  margin: 0 auto;
+  width: 375px;
   max-width: 100%;
 }
 
@@ -255,6 +248,11 @@ export default {
   font-weight: 600;
   line-height: 15px;
   color: #aa56ff;
+}
+
+::v-deep .btn-back .theme--light.v-icon {
+  color: #60c;
+  font-size: 25px;
 }
 
 ::v-deep .theme--light.v-icon {
