@@ -43,6 +43,18 @@
             </v-col>
             <v-col cols="12">
               <v-btn
+                class="btn-block btn-primary btn-white"
+                role="button"
+                aria-haspopup="true"
+                aria-expanded="false"
+                depressed
+                large
+                @click="submit"
+              >Entrar</v-btn>
+            </v-col>
+          </v-form>
+          <v-col cols="12">
+              <v-btn
                 class="btn-block btn-transparent"
                 role="button"
                 aria-haspopup="true"
