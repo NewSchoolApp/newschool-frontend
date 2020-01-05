@@ -100,6 +100,7 @@ import auth from '../../services/http/auth'
 export default {
   data() {
     return {
+      title: 'Cadastro',
       status: true,
       loading: false,
       showPass: String,
