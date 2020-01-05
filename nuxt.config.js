@@ -1,4 +1,4 @@
-import colors from 'vuetify/es5/util/colors'
+import colors from "vuetify/es5/util/colors";
 
 export default {
   router: {
@@ -21,97 +21,124 @@ export default {
   },
 
   env: {
-    baseUrl: process.env.VUE_APP_BASE_URL || 'https://newschoolbrapi-dev.herokuapp.com/',
-    credentials:{
-      name: process.env.VUE_APP_CLIENT_CREDENTIAL_NAME || 'NEWSCHOOL@FRONT',
-      secret: process.env.VUE_APP_CLIENT_CREDENTIAL_SECRET || 'NEWSCHOOL@FRONTSECRET',
-      external:
-      {
-        name: process.env.VUE_APP_CLIENT_EXTERNAL_CREDENTIAL_NAME || 'NEWSCHOOL@EXTERNAL',
-        secret: process.env.VUE_APP_CLIENT_EXTERNAL_CREDENTIAL_SECRET || 'NEWSCHOOL@EXTERNALSECRET',
+    baseUrl:
+      process.env.VUE_APP_BASE_URL ||
+      "https://newschoolbrapi-dev.herokuapp.com/",
+    credentials: {
+      name: process.env.VUE_APP_CLIENT_CREDENTIAL_NAME || "NEWSCHOOL@FRONT",
+      secret:
+        process.env.VUE_APP_CLIENT_CREDENTIAL_SECRET || "NEWSCHOOL@FRONTSECRET",
+      external: {
+        name:
+          process.env.VUE_APP_CLIENT_EXTERNAL_CREDENTIAL_NAME ||
+          "NEWSCHOOL@EXTERNAL",
+        secret:
+          process.env.VUE_APP_CLIENT_EXTERNAL_CREDENTIAL_SECRET ||
+          "NEWSCHOOL@EXTERNALSECRET"
       }
     },
     GATOKEN: process.env.GA_TOKEN
   },
-  mode: 'universal',
+  mode: "universal",
   /*
-  ** Headers of the page
-  */
+   ** Headers of the page
+   */
   head: {
-    titleTemplate: '%s - ' + 'New School',
-    title: 'New School',
+    titleTemplate: "%s - " + "New School - Um jeito novo de aprender",
+    title: "New School - Um jeito novo de aprender",
     meta: [
-      { charset: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: 'Projeto New School' }
+      { charset: "utf-8" },
+      { name: "viewport", content: "width=device-width, initial-scale=1" },
+      {
+        hid: "title",
+        name: "title",
+        content: "New School - Um jeito novo de aprender"
+      },
+      {
+        hid: "description",
+        name: "description",
+        content:
+          "Sabe qual é o primeiro passo para transformar a vida de milhares de jovens nas periferias do Brasil? Que tal dar acesso a educação de qualidade numa linguagem que faz sentido para quem realmente precisa? A New School levanta a bandeira de todos aqueles que acreditam na educação como meio para transformar o nosso país num lugar melhor e mais justo. Nosso objetivo é preparar e inserir uma nova geração de protagonistas na sociedade. Educar cidadãos do mundo, jovens e adolescentes capazes de pensar, questionar e se reinventar diante dos obstáculos que enfrentam no dia a dia de suas vidas."
+      },
+      {
+        hid: "keywords",
+        name: "keywords",
+        content:
+          "pública, startup, escola, cursos, cursos online, educação, estudo, periferia, comunidade, edtech, quebrada, ensino"
+      }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Montserrat:400,600,900&display=swap' }
+      { rel: "icon", type: "image/x-icon", href: "/favicon.ico" },
+      {
+        rel: "stylesheet",
+        href:
+          "https://fonts.googleapis.com/css?family=Montserrat:400,600,900&display=swap"
+      }
     ]
   },
   /*
-  ** Customize the progress-bar color
-  */
-  loading: { color: '#fff' },
+   ** Customize the progress-bar color
+   */
+  loading: { color: "#fff" },
   /*
-  ** Global CSS
-  */
-  css: [
-    '~/css/main.scss',
-    '~/css/animation.scss'
-  ],
+   ** Global CSS
+   */
+  css: ["~/css/main.scss", "~/css/animation.scss"],
   /*
-  ** Plugins to load before mounting the App
-  */
+   ** Plugins to load before mounting the App
+   */
   plugins: [
-    '~/plugins/admin-components.js',
-    { src: '~/plugins/ga.js', mode: 'client' }
+    "~/plugins/admin-components.js",
+    { src: "~/plugins/ga.js", mode: "client" }
   ],
   /*
-  ** Nuxt.js dev-modules
-  */
+   ** Nuxt.js dev-modules
+   */
   buildModules: [
     // Doc: https://github.com/nuxt-community/eslint-module
     // '@nuxtjs/eslint-module',
-    '@nuxtjs/vuetify',
-    '@nuxtjs/router-extras',
+    "@nuxtjs/vuetify",
+    "@nuxtjs/router-extras",
 
-    ['@nuxtjs/router-extras', { /* module options */ }]
-
+    [
+      "@nuxtjs/router-extras",
+      {
+        /* module options */
+      }
+    ]
   ],
   /*
-  ** Nuxt.js modules
-  */
+   ** Nuxt.js modules
+   */
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
-    '@nuxtjs/axios',
-    '@nuxtjs/pwa',
+    "@nuxtjs/axios",
+    "@nuxtjs/pwa",
     // Doc: https://github.com/nuxt-community/dotenv-module
-    '@nuxtjs/dotenv',
-    '@nuxtjs/proxy',
+    "@nuxtjs/dotenv",
+    "@nuxtjs/proxy"
   ],
   /*
-  ** Axios module configuration
-  ** See https://axios.nuxtjs.org/options
-  */
+   ** Axios module configuration
+   ** See https://axios.nuxtjs.org/options
+   */
   axios: {
-    proxy: true,
+    proxy: true
   },
   proxy: {
-    '/api': 'http://localhost:3001'
+    "/api": "http://localhost:3001"
   },
   /*
-  ** vuetify module configuration
-  ** https://github.com/nuxt-community/vuetify-module
-  */
+   ** vuetify module configuration
+   ** https://github.com/nuxt-community/vuetify-module
+   */
   vuetify: {
-    customVariables: ['~/assets/variables.scss'],
+    customVariables: ["~/assets/variables.scss"],
     theme: {
       dark: false,
       themes: {
         dark: {
-          primary: '#6600cc',
+          primary: "#6600cc",
           accent: colors.grey.darken3,
           secondary: colors.amber.darken3,
           info: colors.teal.lighten1,
@@ -120,19 +147,18 @@ export default {
           success: colors.green.accent3
         },
         light: {
-          primary: '#6600cc',
+          primary: "#6600cc"
         }
       }
     }
   },
   /*
-  ** Build configuration
-  */
+   ** Build configuration
+   */
   build: {
     /*
-    ** You can extend webpack config here
-    */
-    extend(config, ctx) {
-    }
+     ** You can extend webpack config here
+     */
+    extend(config, ctx) {}
   }
-}
+};
