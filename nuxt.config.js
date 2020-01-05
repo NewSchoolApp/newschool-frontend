@@ -21,7 +21,7 @@ export default {
   },
 
   env: {
-    baseUrl: process.env.VUE_APP_BASE_URL || 'http://localhost:8080/',
+    baseUrl: process.env.VUE_APP_BASE_URL || 'https://newschoolbrapi-dev.herokuapp.com/',
     credentials:{
       name: process.env.VUE_APP_CLIENT_CREDENTIAL_NAME || 'NEWSCHOOL@FRONT',
       secret: process.env.VUE_APP_CLIENT_CREDENTIAL_SECRET || 'NEWSCHOOL@FRONTSECRET',
