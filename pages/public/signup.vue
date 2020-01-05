@@ -130,6 +130,12 @@ export default {
     }
   },
 
+  head() {
+    return {
+      title: this.title,
+    }
+  },
+
   methods: {
     submit() {
       if (this.$refs.form.validate()) {
