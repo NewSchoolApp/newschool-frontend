@@ -82,15 +82,15 @@ export default {
 
   @media (min-width: 64em) {
     .v-card-body {
-      width: 33.33333%;
+      width: 25%;
       padding-right: 3em;
     }
   }
 
-  @media (min-width: 80em) {
-    .v-responsive.v-image {
-      height: 400px;
-      width: 600px;
+  @media (min-width: 100em) {
+    .v-card-body {
+      width: 20%;
+      padding-right: 3em;
     }
   }
 }
