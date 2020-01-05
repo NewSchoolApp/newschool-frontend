@@ -74,7 +74,7 @@ export default {
     }
   },
   methods: {
-    getUser() {
+    loadUserName() {
       let storedUser = JSON.parse(localStorage.getItem("user"))
       if (storedUser) {
         this.user = storedUser;
