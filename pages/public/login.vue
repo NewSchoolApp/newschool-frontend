@@ -117,7 +117,8 @@ export default {
         {
           hid: 'description',
           name: 'description',
-          content: 'Entre no aplicativo da New School',
+          content:
+            'Entre no aplicativo da New School - Levamos educação de qualidade na linguagem da quebrada para as periferias do Brasil, através da tecnologia e da curadoria de conteúdos baseados nas habilidades do futuro.',
         },
       ],
     }
