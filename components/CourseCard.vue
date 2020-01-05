@@ -4,6 +4,7 @@
     elevation="0"
     color="transparent"
     :tile="true"
+    :to="'/curso/' + slug"
   >
     <v-img
       :src="image"
@@ -17,7 +18,7 @@
 <script>
 export default {
   name: 'courseCard',
-  props: ['title', 'image', 'teacher']
+  props: ['title', 'image', 'teacher', 'slug']
 }
 </script>
 
