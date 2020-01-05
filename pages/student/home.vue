@@ -89,7 +89,6 @@ export default {
     return courses.getAll().then(response =>
       store.commit('courses/set', response.data)
     )
-    return Promise.resolve(coursesPromise)
   }
 
 
