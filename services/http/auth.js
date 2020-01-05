@@ -84,7 +84,7 @@ export default {
   },
 
   signUp: (form, token) => {
-    return http.post('api/v1/user', form, {
+    return http.post('api/v1/user/student', form, {
       headers: { Authorization: `Bearer ${token}` },
     })
   },
