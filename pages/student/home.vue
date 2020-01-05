@@ -1,12 +1,12 @@
 <template>
-  <main class="max-content">
+  <main class="max-content" id="page">
     <header class="welcome">
       <h1 class="welcome-title">{{'Olá ' + user.name}}</h1>
       <h2 class="welcome-subtitle">Seja bem vindo</h2>
     </header>
 
-    <article>
-      <h3 class="titleSection">CURSOS</h3>
+    <h3 class="title-section">CURSOS</h3>
+    <article class="article-container">
       <course-card
         :key="course.id"
         v-for="course in courses"
@@ -29,7 +29,7 @@
       </header>
 
       <article :key="category.name" v-for="category in categoryCourses">
-        <h3 class="titleSection">{{category.name}}</h3>
+        <h3 class="title-section">{{category.name}}</h3>
         <horizontal-scroll :horizontalPadding="34" :gap="20">
           <course-card
             v-for="course in category.courses"
@@ -168,18 +168,8 @@ export default {
 </script>
 
 <style scoped>
-.max-content{
-  max-height: 100vh;
-  padding-bottom: 56px;
-  overflow-y: auto;
-  width: 100%;
-  max-width: 860px;
-  box-sizing: border-box;
-  margin: 0 auto;
-}
-
 .welcome{
-  padding: 16px 34px 0;
+  padding: 1em 0 0 1.5em;
 }
 
 .welcome-title{
@@ -197,12 +187,72 @@ export default {
   color: #6600CC;
 }
 
-.titleSection{
+@media screen and (orientation: portrait) {
+  .article-container {
+    flex-flow: column wrap;
+  }
+
+  @media (min-width: 27.5em) {
+    .article-container {
+      flex-flow: row wrap;
+      padding: 0 1em 56px 1.5em;
+    }
+  }
+}
+
+@media screen and (orientation: landscape) {
+  .article-container {
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    align-content: flex-start;
+    overflow-x: auto;
+    margin: 0 2em 56px 1.5em;
+    padding: 0;
+  }
+
+  @media (min-width: 48em) {
+    .article-container {
+      flex-flow: row wrap;
+      margin: 0;
+    }
+  }
+}
+
+@media (min-width: 48em) {
+  .welcome {
+    padding-top: 2em;
+  }
+
+  .welcome-title {
+    font-size: 2em;
+    line-height: 0.8em;
+  }
+
+  .welcome-subtitle {
+    font-size: 1.3em;
+  }
+}
+
+.article-container {
+  display: flex;
+  max-width: 100vw;
+  padding: 0 2em 56px 1.5em;
+}
+
+.max-content{
+  max-height: 100vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  width: 100%;
+  box-sizing: border-box;
+  margin: 0 auto;
+}
+
+.title-section{
   font-weight: 900;
-  font-size: 14px;
   line-height: 17px;
   color: #6600CC;
-  padding: 20px 34px 10px;
+  padding: 1.25em 0 0.5em 1.5em;
   text-transform: uppercase;
 }
 

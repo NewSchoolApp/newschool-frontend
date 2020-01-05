@@ -4,11 +4,8 @@
     elevation="0"
     color="transparent"
     :tile="true"
-    width="280"
   >
     <v-img
-      aspect-ratio="1"
-      height="150px"
       :src="image"
     >
     </v-img>
@@ -24,24 +21,105 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+.v-responsive.v-image {
+ padding-top: 75%;
+ height: 0;
+ position: relative;
+ width: 100%;
+}
+
+.v-responsive__sizer {
+  padding: 0;
+}
+
+.v-image__image {
+ background: url("http://i.imgur.com/SrPdUD4.png") 50% 50% no-repeat;
+ background-color: #000;
+ position: absolute;
+ width: 100%;
+ height: 100%;
+}
+
+@media screen and (orientation: landscape) {
+  .v-image__image {
+    background: url("http://i.imgur.com/SrPdUD4.png") no-repeat;
+    position: absolute;
+    width: 300px;
+    height: 200px;
+  }
+
+  .v-card-body {
+    margin-right: 2.5em;
+  }
+
+  .v-card-body div {
+    cursor: pointer;
+  }
+
+  .v-responsive.v-image {
+    height: 200px;
+    width: 300px;
+  }
+
+  @media (min-width: 48em) {
+    .v-card-body {
+      margin-right: 0;
+      padding-right: 1em;
+      width: 50%;
+    }
+
+    .v-responsive.v-image {
+      height: 250px;
+      width: 350px;
+    }
+
+    .v-image__image {
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  @media (min-width: 64em) {
+    .v-card-body {
+      width: 33.33333%;
+      padding-right: 3em;
+    }
+  }
+
+  @media (min-width: 80em) {
+    .v-responsive.v-image {
+      height: 400px;
+      width: 600px;
+    }
+  }
+}
+
+@media screen and (min-width: 27.5em) and (orientation: portrait) {
+  .v-card-body {
+    width: 50%;
+    padding-right: 1em;
+  }
+}
+
 .v-card-body {
-  padding: 0 0 16px 34px;
+  margin-bottom: 1.5em;
+  align-self: stretch;
 }
 
 .v-card__title{
   font-weight: 500;
-  font-size: 12px;
+  font-size: 1em;
+  padding: 5px 0 0;
+  line-height: 0.8em;
   color: #1A1A1A;
-  padding:5px 0 0;
-  line-height: 15px;
 }
 
 .theme--light.v-card .v-card__subtitle{
   padding: 0;
-  color: #1A1A1A;
+  color: #1a1a1a;
   font-weight: 300;
-  font-size: 10px;
+  font-size: 0.7em;
   line-height: 12px;
 }
 </style>
