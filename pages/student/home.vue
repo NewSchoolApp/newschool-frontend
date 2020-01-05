@@ -86,7 +86,7 @@ export default {
     this.loadUserName();
   },
   asyncData({ store, data, params, $axios }) {
-    const coursesPromise = courses.getAll().then(response =>
+    return courses.getAll().then(response =>
       store.commit('courses/set', response.data)
     )
     return Promise.resolve(coursesPromise)
