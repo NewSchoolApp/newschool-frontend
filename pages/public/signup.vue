@@ -129,9 +129,9 @@ export default {
         password: '',
         confirmPassword: '',
         urlFacebook: '',
-        urlInstagram: '',
-        role: 'STUDENT',
+        urlInstagram: ''
       },
+
       nameRules: [v => !!v || 'Digite seu nome'],
       passwordRules: [
         v => !!v || 'Digite a senha',
@@ -147,9 +147,11 @@ export default {
   methods: {
     submit() {
       if (this.$refs.form.validate()) {
+        const postObject = Object.assign({}, this.form)
+        delete postObject.confirmPassword
         this.animateForm(true)
         auth
-          .signUp(this.form, this.token)
+          .signUp(postObject, this.token)
           .then(res => {
             this.loading = false
             this.confirmSnackbar('Cadastro efetuado! ;)', 'success')
