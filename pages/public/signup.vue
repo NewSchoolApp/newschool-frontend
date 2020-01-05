@@ -101,7 +101,6 @@ export default {
   data() {
     return {
       title: 'Cadastro',
-      description: 'Cadastra-se no aplicativo da New School - Levamos educação de qualidade na linguagem da quebrada para as periferias do Brasil, através da tecnologia e da curadoria de conteúdos baseados nas habilidades do futuro.',
       status: true,
       loading: false,
       showPass: String,
@@ -134,7 +133,13 @@ export default {
   head() {
     return {
       title: this.title,
-      description: this.description
+      meta: [
+        {
+          hid: 'description',
+          name: 'description',
+          content: 'Cadastra-se no aplicativo da New School',
+        },
+      ],
     }
   },
 

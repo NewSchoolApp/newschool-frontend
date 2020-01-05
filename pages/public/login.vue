@@ -97,8 +97,6 @@ export default {
     showPass: false,
 
     title: 'Entrar',
-    description:
-      'Entre no aplicativo da New School - Levamos educação de qualidade na linguagem da quebrada para as periferias do Brasil, através da tecnologia e da curadoria de conteúdos baseados nas habilidades do futuro.',
 
     email: '',
     emailRules: [
@@ -115,7 +113,13 @@ export default {
   head() {
     return {
       title: this.title,
-      description: this.description,
+      meta: [
+        {
+          hid: 'description',
+          name: 'description',
+          content: 'Entre no aplicativo da New School',
+        },
+      ],
     }
   },
 
