@@ -1,5 +1,6 @@
 <template>
   <v-card
+    class="v-card-body"
     elevation="0"
     color="transparent"
     :tile="true"
@@ -24,6 +25,10 @@ export default {
 </script>
 
 <style>
+.v-card-body {
+  padding: 0 0 16px 34px;
+}
+
 .v-card__title{
   font-weight: 500;
   font-size: 12px;
