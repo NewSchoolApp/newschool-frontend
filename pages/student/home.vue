@@ -83,7 +83,7 @@ export default {
     }
   },
   mounted() {
-    this.getUser();
+    this.loadUserName();
   },
   asyncData({ store, data, params, $axios }) {
     const coursesPromise = courses.getAll().then(response =>
