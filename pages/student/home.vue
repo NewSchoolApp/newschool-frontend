@@ -53,7 +53,7 @@ export default {
       let storedUser = JSON.parse(localStorage.getItem("user"))
       if (storedUser) {
         this.user = storedUser;
-        this.user.name = this.user.name.split(' ')[0]
+        this.user.name = storedUser.name.split(' ')[0]
       }
     }
   },
