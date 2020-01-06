@@ -1,11 +1,6 @@
 <template>
   <v-layout align-center justify-center>
-    <v-progress-circular
-      v-if="loading"
-      :size="70"
-      :width="5"
-      indeterminate
-    ></v-progress-circular>
+    <v-progress-circular v-if="loading" :size="70" :width="5" indeterminate></v-progress-circular>
 
     <v-flex xs10 sm8 md6 ref="flex" v-else>
       <v-container>
@@ -19,19 +14,13 @@
 
         <v-row>
           <v-col cols="12">
-            <h2 class="page-title">Cadastro</h2>
+            <h1 class="page-title">Cadastro</h1>
           </v-col>
         </v-row>
         <v-row>
           <v-col cols="12">
             <v-form ref="form" v-model="status" lazy-validation>
-              <v-text-field
-                color="#60c"
-                v-model="form.name"
-                label="Nome *"
-                name="name"
-                required
-              ></v-text-field>
+              <v-text-field color="#60c" v-model="form.name" label="Nome *" name="name" required></v-text-field>
               <v-text-field
                 color="#60c"
                 v-model="form.email"
@@ -76,9 +65,7 @@
                 name="urlInstagram"
                 required
               ></v-text-field>
-              <v-btn color="#60c" dark block depressed large @click="submit"
-                >Cadastrar</v-btn
-              >
+              <v-btn color="#60c" dark block depressed large @click="submit">Cadastrar</v-btn>
             </v-form>
           </v-col>
           <v-col cols="12" class="text-center">
@@ -92,9 +79,7 @@
             :right="true"
           >
             {{ snackbarText }}
-            <v-btn color="#FFF" text @click="snackbar = false">
-              Fechar
-            </v-btn>
+            <v-btn color="#FFF" text @click="snackbar = false">Fechar</v-btn>
           </v-snackbar>
         </v-row>
       </v-container>
@@ -115,6 +100,7 @@ import auth from '../../services/http/auth'
 export default {
   data() {
     return {
+      title: 'Cadastro',
       status: true,
       loading: false,
       showPass: String,
@@ -129,7 +115,7 @@ export default {
         password: '',
         confirmPassword: '',
         urlFacebook: '',
-        urlInstagram: ''
+        urlInstagram: '',
       },
 
       nameRules: [v => !!v || 'Digite seu nome'],
@@ -140,6 +126,20 @@ export default {
       emailRules: [
         v => !!v || 'Digite o e-mail',
         v => /.+@.+\..+/.test(v) || 'E-mail inválido',
+      ],
+    }
+  },
+
+  head() {
+    return {
+      title: this.title,
+      meta: [
+        {
+          hid: 'description',
+          name: 'description',
+          content:
+            'Cadastra-se no aplicativo da New School - Levamos educação de qualidade na linguagem da quebrada para as periferias do Brasil, através da tecnologia e da curadoria de conteúdos baseados nas habilidades do futuro.',
+        },
       ],
     }
   },

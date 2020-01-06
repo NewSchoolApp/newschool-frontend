@@ -50,8 +50,7 @@
                 depressed
                 large
                 @click="submit"
-                >Entrar</v-btn
-              >
+              >Entrar</v-btn>
             </v-col>
           </v-form>
           <v-col cols="12">
@@ -63,8 +62,7 @@
               depressed
               large
               to="/cadastro"
-              >Cadastrar</v-btn
-            >
+            >Cadastrar</v-btn>
           </v-col>
           <v-col cols="12" class="text-center">
             <a class="text-white">Esqueceu sua senha?</a>
@@ -115,13 +113,22 @@ export default {
   head() {
     return {
       title: this.title,
+      meta: [
+        {
+          hid: 'description',
+          name: 'description',
+          content:
+            'Entre no aplicativo da New School - Levamos educação de qualidade na linguagem da quebrada para as periferias do Brasil, através da tecnologia e da curadoria de conteúdos baseados nas habilidades do futuro.',
+        },
+      ],
     }
   },
 
   // eslint-disable-next-line object-shorthand
   created: function() {
     if (auth.isLoginExpired()) {
-      this.dialogMessage = 'Sua sessão expirou. Por favor, faça o login novamente.'
+      this.dialogMessage =
+        'Sua sessão expirou. Por favor, faça o login novamente.'
       this.dialog = true
     }
   },
