@@ -7,7 +7,6 @@
       </v-btn>
     </header>
     <div class="body-list">
-
       <v-card v-for="item in list" v-bind:key="item.id" class="v-card-border">
         <div class="content">
           <div class="img-mask">
@@ -85,28 +84,12 @@ export default {
           alert(err)
         })
     },
-    addAllCourses(){
-      http
-      .addAll ('api/v1/course')
-      .then (res => {
-        list = res.data
-      })
-      .catch (err => {
-        alert(err)
-      })
-    },
-    updateAllCourses (){
-      http
-      .updateAll ('api/v1/course')
-    },
-    deleteAllCourses (){
-      http
-      .deleteAll ('api/v1/course')
-      
+
+    deleteCourse(id) {
+      http.delete('api/v1/course/' + id)
     },
   },
-  mounted() {
-  },
+  mounted() {this.getAllCourses()},
 }
 </script>
 
