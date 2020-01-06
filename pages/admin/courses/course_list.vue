@@ -60,6 +60,7 @@ export default {
           alert(err)
         })
     },
+<<<<<<< HEAD
     deleteCourse(id){
       http.delete(`/api/v1/course/${id}`).then(
         res=>{
@@ -70,6 +71,27 @@ export default {
         alert("Erro ao excluir o curso!")
       })
     }
+=======
+    addAllCourses(){
+      http
+      .addAll ('api/v1/course')
+      .then (res => {
+        list = res.data
+      })
+      .catch (err => {
+        alert(err)
+      })
+    },
+    updateAllCourses (){
+      http
+      .updateAll ('api/v1/course')
+    },
+    deleteAllCourses (){
+      http
+      .deleteAll ('api/v1/course')
+      
+    },
+>>>>>>> 82da392f7985abee2add187342dc68e7a6f28093
   },
   mounted() {
     this.getAllCourses()
