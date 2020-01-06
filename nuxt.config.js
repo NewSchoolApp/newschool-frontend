@@ -46,7 +46,7 @@ export default {
    */
   head: {
     titleTemplate:
-      '%s - ' + 'New School | Formando os protagonistas da quebrada',
+      '%s | ' + 'New School | Formando os protagonistas da quebrada',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
