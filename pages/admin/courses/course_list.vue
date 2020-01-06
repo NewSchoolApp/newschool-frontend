@@ -7,19 +7,16 @@
       </v-btn>
     </header>
     <div class="body-list">
-
       <v-card v-for="item in list" v-bind:key="item.id" class="v-card-border">
         <div class="content">
           <div class="img-mask">
             <img :src="item.thumbUrl" alt />
           </div>
-
           <div class="info-text">
             <h1>{{item.title}}</h1>
             <p>{{item.description}}</p>
           </div>
         </div>
-
         <div class="group-buttons">
           <v-btn class="btn-item bg-blue">
             <v-icon class="text-white">mdi-border-color</v-icon>
@@ -41,7 +38,6 @@
 <script>
 import NavigationBar from '~/components/NavigationBar.vue'
 import http from '~/services/http/generic'
-
 export default {
   data: () => ({
     list: [],
@@ -78,7 +74,6 @@ export default {
   },
 }
 </script>
-
 <style scoped>
 #page {
   font-family: 'Montserrat', sans-serif !important;
@@ -89,7 +84,6 @@ h1 {
 p {
   font-size: 0.7rem;
 }
-
 .body-list {
   display: flex;
   align-items: center;
@@ -107,7 +101,6 @@ p {
   padding-top: 8px;
   width: 13rem;
 }
-
 .title {
   background: white;
   padding: 23px;
@@ -121,7 +114,6 @@ p {
   font-weight: 900;
   font-family: 'Montserrat', sans-serif !important;
 }
-
 .v-card {
   width: 90%;
   border-radius: 3px;
@@ -140,7 +132,6 @@ p {
   min-width: unset !important;
   border-radius: none !important;
 }
-
 .v-card > *:last-child:not(.v-btn):not(.v-chip) {
   border-bottom-left-radius: unset !important;
 }
