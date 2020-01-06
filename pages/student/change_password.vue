@@ -1,7 +1,9 @@
 <template>
   <v-layout justify-center>
 
-    <v-progress-circular v-if="loading" :size="70" :width="5" indeterminate></v-progress-circular>
+    <div v-if="loading" class="spiner-container">  
+      <v-progress-circular :size="70" :width="5" indeterminate></v-progress-circular>
+    </div>
 
     <v-flex xs10 sm8 md6 ref="flex" v-else>
       <v-container>
@@ -69,6 +71,10 @@
                 @click="switchPassword"
               >Alterar Senha</v-btn>
             </v-form>
+            
+            <div v-else>
+              <p class="change-status">{{ changeStatus }}</p>
+            </div>
           </v-col>
         </v-row>
       </v-container>
@@ -78,13 +84,14 @@
 
 <router>
 {
-  path : '/alterar-senha'
+  path : '/aluno/alterar-senha'
 }
 
 </router>
 
 <script scoped>
 import auth from "../../services/http/auth";
+import users from "../../services/http/users";
 
 export default {
   name: 'changePassword',
@@ -96,11 +103,12 @@ export default {
       showNewPass: String,
       showConfirmNewPass: String,
       isChanged: false,
+      changeStatus: '',
       token: '',
       form: {
         password: "",
         newPassword: "",
-        confirmNewPasswor: ""
+        confirmNewPassword: ""
       },
       nameRules: [v => !!v || "Digite seu nome"],
       passwordRules: [
@@ -115,29 +123,30 @@ export default {
   },
 
   methods: {
-    // switchPassword() {
-    //   if (this.$refs.form.validate()) {
-    //     this.animateForm(true);
-    //     auth
-    //       .signUp(this.form, this.token)
-    //       .then(res => {
-    //         this.loading = false;
-    //         this.confirmSnackbar('Cadastro efetuado! ;)', 'success');
-    //         setTimeout(() => {
-    //           this.gotoLogin();
-    //         }, 2500);
-    //       })
-    //       .catch(err => {
-    //         this.confirmSnackbar('Ocorreu um erro.', 'error');
-    //         setTimeout(() => {
-    //           this.loading = false;
-    //         }, 500);
-    //         console.error(err);
-    //       });
-    //   } else {
-    //     this.animateForm(false);
-    //   }
-    // },
+    switchPassword() {
+      if (this.$refs.form.validate()) {
+        this.animateForm(true);
+
+        users.updatePass(this.form)
+        .then(res => {
+          this.loading = false;
+          this.isChanged = true;
+          this.changeStatus = 'Senha alterada com sucesso!';
+          setTimeout(() => {
+            this.gotoHome();
+          }, 1500); 
+        })
+        .catch(err => {
+          this.changeStatus = 'Ocorreu um problema, tente novamente.'
+          setTimeout(() => {
+            this.loading = false;
+          }, 500);
+          console.error(err);
+        });
+      } else {
+        this.animateForm(false);
+      }
+    },
 
     animateForm(status) {
       if (status) {
@@ -156,7 +165,7 @@ export default {
     },
 
     gotoHome() {
-      $nuxt._router.push("/");
+      $nuxt._router.push("/aluno/home");
     },
   },
 
@@ -190,6 +199,14 @@ export default {
   background: #fff !important;
 }
 
+/* Spinner */
+.spiner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100vh;
+}
 
 /* Page */
 .page-title {
@@ -291,5 +308,13 @@ export default {
 
 .error-form {
   animation: nono 300ms, intro paused;
+}
+
+.change-status {
+  margin-top: 60px;
+  font-size: 18px;
+  line-height: 22px;
+  text-align: center;
+  color: #60c;
 }
 </style>
