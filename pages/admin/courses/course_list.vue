@@ -55,7 +55,7 @@ export default {
         .getAll("/api/v1/course")
         .then(res => {
           list = res.data
-          this.flagView = (this.list.length < 1)  
+          this.flagView = (this.list.length > 0)  
         })
         .catch(err => {
           alert(err)
