@@ -1,6 +1,8 @@
 <template>
   <div>
+
     <MenuBarBackCourse />
+
     <v-layout align-center justify-center>
       <v-progress-circular v-if="loading" :size="70" :width="5" indeterminate></v-progress-circular>
       <v-flex xs10 sm12 md8 ref="flex" v-else>
@@ -31,8 +33,8 @@
                 ></v-text-field>
                 <v-row class="ma-0 pt-4">
                   <h2 class="page-title" style="line-height: unset;">Parte</h2>
-                  <v-btn class="ma-0 ml-4 rounded-button" outlined fab x-small color="#6600cc">
-                    <v-icon size="30">mdi-plus</v-icon>
+                  <v-btn class="ma-0 ml-4 rounded-button color-forced" outlined fab x-small>
+                    <v-icon class="color-forced" size="30">mdi-plus</v-icon>
                   </v-btn>
                 </v-row>
 
@@ -50,15 +52,15 @@
                   >Favor, adicionar uma parte.</v-alert>
                 </v-row>
 
-                <v-btn
-                  style="position: relative"
+                <v-btn                 
                   bottom
                   color="#60c"
                   dark
                   block
                   depressed
                   large
-                  @click="submit"
+                  @click="submit" 
+                  width="100%"                 
                 >Salvar</v-btn>
               </v-form>
             </v-col>
@@ -287,6 +289,7 @@ export default {
 
 .rounded-button {
   border-radius: 50px !important;
+  min-width: 0 !important;
 }
 
 .msg-alert {
@@ -295,5 +298,9 @@ export default {
   line-height: 15px !important;
   text-transform: unset !important;
   color: #737373;
+}
+
+.color-forced {
+  color: #6600cc !important;
 }
 </style>
