@@ -54,28 +54,28 @@ export default {
         link: "/aluno/perfil"
       },
       {
-        id: 1,
+        id: 2,
         label: "Meus Cursos",
         icon: "mdi-library",
         link: "/aluno/meus-cursos"
       },
       {
-        id: 2,
+        id: 3,
         label: "Meus Certificados",
         icon: "mdi-school",
         link: "/aluno/certificados"
       },
       {
-        id: 3,
+        id: 4,
         label: "Contribua",
         icon: "mdi-source-fork",
         link: "/contribua"
       },
-      { id: 4, label: "Sobre", icon: "mdi-file-document-box", link: "/sobre" },
-      { id: 5, label: "Ajuda", icon: "mdi-help-circle", link: "/ajuda" },
-      { id: 6, label: "Contato", icon: "mdi-cellphone", link: "/contato" },
-      { id: 7, label: "Imprensa", icon: "mdi-camcorder", link: "/imprensa" },
-      { id: 8, label: "Investidores", icon: "mdi-coin", link: "/investidores" }
+      { id: 5, label: "Sobre", icon: "mdi-file-document-box", link: "/sobre" },
+      { id: 6, label: "Ajuda", icon: "mdi-help-circle", link: "/ajuda" },
+      { id: 7, label: "Contato", icon: "mdi-cellphone", link: "/contato" },
+      { id: 8, label: "Imprensa", icon: "mdi-camcorder", link: "/imprensa" },
+      { id: 9, label: "Investidores", icon: "mdi-coin", link: "/investidores" }
     ]
   }),
   methods: {
