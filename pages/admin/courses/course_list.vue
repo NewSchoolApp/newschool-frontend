@@ -12,13 +12,11 @@
           <div class="img-mask">
             <img :src="item.thumbUrl" alt />
           </div>
-
           <div class="info-text">
             <h1>{{item.title}}</h1>
             <p>{{item.description}}</p>
           </div>
         </div>
-
         <div class="group-buttons">
           <v-btn class="btn-item bg-blue">
             <v-icon class="text-white">mdi-border-color</v-icon>
@@ -40,35 +38,10 @@
 <script>
 import NavigationBar from '~/components/NavigationBar.vue'
 import http from '~/services/http/generic'
-
 export default {
   data: () => ({
-    list: [
-      {
-        id: 1,
-        title: 'Matemática na Prática',
-        description: 'Andrews, O Fera',
-        thumbUrl: require('@/assets/matematic.svg'),
-      },
-      {
-        id: 2,
-        title: 'Fotografica na Raça',
-        description: 'Tai, A Grandiosa',
-        thumbUrl: require('@/assets/photo.svg'),
-      },
-      {
-        id: 3,
-        title: 'Contabilidade Pura',
-        description: 'JP, O Mestre',
-        thumbUrl: require('@/assets/contablie.svg'),
-      },
-      {
-        id: 4,
-        title: 'O Hulmide programmer',
-        description: 'onathan,3 cachorro',
-        thumbUrl: require('@/assets/contablie.svg'),
-      },
-    ],
+    list: [],
+    flagView : false
   }),
   components: {
     NavigationBar,
@@ -76,23 +49,31 @@ export default {
   methods: {
     getAllCourses() {
       http
-        .getAll('/api/v1/course')
+        .getAll("/api/v1/course")
         .then(res => {
           list = res.data
+          this.flagView = (this.list.length < 1)  
         })
         .catch(err => {
           alert(err)
         })
     },
-
-    deleteCourse(id) {
-      http.delete('api/v1/course/' + id)
-    },
+    deleteCourse(id){
+      http.delete(`/api/v1/course/${id}`).then(
+        res=>{
+          alert("Curso excluído com suceso!")
+        }
+      ).catch((err)=>{
+        console.error(err)
+        alert("Erro ao excluir o curso!")
+      })
+    }
   },
-  mounted() {this.getAllCourses()},
+  mounted() {
+    this.getAllCourses()
+  },
 }
 </script>
-
 <style scoped>
 #page {
   font-family: 'Montserrat', sans-serif !important;
@@ -103,7 +84,6 @@ h1 {
 p {
   font-size: 0.7rem;
 }
-
 .body-list {
   display: flex;
   align-items: center;
@@ -121,7 +101,6 @@ p {
   padding-top: 8px;
   width: 13rem;
 }
-
 .title {
   background: white;
   padding: 23px;
@@ -135,7 +114,6 @@ p {
   font-weight: 900;
   font-family: 'Montserrat', sans-serif !important;
 }
-
 .v-card {
   width: 90%;
   border-radius: 3px;
@@ -154,7 +132,6 @@ p {
   min-width: unset !important;
   border-radius: none !important;
 }
-
 .v-card > *:last-child:not(.v-btn):not(.v-chip) {
   border-bottom-left-radius: unset !important;
 }
