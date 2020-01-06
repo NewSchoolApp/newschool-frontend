@@ -44,32 +44,7 @@ import http from '~/services/http/generic'
 
 export default {
   data: () => ({
-    list: [
-      {
-        id: 1,
-        title: 'Matemática na Prática',
-        description: 'Andrews, O Fera',
-        thumbUrl: require('@/assets/matematic.svg'),
-      },
-      {
-        id: 2,
-        title: 'Fotografica na Raça',
-        description: 'Tai, A Grandiosa',
-        thumbUrl: require('@/assets/photo.svg'),
-      },
-      {
-        id: 3,
-        title: 'Contabilidade Pura',
-        description: 'JP, O Mestre',
-        thumbUrl: require('@/assets/contablie.svg'),
-      },
-      {
-        id: 4,
-        title: 'O Hulmide programmer',
-        description: 'onathan,3 cachorro',
-        thumbUrl: require('@/assets/contablie.svg'),
-      },
-    ],
+    list: [],
   }),
   components: {
     NavigationBar,
@@ -77,7 +52,7 @@ export default {
   methods: {
     getAllCourses() {
       http
-        .getAll('/api/v1/course')
+        .getAll("/api/v1/course")
         .then(res => {
           list = res.data
         })
@@ -85,9 +60,19 @@ export default {
           alert(err)
         })
     },
-
+    deleteCourse(id){
+      http.delete(`/api/v1/course/${id}`).then(
+        res=>{
+          alert("Curso excluído com suceso!")
+        }
+      ).catch((err)=>{
+        console.error(err)
+        alert("Erro ao excluir o curso!")
+      })
+    }
   },
   mounted() {
+    this.getAllCourses()
   },
 }
 </script>
