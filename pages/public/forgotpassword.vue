@@ -3,30 +3,25 @@
 
     <v-progress-circular v-if="loading" :size="70" :width="5" indeterminate></v-progress-circular>
 
-    <v-flex xs10 sm8 md6 ref="flex" v-else>
+    <v-flex xs10 sm15 md6 ref="flex" v-else>
       <v-container>
         <v-row>
-          <v-col cols="12">
-            <div class="logo-container">
-              <img src="~/assets/purple-logo.svg" alt="castor" />
+          <v-col cols="15">
+            <div class="logo-center">
+              <img src="~/assets/gabs.svg" alt="castor"  />
             </div>
           </v-col>
         </v-row>
 
         <v-row>
-          <v-col cols="12">
-            <h2 class="page-title">Cadastro</h2>
+          <v-col cols="15">
+            <a class="page-text">Digite seu email registrado para redefinir sua senha</a>
           </v-col>
         </v-row>
         <v-row>
           <v-form ref="form" v-model="status" lazy-validation>
-            <v-col cols="12">
-              <v-text-field
-                v-model="form.name"
-                label="Nome *"
-                name="name"
-                required
-              ></v-text-field>
+            <v-col cols="15">
+
               <v-text-field
                 v-model="form.email"
                 :rules="emailRules"
@@ -34,45 +29,13 @@
                 name="email"
                 required
               ></v-text-field>
-              <v-text-field
-                v-model="form.password"
-                label="Senha *"
-                name="password"
-                :rules="passwordRules"
-                :type="showPass ? 'password' : 'text'"
-                :append-icon="showPass ? 'mdi-eye' : 'mdi-eye-off'"
-                @click:append="() => (showPass = !showPass)"
-                required
-              ></v-text-field>
-              <v-text-field
-                v-model="form.confirmPassword"
-                label="Confirmar senha *"
-                :rules="confirmPasswordRules"
-                :type="showConfirmPass ? 'password' : 'text'"
-                :append-icon="showConfirmPass ? 'mdi-eye' : 'mdi-eye-off'"
-                @click:append="() => (showConfirmPass = !showConfirmPass)"
-                required
-              ></v-text-field>
-              <v-text-field
-                v-model="form.urlFacebook"
-                label="URL do Facebook"
-                name="urlFacebook"
-                required
-              ></v-text-field>
-              <v-text-field
-                type="text"
-                v-model="form.urlInstagram"
-                label="URL do Instagram"
-                name="urlInstagram"
-                required
-              ></v-text-field>
             </v-col>
             <v-col cols="12">
-              <v-btn class="btn-block btn-submit" depressed large @click="submit">Cadastrar</v-btn>
+              <v-btn class="btn-block btn-submit" depressed large @click="submit">Redefinir senha</v-btn>
             </v-col>
           </v-form>
           <v-col cols="12" class="text-center">
-            <a class="login-link" @click="gotoLogin">Ops, já tenho conta</a>
+            <a class="login-link" @click="gotoLogin">Opa, lembrei minha senha!</a>
           </v-col>
           <v-snackbar
             v-model="snackbar"
@@ -98,14 +61,13 @@
 
 <router>
 {
-  path : '/cadastro'
+  path : '/Esqueci-minha-senha'
 }
 
 </router>
 
 <script scoped>
 import auth from "../../services/http/auth";
-
 export default {
   data() {
     return {
@@ -118,35 +80,23 @@ export default {
       snackbarStatus: '',
       token: '',
       form: {
-        name: "",
         email: "",
-        password: "",
-        confirmPassword: "",
-        urlFacebook: "",
-        urlInstagram: "",
-        role: 'STUDENT'
       },
-      nameRules: [v => !!v || "Digite seu nome"],
-      passwordRules: [
-        v => !!v || "Digite a senha",
-        v => (v && v.length >= 6) || "A senha deve ter no mínimo 6 caractéres"
-      ],
       emailRules: [
         v => !!v || "Digite o e-mail",
         v => /.+@.+\..+/.test(v) || "E-mail inválido"
       ]
     };
   },
-
   methods: {
     submit() {
       if (this.$refs.form.validate()) {
         this.animateForm(true);
         auth
-          .signUp(this.form, this.token)
+          .forgotpassword(this.form, this.token)
           .then(res => {
             this.loading = false;
-            this.confirmSnackbar('Cadastro efetuado! ;)', 'success');
+            this.confirmSnackbar('O link para redefinir sua senha foi enviado para seu email! ;)', 'success');
             setTimeout(() => {
               this.gotoLogin();
             }, 2500);
@@ -162,7 +112,6 @@ export default {
         this.animateForm(false);
       }
     },
-
     animateForm(status) {
       if (status) {
         this.$refs.flex.classList.add("hide-form");
@@ -179,25 +128,15 @@ export default {
       document.querySelector("html").style.overflow = "scroll";
     },
 
-    showPassword() {
-      this.eyeIcon === 'mdi-eye' ? this.eyeIcon = 'mdi-eye-off' : this.eyeIcon = 'mdi-eye'
-    },
-
-    showConfirmPassword() {
-      this.eyeIcon2 === 'mdi-eye' ? this.eyeIcon2 = 'mdi-eye-off' : this.eyeIcon2 = 'mdi-eye'
-    },
-
     gotoLogin() {
       $nuxt._router.push("/login");
     },
-
     confirmSnackbar(text, status) {
       this.snackbarText = text;
       this.snackbarStatus = status;
       this.snackbar = true;
     }
   },
-
   mounted() {
     auth.getExternalCredentials().then(res => {
         const { data } = res;
@@ -207,38 +146,22 @@ export default {
         console.error(err);
       });
   },
-
-  computed: {
-    confirmPasswordRules() {
-      return [
-        v => !!v || "Confirme a senha",
-        () =>
-          this.form.password === this.form.confirmPassword ||
-          "As senhas devem ser idênticas."
-      ];
-    }
-  }
 };
 </script>
 
 <style scoped>
 @import url("https://fonts.googleapis.com/css?family=Montserrat:400,500,900&display=swap");
-
 /* Global */
 * {
   font-family: "Montserrat", Helvetica, Arial, sans-serif !important;
 }
-
 .flex {
   animation: intro 300ms backwards;
   animation-delay: 350ms;
 }
-
 .layout {
   background: #fff !important;
 }
-
-
 /* Page */
 .page-title {
   font-size: 24px;
@@ -246,8 +169,6 @@ export default {
   text-transform: uppercase;
   color: #6600cc;
 }
-
-
 /* Logo */
 .logo-container {
   display: flex;
@@ -256,34 +177,29 @@ export default {
   -webkit-box-align: start;
   align-items: flex-start;
 }
-
 .logo-container img {
   width: 80px;
 }
-
-
+.logo-center  {
+  text-align: center;
+}
 /* Form */
 .v-form {
   width: 100%;
 }
-
 .theme--light.v-label {
   font-weight: 600;
   color: #aa56ff !important;
 }
-
 .theme--light.v-text-field > .v-input__control > .v-input__slot:before {
   border-color: #aa56ff !important;
 }
-
 .theme--light.v-text-field:not(.v-input--has-state) > .v-input__control > .v-input__slot:hover:before {
   border-color: #6600CC !important;
 }
-
 .theme--light.v-input:not(.v-input--is-disabled) input {
   color: #6600CC !important;
 }
-
 .v-input__slot {
   margin-top: 20px !important;
   padding-left: 5px !important;
@@ -292,52 +208,43 @@ export default {
   background-color: #fff !important;
   box-shadow: none !important;
 }
-
 .v-text-field {
   padding-top: 0 !important;
   margin-top: 0 !important;
   color: #6600CC;
 }
-
 .theme--dark.v-input:not(.v-input--is-disabled) input {
   color: #6600CC;
 }
-
 .v-icon.v-icon.v-icon--link {
   color: #aa56ff;
   padding-right: 5px;
 }
-
 .theme--light.v-btn:not(.v-btn--flat):not(.v-btn--text):not(.v-btn--outlined) {
   background: #6600cc !important;
   border-radius: 5px !important;
   color: #fff !important;
   font-weight: bold !important;
 }
-
 .login-link {
   color: #6600cc !important;
 }
-
 .hide-form {
   animation: down 300ms forwards;
 }
-
 .error-form {
   animation: nono 300ms, intro paused;
 }
-
-
 /* Error messages */
 .v-messages__message {
   color: #ff5252 !important;
   font-size: 12px !important;
   margin-left: 5px;
 }
-
-
 /* Snackbar */
 .v-snack__content {
   border-radius: 5px;
 }
+
+
 </style>

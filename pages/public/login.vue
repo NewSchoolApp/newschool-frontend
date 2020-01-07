@@ -58,9 +58,11 @@
                 to="/cadastro"
               >Cadastrar</v-btn>
             </v-col>
+
           <v-col cols="12" class="text-center">
-            <a class="text-white">Esqueceu sua senha?</a>
+            <v-btn  tile outlined color="white" to="/Esqueci-minha-senha">Esqueci minha senha</v-btn>
           </v-col>
+
         </v-row>
       </v-container>
     </v-flex>
@@ -157,7 +159,7 @@ export default {
 ::placeholder {
   color: #aa56ff !important;
 }
-.bg { 
+.bg {
   width: 100%;
   height: 100%;
   position: fixed;
