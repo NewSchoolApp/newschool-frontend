@@ -13,5 +13,15 @@ export default {
         const{accessToken} = auth.getInfoAuth();
         
         return http.put(`api/v1/user/me`, form, { headers: { 'Authorization': `${accessToken}` } });
+    },
+
+    updatePass: (form) => {
+        const {accessToken} = auth.getInfoAuth();
+
+        return http.put(
+            'api/v1/user/me/change-password',
+            form,
+            { headers: { 'Authorization': `${accessToken}` } }
+        )
     }
 }
