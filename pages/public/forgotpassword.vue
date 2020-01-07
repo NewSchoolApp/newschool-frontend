@@ -81,6 +81,7 @@ export default {
       token: '',
       form: {
         email: "",
+      role: 'STUDENT'
       },
       emailRules: [
         v => !!v || "Digite o e-mail",
@@ -93,10 +94,10 @@ export default {
       if (this.$refs.form.validate()) {
         this.animateForm(true);
         auth
-          .forgotpassword(this.form, this.token)
+          .signUp(this.form, this.token)
           .then(res => {
             this.loading = false;
-            this.confirmSnackbar('O link para redefinir sua senha foi enviado para seu email! ;)', 'success');
+            this.confirmSnackbar('O link foi pro seu email! ;)', 'success');
             setTimeout(() => {
               this.gotoLogin();
             }, 2500);
