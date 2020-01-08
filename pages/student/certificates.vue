@@ -15,7 +15,7 @@
   }
 </router>
 
-<script>
+<script >
 import NavigationBar from "~/components/NavigationBar.vue";
 
 export default {
@@ -25,5 +25,5 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 </style>

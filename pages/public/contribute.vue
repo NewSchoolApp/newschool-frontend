@@ -1,6 +1,6 @@
 <template>
   <section>
-    <article id="page" class="overflow-x-auto" max-height="600">
+    <article id="page">
       <v-container>
         <div class="title">APOIE O PROJETO</div>
         <p class="descricao">Que tal nosso stack tecnológico? Combinação boa heim! Em cada repositório GITHUB tem uma explicação passo-a-passo de como você fazer sua PRIMEIRA CONTRIBUIÇÃO no projeto. Bora?</p>
@@ -175,10 +175,10 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 @import url("https://fonts.googleapis.com/css?family=Montserrat:400,500,900&display=swap");
 
-.title {
+::v-deep .title {
   color: #6600cc;
   font-family: 'Montserrat';
   font-style: normal;
@@ -187,7 +187,7 @@ export default {
   line-height: 24px;
   
 }
-.descricao {
+::v-deep .descricao {
   margin-top: 16px;
   font-family: Montserrat;
   font-style: normal;
@@ -196,25 +196,30 @@ export default {
   line-height: 15px;
   color: #1a1a1a;
 }
-.v-title__title{
+::v-deep .v-title__title{
   margin-top: -57px;
 }
-.figma .v-image__image{
+::v-deep .figma .v-image__image{
  margin-top: -10px;
 }
-.figma .v-card__title{
+::v-deep .figma .v-card__title{
   margin-top: -33px;
 }
-.heroku .v-image__image{
+::v-deep .heroku .v-image__image{
  height: 70%;
  margin-top: 7%;
 }
-.heroku .v-card__title{
+::v-deep .heroku .v-card__title{
   margin-top: -20%;
 }
-.rollbar .v-image__image{
+::v-deep .rollbar .v-image__image{
  width: 80%;
  height:70%;
  margin: 15% 10%
+}
+::v-deep article{
+  max-height: 100vh;
+  overflow-y: auto;
+
 }
 </style>

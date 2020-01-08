@@ -22,12 +22,6 @@
     "*.js": "eslint --ignore-path .gitignore",
     "*.vue": "eslint --ignore-path .gitignore"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm run lint-staged",
-      "pre-push": "npm run test"
-    }
-  },
   "dependencies": {
     "@mdi/font": "^4.6.95",
     "@nuxtjs/axios": "^5.3.6",
@@ -37,7 +31,8 @@
     "@nuxtjs/router-extras": "^1.0.0",
     "@nuxtjs/vuetify": "^1.0.0",
     "fs": "0.0.1-security",
-    "nuxt": "^2.0.0",
+    "ms": "^2.1.2",
+    "nuxt": "^2.11.0",
     "vue-avatar": "^2.1.8",
     "vue-social-sharing": "^2.4.7"
   },
