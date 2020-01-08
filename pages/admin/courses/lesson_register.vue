@@ -17,18 +17,18 @@
               <v-form ref="form" v-model="status" lazy-validation>
                 <v-text-field
                   color="#60c"
-                  v-model="form.titulo"
-                  :rules="tituloRules"
+                  v-model="form.title"
+                  :rules="titleRules"
                   label="Título *"
-                  name="titulo"
+                  name="title"
                   required
                 ></v-text-field>
                 <v-text-field
                   color="#60c"
-                  v-model="form.email"
-                  :rules="descricaoRules"
+                  v-model="form.description"
+                  :rules="descriptionRules"
                   label="Descrição *"
-                  name="descricao"
+                  name="description"
                   required
                 ></v-text-field>
                 <v-row class="ma-0 pt-4">
@@ -114,11 +114,13 @@ export default {
       snackbarStatus: '',
       token: '',
       form: {
-        titulo: '',
-        descricao: '',
+        title: '',
+        description: '',
+        course: '',
+        nextLesson: '',
       },
-      tituloRules: [v => !!v || 'Digite um título'],
-      descricaoRules: [v => !!v || 'Digite uma descrição'],
+      titleRules: [v => !!v || 'Digite um título'],
+      descriptionRules: [v => !!v || 'Digite uma descrição'],
     }
   },
 
@@ -127,7 +129,7 @@ export default {
       if (this.$refs.form.validate()) {
         this.animateForm(true)
         auth
-          .signUp(this.form, this.token)
+          .addLesson(this.form, this.token)
           .then(res => {
             this.loading = false
             this.confirmSnackbar('Aula adicionada com sucesso! ;)', 'success')
