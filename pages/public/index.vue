@@ -3,8 +3,8 @@
     <main id="page">
       <h3>New School</h3>
       <p>Front-end</p>
-      <v-btn class="ma-2" tile outlined color="primary" to="/contribua">Contribua</v-btn>
       <v-btn class="ma-2" tile outlined color="primary" to="/login">Login</v-btn>
+      <v-btn class="ma-2" tile outlined color="primary" to="/contribua">Contribua</v-btn>
       <v-btn class="ma-2" tile outlined color="primary" to="/dashboard">Dashboard</v-btn>
       <v-btn class="ma-2" tile outlined color="primary" to="/quem_somos">Quem Somos</v-btn>
       <v-btn class="ma-2" tile outlined color="primary" to="/fale_conosco">Fale Conosco</v-btn>
