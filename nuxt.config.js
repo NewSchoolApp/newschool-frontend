@@ -22,7 +22,7 @@ export default {
 
   env: {
     baseUrl: process.env.VUE_APP_BASE_URL || 'https://newschoolbrapi-dev.herokuapp.com/',
-    credentials:{
+    credentials: {
       name: process.env.VUE_APP_CLIENT_CREDENTIAL_NAME || 'NEWSCHOOL@FRONT',
       secret: process.env.VUE_APP_CLIENT_CREDENTIAL_SECRET || 'NEWSCHOOL@FRONTSECRET',
       external:
@@ -30,6 +30,9 @@ export default {
         name: process.env.VUE_APP_CLIENT_EXTERNAL_CREDENTIAL_NAME || 'NEWSCHOOL@EXTERNAL',
         secret: process.env.VUE_APP_CLIENT_EXTERNAL_CREDENTIAL_SECRET || 'NEWSCHOOL@EXTERNALSECRET',
       }
+    },
+    endpoints: {
+      USER_ME: "api/v1/user/me"
     },
     GATOKEN: process.env.GA_TOKEN
   },
