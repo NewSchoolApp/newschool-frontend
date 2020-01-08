@@ -8,7 +8,7 @@
       </div>
     </div>
 
-    <v-flex role="main" xs10 sm8 md4 ref="flex" v-else>
+    <v-flex v-else ref="flex" role="main" xs10 sm8 md4>
       <div class="bg-symbol">
         <img src="../../assets/logo.svg" alt="New Schoool logo" />
       </div>
@@ -18,9 +18,9 @@
           <v-form ref="form" v-model="status" lazy-validation>
             <v-col cols="12">
               <v-text-field
+                v-model="email"
                 dark
                 color="#fff"
-                v-model="email"
                 :rules="emailRules"
                 label="Email"
                 data-vv-name="email"
@@ -28,42 +28,43 @@
                 @keyup.enter="submit()"
               ></v-text-field>
               <v-text-field
+                v-model="password"
                 dark
                 color="#fff"
-                v-model="password"
                 :rules="passwordRules"
                 label="Senha"
                 data-vv-name="password"
                 :type="showPass ? 'text' : 'password'"
                 :append-icon="showPass ? 'mdi-eye-off' : 'mdi-eye'"
+                required
                 @click:append="() => (showPass = !showPass)"
                 @keyup.enter="submit()"
-                required
               ></v-text-field>
             </v-col>
             <v-col cols="12">
               <v-btn
-                class="btn-block btn-transparent"
+                class="btn-block btn-primary btn-white"
                 role="button"
                 aria-haspopup="true"
                 aria-expanded="false"
                 depressed
                 large
-                to="/cadastro"
-              >Cadastrar</v-btn>
+                @click="submit"
+                >Entrar</v-btn
+              >
             </v-col>
           </v-form>
           <v-col cols="12">
             <v-btn
-              class="btn-block btn-primary btn-white"
+              class="btn-block btn-transparent"
               role="button"
               aria-haspopup="true"
               aria-expanded="false"
               depressed
               large
-              type="submit"
-              @click="submit"
-            >Login</v-btn>
+              to="/cadastro"
+              >Cadastrar</v-btn
+            >
           </v-col>
           <v-col cols="12" class="text-center">
             <a class="text-white">Esqueceu sua senha?</a>
@@ -73,7 +74,7 @@
     </v-flex>
     <v-dialog v-model="dialog" max-width="290">
       <v-card-title class="headline">Ops!</v-card-title>
-      <v-card-text>Usuário ou senha incorretos!</v-card-text>
+      <v-card-text>{{ dialogMessage }}</v-card-text>
       <v-btn color="primary" text @click="dialog = false">Ok</v-btn>
     </v-dialog>
   </v-layout>
@@ -90,10 +91,11 @@ import auth from '../../services/http/auth'
 
 export default {
   data: () => ({
-    //flags
+    // flags
     status: true,
     loading: false,
     dialog: false,
+    dialogMessage: '',
     showPass: false,
 
     title: 'Entrar',
@@ -116,6 +118,14 @@ export default {
     }
   },
 
+  // eslint-disable-next-line object-shorthand
+  created: function() {
+    if (auth.isLoginExpired()) {
+      this.dialogMessage = 'Sua sessão expirou. Por favor, faça o login novamente.'
+      this.dialog = true
+    }
+  },
+
   methods: {
     submit() {
       event.preventDefault()
@@ -125,10 +135,12 @@ export default {
           .login(this.email, this.password)
           .then(() => {
             auth.getInfoUser()
+            // eslint-disable-next-line no-undef
             $nuxt._router.push('/aluno/home')
           })
           .catch(err => {
             setTimeout(() => {
+              this.dialogMessage = 'Usuário ou senha incorretos!'
               this.dialog = true
               this.loading = false
             }, 500)
@@ -136,6 +148,12 @@ export default {
           })
       } else {
         this.animateForm(false)
+      }
+    },
+
+    head() {
+      return {
+        title: this.title,
       }
     },
 

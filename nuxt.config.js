@@ -19,7 +19,7 @@ export default {
       routes.push({
         path: "", redirect: "/login"
       })
-    }
+    },
   },
 
   env: {
@@ -32,6 +32,9 @@ export default {
         name: process.env.VUE_APP_CLIENT_EXTERNAL_CREDENTIAL_NAME || 'NEWSCHOOL@EXTERNAL',
         secret: process.env.VUE_APP_CLIENT_EXTERNAL_CREDENTIAL_SECRET || 'NEWSCHOOL@EXTERNALSECRET',
       }
+    },
+    endpoints: {
+      USER_ME: "api/v1/user/me"
     },
     GATOKEN: process.env.GA_TOKEN
   },
