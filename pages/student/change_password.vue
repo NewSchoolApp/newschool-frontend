@@ -289,7 +289,11 @@ export default {
 ::v-deep .change-btn {
   margin-top: 20px;
   width: 100%;
+  box-shadow: 0 4px 5px gray!important;
 }
+::v-deep .v-text-field {
+  margin: 0 6% 0 6% !important;
+ }
 
 ::v-deep .v-btn__content {
   color: #fff;
