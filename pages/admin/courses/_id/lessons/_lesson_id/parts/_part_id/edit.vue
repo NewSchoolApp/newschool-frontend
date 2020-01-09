@@ -5,22 +5,22 @@
       <n-link to="../../edit">Voltar para aula</n-link>
       <v-form>
         <v-text-field
-          :value="section.title"
+          :value="part.title"
           label="Título"
           required
         />
         <v-textarea
-          :value="section.description"
+          :value="part.description"
           label="Descrição"
           required
         />
         <v-text-field
-          :value="section.youtubeUrl"
+          :value="part.youtubeUrl"
           label="Link do youtube"
           required
         />
         <v-text-field
-          :value="section.vimeoUrl"
+          :value="part.vimeoUrl"
           label="Link do vimeo"
           required
         />
@@ -28,34 +28,32 @@
       </v-form>
 
       <resources-list
-        :resources="section.questions"
-        name="Questões"
-        path="questions/"
+        name="Teste"
+        :resources="part.questions"
+        path="test/"
       />
     </v-flex>
   </v-layout>
 </template>
 
+<router>
+  {
+    path: '/admin/course/:courseId/lesson/:lessonId/part/:id/edit'
+  }
+</router>
 
 <script>
+  import parts from '~/services/http/parts'
   export default {
     computed: {
-      section() {
+      part() {
         return this.$store.state.courses.currentSection
       }
     },
-    asyncData({ store, data, params, $axios }) {
-      const sectionPromise = $axios.get(
-        `/api/v1/sections/${params.section_id}`
-      ).then(res =>
-        store.commit('courses/setCurrentSection', res.data.section)
+    asyncData({ store, data, params }) {
+      return parts.getById(params.id).then(response =>
+        store.commit('courses/setCurrentSection', response.data)
       )
-      const questionsPromise = $axios.get(
-        `/api/v1/sections/${params.section_id}/questions`
-      ).then(res =>
-        store.commit('courses/setSectionQuestions', res.data.questions)
-      )
-      return Promise.all([sectionPromise, questionsPromise])
     }
   }
 </script>

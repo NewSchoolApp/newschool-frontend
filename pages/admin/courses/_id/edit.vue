@@ -27,33 +27,28 @@
       </v-form>
 
       <resources-list
-        name="Aulas"
-        :resources="course.classes"
-        path="classes/"
+        name="Aula"
+        :resources="lessons"
+        path="lesson/"
       />
     </v-flex>
   </v-layout>
 </template>
 
+<router>
+  {
+    path: '/admin/course/:id/edit'
+  }
+</router>
+
 <script>
+  import courses from '~/services/http/courses'
+  import lessons from '~/services/http/lessons'
   export default {
-    computed: {
-      course() {
-        return this.$store.state.courses.current
-      }
-    },
-    asyncData({ store, data, params, $axios }) {
-      const coursePromise = $axios.get(
-        `/api/v1/courses/${params.id}`
-      ).then(res =>
-        store.commit('courses/setCurrent', res.data.course)
-      )
-      const classesPromise = $axios.get(
-        `/api/v1/courses/${params.id}/classes`
-      ).then(res =>
-        store.commit('courses/setCurrentClasses', res.data.classes)
-      )
-      return Promise.all([coursePromise, classesPromise])
+    async asyncData({ store, data, params}) {
+      const course = await courses.getById(params.id)
+      const _lessons = await lessons.getByCourse(params.id)
+      return {course: course.data, lessons: _lessons.data}
     }
   }
 </script>

@@ -35,7 +35,7 @@ export default {
         id: 3,
         name: "Meus Cursos",
         icon: "mdi-library",
-        link: "/aluno/meus-cursos"
+        link: "/admin/meus-cursos"
       },
       {
         id: 4,

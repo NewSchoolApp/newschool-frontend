@@ -4,21 +4,30 @@
       <resources-list
         name="Cursos"
         :resources="courses"
+        :path="'/admin/course/'"
         :subtitle="(course) => course.author"
       />
     </v-flex>
   </v-layout>
 </template>
 
+<router>
+  {
+    path: '/admin/meus-cursos'
+  }
+</router>
+
 <script>
+import courses from '~/services/http/courses';
+
 export default {
   computed: {
     courses () { return this.$store.state.courses.list }
   },
-  asyncData: ({ store, data, $axios }) =>
-    $axios.get('/api/v1/courses')
-      .then(res =>
-        store.commit('courses/set', res.data.courses)
-      )
+  asyncData: ({ store, data, $axios }) => {
+    return courses.getAll().then(response =>
+      store.commit('courses/set', response.data)
+    )
+  }
 }
 </script>
