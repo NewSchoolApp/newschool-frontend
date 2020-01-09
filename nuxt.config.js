@@ -34,7 +34,10 @@ export default {
       }
     },
     endpoints: {
-      USER_ME: "api/v1/user/me"
+      USER_ME: "api/v1/user/me",
+      LOGIN : "/oauth/token",
+      SIGN_UP : "api/v1/user/student"
+
     },
     GATOKEN: process.env.GA_TOKEN
   },
