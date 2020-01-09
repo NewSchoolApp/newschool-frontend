@@ -18,7 +18,7 @@ export default {
         redirect: '/login',
       })
     },
-    middleware: 'auth',
+    middleware: 'auth.guard',
   },
 
   env: {

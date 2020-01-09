@@ -217,7 +217,7 @@ export default {
  height:70%;
  margin: 15% 10%
 }
-::v-deep article{
+::v-deep #page{
   max-height: 100vh;
   overflow-y: auto;
 

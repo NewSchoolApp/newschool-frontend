@@ -25,6 +25,7 @@
             <v-col cols="12">
               <v-text-field
                 v-model="form.name"
+                :rules="nameRules"
                 placeholder="Nome"
                 name="name"
                 required
@@ -51,7 +52,7 @@
               ></v-text-field>
             </v-col>
             <v-col cols="12">
-              <v-btn class="btn-block btn-submit btn-primary" depressed large @click="submit">Alterar Dados</v-btn>              
+              <v-btn class="btn-block btn-submit btn-primary" depressed large @click="submit">Alterar</v-btn>              
             </v-col>
             <v-col cols="12">
               <v-btn class="btn-block btn-submit btn-second" depressed large to="/aluno/alterar-senha">Alterar Senha</v-btn>
@@ -241,6 +242,15 @@ export default {
   margin-top: 3px;
   font-size: 12px;
 }
+@media (max-width: 350px) {
+::v-deep .btn-back {
+  position: absolute;
+  left: -25px;
+  top: 0;
+  margin-top: 3px;
+  font-size: 12px;
+  }
+}
 
 ::v-deep .v-btn.v-size--large {
   font-size: 12px;
@@ -287,7 +297,7 @@ export default {
 
 ::v-deep .v-text-field {
   padding-top: 0 !important;
-  margin-top: 0 !important;
+  margin: 0 6% 0 6% !important;
   color: #6600CC;
 }
 
@@ -312,6 +322,7 @@ export default {
   box-shadow: 0 4px 5px gray!important;
   color: #fff !important;
   font-weight: bold !important;
+ 
 }
 ::v-deep .btn-second.theme--light.v-btn:not(.v-btn--flat):not(.v-btn--text):not(.v-btn--outlined) {
   background: #fff !important;
