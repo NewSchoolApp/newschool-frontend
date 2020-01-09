@@ -42,7 +42,7 @@ const userStore = () => {
                 return false;
 
             },
-            loadInfoUser(token, { commit, getters }) {
+            loadInfoUser(token, { commit }) {
                 return http
                     .get(process.env.endpoints.USER_ME, { headers: { Authorization: token } })
                     .then(res => {
@@ -52,7 +52,6 @@ const userStore = () => {
                             id: res.data.id || "",
                             role: res.data.role.name || ""
                         })
-                        console.log(getters.user)
                     }).catch(() => {
                         $nuxt._router.push('/login')
                     })

@@ -14,7 +14,7 @@
 
         <v-row>
           <v-col cols="12">
-            <h2 class="page-title">Cadastro</h2>
+            <h1 class="page-title">Cadastro</h1>
           </v-col>
         </v-row>
         <v-row>
@@ -101,6 +101,7 @@ import utils from '~/utils/index'
 export default {
   data() {
     return {
+      title: 'Cadastro',
       status: true,
       loading: false,
       showPass: String,
@@ -126,6 +127,20 @@ export default {
       emailRules: [
         v => !!v || 'Digite o e-mail',
         v => /.+@.+\..+/.test(v) || 'E-mail inválido',
+      ],
+    }
+  },
+
+  head() {
+    return {
+      title: this.title,
+      meta: [
+        {
+          hid: 'description',
+          name: 'description',
+          content:
+            'Cadastra-se no aplicativo da New School - Levamos educação de qualidade na linguagem da quebrada para as periferias do Brasil, através da tecnologia e da curadoria de conteúdos baseados nas habilidades do futuro.',
+        },
       ],
     }
   },
@@ -201,7 +216,9 @@ export default {
           console.log(res)
           this.token = res.data.accessToken
         })
-        .catch(() => $nuxt._router.push('/login'))
+        .catch(() => {
+          $nuxt._router.push('/login')
+        })
     },
   },
 
