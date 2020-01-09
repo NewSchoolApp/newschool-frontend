@@ -1,7 +1,6 @@
 import ms from 'ms'
 import { http } from './config'
 import utils from "~/utils/index"
-import user from '~/store/user'
 /**
  * @author Andrews
  *
