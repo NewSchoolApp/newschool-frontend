@@ -22,9 +22,19 @@
 
 <script>
 import auth from '~/services/http/auth'
+import { mapActions } from 'vuex'
+
 export default {
   mounted() {
-    auth.isTokenValid()
+    const { status, token } = auth.isTokenValid()
+    if (status) {
+      this.loadInfoUser(token)
+    } else {
+      $nuxt._router.push('/login')
+    }
+  },
+  methods: {
+    ...mapActions(['loadInfoUser']),
   },
 }
 </script>

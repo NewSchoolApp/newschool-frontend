@@ -20,8 +20,9 @@ const userStore = () => {
             modules: state => {
                 return state.modules;
             },
-            getToken: state => {
-                return state.token;
+            roleModule: state => {
+                const { role } = state.user
+                return state.modules[role];
             }
         },
         mutations: {
@@ -30,9 +31,6 @@ const userStore = () => {
             },
             SET_FLAG_SESSION(state, value) {
                 state.flag_session = value;
-            },
-            SET_TOKEN(state, token) {
-                state.token = token;
             }
         },
         actions: {
@@ -44,9 +42,9 @@ const userStore = () => {
                 return false;
 
             },
-            loadInfoUser({ commit, getters }) {
+            loadInfoUser(token, { commit, getters }) {
                 return http
-                    .get(process.env.endpoints.USER_ME, { headers: { Authorization: getters.getToken } })
+                    .get(process.env.endpoints.USER_ME, { headers: { Authorization: token } })
                     .then(res => {
                         commit("SET_USER", {
                             name: res.data.name || "Anônimo",
@@ -58,9 +56,6 @@ const userStore = () => {
                     }).catch(() => {
                         $nuxt._router.push('/login')
                     })
-            },
-            saveToken({ commit }, token) {
-                commit("SET_TOKEN", token)
             },
             initSessionUser({ commit }) {
                 commit("SET_FLAG_SESSION", true);

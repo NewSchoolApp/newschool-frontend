@@ -2,7 +2,6 @@ import ms from 'ms'
 import { http } from './config'
 import utils from "~/utils/index"
 import user from '~/store/user'
-
 /**
  * @author Andrews
  *
@@ -15,17 +14,17 @@ export default {
    * autenticação na API do sistema
    */
   login: (username, password) => {
-    console.log(user)
+
     const body = utils.toFormData({
       grant_type: "password",
       username: username,
       password: password
     })
-    const clientCredentials = utils.getExternalCredentials("PASSWORD")
+    const clientCredentials = utils.getPasswordCredentials()
 
     return http
       .post(process.env.endpoints.LOGIN, body, {
-        headers: { Authorization: clientCredentials },
+        headers: { Authorization: clientCredentials, },
       })
       .then(res => {
         localStorage.setItem('auth', JSON.stringify({
@@ -43,6 +42,7 @@ export default {
     })
   },
 
+
   isTokenValid: () => {
     const auth = JSON.parse(localStorage.getItem('auth'))
 
@@ -51,10 +51,11 @@ export default {
       const currentTime = Date.now()
       if (currentTime > expiresIn) {
         return getNewAccessToken(refreshToken)
+      } else {
+        return { status: true, token: utils.getToken() }
       }
-
     } else {
-      $nuxt._router.push('/login')
+      return { status: false, token: "" }
     }
   },
 
@@ -76,7 +77,7 @@ const getNewAccessToken = refreshToken => {
     refresh_token: refreshToken
   })
 
-  const clientCredentials = utils.getExternalCredentials("PASSWORD")
+  const clientCredentials = utils.getPasswordCredentials()
 
   return http
     .post(process.env.endpoints.LOGIN, body, {
@@ -88,15 +89,11 @@ const getNewAccessToken = refreshToken => {
         refreshToken: res.data.refreshToken,
         expiresIn: Date.now() + ms(res.data.expiresIn),
       }))
-      module.exports.loadActions(`Bearer ${res.data.accessToken}`)
+      loadActions(`Bearer ${res.data.accessToken}`)
+
+      return { status: true, token: utils.getToken() }
     })
     .catch(() => {
-      $nuxt._router.push('/login')
+      return { status: false, token: "" }
     })
-}
-
-const loadActions = (token) => {
-  user.actions.initSessionUser();
-  user.actions.loadInfoUser();
-  user.actions.saveToken(token);
 }

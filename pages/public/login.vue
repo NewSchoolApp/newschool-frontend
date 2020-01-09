@@ -124,8 +124,7 @@ export default {
         auth
           .login(this.email, this.password)
           .then(() => {
-            console.log("aqui!")
-            $nuxt._router.push('/aluno/home')
+            $nuxt._router.push('/loading')
           })
           .catch(err => {
             setTimeout(() => {

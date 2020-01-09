@@ -1,11 +1,6 @@
 <template>
   <v-layout align-center justify-center>
-    <v-progress-circular
-      v-if="loading"
-      :size="70"
-      :width="5"
-      indeterminate
-    ></v-progress-circular>
+    <v-progress-circular v-if="loading" :size="70" :width="5" indeterminate></v-progress-circular>
 
     <v-flex xs10 sm8 md6 ref="flex" v-else>
       <v-container>
@@ -25,13 +20,7 @@
         <v-row>
           <v-col cols="12">
             <v-form ref="form" v-model="status" lazy-validation>
-              <v-text-field
-                color="#60c"
-                v-model="form.name"
-                label="Nome *"
-                name="name"
-                required
-              ></v-text-field>
+              <v-text-field color="#60c" v-model="form.name" label="Nome *" name="name" required></v-text-field>
               <v-text-field
                 color="#60c"
                 v-model="form.email"
@@ -76,9 +65,7 @@
                 name="urlInstagram"
                 required
               ></v-text-field>
-              <v-btn color="#60c" dark block depressed large @click="submit"
-                >Cadastrar</v-btn
-              >
+              <v-btn color="#60c" dark block depressed large @click="submit">Cadastrar</v-btn>
             </v-form>
           </v-col>
           <v-col cols="12" class="text-center">
@@ -92,9 +79,7 @@
             :right="true"
           >
             {{ snackbarText }}
-            <v-btn color="#FFF" text @click="snackbar = false">
-              Fechar
-            </v-btn>
+            <v-btn color="#FFF" text @click="snackbar = false">Fechar</v-btn>
           </v-snackbar>
         </v-row>
       </v-container>
@@ -111,6 +96,7 @@
 
 <script scoped>
 import auth from '../../services/http/auth'
+import utils from '~/utils/index'
 
 export default {
   data() {
@@ -129,7 +115,7 @@ export default {
         password: '',
         confirmPassword: '',
         urlFacebook: '',
-        urlInstagram: ''
+        urlInstagram: '',
       },
 
       nameRules: [v => !!v || 'Digite seu nome'],
@@ -208,18 +194,19 @@ export default {
       this.snackbarStatus = status
       this.snackbar = true
     },
+    loadClientCredentials() {
+      utils
+        .getExternalCredentials()
+        .then(res => {
+          console.log(res)
+          this.token = res.data.accessToken
+        })
+        .catch(() => $nuxt._router.push('/login'))
+    },
   },
 
   mounted() {
-    auth
-      .getExternalCredentials()
-      .then(res => {
-        const { data } = res
-        this.token = data.accessToken
-      })
-      .catch(err => {
-        console.error(err)
-      })
+    this.loadClientCredentials()
   },
 
   computed: {

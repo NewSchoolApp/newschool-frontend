@@ -1,30 +1,30 @@
+import { http } from "~/services/http/config";
+import utils from "~/utils/index";
+
 export default {
 
   getToken: () => {
     return JSON.parse(localStorage.getItem('auth')).accessToken
   },
 
-  getExternalCredentials: (type) => {
+  getPasswordCredentials: () => {
+    const base64 = btoa(
+      `${process.env.credentials.name}:${process.env.credentials.secret}`,
+    )
+    return `Basic ${base64}`
 
-    if (type == "EXTERNAL") {
-      const base64 = btoa(
-        `${process.env.credentials.external.name}:${process.env.credentials.external.secret}`,
-      )
+  },
+  getExternalCredentials: () => {
+    const base64 = btoa(
+      `${process.env.credentials.external.name}:${process.env.credentials.external.secret}`,
+    )
 
-      const clientCredentials = `Basic ${base64}`
-      const body = { grant_type: 'client_credentials' }
+    const clientCredentials = `Basic ${base64}`
+    const body = utils.toFormData({ grant_type: 'client_credentials' })
 
-      return http.post(process.env.endpoints.LOGIN, body, {
-        headers: { Authorization: clientCredentials },
-      })
-    }
-
-    else if (type == "PASSWORD") {
-      const base64 = btoa(
-        `${process.env.credentials.name}:${process.env.credentials.secret}`,
-      )
-      return `Basic ${base64}`
-    }
+    return http.post('oauth/token', body, {
+      headers: { Authorization: clientCredentials },
+    })
   },
 
   toFormData: (object) => {
