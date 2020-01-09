@@ -56,7 +56,7 @@
                 v-model="form.confirmNewPassword"
                 label="Confirmar nova senha *"
                 :rules="confirmPasswordRules"
-                :type="showNewPass ? 'password' : 'text'"
+                :type="showConfirmNewPass ? 'password' : 'text'"
                 :append-icon="showConfirmNewPass ? 'mdi-eye-off' : 'mdi-eye'"
                 @click:append="() => (showConfirmNewPass = !showConfirmNewPass)"
                 required
