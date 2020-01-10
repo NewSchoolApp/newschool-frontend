@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuetify from 'vuetify'
 import { mount } from '@vue/test-utils'
-import About from './about.vue'
+import About from '../pages/public/about.vue'
 
 Vue.use(Vuetify)
 
