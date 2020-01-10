@@ -1,5 +1,5 @@
 <template>
-  <v-layout justify-center>
+  <v-layout justify-center id="page">
     <v-flex ref="flex" xs10 sm8 md4>
       <h1>Editando curso</h1>
       <v-form>
@@ -12,6 +12,7 @@
           :value="course.description"
           label="Descrição"
           required
+          rows="1"
         />
         <v-text-field
           :value="course.author"
@@ -22,16 +23,21 @@
           :value="course.authorInfo"
           label="Biografia do professor"
           required
+          rows="1"
         />
         <v-btn color="primary">Salvar</v-btn>
       </v-form>
 
       <resources-list
         name="Aula"
+        redirect="true"
         :resources="lessons"
         path="lesson/"
       />
     </v-flex>
+    <client-only>
+      <navigation-bar />
+    </client-only>
   </v-layout>
 </template>
 
@@ -42,9 +48,14 @@
 </router>
 
 <script>
+  import NavigationBar from "~/components/NavigationBar.vue"
   import courses from '~/services/http/courses'
   import lessons from '~/services/http/lessons'
+
   export default {
+    components: {
+      NavigationBar
+    },
     async asyncData({ store, data, params}) {
       const course = await courses.getById(params.id)
       const _lessons = await lessons.getByCourse(params.id)

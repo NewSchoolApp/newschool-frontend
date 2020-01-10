@@ -1,13 +1,17 @@
 <template>
-  <v-layout justify-center>
+  <v-layout justify-center id="page">
     <v-flex ref="flex" xs10 sm8 md4>
       <resources-list
         name="Cursos"
+        redirect="true"
         :resources="courses"
         :path="'/admin/course/'"
         :subtitle="(course) => course.author"
       />
     </v-flex>
+    <client-only>
+      <navigation-bar />
+    </client-only>
   </v-layout>
 </template>
 
@@ -18,9 +22,13 @@
 </router>
 
 <script>
+import NavigationBar from "~/components/NavigationBar.vue"
 import courses from '~/services/http/courses';
 
 export default {
+  components: {
+    NavigationBar
+  },
   computed: {
     courses () { return this.$store.state.courses.list }
   },

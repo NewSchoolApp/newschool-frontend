@@ -6,7 +6,7 @@ import auth from './auth'
  * Serviço de Lessons
  */
 export default {
-    getById: async (id) => {
+    getById: (id) => {
         const { accessToken } = auth.getInfoAuth()
         return http.get(`/api/v1/lesson/${id}`, { headers: {'Authorization': accessToken} })
     },
