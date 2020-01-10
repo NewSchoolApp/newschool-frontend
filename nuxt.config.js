@@ -132,7 +132,7 @@ export default {
    ** See https://axios.nuxtjs.org/options
    */
   axios: {
-    proxy: false,
+    proxy: true,
   },
   proxy: {
     '/api': 'http://localhost:3001',
