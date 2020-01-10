@@ -85,7 +85,7 @@
 </router>
 
 <script>
-import auth from '../../services/http/auth'
+import auth from '~/services/http/auth'
 
 export default {
   data: () => ({
@@ -124,15 +124,6 @@ export default {
     }
   },
 
-  // eslint-disable-next-line object-shorthand
-  created: function() {
-    if (auth.isLoginExpired()) {
-      this.dialogMessage =
-        'Sua sessão expirou. Por favor, faça o login novamente.'
-      this.dialog = true
-    }
-  },
-
   methods: {
     submit() {
       event.preventDefault()
@@ -141,9 +132,7 @@ export default {
         auth
           .login(this.email, this.password)
           .then(() => {
-            auth.getInfoUser()
-            // eslint-disable-next-line no-undef
-            $nuxt._router.push('/aluno/home')
+            $nuxt._router.push('/loading')
           })
           .catch(err => {
             setTimeout(() => {
