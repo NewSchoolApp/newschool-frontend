@@ -86,20 +86,33 @@
       NavigationBar
     },
     data: () => ({
-        status: true,
-        loading: false,
-        snackbar: false,
-        snackbarText: '',
-        snackbarStatus: '',
-        titleRules: [title => !!title || 'Digite um título']
+      title: 'Editar Parte',
+      status: true,
+      loading: false,
+      snackbar: false,
+      snackbarText: '',
+      snackbarStatus: '',
+      titleRules: [title => !!title || 'Digite um título']
     }),
     computed: {
         videoUrlRules() {
             return [() => (!!this.part.youtubeUrl || !!this.part.vimeoUrl) || 'A parte precisa ter ao menos um vídeo.']
         }
     },
-    head: () => {
-
+    head() {
+      return {
+        title: this.title,
+        meta: [
+          {
+            hid: 'description',
+            name: 'description',
+            content:
+              'Altere ou reestruture uma Parte de um Curso da New School - Levamos educação de qualidade ' +
+              'na linguagem da quebrada para as periferias do Brasil, através da tecnologia e da ' + 
+              'curadoria de conteúdos baseados nas habilidades do futuro.',
+          },
+        ],
+      }
     },
     methods: {
         submit() {

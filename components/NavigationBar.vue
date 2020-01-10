@@ -23,7 +23,10 @@
 </template>
   
 <script>
-import SideMenu from "~/components/SideMenu.vue";
+import SideMenu from "~/components/SideMenu.vue"
+import auth from '~/services/http/auth'
+import { http } from '~/services/http/config'
+
 export default {
   data: () => ({
     viewMenu: false,
@@ -35,7 +38,7 @@ export default {
         id: 3,
         name: "Meus Cursos",
         icon: "mdi-library",
-        link: "/admin/meus-cursos"
+        link: "/aluno/meus-cursos"
       },
       {
         id: 4,
@@ -48,9 +51,17 @@ export default {
   components: {
     SideMenu
   },
+  mounted() {
+    this.changeRoutingIfAdmin()
+  },
   methods: {
     setViewMenu() {
       this.viewMenu = !this.viewMenu;
+    },
+    async changeRoutingIfAdmin() {
+      const { accessToken } = auth.getInfoAuth()
+      let role = await http.get('/api/v1/user/me', { headers: {Authorization: accessToken}})
+      if(role.data.role.name == 'ADMIN') this.menu[2].link = '/admin/meus-cursos'
     }
   }
 };

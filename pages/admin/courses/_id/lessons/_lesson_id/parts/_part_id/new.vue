@@ -85,28 +85,41 @@ export default {
       NavigationBar
     },
     data: () => ({
-        status: true,
-        submited: false,
-        loading: false,
-        snackbar: false,
-        snackbarText: '',
-        snackbarStatus: '',
-        part : {
-            title: '',
-            description: '',
-            youtubeUrl: '',
-            vimeoUrl: '',
-            lesson: '',
-        },
-        titleRules: [title => !!title || 'Digite um título']
+      title: 'Crie uma Parte',
+      status: true,
+      submited: false,
+      loading: false,
+      snackbar: false,
+      snackbarText: '',
+      snackbarStatus: '',
+      part : {
+          title: '',
+          description: '',
+          youtubeUrl: '',
+          vimeoUrl: '',
+          lesson: '',
+      },
+      titleRules: [title => !!title || 'Digite um título']
     }),
     computed: {
         videoUrlRules() {
             return [() => (!!this.part.youtubeUrl || !!this.part.vimeoUrl) || 'A parte precisa ter ao menos um vídeo.']
         }
     },
-    head: () => {
-
+    head() {
+      return {
+        title: this.title,
+        meta: [
+          {
+            hid: 'description',
+            name: 'description',
+            content:
+              'Ajude a espalhar o conhecimento criando uma Parte de um Curso da New School - Levamos educação de qualidade ' +
+              'na linguagem da quebrada para as periferias do Brasil, através da tecnologia e da ' + 
+              'curadoria de conteúdos baseados nas habilidades do futuro.',
+          },
+        ],
+      }
     },
     created() {
         this.part.lesson = this.$route.params.lessonId
