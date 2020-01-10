@@ -12,18 +12,18 @@ export default {
   /**
    * autenticação na API do sistema
    */
-  login: (username, password) => {
+  login: async (username, password) => {
 
     const body = utils.toFormData({
       grant_type: "password",
       username: username,
       password: password
     })
-    const clientCredentials = utils.getPasswordCredentials()
+    const clientCredentials = await utils.getPasswordCredentials();
 
     return http
       .post(process.env.endpoints.LOGIN, body, {
-        headers: { Authorization: clientCredentials, },
+        headers: { 'Authorization': clientCredentials },
       })
       .then(res => {
         localStorage.setItem('auth', JSON.stringify({
@@ -31,7 +31,6 @@ export default {
           refreshToken: res.data.refreshToken,
           expiresIn: Date.now() + ms(res.data.expiresIn),
         }));
-        loadActions(`Bearer ${res.data.accessToken}`)
       })
   },
 
@@ -41,7 +40,6 @@ export default {
     })
   },
 
-
   isTokenValid: () => {
     const auth = JSON.parse(localStorage.getItem('auth'))
 
@@ -49,7 +47,7 @@ export default {
       const { refreshToken, expiresIn } = auth
       const currentTime = Date.now()
       if (currentTime > expiresIn) {
-        return getNewAccessToken(refreshToken)
+        getNewAccessToken(refreshToken)
       } else {
         return { status: true, token: utils.getToken() }
       }
