@@ -1,6 +1,11 @@
-import { http } from './config'
+import Axios from 'axios';
+import utils from "~/utils/index"
 
+const http = new Axios.create({
+  baseURL: process.env.baseUrl
+})
 
+instance.defaults.headers.common['Authorization'] = utils.getToken();
 /**
  * @author Andrews
  * 
