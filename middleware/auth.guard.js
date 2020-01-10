@@ -12,9 +12,10 @@ import PRIVATE_MODULES_URL from "~/routes/private";
 export default async function ({ route, store, redirect }) {
   const pathModule = route.path.split("/")
 
-  if (pathModule[1] == PRIVATE_MODULES_URL.studant || pathModule[1] == PRIVATE_MODULES_URL.admin) {
-    let session = await store.dispatch("user/validateSession", pathModule)
+  if (pathModule[1] == PRIVATE_MODULES_URL.STUDANT || pathModule[1] == PRIVATE_MODULES_URL.ADMIN) {
+    let session = await store.dispatch("user/validateSession", pathModule[1])
     if (!session) {
+      console.log("no-session")
       redirect("/loading")
     }
     // Sessão válida ? redirecionando para home

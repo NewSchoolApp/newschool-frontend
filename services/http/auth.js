@@ -12,14 +12,14 @@ export default {
   /**
    * autenticação na API do sistema
    */
-  login: async (username, password) => {
+  login: (username, password) => {
 
     const body = utils.toFormData({
       grant_type: "password",
       username: username,
       password: password
     })
-    const clientCredentials = await utils.getPasswordCredentials();
+    const clientCredentials = utils.getPasswordCredentials();
 
     return http
       .post(process.env.endpoints.LOGIN, body, {

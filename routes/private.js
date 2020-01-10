@@ -4,8 +4,8 @@
  * URLS QUE SERÃO VERIFICADAS PELO AUTH-GUARD
  */
 const PRIVATE_MODULES_URL = {
-  studant: "aluno",
-  admin: "admin"
+  STUDANT: "aluno",
+  ADMIN: "admin"
 }
 export default {
   ...PRIVATE_MODULES_URL

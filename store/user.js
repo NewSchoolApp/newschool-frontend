@@ -1,11 +1,10 @@
 import { http } from "~/services/http/config"
-
+import PRIVATE_MODULES_URL from "~/routes/private";
 
 
 const state = () => ({
     user: {},
     flag_session: false,   // sessão do usuário, é definida pelo status online do store.
-    modules: { ADMIN: "admin", STUDANT: "aluno" }
 })
 
 const getters = {
@@ -35,12 +34,13 @@ const actions = {
     validateSession({ getters }, route) {
         const { role } = getters.user;
         if (getters.flagSession) {
-            return getters.modules[role] == route;
+            // return JSON.parse(PRIVATE_MODULES_URL)[role] == route;
+            return true
         };
         return false;
 
     },
-    loadInfoUser({ commit }, token) {
+    loadInfoUser({ commit, dispatch }, token) {
         return http
             .get(process.env.endpoints.USER_ME, { headers: { Authorization: token } })
             .then(res => {
@@ -50,8 +50,12 @@ const actions = {
                     id: res.data.id || "",
                     role: res.data.role.name || ""
                 })
+                dispatch("initSessionUser")
+                $nuxt._router.push("/aluno/home")
+
             }).catch(() => {
-                localStorage.clear();
+                // localStorage.clear();
+                console.log("err")
                 $nuxt._router.push('/login')
             })
     },
