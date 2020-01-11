@@ -4,7 +4,7 @@ import PRIVATE_MODULES_URL from "~/routes/private";
 
 
 const state = () => ({
-    user: {},
+    data: {},
     flag_session: false,   // sessão do usuário, é definida pelo status online do store.
 })
 
@@ -13,10 +13,10 @@ const getters = {
         return state.flag_session;
     },
     getUser: state => {
-        return state.user;
+        return state.data;
     },
     roleModule: state => {
-        const { role } = state.user
+        const { role } = state.data
         return PRIVATE_MODULES_URL[role];
     }
 }
