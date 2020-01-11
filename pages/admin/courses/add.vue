@@ -1,5 +1,5 @@
 <template>
-  <v-layout align-center justify-center>
+  <v-layout justify-center>
     <v-progress-circular
       v-if="loading"
       :size="70"
@@ -7,68 +7,66 @@
       indeterminate
     ></v-progress-circular>
 
-    <v-flex xs10 sm8 md6 ref="flex" v-else>
+    <v-flex ref="flex" v-else xs10 sm8 md6>
       <v-container>
         <v-row>
-          <v-col cols="12">
-            <v-btn class="btn-back" text icon @click="gotoCourses">
-              <v-icon>mdi-arrow-left</v-icon>
+          <v-col cols="1">
+            <v-btn @click="gotoCourses" class="btn-back" text icon>
+              <v-icon size="30">mdi-arrow-left</v-icon>
             </v-btn>
+          </v-col>
+          <v-col cols="11">
             <h2 class="page-title">Gerenciar meus cursos</h2>
           </v-col>
         </v-row>
         <v-form ref="form" lazy-validation>
           <v-row>
             <v-col cols="12">
-              <h2>Curso</h2>
+              <h2 class="section-title">Curso</h2>
               <v-text-field
-                color="#60c"
-                v-model="form.title"
                 :rules="titleRules"
+                v-model="form.title"
+                color="#60c"
                 label="Título"
                 name="title"
                 required
               ></v-text-field>
-              <v-textarea
-                color="#60c"
+              <v-text-field
+                :rules="descriptionRules"
                 v-model="form.description"
+                color="#60c"
                 label="Descrição"
                 name="description"
-                :rules="descriptionRules"
                 required
-              ></v-textarea>
+              ></v-text-field>
             </v-col>
-            <v-row>
-              <v-col cols="12">
-                <h2>Aulas</h2>
-                <v-btn class="btn-add-class" text icon @click="gotoAddClass">
-                  <v-icon>mdi-plus-circle-outline</v-icon>
-                </v-btn>
-              </v-col>
-            </v-row>
-            <v-row>
-              <v-col cols="12">
-                <v-btn color="#60c" dark block depressed large @click="submit"
-                  >Salvar</v-btn
-                >
-              </v-col>
-            </v-row>
-            <v-row>
-              <v-col cols="12" text-center>
-                <p>Favor, adicionar uma aula</p>
-              </v-col>
-            </v-row>
-            <v-snackbar
-              v-model="snackbar"
-              :color="snackbarStatus"
-              :timeout="5000"
-              :top="true"
-              :right="true"
-            >
-              {{ snackbarText }}
-              <v-btn color="#FFF" text @click="snackbar = false">Fechar</v-btn>
-            </v-snackbar>
+            <v-col cols="12" class="classes-title">
+              <h2 class="section-title">Aulas</h2>
+              <v-btn @click="gotoAddClass" class="btn-add-class" text icon>
+                <v-icon size="30">mdi-plus-circle-outline</v-icon>
+              </v-btn>
+            </v-col>
+            <v-col cols="12" class="classes">
+              <p>Favor, adicionar uma aula</p>
+            </v-col>
           </v-row>
+          <v-row>
+            <v-col cols="12">
+              <v-btn @click="submit" color="#60c" dark block depressed large>
+                Salvar
+              </v-btn>
+            </v-col>
+          </v-row>
+          <v-snackbar
+            v-model="snackbar"
+            :color="snackbarStatus"
+            :timeout="5000"
+            :top="true"
+            :right="true"
+          >
+            {{ snackbarText }}
+            <v-btn @click="snackbar = false" color="#FFF" text>Fechar</v-btn>
+          </v-snackbar>
         </v-form>
       </v-container>
     </v-flex>
@@ -151,11 +149,11 @@ export default {
     },
 
     goToCourses() {
-      $nuxt._router.push('/courses')
+      $nuxt._router.push('/admin/courses')
     },
 
     goToAddClass() {
-      $nuxt._router.push('/courses')
+      $nuxt._router.push('/admin/courses')
     },
 
     confirmSnackbar(text, status) {
@@ -198,14 +196,44 @@ export default {
 
 /* Page */
 .page-title {
+  text-align: center;
   font-size: 20px;
-  font-weight: 900;
+  font-weight: 600;
   line-height: 24px;
   text-transform: uppercase;
   color: #6600cc;
   width: 90%;
   margin-left: 50%;
   transform: translateX(-50%);
+  margin-top: 20px;
+}
+
+.section-title {
+  font-size: 20px;
+  font-weight: 900;
+  line-height: 24px;
+  text-transform: uppercase;
+  color: #6600cc;
+  width: 15%;
+  margin-left: 10%;
+  transform: translateX(-50%);
+}
+
+.classes {
+  height: 40vh;
+}
+
+.classes > p {
+  text-align: center;
+  font-weight: 600;
+  font-size: 18px;
+  color: rgb(141, 139, 139);
+}
+
+.classes-title {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
 }
 
 /* inputs */
@@ -236,31 +264,12 @@ export default {
   font-size: 12px;
   font-weight: 600;
   line-height: 15px;
-  color: #aa56ff;
-}
-
-::v-deep .theme--light.v-icon {
-  font-size: 20px;
-}
-
-::v-deep .v-btn {
-  margin-top: 15px;
-}
-
-::v-deep .v-btn__content {
-  color: #fff;
-  font-size: 12px;
-  font-weight: 900;
-  line-height: 15px;
+  color: #60c;
 }
 
 /* Botão */
 ::v-deep .btn-back {
-  position: absolute;
-  left: 0;
-  top: 0;
-  margin-top: 3px;
-  font-size: 12px;
+  margin-top: 15px;
 }
 
 ::v-deep
@@ -281,11 +290,6 @@ export default {
   color: #ff5252;
   font-size: 12px;
   margin-left: 5px;
-}
-
-.login-link {
-  font-size: 12px;
-  color: #6600cc;
 }
 
 .hide-form {
