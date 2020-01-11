@@ -68,7 +68,7 @@
 
 <router>
   {
-    path: '/fale_conosco'
+    path: '/contato'
   }
 </router>
 

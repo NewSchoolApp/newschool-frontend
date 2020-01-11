@@ -168,6 +168,12 @@ export default {
       }
     },
   },
+  mounted() {
+    const { status } = auth.isTokenValid()
+    if (status) {
+      $nuxt._router.push('/loading')
+    }
+  },
 }
 </script>
 

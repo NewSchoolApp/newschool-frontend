@@ -8,9 +8,7 @@ export default {
   },
 
   getPasswordCredentials: () => {
-    const base64 = btoa(
-      `${process.env.credentials.name}:${process.env.credentials.secret}`,
-    )
+    const base64 = btoa(`${process.env.credentials.name}:${process.env.credentials.secret}`)
     return `Basic ${base64}`
 
   },

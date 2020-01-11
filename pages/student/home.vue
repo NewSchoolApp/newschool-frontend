@@ -40,9 +40,6 @@ export default {
   },
   data: () => ({
     title: 'Bem-vindo',
-    user: {
-      name: ''
-    }
   }),
   head() {
     return {
@@ -62,6 +59,9 @@ export default {
   computed: {
     courses() {
       return this.$store.state.courses.list
+    },
+    user(){
+      return this.$store.state.user.data
     }
   },
   methods: {
