@@ -22,7 +22,7 @@ const getters = {
 }
 const mutations = {
     SET_USER(state, object) {
-        state.user = object;
+        state.data = object;
     },
     SET_FLAG_SESSION(state, value) {
         state.flag_session = value;
