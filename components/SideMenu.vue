@@ -12,7 +12,7 @@
         <div class="flex-center" id="flex-info-user">
           <h1>{{user.name}}</h1>
           <p>{{user.type}}</p>
-          <v-btn small outlined color="error" width="80px" @click="logout">Sair</v-btn>
+          <v-btn id="btnLogout" small outlined color="error" width="80px" @click="logout">Sair</v-btn>
         </div>
       </section>
       <div id="close">
@@ -109,6 +109,10 @@ export default {
 </script>
 
 <style lang="scss">
+#btnLogout{
+  margin-top: 5px;
+}
+
 .container-page > main {
   display: flex;
   justify-content: space-between;
