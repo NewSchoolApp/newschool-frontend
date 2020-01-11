@@ -26,4 +26,11 @@ export default {
       headers: { Authorization: `${accessToken}` },
     })
   },
+
+  getById: id => {
+    const { accessToken } = auth.getInfoAuth()
+    return http.get(`api/v1/course/${id}`, {
+      headers: { Authorization: accessToken },
+    })
+  },
 }

@@ -24,7 +24,7 @@
 
 <router>
   {
-    path: '/aluno/home'
+    path: '/admin/home'
   }
 </router>
 

@@ -34,7 +34,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['loadInfoUser']),
+    ...mapActions('user', ['loadInfoUser']),
   },
 }
 </script>
