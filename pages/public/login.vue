@@ -50,8 +50,7 @@
                 depressed
                 large
                 @click="submit"
-                >Entrar</v-btn
-              >
+              >Entrar</v-btn>
             </v-col>
           </v-form>
           <v-col cols="12">
@@ -63,8 +62,7 @@
               depressed
               large
               to="/cadastro"
-              >Cadastrar</v-btn
-            >
+            >Cadastrar</v-btn>
           </v-col>
           <v-col cols="12" class="text-center">
             <a class="text-white">Esqueceu sua senha?</a>
@@ -87,7 +85,7 @@
 </router>
 
 <script>
-import auth from '../../services/http/auth'
+import auth from '~/services/http/auth'
 
 export default {
   data: () => ({
@@ -115,14 +113,14 @@ export default {
   head() {
     return {
       title: this.title,
-    }
-  },
-
-  // eslint-disable-next-line object-shorthand
-  created: function() {
-    if (auth.isLoginExpired()) {
-      this.dialogMessage = 'Sua sessão expirou. Por favor, faça o login novamente.'
-      this.dialog = true
+      meta: [
+        {
+          hid: 'description',
+          name: 'description',
+          content:
+            'Entre no aplicativo da New School - Levamos educação de qualidade na linguagem da quebrada para as periferias do Brasil, através da tecnologia e da curadoria de conteúdos baseados nas habilidades do futuro.',
+        },
+      ],
     }
   },
 
@@ -134,9 +132,7 @@ export default {
         auth
           .login(this.email, this.password)
           .then(() => {
-            auth.getInfoUser()
-            // eslint-disable-next-line no-undef
-            $nuxt._router.push('/aluno/home')
+            $nuxt._router.push('/loading')
           })
           .catch(err => {
             setTimeout(() => {
@@ -171,6 +167,12 @@ export default {
         }, 500)
       }
     },
+  },
+  mounted() {
+    const { status } = auth.isTokenValid()
+    if (status) {
+      $nuxt._router.push('/loading')
+    }
   },
 }
 </script>
