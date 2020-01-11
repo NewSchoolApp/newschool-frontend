@@ -68,7 +68,6 @@ export default {
 
 }
 const getNewAccessToken = refreshToken => {
-  console.log("gerando new token...")
   const body = utils.toFormData({
     grant_type: "refresh_token",
     refresh_token: refreshToken
