@@ -45,7 +45,7 @@
         name="Teste"
         :resources="tests"
         redirect="true"
-        path="test/"
+        path="test"
       />
       <span v-if="!tests.length" class="new-tests-span">Favor, adicionar um teste</span>
 

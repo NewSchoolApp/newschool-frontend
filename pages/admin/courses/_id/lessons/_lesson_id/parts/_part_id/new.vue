@@ -45,7 +45,7 @@
         name="Teste"
         :resources="[]"
         :redirect="submited"
-        path="test/"
+        path="test"
       />
       <span class="new-tests-span">Favor, adicionar um teste</span>
 

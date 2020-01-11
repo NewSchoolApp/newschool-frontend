@@ -25,7 +25,7 @@
 <script>
 import SideMenu from "~/components/SideMenu.vue"
 import auth from '~/services/http/auth'
-import { http } from '~/services/http/config'
+import generic from '~/services/http/generic'
 
 export default {
   data: () => ({
@@ -59,9 +59,9 @@ export default {
       this.viewMenu = !this.viewMenu;
     },
     async changeRoutingIfAdmin() {
-      const { accessToken } = auth.getInfoAuth()
-      let role = await http.get('/api/v1/user/me', { headers: {Authorization: accessToken}})
-      if(role.data.role.name == 'ADMIN') this.menu[2].link = '/admin/meus-cursos'
+      let { data } = await generic.getById('/api/v1/user', 'me')
+      console.log('data: ', data)
+      if( data && data.role.name == 'ADMIN') this.menu[2].link = '/admin/meus-cursos'
     }
   }
 };
