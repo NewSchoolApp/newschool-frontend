@@ -59,9 +59,11 @@ export default {
       this.viewMenu = !this.viewMenu;
     },
     async changeRoutingIfAdmin() {
-      let { data } = await generic.getById('/api/v1/user', 'me')
-      console.log('data: ', data)
-      if( data && data.role.name == 'ADMIN') this.menu[2].link = '/admin/meus-cursos'
+      let userRole = this.$store.state.user.data.role
+      if( userRole == 'ADMIN') {
+        this.menu[0].link = '/admin/home'
+        this.menu[2].link = '/admin/meus-cursos'
+      }
     }
   }
 };
