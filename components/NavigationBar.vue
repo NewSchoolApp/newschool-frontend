@@ -25,7 +25,6 @@
 <script>
 import SideMenu from "~/components/SideMenu.vue"
 import auth from '~/services/http/auth'
-import generic from '~/services/http/generic'
 
 export default {
   data: () => ({

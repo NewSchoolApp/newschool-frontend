@@ -8,10 +8,11 @@
               <avatar :username="user.name || simplifyName" :size="90"></avatar>
             </div>
           </div>
-        </div>  
+        </div>
         <div class="flex-center" id="flex-info-user">
           <h1>{{user.name}}</h1>
           <p>{{user.type}}</p>
+          <v-btn small outlined color="error" width="80px" @click="logout">Sair</v-btn>
         </div>
       </section>
       <div id="close">
@@ -37,7 +38,7 @@
 
 <script>
 import Avatar from 'vue-avatar'
-import { mapGetters } from 'vuex'
+import { mapActions } from 'vuex'
 
 export default {
   data: () => ({
@@ -74,22 +75,17 @@ export default {
     ],
   }),
   methods: {
+    ...mapActions('user', ['clearInfoUser']),
     /**
      * Método para fechar o side-menu
      */
     closeMenu() {
       document.getElementById('menu-btn').click()
     },
-    /**
-     * Método para recuperar as informações do usuário no local storage
-     */
-    getInforUser() {
-      let userStorage = JSON.parse(localStorage.getItem('user'))
-      if (userStorage) {
-        this.user = userStorage
-        this.simplifyName()
-        this.flagdisplayInfoUser = true
-      }
+    logout() {
+      localStorage.clear()
+      $nuxt._router.push('/login')
+      this.clearInfoUser()
     },
   },
   computed: {
@@ -214,5 +210,10 @@ p {
 }
 h4 {
   font-weight: 600;
+}
+@media (max-width: 320px) {
+  .item-menu {
+    height: 42px;
+  }
 }
 </style>
