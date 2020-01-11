@@ -1,4 +1,5 @@
 import { http } from "~/services/http/config"
+import auth from "~/services/http/auth"
 import PRIVATE_MODULES_URL from "~/routes/private";
 
 
@@ -11,15 +12,12 @@ const getters = {
     flagSession: state => {
         return state.flag_session;
     },
-    user: state => {
+    getUser: state => {
         return state.user;
-    },
-    modules: state => {
-        return state.modules;
     },
     roleModule: state => {
         const { role } = state.user
-        return state.modules[role];
+        return PRIVATE_MODULES_URL[role];
     }
 }
 const mutations = {
@@ -32,9 +30,9 @@ const mutations = {
 }
 const actions = {
     validateSession({ getters }, route) {
-        const { role } = getters.user;
+        const { role } = getters.getUser;
         if (getters.flagSession) {
-            // return JSON.parse(PRIVATE_MODULES_URL)[role] == route;
+            PRIVATE_MODULES_URL[role] == route;
             return true
         };
         return false;
@@ -51,12 +49,16 @@ const actions = {
                     role: res.data.role.name || ""
                 })
                 dispatch("initSessionUser")
-                $nuxt._router.push("/aluno/home")
+                $nuxt._router.push(`${PRIVATE_MODULES_URL[res.data.role.name]}/home`)
 
-            }).catch(() => {
-                // localStorage.clear();
-                console.log("err")
-                $nuxt._router.push('/login')
+            }).catch(async () => {
+                const { status, token } = await auth.isTokenValid()
+                if (status) {
+                    dispatch("loadInfoUser", token)
+                } else {
+                    localStorage.clear();
+                    $nuxt._router.push('/login')
+                }
             })
     },
     initSessionUser({ commit }) {

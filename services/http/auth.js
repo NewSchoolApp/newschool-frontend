@@ -23,7 +23,7 @@ export default {
 
     return http
       .post(process.env.endpoints.LOGIN, body, {
-        headers: { 'Authorization': clientCredentials },
+        headers: { Authorization: clientCredentials }
       })
       .then(res => {
         localStorage.setItem('auth', JSON.stringify({
@@ -42,12 +42,11 @@ export default {
 
   isTokenValid: () => {
     const auth = JSON.parse(localStorage.getItem('auth'))
-
     if (auth) {
       const { refreshToken, expiresIn } = auth
       const currentTime = Date.now()
       if (currentTime > expiresIn) {
-        getNewAccessToken(refreshToken)
+        return getNewAccessToken(refreshToken)
       } else {
         return { status: true, token: utils.getToken() }
       }
@@ -69,6 +68,7 @@ export default {
 
 }
 const getNewAccessToken = refreshToken => {
+  console.log("gerando new token...")
   const body = utils.toFormData({
     grant_type: "refresh_token",
     refresh_token: refreshToken
@@ -86,7 +86,6 @@ const getNewAccessToken = refreshToken => {
         refreshToken: res.data.refreshToken,
         expiresIn: Date.now() + ms(res.data.expiresIn),
       }))
-      loadActions(`Bearer ${res.data.accessToken}`)
 
       return { status: true, token: utils.getToken() }
     })
