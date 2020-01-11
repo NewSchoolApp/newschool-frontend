@@ -5,7 +5,7 @@ const http = new Axios.create({
   baseURL: process.env.baseUrl
 })
 
-instance.defaults.headers.common['Authorization'] = utils.getToken();
+// instance.defaults.headers.common['Authorization'] = utils.getToken();
 /**
  * @author Andrews
  * 
