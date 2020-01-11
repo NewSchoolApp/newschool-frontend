@@ -22,7 +22,7 @@
         name="Parte"
         :resources="parts"
         redirect="true"
-        path="part/"
+        path="part"
       />
 
     </v-flex>

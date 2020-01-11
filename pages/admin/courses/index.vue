@@ -5,7 +5,7 @@
         name="Cursos"
         redirect="true"
         :resources="courses"
-        :path="'/admin/course/'"
+        :path="'/admin/course'"
         :subtitle="(course) => course.author"
       />
     </v-flex>

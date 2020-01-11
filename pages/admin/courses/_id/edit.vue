@@ -32,7 +32,7 @@
         name="Aula"
         redirect="true"
         :resources="lessons"
-        path="lesson/"
+        path="lesson"
       />
     </v-flex>
     <client-only>

@@ -26,18 +26,21 @@
           color="#60c"
           label="Descrição"
           rows="1"
+          required
         />
         <v-text-field
           v-model="part.youtubeUrl"
           :rules="videoUrlRules"
           color="#60c"
           label="Link do youtube"
+          required
         />
         <v-text-field
           v-model="part.vimeoUrl"
           :rules="videoUrlRules"
           color="#60c"
           label="Link do vimeo"
+          required
         />
       </v-form>
 
@@ -45,7 +48,7 @@
         name="Teste"
         :resources="tests"
         redirect="true"
-        path="test/"
+        path="test"
       />
       <span v-if="!tests.length" class="new-tests-span">Favor, adicionar um teste</span>
 
@@ -92,13 +95,9 @@
       snackbar: false,
       snackbarText: '',
       snackbarStatus: '',
-      titleRules: [title => !!title || 'Digite um título']
+      titleRules: [title => !!title || 'Digite um título'],
+      videoUrlRules: [video => !!video || 'Insira o link do vídeo'],
     }),
-    computed: {
-        videoUrlRules() {
-            return [() => (!!this.part.youtubeUrl || !!this.part.vimeoUrl) || 'A parte precisa ter ao menos um vídeo.']
-        }
-    },
     head() {
       return {
         title: this.title,

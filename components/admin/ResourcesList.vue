@@ -2,7 +2,7 @@
   <div class="resources-list">
     
     <h2 class="resources-list__header">{{name}}
-      <n-link :to="redirect ? `${path  || ''}new` : ''">
+      <n-link :to="redirect ? `${path  || ''}/new` : ''">
         <v-btn class="add-button" text icon color="primary">
           <v-icon>mdi-plus-circle-outline</v-icon>
         </v-btn>
@@ -32,22 +32,17 @@
 
 <script>
 import auth from '~/services/http/auth'
-import { http } from '~/services/http/config'
+import generic from '~/services/http/generic'
 export default {
   props: ['resources', 'path', 'name', 'subtitle', 'redirect'],
   methods: {
     editLink (resource) {
       const path = this.path || ''
-      return `${path}${resource.id}/edit`
+      return `${path}/${resource.id}/edit`
     },
     deleteObject (resource) {
       if(this.path) {
-        const { accessToken } = auth.getInfoAuth()
-        http.delete(`/api/v1/${this.path}${resource.id}`, {
-          headers: {
-            Authorization: accessToken
-          }
-        }).then(() => {
+        generic.delete(`/api/v1/${this.path}`, resource.id).then(() => {
           this.resources.splice(this.resources.findIndex(_resource => _resource.id == resource.id), 1)
         });
       }
