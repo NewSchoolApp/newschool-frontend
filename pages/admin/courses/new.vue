@@ -27,7 +27,7 @@
                 :rules="titleRules"
                 v-model="form.title"
                 color="#60c"
-                label="Título"
+                label="Título *"
                 name="title"
                 required
               ></v-text-field>
@@ -35,7 +35,7 @@
                 :rules="descriptionRules"
                 v-model="form.description"
                 color="#60c"
-                label="Descrição"
+                label="Descrição *"
                 name="description"
                 required
               ></v-text-field>
@@ -43,7 +43,7 @@
                 v-model="form.photo"
                 :rules="photoRules"
                 color="#60c"
-                label="Foto de capa"
+                label="Foto de capa *"
                 name="photo"
                 prepend-icon=""
                 required
