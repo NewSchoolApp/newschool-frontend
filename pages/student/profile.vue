@@ -3,9 +3,9 @@
     <div id="page">
       <v-row>
         <v-col cols="6" md="8">
-          <v-card class="mx-auto item" max-width="344">
+          <v-card class="mx-auto item" max-width="344" @click="gotoChangeData">
             <img src="~/assets/perfil.png" alt />
-            <a href>Perfil</a>
+            <a  href>Alterar Dados</a>
           </v-card>
         </v-col>
 
@@ -22,6 +22,8 @@
             <a href>Perfil</a>
           </v-card>
         </v-col>
+
+
 
       </v-row>
 
@@ -73,7 +75,7 @@
           </div>
         </section>
       </main>-->
-      <button @click="gotoChangeData">alterar dados</button>
+
     </div>
     <client-only>
       <navigation-bar />
