@@ -1,20 +1,18 @@
 <template>
   <v-layout justify-center>
-
-    <div v-if="loading" class="spiner-container">  
-      <v-progress-circular :size="70" :width="5" indeterminate></v-progress-circular>
+    <div v-if="loading" class="spiner-container">
+      <v-progress-circular
+        :size="70"
+        :width="5"
+        indeterminate
+      ></v-progress-circular>
     </div>
 
     <v-flex xs10 sm8 md6 ref="flex" v-else>
       <v-container>
         <v-row>
           <v-col cols="12" class="relative-col">
-            <v-btn
-              class="btn-back"
-              text
-              icon
-              @click="gotoIndex"
-            >
+            <v-btn class="btn-back" text icon @click="gotoIndex">
               <v-icon>mdi-arrow-left</v-icon>
             </v-btn>
             <h2 class="page-title">Alterar meus dados</h2>
@@ -25,6 +23,7 @@
             <v-col cols="12">
               <v-text-field
                 v-model="form.name"
+                :rules="nameRules"
                 placeholder="Nome"
                 name="name"
                 required
@@ -35,7 +34,7 @@
                 placeholder="E-mail"
                 name="email"
                 required
-              ></v-text-field>             
+              ></v-text-field>
               <v-text-field
                 v-model="form.urlFacebook"
                 placeholder="URL do Facebook"
@@ -51,11 +50,23 @@
               ></v-text-field>
             </v-col>
             <v-col cols="12">
-              <v-btn class="btn-block btn-submit btn-primary" depressed large @click="submit">Alterar Dados</v-btn>              
+              <v-btn
+                class="btn-block btn-submit btn-primary"
+                depressed
+                large
+                @click="submit"
+                >Alterar</v-btn
+              >
             </v-col>
             <v-col cols="12">
-              <v-btn class="btn-block btn-submit btn-second" depressed large to="/aluno/alterar-senha">Alterar Senha</v-btn>
-            </v-col>            
+              <v-btn
+                class="btn-block btn-submit btn-second"
+                depressed
+                large
+                to="/aluno/alterar-senha"
+                >Alterar Senha</v-btn
+              >
+            </v-col>
           </v-form>
           <v-snackbar
             v-model="snackbar"
@@ -65,17 +76,14 @@
             :right="true"
           >
             {{ snackbarText }}
-            <v-btn
-              color="#FFF"
-              text
-              @click="snackbar = false"
-            >
+            <v-btn color="#FFF" text @click="snackbar = false">
               Fechar
             </v-btn>
           </v-snackbar>
         </v-row>
       </v-container>
     </v-flex>
+    <navigation-bar />
   </v-layout>
 </template>
 
@@ -86,15 +94,20 @@
 </router>
 
 <script scoped>
-import auth from "../../services/http/auth";
-import users from '../../services/http/users';
-
+import auth from '../../services/http/auth'
+import users from '../../services/http/users'
+import http from '~/services/http/generic'
+import NavigationBar from '~/components/NavigationBar.vue'
+import utils from '~/utils/index'
 
 export default {
+  components: {
+    NavigationBar,
+  },
   data() {
     return {
       status: true,
-      loading: false,            
+      loading: false,
       snackbar: false,
       snackbarText: '',
       snackbarStatus: '',
@@ -103,93 +116,92 @@ export default {
         name: '',
         email: '',
         urlFacebook: '',
-        urlInstagram: ''
+        urlInstagram: '',
       },
-      nameRules: [v => !!v || "Digite seu nome"],
+      nameRules: [v => !!v || 'Digite seu nome'],
       emailRules: [
-        v => !!v || "Digite o e-mail",
-        v => /.+@.+\..+/.test(v) || "E-mail inválido"
-      ]
-    };
+        v => !!v || 'Digite o e-mail',
+        v => /.+@.+\..+/.test(v) || 'E-mail inválido',
+      ],
+    }
   },
-  created(){       
-    this.form = this.getUser();
+  mounted() {
+    http.getAll(process.env.endpoints.USER_ME).then(res => {
+      this.form = {
+        id: res.data.id || '',
+        name: res.data.name || '',
+        email: res.data.email || '',
+        urlFacebook: res.data.urlFacebook || '',
+        urlInstagram: res.data.urlInstagram || '',
+        role: {
+          id: res.data.role.id || '',
+          name: res.data.role.name || '',
+        },
+      }
+    })
   },
-   methods: {
+  methods: {
     submit() {
       if (this.$refs.form.validate()) {
-        this.animateForm(true);
-          users.update(this.form)
-          .then(res => {     
-            this.loading = false;  
-            this.confirmSnackbar('Dados alterados com sucesso', 'success');
+        this.animateForm(true)
+        // let payload = utils(this.form)
+        users
+          .update(this.form)
+          .then(res => {
+            this.loading = false
+            this.confirmSnackbar('Dados alterados com sucesso', 'success')
             setTimeout(() => {
-              this.gotoIndex();
-            }, 1500); 
+              this.gotoHome()
+            }, 1500)
           })
           .catch(err => {
-            this.confirmSnackbar('Ocorreu um erro.', 'error');
+            this.confirmSnackbar('Ocorreu um erro.', 'error')
             setTimeout(() => {
-              this.loading = false;
-            }, 500);
-            console.error(err);
-          });
+              this.loading = false
+            }, 500)
+            console.error(err)
+          })
       } else {
-        this.animateForm(false);
+        this.animateForm(false)
       }
     },
 
     animateForm(status) {
       if (status) {
-        this.$refs.flex.classList.add("hide-form");
-        document.querySelector("html").style.overflow = "hidden";
+        this.$refs.flex.classList.add('hide-form')
+        document.querySelector('html').style.overflow = 'hidden'
         setTimeout(() => {
-          this.loading = true;
-        }, 300);
+          this.loading = true
+        }, 300)
       } else {
-        this.$refs.flex.classList.add("error-form");
+        this.$refs.flex.classList.add('error-form')
         setTimeout(() => {
-          this.$refs.flex.classList.remove("error-form");
-        }, 500);
+          this.$refs.flex.classList.remove('error-form')
+        }, 500)
       }
-      document.querySelector("html").style.overflow = "scroll";
-    },        
+      document.querySelector('html').style.overflow = 'scroll'
+    },
 
-    gotoIndex() {
-      $nuxt._router.push("/index");
+    gotoHome() {
+      $nuxt._router.push('/aluno/home')
     },
 
     confirmSnackbar(text, status) {
-      this.snackbarText = text;
-      this.snackbarStatus = status;
-      this.snackbar = true;
+      this.snackbarText = text
+      this.snackbarStatus = status
+      this.snackbar = true
     },
-
-    getUser() {
-      try {
-        return JSON.parse(localStorage.getItem('user'))
-      }
-      catch (e) {
-        this.confirmSnackbar('Ocorreu um erro.', 'error');
-        setTimeout(() => {
-          this.loading = false;
-        }, 500);
-        console.error(e);
-      }
-    }     
-
-  }
-  }
-
+  },
+}
 </script>
 
 <style scoped>
-@import url("https://fonts.googleapis.com/css?family=Montserrat:400,500,900&display=swap");
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,500,900&display=swap');
 @import url('https://fonts.googleapis.com/css?family=Lato&display=swap');
 
 /* Global */
 * {
-  font-family: "Montserrat", Helvetica, Arial, sans-serif !important;
+  font-family: 'Montserrat', Helvetica, Arial, sans-serif !important;
 }
 
 .flex {
@@ -211,10 +223,9 @@ export default {
 }
 
 /* Placeholder */
-::v-deep ::placeholder{
-  color: #6600CC!important;
+::v-deep ::placeholder {
+  color: #6600cc !important;
 }
-
 
 /* Page */
 .page-title {
@@ -225,13 +236,12 @@ export default {
   text-transform: uppercase;
   line-height: 19px;
   text-align: center;
-  color: #6600CC;
+  color: #6600cc;
 }
 
 .relative-col {
   position: relative;
 }
-
 
 /* Botão */
 ::v-deep .btn-back {
@@ -240,6 +250,15 @@ export default {
   top: 0;
   margin-top: 3px;
   font-size: 12px;
+}
+@media (max-width: 350px) {
+  ::v-deep .btn-back {
+    position: absolute;
+    left: -25px;
+    top: 0;
+    margin-top: 3px;
+    font-size: 12px;
+  }
 }
 
 ::v-deep .v-btn.v-size--large {
@@ -253,7 +272,6 @@ export default {
   }
 }
 
-
 /* Form */
 .v-form {
   width: 100%;
@@ -261,19 +279,25 @@ export default {
 
 ::v-deep .theme--light.v-label {
   font-weight: 600;
-  color: #6600CC !important;
+  color: #6600cc !important;
 }
 
-::v-deep .theme--light.v-text-field > .v-input__control > .v-input__slot:before {
-  border: 1px solid #6600CC !important;
+::v-deep
+  .theme--light.v-text-field
+  > .v-input__control
+  > .v-input__slot:before {
+  border: 1px solid #6600cc !important;
 }
 
-::v-deep .theme--light.v-text-field:not(.v-input--has-state) > .v-input__control > .v-input__slot:hover:before {
-  border-color: #6600CC !important;
+::v-deep
+  .theme--light.v-text-field:not(.v-input--has-state)
+  > .v-input__control
+  > .v-input__slot:hover:before {
+  border-color: #6600cc !important;
 }
 
 ::v-deep .theme--light.v-input:not(.v-input--is-disabled) input {
-  color: #6600CC !important;
+  color: #6600cc !important;
 }
 
 ::v-deep .v-input__slot {
@@ -287,8 +311,8 @@ export default {
 
 ::v-deep .v-text-field {
   padding-top: 0 !important;
-  margin-top: 0 !important;
-  color: #6600CC;
+  margin: 0 6% 0 6% !important;
+  color: #6600cc;
 }
 
 ::v-deep .v-text-field input {
@@ -306,16 +330,18 @@ export default {
   padding-right: 5px;
 }
 
-::v-deep .btn-primary.theme--light.v-btn:not(.v-btn--flat):not(.v-btn--text):not(.v-btn--outlined) {
+::v-deep
+  .btn-primary.theme--light.v-btn:not(.v-btn--flat):not(.v-btn--text):not(.v-btn--outlined) {
   background: #6600cc !important;
   border-radius: 0 !important;
-  box-shadow: 0 4px 5px gray!important;
+  box-shadow: 0 4px 5px gray !important;
   color: #fff !important;
   font-weight: bold !important;
 }
-::v-deep .btn-second.theme--light.v-btn:not(.v-btn--flat):not(.v-btn--text):not(.v-btn--outlined) {
+::v-deep
+  .btn-second.theme--light.v-btn:not(.v-btn--flat):not(.v-btn--text):not(.v-btn--outlined) {
   background: #fff !important;
-  border: 1px solid #6600cc!important;
+  border: 1px solid #6600cc !important;
   color: #6600cc !important;
   font-weight: bold !important;
 }
@@ -331,7 +357,6 @@ export default {
 .error-form {
   animation: nono 300ms, intro paused;
 }
-
 
 /* Error messages */
 .v-messages__message {

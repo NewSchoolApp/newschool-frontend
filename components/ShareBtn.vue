@@ -3,7 +3,7 @@
     <div v-if="isOpen" class="share-container">
       <social-sharing
       @open="isOpen = !isOpen"
-      :url="url"
+      :url="baseUrl + url"
       :title="title"
       :description="description"
       :hashtags="hashtags"
@@ -26,14 +26,14 @@
 
     <v-btn
       v-if="!isOpen"
-      class="ma-2"
+      class="folded-button"
       tile
       large
       icon
       :color="color"
       @click="isOpen = !isOpen"
     >
-      <v-icon>mdi-share-variant</v-icon>
+      <v-icon class="share-icon">mdi-share-variant</v-icon>
     </v-btn>
   </v-layout>
 </template>
@@ -45,7 +45,6 @@ export default {
   components: {
     SocialSharing
   },
-
   props: {
     color: {
       default: '#CCC'
@@ -63,9 +62,10 @@ export default {
 
   data() {
     return {
-      isOpen: false
+      isOpen: false,
+      baseUrl: window.location.origin
     }
-  }
+  },
 }
 </script>
 
@@ -75,7 +75,17 @@ export default {
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  padding: 5px 10px;
+  padding: 5px 2px;
   background: #60C;
 }
+
+.folded-button {
+  height: 32px !important;
+  margin: 0 !important;
+}
+
+.share-icon {
+  align-self: flex-end;
+}
+
 </style>
