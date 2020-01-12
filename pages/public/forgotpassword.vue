@@ -1,6 +1,11 @@
 <template>
   <v-layout align-center justify-center>
-    <v-progress-circular v-if="loading" :size="70" :width="5" indeterminate></v-progress-circular>
+    <v-progress-circular
+      v-if="loading"
+      :size="70"
+      :width="5"
+      indeterminate
+    ></v-progress-circular>
 
     <v-flex xs10 sm15 md6 ref="flex" v-else>
       <v-container>
@@ -14,7 +19,9 @@
 
         <v-row>
           <v-col cols="15">
-            <a class="page-text">Digite seu email registrado para redefinir sua senha</a>
+            <a class="page-text"
+              >Digite seu email registrado para redefinir sua senha</a
+            >
           </v-col>
         </v-row>
         <v-row>
@@ -29,11 +36,19 @@
               ></v-text-field>
             </v-col>
             <v-col cols="12">
-              <v-btn class="btn-block btn-submit" depressed large @click="submit">Redefinir senha</v-btn>
+              <v-btn
+                class="btn-block btn-submit"
+                depressed
+                large
+                @click="submit"
+                >Redefinir senha</v-btn
+              >
             </v-col>
           </v-form>
           <v-col cols="12" class="text-center">
-            <a class="login-link" @click="gotoLogin">Opa, lembrei minha senha!</a>
+            <a class="login-link" @click="gotoLogin"
+              >Opa, lembrei minha senha!</a
+            >
           </v-col>
           <v-snackbar
             v-model="snackbar"
@@ -84,7 +99,7 @@ export default {
       if (this.$refs.form.validate()) {
         this.animateForm(true);
         auth
-          .Forgotpassword(this.form)
+          .forgotpassword(this.form)
           .then(res => {
             this.loading = false;
             this.confirmSnackbar("O link foi pro seu email! ;)", "success");

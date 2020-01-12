@@ -56,7 +56,7 @@ export default {
     });
   },
 
-  Forgotpassword: form => {
+  forgotpassword: form => {
     return http.post("api/v1/user/forgot-password", form, {});
   },
 
