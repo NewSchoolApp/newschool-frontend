@@ -5,7 +5,12 @@ const http = new Axios.create({
   baseURL: process.env.baseUrl
 })
 
-// instance.defaults.headers.common['Authorization'] = utils.getToken();
+// Interceptor para adicionar o token no authorization header
+http.interceptors.request.use((config) => {
+  config.headers.Authorization = utils.getToken();
+  return config;
+}
+);
 /**
  * @author Andrews
  * 
