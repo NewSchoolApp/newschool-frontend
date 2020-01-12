@@ -28,20 +28,14 @@ export default {
   mounted() {
     const { status, token } = auth.isTokenValid()
     if (status) {
-        mapActions(['user', this.token])
+      this.loadInfoUser(token)
     } else {
       $nuxt._router.push('/login')
     }
   },
   methods: {
-<<<<<<< HEAD
-  
-  }
-      
-=======
     ...mapActions('user', ['loadInfoUser']),
   },
->>>>>>> 9f601a002a45830b4e716682e8bdaaef88cfbda6
 }
 </script>
 
