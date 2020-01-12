@@ -23,7 +23,9 @@
 </template>
   
 <script>
-import SideMenu from "~/components/SideMenu.vue";
+import SideMenu from "~/components/SideMenu.vue"
+import auth from '~/services/http/auth'
+
 export default {
   data: () => ({
     viewMenu: false,
@@ -48,9 +50,19 @@ export default {
   components: {
     SideMenu
   },
+  mounted() {
+    this.changeRoutingIfAdmin()
+  },
   methods: {
     setViewMenu() {
       this.viewMenu = !this.viewMenu;
+    },
+    async changeRoutingIfAdmin() {
+      let userRole = this.$store.state.user.data.role
+      if( userRole == 'ADMIN') {
+        this.menu[0].link = '/admin/home'
+        this.menu[2].link = '/admin/meus-cursos'
+      }
     }
   }
 };

@@ -34,9 +34,14 @@ export default {
     }
   },
   methods: {
+<<<<<<< HEAD
   
   }
       
+=======
+    ...mapActions('user', ['loadInfoUser']),
+  },
+>>>>>>> 9f601a002a45830b4e716682e8bdaaef88cfbda6
 }
 </script>
 
