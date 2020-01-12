@@ -3,7 +3,7 @@
     <v-flex ref="flex" class="main-container">
 
       <h1>
-        <n-link to="../../edit">
+        <n-link to="../edit">
           <v-btn class="back-button" text icon color="primary">
             <v-icon>mdi-arrow-left</v-icon>
           </v-btn>
@@ -80,7 +80,7 @@
 
 <router>
   {
-    path: '/admin/course/:courseId/lesson/:lessonId/part/:partId/test/:id/edit'
+    path: '/admin/course/:courseId/lesson/:lessonId/part/:partId/test/new'
   }
 </router>
 
@@ -93,13 +93,22 @@ export default {
       NavigationBar
     },
     data: () => ({
-        title: 'Editar Teste',
+        title: 'Criar um Teste',
         status: true,
         submited: false,
         loading: false,
         snackbar: false,
         snackbarText: '',
         snackbarStatus: '',
+        test : {
+            title: '',
+            correctAlternative: '',
+            firstAlternative: '',
+            secondAlternative: '',
+            thirdAlternative: '',
+            fourthAlternative: '',
+            part: '',
+        },
         titleRules: [title => !!title || 'Digite um título'],
         answerRules: [answer => !!answer || 'Digite a resposta'],
         alternativeRules: [alternative => !!alternative || 'Digite o texto da alternativa'],
@@ -126,11 +135,11 @@ export default {
         submit() {
             if (this.$refs.test.validate()) {
                 this.animateForm(true)
-                this.test['part'] = this.$route.params.partId
-                tests.put(`/api/v1/test/${this.test.id}`, this.test)
+                tests.post('/api/v1/test', this.test)
                 .then(res => {
                     this.loading = false
-                    this.showConfirmSnack('Teste salvo! ;)', 'success')
+                    this.showConfirmSnack('Teste criado! ;)', 'success')
+                    this.submited = true
                 })
                 .catch(err => {
                     this.showConfirmSnack('Ocorreu um erro.', 'error')
@@ -165,11 +174,6 @@ export default {
             this.snackbarStatus = status
             this.snackbar = true
         },
-    },
-    async asyncData({ store, data, params }) {
-      const _test = await tests.getById('/api/v1/test', params.id)
-      
-      return {test: _test.data}
     }
 }
 </script>
