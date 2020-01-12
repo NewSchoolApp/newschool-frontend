@@ -114,7 +114,7 @@ export default {
     };
   },
   created(){       
-    this.form = this.getUser();
+    this.form = this.$store.state.user;
   },
    methods: {
     submit() {
@@ -165,22 +165,8 @@ export default {
       this.snackbarStatus = status;
       this.snackbar = true;
     },
-
-    getUser() {
-      try {
-        return JSON.parse(localStorage.getItem('user'))
-      }
-      catch (e) {
-        this.confirmSnackbar('Ocorreu um erro.', 'error');
-        setTimeout(() => {
-          this.loading = false;
-        }, 500);
-        console.error(e);
-      }
-    }     
-
   }
-  }
+}
 
 </script>
 
