@@ -73,90 +73,90 @@
 </router>
 
 <script scoped>
-import auth from "../../services/http/auth";
-import StackUtils from "stack-utils";
+import auth from '../../services/http/auth'
+import StackUtils from 'stack-utils'
 export default {
   data() {
     return {
       status: true,
       loading: false,
       snackbar: false,
-      snackbarText: "",
-      snackbarStatus: "",
-      token: "",
+      snackbarText: '',
+      snackbarStatus: '',
+      token: '',
       form: {
-        email: ""
+        email: '',
       },
       emailRules: [
         v => !!v || "Digite o e-mail",
-        v => /.+@.+\..+/.test(v) || "E-mail inválido"
-      ]
-    };
+        v => /.+@.+\..+/.test(v) || "E-mail inválido",
+      ],
+    }
   },
 
   methods: {
     submit() {
       if (this.$refs.form.validate()) {
-        this.animateForm(true);
+        this.animateForm(true)
         auth
-          .forgotpassword(this.form)
+          .forgotPassword(this.form)
           .then(res => {
-            this.loading = false;
-            this.confirmSnackbar("O link foi pro seu email! ;)", "success");
+            this.loading = false
+            this.confirmSnackbar('O link foi pro seu email! ;)', 'success')
             setTimeout(() => {
-              this.gotoLogin();
-            }, 2500);
+              this.gotoLogin()
+            }, 2500)
           })
           .catch(err => {
-            this.confirmSnackbar("Ocorreu um erro.", "error");
+            this.confirmSnackbar('Ocorreu um erro.', 'error')
             setTimeout(() => {
-              this.loading = false;
-            }, 500);
-            console.error(err);
-          });
+              this.loading = false
+            }, 500)
+            console.error(err)
+          })
       } else {
-        this.animateForm(false);
+        this.animateForm(false)
       }
     },
 
     animateForm(status) {
       if (status) {
-        this.$refs.flex.classList.add("hide-form");
-        document.querySelector("html").style.overflow = "hidden";
+        this.$refs.flex.classList.add("hide-form")
+        document.querySelector("html").style.overflow = "hidden"
         setTimeout(() => {
-          this.loading = true;
-        }, 300);
+          this.loading = true
+        }, 300)
       } else {
-        this.$refs.flex.classList.add("error-form");
+        this.$refs.flex.classList.add("error-form")
         setTimeout(() => {
-          this.$refs.flex.classList.remove("error-form");
-        }, 500);
+          this.$refs.flex.classList.remove("error-form")
+        }, 500)
       }
-      document.querySelector("html").style.overflow = "scroll";
+      document.querySelector("html").style.overflow = "scroll"
     },
 
     gotoLogin() {
-      $nuxt._router.push("/login");
+      $nuxt._router.push("/login")
     },
     confirmSnackbar(text, status) {
-      this.snackbarText = text;
-      this.snackbarStatus = status;
-      this.snackbar = true;
-    }
+      this.snackbarText = text
+      this.snackbarStatus = status
+      this.snackbar = true
+    },
   },
 
   loadClientCredentials() {
     utils
       .getExternalCredentials()
       .then(res => {
-        console.log(res);
-        this.token = res.data.accessToken;
+        console.log(res)
+        this.token = res.data.accessToken
       })
       .catch(() => {
-        $$nuxt._router.push("/login");
-      });
-  }
-};
+        $$nuxt._router.push('/login')
+      })
+  },
+}
 </script>
 
 <style scoped>

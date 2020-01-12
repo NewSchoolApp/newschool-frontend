@@ -21,7 +21,7 @@
 <script>
 export default {};
 </script>
-<style>
+<style scoped>
 main {
   color: #000;
   text-align: center;

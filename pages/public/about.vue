@@ -38,7 +38,7 @@ export default {
     width: 100%;
     height: 100%;
     position: fixed;
-    background: url("../assets/paraisopolis.png");
+    background: url("../../assets/paraisopolis.png");
     background-size: cover;
     background-position: center;
 }

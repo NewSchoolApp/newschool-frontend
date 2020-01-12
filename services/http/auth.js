@@ -1,5 +1,6 @@
-import { http } from "./config";
-
+import ms from 'ms'
+import { http } from './config'
+import utils from "~/utils/index"
 /**
  * @author Andrews
  *
@@ -11,77 +12,91 @@ export default {
    * autenticação na API do sistema
    */
   login: (username, password) => {
-    let body = new FormData();
 
-    let base64 = btoa(
-      `${process.env.credentials.name}:${process.env.credentials.secret}`
-    );
-
-    let client_credentials = `Basic ${base64}`;
-
-    body.append("grant_type", "password");
-    body.append("username", username);
-    body.append("password", password);
+    const body = utils.toFormData({
+      grant_type: "password",
+      username: username,
+      password: password
+    })
+    const clientCredentials = utils.getPasswordCredentials();
 
     return http
-      .post("/oauth/token", body, {
-        headers: { Authorization: client_credentials }
+      .post(process.env.endpoints.LOGIN, body, {
+        headers: { Authorization: clientCredentials }
       })
       .then(res => {
-        // armazenando tokens no storage
-        let auth = {
+        localStorage.setItem('auth', JSON.stringify({
           accessToken: `Bearer ${res.data.accessToken}`,
-          refreshToken: res.data.refreshToken
-        };
-        localStorage.setItem("auth", JSON.stringify(auth));
-      });
-  },
-
-  getExternalCredentials: () => {
-    let base64 = btoa(
-      `${process.env.credentials.external.name}:${process.env.credentials.external.secret}`
-    );
-
-    let client_credentials = `Basic ${base64}`;
-    let body = { grant_type: "client_credentials" };
-
-    return http.post("oauth/token", body, {
-      headers: { Authorization: client_credentials }
-    });
+          refreshToken: res.data.refreshToken,
+          expiresIn: Date.now() + ms(res.data.expiresIn),
+        }));
+      })
   },
 
   signUp: (form, token) => {
-    return http.post("api/v1/user", form, {
-      headers: { Authorization: `Bearer ${token}` }
-    });
+    return http.post(process.env.endpoints.SIGN_UP, form, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
   },
 
-  forgotpassword: form => {
-    return http.post("api/v1/user/forgot-password", form, {});
+  forgotPassword: form => {
+    let email = utils.toFormData(form)
+    return utils.getExternalCredentials().then(res => {
+      return http.post(process.env.endpoints.FORGOT_PASSWORD, email, {
+        headers: { Authorization: `Bearer ${res.data.accessToken}` },
+      })
+    })
   },
 
-  /**
-   * Método para salvar as informações do usuário no local storage
-   *
-   * TODO - Ramificar em um serviço específico de usuário.
-   */
-  getInfoUser: () => {
-    let auth = JSON.parse(localStorage.getItem("auth"));
-
+  isTokenValid: () => {
+    const auth = JSON.parse(localStorage.getItem('auth'))
     if (auth) {
-      return http
-        .get("/api/v1/user/me", {
-          headers: { Authorization: auth.accessToken }
-        })
-        .then(res => {
-          let user = {
-            name: res.data.name || "Anônimo",
-            type: res.data.type || "Visitante"
-          };
-          localStorage.setItem("user", JSON.stringify(user));
-        });
+      const { refreshToken, expiresIn } = auth
+      const currentTime = Date.now()
+      if (currentTime > expiresIn) {
+        return getNewAccessToken(refreshToken)
+      } else {
+        return { status: true, token: utils.getToken() }
+      }
     } else {
-      $nuxt._router.push("/login");
+      return { status: false, token: "" }
     }
-  }
-};
+  },
+
+  getInfoAuth: () => {
+    try {
+      return JSON.parse(localStorage.getItem('auth'))
+    } catch (e) {
+      return {
+        accessToken: ``,
+        refreshToken: ``,
+      }
+    }
+  },
+
+}
+const getNewAccessToken = refreshToken => {
+  const body = utils.toFormData({
+    grant_type: "refresh_token",
+    refresh_token: refreshToken
+  })
+
+  const clientCredentials = utils.getPasswordCredentials()
+
+  return http
+    .post(process.env.endpoints.LOGIN, body, {
+      headers: { Authorization: clientCredentials },
+    })
+    .then(res => {
+      localStorage.setItem('auth', JSON.stringify({
+        accessToken: `Bearer ${res.data.accessToken}`,
+        refreshToken: res.data.refreshToken,
+        expiresIn: Date.now() + ms(res.data.expiresIn),
+      }))
+
+      return { status: true, token: utils.getToken() }
+    })
+    .catch(() => {
+      return { status: false, token: "" }
+    })
+}

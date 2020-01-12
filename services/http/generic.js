@@ -1,5 +1,16 @@
-import { http } from './config'
+import Axios from 'axios';
+import utils from "~/utils/index"
 
+const http = new Axios.create({
+  baseURL: process.env.baseUrl
+})
+
+// Interceptor para adicionar o token no authorization header
+http.interceptors.request.use((config) => {
+  config.headers.Authorization = utils.getToken();
+  return config;
+}
+);
 /**
  * @author Andrews
  * 

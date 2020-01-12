@@ -8,7 +8,7 @@
       </div>
     </div>
 
-    <v-flex role="main" xs10 sm8 md4 ref="flex" v-else>
+    <v-flex v-else ref="flex" role="main" xs10 sm8 md4>
       <div class="bg-symbol">
         <img src="../../assets/logo.svg" alt="New Schoool logo" />
       </div>
@@ -19,20 +19,26 @@
             <v-col cols="12">
               <v-text-field
                 v-model="email"
+                dark
+                color="#fff"
                 :rules="emailRules"
                 label="Email"
                 data-vv-name="email"
                 required
+                @keyup.enter="submit()"
               ></v-text-field>
               <v-text-field
                 v-model="password"
+                dark
+                color="#fff"
                 :rules="passwordRules"
                 label="Senha"
                 data-vv-name="password"
                 :type="showPass ? 'text' : 'password'"
                 :append-icon="showPass ? 'mdi-eye-off' : 'mdi-eye'"
-                @click:append="() => (showPass = !showPass)"
                 required
+                @click:append="() => (showPass = !showPass)"
+                @keyup.enter="submit()"
               ></v-text-field>
             </v-col>
             <v-col cols="12">
@@ -44,7 +50,7 @@
                 depressed
                 large
                 @click="submit"
-              >Login</v-btn>
+              >Entrar</v-btn>
             </v-col>
           </v-form>
           <v-col cols="12">
@@ -58,7 +64,6 @@
               to="/cadastro"
             >Cadastrar</v-btn>
           </v-col>
-
           <v-col cols="12" class="text-center">
             <v-btn tile outlined color="white" to="/esqueci-minha-senha">Esqueci minha senha</v-btn>
           </v-col>
@@ -67,7 +72,7 @@
     </v-flex>
     <v-dialog v-model="dialog" max-width="290">
       <v-card-title class="headline">Ops!</v-card-title>
-      <v-card-text>Usuário ou senha incorretos!</v-card-text>
+      <v-card-text>{{ dialogMessage }}</v-card-text>
       <v-btn color="primary" text @click="dialog = false">Ok</v-btn>
     </v-dialog>
   </v-layout>
@@ -80,80 +85,103 @@
 </router>
 
 <script>
-import auth from "../../services/http/auth";
+import auth from '~/services/http/auth'
 
 export default {
   data: () => ({
-    //flags
+    // flags
     status: true,
     loading: false,
     dialog: false,
+    dialogMessage: '',
     showPass: false,
 
-    title: "Entrar",
+    title: 'Entrar',
 
-    email: "",
+    email: '',
     emailRules: [
-      v => !!v || "Digite o e-mail",
-      v => /.+@.+\..+/.test(v) || "E-mail inválido"
+      v => !!v || 'Digite o e-mail',
+      v => /.+@.+\..+/.test(v) || 'E-mail inválido',
     ],
-    password: "",
+    password: '',
     passwordRules: [
-      v => !!v || "Digite a senha",
-      v => (v && v.length >= 6) || "A senha deve ter no mínimo 6 caracteres"
-    ]
+      v => !!v || 'Digite a senha',
+      v => (v && v.length >= 6) || 'A senha deve ter no mínimo 6 caracteres',
+    ],
   }),
 
   head() {
     return {
-      title: this.title
-    };
+      title: this.title,
+      meta: [
+        {
+          hid: 'description',
+          name: 'description',
+          content:
+            'Entre no aplicativo da New School - Levamos educação de qualidade na linguagem da quebrada para as periferias do Brasil, através da tecnologia e da curadoria de conteúdos baseados nas habilidades do futuro.',
+        },
+      ],
+    }
   },
 
   methods: {
     submit() {
+      event.preventDefault()
       if (this.$refs.form.validate()) {
-        this.animateForm(true);
+        this.animateForm(true)
         auth
           .login(this.email, this.password)
           .then(() => {
-            auth.getInfoUser();
-            $nuxt._router.push("/aluno/home");
+            $nuxt._router.push('/loading')
           })
           .catch(err => {
             setTimeout(() => {
-              this.dialog = true;
-              this.loading = false;
-            }, 500);
-            console.error(err);
-          });
+              this.dialogMessage = 'Usuário ou senha incorretos!'
+              this.dialog = true
+              this.loading = false
+            }, 500)
+            console.error(err)
+          })
       } else {
-        this.animateForm(false);
+        this.animateForm(false)
+      }
+    },
+
+    head() {
+      return {
+        title: this.title,
       }
     },
 
     animateForm(status) {
       if (status) {
-        this.$refs.flex.classList.add("hide-form");
-        document.querySelector("html").style.overflow = "hidden";
+        this.$refs.flex.classList.add('hide-form')
+        document.querySelector('html').style.overflow = 'hidden'
         setTimeout(() => {
-          this.loading = true;
-        }, 300);
+          this.loading = true
+        }, 300)
       } else {
-        this.$refs.flex.classList.add("error-form");
+        this.$refs.flex.classList.add('error-form')
         setTimeout(() => {
-          this.$refs.flex.classList.remove("error-form");
-        }, 500);
+          this.$refs.flex.classList.remove('error-form')
+        }, 500)
       }
+    },
+  },
+  mounted() {
+    const { status } = auth.isTokenValid()
+    if (status) {
+      $nuxt._router.push('/loading')
     }
-  }
-};
+  },
+}
 </script>
 
 <style>
 .theme--light.v-icon {
   color: #d6adff;
 }
+<style scoped>
 ::placeholder {
   color: #aa56ff !important;
 }
@@ -161,30 +189,37 @@ export default {
   width: 100%;
   height: 100%;
   position: fixed;
-  background: url("../../assets/paraisopolis.png");
+  background: url('../../assets/paraisopolis.png');
   background-size: cover;
   background-position: center;
 }
-.v-dialog {
+
+::v-deep .v-dialog {
   background: #fff;
   text-align: center;
 }
+
 .v-card__title {
   justify-content: center;
 }
+
 .v-form {
   width: 100%;
 }
+
 .v-input__slot:before,
 .v-input__slot::before {
   border-color: #c58aff !important;
 }
+
 .v-text-field > .v-input__control > .v-input__slot:after {
   border-color: #fff !important;
 }
+
 .v-label {
   color: #c58aff !important;
 }
+
 .primary--text {
   color: #c58aff !important;
   caret-color: #c58aff !important;
@@ -199,9 +234,11 @@ export default {
   animation: intro 300ms backwards;
   animation-delay: 350ms;
 }
+
 .layout {
   background: #6600cc !important;
 }
+
 .bg-symbol {
   display: flex;
   -webkit-box-pack: center;
@@ -233,5 +270,13 @@ export default {
 .theme--light.v-input:not(.v-input--is-disabled) input,
 .theme--light.v-input:not(.v-input--is-disabled) textarea {
   color: #c58aff;
+}
+
+::v-deep .v-dialog {
+  background-color: #fff;
+}
+
+::v-deep .v-card__title + .v-card__text {
+  text-align: center;
 }
 </style>

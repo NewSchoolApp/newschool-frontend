@@ -1,5 +1,5 @@
 <template>
-  <v-layout justify-center>
+  <v-layout justify-center id="page">
     <v-flex ref="flex" xs10 sm8 md4>
       <h1>Editando curso</h1>
       <v-form>
@@ -12,6 +12,7 @@
           :value="course.description"
           label="Descrição"
           required
+          rows="1"
         />
         <v-text-field
           :value="course.author"
@@ -22,38 +23,43 @@
           :value="course.authorInfo"
           label="Biografia do professor"
           required
+          rows="1"
         />
         <v-btn color="primary">Salvar</v-btn>
       </v-form>
 
       <resources-list
-        name="Aulas"
-        :resources="course.classes"
-        path="classes/"
+        name="Aula"
+        redirect="true"
+        :resources="lessons"
+        path="lesson"
       />
     </v-flex>
+    <client-only>
+      <navigation-bar />
+    </client-only>
   </v-layout>
 </template>
 
+<router>
+  {
+    path: '/admin/course/:id/edit'
+  }
+</router>
+
 <script>
+  import NavigationBar from "~/components/NavigationBar.vue"
+  import courses from '~/services/http/courses'
+  import lessons from '~/services/http/lessons'
+
   export default {
-    computed: {
-      course() {
-        return this.$store.state.courses.current
-      }
+    components: {
+      NavigationBar
     },
-    asyncData({ store, data, params, $axios }) {
-      const coursePromise = $axios.get(
-        `/api/v1/courses/${params.id}`
-      ).then(res =>
-        store.commit('courses/setCurrent', res.data.course)
-      )
-      const classesPromise = $axios.get(
-        `/api/v1/courses/${params.id}/classes`
-      ).then(res =>
-        store.commit('courses/setCurrentClasses', res.data.classes)
-      )
-      return Promise.all([coursePromise, classesPromise])
+    async asyncData({ store, data, params}) {
+      const course = await courses.getById(params.id)
+      const _lessons = await lessons.getByCourse(params.id)
+      return {course: course.data, lessons: _lessons.data}
     }
   }
 </script>
