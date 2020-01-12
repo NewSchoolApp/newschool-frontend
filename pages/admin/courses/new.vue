@@ -11,7 +11,7 @@
       <v-container>
         <v-row>
           <v-col cols="1">
-            <v-btn @click="gotoCourses" class="btn-back" text icon>
+            <v-btn @click="goBack" class="btn-back" text icon>
               <v-icon size="30">mdi-arrow-left</v-icon>
             </v-btn>
           </v-col>
@@ -41,6 +41,7 @@
               ></v-text-field>
               <v-file-input
                 v-model="form.photo"
+                :rules="photoRules"
                 color="#60c"
                 label="Foto de capa"
                 name="photo"
@@ -101,8 +102,9 @@ export default {
         photo: null,
       },
 
-      titleRules: [v => !!v || 'Digite um título'],
-      descriptionRules: [v => !!v || 'Digite uma descrição'],
+      titleRules: [v => !!v || 'O título é obrigatório'],
+      descriptionRules: [v => !!v || 'A descrição é obrigatória'],
+      photoRules: [v => !!v || 'A foto de capa é obrigatória'],
     }
   },
 
@@ -129,7 +131,7 @@ export default {
             this.loading = false
             this.confirmSnackbar('Curso cadastrado com sucesso!', 'success')
             setTimeout(() => {
-              this.goToCourses()
+              this.goBack()
             }, 2500)
           })
           .catch(err => {
@@ -163,12 +165,12 @@ export default {
       document.querySelector('html').style.overflow = 'scroll'
     },
 
-    gotoCourses() {
+    gotoAddClass() {
       $nuxt._router.push('/admin/courses')
     },
 
-    gotoAddClass() {
-      $nuxt._router.push('/admin/courses')
+    goBack() {
+      window.history.length > 1 ? $nuxt._router.go(-1) : $nuxt._router.push('/')
     },
 
     confirmSnackbar(text, status) {
@@ -262,7 +264,10 @@ export default {
   transform: translateX(-50%);
 }
 
-::v-deep .theme--light.v-input:not(.v-input--is-disabled) input {
+::v-deep .theme--light.v-input:not(.v-input--is-disabled) input,
+::v-deep
+  .theme--light.v-file-input:not(.v-input--has-state)
+  .v-file-input__text {
   font-size: 12px;
   color: #60c;
 }
