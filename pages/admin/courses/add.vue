@@ -39,6 +39,14 @@
                 name="description"
                 required
               ></v-text-field>
+              <v-file-input
+                v-model="form.photo"
+                color="#60c"
+                label="Foto de capa"
+                name="photo"
+                prepend-icon=""
+                required
+              ></v-file-input>
             </v-col>
             <v-col cols="12" class="classes-title">
               <h2 class="section-title">Aulas</h2>
@@ -74,8 +82,8 @@
 </template>
 
 <script scoped>
-import courses from '../../../services/http/courses'
-import auth from '../../../services/http/auth'
+import courses from '~/services/http/courses'
+import utils from '~/utils'
 
 export default {
   data() {
@@ -90,6 +98,7 @@ export default {
       form: {
         title: '',
         description: '',
+        photo: null,
       },
 
       titleRules: [v => !!v || 'Digite um título'],
@@ -106,10 +115,16 @@ export default {
   methods: {
     submit() {
       if (this.$refs.form.validate()) {
-        const postObject = Object.assign({}, this.form)
+        const formData = new FormData()
+        formData.append('title', this.form.title)
+        formData.append('description', this.form.description)
+        formData.append('photo', this.form.photo)
+        formData.append('thumbUrl', '')
+        formData.append('authorId', this.$store.state.user.data.id)
+
         this.animateForm(true)
         courses
-          .post(postObject, this.token)
+          .createCourse(formData)
           .then(res => {
             this.loading = false
             this.confirmSnackbar('Curso cadastrado com sucesso!', 'success')
@@ -148,11 +163,11 @@ export default {
       document.querySelector('html').style.overflow = 'scroll'
     },
 
-    goToCourses() {
+    gotoCourses() {
       $nuxt._router.push('/admin/courses')
     },
 
-    goToAddClass() {
+    gotoAddClass() {
       $nuxt._router.push('/admin/courses')
     },
 
@@ -164,7 +179,7 @@ export default {
   },
 
   mounted() {
-    auth
+    utils
       .getExternalCredentials()
       .then(res => {
         const { data } = res

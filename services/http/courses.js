@@ -20,9 +20,9 @@ export default {
     })
   },
 
-  post: payload => {
+  createCourse: course => {
     const { accessToken } = auth.getInfoAuth()
-    return http.post('api/v1/course', payload, {
+    return http.post('api/v1/course', course, {
       headers: { Authorization: `${accessToken}` },
     })
   },
