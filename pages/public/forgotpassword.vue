@@ -1,6 +1,5 @@
 <template>
   <v-layout align-center justify-center>
-
     <v-progress-circular v-if="loading" :size="70" :width="5" indeterminate></v-progress-circular>
 
     <v-flex xs10 sm15 md6 ref="flex" v-else>
@@ -8,7 +7,7 @@
         <v-row>
           <v-col cols="15">
             <div class="logo-center">
-              <img src="~/assets/gabs.svg" alt="castor"  />
+              <img src="~/assets/gabs.svg" alt="castor" />
             </div>
           </v-col>
         </v-row>
@@ -21,7 +20,6 @@
         <v-row>
           <v-form ref="form" v-model="status" lazy-validation>
             <v-col cols="15">
-
               <v-text-field
                 v-model="form.email"
                 :rules="emailRules"
@@ -45,13 +43,7 @@
             :right="true"
           >
             {{ snackbarText }}
-            <v-btn
-              color="#FFF"
-              text
-              @click="snackbar = false"
-            >
-              Fechar
-            </v-btn>
+            <v-btn color="#FFF" text @click="snackbar = false">Fechar</v-btn>
           </v-snackbar>
         </v-row>
       </v-container>
@@ -61,27 +53,24 @@
 
 <router>
 {
-  path : '/Esqueci-minha-senha'
+  path : '/esqueci-minha-senha'
 }
-
 </router>
 
 <script scoped>
 import auth from "../../services/http/auth";
+import StackUtils from "stack-utils";
 export default {
   data() {
     return {
       status: true,
       loading: false,
-      showPass: String,
-      showConfirmPass: String,
       snackbar: false,
-      snackbarText: '',
-      snackbarStatus: '',
-      token: '',
+      snackbarText: "",
+      snackbarStatus: "",
+      token: "",
       form: {
-        email: "",
-      role: 'STUDENT'
+        email: ""
       },
       emailRules: [
         v => !!v || "Digite o e-mail",
@@ -89,21 +78,22 @@ export default {
       ]
     };
   },
+
   methods: {
     submit() {
       if (this.$refs.form.validate()) {
         this.animateForm(true);
         auth
-          .signUp(this.form, this.token)
+          .Forgotpassword(this.form)
           .then(res => {
             this.loading = false;
-            this.confirmSnackbar('O link foi pro seu email! ;)', 'success');
+            this.confirmSnackbar("O link foi pro seu email! ;)", "success");
             setTimeout(() => {
               this.gotoLogin();
             }, 2500);
           })
           .catch(err => {
-            this.confirmSnackbar('Ocorreu um erro.', 'error');
+            this.confirmSnackbar("Ocorreu um erro.", "error");
             setTimeout(() => {
               this.loading = false;
             }, 500);
@@ -113,6 +103,7 @@ export default {
         this.animateForm(false);
       }
     },
+
     animateForm(status) {
       if (status) {
         this.$refs.flex.classList.add("hide-form");
@@ -138,15 +129,18 @@ export default {
       this.snackbar = true;
     }
   },
-  mounted() {
-    auth.getExternalCredentials().then(res => {
-        const { data } = res;
-        this.token = data.accessToken;
+
+  loadClientCredentials() {
+    utils
+      .getExternalCredentials()
+      .then(res => {
+        console.log(res);
+        this.token = res.data.accessToken;
       })
-      .catch(err => {
-        console.error(err);
+      .catch(() => {
+        $$nuxt._router.push("/login");
       });
-  },
+  }
 };
 </script>
 
@@ -181,7 +175,7 @@ export default {
 .logo-container img {
   width: 80px;
 }
-.logo-center  {
+.logo-center {
   text-align: center;
 }
 /* Form */
@@ -195,11 +189,13 @@ export default {
 .theme--light.v-text-field > .v-input__control > .v-input__slot:before {
   border-color: #aa56ff !important;
 }
-.theme--light.v-text-field:not(.v-input--has-state) > .v-input__control > .v-input__slot:hover:before {
-  border-color: #6600CC !important;
+.theme--light.v-text-field:not(.v-input--has-state)
+  > .v-input__control
+  > .v-input__slot:hover:before {
+  border-color: #6600cc !important;
 }
 .theme--light.v-input:not(.v-input--is-disabled) input {
-  color: #6600CC !important;
+  color: #6600cc !important;
 }
 .v-input__slot {
   margin-top: 20px !important;
@@ -212,10 +208,10 @@ export default {
 .v-text-field {
   padding-top: 0 !important;
   margin-top: 0 !important;
-  color: #6600CC;
+  color: #6600cc;
 }
 .theme--dark.v-input:not(.v-input--is-disabled) input {
-  color: #6600CC;
+  color: #6600cc;
 }
 .v-icon.v-icon.v-icon--link {
   color: #aa56ff;
@@ -246,6 +242,4 @@ export default {
 .v-snack__content {
   border-radius: 5px;
 }
-
-
 </style>

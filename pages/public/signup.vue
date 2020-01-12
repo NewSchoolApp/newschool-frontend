@@ -1,6 +1,5 @@
 <template>
   <v-layout align-center justify-center>
-
     <v-progress-circular v-if="loading" :size="70" :width="5" indeterminate></v-progress-circular>
 
     <v-flex xs10 sm8 md6 ref="flex" v-else>
@@ -21,12 +20,7 @@
         <v-row>
           <v-form ref="form" v-model="status" lazy-validation>
             <v-col cols="12">
-              <v-text-field
-                v-model="form.name"
-                label="Nome *"
-                name="name"
-                required
-              ></v-text-field>
+              <v-text-field v-model="form.name" label="Nome *" name="name" required></v-text-field>
               <v-text-field
                 v-model="form.email"
                 :rules="emailRules"
@@ -82,13 +76,7 @@
             :right="true"
           >
             {{ snackbarText }}
-            <v-btn
-              color="#FFF"
-              text
-              @click="snackbar = false"
-            >
-              Fechar
-            </v-btn>
+            <v-btn color="#FFF" text @click="snackbar = false">Fechar</v-btn>
           </v-snackbar>
         </v-row>
       </v-container>
@@ -114,9 +102,9 @@ export default {
       showPass: String,
       showConfirmPass: String,
       snackbar: false,
-      snackbarText: '',
-      snackbarStatus: '',
-      token: '',
+      snackbarText: "",
+      snackbarStatus: "",
+      token: "",
       form: {
         name: "",
         email: "",
@@ -124,7 +112,7 @@ export default {
         confirmPassword: "",
         urlFacebook: "",
         urlInstagram: "",
-        role: 'STUDENT'
+        role: "STUDENT"
       },
       nameRules: [v => !!v || "Digite seu nome"],
       passwordRules: [
@@ -146,13 +134,13 @@ export default {
           .signUp(this.form, this.token)
           .then(res => {
             this.loading = false;
-            this.confirmSnackbar('Cadastro efetuado! ;)', 'success');
+            this.confirmSnackbar("Cadastro efetuado! ;)", "success");
             setTimeout(() => {
               this.gotoLogin();
             }, 2500);
           })
           .catch(err => {
-            this.confirmSnackbar('Ocorreu um erro.', 'error');
+            this.confirmSnackbar("Ocorreu um erro.", "error");
             setTimeout(() => {
               this.loading = false;
             }, 500);
@@ -180,11 +168,15 @@ export default {
     },
 
     showPassword() {
-      this.eyeIcon === 'mdi-eye' ? this.eyeIcon = 'mdi-eye-off' : this.eyeIcon = 'mdi-eye'
+      this.eyeIcon === "mdi-eye"
+        ? (this.eyeIcon = "mdi-eye-off")
+        : (this.eyeIcon = "mdi-eye");
     },
 
     showConfirmPassword() {
-      this.eyeIcon2 === 'mdi-eye' ? this.eyeIcon2 = 'mdi-eye-off' : this.eyeIcon2 = 'mdi-eye'
+      this.eyeIcon2 === "mdi-eye"
+        ? (this.eyeIcon2 = "mdi-eye-off")
+        : (this.eyeIcon2 = "mdi-eye");
     },
 
     gotoLogin() {
@@ -199,12 +191,14 @@ export default {
   },
 
   mounted() {
-    auth.getExternalCredentials().then(res => {
-        const { data } = res;
-        this.token = data.accessToken;
+    auth
+      .getExternalCredentials()
+      .then(res => {
+        console.log(res);
+        this.token = res.data.accessToken;
       })
-      .catch(err => {
-        console.error(err);
+      .catch(() => {
+        $nuxt._router.push("/login");
       });
   },
 
@@ -238,7 +232,6 @@ export default {
   background: #fff !important;
 }
 
-
 /* Page */
 .page-title {
   font-size: 24px;
@@ -246,7 +239,6 @@ export default {
   text-transform: uppercase;
   color: #6600cc;
 }
-
 
 /* Logo */
 .logo-container {
@@ -260,7 +252,6 @@ export default {
 .logo-container img {
   width: 80px;
 }
-
 
 /* Form */
 .v-form {
@@ -276,12 +267,14 @@ export default {
   border-color: #aa56ff !important;
 }
 
-.theme--light.v-text-field:not(.v-input--has-state) > .v-input__control > .v-input__slot:hover:before {
-  border-color: #6600CC !important;
+.theme--light.v-text-field:not(.v-input--has-state)
+  > .v-input__control
+  > .v-input__slot:hover:before {
+  border-color: #6600cc !important;
 }
 
 .theme--light.v-input:not(.v-input--is-disabled) input {
-  color: #6600CC !important;
+  color: #6600cc !important;
 }
 
 .v-input__slot {
@@ -296,11 +289,11 @@ export default {
 .v-text-field {
   padding-top: 0 !important;
   margin-top: 0 !important;
-  color: #6600CC;
+  color: #6600cc;
 }
 
 .theme--dark.v-input:not(.v-input--is-disabled) input {
-  color: #6600CC;
+  color: #6600cc;
 }
 
 .v-icon.v-icon.v-icon--link {
@@ -327,14 +320,12 @@ export default {
   animation: nono 300ms, intro paused;
 }
 
-
 /* Error messages */
 .v-messages__message {
   color: #ff5252 !important;
   font-size: 12px !important;
   margin-left: 5px;
 }
-
 
 /* Snackbar */
 .v-snack__content {

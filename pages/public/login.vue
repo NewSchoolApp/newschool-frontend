@@ -48,21 +48,20 @@
             </v-col>
           </v-form>
           <v-col cols="12">
-              <v-btn
-                class="btn-block btn-transparent"
-                role="button"
-                aria-haspopup="true"
-                aria-expanded="false"
-                depressed
-                large
-                to="/cadastro"
-              >Cadastrar</v-btn>
-            </v-col>
-
-          <v-col cols="12" class="text-center">
-            <v-btn  tile outlined color="white" to="/Esqueci-minha-senha">Esqueci minha senha</v-btn>
+            <v-btn
+              class="btn-block btn-transparent"
+              role="button"
+              aria-haspopup="true"
+              aria-expanded="false"
+              depressed
+              large
+              to="/cadastro"
+            >Cadastrar</v-btn>
           </v-col>
 
+          <v-col cols="12" class="text-center">
+            <v-btn tile outlined color="white" to="/esqueci-minha-senha">Esqueci minha senha</v-btn>
+          </v-col>
         </v-row>
       </v-container>
     </v-flex>
@@ -152,7 +151,6 @@ export default {
 </script>
 
 <style>
-
 .theme--light.v-icon {
   color: #d6adff;
 }
@@ -236,6 +234,4 @@ export default {
 .theme--light.v-input:not(.v-input--is-disabled) textarea {
   color: #c58aff;
 }
-
-
 </style>
