@@ -11,6 +11,7 @@
         :key="course.id"
         v-for="course in courses"
         :title="course.title"
+        :description="course.description"
         :teacher="course.authorId"
         :image="course.thumbUrl"
         :slug="course.slug"
