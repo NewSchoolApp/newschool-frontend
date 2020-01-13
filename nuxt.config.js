@@ -42,7 +42,7 @@ export default {
       },
     },
     dateEnd: 
-    process.env.OPENING_DATE || 'january 20, 2020',
+    process.env.OPENING_DATE || '20/01/2020',
 
     endpoints: {
       USER_ME: "api/v1/user/me",

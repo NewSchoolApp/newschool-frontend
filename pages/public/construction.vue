@@ -60,10 +60,13 @@ export default {
         }
     },
     mounted() {
-        let dateEnd = new Date(process.env.dateEnd).getTime();
+        let dateEnd = (process.env.dateEnd);
+        let split = dateEnd.split('/');
+        let dateSpliced = split[1] + '/' + split[0] + '/' + split[2];
+        let newDate = new Date(dateSpliced).getTime();
         setInterval(() => {
     let dateToday = new Date().getTime();
-    var seconds = (dateEnd - dateToday) / 1000;
+    var seconds = (newDate - dateToday) / 1000;
 
     this.days = parseInt(seconds / 86400);
     seconds = seconds % 86400;
