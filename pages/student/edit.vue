@@ -100,7 +100,6 @@ import http from '~/services/http/generic'
 import NavigationBar from '~/components/NavigationBar.vue'
 import utils from '~/utils/index'
 
-
 export default {
   components: {
     NavigationBar,
@@ -192,10 +191,7 @@ export default {
       this.snackbarStatus = status
       this.snackbar = true
     },
-  
-    }     
-
-  
+   },     
   }
 
 </script>

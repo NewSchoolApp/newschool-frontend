@@ -5,7 +5,7 @@
         <v-col cols="6" md="8">
           <v-card class="mx-auto item" max-width="344" @click="gotoChangeData">
             <img src="~/assets/perfil.png" alt />
-            <a  href>Alterar Dados</a>
+            <a href>Alterar Dados</a>
           </v-card>
         </v-col>
 
@@ -22,8 +22,6 @@
             <a href>Perfil</a>
           </v-card>
         </v-col>
-
-
 
       </v-row>
 
@@ -75,10 +73,6 @@
           </div>
         </section>
       </main>-->
-<<<<<<< HEAD
-
-=======
->>>>>>> b0908a08dbd0a7c6f81a8972bb1a482f4331d987
     </div>
     <client-only>
       <navigation-bar />
