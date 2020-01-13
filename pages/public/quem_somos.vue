@@ -24,6 +24,11 @@
     <navigation-bar />
   </div>
 </template>
+<router>
+  {
+    path: '/sobre'
+  }
+</router>
 
 <script>
 import NavigationBar from "~/components/NavigationBar.vue";
