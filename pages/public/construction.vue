@@ -60,7 +60,7 @@ export default {
         }
     },
     mounted() {
-        syncDate();        
+        this.syncDate();        
     },
     methods: {
         syncDate(){
@@ -94,6 +94,8 @@ export default {
     /* Global */ 
 *{
     font-family: "Montserrat", Helvetica, Arial, sans-serif !important;
+    max-width: 800px;
+    margin: 0 auto;
 }
     /* Text Header */ 
 .initial-text {
@@ -139,7 +141,7 @@ export default {
     justify-content: center;
     color: #6600CC;
     width: 80%;
-    margin: 0 7%;
+    margin: 0 7% 7%;
 }
 .atribute-data span{
     margin-left: 5%;
@@ -155,7 +157,7 @@ export default {
     align-items: center;
     text-align: center;
     color: #6600cc; 
-    margin: 10% auto;
+    margin: 0 auto;
 }
 
 </style>
