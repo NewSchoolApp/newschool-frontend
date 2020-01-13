@@ -24,6 +24,11 @@
     <navigation-bar />
   </div>
 </template>
+<router>
+  {
+    path: '/sobre'
+  }
+</router>
 
 <script>
 import NavigationBar from "~/components/NavigationBar.vue";
@@ -34,3 +39,8 @@ export default {
   }
 }
 </script>
+<style scoped>
+::v-deep div{
+  overflow-y: auto;
+}
+</style>
