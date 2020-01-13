@@ -1,8 +1,6 @@
 <template>
   <div>
-
     <MenuBarBackCourse />
-
     <v-layout align-center justify-center>
       <v-progress-circular v-if="loading" :size="70" :width="5" indeterminate></v-progress-circular>
       <v-flex xs10 sm12 md8 ref="flex" v-else>
@@ -93,9 +91,9 @@
 </router>
 
 <script scoped>
-import auth from '../../../services/http/auth'
-import NavigationBar from '../../../components/NavigationBar.vue'
-import MenuBarBackCourse from '../../../components/admin/MenuBarBackCourse.vue'
+import lessons from '../../../services/http/lessons';
+import NavigationBar from '../../../components/NavigationBar.vue';
+import MenuBarBackCourse from '../../../components/admin/MenuBarBackCourse.vue';
 
 export default {
   components: {
@@ -128,7 +126,7 @@ export default {
     submit() {
       if (this.$refs.form.validate()) {
         this.animateForm(true)
-        auth
+        lessons
           .addLesson(this.form, this.token)
           .then(res => {
             this.loading = false
@@ -174,18 +172,6 @@ export default {
       this.snackbarStatus = status
       this.snackbar = true
     },
-  },
-
-  mounted() {
-    auth
-      .getExternalCredentials()
-      .then(res => {
-        const { data } = res
-        this.token = data.accessToken
-      })
-      .catch(err => {
-        console.error(err)
-      })
   },
 }
 </script>
