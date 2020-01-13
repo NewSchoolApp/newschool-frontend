@@ -60,31 +60,28 @@ export default {
         }
     },
     mounted() {
-        let date = this.getDate();
-        setInterval(() => {
-    let dateToday = new Date().getTime();
-    var seconds = (date - dateToday) / 1000;
-
-    this.days = parseInt(seconds / 86400);
-    seconds = seconds % 86400;
-    
-    this.hours = parseInt(seconds / 3600);
-    seconds = seconds % 3600;
-    
-    this.minutes = parseInt(seconds / 60);
-    seconds = parseInt(seconds % 60);
-            
-            
-        }, 1000);
+        syncDate();        
     },
     methods: {
-        getDate(){
-        let dateEnd = (process.env.dateEnd);
-        let split = dateEnd.split('/');
-        let dateSpliced = split[1] + '/' + split[0] + '/' + split[2];
-        let newDate = new Date(dateSpliced).getTime();
+        syncDate(){
+            let dateEnd = (process.env.dateEnd);
+            let split = dateEnd.split('/');
+            let dateSpliced = split[1] + '/' + split[0] + '/' + split[2];
+            let date = new Date(dateSpliced).getTime();
+            
+            setInterval(() => {
+              let dateToday = new Date().getTime();
+              var seconds = (date - dateToday) / 1000;
 
-        return newDate
+              this.days = parseInt(seconds / 86400);
+              seconds = seconds % 86400;
+
+              this.hours = parseInt(seconds / 3600);
+              seconds = seconds % 3600;
+
+              this.minutes = parseInt(seconds / 60);
+              seconds = parseInt(seconds % 60);                        
+            }, 1000);            
         }
     }
 
