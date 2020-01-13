@@ -39,3 +39,8 @@ export default {
   }
 }
 </script>
+<style scoped>
+::v-deep div{
+  overflow-y: auto;
+}
+</style>
