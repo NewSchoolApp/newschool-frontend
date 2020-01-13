@@ -23,7 +23,6 @@
 <script>
 import auth from '~/services/http/auth'
 import { mapActions } from 'vuex'
-export const strict = false;
 
 export default {
   mounted() {
