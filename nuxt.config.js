@@ -41,6 +41,9 @@ export default {
           'NEWSCHOOL@EXTERNALSECRET',
       },
     },
+    dateEnd: 
+    process.env.OPENING_DATE || 'january 20, 2020',
+
     endpoints: {
       USER_ME: "api/v1/user/me",
       LOGIN: "oauth/token",

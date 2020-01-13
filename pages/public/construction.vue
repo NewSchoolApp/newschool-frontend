@@ -54,13 +54,13 @@
 export default {
     data(){
         return{
-        days: '5',    
-        hours : '15',
-        minutes: '10'
+        days: '',    
+        hours : '',
+        minutes: ''
         }
     },
     mounted() {
-        let dateEnd = new Date('january 20, 2020').getTime();
+        let dateEnd = new Date(process.env.dateEnd).getTime();
         setInterval(() => {
             let dateToday = new Date().getTime();
     var seconds = (dateEnd - dateToday) / 1000;
@@ -92,6 +92,7 @@ font-style: normal!important;
 font-size: 18px;
 line-height: 22px;
 display: flex;
+text-align: left;
 align-items: center;
 color: #8036ca;
 }
@@ -143,12 +144,7 @@ margin: 0 5%;
     align-items: center;
     text-align: center;
     color: #6600cc; 
-    margin: 20% auto;
-}
-@media (min-width: 600px) {
-    .end-text{
-        
-    }
+    margin: 10% auto;
 }
 
 </style>
