@@ -50,13 +50,15 @@
               ></v-file-input>
             </v-col>
             <v-col cols="12" class="classes-title">
-              <h2 class="section-title">Aulas</h2>
-              <v-btn @click="gotoAddClass" class="btn-add-class" text icon>
-                <v-icon size="30">mdi-plus-circle-outline</v-icon>
-              </v-btn>
+              <h2 class="section-title">
+                Aulas
+                <v-btn @click="gotoAddClass" class="btn-add-class" text icon>
+                  <v-icon size="30">mdi-plus-circle-outline</v-icon>
+                </v-btn>
+              </h2>
             </v-col>
             <v-col cols="12" class="classes">
-              <p>Favor, adicionar uma aula</p>
+              <p>Favor adicionar uma aula</p>
             </v-col>
           </v-row>
           <v-row>
@@ -81,6 +83,12 @@
     </v-flex>
   </v-layout>
 </template>
+
+<router>
+  {
+    path: '/admin/course/new'
+  }
+</router>
 
 <script scoped>
 import courses from '~/services/http/courses'
@@ -220,7 +228,7 @@ export default {
   text-transform: uppercase;
   color: #6600cc;
   width: 90%;
-  margin-left: 50%;
+  margin-left: 45%;
   transform: translateX(-50%);
   margin-top: 20px;
 }
@@ -231,8 +239,8 @@ export default {
   line-height: 24px;
   text-transform: uppercase;
   color: #6600cc;
-  width: 15%;
-  margin-left: 10%;
+  width: 40%;
+  margin-left: 20%;
   transform: translateX(-50%);
 }
 
