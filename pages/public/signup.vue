@@ -224,7 +224,7 @@ export default {
   },
 
   mounted() {
-    auth
+    utils
       .getExternalCredentials()
       .then(res => {
         console.log(res);
@@ -294,6 +294,7 @@ export default {
 .v-form {
   width: 100%;
 /* inputs */
+}
 ::v-deep .theme--light.v-text-field {
   margin-top: 0;
 }
@@ -320,6 +321,7 @@ export default {
   > .v-input__control
   > .v-input__slot:hover:before {
   border-color: #6600cc !important;
+  }
 ::v-deep .theme--light.v-label,
 ::v-deep .theme--light.v-icon {
   font-size: 12px;
@@ -330,6 +332,7 @@ export default {
 
 .theme--light.v-input:not(.v-input--is-disabled) input {
   color: #6600cc !important;
+}
 ::v-deep .theme--light.v-icon {
   font-size: 20px;
 }
@@ -343,6 +346,7 @@ export default {
   font-size: 12px;
   font-weight: 900;
   line-height: 15px;
+}
 .v-text-field {
   padding-top: 0 !important;
   margin-top: 0 !important;
@@ -353,7 +357,7 @@ export default {
   .theme--light.v-text-field
   > .v-input__control
   > .v-input__slot::before {
-  border-color: #aa56ff;
+  border-color: #aa56ff;}
 .theme--dark.v-input:not(.v-input--is-disabled) input {
   color: #6600cc;
 }

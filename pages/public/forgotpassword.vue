@@ -37,10 +37,9 @@
             </v-col>
             <v-col cols="12">
               <v-btn
-                class="btn-block btn-submit"
-                depressed
-                large
-                @click="submit"
+                 color="#60c" 
+                 dark block depressed large 
+                 @click="submit"
                 >Redefinir senha</v-btn
               >
             </v-col>
@@ -88,8 +87,8 @@ export default {
         email: '',
       },
       emailRules: [
-        v => !!v || "Digite o e-mail",
-        v => /.+@.+\..+/.test(v) || "E-mail inválido",
+        v => !!v || 'Digite o e-mail',
+        v => /.+@.+\..+/.test(v) || 'E-mail inválido',
       ],
     }
   },
