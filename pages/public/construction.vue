@@ -60,13 +60,10 @@ export default {
         }
     },
     mounted() {
-        let dateEnd = (process.env.dateEnd);
-        let split = dateEnd.split('/');
-        let dateSpliced = split[1] + '/' + split[0] + '/' + split[2];
-        let newDate = new Date(dateSpliced).getTime();
+        let date = this.getDate();
         setInterval(() => {
     let dateToday = new Date().getTime();
-    var seconds = (newDate - dateToday) / 1000;
+    var seconds = (date - dateToday) / 1000;
 
     this.days = parseInt(seconds / 86400);
     seconds = seconds % 86400;
@@ -79,7 +76,18 @@ export default {
             
             
         }, 1000);
+    },
+    methods: {
+        getDate(){
+        let dateEnd = (process.env.dateEnd);
+        let split = dateEnd.split('/');
+        let dateSpliced = split[1] + '/' + split[0] + '/' + split[2];
+        let newDate = new Date(dateSpliced).getTime();
+
+        return newDate
+        }
     }
+
     
 }
 </script>
