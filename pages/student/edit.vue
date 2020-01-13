@@ -191,7 +191,7 @@ export default {
       this.snackbarStatus = status
       this.snackbar = true
     },
-  },     
+  },
 }
 
 </script>
