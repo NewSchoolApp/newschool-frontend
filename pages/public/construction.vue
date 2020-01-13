@@ -1,33 +1,43 @@
 <template>
-<v-container col="12" justify-center>
-    <v-layout mt-5>  
-         <v-flex ref="flex">      
-            <v-col>
+    <v-layout justify-center>  
+         <v-flex xs10 sm8 md6 ref="flex">  
+                <v-container>
+    
+            <v-col cols="12">
                 <v-row>
                 <h1 class="initial-text">Salve salve, estamos 
                     terminando de criar a New School. Então relaxa que 
                     logo logo vem novidade ai, tamo together wow! 
                     </h1>  
                 </v-row>
+            </v-col>
+            <v-col cols="12">    
                 <v-row>
                     <img class="img" src="../../assets/construction.svg" alt="">
                 </v-row>
+            </v-col>    
+            <v-col cols="12">
                 <v-row>
                     <h1 class="data-text"> 
                     <span>{{ days }}</span>:    
                     <span>{{ hours }}</span>:
                     <span>{{ minutes }}</span> 
-                    </h1>  
-                    <p class="atribute-data"><span>Dias</span> <span>Horas</span> <span>Minutos</span></p> 
-                     
+                    </h1>
                 </v-row>
+
+                <v-row>            
+                    <p class="atribute-data"><span>Dias</span> <span>Horas</span> <span>Minutos</span></p>       
+                </v-row>
+            </v-col >
+            <v-col cols="12">
                 <v-row>
                     <h1 class="end-text">25 de Janeiro de 2020</h1>
                 </v-row>
             </v-col>
-        </v-flex>    
-    </v-layout>        
-</v-container>
+        </v-container>
+    </v-flex>    
+</v-layout>        
+
     
 </template>
 <router>
@@ -62,7 +72,7 @@ export default {
     seconds = seconds % 3600;
     
     this.minutes = parseInt(seconds / 60);
-    segundos = parseInt(seconds % 60);
+    seconds = parseInt(seconds % 60);
             
             
         }, 1000);
@@ -86,7 +96,7 @@ align-items: center;
 color: #8036ca;
 }
 .img{
-    width: 90%;
+    width: 80%;
     margin: 10% 5%;
 
 }
@@ -96,41 +106,49 @@ font-weight: 900;
 font-size: 48px;
 line-height: 59px;
 display: flex;
+justify-content: center;
 align-items: center;
 text-align: center;
 letter-spacing: 0.2em;
-width: 70%;
-margin: 10% 20% 0 15%;
 color: #6600CC;
+width: 90%;
+margin: 0 5%;
 }
-.end-text{
-    font-style: normal;
-    font-weight: normal;
-    font-size: 18px;
-    line-height: 22px;
-    margin: 0 auto;
-    display: flex;
-    align-items: center;
-    text-align: center;
-    position: absolute;
-    bottom: 1%;
-    right: 0;
-    width: 80%;
-    color: #6600cc;
-    
-}
+
 .atribute-data{
     font-style: normal;
     font-weight: normal;
     font-size: 18px;
     line-height: 22px;
     display: flex;
+    justify-content: center;
     align-items: center;
     text-align: center;
+    justify-content: center;
     color: #6600CC;
+    width: 80%;
+    margin: 0 7%;
 }
 .atribute-data span{
-    margin-left: 25%;
+    margin-left: 5%;
+    justify-content: center;
+}
+.end-text{
+    font-style: normal;
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 22px;
+    justify-content: center;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: #6600cc; 
+    margin: 20% auto;
+}
+@media (min-width: 600px) {
+    .end-text{
+        
+    }
 }
 
 </style>
