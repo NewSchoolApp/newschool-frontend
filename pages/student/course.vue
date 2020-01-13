@@ -7,7 +7,7 @@
   <not-found v-else-if="notFound" />
   <div v-else-if="!notFound">
     <div id="page">
-      <!-- HTML aqui! -->
+      HTML aqui!
       <p>Course {{ course.title }}</p>
       <p>id: {{ course.id }}</p>
       <p>authorId: {{ course.authorId }}</p>
@@ -29,24 +29,25 @@ import courses from '~/services/http/courses'
 export default {
   components: {
     NavigationBar,
-    NotFound
+    NotFound,
   },
-  data () {
+  data() {
     return {
       loading: true,
       notFound: false,
-      course: null
+      course: null,
     }
   },
-  mounted () {
+  mounted() {
     const { slug } = this.$route.params
-    courses.getBySlug(slug)
+    courses
+      .getBySlug(slug)
       .then(({ data }) => {
         const { id, authorId, description, slug, thumbUrl, title } = data
         this.course = { id, authorId, description, slug, thumbUrl, title }
         this.loading = false
       })
-      .catch((error) => {
+      .catch(error => {
         if (error.response && error.response.status === 404) {
           this.notFound = true
           this.loading = false
@@ -55,10 +56,8 @@ export default {
         // eslint-disable-next-line no-console
         console.error(error)
       })
-  }
+  },
 }
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

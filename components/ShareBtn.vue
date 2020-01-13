@@ -2,68 +2,75 @@
   <v-layout>
     <div v-if="isOpen" class="share-container">
       <social-sharing
-      @open="isOpen = !isOpen"
-      :url="baseUrl + url"
-      :title="title"
-      :description="description"
-      :hashtags="hashtags"
-      :twitter-user="twitterUser"
-      inline-template
-    >
-      <div>
+        :url="url"
+        :title="title"
+        :description="description"
+        :hashtags="hashtags"
+        :twitter-user="twitterUser"
+        inline-template
+        @open="isOpen = !isOpen"
+      >
+        <div class="icons">
           <network network="facebook">
-            <v-icon color="#fff" size="30">mdi-facebook</v-icon>
+            <v-icon color="#fff" size="20">
+              mdi-facebook
+            </v-icon>
           </network>
-           <network network="twitter">
-            <v-icon color="#fff" size="30">mdi-twitter</v-icon>
+          <network network="twitter">
+            <v-icon color="#fff" size="20">
+              mdi-twitter
+            </v-icon>
           </network>
           <network network="linkedin">
-            <v-icon color="#fff" size="30">mdi-linkedin</v-icon>
+            <v-icon color="#fff" size="20">
+              mdi-linkedin
+            </v-icon>
           </network>
-      </div>
-    </social-sharing>
+        </div>
+      </social-sharing>
     </div>
-
     <v-btn
       v-if="!isOpen"
-      class="folded-button"
+      :color="color"
+      class="ma-2"
       tile
       large
       icon
-      :color="color"
       @click="isOpen = !isOpen"
     >
-      <v-icon class="share-icon">mdi-share-variant</v-icon>
+      <v-icon size="20">
+        mdi-share-variant
+      </v-icon>
     </v-btn>
   </v-layout>
 </template>
 
 <script>
-import SocialSharing from 'vue-social-sharing';
+import SocialSharing from 'vue-social-sharing'
 
 export default {
   components: {
-    SocialSharing
+    SocialSharing,
   },
+
   props: {
     color: {
-      default: '#CCC'
+      default: '#CCC',
     },
     url: String,
     title: String,
     description: String,
     hashtags: {
-      default: 'MissaoNewSchoolApp'
+      default: 'MissaoNewSchoolApp',
     },
     twitterUser: {
-      default: 'NewSchoolApp'
+      default: 'NewSchoolApp',
     },
   },
 
   data() {
     return {
       isOpen: false,
-      baseUrl: window.location.origin
     }
   },
 }
@@ -71,21 +78,22 @@ export default {
 
 <style>
 .share-container {
+  width: 90px;
+  height: 35px;
+  background: #60c;
+}
+
+.icons {
   display: flex;
-  flex-direction: row;
-  justify-content: center;
   align-items: center;
-  padding: 5px 2px;
-  background: #60C;
+  justify-content: space-around;
+
+  height: 100%;
+  width: 100%;
+  box-shadow: 3px 5px 7px 0px rgba(0, 0, 0, 0.53);
 }
 
-.folded-button {
-  height: 32px !important;
-  margin: 0 !important;
+.ma-2 {
+  padding-left: 55px;
 }
-
-.share-icon {
-  align-self: flex-end;
-}
-
 </style>
