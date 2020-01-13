@@ -89,6 +89,7 @@
 <script scoped>
 import auth from "../../services/http/auth";
 import users from '../../services/http/users';
+import user from '../../store/user'
 
 
 export default {
@@ -165,8 +166,11 @@ export default {
       this.snackbarStatus = status;
       this.snackbar = true;
     },
+  
+    }     
+
+  
   }
-}
 
 </script>
 
