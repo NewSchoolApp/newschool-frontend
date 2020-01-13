@@ -45,6 +45,7 @@ export default {
       USER_ME: 'api/v1/user/me',
       LOGIN: 'oauth/token',
       SIGN_UP: 'api/v1/user/student',
+      FORGOT_PASSWORD: 'api/v1/user/forgot-password'
     },
     GATOKEN: process.env.GA_TOKEN,
   },
@@ -168,6 +169,6 @@ export default {
     /*
      ** You can extend webpack config here
      */
-    extend(config, ctx) {},
+    extend(config, ctx) { },
   },
 }

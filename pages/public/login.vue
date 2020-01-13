@@ -65,7 +65,10 @@
             >Cadastrar</v-btn>
           </v-col>
           <v-col cols="12" class="text-center">
-            <a class="text-white">Esqueceu sua senha?</a>
+            <v-btn 
+            tile outlined color="white" 
+              to="/esqueci-minha-senha"
+            >Esqueci minha senha</v-btn>
           </v-col>
         </v-row>
       </v-container>
