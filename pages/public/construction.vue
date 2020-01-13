@@ -62,7 +62,7 @@ export default {
     mounted() {
         let dateEnd = new Date(process.env.dateEnd).getTime();
         setInterval(() => {
-            let dateToday = new Date().getTime();
+    let dateToday = new Date().getTime();
     var seconds = (dateEnd - dateToday) / 1000;
 
     this.days = parseInt(seconds / 86400);
@@ -83,37 +83,40 @@ export default {
 
 
 <style scoped>
+    /* Global */ 
 *{
     font-family: "Montserrat", Helvetica, Arial, sans-serif !important;
 }
-
+    /* Text Header */ 
 .initial-text {
-font-style: normal!important;
-font-size: 18px;
-line-height: 22px;
-display: flex;
-text-align: left;
-align-items: center;
-color: #8036ca;
+    font-style: normal!important;
+    font-size: 18px;
+    line-height: 22px;
+    display: flex;
+    text-align: left;
+    align-items: center;
+    color: #8036ca;
 }
+    /* Img */ 
 .img{
     width: 80%;
     margin: 10% 5%;
 
 }
+    /* Date Text */ 
 .data-text{
-font-style: normal;
-font-weight: 900;
-font-size: 48px;
-line-height: 59px;
-display: flex;
-justify-content: center;
-align-items: center;
-text-align: center;
-letter-spacing: 0.2em;
-color: #6600CC;
-width: 90%;
-margin: 0 5%;
+    font-style: normal;
+    font-weight: 900;
+    font-size: 48px;
+    line-height: 59px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    letter-spacing: 0.2em;
+    color: #6600CC;
+    width: 90%;
+    margin: 0 5%;
 }
 
 .atribute-data{
