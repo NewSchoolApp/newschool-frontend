@@ -1,18 +1,7 @@
 <template>
   <div id="page">
-    <header class="title">
-      <h1>MEUS CURSOS</h1>
-      <v-btn class="mx-2 btn-icon" icon>
-        <v-icon dark id="plus-icon">mdi-plus-circle</v-icon>
-      </v-btn>
-    </header>
-    <div class="body-list">
-      <v-card v-for="item in list" v-bind:key="item.id" class="v-card-border">
-        <div class="content">
-          <div class="img-mask">
-            <img :src="item.thumbUrl" alt />
-  <v-container class="layout" v-if="!flagView"></v-container>
-  <div v-else>
+    <v-container class="layout" v-if="!flagView"></v-container>
+    <div v-else>
       <header class="title">
         <h1>MEUS CURSOS</h1>
         <v-btn class="mx-2 btn-icon" icon>
@@ -30,9 +19,6 @@
               <p>{{item.description}}</p>
             </div>
           </div>
-          <div class="info-text">
-            <h1>{{item.title}}</h1>
-            <p>{{item.description}}</p>
           <div class="group-buttons">
             <v-btn class="btn-item bg-blue">
               <v-icon class="text-white">mdi-border-color</v-icon>
@@ -41,21 +27,12 @@
               <v-icon class="text-white">mdi-delete</v-icon>
             </v-btn>
           </div>
-        </div>
-        <div class="group-buttons">
-          <v-btn class="btn-item bg-blue">
-            <v-icon class="text-white">mdi-border-color</v-icon>
-          </v-btn>
-          <v-btn class="btn-item bg-danger" @click="deleteCourse(item.id)">
-            <v-icon class="text-white">mdi-delete</v-icon>
-          </v-btn>
-        </div>
-      </v-card>
         </v-card>
       </div>
-      <navigation-bar />
     </div>
-    
+
+    <navigation-bar />
+  </div>
 </template>
 <router>
 {
@@ -68,18 +45,17 @@ import http from '~/services/http/generic'
 export default {
   data: () => ({
     list: [],
-    flagView : false,
+    flagView: false,
     title: 'Listagem de Cursos',
   }),
-   head() {
+  head() {
     return {
       title: this.title,
       meta: [
         {
           hid: 'description',
           name: 'description',
-          content:
-            'Listagem de Cursos New School',
+          content: 'Listagem de Cursos New School',
         },
       ],
     }
@@ -91,25 +67,26 @@ export default {
   methods: {
     getAllCourses() {
       http
-        .getAll("/api/v1/course")
+        .getAll('/api/v1/course')
         .then(res => {
           list = res.data
-          this.flagView = (this.list.length < 1)  
+          this.flagView = this.list.length < 1
         })
         .catch(err => {
           alert(err)
         })
     },
-    deleteCourse(id){
-      http.delete(`/api/v1/course/${id}`).then(
-        res=>{
-          alert("Curso excluído com sucesso!")
-        }
-      ).catch((err)=>{
-        console.error(err)
-        alert("Erro ao excluir o curso!")
-      })
-    }
+    deleteCourse(id) {
+      http
+        .delete(`/api/v1/course/${id}`)
+        .then(res => {
+          alert('Curso excluído com sucesso!')
+        })
+        .catch(err => {
+          console.error(err)
+          alert('Erro ao excluir o curso!')
+        })
+    },
   },
   mounted() {
     this.getAllCourses()

@@ -1,27 +1,17 @@
 <template>
   <v-layout justify-center id="page">
     <v-flex ref="flex" xs10 sm8 md4>
-      <h1>Editando curso</h1>
+      <h1>Aula</h1>
+      <n-link to="../../edit">Voltar para curso</n-link>
       <v-form>
         <v-text-field
-          :value="course.title"
+          :value="lesson.title"
           label="Título"
           required
         />
         <v-textarea
-          :value="course.description"
+          :value="lesson.description"
           label="Descrição"
-          required
-          rows="1"
-        />
-        <v-text-field
-          :value="course.author"
-          label="Professor"
-          required
-        />
-        <v-textarea
-          :value="course.authorInfo"
-          label="Biografia do professor"
           required
           rows="1"
         />
@@ -29,11 +19,12 @@
       </v-form>
 
       <resources-list
-        name="Aula"
+        name="Parte"
+        :resources="parts"
         redirect="true"
-        :resources="lessons"
-        path="lesson"
+        path="part"
       />
+
     </v-flex>
     <client-only>
       <navigation-bar />
@@ -43,26 +34,27 @@
 
 <router>
   {
-    path: '/admin/course/:id/edit'
+    path: '/admin/course/:courseId/lesson/:id/edit'
   }
 </router>
 
-<script>
+<script scoped>
   import NavigationBar from "~/components/NavigationBar.vue"
-  import courses from '~/services/http/courses'
   import lessons from '~/services/http/lessons'
+  import parts from '~/services/http/parts'
 
   export default {
     components: {
       NavigationBar
     },
-    async asyncData({ store, data, params}) {
-      const course = await courses.getById(params.id)
-      const _lessons = await lessons.getByCourse(params.id)
-      return {course: course.data, lessons: _lessons.data}
+    async asyncData({ store, data, params }) {
+      const lesson = await lessons.getById(params.id)
+      const _parts = await parts.getByLesson(params.id)
+      return {parts: _parts.data, lesson: lesson.data}
     }
   }
 </script>
+
 
 <style scoped>
 h1 {

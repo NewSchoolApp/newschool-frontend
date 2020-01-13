@@ -2,6 +2,8 @@ import colors from 'vuetify/es5/util/colors'
 
 export default {
   router: {
+    middleware: 'auth.guard',
+
     extendRoutes(routes, resolve) {
       routes.push({
         path: '/aluno/curso/:slug',
@@ -37,6 +39,12 @@ export default {
           process.env.VUE_APP_CLIENT_EXTERNAL_CREDENTIAL_SECRET ||
           'NEWSCHOOL@EXTERNALSECRET',
       },
+    },
+    endpoints: {
+      CERTIFICATES_ME: 'api/v1/user/me/certificate',
+      USER_ME: 'api/v1/user/me',
+      LOGIN: 'oauth/token',
+      SIGN_UP: 'api/v1/user/student',
     },
     GATOKEN: process.env.GA_TOKEN,
   },
