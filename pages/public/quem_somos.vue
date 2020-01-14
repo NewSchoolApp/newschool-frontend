@@ -40,7 +40,8 @@ export default {
 }
 </script>
 <style scoped>
-::v-deep div{
-  overflow-y: auto;
+  .div{
+  overflow-y: auto!important;
+  overflow-x: hidden!important;
 }
 </style>
