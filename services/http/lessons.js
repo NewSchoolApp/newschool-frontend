@@ -14,5 +14,12 @@ export default {
     getByCourse: (courseId)  => {
         const { accessToken } = auth.getInfoAuth()
         return http.get(`api/v1/lesson/course/${courseId}`, { headers: { 'Authorization': accessToken} })
-    }
+    },
+
+    createLesson: (lesson) => {
+        const { accessToken } = auth.getInfoAuth()
+        return http.post('api/v1/lesson', lesson, {
+          headers: { Authorization: `${accessToken}` },
+        })
+      },
 }

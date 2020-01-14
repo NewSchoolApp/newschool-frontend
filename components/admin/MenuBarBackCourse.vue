@@ -4,7 +4,7 @@
       <v-flex xs10 sm12 md8 ref="flex">
         <v-container>
           <v-row style="align-items: center;">
-            <v-btn class="ma-0" large text icon color="#6600cc">
+            <v-btn @click="goBack" class="ma-0" large text icon color="#6600cc">
               <v-icon class="color-forced" size="40">mdi-arrow-left</v-icon>
             </v-btn>
             <p class="text-uppercase font-weight-bold sub-title" style="color:#6600cc">Gerenciar meus cursos</p>
@@ -28,3 +28,19 @@
 }
 
 </style>
+
+<script scoped>
+import lessons from '~/services/http/lessons';
+import NavigationBar from '~/components/NavigationBar.vue';
+import MenuBarBackCourse from '~/components/admin/MenuBarBackCourse.vue';
+
+export default {
+
+  methods: {
+   
+    goBack() {
+      window.history.length > 1 ? $nuxt._router.go(-1) : $nuxt._router.push('/')
+    }
+  },
+}
+</script>

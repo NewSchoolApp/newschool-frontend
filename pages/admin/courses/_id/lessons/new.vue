@@ -85,15 +85,15 @@
 
 <router>
 {
-  path : '/admin/cadastrar-aula'
+  path: '/admin/course/:courseId/lesson/new'
 }
 
 </router>
 
 <script scoped>
-import lessons from '../../../services/http/lessons';
-import NavigationBar from '../../../components/NavigationBar.vue';
-import MenuBarBackCourse from '../../../components/admin/MenuBarBackCourse.vue';
+import lessons from '~/services/http/lessons';
+import NavigationBar from '~/components/NavigationBar.vue';
+import MenuBarBackCourse from '~/components/admin/MenuBarBackCourse.vue';
 
 export default {
   components: {
@@ -110,16 +110,18 @@ export default {
       snackbar: false,
       snackbarText: '',
       snackbarStatus: '',
-      token: '',
       form: {
         title: '',
         description: '',
-        course: '',
-        nextLesson: '',
+        course: ''
       },
       titleRules: [v => !!v || 'Digite um título'],
       descriptionRules: [v => !!v || 'Digite uma descrição'],
     }
+  },
+
+  created() {
+    this.form.course = this.$route.params.courseId
   },
 
   methods: {
@@ -127,7 +129,7 @@ export default {
       if (this.$refs.form.validate()) {
         this.animateForm(true)
         lessons
-          .addLesson(this.form, this.token)
+          .createLesson(this.form)
           .then(res => {
             this.loading = false
             this.confirmSnackbar('Aula adicionada com sucesso! ;)', 'success')
@@ -165,6 +167,10 @@ export default {
 
     gotoLogin() {
       $nuxt._router.push('/login')
+    },
+
+    goBack() {
+      window.history.length > 1 ? $nuxt._router.go(-1) : $nuxt._router.push('/')
     },
 
     confirmSnackbar(text, status) {
