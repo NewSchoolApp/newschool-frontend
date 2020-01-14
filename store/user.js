@@ -36,10 +36,11 @@ const actions = {
     }
     return false;
   },
-  loadInfoUser({ commit, dispatch }, config) {
+  loadInfoUser({ commit, dispatch, rootState, getters }, token) {
+    let lastRouteAccessed = rootState.route.last_accessed_route;
     return http
       .get(process.env.endpoints.USER_ME, {
-        headers: { Authorization: `Bearer ${config.token}` }
+        headers: { Authorization: token }
       })
       .then(res => {
         commit("SET_USER", {
@@ -48,13 +49,15 @@ const actions = {
           id: res.data.id || "",
           role: res.data.role.name || ""
         });
-        const moduleRoute =
-          config.route === "/"
-            ? `${PRIVATE_MODULES_URL[res.data.role.name]}/home`
-            : config.route;
         dispatch("initSessionUser");
+
+        lastRouteAccessed =
+          lastRouteAccessed === "/login"
+            ? `${getters.roleModule}/home`
+            : lastRouteAccessed;
+        console.log("COMO A ROTA TA CHEGANDO ", lastRouteAccessed);
         // eslint-disable-next-line no-undef
-        $nuxt._router.push(moduleRoute);
+        $nuxt._router.push(lastRouteAccessed);
       });
   },
   initSessionUser({ commit }) {

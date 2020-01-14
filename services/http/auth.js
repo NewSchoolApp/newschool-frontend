@@ -41,6 +41,14 @@ export default {
     });
   },
 
+  forgotPassword: form => {
+    return utils.getExternalCredentials().then(res => {
+      return http.post(process.env.endpoints.FORGOT_PASSWORD, form, {
+        headers: { Authorization: `Bearer ${res.data.accessToken}` }
+      });
+    });
+  },
+
   isTokenValid: () => {
     const auth = JSON.parse(localStorage.getItem("auth"));
     if (auth) {

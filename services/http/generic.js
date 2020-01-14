@@ -1,24 +1,22 @@
-import Axios from 'axios';
-import utils from "~/utils/index"
+import Axios from "axios";
+import utils from "~/utils/index";
 
 const http = new Axios.create({
   baseURL: process.env.baseUrl
-})
+});
 
 // Interceptor para adicionar o token no authorization header
-http.interceptors.request.use((config) => {
+http.interceptors.request.use(config => {
   config.headers.Authorization = utils.getToken();
   return config;
-}
-);
+});
 /**
  * @author Andrews
- * 
+ *
  * Serviço genérico para requisições http
  */
 export default {
-
-  getAll: (path) => {
+  getAll: path => {
     return http.get(path);
   },
 
@@ -31,11 +29,10 @@ export default {
   },
 
   put: (path, payload) => {
-    return http.put(path, payload)
+    return http.put(path, payload);
   },
 
   delete: (path, id) => {
-    return http.delete(`${path}/${id}`)
+    return http.delete(`${path}/${id}`);
   }
-
-}
+};

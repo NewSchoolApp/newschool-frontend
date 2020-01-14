@@ -21,30 +21,25 @@
 </router>
 
 <script>
-import auth from '~/services/http/auth'
-import { mapActions } from 'vuex'
+import { mapActions } from "vuex";
+import auth from "~/services/http/auth";
 
 export default {
   mounted() {
-    const { status, token } = auth.isTokenValid()
+    const { status, token } = auth.isTokenValid();
     if (status) {
-      this.loadInfoUser(token)
+      this.loadInfoUser(token);
     } else {
-      $nuxt._router.push('/login')
+      $nuxt._router.push("/login");
     }
   },
   methods: {
-    ...mapActions('user', ['loadInfoUser']),
-  },
-  computed: {
-    last_route() {
-      return this.$store.state.route.last_accessed_route
-    },
-  },
-}
+    ...mapActions("user", ["loadInfoUser"])
+  }
+};
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 #text {
   position: absolute;
   top: 55%;

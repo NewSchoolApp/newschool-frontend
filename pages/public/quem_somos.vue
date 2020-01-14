@@ -24,6 +24,11 @@
     <navigation-bar />
   </div>
 </template>
+<router>
+  {
+    path: '/sobre'
+  }
+</router>
 
 <script>
 import NavigationBar from "~/components/NavigationBar.vue";
@@ -34,3 +39,9 @@ export default {
   }
 }
 </script>
+<style scoped>
+  .div{
+  overflow-y: auto!important;
+  overflow-x: hidden!important;
+}
+</style>

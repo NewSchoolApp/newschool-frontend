@@ -51,6 +51,7 @@
         </article>
       </v-container>
     </article>
+    <navigation-bar />
   </section>
 </template>
 
@@ -61,7 +62,14 @@
 </router>
 
 <script>
+import NavigationBar from "~/components/NavigationBar.vue";
+
+
 export default {
+  components: {
+    NavigationBar
+  },
+
   data() {
     return {
       stacks: [
@@ -166,7 +174,8 @@ export default {
 }
 </script>
 
-<style>
+
+<style scoped>
 ::v-deep .title {
   color: #6600cc;
   font-family: 'Montserrat';
