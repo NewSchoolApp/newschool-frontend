@@ -3,9 +3,7 @@
     <div id="page">
       <!-- HTML aqui! -->
     </div>
-    <client-only>
       <navigation-bar />
-    </client-only>
   </div>
 </template>
 
