@@ -197,7 +197,6 @@ export default {
 }
 .banner {
   width: 100%;
-  /* margin: 3% 10% 0 10%; */
 }
 
 h2 {
