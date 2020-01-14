@@ -34,6 +34,7 @@ import NavigationBar from "~/components/NavigationBar.vue";
 import CourseCard from "~/components/CourseCard";
 import courses from '~/services/http/courses';
 
+
 export default {
   components: {
     NavigationBar,
@@ -100,8 +101,9 @@ export default {
 .welcome-subtitle{
   font-weight: 900;
   font-size: 16px;
-  line-height: 20px;
+  line-height: 20px;  
   color: #6600CC;
+  margin-top: 1%;
 }
 
 @media screen and (orientation: portrait) {
