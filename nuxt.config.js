@@ -2,10 +2,9 @@ import colors from 'vuetify/es5/util/colors'
 
 export default {
   router: {
-    middleware: "auth.guard",
+    middleware: 'auth.guard',
 
     extendRoutes(routes, resolve) {
-
       routes.push({
         path: '/aluno/curso/:slug',
         component: resolve(__dirname, 'pages/student/course.vue'),
@@ -45,11 +44,12 @@ export default {
     process.env.OPENING_DATE || '20/01/2020',
 
     endpoints: {
-      USER_ME: "api/v1/user/me",
-      LOGIN: "oauth/token",
-      SIGN_UP: "api/v1/user/student"
+      CERTIFICATES_ME: 'api/v1/user/me/certificate',
+      USER_ME: 'api/v1/user/me',
+      LOGIN: 'oauth/token',
+      SIGN_UP: 'api/v1/user/student',
     },
-    GATOKEN: process.env.GA_TOKEN
+    GATOKEN: process.env.GA_TOKEN,
   },
   mode: 'universal',
   /*
@@ -171,6 +171,6 @@ export default {
     /*
      ** You can extend webpack config here
      */
-    extend(config, ctx) { },
+    extend(config, ctx) {},
   },
 }
