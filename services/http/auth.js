@@ -8,7 +8,6 @@ import utils from "~/utils/index"
  */
 
 export default {
-
   /**
    * autenticação na API do sistema
    */
@@ -29,7 +28,7 @@ export default {
         localStorage.setItem('auth', JSON.stringify({
           accessToken: `Bearer ${res.data.accessToken}`,
           refreshToken: res.data.refreshToken,
-          expiresIn: Date.now() + ms(res.data.expiresIn),
+            expiresIn: Date.now() + ms(res.data.expiresIn),
         }));
       })
   },
@@ -37,6 +36,15 @@ export default {
   signUp: (form, token) => {
     return http.post(process.env.endpoints.SIGN_UP, form, {
       headers: { Authorization: `Bearer ${token}` },
+    })
+  },
+
+  forgotPassword: form => {
+    let email = utils.toFormData(form)
+    return utils.getExternalCredentials().then(res => {
+      return http.post(process.env.endpoints.FORGOT_PASSWORD, form, {
+        headers: { Authorization: `Bearer ${res.data.accessToken}` },
+      })
     })
   },
 
