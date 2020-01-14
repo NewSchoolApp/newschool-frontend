@@ -172,7 +172,7 @@ export default {
 
 .align-global {
   width: 99%;
-  max-width: 500px;
+  max-width: 400px;
   margin: 0 1% 0 -3%;
   justify-content: center;
 
