@@ -1,5 +1,4 @@
 import { http } from "~/services/http/config"
-import auth from "~/services/http/auth"
 import PRIVATE_MODULES_URL from "~/routes/private";
 
 
@@ -38,7 +37,8 @@ const actions = {
         return false;
 
     },
-    loadInfoUser({ commit, dispatch }, token) {
+    loadInfoUser({ commit, dispatch }, config) {
+        console.log(config)
         return http
             .get(process.env.endpoints.USER_ME, { headers: { Authorization: token } })
             .then(res => {
@@ -48,17 +48,9 @@ const actions = {
                     id: res.data.id || "",
                     role: res.data.role.name || ""
                 })
+                const module_route = route == "/login" ? `${PRIVATE_MODULES_URL[res.data.role.name]}/home` : route
                 dispatch("initSessionUser")
-                $nuxt._router.push(`${PRIVATE_MODULES_URL[res.data.role.name]}/home`)
-
-            }).catch(async () => {
-                const { status, token } = await auth.isTokenValid()
-                if (status) {
-                    dispatch("loadInfoUser", token)
-                } else {
-                    localStorage.clear();
-                    $nuxt._router.push('/login')
-                }
+                $nuxt._router.push(module_route)
             })
     },
     initSessionUser({ commit }) {

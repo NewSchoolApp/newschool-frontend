@@ -37,7 +37,7 @@ export default {
         id: 3,
         name: "Meus Cursos",
         icon: "mdi-library",
-        link: "/aluno/meus-cursos"
+        link: "/aluno/listar-cursos"
       },
       {
         id: 4,
@@ -61,7 +61,7 @@ export default {
       let userRole = this.$store.state.user.data.role
       if( userRole == 'ADMIN') {
         this.menu[0].link = '/admin/home'
-        this.menu[2].link = '/admin/meus-cursos'
+        this.menu[2].link = '/admin/listar-cursos'
       }
     }
   }

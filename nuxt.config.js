@@ -2,7 +2,7 @@ import colors from 'vuetify/es5/util/colors'
 
 export default {
   router: {
-    middleware: "auth.guard",
+    // middleware: "auth.guard",
 
     extendRoutes(routes, resolve) {
 
@@ -21,7 +21,6 @@ export default {
         redirect: '/login',
       })
     },
-    middleware: 'auth.guard',
   },
 
   env: {
@@ -99,6 +98,7 @@ export default {
   plugins: [
     '~/plugins/admin-components.js',
     { src: '~/plugins/ga.js', mode: 'client' },
+    '~/plugins/guard'
   ],
   /*
    ** Nuxt.js dev-modules

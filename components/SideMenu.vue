@@ -109,7 +109,7 @@ export default {
 </script>
 
 <style lang="scss">
-#btnLogout{
+#btnLogout {
   margin-top: 5px;
 }
 

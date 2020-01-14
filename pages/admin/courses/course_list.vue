@@ -1,7 +1,8 @@
 <template>
   <div id="page">
-    <v-container class="layout" v-if="!flagView"></v-container>
-    <div v-else>
+    <!-- <v-container class="layout" ></v-container> -->
+    <!-- v-if="!flagView" -->
+    <div>
       <header class="title">
         <h1>MEUS CURSOS</h1>
         <v-btn class="mx-2 btn-icon" icon>
@@ -69,7 +70,7 @@ export default {
       http
         .getAll('/api/v1/course')
         .then(res => {
-          list = res.data
+          this.list = res.data
           this.flagView = this.list.length < 1
         })
         .catch(err => {

@@ -36,6 +36,11 @@ export default {
   methods: {
     ...mapActions('user', ['loadInfoUser']),
   },
+  computed: {
+    last_route() {
+      return this.$store.state.route.last_accessed_route
+    },
+  },
 }
 </script>
 

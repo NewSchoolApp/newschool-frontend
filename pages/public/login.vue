@@ -169,10 +169,10 @@ export default {
     },
   },
   mounted() {
-    const { status } = auth.isTokenValid()
-    if (status) {
-      $nuxt._router.push('/loading')
-    }
+    // const { status } = auth.isTokenValid()
+    // if (status) {
+    //   $nuxt._router.push('/loading')
+    // }
   },
 }
 </script>
