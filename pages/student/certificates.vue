@@ -22,6 +22,7 @@
         <p>{{ certificate.userName }}</p>
       </div>
     </div>
+    <navigation-bar/>
   </v-container>
 </template>
 
@@ -32,10 +33,12 @@
 <script>
 import shareBtn from '~/components/ShareBtn.vue'
 import http from '~/services/http/generic'
+import NavigationBar from "~/components/NavigationBar.vue";
 
 export default {
   components: {
     shareBtn,
+    NavigationBar
   },
   data: () => ({
     certificates: [],
