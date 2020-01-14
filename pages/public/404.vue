@@ -3,7 +3,7 @@
     <main>
       <h1>Desculpa :(</h1>
        <v-btn
-            <v-btn class="btn-back" text icon @click="gotoHome">
+            <v-btn class="btn-back" text icon @click="gotoBack">
               <v-icon>mdi-arrow-left</v-icon>
             </v-btn>
       <p>Página não encontrada</p>
@@ -21,8 +21,8 @@ export default {
     NavigationBar
   },
   methods: {
-  gotoHome() {
-      $nuxt._router.push('/aluno/home')
+  gotoBack() {
+      $nuxt._router.go(-1)
     }
   }
 };

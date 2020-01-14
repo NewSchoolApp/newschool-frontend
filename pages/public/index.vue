@@ -5,9 +5,9 @@
       <p>Front-end</p>
       <v-btn class="ma-2" tile outlined color="primary" to="/contribua">Contribua</v-btn>
       <v-btn class="ma-2" tile outlined color="primary" to="/login">Login</v-btn>
-      <v-btn class="ma-2" tile outlined color="primary" to="/dashboard">Dashboard</v-btn>
-      <v-btn class="ma-2" tile outlined color="primary" to="/quem_somos">Quem Somos</v-btn>
-      <v-btn class="ma-2" tile outlined color="primary" to="/fale_conosco">Fale Conosco</v-btn>
+      <v-btn class="ma-2" tile outlined color="primary" to="/aluno/home">home</v-btn>
+      <v-btn class="ma-2" tile outlined color="primary" to="/sobre">Quem Somos</v-btn>
+      <v-btn class="ma-2" tile outlined color="primary" to="/contato">Fale Conosco</v-btn>
     </main>
   </div>
 </template>
