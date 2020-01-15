@@ -1,7 +1,13 @@
 <template>
-  <div class="subtitle-2 text-center align-global">
-    <v-progress-circular v-if="loading" :size="70" :width="5" indeterminate></v-progress-circular>
-    <v-layout mt-10>
+
+  <div class= "align-global">
+
+    <div v-if="loading">
+      <div class="container-spinner">
+        <v-progress-circular :size="70" :width="5" indeterminate color="#000" />
+      </div>
+    </div>
+    <v-layout mt-1>
       <v-flex ref="flex">
         <v-container>
           <v-row>
@@ -165,10 +171,21 @@ export default {
 @import url('https://fonts.googleapis.com/css?family=Montserrat:400,500,900&display=swap');
 
 .align-global {
-  width: 100%;
-  margin: 3% auto;
-  text-align: center;
-  max-width: 500px;
+  width: 99%;
+  max-width: 400px;
+  margin: 0 1% 0 -3%;
+  justify-content: center;
+
+}
+@media (min-width: 600px){
+.align-global{
+  margin: 0 auto;
+}
+}
+.container-spinner,
+.flex {
+  z-index: 2;
+  text-align: center
 }
 
 .page-title {
@@ -180,12 +197,10 @@ export default {
 }
 .banner {
   width: 100%;
-  margin: 3% 11% 0 11%;
 }
 
 h2 {
   width: 100%;
-  margin: 0 11%;
 }
 .v-text-field {
   padding-top: 0;
