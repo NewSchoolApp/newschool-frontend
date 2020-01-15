@@ -28,10 +28,12 @@ const mutations = {
 };
 const actions = {
   validateSession({ getters }, route) {
-    return { validRole: getters.roleModule === route, session: getters.flagSession }
+    return {
+      validRole: getters.roleModule === route,
+      session: getters.flagSession
+    };
   },
-  loadInfoUser({ commit, dispatch, rootState, getters }, config) {
-
+  loadInfoUser({ commit, dispatch, getters }, config) {
     return http
       .get(process.env.endpoints.USER_ME, {
         headers: { Authorization: config.token }
@@ -49,7 +51,15 @@ const actions = {
           config.route === "login"
             ? `${getters.roleModule}-home`
             : config.route;
+
+        // eslint-disable-next-line no-undef
         $nuxt._router.push({ name: lastRouteAccessed });
+      })
+      .catch(() => {
+        dispatch("clearInfoUser");
+        localStorage.clear();
+        // eslint-disable-next-line no-undef
+        $nuxt._router.push("/login");
       });
   },
   initSessionUser({ commit }) {

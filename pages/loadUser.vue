@@ -29,15 +29,17 @@ export default {
   mounted() {
     const { status, token } = auth.isTokenValid();
     if (status) {
-      this.loadInfoUser({token, route : this.route});
+      this.loadInfoUser({ token, route: this.route });
     } else {
+      localStorage.clear();
+      // eslint-disable-next-line no-undef
       $nuxt._router.push("/login");
     }
   },
   methods: {
     ...mapActions("user", ["loadInfoUser"])
   },
-  props : ["route"]
+  props: ["route"]
 };
 </script>
 

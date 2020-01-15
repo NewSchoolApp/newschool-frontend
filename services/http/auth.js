@@ -52,11 +52,9 @@ export default {
   isTokenValid: () => {
     const auth = JSON.parse(localStorage.getItem("auth"));
     if (auth) {
-      console.log("Token encontrado..")
       const { refreshToken, expiresIn } = auth;
       const currentTime = Date.now();
       if (currentTime > expiresIn) {
-        console.log("Pegando novo token")
         return getNewAccessToken(refreshToken);
       } else {
         return { status: true, token: utils.getToken() };

@@ -7,7 +7,6 @@ import auth from "~/services/http/auth";
 
 export default ({ app, redirect }) => {
   app.router.afterEach((to, from) => {
-    // console.log("redirect", to.path, from.path)
     if (to.path === "/login") {
       const { status } = auth.isTokenValid();
       if (status) {

@@ -54,15 +54,7 @@
             </v-col>
           </v-form>
           <v-col cols="12">
-            <v-btn
-              class="btn-block btn-transparent"
-              role="button"
-              aria-haspopup="true"
-              aria-expanded="false"
-              depressed
-              large
-              to="/cadastro"
-            >Cadastrar</v-btn>
+            <v-btn color="#60c" dark block depressed large @click="submit">Cadastrar</v-btn>
           </v-col>
           <v-col cols="12" class="text-center">
             <v-btn tile outlined color="white" to="/esqueci-minha-senha">Esqueceu sua senha?</v-btn>
