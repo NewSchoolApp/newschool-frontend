@@ -96,7 +96,7 @@
 <router>
 {
   path : '/aluno/alterar-senha',
-  name : "alterar-senha"
+  name: 'alterar-senha'
 }
 
 </router>

@@ -1,9 +1,8 @@
 import auth from "~/services/http/auth";
 /**
  * @author Andrews
- * Plugin observer route tem como função salvar primeira rota acessada
- * no momento da iniciação da instância do app, isso garante que ao carregar os dados a aplicação
- * volte para a rota acessada.
+ * Plugin para verificar autenticidade da sessão, e redirecionamento
+ * para o carregamento dos dados.
  */
 
 export default ({ app, redirect }) => {

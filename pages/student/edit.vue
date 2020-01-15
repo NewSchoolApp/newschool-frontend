@@ -91,6 +91,7 @@
   {
     path: '/aluno/alterar',
     name: 'aluno-alterar'
+
   }
 </router>
 

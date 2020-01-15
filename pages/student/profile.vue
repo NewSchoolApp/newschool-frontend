@@ -82,7 +82,7 @@
 <router>
   {
     path: '/aluno/perfil',
-    name : 'meu-perfil'
+    name: 'meu-perfil'
   }
 </router>
 

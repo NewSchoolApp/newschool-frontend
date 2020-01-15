@@ -10,7 +10,7 @@
 <router>
   {
     path: '/aluno/meus-cursos',
-    name: "aluno-meus-cursos"
+    name: 'aluno-meus-cursos'
   }
 </router>
 

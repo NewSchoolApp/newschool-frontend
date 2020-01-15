@@ -1,15 +1,10 @@
 <template>
   <v-container class="main">
     <div>
-      <h1 class="page-title">
-        Meus certificados
-      </h1>
+      <h1 class="page-title">Meus certificados</h1>
     </div>
     <div v-for="certificate in certificates" class="cards-box">
-      <div
-        :style="backgroundClass(certificate.certificateBackgroundName)"
-        class="background-image"
-      >
+      <div :style="backgroundClass(certificate.certificateBackgroundName)" class="background-image">
         <img src="~/assets/medalha-image.svg" alt="Imagem de uma medalha" />
       </div>
       <div class="footer">
@@ -22,18 +17,20 @@
         <p>{{ certificate.userName }}</p>
       </div>
     </div>
-    <navigation-bar/>
+    <navigation-bar />
   </v-container>
 </template>
 
 <router>
-  path: "/aluno/certificados",
-  name: "certificados"
+{
+  path: '/aluno/certificados',
+  name: 'aluno-certificados'
+}
 </router>
 
 <script>
-import shareBtn from '~/components/ShareBtn.vue'
-import http from '~/services/http/generic'
+import shareBtn from "~/components/ShareBtn.vue";
+import http from "~/services/http/generic";
 import NavigationBar from "~/components/NavigationBar.vue";
 
 export default {
@@ -42,22 +39,22 @@ export default {
     NavigationBar
   },
   data: () => ({
-    certificates: [],
+    certificates: []
   }),
   mounted() {
     http
       .getAll(process.env.endpoints.CERTIFICATES_ME)
       .then(certificates => {
-        this.certificates = certificates.data
+        this.certificates = certificates.data;
       })
-      .catch(error => console.log(error))
+      .catch(error => console.log(error));
   },
   methods: {
     backgroundClass(certificateBackgroundName) {
-      return `background-image: url(/_nuxt/assets/${certificateBackgroundName})`
-    },
-  },
-}
+      return `background-image: url(/_nuxt/assets/${certificateBackgroundName})`;
+    }
+  }
+};
 </script>
 <style>
 .main {
@@ -101,9 +98,9 @@ button {
   width: 200px;
   height: 115px;
   box-shadow: 0 2.5px 3px 0px rgba(0, 0, 0, 0.42);
-  background: #6600cc url('../../assets/matematica.svg');
-  background: #6600cc url('../../assets/fotografia.svg');
-  background: #6600cc url('../../assets/cenografia.svg');
+  background: #6600cc url("../../assets/matematica.svg");
+  background: #6600cc url("../../assets/fotografia.svg");
+  background: #6600cc url("../../assets/cenografia.svg");
 }
 
 .footer {

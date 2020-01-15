@@ -24,8 +24,8 @@
 
 <router>
   {
-    path : "aluno/curso"
-    name : "aluno-curso"
+    path: 'aluno/curso',
+    name: 'aluno-curso'
   }
 </router>
 
