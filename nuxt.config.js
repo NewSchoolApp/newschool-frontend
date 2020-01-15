@@ -46,7 +46,9 @@ export default {
       LOGIN: "oauth/token",
       SIGN_UP: "api/v1/user/student",
       FORGOT_PASSWORD: "api/v1/user/forgot-password",
-      COURSE: "/api/v1/course"
+      COURSE: "/api/v1/course",
+      COURSE_BY_SLUG: "api/v1/course/slug/",
+      INIT_COURSE: ""
     },
     GATOKEN: process.env.GA_TOKEN
   },
@@ -171,6 +173,6 @@ export default {
     /*
      ** You can extend webpack config here
      */
-    extend(config, ctx) { }
+    extend(config, ctx) {}
   }
 };

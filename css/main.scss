@@ -24,6 +24,13 @@
   background-color: #ffffff !important;
 }
 
+.v-card__title {
+  color: #6600cc;
+}
+.v-card__text {
+  text-align: justify;
+}
+
 .btn-transparent {
   font-weight: 900 !important;
   background-color: transparent !important;
@@ -35,6 +42,9 @@
   background-color: #f189de00 !important;
   color: #f189de;
   border: solid 1px #f189de;
+}
+.v-dialog {
+  background: white;
 }
 
 .theme--dark.v-application {

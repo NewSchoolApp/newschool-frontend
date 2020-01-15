@@ -10,8 +10,8 @@
       horizontal
     >
       <v-btn class="btn-fixed" v-for="item in menu" v-bind:key="item.id" :to="item.link">
-        <span>{{item.name}}</span>
-        <v-icon>{{item.icon}}</v-icon>
+        <span>{{ item.name }}</span>
+        <v-icon>{{ item.icon }}</v-icon>
       </v-btn>
 
       <v-btn class="btn-fixed" @click="setViewMenu" id="menu-btn">
@@ -21,10 +21,9 @@
     </v-bottom-navigation>
   </div>
 </template>
-  
+
 <script>
-import SideMenu from "~/components/SideMenu.vue"
-import auth from '~/services/http/auth'
+import SideMenu from "~/components/SideMenu.vue";
 
 export default {
   data: () => ({
@@ -51,17 +50,16 @@ export default {
     SideMenu
   },
   mounted() {
-    this.changeRoutingIfAdmin()
+    this.changeRoutingIfAdmin();
   },
   methods: {
     setViewMenu() {
       this.viewMenu = !this.viewMenu;
     },
-    async changeRoutingIfAdmin() {
-      let userRole = this.$store.state.user.data.role
-      if( userRole == 'ADMIN') {
-        this.menu[0].link = '/admin/home'
-        this.menu[2].link = '/admin/listar-cursos'
+    changeRoutingIfAdmin() {
+      if (this.$store.state.user.data.role === "ADMIN") {
+        this.menu[0].link = "/admin/home";
+        this.menu[2].link = "/admin/listar-cursos";
       }
     }
   }

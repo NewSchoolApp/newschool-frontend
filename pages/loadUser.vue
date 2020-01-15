@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="body__loading">
     <div class="gooey">
       <span class="dot"></span>
       <div class="dots">
@@ -44,6 +44,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.body__loading {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: white;
+}
 #text {
   position: absolute;
   top: 55%;

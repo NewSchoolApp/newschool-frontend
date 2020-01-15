@@ -3,7 +3,11 @@ import utils from "~/utils/index";
 
 export default {
   getToken: () => {
-    return JSON.parse(localStorage.getItem("auth")).accessToken;
+    try {
+      return JSON.parse(localStorage.getItem("auth")).accessToken;
+    } catch (ex) {
+      return "";
+    }
   },
 
   getPasswordCredentials: () => {

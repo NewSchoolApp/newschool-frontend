@@ -8,7 +8,7 @@
   <div v-else-if="!notFound">
     <div id="page">
       <div id="head__bar">
-        <v-btn class="btn-back" text icon @click="gotoBack">
+        <v-btn class="btn-back" text icon @click="comeBackPage">
           <v-icon>mdi-arrow-left</v-icon>
         </v-btn>
         <h1 class="h1__theme">Curso</h1>
@@ -25,9 +25,24 @@
           </section>
           <p id="description">{{ course.description }}</p>
         </div>
-        <v-btn class="btn__primary" color="#60c" dark block depressed large>Iniciar</v-btn>
+        <v-btn
+          class="btn__primary"
+          color="#60c"
+          :loading="loadingInit"
+          :disabled="loadingInit"
+          dark
+          block
+          depressed
+          large
+          @click="initCourse"
+        >Iniciar</v-btn>
       </main>
     </div>
+    <v-dialog v-model="dialog" max-width="290">
+      <v-card-title class="headline">Eita!</v-card-title>
+      <v-card-text>{{ dialogMessage }}</v-card-text>
+      <v-btn color="primary" text to="/login">Fazer Login</v-btn>
+    </v-dialog>
     <client-only>
       <navigation-bar />
     </client-only>
@@ -45,7 +60,8 @@
 <script>
 import NotFound from "../public/404.vue";
 import NavigationBar from "~/components/NavigationBar.vue";
-import courses from "~/services/http/courses";
+import http from "~/services/http/generic";
+import utils from "~/utils/index";
 
 export default {
   components: {
@@ -54,6 +70,10 @@ export default {
   },
   data() {
     return {
+      dialog: false,
+      dialogMessage: "",
+      loadingInit: false,
+
       loading: true,
       notFound: false,
       course: {
@@ -69,8 +89,8 @@ export default {
   },
   mounted() {
     const { slug } = this.$route.params;
-    courses
-      .getBySlug(slug)
+    http
+      .getAll(`${process.env.endpoints.COURSE_BY_SLUG}${slug}`)
       .then(({ data }) => {
         const { id, authorId, description, slug, thumbUrl, title } = data;
         this.course = { id, authorId, description, slug, thumbUrl, title };
@@ -86,13 +106,45 @@ export default {
         console.error(error);
       });
     this.loading = false;
+  },
+  methods: {
+    initCourse() {
+      this.loadingInit = true;
+      if (utils.getToken()) {
+        http
+          .post(`${process.env.endpoints.INIT_COURSE}/${this.course.slug}`)
+          .then(res => {
+            // TODO : Implementação de iniciar curso
+          })
+          .catch(error => {
+            this.dialogMessage =
+              error.response.status === 401
+                ? "Você precisa estar logado para fazer um curso!"
+                : "Erro ao iniciar o curso, tente novamente";
+            setTimeout(() => {
+              this.loadingInit = false;
+              this.dialog = true;
+            }, 1000);
+          });
+      } else {
+        setTimeout(() => {
+          this.dialogMessage =
+            "Você precisa estar logado para fazer um curso! faça o login e tente novamente";
+          this.loadingInit = false;
+          this.dialog = true;
+        }, 1000);
+      }
+    },
+    comeBackPage() {
+      window.history.go(-1);
+    }
   }
 };
 </script>
 
 <style scoped lang="scss">
 main {
-  padding: 1.6rem;
+  padding: 0rem 1.6rem;
 
   h1 {
     font-size: 1rem;
@@ -110,7 +162,7 @@ main {
 #head__bar {
   display: flex;
   justify-content: center;
-  padding-top: 15px;
+  padding: 1.6rem;
   position: relative;
 }
 .info__box {
@@ -126,18 +178,18 @@ main {
 
 #author__name {
   font-size: 0.8555rem;
-  font-weight: 500;
+  font-weight: 600;
 }
 
 #description {
-  margin-top: 1.5rem;
+  margin-top: 0.5rem;
   color: gray;
   font-size: smaller;
   text-align: justify;
 }
 ::v-deep .btn-back {
   position: absolute;
-  left: 1.5rem;
+  left: 1rem;
 }
 ::v-deep .btn-back .theme--light.v-icon {
   color: #60c;
@@ -148,5 +200,14 @@ main {
   margin-top: 2rem;
   font-weight: 700;
   box-shadow: 0px 4px 4px #21212154 !important;
+}
+.v-progress-circular {
+  color: #b2b2b2;
+}
+.v-btn__loader {
+  background-color: #e9e9e9;
+}
+.theme--dark.v-btn.v-btn--disabled:not(.v-btn--flat):not(.v-btn--text):not(.v-btn--outlined) {
+  background-color: #6600cc !important;
 }
 </style>

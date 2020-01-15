@@ -54,10 +54,10 @@
             </v-col>
           </v-form>
           <v-col cols="12">
-            <v-btn color="#60c" dark block depressed large @click="submit">Cadastrar</v-btn>
+            <v-btn dark block depressed large to="/cadastro" class="btn-transparent">Cadastrar</v-btn>
           </v-col>
           <v-col cols="12" class="text-center">
-            <v-btn tile outlined color="white" to="/esqueci-minha-senha">Esqueceu sua senha?</v-btn>
+            <v-btn text small color="#fff" to="/esqueci-minha-senha">Esqueceu sua senha?</v-btn>
           </v-col>
         </v-row>
       </v-container>
