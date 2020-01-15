@@ -12,7 +12,7 @@ export const addInterceptorError = axiosInstance => {
       if (captureError) {
         captureError(error)
       }
-      return error
+      return Promise.reject(error)
     },
   )
 }
