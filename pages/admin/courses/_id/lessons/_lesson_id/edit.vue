@@ -107,7 +107,6 @@ export default {
       if (this.$refs.lesson.validate()) {
         this.animateForm(true)
         this.lesson['lesson'] = this.$route.params.lessonId
-        console.log(this.lesson)
         lessons
           .updateLesson(this.lesson)
           .then(res => {

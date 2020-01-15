@@ -111,7 +111,6 @@ export default {
     submit() {
       if (this.$refs.lesson.validate()) {
         this.animateForm(true)
-        console.log(this.lesson)
         lessons
           .createLesson(this.lesson)
           .then(res => {
