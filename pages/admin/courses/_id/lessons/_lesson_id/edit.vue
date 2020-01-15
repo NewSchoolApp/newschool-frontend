@@ -32,10 +32,10 @@
       </v-form>
 
       <resources-list
-        name="Teste"
+        name="Parte"
         :resources="parts"
         redirect="true"
-        path="test"
+        path="part"
       />
       <span v-if="!parts.length" class="new-parts-span"
         >Favor, adicionar uma parte</span
