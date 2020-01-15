@@ -18,7 +18,7 @@
 import { setCaptureError } from '../services/http/error-interceptor'
 export default {
   data: () => ({
-    showError: true,
+    showError: false,
     message: '',
   }),
   mounted() {
