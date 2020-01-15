@@ -40,6 +40,9 @@ export default {
 }
 </script>
 <style scoped>
+*{
+  max-width: 600px;
+}
 .container{
   overflow-y: auto;
  
