@@ -15,7 +15,10 @@
 </template>
 
 <script scoped>
-import { setCaptureError } from '../services/http/error-interceptor'
+import {
+  setCaptureError,
+  getErrorMessage,
+} from '../services/http/error-interceptor'
 export default {
   data: () => ({
     showError: false,
@@ -23,7 +26,7 @@ export default {
   }),
   mounted() {
     setCaptureError(error => {
-      this.message = error.message
+      this.message = getErrorMessage(error)
       this.showError = true
     })
   },
