@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container">
     <v-card>
       <v-img :src="require('~/assets/new_school.jpg')" height="100%" class="grey darken-4" />
     </v-card>
@@ -30,7 +30,7 @@
   }
 </router>
 
-<script>
+<script scoped>
 import NavigationBar from "~/components/NavigationBar.vue";
 
 export default {
@@ -40,8 +40,8 @@ export default {
 }
 </script>
 <style scoped>
-  .div{
+  ::v-deep .container{
   overflow-y: auto!important;
-  overflow-x: hidden!important;
+ 
 }
 </style>

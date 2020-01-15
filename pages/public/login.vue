@@ -84,7 +84,7 @@
   }
 </router>
 
-<script>
+<script scoped>
 import auth from '~/services/http/auth'
 
 export default {

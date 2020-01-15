@@ -56,6 +56,10 @@ export default {
    ** Headers of the page
    */
   head: {
+    htmlAttrs: {
+      lang: 'en',
+      style:'overflow-y: auto'
+    },
     titleTemplate:
       '%s | ' + 'New School | Formando os protagonistas da quebrada',
     meta: [

@@ -28,7 +28,7 @@
   }
 </router>
 
-<script>
+<script scoped>
 import NavigationBar from "~/components/NavigationBar.vue";
 import CourseCard from "~/components/CourseCard";
 import courses from '~/services/http/courses';
