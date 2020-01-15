@@ -36,6 +36,7 @@ import CourseCard from "~/components/CourseCard";
 import http from "~/services/http/generic";
 // import courses from "~/services/http/courses";
 
+
 export default {
   components: {
     NavigationBar,
@@ -96,8 +97,9 @@ export default {
 .welcome-subtitle {
   font-weight: 900;
   font-size: 16px;
-  line-height: 20px;
-  color: #6600cc;
+  line-height: 20px;  
+  color: #6600CC;
+  margin-top: 1%;
 }
 
 @media screen and (orientation: portrait) {
