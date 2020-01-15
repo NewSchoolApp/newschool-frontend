@@ -80,7 +80,8 @@
 
 <router>
   {
-    path: '/login'
+    path: '/login',
+    name : 'login'
   }
 </router>
 

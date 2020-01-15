@@ -16,7 +16,8 @@
 
 <router>
     {
-        path : '/loading'
+        path : '/loading/:route',
+        props: true
     }
 </router>
 
@@ -28,14 +29,15 @@ export default {
   mounted() {
     const { status, token } = auth.isTokenValid();
     if (status) {
-      this.loadInfoUser(token);
+      this.loadInfoUser({token, route : this.route});
     } else {
       $nuxt._router.push("/login");
     }
   },
   methods: {
     ...mapActions("user", ["loadInfoUser"])
-  }
+  },
+  props : ["route"]
 };
 </script>
 

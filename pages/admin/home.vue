@@ -24,7 +24,8 @@
 
 <router>
   {
-    path: '/admin/home'
+    path: '/admin/home',
+    name: "admin-home"
   }
 </router>
 

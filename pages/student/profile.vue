@@ -22,7 +22,6 @@
             <a href>Perfil</a>
           </v-card>
         </v-col>
-
       </v-row>
 
       <!-- <v-card class="mx-auto item" max-width="344">
@@ -82,7 +81,8 @@
 
 <router>
   {
-    path: '/aluno/perfil'
+    path: '/aluno/perfil',
+    name : 'meu-perfil'
   }
 </router>
 
@@ -94,7 +94,7 @@ export default {
     NavigationBar
   },
   methods: {
-    gotoChangeData(){
+    gotoChangeData() {
       $nuxt._router.push("/aluno/alterar");
     }
   }
@@ -147,7 +147,7 @@ div h1,
 h2,
 h3,
 p {
-   color: #6600cc;
+  color: #6600cc;
 }
 /* Modificar nomes das clases, padrão ingles e nomes mais abstratos */
 @media (max-height: 768px) {

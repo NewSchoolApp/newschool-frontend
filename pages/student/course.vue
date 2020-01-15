@@ -21,6 +21,14 @@
   </div>
 </template>
 
+
+<router>
+  {
+    path : "aluno/curso"
+    name : "aluno-curso"
+  }
+</router>
+
 <script>
 import NotFound from '../public/404.vue'
 import NavigationBar from '~/components/NavigationBar.vue'

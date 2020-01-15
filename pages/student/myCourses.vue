@@ -9,7 +9,8 @@
 
 <router>
   {
-    path: '/aluno/meus-cursos'
+    path: '/aluno/meus-cursos',
+    name: "aluno-meus-cursos"
   }
 </router>
 

@@ -6,13 +6,14 @@ import auth from "~/services/http/auth";
  * volte para a rota acessada.
  */
 
-export default ({ app, store, redirect }) => {
+export default ({ app, redirect }) => {
   app.router.afterEach((to, from) => {
-    if (!process.server && to.path === "/login") {
+    // console.log("redirect", to.path, from.path)
+    if (to.path === "/login") {
       const { status } = auth.isTokenValid();
       if (status) {
         // eslint-disable-next-line no-undef
-        redirect("/loading");
+        redirect("/loading/login");
       }
     }
   });

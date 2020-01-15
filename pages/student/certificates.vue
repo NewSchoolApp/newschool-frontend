@@ -27,7 +27,8 @@
 </template>
 
 <router>
-  path: "/aluno/certificados"
+  path: "/aluno/certificados",
+  name: "certificados"
 </router>
 
 <script>

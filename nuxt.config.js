@@ -101,8 +101,7 @@ export default {
   plugins: [
     "~/plugins/admin-components.js",
     { src: "~/plugins/ga.js", mode: "client" },
-    "~/plugins/observer_route",
-    "~/plugins/redirect"
+    { src: "~/plugins/redirect", mode: "client" }
   ],
   /*
    ** Nuxt.js dev-modules
@@ -172,6 +171,6 @@ export default {
     /*
      ** You can extend webpack config here
      */
-    extend(config, ctx) {}
+    extend(config, ctx) { }
   }
 };

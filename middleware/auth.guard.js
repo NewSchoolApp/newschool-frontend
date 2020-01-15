@@ -9,21 +9,21 @@ import PRIVATE_MODULES_URL from "~/routes/private";
  * Verificação e validação de acesso a rotas
  * @param {*} route estado de rota da aplicação
  */
-export default async function({ route, store, redirect }) {
+export default async function ({ route, store, redirect }) {
   const pathModule = route.path.split("/");
-
-  const session = await store.dispatch("user/validateSession", pathModule[1]);
-  if (!session) {
+  if (route.pathFull !== "/loading") {
     if (
       pathModule[1] === PRIVATE_MODULES_URL.STUDENT ||
       pathModule[1] === PRIVATE_MODULES_URL.ADMIN
     ) {
-      redirect("/loading");
-    }
-  } else {
-    // eslint-disable-next-line no-lonely-if
-    if (pathModule[1] === "login") {
-      redirect(`${store.getters.roleModule}/home`);
+      const { validRole, session } = await store.dispatch("user/validateSession", pathModule[1]);
+      if (!session) {
+        redirect(`/loading/${route.name}`);
+      }
+      else if (!validRole) {
+        redirect(`/login`);
+      }
     }
   }
 }
+

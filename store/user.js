@@ -28,19 +28,13 @@ const mutations = {
 };
 const actions = {
   validateSession({ getters }, route) {
-    const { role } = getters.getUser;
-    if (getters.flagSession) {
-      // eslint-disable-next-line no-unused-expressions
-      PRIVATE_MODULES_URL[role] === route;
-      return true;
-    }
-    return false;
+    return { validRole: getters.roleModule === route, session: getters.flagSession }
   },
-  loadInfoUser({ commit, dispatch, rootState, getters }, token) {
-    let lastRouteAccessed = rootState.route.last_accessed_route;
+  loadInfoUser({ commit, dispatch, rootState, getters }, config) {
+
     return http
       .get(process.env.endpoints.USER_ME, {
-        headers: { Authorization: token }
+        headers: { Authorization: config.token }
       })
       .then(res => {
         commit("SET_USER", {
@@ -51,13 +45,11 @@ const actions = {
         });
         dispatch("initSessionUser");
 
-        lastRouteAccessed =
-          lastRouteAccessed === "/login"
-            ? `${getters.roleModule}/home`
-            : lastRouteAccessed;
-        console.log("COMO A ROTA TA CHEGANDO ", lastRouteAccessed);
-        // eslint-disable-next-line no-undef
-        $nuxt._router.push(lastRouteAccessed);
+        const lastRouteAccessed =
+          config.route === "login"
+            ? `${getters.roleModule}-home`
+            : config.route;
+        $nuxt._router.push({ name: lastRouteAccessed });
       });
   },
   initSessionUser({ commit }) {
