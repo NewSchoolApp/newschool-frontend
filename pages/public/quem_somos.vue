@@ -30,7 +30,7 @@
   }
 </router>
 
-<script scoped>
+<script>
 import NavigationBar from "~/components/NavigationBar.vue";
 
 export default {
@@ -40,8 +40,8 @@ export default {
 }
 </script>
 <style scoped>
-  ::v-deep .container{
-  overflow-y: auto!important;
+.container{
+  overflow-y: auto;
  
 }
 </style>
