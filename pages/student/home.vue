@@ -8,6 +8,7 @@
     <h3 class="title-section">CURSOS</h3>
     <article class="article-container">
       <course-card
+        @click="viewCourse(course.slug)"
         :key="course.id"
         v-for="course in courses"
         :title="course.title"
@@ -34,8 +35,6 @@
 import NavigationBar from "~/components/NavigationBar.vue";
 import CourseCard from "~/components/CourseCard";
 import http from "~/services/http/generic";
-// import courses from "~/services/http/courses";
-
 
 export default {
   components: {
@@ -77,6 +76,9 @@ export default {
     return http
       .getAll(process.env.endpoints.COURSE)
       .then(response => store.commit("courses/set", response.data));
+  },
+  viewCourse(slug) {
+    $nuxt._router.push(`aluno/curso/${slug}`);
   }
 };
 </script>
@@ -97,8 +99,8 @@ export default {
 .welcome-subtitle {
   font-weight: 900;
   font-size: 16px;
-  line-height: 20px;  
-  color: #6600CC;
+  line-height: 20px;
+  color: #6600cc;
   margin-top: 1%;
 }
 

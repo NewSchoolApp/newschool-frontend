@@ -133,7 +133,7 @@ export default {
         auth
           .login(this.email, this.password)
           .then(() => {
-            $nuxt._router.push("/loading");
+            $nuxt._router.push("/loading/login");
           })
           .catch(err => {
             setTimeout(() => {
