@@ -20,8 +20,7 @@
         <v-row>
           <v-col cols="15">
             <a class="page-text"
-              >Digite seu email registrado para redefinir sua senha</a
-            >
+              >Digite seu email registrado para redefinir sua senha</a>
           </v-col>
         </v-row>
         <v-row>
@@ -40,14 +39,12 @@
                  color="#60c" 
                  dark block depressed large 
                  @click="submit"
-                >Redefinir senha</v-btn
-              >
+                >Redefinir senha</v-btn>
             </v-col>
           </v-form>
           <v-col cols="12" class="text-center">
             <a class="login-link" @click="gotoLogin"
-              >Opa, lembrei minha senha!</a
-            >
+              >Voltar para o Login</a>
           </v-col>
           <v-snackbar
             v-model="snackbar"
