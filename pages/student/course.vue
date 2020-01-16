@@ -1,52 +1,50 @@
 <template>
-  <div v-if="loading">
-    <client-only>
-      <navigation-bar />
-    </client-only>
-  </div>
-  <not-found v-else-if="notFound" />
-  <div v-else-if="!notFound">
-    <div id="page">
-      <div id="head__bar">
-        <v-btn class="btn-back" text icon @click="comeBackPage">
-          <v-icon>mdi-arrow-left</v-icon>
-        </v-btn>
-        <h1 class="h1__theme">Curso</h1>
-      </div>
-      <main>
-        <h1 id="title__course" class="h1__theme">{{ course.title }}</h1>
-        <div class="mask__img">
-          <img :src="course.thumbUrl" alt="imagem-curso" title="imagem curso" />
-        </div>
-        <div class="info__box">
-          <section>
-            <h1 class="h1__theme">Professor&nbsp;&nbsp;</h1>
-            <p id="author__name">{{ course.author }}</p>
-          </section>
-          <p id="description">{{ course.description }}</p>
-        </div>
-        <v-btn
-          class="btn__primary"
-          color="#60c"
-          :loading="loadingInit"
-          :disabled="loadingInit"
-          dark
-          block
-          depressed
-          large
-          @click="initCourse"
-        >Iniciar</v-btn>
-      </main>
+  <div>
+    <HeaderBar :title="'Curso'" :backPage="true"></HeaderBar>
+
+    <div v-if="loading">
+      <client-only>
+        <navigation-bar />
+      </client-only>
     </div>
-    <modal
-      :dialogMessage="dialogMessage"
-      :ok="dialogOptions.ok"
-      :cancel="dialogOptions.cancel"
-      :toRoute="dialogOptions.toRoute"
-    ></modal>
-    <client-only>
-      <navigation-bar />
-    </client-only>
+    <not-found v-else-if="notFound" />
+    <div v-else-if="!notFound">
+      <div id="page">
+        <main>
+          <h1 id="title__course" class="h1__theme">{{ course.title }}</h1>
+          <div class="mask__img">
+            <img :src="course.thumbUrl" alt="imagem-curso" title="imagem curso" />
+          </div>
+          <div class="info__box">
+            <section>
+              <h1 class="h1__theme">Professor&nbsp;&nbsp;</h1>
+              <p id="author__name">{{ course.author }}</p>
+            </section>
+            <p id="description">{{ course.description }}</p>
+          </div>
+          <v-btn
+            class="btn__primary"
+            color="#60c"
+            :loading="loadingInit"
+            :disabled="loadingInit"
+            dark
+            block
+            depressed
+            large
+            @click="initCourse"
+          >Iniciar</v-btn>
+        </main>
+      </div>
+      <modal
+        :dialogMessage="dialogMessage"
+        :ok="dialogOptions.ok"
+        :cancel="dialogOptions.cancel"
+        :toRoute="dialogOptions.toRoute"
+      ></modal>
+      <client-only>
+        <navigation-bar />
+      </client-only>
+    </div>
   </div>
 </template>
 
@@ -61,6 +59,7 @@
 <script>
 import NotFound from "../public/404.vue";
 import NavigationBar from "~/components/NavigationBar.vue";
+import HeaderBar from "~/components/Header.vue";
 import Modal from "~/components/Modal.vue";
 import http from "~/services/http/generic";
 import utils from "~/utils/index";
@@ -69,7 +68,8 @@ export default {
   components: {
     NavigationBar,
     NotFound,
-    Modal
+    Modal,
+    HeaderBar
   },
   data() {
     return {
@@ -152,12 +152,11 @@ export default {
 </script>
 
 <style scoped lang="scss">
+h1 {
+  font-size: 1rem;
+}
 main {
   padding: 0rem 1.6rem;
-
-  h1 {
-    font-size: 1rem;
-  }
 }
 .mask__img {
   display: flex;
@@ -188,6 +187,7 @@ main {
 #author__name {
   font-size: 0.8555rem;
   font-weight: 600;
+  margin-bottom: 0;
 }
 
 #description {
@@ -222,28 +222,5 @@ main {
 .theme--light.v-icon {
   color: #ffffff;
   font-size: 3rem;
-}
-.v-dialog {
-  border-radius: 20px !important;
-  h1 {
-    margin-bottom: 0.5rem;
-  }
-  .v-btn {
-    color: #ff6868 !important;
-    margin-bottom: 1rem;
-  }
-
-  .v-card__title {
-    // color: #6600cc;
-    justify-content: center;
-    background: #ff6868;
-    color: #ffffff;
-  }
-  .v-card__text {
-    text-align: center;
-    padding-top: 15px;
-    // font-size: 1rem;
-    // font-weight: 600;
-  }
 }
 </style>

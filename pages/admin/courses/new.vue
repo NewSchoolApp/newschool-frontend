@@ -7,14 +7,6 @@
       <v-flex ref="flex" v-else xs10 sm8 md6>
         <v-container>
           <v-row>
-            <!-- <v-col cols="1">
-            <v-btn @click="goBack" class="btn-back" text icon>
-              <v-icon size="30">mdi-arrow-left</v-icon>
-            </v-btn>
-          </v-col>
-          <v-col cols="11">
-            <h2 class="page-title">Gerenciar meus cursos</h2>
-            </v-col>-->
           </v-row>
           <v-form ref="form" lazy-validation>
             <v-row>

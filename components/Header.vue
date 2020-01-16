@@ -26,8 +26,7 @@ export default {
 
 <style scoped>
 .h1__theme {
-  font-size: 1rem;
-  width: 100%;
+  font-size: 1.4444rem;
 }
 #head__bar {
   display: flex;
@@ -35,11 +34,9 @@ export default {
   padding: 1.2rem;
   position: relative;
   align-items: center;
-  background: white;
+  background: transparent;
 }
 ::v-deep .btn-back {
-  /* position: absolute;
-  left: 1rem; */
   padding-right: 2rem;
   margin-top: unset !important;
 }
