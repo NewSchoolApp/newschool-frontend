@@ -143,18 +143,6 @@ export default {
       this.snackbar = true
     },
   },
-
-  loadClientCredentials() {
-    utils
-      .getExternalCredentials()
-      .then(res => {
-        console.log(res)
-        this.token = res.data.accessToken
-      })
-      .catch(() => {
-        $$nuxt._router.push('/login')
-      })
-  },
 }
 </script>
 
