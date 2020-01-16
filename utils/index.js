@@ -9,7 +9,6 @@ export default {
       return "";
     }
   },
-
   getPasswordCredentials: () => {
     const base64 = btoa(
       `${process.env.credentials.name}:${process.env.credentials.secret}`
@@ -28,12 +27,14 @@ export default {
       headers: { Authorization: clientCredentials }
     });
   },
-
   toFormData: object => {
     const form = new FormData();
     Object.keys(object).forEach(item => {
       form.append(item, object[item]);
     });
     return form;
+  },
+  runModal() {
+    document.getElementById('viewModal').click()
   }
 };

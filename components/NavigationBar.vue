@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="auth">
     <side-menu class="intro-transition" v-show="viewMenu"></side-menu>
 
     <v-bottom-navigation
@@ -9,7 +9,12 @@
       color="write"
       horizontal
     >
-      <v-btn class="btn-fixed" v-for="item in menu" v-bind:key="item.id" :to="item.link">
+      <v-btn
+        class="btn-fixed menu__bottom"
+        v-for="item in menu"
+        v-bind:key="item.id"
+        :to="item.link"
+      >
         <span>{{ item.name }}</span>
         <v-icon>{{ item.icon }}</v-icon>
       </v-btn>
@@ -24,11 +29,12 @@
 
 <script>
 import SideMenu from "~/components/SideMenu.vue";
+import auth from "~/services/http/auth";
 
 export default {
   data: () => ({
     viewMenu: false,
-
+    auth: false,
     menu: [
       { id: 1, name: "Home", icon: "mdi-home", link: "/aluno/home" },
       { id: 2, name: "Perfil", icon: "mdi-account", link: "/aluno/perfil" },
@@ -36,7 +42,7 @@ export default {
         id: 3,
         name: "Meus Cursos",
         icon: "mdi-library",
-        link: "/aluno/listar-cursos"
+        link: "/aluno/meus-cursos"
       },
       {
         id: 4,
@@ -50,7 +56,11 @@ export default {
     SideMenu
   },
   mounted() {
-    this.changeRoutingIfAdmin();
+    const { status } = auth.isTokenValid();
+    if (status) {
+      this.auth = true;
+      this.changeRoutingIfAdmin();
+    }
   },
   methods: {
     setViewMenu() {
@@ -66,8 +76,8 @@ export default {
 };
 </script>
 
-<style>
-.v-btn__content {
+<style scoped>
+>>> .v-item-group.v-bottom-navigation--horizontal .v-btn > .v-btn__content {
   flex-direction: column-reverse !important;
 }
 .v-icon {
@@ -83,7 +93,7 @@ export default {
   animation-name: intro;
   animation-duration: 0.2s;
 }
-.v-item-group.v-bottom-navigation .v-btn.v-btn--active .v-btn__content {
+>>> .v-item-group.v-bottom-navigation .v-btn.v-btn--active .v-btn__content {
   color: #6600cc;
 }
 
@@ -91,6 +101,11 @@ export default {
   .v-btn {
     min-width: 55px !important;
     font-size: 0.6rem !important;
+  }
+}
+@media (max-width: 415px) {
+  .v-btn {
+    font-size: 0.65rem !important;
   }
 }
 </style>

@@ -2,13 +2,13 @@
   <div class="container-page">
     <main>
       <section id="info">
-        <!-- <div id="avatar">
+        <div id="avatar">
           <div class="flex-center border-profile-photo">
             <div class="flex-center profile-container">
               <avatar :username="user.name || simplifyName" :size="90"></avatar>
             </div>
           </div>
-        </div> -->
+        </div>
         <div class="flex-center" id="flex-info-user">
           <h1>{{user.name}}</h1>
           <p>{{user.type}}</p>
@@ -108,7 +108,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 #btnLogout {
   margin-top: 5px;
 }

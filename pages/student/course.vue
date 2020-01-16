@@ -38,11 +38,12 @@
         >Iniciar</v-btn>
       </main>
     </div>
-    <v-dialog v-model="dialog" max-width="290">
-      <v-card-title class="headline">Eita!</v-card-title>
-      <v-card-text>{{ dialogMessage }}</v-card-text>
-      <v-btn color="primary" text to="/login">Fazer Login</v-btn>
-    </v-dialog>
+    <modal
+      :dialogMessage="dialogMessage"
+      :ok="dialogOptions.ok"
+      :cancel="dialogOptions.cancel"
+      :toRoute="dialogOptions.toRoute"
+    ></modal>
     <client-only>
       <navigation-bar />
     </client-only>
@@ -60,20 +61,25 @@
 <script>
 import NotFound from "../public/404.vue";
 import NavigationBar from "~/components/NavigationBar.vue";
+import Modal from "~/components/Modal.vue";
 import http from "~/services/http/generic";
 import utils from "~/utils/index";
 
 export default {
   components: {
     NavigationBar,
-    NotFound
+    NotFound,
+    Modal
   },
   data() {
     return {
-      dialog: false,
       dialogMessage: "",
+      dialogOptions: {
+        ok: false,
+        cancel: false,
+        toRoute: false
+      },
       loadingInit: false,
-
       loading: true,
       notFound: false,
       course: {
@@ -99,7 +105,7 @@ export default {
       .catch(error => {
         if (error.response && error.response.status === 404) {
           // this.notFound = true;
-          // this.loading = false;
+          this.loading = false;
           return;
         }
         // eslint-disable-next-line no-console
@@ -117,21 +123,24 @@ export default {
             // TODO : Implementação de iniciar curso
           })
           .catch(error => {
+            this.dialogOptions.ok = true;
             this.dialogMessage =
               error.response.status === 401
                 ? "Você precisa estar logado para fazer um curso!"
                 : "Erro ao iniciar o curso, tente novamente";
             setTimeout(() => {
               this.loadingInit = false;
-              this.dialog = true;
+              utils.runModal();
             }, 1000);
           });
       } else {
         setTimeout(() => {
+          this.dialogOptions.toRoute = { path: "/login", name: "Fazer Login" };
+          this.dialogOptions.ok = true;
           this.dialogMessage =
             "Você precisa estar logado para fazer um curso! faça o login e tente novamente";
           this.loadingInit = false;
-          this.dialog = true;
+          utils.runModal();
         }, 1000);
       }
     },
@@ -209,5 +218,32 @@ main {
 }
 .theme--dark.v-btn.v-btn--disabled:not(.v-btn--flat):not(.v-btn--text):not(.v-btn--outlined) {
   background-color: #6600cc !important;
+}
+.theme--light.v-icon {
+  color: #ffffff;
+  font-size: 3rem;
+}
+.v-dialog {
+  border-radius: 20px !important;
+  h1 {
+    margin-bottom: 0.5rem;
+  }
+  .v-btn {
+    color: #ff6868 !important;
+    margin-bottom: 1rem;
+  }
+
+  .v-card__title {
+    // color: #6600cc;
+    justify-content: center;
+    background: #ff6868;
+    color: #ffffff;
+  }
+  .v-card__text {
+    text-align: center;
+    padding-top: 15px;
+    // font-size: 1rem;
+    // font-weight: 600;
+  }
 }
 </style>

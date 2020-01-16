@@ -85,23 +85,22 @@ export default {
 
 <style scoped>
 .welcome {
-  padding: 1em 0 0 1.5em;
+  padding: 2em 0 0 1.5em;
+  text-transform: uppercase;
 }
 
-.welcome-title {
+h1 {
   font-weight: 900;
-  font-size: 20px;
+  font-size: 1.5rem;
   line-height: 24px;
-  margin-bottom: 4px;
+}
+.welcome-title {
   color: #1a1a1a;
 }
 
 .welcome-subtitle {
-  font-weight: 900;
-  font-size: 16px;
-  line-height: 20px;
   color: #6600cc;
-  margin-top: 1%;
+  font-size: 1.1rem;
 }
 
 @media screen and (orientation: portrait) {
@@ -167,9 +166,10 @@ export default {
 
 .title-section {
   font-weight: 900;
+  font-size: 0.9rem;
   line-height: 17px;
   color: #6600cc;
-  padding: 1.25em 0 0.5em 1.5em;
+  padding: 1.25em 0 0.5em 1.6em;
   text-transform: uppercase;
 }
 </style>
