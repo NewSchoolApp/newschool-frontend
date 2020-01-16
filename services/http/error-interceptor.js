@@ -5,6 +5,9 @@ export const setCaptureError = func => {
 }
 
 const getErrorMessageFromStatusAndUrl = (status, url) => {
+  if (status === 500) {
+    return 'Ocorreu um erro'
+  }
   return null
 }
 
