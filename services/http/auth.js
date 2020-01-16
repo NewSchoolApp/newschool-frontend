@@ -98,7 +98,7 @@ const getNewAccessToken = refreshToken => {
     })
     .catch(error => {
       if (error.response.status === 401) {
-        localStorage.removeItem('auth')
+        localStorage.clear()
       }
       return { status: false, token: '' }
     })
