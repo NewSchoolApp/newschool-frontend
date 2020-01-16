@@ -129,7 +129,23 @@ export default {
     // Doc: https://github.com/nuxt-community/dotenv-module
     '@nuxtjs/dotenv',
     '@nuxtjs/proxy',
+    'nuxt-i18n',
   ],
+  i18n: {
+    locales: [
+      {
+        code: 'en',
+        file: 'en-US.js',
+      },
+      {
+        code: 'pt',
+        file: 'pt-BR.js',
+      },
+    ],
+    defaultLocale: 'pt',
+    lazy: true,
+    langDir: 'lang/',
+  },
   /*
    ** Axios module configuration
    ** See https://axios.nuxtjs.org/options
