@@ -68,7 +68,7 @@
 
 <script>
 import NavigationBar from '~/components/NavigationBar'
-import lessons from '~/services/http/lessons'
+import generic from '~/services/http/generic'
 
 export default {
   components: {
@@ -111,8 +111,8 @@ export default {
     submit() {
       if (this.$refs.lesson.validate()) {
         this.animateForm(true)
-        lessons
-          .createLesson(this.lesson)
+        generic
+          .post('/api/v1/lesson', this.lesson)
           .then(res => {
             this.loading = false
             this.showConfirmSnack('Aula criada! ;)', 'success')

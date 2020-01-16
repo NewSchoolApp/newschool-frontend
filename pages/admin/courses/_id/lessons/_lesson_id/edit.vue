@@ -70,8 +70,7 @@
 
 <script scoped>
 import NavigationBar from '~/components/NavigationBar.vue'
-import parts from '~/services/http/parts'
-import lessons from '~/services/http/lessons'
+import generic from '~/services/http/generic'
 
 export default {
   components: {
@@ -107,8 +106,8 @@ export default {
       if (this.$refs.lesson.validate()) {
         this.animateForm(true)
         this.lesson['lesson'] = this.$route.params.lessonId
-        lessons
-          .updateLesson(this.lesson)
+        generic
+          .put('/api/v1/lesson', this.lesson.id, this.lesson)
           .then(res => {
             this.loading = false
             this.showConfirmSnack('Aula salva! ;)', 'success')
@@ -148,8 +147,9 @@ export default {
     },
   },
   async asyncData({ store, data, params }) {
-    const _lesson = await lessons.getById(params.id)
-    const _parts = await parts.getByLesson(params.id)
+    console.log(params.id)
+    const _lesson = await generic.getById(`/api/v1/lesson`, params.lessonId)
+    const _parts = await generic.getById(`/api/v1/part/lesson`, params.lessonId)
 
     return { lesson: _lesson.data, parts: _parts.data }
   },
