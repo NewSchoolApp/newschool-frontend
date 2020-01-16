@@ -109,6 +109,9 @@ export default {
 </script>
 
 <style lang="scss">
+.container-page{
+  z-index: 2;
+}
 #btnLogout{
   margin-top: 5px;
 }
