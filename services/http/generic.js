@@ -1,7 +1,8 @@
 import Axios from 'axios'
+import { addInterceptorError } from './error-interceptor'
 import utils from '~/utils/index'
 
-const http = new Axios.create({
+const http = Axios.create({
   baseURL: process.env.baseUrl,
 })
 
@@ -10,6 +11,7 @@ http.interceptors.request.use(config => {
   config.headers.Authorization = utils.getToken()
   return config
 })
+addInterceptorError(http)
 /**
  * @author Andrews
  *

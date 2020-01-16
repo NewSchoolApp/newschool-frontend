@@ -96,7 +96,10 @@ const getNewAccessToken = refreshToken => {
 
       return { status: true, token: utils.getToken() }
     })
-    .catch(() => {
-      return { status: false, token: "" }
+    .catch(error => {
+      if (error.response.status === 401) {
+        localStorage.clear()
+      }
+      return { status: false, token: '' }
     })
 }

@@ -143,10 +143,6 @@ export default {
             }, 2500)
           })
           .catch(err => {
-            this.confirmSnackbar(
-              'Ocorreu um erro ao cadastrar o curso.',
-              'error',
-            )
             setTimeout(() => {
               this.loading = false
             }, 500)
