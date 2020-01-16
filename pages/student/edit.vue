@@ -157,7 +157,6 @@ export default {
             }, 1500)
           })
           .catch(err => {
-            this.confirmSnackbar('Ocorreu um erro.', 'error')
             setTimeout(() => {
               this.loading = false
             }, 500)

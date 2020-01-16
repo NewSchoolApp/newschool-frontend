@@ -157,7 +157,6 @@ h1 {
 
 .max-content {
   max-height: 100vh;
-  overflow-y: auto;
   overflow-x: hidden;
   width: 100%;
   box-sizing: border-box;

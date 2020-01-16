@@ -47,8 +47,9 @@ export default {
       SIGN_UP: "api/v1/user/student",
       FORGOT_PASSWORD: "api/v1/user/forgot-password",
       COURSE: "/api/v1/course",
-      COURSE_BY_SLUG: "api/v1/course/slug/",
-      INIT_COURSE: ""
+      COURSE_BY_SLUG: "/api/v1/course/slug/",
+      INIT_COURSE: "",
+      LESSONS_BY_COURSE: "/api/v1/lesson/course/"
     },
     GATOKEN: process.env.GA_TOKEN
   },
@@ -57,6 +58,10 @@ export default {
    ** Headers of the page
    */
   head: {
+    htmlAttrs: {
+      lang: "en",
+      style: "overflow-y: auto"
+    },
     titleTemplate:
       "%s | " + "New School | Formando os protagonistas da quebrada",
     meta: [
@@ -130,8 +135,24 @@ export default {
     "@nuxtjs/pwa",
     // Doc: https://github.com/nuxt-community/dotenv-module
     "@nuxtjs/dotenv",
-    "@nuxtjs/proxy"
+    "@nuxtjs/proxy",
+    "nuxt-i18n"
   ],
+  // i18n: {
+  //   locales: [
+  //     {
+  //       code: "en",
+  //       file: "en-US.js"
+  //     },
+  //     {
+  //       code: "pt",
+  //       file: "pt-BR.js"
+  //     }
+  //   ],
+  //   defaultLocale: "pt",
+  //   lazy: true,
+  //   langDir: "lang/"
+  // },
   /*
    ** Axios module configuration
    ** See https://axios.nuxtjs.org/options

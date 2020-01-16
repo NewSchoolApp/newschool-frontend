@@ -70,8 +70,7 @@ export default {
   width: 142px;
   height: 40px;
   margin: -20px 0 0 -71px;
-  background: #fff;
-  filter: contrast(20);
+  background: #FAFAFA;
 }
 .gooey .dot {
   position: absolute;
@@ -79,7 +78,6 @@ export default {
   height: 16px;
   top: 12px;
   left: 15px;
-  filter: blur(4px);
   background: #000;
   border-radius: 50%;
   transform: translateX(0);
@@ -97,7 +95,6 @@ export default {
   width: 16px;
   height: 16px;
   margin-left: 16px;
-  filter: blur(4px);
   background: #000;
   border-radius: 50%;
 }

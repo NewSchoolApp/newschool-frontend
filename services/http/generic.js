@@ -1,16 +1,17 @@
 import Axios from "axios";
+import { addInterceptorError } from "./error-interceptor";
 import utils from "~/utils/index";
 
-// eslint-disable-next-line new-cap
-const http = new Axios.create({
+const http = Axios.create({
   baseURL: process.env.baseUrl
 });
 
 // Interceptor para adicionar o token no authorization header
 http.interceptors.request.use(config => {
-  config.headers.Authorization = utils.getToken() || "";
+  config.headers.Authorization = utils.getToken();
   return config;
 });
+addInterceptorError(http);
 /**
  * @author Andrews
  *
@@ -29,8 +30,8 @@ export default {
     return http.post(path, payload);
   },
 
-  put: (path, payload = {}) => {
-    return http.put(path, payload);
+  put: (path, id, payload) => {
+    return http.put(`${path}/${id}`, payload);
   },
 
   delete: (path, id) => {

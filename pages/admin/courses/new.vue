@@ -6,8 +6,7 @@
 
       <v-flex ref="flex" v-else xs10 sm8 md6>
         <v-container>
-          <v-row>
-          </v-row>
+          <v-row></v-row>
           <v-form ref="form" lazy-validation>
             <v-row>
               <v-col cols="12">

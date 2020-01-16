@@ -142,7 +142,6 @@ export default {
                     this.submited = true
                 })
                 .catch(err => {
-                    this.showConfirmSnack('Ocorreu um erro.', 'error')
                     setTimeout(() => {
                         this.loading = false
                     }, 500)

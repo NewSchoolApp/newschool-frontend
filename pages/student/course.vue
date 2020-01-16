@@ -2,49 +2,51 @@
   <div>
     <HeaderBar :title="'Curso'" :backPage="true"></HeaderBar>
 
-    <div v-if="loading">
-      <client-only>
-        <navigation-bar />
-      </client-only>
-    </div>
-    <not-found v-else-if="notFound" />
-    <div v-else-if="!notFound">
-      <div id="page">
-        <main>
-          <h1 id="title__course" class="h1__theme">{{ course.title }}</h1>
-          <div class="mask__img">
-            <img :src="course.thumbUrl" alt="imagem-curso" title="imagem curso" />
-          </div>
-          <div class="info__box">
-            <section>
-              <h1 class="h1__theme">Professor&nbsp;&nbsp;</h1>
-              <p id="author__name">{{ course.author }}</p>
-            </section>
-            <p id="description">{{ course.description }}</p>
-          </div>
-          <v-btn
-            class="btn__primary"
-            color="#60c"
-            :loading="loadingInit"
-            :disabled="loadingInit"
-            dark
-            block
-            depressed
-            large
-            @click="initCourse"
-          >Iniciar</v-btn>
-        </main>
+    <not-found v-if="notFound" />
+    <div v-else>
+      <div v-if="loading">
+        <div class="container-spinner">
+          <v-progress-circular :size="70" :width="5" indeterminate color="#6600cc" />
+        </div>
       </div>
-      <modal
-        :dialogMessage="dialogMessage"
-        :ok="dialogOptions.ok"
-        :cancel="dialogOptions.cancel"
-        :toRoute="dialogOptions.toRoute"
-      ></modal>
-      <client-only>
-        <navigation-bar />
-      </client-only>
+      <div v-else>
+        <div id="page">
+          <main>
+            <h1 id="title__course" class="h1__theme">{{ course.title }}</h1>
+            <div class="mask__img">
+              <img :src="course.thumbUrl" alt="imagem-curso" title="imagem curso" />
+            </div>
+            <div class="info__box">
+              <section>
+                <h1 class="h1__theme">Professor&nbsp;&nbsp;</h1>
+                <p id="author__name">{{ course.author }}</p>
+              </section>
+              <p id="description">{{ course.description }}</p>
+            </div>
+            <v-btn
+              class="btn__primary"
+              color="#60c"
+              :loading="loadingInit"
+              :disabled="loadingInit"
+              dark
+              block
+              depressed
+              large
+              @click="initCourse"
+            >Iniciar</v-btn>
+          </main>
+        </div>
+        <modal
+          :dialogMessage="dialogMessage"
+          :ok="dialogOptions.ok"
+          :cancel="dialogOptions.cancel"
+          :toRoute="dialogOptions.toRoute"
+        ></modal>
+      </div>
     </div>
+    <client-only>
+      <navigation-bar />
+    </client-only>
   </div>
 </template>
 
@@ -82,15 +84,7 @@ export default {
       loadingInit: false,
       loading: true,
       notFound: false,
-      course: {
-        id: "4e4884dd-535c-41cc-8aee-32f4164a1fc6",
-        title: "Fotografia na raça",
-        description:
-          "Tá afim de tirar aquela foto para postar nas mídias? Então já sabe o que fazer",
-        thumbUrl: "http://i.imgur.com/SrPdUD4.png",
-        slug: "fotografia-na-raca",
-        author: "Felipe Andrews"
-      }
+      course: {}
     };
   },
   mounted() {
@@ -98,51 +92,52 @@ export default {
     http
       .getAll(`${process.env.endpoints.COURSE_BY_SLUG}${slug}`)
       .then(({ data }) => {
-        const { id, authorId, description, slug, thumbUrl, title } = data;
-        this.course = { id, authorId, description, slug, thumbUrl, title };
+        this.course = data;
         this.loading = false;
       })
       .catch(error => {
         if (error.response && error.response.status === 404) {
-          // this.notFound = true;
+          this.notFound = true;
           this.loading = false;
           return;
         }
         // eslint-disable-next-line no-console
         console.error(error);
       });
-    this.loading = false;
   },
   methods: {
-    initCourse() {
+    initCourse(id) {
       this.loadingInit = true;
-      if (utils.getToken()) {
-        http
-          .post(`${process.env.endpoints.INIT_COURSE}/${this.course.slug}`)
-          .then(res => {
-            // TODO : Implementação de iniciar curso
-          })
-          .catch(error => {
-            this.dialogOptions.ok = true;
-            this.dialogMessage =
-              error.response.status === 401
-                ? "Você precisa estar logado para fazer um curso!"
-                : "Erro ao iniciar o curso, tente novamente";
-            setTimeout(() => {
-              this.loadingInit = false;
-              utils.runModal();
-            }, 1000);
-          });
-      } else {
-        setTimeout(() => {
-          this.dialogOptions.toRoute = { path: "/login", name: "Fazer Login" };
-          this.dialogOptions.ok = true;
-          this.dialogMessage =
-            "Você precisa estar logado para fazer um curso! faça o login e tente novamente";
-          this.loadingInit = false;
-          utils.runModal();
-        }, 1000);
-      }
+
+      // eslint-disable-next-line no-undef
+      $nuxt_router.push(`/aluno/aulas/${id}`);
+      // if (utils.getToken()) {
+      //   http
+      //     .post(`${process.env.endpoints.INIT_COURSE}/${this.course.slug}`)
+      //     .then(res => {
+      //       // TODO : Implementação de iniciar curso
+      //     })
+      //     .catch(error => {
+      //       this.dialogOptions.ok = true;
+      //       this.dialogMessage =
+      //         error.response.status === 401
+      //           ? "Você precisa estar logado para fazer um curso!"
+      //           : "Erro ao iniciar o curso, tente novamente";
+      //       setTimeout(() => {
+      //         this.loadingInit = false;
+      //         utils.runModal();
+      //       }, 1000);
+      //     });
+      // } else {
+      //   setTimeout(() => {
+      //     this.dialogOptions.toRoute = { path: "/login", name: "Fazer Login" };
+      //     this.dialogOptions.ok = true;
+      //     this.dialogMessage =
+      //       "Você precisa estar logado para fazer um curso! faça o login e tente novamente";
+      //     this.loadingInit = false;
+      //     utils.runModal();
+      //   }, 1000);
+      // }
     },
     comeBackPage() {
       window.history.go(-1);

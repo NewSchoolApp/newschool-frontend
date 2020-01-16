@@ -32,7 +32,7 @@
 <script>
 import NavigationBar from "~/components/NavigationBar.vue";
 import CourseCard from "~/components/CourseCard";
-import courses from '~/services/http/courses';
+import courses from "~/services/http/courses";
 
 export default {
   components: {
@@ -40,36 +40,36 @@ export default {
     CourseCard
   },
   data: () => ({
-    title: 'Bem-vindo',
+    title: "Bem-vindo"
   }),
   head() {
     return {
       title: this.title,
       meta: [
         {
-          hid: 'description',
-          name: 'description',
+          hid: "description",
+          name: "description",
           content:
-            'Seja bem vindo(a) ao aplicativo da New School - Levamos educação de qualidade ' +
-            'na linguagem da quebrada para as periferias do Brasil, através da tecnologia e da ' + 
-            'curadoria de conteúdos baseados nas habilidades do futuro.',
-        },
-      ],
-    }
+            "Seja bem vindo(a) ao aplicativo da New School - Levamos educação de qualidade " +
+            "na linguagem da quebrada para as periferias do Brasil, através da tecnologia e da " +
+            "curadoria de conteúdos baseados nas habilidades do futuro."
+        }
+      ]
+    };
   },
   computed: {
     courses() {
-      return this.$store.state.courses.list
+      return this.$store.state.courses.list;
     },
-    user(){
-      return this.$store.state.user.data
+    user() {
+      return this.$store.state.user.data;
     }
   },
   methods: {
     loadUserName() {
-      let storedUser = JSON.parse(localStorage.getItem("user"))
+      let storedUser = JSON.parse(localStorage.getItem("user"));
       if (storedUser) {
-        this.user.name = storedUser.name.split(' ')[0]
+        this.user.name = storedUser.name.split(" ")[0];
       }
     }
   },
@@ -77,31 +77,31 @@ export default {
     this.loadUserName();
   },
   asyncData({ store, data, params, $axios }) {
-    return courses.getAll().then(response =>
-      store.commit('courses/set', response.data)
-    )
+    return courses
+      .getAll()
+      .then(response => store.commit("courses/set", response.data));
   }
 };
 </script>
 
 <style scoped>
-.welcome{
+.welcome {
   padding: 1em 0 0 1.5em;
 }
 
-.welcome-title{
+.welcome-title {
   font-weight: 900;
   font-size: 20px;
   line-height: 24px;
   margin-bottom: 4px;
-  color: #1A1A1A;
+  color: #1a1a1a;
 }
 
-.welcome-subtitle{
+.welcome-subtitle {
   font-weight: 900;
   font-size: 16px;
   line-height: 20px;
-  color: #6600CC;
+  color: #6600cc;
 }
 
 @media screen and (orientation: portrait) {
@@ -156,7 +156,7 @@ export default {
   padding: 0 2em 56px 1.5em;
 }
 
-.max-content{
+.max-content {
   max-height: 100vh;
   overflow-y: auto;
   overflow-x: hidden;
@@ -165,10 +165,10 @@ export default {
   margin: 0 auto;
 }
 
-.title-section{
+.title-section {
   font-weight: 900;
   line-height: 17px;
-  color: #6600CC;
+  color: #6600cc;
   padding: 1.25em 0 0.5em 1.5em;
   text-transform: uppercase;
 }

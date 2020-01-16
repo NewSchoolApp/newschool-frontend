@@ -24,7 +24,7 @@
   background-color: #ffffff !important;
 }
 
-.v-dialog{
+.v-dialog {
   border-radius: 15px;
 }
 
@@ -63,4 +63,16 @@
 .h1__theme {
   font-weight: 900;
   color: #6600cc;
+}
+
+.container-spinner {
+  width: 100%;
+  justify-content: center;
+  display: flex;
+  height: 100%;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: transparent;
 }
