@@ -7,9 +7,10 @@
       color="error"
       :timeout="5000"
       :top="true"
-      :center="true"
+      :right="true"
     >
       {{ $t(message) }}
+      <v-btn color="#FFF" text @click="showError = false">Fechar</v-btn>
     </v-snackbar>
   </v-app>
 </template>
