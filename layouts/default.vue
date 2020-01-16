@@ -9,7 +9,7 @@
       :top="true"
       :center="true"
     >
-      {{ message }}
+      {{ $t(message) }}
     </v-snackbar>
   </v-app>
 </template>
