@@ -95,11 +95,15 @@ export default {
   },
   filters: {
     simplifyName(name) {
-      let regex = /^(\S*\s+\S+).*/ // Regex para remover todos os caracteres após o segundo espaço em branco
-      let numberOfNames = name.split(' ').length
+      if (!name) {
+        return ''
+      }
+      const regex = /^(\S*\s+\S+).*/ // Regex para remover todos os caracteres após o segundo espaço em branco
+      const numberOfNames = name.split(' ').length
       if (numberOfNames > 2) {
         return regex.exec(name)[1]
       }
+      return name
     },
   },
   components: {
