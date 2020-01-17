@@ -107,7 +107,6 @@ export default {
             }, 2500)
           })
           .catch(err => {
-            this.confirmSnackbar('Ocorreu um erro.', 'error')
             setTimeout(() => {
               this.loading = false
             }, 500)
@@ -142,18 +141,6 @@ export default {
       this.snackbarStatus = status
       this.snackbar = true
     },
-  },
-
-  loadClientCredentials() {
-    utils
-      .getExternalCredentials()
-      .then(res => {
-        console.log(res)
-        this.token = res.data.accessToken
-      })
-      .catch(() => {
-        $$nuxt._router.push('/login')
-      })
   },
 }
 </script>
