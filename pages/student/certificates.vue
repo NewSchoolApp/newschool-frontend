@@ -58,7 +58,7 @@ export default {
   },
 }
 </script>
-<style>
+<style scoped>
 .main {
   padding: 0;
   margin-top: 30px;

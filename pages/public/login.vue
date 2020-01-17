@@ -177,7 +177,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .theme--light.v-icon {
   color: #d6adff;
 }

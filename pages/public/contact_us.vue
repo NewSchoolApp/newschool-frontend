@@ -175,6 +175,7 @@ export default {
   max-width: 400px;
   margin: 0 1% 0 -3%;
   justify-content: center;
+  background: #ffffff;
 
 }
 @media (min-width: 600px){
