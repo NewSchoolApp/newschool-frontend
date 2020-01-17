@@ -56,7 +56,7 @@
                 v-model="form.confirmNewPassword"
                 label="Confirmar nova senha *"
                 :rules="confirmPasswordRules"
-                :type="showNewPass ? 'password' : 'text'"
+                :type="showConfirmNewPass ? 'password' : 'text'"
                 :append-icon="showConfirmNewPass ? 'mdi-eye-off' : 'mdi-eye'"
                 @click:append="() => (showConfirmNewPass = !showConfirmNewPass)"
                 required
@@ -75,17 +75,6 @@
             <div v-else>
               <p class="change-status">Senha alterada com sucesso!</p>
             </div>
-
-            <v-snackbar
-              v-model="snackbar"
-              color="error"
-              :timeout="5000"
-              :top="true"
-              :right="true"
-            >
-              Erro! Sua senha antiga está correta?
-              <v-btn color="#FFF" text @click="snackbar = false">Fechar</v-btn>
-            </v-snackbar>
           </v-col>
         </v-row>
       </v-container>
@@ -114,7 +103,6 @@ export default {
       showNewPass: String,
       showConfirmNewPass: String,
       isChanged: false,
-      snackbar: false,
       token: '',
       form: {
         password: "",
@@ -149,7 +137,6 @@ export default {
         .catch(err => {
           setTimeout(() => {
             this.loading = false;
-            this.snackbar = true;
           }, 500);
           console.error(err);
         });
@@ -289,7 +276,11 @@ export default {
 ::v-deep .change-btn {
   margin-top: 20px;
   width: 100%;
+  box-shadow: 0 4px 5px gray!important;
 }
+::v-deep .v-text-field {
+  margin: 0 6% 0 6% !important;
+ }
 
 ::v-deep .v-btn__content {
   color: #fff;

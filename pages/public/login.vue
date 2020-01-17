@@ -65,7 +65,7 @@
             >Cadastrar</v-btn>
           </v-col>
           <v-col cols="12" class="text-center">
-            <a class="text-white">Esqueceu sua senha?</a>
+            <v-btn tile outlined color="white" to="/esqueci-minha-senha">Esqueceu sua senha?</v-btn>
           </v-col>
         </v-row>
       </v-container>
@@ -85,7 +85,7 @@
 </router>
 
 <script>
-import auth from '../../services/http/auth'
+import auth from '~/services/http/auth'
 
 export default {
   data: () => ({
@@ -124,15 +124,6 @@ export default {
     }
   },
 
-  // eslint-disable-next-line object-shorthand
-  created: function() {
-    if (auth.isLoginExpired()) {
-      this.dialogMessage =
-        'Sua sessão expirou. Por favor, faça o login novamente.'
-      this.dialog = true
-    }
-  },
-
   methods: {
     submit() {
       event.preventDefault()
@@ -141,9 +132,7 @@ export default {
         auth
           .login(this.email, this.password)
           .then(() => {
-            auth.getInfoUser()
-            // eslint-disable-next-line no-undef
-            $nuxt._router.push('/aluno/home')
+            $nuxt._router.push('/loading')
           })
           .catch(err => {
             setTimeout(() => {
@@ -179,14 +168,23 @@ export default {
       }
     },
   },
+  mounted() {
+    const { status } = auth.isTokenValid()
+    if (status) {
+      $nuxt._router.push('/loading')
+    }
+  },
 }
 </script>
 
+<style>
+.theme--light.v-icon {
+  color: #d6adff;
+}
 <style scoped>
 ::placeholder {
   color: #aa56ff !important;
 }
-
 .bg {
   width: 100%;
   height: 100%;

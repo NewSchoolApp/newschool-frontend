@@ -11,6 +11,7 @@
         :key="course.id"
         v-for="course in courses"
         :title="course.title"
+        :description="course.description"
         :teacher="course.authorId"
         :image="course.thumbUrl"
         :slug="course.slug"
@@ -33,6 +34,7 @@ import NavigationBar from "~/components/NavigationBar.vue";
 import CourseCard from "~/components/CourseCard";
 import courses from '~/services/http/courses';
 
+
 export default {
   components: {
     NavigationBar,
@@ -40,9 +42,6 @@ export default {
   },
   data: () => ({
     title: 'Bem-vindo',
-    user: {
-      name: ''
-    }
   }),
   head() {
     return {
@@ -62,6 +61,9 @@ export default {
   computed: {
     courses() {
       return this.$store.state.courses.list
+    },
+    user(){
+      return this.$store.state.user.data
     }
   },
   methods: {
@@ -99,8 +101,9 @@ export default {
 .welcome-subtitle{
   font-weight: 900;
   font-size: 16px;
-  line-height: 20px;
+  line-height: 20px;  
   color: #6600CC;
+  margin-top: 1%;
 }
 
 @media screen and (orientation: portrait) {
@@ -157,7 +160,6 @@ export default {
 
 .max-content{
   max-height: 100vh;
-  overflow-y: auto;
   overflow-x: hidden;
   width: 100%;
   box-sizing: border-box;

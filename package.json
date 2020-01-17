@@ -32,7 +32,8 @@
     "@nuxtjs/vuetify": "^1.0.0",
     "fs": "0.0.1-security",
     "ms": "^2.1.2",
-    "nuxt": "^2.0.0",
+    "nuxt": "^2.11.0",
+    "nuxt-i18n": "^6.4.1",
     "vue-avatar": "^2.1.8",
     "vue-social-sharing": "^2.4.7"
   },

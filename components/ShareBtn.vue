@@ -50,21 +50,21 @@ import SocialSharing from 'vue-social-sharing'
 
 export default {
   components: {
-    SocialSharing,
+    SocialSharing
   },
 
   props: {
     color: {
-      default: '#CCC',
+      default: '#CCC'
     },
     url: String,
     title: String,
     description: String,
     hashtags: {
-      default: 'MissaoNewSchoolApp',
+      default: 'MissaoNewSchoolApp'
     },
     twitterUser: {
-      default: 'NewSchoolApp',
+      default: 'NewSchoolApp'
     },
   },
 

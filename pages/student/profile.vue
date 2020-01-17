@@ -1,11 +1,11 @@
 <template>
-  <div>
-    <div id="page">
+  <div  id="page">
+    <div class="content">
       <v-row>
         <v-col cols="6" md="8">
-          <v-card class="mx-auto item" max-width="344">
+          <v-card class="mx-auto item" max-width="344" @click="gotoChangeData">
             <img src="~/assets/perfil.png" alt />
-            <a href>Perfil</a>
+            <a href>Alterar Dados</a>
           </v-card>
         </v-col>
 
@@ -73,7 +73,6 @@
           </div>
         </section>
       </main>-->
-      <button @click="gotoChangeData">alterar dados</button>
     </div>
     <client-only>
       <navigation-bar />
@@ -103,6 +102,13 @@ export default {
 </script>
 
 <style scoped>
+@media(min-width: 600px){
+#page{
+  overflow-y: auto;
+  margin: 0 auto;
+  
+  }
+}  
 .item {
   margin: 1rem;
   display: flex;

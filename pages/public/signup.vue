@@ -96,6 +96,7 @@
 
 <script scoped>
 import auth from '../../services/http/auth'
+import utils from '~/utils/index'
 
 export default {
   data() {
@@ -160,7 +161,6 @@ export default {
             }, 2500)
           })
           .catch(err => {
-            this.confirmSnackbar('Ocorreu um erro.', 'error')
             setTimeout(() => {
               this.loading = false
             }, 500)
@@ -208,18 +208,21 @@ export default {
       this.snackbarStatus = status
       this.snackbar = true
     },
+    loadClientCredentials() {
+      utils
+        .getExternalCredentials()
+        .then(res => {
+          console.log(res)
+          this.token = res.data.accessToken
+        })
+        .catch(() => {
+          $nuxt._router.push('/login')
+        })
+    },
   },
 
   mounted() {
-    auth
-      .getExternalCredentials()
-      .then(res => {
-        const { data } = res
-        this.token = data.accessToken
-      })
-      .catch(err => {
-        console.error(err)
-      })
+    this.loadClientCredentials()
   },
 
   computed: {
