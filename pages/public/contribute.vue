@@ -216,6 +216,5 @@ export default {
 }
 ::v-deep #page {
   max-height: 100vh;
-  overflow-y: auto;
 }
 </style>

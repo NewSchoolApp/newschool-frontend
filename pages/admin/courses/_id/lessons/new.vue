@@ -2,7 +2,7 @@
   <v-layout justify-center id="page">
     <v-flex ref="flex" xs10 sm8 md6 class="main-container">
       <h1>
-        <n-link to="../../edit">
+        <n-link to="../edit">
           <v-btn class="back-button" text icon color="primary">
             <v-icon>mdi-arrow-left</v-icon>
           </v-btn>
@@ -33,13 +33,11 @@
 
       <resources-list
         name="Parte"
-        :resources="parts"
+        :resources="[]"
         redirect="true"
         path="part"
       />
-      <span v-if="!parts.length" class="new-parts-span"
-        >Favor, adicionar uma parte</span
-      >
+      <span class="new-tests-span">Favor, adicionar uma parte</span>
 
       <v-btn color="primary" class="save-button" @click="submit">Salvar</v-btn>
     </v-flex>
@@ -64,12 +62,12 @@
 
 <router>
   {
-    path: '/admin/course/:courseId/lesson/:lessonId/edit'
+    path: '/admin/course/:courseId/lesson/new'
   }
 </router>
 
-<script scoped>
-import NavigationBar from '~/components/NavigationBar.vue'
+<script>
+import NavigationBar from '~/components/NavigationBar'
 import generic from '~/services/http/generic'
 
 export default {
@@ -77,12 +75,17 @@ export default {
     NavigationBar,
   },
   data: () => ({
-    title: 'Editar Aula',
+    title: 'Crie uma Aula',
     status: true,
+    submited: false,
     loading: false,
     snackbar: false,
     snackbarText: '',
     snackbarStatus: '',
+    lesson: {
+      title: '',
+      description: '',
+    },
     titleRules: [title => !!title || 'Digite um título'],
     descriptionRules: [v => !!v || 'Digite uma descrição'],
   }),
@@ -94,23 +97,29 @@ export default {
           hid: 'description',
           name: 'description',
           content:
-            'Altere ou reestruture a Aula de um Curso da New School - Levamos educação de qualidade ' +
+            'Ajude a espalhar o conhecimento criando a Aula de um Curso da New School - Levamos educação de qualidade ' +
             'na linguagem da quebrada para as periferias do Brasil, através da tecnologia e da ' +
             'curadoria de conteúdos baseados nas habilidades do futuro.',
         },
       ],
     }
   },
+  created() {
+    this.lesson.course = this.$route.params.courseId
+  },
   methods: {
     submit() {
       if (this.$refs.lesson.validate()) {
         this.animateForm(true)
-        this.lesson['lesson'] = this.$route.params.lessonId
         generic
-          .put('/api/v1/lesson', this.lesson.id, this.lesson)
+          .post('/api/v1/lesson', this.lesson)
           .then(res => {
             this.loading = false
-            this.showConfirmSnack('Aula salva! ;)', 'success')
+            this.showConfirmSnack('Aula criada! ;)', 'success')
+            this.submited = true
+            setTimeout(() => {
+              this.goBack()
+            }, 2500)
           })
           .catch(err => {
             this.showConfirmSnack('Ocorreu um erro.', 'error')
@@ -145,16 +154,10 @@ export default {
       this.snackbarStatus = status
       this.snackbar = true
     },
-  },
-  async asyncData({ store, data, params }) {
-    console.log(params.id)
-    const _lesson = await generic.getById(`/api/v1/lesson`, params.lessonId)
-    const _parts = await generic.getById(`/api/v1/part/lesson`, params.lessonId)
 
-    return { lesson: _lesson.data, parts: _parts.data }
-  },
-  created() {
-    this.lesson.course = this.$route.params.courseId
+    goBack() {
+      window.history.length > 1 ? $nuxt._router.go(-1) : $nuxt._router.push('/')
+    },
   },
 }
 </script>
@@ -191,7 +194,7 @@ h3 {
 }
 
 .v-input {
-  width: 100%;
+  width: 90%;
   height: 50px;
 }
 
@@ -212,7 +215,7 @@ h3 {
   line-height: 14px;
 }
 
-.new-parts-span {
+.new-tests-span {
   font-weight: 600;
   font-size: 16px;
   line-height: 20px;
@@ -231,7 +234,7 @@ h3 {
   color: #60c;
 }
 
-.part-form {
+.lesson-form {
   margin-top: 1.5em;
 }
 
