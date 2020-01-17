@@ -109,7 +109,6 @@ export default {
       snackbar: false,
       snackbarText: '',
       snackbarStatus: '',
-      token: '',
       form: {
         name: '',
         email: '',
@@ -153,9 +152,9 @@ export default {
         this.animateForm(true)
         this.loadClientCredentials()
           .then(res => {
-            this.token = res.data.accessToken
+            const token = res.data.accessToken
             auth
-              .signUp(postObject, this.token)
+              .signUp(postObject, token)
               .then(res => {
                 this.loading = false
                 this.confirmSnackbar('Cadastro efetuado! ;)', 'success')
