@@ -145,6 +145,7 @@ export default {
         file: 'pt-BR.js',
       },
     ],
+    strategy: 'no_prefix',
     defaultLocale: 'pt',
     lazy: true,
     langDir: 'lang/',
