@@ -50,7 +50,8 @@
                 depressed
                 large
                 @click="submit"
-              >Entrar</v-btn>
+                >Entrar</v-btn
+              >
             </v-col>
           </v-form>
           <v-col cols="12">
@@ -62,10 +63,28 @@
               depressed
               large
               to="/cadastro"
-            >Cadastrar</v-btn>
+              >Cadastrar</v-btn
+            >
           </v-col>
           <v-col cols="12" class="text-center">
-            <v-btn tile outlined color="white" to="/esqueci-minha-senha">Esqueceu sua senha?</v-btn>
+            <v-btn text color="white">
+              <v-icon left>mdi-facebook</v-icon>Entrar com Facebook
+            </v-btn>
+          </v-col>
+          <v-col cols="12" class="text-center">
+            <v-btn text color="white">
+              <v-icon left>mdi-google-plus</v-icon>Entrar com Google
+            </v-btn>
+          </v-col>
+          <v-col cols="12" class="text-center">
+            <v-btn text color="white">
+              <v-icon left>mdi-instagram</v-icon>Entrar com Instagram
+            </v-btn>
+          </v-col>
+          <v-col cols="12" class="text-center">
+            <v-btn tile outlined color="white" to="/esqueci-minha-senha"
+              >Esqueceu sua senha?</v-btn
+            >
           </v-col>
         </v-row>
       </v-container>
