@@ -10,7 +10,6 @@ import PRIVATE_MODULES_URL from "~/routes/private";
  * @param {*} route estado de rota da aplicação
  */
 export default async function({ route, store, redirect }) {
-  console.log(route);
   const pathModule = route.path.split("/");
   if (route.pathFull !== "/loading") {
     if (

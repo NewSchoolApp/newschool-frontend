@@ -1,13 +1,10 @@
-<template>
+<template scoped>
   <div>
-    <header-bar :title="Aulas" :backPage="true"></header-bar>
+    <header-bar :title="'Aulas'" :backPage="true"></header-bar>
+    aaaaaa
   </div>
 </template>
-<router>
-    {
-        path : "/aluno/aulas/:id"
-    }
-</router>
+
 <script>
 import HeaderBar from "~/components/Header.vue";
 import http from "~/services/http/generic";
@@ -20,9 +17,10 @@ export default {
     HeaderBar
   },
   mounted() {
-    const { idCourse } = this.$route.params;
+    const { id } = this.$route.params;
+    console.log(id)
     http
-      .getAll(`${process.end.endpoints.LESSONS_BY_COURSE}/${idCourse}`)
+      .getAll(`${process.env.endpoints.LESSONS_BY_COURSE}${id}`)
       .then(res => {
         console.log(res);
         this.lesson_list = res.data;
@@ -31,4 +29,4 @@ export default {
   }
 };
 </script>
-<style></style>
+<style scoped></style>

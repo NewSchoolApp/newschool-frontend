@@ -18,7 +18,7 @@ export default {
   props: ["title", "backPage"],
   methods: {
     comeBackPage() {
-      window.history.go(-1);
+      this.$router.back();
     }
   }
 };
@@ -43,5 +43,9 @@ export default {
 ::v-deep .btn-back .theme--light.v-icon {
   color: #60c;
   font-size: 35px;
+}
+::v-deep .btn-back {
+  position: absolute;
+  left: 1rem;
 }
 </style>

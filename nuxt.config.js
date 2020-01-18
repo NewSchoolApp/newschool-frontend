@@ -11,8 +11,14 @@ export default {
       });
 
       routes.push({
-        path: "*",
-        component: resolve(__dirname, "pages/public/404.vue")
+        path: "/curso/aulas/:id",
+        component: resolve(__dirname, "pages/student/course_flow/lesson_list.vue"),
+        props: true,
+      });
+
+      routes.push({
+        path: "/aluno/curso/:slug",
+        component: resolve(__dirname, "pages/student/course.vue")
       });
 
       routes.push({
@@ -194,6 +200,6 @@ export default {
     /*
      ** You can extend webpack config here
      */
-    extend(config, ctx) {}
+    extend(config, ctx) { }
   }
 };

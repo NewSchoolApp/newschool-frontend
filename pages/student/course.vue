@@ -19,7 +19,7 @@
             <div class="info__box">
               <section>
                 <h1 class="h1__theme">Professor&nbsp;&nbsp;</h1>
-                <p id="author__name">{{ course.author }}</p>
+                <p id="author__name">{{ course.authorName }}</p>
               </section>
               <p id="description">{{ course.description }}</p>
             </div>
@@ -32,7 +32,7 @@
               block
               depressed
               large
-              @click="initCourse"
+              @click="initCourse(course.id)"
             >Iniciar</v-btn>
           </main>
         </div>
@@ -54,7 +54,7 @@
   {
     path: '/curso/:slug',
     name: 'aluno-curso',
-    props: true
+    props: true,
   }
 </router>
 
@@ -75,6 +75,7 @@ export default {
   },
   data() {
     return {
+      slug : "",
       dialogMessage: "",
       dialogOptions: {
         ok: false,
@@ -88,9 +89,10 @@ export default {
     };
   },
   mounted() {
-    const { slug } = this.$route.params;
+    this.slug = this.$route.params.slug;
+    console.log()
     http
-      .getAll(`${process.env.endpoints.COURSE_BY_SLUG}${slug}`)
+      .getAll(`${process.env.endpoints.COURSE_BY_SLUG}${this.slug}`)
       .then(({ data }) => {
         this.course = data;
         this.loading = false;
@@ -108,9 +110,11 @@ export default {
   methods: {
     initCourse(id) {
       this.loadingInit = true;
-
+      setTimeout(() => {
+        $nuxt._router.push(`/curso/aulas/${id}`);
+      }, 600);
       // eslint-disable-next-line no-undef
-      $nuxt_router.push(`/aluno/aulas/${id}`);
+      // $nuxt._router.push(`/aluno/aulas/${id}`);
       // if (utils.getToken()) {
       //   http
       //     .post(`${process.env.endpoints.INIT_COURSE}/${this.course.slug}`)

@@ -13,7 +13,7 @@
         v-for="course in courses"
         :title="course.title"
         :description="course.description"
-        :teacher="course.authorId"
+        :teacher="course.authorName"
         :image="course.thumbUrl"
         :slug="course.slug"
       />
