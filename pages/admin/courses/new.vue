@@ -39,6 +39,31 @@
                 name="description"
                 required
               ></v-text-field>
+              <v-text-field
+                :rules="authorNameRules"
+                v-model="form.authorName"
+                color="#60c"
+                label="Professor *"
+                name="authorName"
+                required
+              ></v-text-field>
+              <v-text-field
+                :rules="authorDescriptionRules"
+                v-model="form.authorDescription"
+                color="#60c"
+                label="Biografia do Professor *"
+                name="authorDescription"
+                required
+              ></v-text-field>
+              <v-text-field
+                :rules="workloadRules"
+                v-model="form.workload"
+                type="number"
+                color="#60c"
+                label="Carga Horária *"
+                name="workload"
+                required
+              ></v-text-field>
               <v-file-input
                 v-model="form.photo"
                 :rules="photoRules"
@@ -111,11 +136,17 @@ export default {
       form: {
         title: '',
         description: '',
+        authorName: '',
+        authorDescription: '',
+        workload: '',
         photo: null,
       },
 
       titleRules: [v => !!v || 'O título é obrigatório'],
       descriptionRules: [v => !!v || 'A descrição é obrigatória'],
+      authorNameRules: [v => !!v || 'O professor é obrigatório'],
+      authorDescriptionRules: [v => !!v || 'A biografia do professor é obrigatória'],
+      workloadRules: [v => !!v || 'A carga horária é obrigatória'],
       photoRules: [v => !!v || 'A foto de capa é obrigatória'],
     }
   },
@@ -136,9 +167,11 @@ export default {
         const formData = new FormData()
         formData.append('title', this.form.title)
         formData.append('description', this.form.description)
+        formData.append('authorName', this.form.authorName)
+        formData.append('authorDescription', this.form.authorDescription)
+        formData.append('workload', this.form.workload)
         formData.append('photo', this.form.photo)
         formData.append('thumbUrl', '')
-        formData.append('authorId', this.$store.state.user.data.id)
 
         this.animateForm(true)
         courses
@@ -243,13 +276,13 @@ export default {
   line-height: 24px;
   text-transform: uppercase;
   color: #6600cc;
-  width: 40%;
-  margin-left: 20%;
+  width: 60%;
+  margin-left: 35%;
   transform: translateX(-50%);
 }
 
 .classes {
-  height: 35vh;
+  height: 10vh;
 }
 
 .classes > p {
