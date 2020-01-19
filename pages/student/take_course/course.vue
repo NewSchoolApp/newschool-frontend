@@ -84,7 +84,6 @@ export default {
   mounted() {
     this.idUser = this.$store.state.user.data.id;
     this.slug = this.$route.params.slug;
-    console.log(this.slug)
     http
       .getAll(`${process.env.endpoints.COURSE_BY_SLUG}${this.slug}`)
       .then(({ data }) => {
