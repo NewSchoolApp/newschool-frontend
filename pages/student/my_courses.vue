@@ -1,20 +1,20 @@
 <template>
   <div>
+    <HeaderBar :title="'Meus Cursos'" :backPage="true"></HeaderBar>
     <div id="page">
       <!-- HTML aqui! -->
     </div>
-      <navigation-bar />
   </div>
 </template>
 
 <script>
-import NavigationBar from '~/components/NavigationBar.vue'
+import HeaderBar from "~/components/Header.vue";
 
 export default {
   components: {
-    NavigationBar,
-  },
-}
+    HeaderBar
+  }
+};
 </script>
 
 <style scoped></style>

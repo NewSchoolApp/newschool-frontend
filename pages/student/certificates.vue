@@ -1,42 +1,38 @@
 <template>
-  <v-container class="main">
-    <div>
-      <h1 class="page-title">Meus certificados</h1>
-    </div>
-    <div v-for="certificate in certificates" class="cards-box">
-      <div :style="backgroundClass(certificate.certificateBackgroundName)" class="background-image">
-        <img src="~/assets/medalha-image.svg" alt="Imagem de uma medalha" />
-      </div>
-      <div class="footer">
-        <div class="title-and-socialMedias">
-          <strong class="certificate-title">{{ certificate.title }}</strong>
-          <div class="sharing-icons">
-            <shareBtn />
-          </div>
+  <div>
+    <HeaderBar :title="'Certificados'" :backPage="true"></HeaderBar>
+    <v-container class="main">
+      <div v-for="certificate in certificates" v-bind:key="certificate.id" class="cards-box">
+        <div
+          :style="backgroundClass(certificate.certificateBackgroundName)"
+          class="background-image"
+        >
+          <img src="~/assets/medalha-image.svg" alt="Imagem de uma medalha" />
         </div>
-        <p>{{ certificate.userName }}</p>
+        <div class="footer">
+          <div class="title-and-socialMedias">
+            <strong class="certificate-title">{{ certificate.title }}</strong>
+            <div class="sharing-icons">
+              <shareBtn />
+            </div>
+          </div>
+          <p>{{ certificate.userName }}</p>
+        </div>
       </div>
-    </div>
-    <navigation-bar />
-  </v-container>
+    </v-container>
+  </div>
 </template>
 
-<router>
-{
-  path: '/aluno/certificados',
-  name: 'aluno-certificados'
-}
-</router>
 
 <script>
 import shareBtn from "~/components/ShareBtn.vue";
 import http from "~/services/http/generic";
-import NavigationBar from "~/components/NavigationBar.vue";
+import HeaderBar from "~/components/Header.vue";
 
 export default {
   components: {
     shareBtn,
-    NavigationBar
+    HeaderBar
   },
   data: () => ({
     certificates: []

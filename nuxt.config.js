@@ -12,7 +12,7 @@ export default {
 
       routes.push({
         path: "/aluno",
-        component: resolve(__dirname, "pages/student/student.module.vue"),
+        component: resolve(__dirname, "pages/student/~student.module.vue"),
         children: [
           {
             path: 'home',
@@ -34,16 +34,23 @@ export default {
             name: 'alterar-dados',
             component: resolve(__dirname, "pages/student/change_personal_info.vue"),
           },
+
           {
             path: 'meus-cursos',
             name: 'meus-cursos',
             component: resolve(__dirname, "pages/student/my_courses.vue"),
           },
           {
-            path: 'curso/:slug',
-            name: 'aluno-curso',
-            props: true,
-            component: resolve(__dirname, "pages/student/take_course/course.vue")
+            path: 'curso',
+            component: resolve(__dirname, "pages/student/take_course/~take_course.module.vue"),
+            children: [
+              {
+                path: ':slug',
+                name: 'aluno-curso',
+                props: true,
+                component: resolve(__dirname, "pages/student/take_course/course.vue"),
+              }
+            ]
           },
           {
             path: "curso/aulas/:id",

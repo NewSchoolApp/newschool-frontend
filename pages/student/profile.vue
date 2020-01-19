@@ -1,5 +1,6 @@
 <template>
-  <div  id="page">
+  <div id="page">
+     <HeaderBar :title="'Meu Perfil'" :backPage="true"></HeaderBar>
     <div class="content">
       <v-row>
         <v-col cols="6" md="8">
@@ -73,18 +74,15 @@
         </section>
       </main>-->
     </div>
-    <client-only>
-      <navigation-bar />
-    </client-only>
   </div>
 </template>
 
 <script>
-import NavigationBar from "~/components/NavigationBar.vue";
+import HeaderBar from "~/components/Header.vue";
 
 export default {
   components: {
-    NavigationBar
+    HeaderBar
   },
   methods: {
     gotoChangeData() {
@@ -95,13 +93,12 @@ export default {
 </script>
 
 <style scoped>
-@media(min-width: 600px){
-#page{
-  overflow-y: auto;
-  margin: 0 auto;
-  
+@media (min-width: 600px) {
+  #page {
+    overflow-y: auto;
+    margin: 0 auto;
   }
-}  
+}
 .item {
   margin: 1rem;
   display: flex;

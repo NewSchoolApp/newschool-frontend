@@ -26,6 +26,7 @@
         v-for="item in menu"
         v-bind:key="item.id"
         :to="item.link"
+        v-on:click.native="closeMenu()"
       >
         <div>
           <v-icon color="primary">{{item.icon}}</v-icon>
@@ -47,25 +48,25 @@ export default {
         id: 1,
         label: "Meu Perfil",
         icon: "mdi-account",
-        link: "/aluno/perfil"
+        link: "perfil"
       },
       {
         id: 2,
         label: "Meus Cursos",
         icon: "mdi-library",
-        link: "/aluno/meus-cursos"
+        link: "meus-cursos"
       },
       {
         id: 3,
         label: "Meus Certificados",
         icon: "mdi-school",
-        link: "/aluno/certificados"
+        link: "certificados"
       },
       {
         id: 4,
         label: "Contribua",
         icon: "mdi-source-fork",
-        link: "/contribua"
+        link: "contribua"
       },
       { id: 5, label: "Sobre", icon: "mdi-file-document-box", link: "/sobre" },
       { id: 6, label: "Ajuda", icon: "mdi-help-circle", link: "/ajuda" },

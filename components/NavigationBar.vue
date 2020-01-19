@@ -36,19 +36,19 @@ export default {
     viewMenu: false,
     auth: false,
     menu: [
-      { id: 1, name: "Home", icon: "mdi-home", link: "/aluno/home" },
-      { id: 2, name: "Perfil", icon: "mdi-account", link: "/aluno/perfil" },
+      { id: 1, name: "Home", icon: "mdi-home", link: "home" },
+      { id: 2, name: "Perfil", icon: "mdi-account", link: "perfil" },
       {
         id: 3,
         name: "Meus Cursos",
         icon: "mdi-library",
-        link: "/aluno/meus-cursos"
+        link: "meus-cursos"
       },
       {
         id: 4,
         name: "Certificados",
         icon: "mdi-school",
-        link: "/aluno/certificados"
+        link: "certificados"
       }
     ]
   }),
