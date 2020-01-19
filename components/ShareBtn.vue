@@ -18,12 +18,12 @@
           </network>
           <network network="twitter">
             <v-icon color="#fff" size="20">
-              mdi-twitter
+              mdi-linkedin
             </v-icon>
           </network>
           <network network="linkedin">
             <v-icon color="#fff" size="20">
-              mdi-linkedin
+              mdi-twitter
             </v-icon>
           </network>
         </div>
@@ -81,16 +81,16 @@ export default {
   width: 90px;
   height: 35px;
   background: #60c;
+  margin-top: -8px;
 }
 
 .icons {
   display: flex;
   align-items: center;
   justify-content: space-around;
-
   height: 100%;
   width: 100%;
-  box-shadow: 3px 5px 7px 0px rgba(0, 0, 0, 0.53);
+  box-shadow:2px 4px 4px rgba(0, 0, 0, 0.25);
 }
 
 .ma-2 {

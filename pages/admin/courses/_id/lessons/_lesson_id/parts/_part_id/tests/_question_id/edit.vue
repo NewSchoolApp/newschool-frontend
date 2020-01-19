@@ -133,7 +133,6 @@ export default {
                     this.showConfirmSnack('Teste salvo! ;)', 'success')
                 })
                 .catch(err => {
-                    this.showConfirmSnack('Ocorreu um erro.', 'error')
                     setTimeout(() => {
                         this.loading = false
                     }, 500)

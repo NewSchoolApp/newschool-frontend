@@ -127,7 +127,6 @@ export default {
             }, 2500)
           })
           .catch(err => {
-            this.confirmSnackbar('Ocorreu um erro.', 'error')
             setTimeout(() => {
               this.loading = false
             }, 500)
@@ -175,6 +174,7 @@ export default {
   max-width: 400px;
   margin: 0 1% 0 -3%;
   justify-content: center;
+  background: #ffffff;
 
 }
 @media (min-width: 600px){

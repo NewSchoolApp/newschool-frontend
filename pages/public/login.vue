@@ -177,11 +177,10 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .theme--light.v-icon {
   color: #d6adff;
 }
-<style scoped>
 ::placeholder {
   color: #aa56ff !important;
 }
