@@ -133,6 +133,8 @@ export default {
     '@nuxtjs/dotenv',
     '@nuxtjs/proxy',
     'nuxt-i18n',
+    '@nuxtjs/axios',
+    '@nuxtjs/auth'
   ],
   i18n: {
     locales: [
@@ -192,5 +194,19 @@ export default {
      ** You can extend webpack config here
      */
     extend(config, ctx) { },
+  },
+
+  auth: {
+    strategies: {
+      facebook: {
+        client_id: '1584605795055838',
+        userinfo_endpoint:
+          'https://graph.facebook.com/v2.12/me?fields=about,name,picture{url},email,birthday',
+        scope: ['public_profile', 'email', 'user_birthday'],
+      },
+      google: {
+        client_id: '...'
+      },
+    },
   },
 }

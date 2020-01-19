@@ -67,20 +67,20 @@
             >
           </v-col>
           <v-col cols="12" class="text-center">
-            <v-btn text color="white">
+            <v-btn text color="white" @click="loginFacebook">
               <v-icon left>mdi-facebook</v-icon>Entrar com Facebook
             </v-btn>
           </v-col>
           <v-col cols="12" class="text-center">
-            <v-btn text color="white">
+            <v-btn text color="white" @click="loginGoogle">
               <v-icon left>mdi-google-plus</v-icon>Entrar com Google
             </v-btn>
           </v-col>
-          <v-col cols="12" class="text-center">
+          <!-- <v-col cols="12" class="text-center">
             <v-btn text color="white">
               <v-icon left>mdi-instagram</v-icon>Entrar com Instagram
             </v-btn>
-          </v-col>
+          </v-col> -->
           <v-col cols="12" class="text-center">
             <v-btn tile outlined color="white" to="/esqueci-minha-senha"
               >Esqueceu sua senha?</v-btn
@@ -186,7 +186,50 @@ export default {
         }, 500)
       }
     },
+
+    async loginFacebook() {
+      try {
+
+        await this.$auth.loginWith('facebook')
+        facebookCredentials = this.getFacebookCredentials()
+        $nuxt._router.push('/loading')
+
+      } catch (error) {
+        setTimeout(() => {
+          this.dialogMessage = 'Falha ao realizar login via Facebook.'
+          this.dialog = true
+          this.loading = false
+        }, 500)
+        console.error(error)
+      }
+    },
+
+    async loginGoogle() {
+      try {
+        
+        await this.$auth.loginWith('google')
+
+      } catch (error) {
+        setTimeout(() => {
+          this.dialogMessage = 'Falha ao realizar login via Google.'
+          this.dialog = true
+          this.loading = false
+        }, 500)
+        console.error(error)
+      }
+    },
+
+    getFacebookCredentials() {
+      return {
+        id: this.$store.state.auth.user.id,
+        email: this.$store.state.auth.user.email,
+        name: this.$store.state.auth.user.name,
+        picture: this.$store.state.auth.user.picture.data.url,
+        birthdate: this.$store.state.auth.user.birthday,
+      }
+    },
   },
+
   mounted() {
     const { status } = auth.isTokenValid()
     if (status) {
