@@ -9,19 +9,31 @@ import auth from './auth'
 
 export default {
 
-    update: (form) => {
-        const{accessToken} = auth.getInfoAuth();
+//     update: (form) => {
+//         const{accessToken} = auth.getInfoAuth();
         
-        return http.put(`api/v1/user/me`, form, { headers: { 'Authorization': `${accessToken}` } });
-    },
+//         return http.put(`api/v1/user/me`, form, { headers: { 'Authorization': `${accessToken}` } });
+//     },
 
-    updatePass: (form) => {
-        const {accessToken} = auth.getInfoAuth();
+//     updatePass: (form) => {
+//         const {accessToken} = auth.getInfoAuth();
 
-        return http.put(
-            'api/v1/user/me/change-password',
-            form,
-            { headers: { 'Authorization': `${accessToken}` } }
-        )
-    }
+//         return http.put(
+//             'api/v1/user/me/change-password',
+//             form,
+//             { headers: { 'Authorization': `${accessToken}` } }
+//         )
+//     }
+
+// changePass: (form) => {
+//         const { forgotPasswordToken } = $route.forgotPasswordToken;
+//         return http.post(
+//             'api/v1/user/forgot-password',
+//             form,
+//             { headers: { 'Authorization': `${forgotPasswordToken}` } }
+//         )
+//     }
+
 }
+
+

@@ -12,6 +12,14 @@ export default {
       })
 
       routes.push({
+        path: '/alterar-senha/:token',
+        name: 'alerar-senha',
+        props: true,
+        component: resolve(__dirname, "pages/public/reset_password.vue")
+      });
+
+
+      routes.push({
         path: '*',
         component: resolve(__dirname, 'pages/public/404.vue'),
       })
@@ -21,13 +29,12 @@ export default {
         redirect: '/login',
       })
     },
-    middleware: 'auth.guard',
   },
 
   env: {
     baseUrl:
       process.env.VUE_APP_BASE_URL ||
-      'https://newschoolbrapi-dev.herokuapp.com/',
+      'http://back-dev-new-branch-tnlvh2xtya.herokuapp.com/',
     credentials: {
       name: process.env.VUE_APP_CLIENT_CREDENTIAL_NAME || 'NEWSCHOOL@FRONT',
       secret:
@@ -49,6 +56,7 @@ export default {
       LOGIN: 'oauth/token',
       SIGN_UP: 'api/v1/user/student',
       FORGOT_PASSWORD: 'api/v1/user/forgot-password'
+
     },
     GATOKEN: process.env.GA_TOKEN,
   },

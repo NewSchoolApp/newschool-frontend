@@ -58,7 +58,7 @@
             <div v-else>
               <p class="change-status">Senha alterada com sucesso!</p>
             </div>
-            
+            <v-snackbar>
               <v-btn color="#FFF" text @click="snackbar = false">Fechar</v-btn>
             </v-snackbar>
           </v-col>
@@ -68,16 +68,10 @@
   </v-layout>
 </template>
 
-<router>
-{
-  path : '/recuperar-senha'
-}
 
-</router>
 
 <script scoped>
 import auth from '../../services/http/auth'
-import users from '../../services/http/users'
 
 export default {
   name: 'changePassword',
@@ -101,12 +95,25 @@ export default {
     }
   },
 
+  mounted() {
+     this.token = this.$route.params.token
+    console.log(this.token)
+
+    auth.changePasswordRequestValidate(this.token).catch(() => {
+      setTimeout(() => {
+        this.loading = false
+        this.snackbar = true
+      }, 500)
+      this.goBack()
+    })
+  },
+
   methods: {
     switchPassword() {
       if (this.$refs.form.validate()) {
         this.animateForm(true)
-        users
-          .updatePass(this.form)
+        auth
+          .changePassword(this.form, this.token)
           .then(res => {
             this.loading = false
             this.isChanged = true
@@ -125,8 +132,6 @@ export default {
         this.animateForm(false)
       }
     },
-
-    
 
     animateForm(status) {
       if (status) {
@@ -163,8 +168,6 @@ export default {
 </script>
 
 <style scoped>
-
-
 /* Global */
 * {
   font-family: 'Montserrat', Helvetica, Arial, sans-serif !important;
