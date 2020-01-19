@@ -1,5 +1,5 @@
 import { http } from "~/services/http/config";
-import PRIVATE_MODULES_URL from "~/routes/private";
+import { PRIVATE_MODULES_URL } from "~/routes/private";
 
 const state = () => ({
   data: {},

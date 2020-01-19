@@ -50,16 +50,8 @@
   </div>
 </template>
 
-<router>
-  {
-    path: '/curso/:slug',
-    name: 'aluno-curso',
-    props: true,
-  }
-</router>
-
 <script>
-import NotFound from "../public/404.vue";
+import NotFound from "~/pages/public/404.vue";
 import NavigationBar from "~/components/NavigationBar.vue";
 import HeaderBar from "~/components/Header.vue";
 import Modal from "~/components/Modal.vue";
@@ -75,7 +67,8 @@ export default {
   },
   data() {
     return {
-      slug : "",
+      idUser: "",
+      slug: "",
       dialogMessage: "",
       dialogOptions: {
         ok: false,
@@ -89,8 +82,9 @@ export default {
     };
   },
   mounted() {
+    this.idUser = this.$store.state.user.data.id;
     this.slug = this.$route.params.slug;
-    console.log()
+    console.log(this.slug)
     http
       .getAll(`${process.env.endpoints.COURSE_BY_SLUG}${this.slug}`)
       .then(({ data }) => {
@@ -110,38 +104,35 @@ export default {
   methods: {
     initCourse(id) {
       this.loadingInit = true;
-      setTimeout(() => {
-        $nuxt._router.push(`/curso/aulas/${id}`);
-      }, 600);
-      // eslint-disable-next-line no-undef
-      // $nuxt._router.push(`/aluno/aulas/${id}`);
-      // if (utils.getToken()) {
-      //   http
-      //     .post(`${process.env.endpoints.INIT_COURSE}/${this.course.slug}`)
-      //     .then(res => {
-      //       // TODO : Implementação de iniciar curso
-      //     })
-      //     .catch(error => {
-      //       this.dialogOptions.ok = true;
-      //       this.dialogMessage =
-      //         error.response.status === 401
-      //           ? "Você precisa estar logado para fazer um curso!"
-      //           : "Erro ao iniciar o curso, tente novamente";
-      //       setTimeout(() => {
-      //         this.loadingInit = false;
-      //         utils.runModal();
-      //       }, 1000);
-      //     });
-      // } else {
-      //   setTimeout(() => {
-      //     this.dialogOptions.toRoute = { path: "/login", name: "Fazer Login" };
-      //     this.dialogOptions.ok = true;
-      //     this.dialogMessage =
-      //       "Você precisa estar logado para fazer um curso! faça o login e tente novamente";
-      //     this.loadingInit = false;
-      //     utils.runModal();
-      //   }, 1000);
-      // }
+      if (utils.getToken()) {
+        http
+          .post(`${process.env.endpoints.INIT_COURSE}${this.idUser}/${id}`)
+          .then(res => {
+            setTimeout(() => {
+              $nuxt._router.push(`/curso/aulas/${id}`);
+            }, 400);
+          })
+          .catch(error => {
+            this.dialogOptions.ok = true;
+            this.dialogMessage =
+              error.response.status === 401
+                ? "Você precisa estar logado para fazer um curso!"
+                : "Erro ao iniciar o curso, tente novamente";
+            setTimeout(() => {
+              this.loadingInit = false;
+              utils.runModal();
+            }, 1000);
+          });
+      } else {
+        setTimeout(() => {
+          this.dialogOptions.toRoute = { path: "/login", name: "Fazer Login" };
+          this.dialogOptions.ok = true;
+          this.dialogMessage =
+            "Você precisa estar logado para fazer um curso! faça o login e tente novamente";
+          this.loadingInit = false;
+          utils.runModal();
+        }, 1000);
+      }
     },
     comeBackPage() {
       window.history.go(-1);

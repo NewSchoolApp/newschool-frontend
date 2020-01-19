@@ -30,7 +30,7 @@ export default {
     return http.post(path, payload);
   },
 
-  put: (path, id, payload) => {
+  put: (path, id, payload= {}) => {
     return http.put(`${path}/${id}`, payload);
   },
 

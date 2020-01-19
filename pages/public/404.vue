@@ -2,10 +2,9 @@
   <v-container>
     <main>
       <h1>Desculpa :(</h1>
-       <v-btn
-            <v-btn class="btn-back" text icon @click="gotoBack">
-              <v-icon>mdi-arrow-left</v-icon>
-            </v-btn>
+      <v-btn class="btn-back" text icon @click="gotoBack">
+        <v-icon>mdi-arrow-left</v-icon>
+      </v-btn>
       <p>Página não encontrada</p>
       <img src="~/assets/page-404.svg" alt />
     </main>
@@ -17,12 +16,12 @@
 import NavigationBar from "~/components/NavigationBar.vue";
 
 export default {
-    components: {
+  components: {
     NavigationBar
   },
   methods: {
-  gotoBack() {
-      $nuxt._router.go(-1)
+    gotoBack() {
+      $nuxt._router.go(-1);
     }
   }
 };

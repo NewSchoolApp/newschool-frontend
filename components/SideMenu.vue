@@ -2,13 +2,13 @@
   <div class="container-page">
     <main>
       <section id="info">
-        <!-- <div id="avatar">
+        <div id="avatar">
           <div class="flex-center border-profile-photo">
             <div class="flex-center profile-container">
-              <avatar :username="user.name || simplifyName" :size="90"></avatar>
+              <avatar :username="user.name | simplifyName" :size="90"></avatar>
             </div>
           </div>
-        </div>-->
+        </div>
         <div class="flex-center" id="flex-info-user">
           <h1>{{user.name}}</h1>
           <p>{{user.type}}</p>
@@ -95,12 +95,16 @@ export default {
   },
   filters: {
     simplifyName(name) {
-      let regex = /^(\S*\s+\S+).*/; // Regex para remover todos os caracteres após o segundo espaço em branco
-      let numberOfNames = name.split(" ").length;
+      if (!name) {
+        return ''
+      }
+      const regex = /^(\S*\s+\S+).*/ // Regex para remover todos os caracteres após o segundo espaço em branco
+      const numberOfNames = name.split(' ').length
       if (numberOfNames > 2) {
         return regex.exec(name)[1];
       }
-    }
+      return name
+    },
   },
   components: {
     Avatar

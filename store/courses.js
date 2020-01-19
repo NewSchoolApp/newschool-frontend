@@ -7,28 +7,31 @@ export const state = () => ({
 })
 
 export const mutations = {
-  set (state, courses) {
+  set(state, courses) {
     state.list = courses
   },
-  setCurrent (state, course) {
+  setCurrent(state, course) {
     state.current = course
   },
-  setCurrentClasses (state, classes) {
+  setCurrentClasses(state, classes) {
     state.current.classes = classes
   },
-  setCurrentClass (state, klass) {
+  setCurrentClass(state, klass) {
     state.currentClass = klass
   },
-  setClassSections (state, sections) {
+  setClassSections(state, sections) {
     state.currentClass.sections = sections
   },
-  setCurrentSection (state, section) {
+  setCurrentSection(state, section) {
     state.currentSection = section
   },
-  setSectionQuestions (state, questions) {
+  setSectionQuestions(state, questions) {
     state.currentSection.questions = questions
   },
-  setCurrentQuestion (state, question) {
+  setCurrentQuestion(state, question) {
     state.currentQuestion = question
   },
+  // actions: {
+  //   setState({ commit }, )
+  // }
 }

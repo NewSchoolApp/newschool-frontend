@@ -6,20 +6,56 @@ export default {
 
     extendRoutes(routes, resolve) {
       routes.push({
-        path: "/aluno/curso/:slug",
-        component: resolve(__dirname, "pages/student/course.vue")
-      });
+        path: '*',
+        component: resolve(__dirname, 'pages/public/404.vue'),
+      })
 
       routes.push({
-        path: "/curso/aulas/:id",
-        component: resolve(__dirname, "pages/student/course_flow/lesson_list.vue"),
-        props: true,
-      });
-
-      routes.push({
-        path: "/aluno/curso/:slug",
-        component: resolve(__dirname, "pages/student/course.vue")
-      });
+        path: "/aluno",
+        component: resolve(__dirname, "pages/student/student.module.vue"),
+        children: [
+          {
+            path: 'home',
+            name: 'aluno-home',
+            component: resolve(__dirname, "pages/student/home.vue"),
+          },
+          {
+            path: 'perfil',
+            name: 'meu-perfil',
+            component: resolve(__dirname, "pages/student/profile.vue"),
+          },
+          {
+            path: 'certificados',
+            name: 'meus-certificados',
+            component: resolve(__dirname, "pages/student/certificates.vue"),
+          },
+          {
+            path: 'alterar-dados',
+            name: 'alterar-dados',
+            component: resolve(__dirname, "pages/student/change_personal_info.vue"),
+          },
+          {
+            path: 'meus-cursos',
+            name: 'meus-cursos',
+            component: resolve(__dirname, "pages/student/my_courses.vue"),
+          },
+          {
+            path: 'curso/:slug',
+            name: 'aluno-curso',
+            props: true,
+            component: resolve(__dirname, "pages/student/take_course/course.vue")
+          },
+          {
+            path: "curso/aulas/:id",
+            component: resolve(__dirname, "pages/student/take_course/lesson_list.vue"),
+            props: true,
+          },
+          {
+            path: "",
+            redirect: "home"
+          },
+        ]
+      })
 
       routes.push({
         path: "",
@@ -54,7 +90,7 @@ export default {
       FORGOT_PASSWORD: "api/v1/user/forgot-password",
       COURSE: "/api/v1/course",
       COURSE_BY_SLUG: "/api/v1/course/slug/",
-      INIT_COURSE: "",
+      INIT_COURSE: "courseTaken/attendAClass/",
       LESSONS_BY_COURSE: "/api/v1/lesson/course/"
     },
     GATOKEN: process.env.GA_TOKEN
@@ -144,21 +180,22 @@ export default {
     "@nuxtjs/proxy",
     "nuxt-i18n"
   ],
-  // i18n: {
-  //   locales: [
-  //     {
-  //       code: "en",
-  //       file: "en-US.js"
-  //     },
-  //     {
-  //       code: "pt",
-  //       file: "pt-BR.js"
-  //     }
-  //   ],
-  //   defaultLocale: "pt",
-  //   lazy: true,
-  //   langDir: "lang/"
-  // },
+  i18n: {
+    locales: [
+      {
+        code: 'en',
+        file: 'en-US.js',
+      },
+      {
+        code: 'pt',
+        file: 'pt-BR.js',
+      },
+    ],
+    strategy: 'no_prefix',
+    defaultLocale: 'pt',
+    lazy: true,
+    langDir: 'lang/',
+  },
   /*
    ** Axios module configuration
    ** See https://axios.nuxtjs.org/options

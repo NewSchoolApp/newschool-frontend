@@ -7,13 +7,6 @@
   </div>
 </template>
 
-<router>
-  {
-    path: '/aluno/meus-cursos',
-    name: 'aluno-meus-cursos'
-  }
-</router>
-
 <script>
 import NavigationBar from '~/components/NavigationBar.vue'
 

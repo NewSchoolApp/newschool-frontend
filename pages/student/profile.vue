@@ -79,13 +79,6 @@
   </div>
 </template>
 
-<router>
-  {
-    path: '/aluno/perfil',
-    name: 'meu-perfil'
-  }
-</router>
-
 <script>
 import NavigationBar from "~/components/NavigationBar.vue";
 

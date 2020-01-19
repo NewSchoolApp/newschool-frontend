@@ -24,13 +24,6 @@
   </main>
 </template>
 
-<router>
-  {
-    path: '/aluno/home',
-    name : 'aluno-home'
-  }
-</router>
-
 <script>
 import NavigationBar from "~/components/NavigationBar.vue";
 import CourseCard from "~/components/CourseCard";
@@ -78,7 +71,7 @@ export default {
       .then(response => store.commit("courses/set", response.data));
   },
   viewCourse(slug) {
-    $nuxt._router.push(`aluno/curso/${slug}`);
+    $nuxt._router.push({ name: "aluno-curso", params: { slug } });
   }
 };
 </script>
