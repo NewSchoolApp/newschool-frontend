@@ -102,7 +102,7 @@ export default {
             }, 2500)
           })
           .catch(err => {
-            this.confirmSnackbar('Email invalido.', 'error')
+            this.confirmSnackbar('E-mail inválido.', 'error')
             setTimeout(() => {
               this.loading = false
             }, 500)

@@ -151,14 +151,8 @@ button {
   font-family: Montserrat;
 }
 
-<<<<<<< HEAD
 .sharing-icons {
   position: absolute;
   margin: 0 0 0 110px;
 }
 </style>
-=======
-<style scoped>
-</style>
-  
->>>>>>> a0778763b8eabee878d51d5c0e2939be51ed21c5
