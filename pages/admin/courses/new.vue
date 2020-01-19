@@ -81,6 +81,9 @@
         </v-form>
       </v-container>
     </v-flex>
+    <client-only>
+      <navigation-bar />
+    </client-only>
   </v-layout>
 </template>
 
@@ -91,6 +94,7 @@
 </router>
 
 <script scoped>
+import NavigationBar from "~/components/NavigationBar.vue"
 import courses from '~/services/http/courses'
 import utils from '~/utils'
 
@@ -122,6 +126,10 @@ export default {
     }
   },
 
+  components: {
+    NavigationBar,
+  },
+
   methods: {
     submit() {
       if (this.$refs.form.validate()) {
@@ -143,10 +151,6 @@ export default {
             }, 2500)
           })
           .catch(err => {
-            this.confirmSnackbar(
-              'Ocorreu um erro ao cadastrar o curso.',
-              'error',
-            )
             setTimeout(() => {
               this.loading = false
             }, 500)
@@ -245,7 +249,7 @@ export default {
 }
 
 .classes {
-  height: 40vh;
+  height: 35vh;
 }
 
 .classes > p {
@@ -288,7 +292,7 @@ export default {
 }
 
 ::v-deep .theme--light.v-label,
-::v-deep .theme--light.v-icon {
+::v-deep .flex .theme--light.v-icon {
   font-size: 12px;
   font-weight: 600;
   line-height: 15px;

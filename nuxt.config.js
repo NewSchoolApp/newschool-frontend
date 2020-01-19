@@ -20,7 +20,6 @@ export default {
         redirect: '/login',
       })
     },
-    middleware: 'auth.guard',
   },
 
   env: {
@@ -40,6 +39,8 @@ export default {
           'NEWSCHOOL@EXTERNALSECRET',
       },
     },
+	dateEnd: 
+	process.env.OPENING_DATE || '20/01/2020',
     endpoints: {
       CERTIFICATES_ME: 'api/v1/user/me/certificate',
       USER_ME: 'api/v1/user/me',
@@ -54,6 +55,10 @@ export default {
    ** Headers of the page
    */
   head: {
+    htmlAttrs: {
+      lang: 'en',
+      style:'overflow-y: auto'
+    },
     titleTemplate:
       '%s | ' + 'New School | Formando os protagonistas da quebrada',
     meta: [
@@ -127,7 +132,24 @@ export default {
     // Doc: https://github.com/nuxt-community/dotenv-module
     '@nuxtjs/dotenv',
     '@nuxtjs/proxy',
+    'nuxt-i18n',
   ],
+  i18n: {
+    locales: [
+      {
+        code: 'en',
+        file: 'en-US.js',
+      },
+      {
+        code: 'pt',
+        file: 'pt-BR.js',
+      },
+    ],
+    strategy: 'no_prefix',
+    defaultLocale: 'pt',
+    lazy: true,
+    langDir: 'lang/',
+  },
   /*
    ** Axios module configuration
    ** See https://axios.nuxtjs.org/options

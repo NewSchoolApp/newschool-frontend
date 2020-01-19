@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container">
     <v-card>
       <v-img :src="require('~/assets/new_school.jpg')" height="100%" class="grey darken-4" />
     </v-card>
@@ -40,7 +40,10 @@ export default {
 }
 </script>
 <style scoped>
-::v-deep div{
+
+.container{
   overflow-y: auto;
+  max-width: 600px
+ 
 }
 </style>

@@ -5,7 +5,7 @@
         <div id="avatar">
           <div class="flex-center border-profile-photo">
             <div class="flex-center profile-container">
-              <avatar :username="user.name || simplifyName" :size="90"></avatar>
+              <avatar :username="user.name | simplifyName" :size="90"></avatar>
             </div>
           </div>
         </div>
@@ -95,11 +95,15 @@ export default {
   },
   filters: {
     simplifyName(name) {
-      let regex = /^(\S*\s+\S+).*/ // Regex para remover todos os caracteres após o segundo espaço em branco
-      let numberOfNames = name.split(' ').length
+      if (!name) {
+        return ''
+      }
+      const regex = /^(\S*\s+\S+).*/ // Regex para remover todos os caracteres após o segundo espaço em branco
+      const numberOfNames = name.split(' ').length
       if (numberOfNames > 2) {
         return regex.exec(name)[1]
       }
+      return name
     },
   },
   components: {
@@ -109,6 +113,9 @@ export default {
 </script>
 
 <style lang="scss">
+.container-page{
+  z-index: 2;
+}
 #btnLogout{
   margin-top: 5px;
 }

@@ -72,9 +72,6 @@ export default {
           list = res.data
           this.flagView = this.list.length < 1
         })
-        .catch(err => {
-          alert(err)
-        })
     },
     deleteCourse(id) {
       http

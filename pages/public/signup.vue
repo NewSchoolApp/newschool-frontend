@@ -107,9 +107,8 @@ export default {
       showPass: String,
       showConfirmPass: String,
       snackbar: false,
-      snackbarText: "",
-      snackbarStatus: "",
-      token: "",
+      snackbarText: '',
+      snackbarStatus: '',
       form: {
         name: "",
         email: "",
@@ -152,21 +151,27 @@ export default {
         const postObject = Object.assign({}, this.form)
         delete postObject.confirmPassword
         this.animateForm(true)
-        auth
-          .signUp(postObject, this.token)
+        this.loadClientCredentials()
           .then(res => {
-            this.loading = false
-            this.confirmSnackbar('Cadastro efetuado! ;)', 'success')
-            setTimeout(() => {
-              this.gotoLogin()
-            }, 2500)
+            const token = res.data.accessToken
+            auth
+              .signUp(postObject, token)
+              .then(res => {
+                this.loading = false
+                this.confirmSnackbar('Cadastro efetuado! ;)', 'success')
+                setTimeout(() => {
+                  this.gotoLogin()
+                }, 2500)
+              })
+              .catch(err => {
+                setTimeout(() => {
+                  this.loading = false
+                }, 500)
+                console.error(err)
+              })
           })
-          .catch(err => {
-            this.confirmSnackbar('Ocorreu um erro.', 'error')
-            setTimeout(() => {
-              this.loading = false
-            }, 500)
-            console.error(err)
+          .catch(() => {
+            $nuxt._router.push('/login')
           })
       } else {
         this.animateForm(false)
@@ -211,28 +216,8 @@ export default {
       this.snackbar = true
     },
     loadClientCredentials() {
-      utils
-        .getExternalCredentials()
-        .then(res => {
-          console.log(res)
-          this.token = res.data.accessToken
-        })
-        .catch(() => {
-          $nuxt._router.push('/login')
-        })
+      return utils.getExternalCredentials()
     },
-  },
-
-  mounted() {
-    utils
-      .getExternalCredentials()
-      .then(res => {
-        console.log(res);
-        this.token = res.data.accessToken;
-      })
-      .catch(() => {
-        $nuxt._router.push("/login");
-      });
   },
 
   computed: {

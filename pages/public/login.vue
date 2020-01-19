@@ -65,7 +65,7 @@
             >Cadastrar</v-btn>
           </v-col>
           <v-col cols="12" class="text-center">
-            <v-btn tile outlined color="white" to="/esqueci-minha-senha">Esqueci minha senha</v-btn>
+            <v-btn tile outlined color="white" to="/esqueci-minha-senha">Esqueceu sua senha?</v-btn>
           </v-col>
         </v-row>
       </v-container>
@@ -182,6 +182,9 @@ export default {
   color: #d6adff;
 }
 <style scoped>
+.theme--light.v-icon {
+  color: #d6adff;
+}
 ::placeholder {
   color: #aa56ff !important;
 }
