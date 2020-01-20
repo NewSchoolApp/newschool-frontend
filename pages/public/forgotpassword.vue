@@ -155,7 +155,6 @@ export default {
 
 <style scoped>
 /* Global */
-/* Global */
 * {
   font-family: 'Montserrat', Helvetica, Arial, sans-serif !important;
 }
