@@ -27,11 +27,43 @@
                   name="description"
                   required
                 ></v-text-field>
+                <v-text-field
+                  :rules="authorNameRules"
+                  v-model="form.authorName"
+                  color="#60c"
+                  label="Professor *"
+                  name="authorName"
+                  required
+                ></v-text-field>
+                <v-text-field
+                  :rules="authorDescriptionRules"
+                  v-model="form.authorDescription"
+                  color="#60c"
+                  label="Biografia do Professor *"
+                  name="authorDescription"
+                  required
+                ></v-text-field>
+                <v-text-field
+                  :rules="workloadRules"
+                  v-model="form.workload"
+                  type="number"
+                  color="#60c"
+                  label="Carga Horária *"
+                  name="workload"
+                  required
+                ></v-text-field>
+                <v-text-field
+                  v-model="form.thumbUrl"
+                  color="#60c"
+                  label="URL da Imagem do Curso"
+                  name="thumbUrl"
+                  required
+                ></v-text-field>
                 <v-file-input
                   v-model="form.photo"
                   :rules="photoRules"
                   color="#60c"
-                  label="Foto de capa *"
+                  label="Foto de Capa *"
                   name="photo"
                   prepend-icon
                   required
@@ -67,6 +99,9 @@
           </v-form>
         </v-container>
       </v-flex>
+      <client-only>
+        <navigation-bar />
+      </client-only>
     </v-layout>
   </div>
 </template>
@@ -81,6 +116,7 @@
 import courses from "~/services/http/courses";
 import utils from "~/utils";
 import HeaderBar from "~/components/Header.vue";
+import NavigationBar from "~/components/NavigationBar.vue";
 
 export default {
   data() {
@@ -95,12 +131,19 @@ export default {
       form: {
         title: "",
         description: "",
-        photo: null
+        authorName: "",
+        authorDescription: "",
+        workload: "",
+        thumbUrl: "",
+        photo: null,
       },
 
       titleRules: [v => !!v || "O título é obrigatório"],
       descriptionRules: [v => !!v || "A descrição é obrigatória"],
-      photoRules: [v => !!v || "A foto de capa é obrigatória"]
+      authorNameRules: [v => !!v || "O professor é obrigatório"],
+      authorDescriptionRules: [v => !!v || "A biografia do professor é obrigatória"],
+      workloadRules: [v => !!v || "A carga horária é obrigatória"],
+      photoRules: [v => !!v || 'A foto de capa é obrigatória'],
     };
   },
 
@@ -111,10 +154,7 @@ export default {
   },
 
   components: {
-    HeaderBar
-  },
-
-  components: {
+    HeaderBar,
     NavigationBar,
   },
 
@@ -124,9 +164,11 @@ export default {
         const formData = new FormData();
         formData.append("title", this.form.title);
         formData.append("description", this.form.description);
+        formData.append("authorName", this.form.authorName);
+        formData.append("authorDescription", this.form.authorDescription);
+        formData.append("workload", this.form.workload);
         formData.append("photo", this.form.photo);
-        formData.append("thumbUrl", "");
-        formData.append("authorId", this.$store.state.user.data.id);
+        formData.append("thumbUrl", this.form.thumbUrl);
 
         this.animateForm(true);
         courses
@@ -231,13 +273,9 @@ export default {
   line-height: 24px;
   text-transform: uppercase;
   color: #6600cc;
-  width: 40%;
-  margin-left: 20%;
+  width: 60%;
+  margin-left: 35%;
   transform: translateX(-50%);
-}
-
-.classes {
-  height: 35vh;
 }
 
 .classes > p {
