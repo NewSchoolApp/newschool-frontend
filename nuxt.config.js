@@ -97,9 +97,9 @@ export default {
       FORGOT_PASSWORD: "api/v1/user/forgot-password",
       COURSE: "/api/v1/course",
       COURSE_BY_SLUG: "/api/v1/course/slug/",
-      INIT_COURSE: "api/v1/course-taken/",
+      INIT_COURSE: "api/v1/course-taken",
       LESSONS_BY_COURSE: "/api/v1/lesson/course/",
-      STATE_COURSE: "api/v1/course-taken/"
+      STATE_COURSE: "api/v1/course-taken"
     },
     GATOKEN: process.env.GA_TOKEN
   },

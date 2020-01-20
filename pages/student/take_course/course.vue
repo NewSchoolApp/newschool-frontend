@@ -110,10 +110,7 @@ export default {
             course: id,
           })
           .then(res => {
-            this.$store.commit(
-              'courses/setCurrentLesson',
-              res.data.currentLesson,
-            );
+            this.$store.commit('courses/setCurrentLesson', res.data.currentLesson,);
             this.$store.commit('courses/setCurrentPart', res.data.currentPart);
             this.$store.commit('courses/setCurrentTest', res.data.currentTest);
 
@@ -127,7 +124,7 @@ export default {
                 delete res.data.course;
                 this.$store.commit('courses/setCurrentState', res.data);
                 setTimeout(() => {
-                  $nuxt._router.push(`aluno/curso/${this.slug}/aula/parte`);
+                  $nuxt._router.push(`/aluno/curso/${this.slug}/aula/parte`);
                 }, 400);
               });
           })

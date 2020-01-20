@@ -1,7 +1,6 @@
 <template scoped>
   <div>
     <header-bar :title="'Aulas'" :backPage="true"></header-bar>
-    aaaaaa
   </div>
 </template>
 
