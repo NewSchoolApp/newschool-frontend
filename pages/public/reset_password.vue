@@ -1,14 +1,20 @@
 <template>
-<div>
-          <HeaderBar :title="'MUDAR A SENHA'" :backPage="true"></HeaderBar>
-
   <v-layout justify-center>
-    <div v-if="loading" class="spiner-container">  
+    <div v-if="loading" class="spiner-container">
       <v-progress-circular :size="70" :width="5" indeterminate></v-progress-circular>
     </div>
 
     <v-flex xs10 sm8 md6 ref="flex" v-else>
       <v-container>
+        <v-row>
+          <v-col cols="12" class="relative-col">
+            <v-btn class="btn-back" text icon @click="goBack">
+              <v-icon>mdi-arrow-left</v-icon>
+            </v-btn>
+            <h2 class="page-title">Alterar Senha</h2>
+          </v-col>
+        </v-row>
+
         <v-row>
           <v-col cols="12">
             <img src="~/assets/security.svg" class="img-fluid" />
@@ -18,17 +24,6 @@
         <v-row>
           <v-col cols="12">
             <v-form ref="form" v-model="status" lazy-validation v-if="!isChanged">
-              <v-text-field
-                color="#60c"
-                v-model="form.password"
-                label="Senha antiga *"
-                name="password"
-                :rules="passwordRules"
-                :type="showPass ? 'password' : 'text'"
-                :append-icon="showPass ? 'mdi-eye-off' : 'mdi-eye'"
-                @click:append="() => (showPass = !showPass)"
-                required
-              ></v-text-field>
               <v-text-field
                 color="#60c"
                 v-model="form.newPassword"
@@ -57,134 +52,125 @@
                 depressed
                 large
                 @click="switchPassword"
-              >Mudar Senha</v-btn>
+              >Alterar Senha</v-btn>
             </v-form>
-            
+
             <div v-else>
-              <p class="change-status">Senha Mudada!</p>
+              <p class="change-status">Senha alterada com sucesso!</p>
             </div>
+            <v-snackbar>
+              <v-btn color="#FFF" text @click="snackbar = false">Fechar</v-btn>
+            </v-snackbar>
           </v-col>
         </v-row>
       </v-container>
     </v-flex>
   </v-layout>
-</div>
-
 </template>
 
-<router>
-{
-  path : '/aluno/alterar-senha',
-  name: 'alterar-senha'
-}
 
-</router>
 
 <script scoped>
-import auth from "../../services/http/auth";
-import users from "../../services/http/users";
-import HeaderBar from '~/components/Header.vue';
+import auth from '../../services/http/auth'
 
 export default {
-  
   name: 'changePassword',
-  components: {
-    HeaderBar
-  },
   data() {
     return {
       status: true,
       loading: false,
-      showPass: String,
       showNewPass: String,
       showConfirmNewPass: String,
       isChanged: false,
+      snackbar: false,
       token: '',
       form: {
-        password: "",
-        newPassword: "",
-        confirmNewPassword: ""
+        newPassword: '',
+        confirmNewPassword: '',
       },
-      nameRules: [v => !!v || "Digite seu nome"],
       passwordRules: [
-        v => !!v || "Digite a senha",
-        v => (v && v.length >= 6) || "A senha deve ter no mínimo 6 caractéres"
+        v => !!v || 'Digite a senha',
+        v => (v && v.length >= 6) || 'A senha deve ter no mínimo 6 caractéres',
       ],
-      emailRules: [
-        v => !!v || "Digite o e-mail",
-        v => /.+@.+\..+/.test(v) || "E-mail inválido"
-      ]
-    };
+    }
+  },
+
+  mounted() {
+     this.token = this.$route.params.token
+    console.log(this.token)
+
+    auth.changePasswordRequestValidate(this.token).catch(() => {
+      setTimeout(() => {
+        this.loading = false
+        this.snackbar = true
+      }, 500)
+      this.goBack()
+    })
   },
 
   methods: {
     switchPassword() {
       if (this.$refs.form.validate()) {
-        this.animateForm(true);
-
-        users.updatePass(this.form)
-        .then(res => {
-          this.loading = false;
-          this.isChanged = true;
-          setTimeout(() => {
-            this.gotoHome();
-          }, 1500); 
-        })
-        .catch(err => {
-          setTimeout(() => {
-            this.loading = false;
-          }, 500);
-          console.error(err);
-        });
+        this.animateForm(true)
+        auth
+          .changePassword(this.form, this.token)
+          .then(res => {
+            this.loading = false
+            this.isChanged = true
+            setTimeout(() => {
+              this.gotoHome()
+            }, 1500)
+          })
+          .catch(err => {
+            setTimeout(() => {
+              this.loading = false
+              this.snackbar = true
+            }, 500)
+            console.error(err)
+          })
       } else {
-        this.animateForm(false);
+        this.animateForm(false)
       }
     },
 
     animateForm(status) {
       if (status) {
-        this.$refs.flex.classList.add("hide-form");
-        document.querySelector("html").style.overflow = "hidden";
+        this.$refs.flex.classList.add('hide-form')
+        document.querySelector('html').style.overflow = 'hidden'
         setTimeout(() => {
-          this.loading = true;
-        }, 300);
+          this.loading = true
+        }, 300)
       } else {
-        this.$refs.flex.classList.add("error-form");
+        this.$refs.flex.classList.add('error-form')
         setTimeout(() => {
-          this.$refs.flex.classList.remove("error-form");
-        }, 500);
+          this.$refs.flex.classList.remove('error-form')
+        }, 500)
       }
-      document.querySelector("html").style.overflow = "scroll";
+      document.querySelector('html').style.overflow = 'scroll'
     },
 
     goBack() {
-      $nuxt._router.push("/aluno/alterar");
-    },
-
-    gotoHome() {
-      $nuxt._router.push("/aluno/home");
+      $nuxt._router.push('/login')
     },
   },
 
   computed: {
     confirmPasswordRules() {
       return [
-        v => !!v || "Confirme a senha",
+        v => !!v || 'Confirme a senha',
         () =>
           this.form.confirmNewPassword === this.form.newPassword ||
-          "As senhas devem ser idênticas."
-      ];
-    }
-  }
-};
+          'As senhas devem ser idênticas.',
+      ]
+    },
+  },
+}
 </script>
 
 <style scoped>
-@import url("https://fonts.googleapis.com/css?family=Montserrat:400,500,900&display=swap");
-
 /* Global */
 * {
-  font-family: "Montserrat", Helvetica, Arial, sans-serif !important;
+  font-family: 'Montserrat', Helvetica, Arial, sans-serif !important;
 }
 
 .flex {
@@ -219,6 +205,12 @@ export default {
   position: relative;
 }
 
+::v-deep .btn-back {
+  position: absolute;
+  left: 0;
+  top: 0;
+  margin-top: 3px;
+}
 
 .img-fluid {
   display: block;
@@ -236,13 +228,15 @@ export default {
   margin-top: 0;
 }
 
-
 ::v-deep .theme--light.v-input:not(.v-input--is-disabled) input {
   font-size: 12px;
   color: #60c;
 }
 
-::v-deep .theme--light.v-text-field:not(.v-input--has-state)>.v-input__control>.v-input__slot:hover:before {
+::v-deep
+  .theme--light.v-text-field:not(.v-input--has-state)
+  > .v-input__control
+  > .v-input__slot:hover:before {
   border-color: #60c;
 }
 
@@ -266,11 +260,11 @@ export default {
 ::v-deep .change-btn {
   margin-top: 20px;
   width: 100%;
-  box-shadow: 0 4px 5px gray!important;
+  box-shadow: 0 4px 5px gray !important;
 }
 ::v-deep .v-text-field {
   margin: 0 6% 0 6% !important;
- }
+}
 
 ::v-deep .v-btn__content {
   color: #fff;
@@ -279,12 +273,17 @@ export default {
   line-height: 15px;
 }
 
-::v-deep .theme--light.v-text-field > .v-input__control > .v-input__slot::before {
+::v-deep
+  .theme--light.v-text-field
+  > .v-input__control
+  > .v-input__slot::before {
   border-color: #aa56ff;
 }
 
-
-::v-deep .v-text-field.v-input--has-state>.v-input__control>.v-input__slot:before {
+::v-deep
+  .v-text-field.v-input--has-state
+  > .v-input__control
+  > .v-input__slot:before {
   border-color: #ff5252; /* cor da borda quando der estado de erro */
 }
 

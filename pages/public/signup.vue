@@ -109,14 +109,14 @@ export default {
       snackbar: false,
       snackbarText: '',
       snackbarStatus: '',
-      token: '',
       form: {
-        name: '',
-        email: '',
-        password: '',
-        confirmPassword: '',
-        urlFacebook: '',
-        urlInstagram: '',
+        name: "",
+        email: "",
+        password: "",
+        confirmPassword: "",
+        urlFacebook: "",
+        urlInstagram: "",
+        role: "STUDENT"
       },
 
       nameRules: [v => !!v || 'Digite seu nome'],
@@ -151,20 +151,27 @@ export default {
         const postObject = Object.assign({}, this.form)
         delete postObject.confirmPassword
         this.animateForm(true)
-        auth
-          .signUp(postObject, this.token)
+        this.loadClientCredentials()
           .then(res => {
-            this.loading = false
-            this.confirmSnackbar('Cadastro efetuado! ;)', 'success')
-            setTimeout(() => {
-              this.gotoLogin()
-            }, 2500)
+            const token = res.data.accessToken
+            auth
+              .signUp(postObject, token)
+              .then(res => {
+                this.loading = false
+                this.confirmSnackbar('Cadastro efetuado! ;)', 'success')
+                setTimeout(() => {
+                  this.gotoLogin()
+                }, 2500)
+              })
+              .catch(err => {
+                setTimeout(() => {
+                  this.loading = false
+                }, 500)
+                console.error(err)
+              })
           })
-          .catch(err => {
-            setTimeout(() => {
-              this.loading = false
-            }, 500)
-            console.error(err)
+          .catch(() => {
+            $nuxt._router.push('/login')
           })
       } else {
         this.animateForm(false)
@@ -209,20 +216,8 @@ export default {
       this.snackbar = true
     },
     loadClientCredentials() {
-      utils
-        .getExternalCredentials()
-        .then(res => {
-          console.log(res)
-          this.token = res.data.accessToken
-        })
-        .catch(() => {
-          $nuxt._router.push('/login')
-        })
+      return utils.getExternalCredentials()
     },
-  },
-
-  mounted() {
-    this.loadClientCredentials()
   },
 
   computed: {
@@ -280,7 +275,11 @@ export default {
   width: 48px;
 }
 
+/* Form */
+.v-form {
+  width: 100%;
 /* inputs */
+}
 ::v-deep .theme--light.v-text-field {
   margin-top: 0;
 }
@@ -303,6 +302,11 @@ export default {
   border-color: #60c;
 }
 
+.theme--light.v-text-field:not(.v-input--has-state)
+  > .v-input__control
+  > .v-input__slot:hover:before {
+  border-color: #6600cc !important;
+  }
 ::v-deep .theme--light.v-label,
 ::v-deep .theme--light.v-icon {
   font-size: 12px;
@@ -311,6 +315,9 @@ export default {
   color: #aa56ff;
 }
 
+.theme--light.v-input:not(.v-input--is-disabled) input {
+  color: #6600cc !important;
+}
 ::v-deep .theme--light.v-icon {
   font-size: 20px;
 }
@@ -325,12 +332,19 @@ export default {
   font-weight: 900;
   line-height: 15px;
 }
+.v-text-field {
+  padding-top: 0 !important;
+  margin-top: 0 !important;
+  color: #6600cc;
+}
 
 ::v-deep
   .theme--light.v-text-field
   > .v-input__control
   > .v-input__slot::before {
-  border-color: #aa56ff;
+  border-color: #aa56ff;}
+.theme--dark.v-input:not(.v-input--is-disabled) input {
+  color: #6600cc;
 }
 
 ::v-deep
@@ -357,5 +371,18 @@ export default {
 
 .error-form {
   animation: nono 300ms, intro paused;
+}
+</style>
+
+/* Error messages */
+.v-messages__message {
+  color: #ff5252 !important;
+  font-size: 12px !important;
+  margin-left: 5px;
+}
+
+/* Snackbar */
+.v-snack__content {
+  border-radius: 5px;
 }
 </style>

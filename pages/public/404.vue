@@ -2,13 +2,10 @@
   <v-container>
     <main>
       <h1>Desculpa :(</h1>
-       <v-btn>
-            <v-btn class="btn-back" text icon @click="gotoBack">
-              <v-icon>mdi-arrow-left</v-icon>
-            </v-btn>
-       </v-btn>     
       <p>Página não encontrada</p>
       <img src="~/assets/page-404.svg" alt />
+   
+      <v-btn text @click="gotoBack()" color="primary">Voltar</v-btn>
     </main>
     <navigation-bar />
   </v-container>
@@ -18,12 +15,12 @@
 import NavigationBar from "~/components/NavigationBar.vue";
 
 export default {
-    components: {
+  components: {
     NavigationBar
   },
   methods: {
-  gotoBack() {
-      $nuxt._router.go(-1)
+    gotoBack() {
+      $nuxt._router.go(-2);
     }
   }
 };
@@ -37,7 +34,8 @@ main h1 {
   color: #6600cc;
 }
 .container {
-  height: 100%;
+  position: absolute;
+  height: 80%;
   display: flex;
   justify-content: center;
   align-items: center;
