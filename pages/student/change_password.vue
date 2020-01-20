@@ -163,7 +163,7 @@ export default {
     },
 
     goBack() {
-      $nuxt._router.push("/aluno/alterar");
+      this.$router.back();
     },
 
     gotoHome() {
