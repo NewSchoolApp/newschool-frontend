@@ -278,10 +278,6 @@ export default {
   transform: translateX(-50%);
 }
 
-/* .classes {
-  height: 10vh;
-} */
-
 .classes > p {
   text-align: center;
   font-weight: 600;
