@@ -220,11 +220,15 @@ h2 {
   color: #aa56ff;
 }
 
-::v-deep .theme--light.v-text-field > .v-input__control > .v-input__slot:before {
+::v-deep
+  .theme--light.v-text-field
+  > .v-input__control
+  > .v-input__slot:before {
   border-color: #aa56ff !important;
 }
 
-::v-deep .theme--light.v-text-field:not(.v-input--has-state)
+::v-deep
+  .theme--light.v-text-field:not(.v-input--has-state)
   > .v-input__control
   > .v-input__slot:hover:before {
   border-color: #6600cc !important;
