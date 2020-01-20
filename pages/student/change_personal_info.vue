@@ -12,7 +12,7 @@
       <v-container>
         <v-row>
           <v-col cols="12" class="relative-col">
-            <v-btn class="btn-back" text icon @click="gotoIndex">
+            <v-btn class="btn-back" text icon @click="goBack">
               <v-icon>mdi-arrow-left</v-icon>
             </v-btn>
             <h2 class="page-title">Alterar meus dados</h2>
@@ -86,12 +86,18 @@
   </v-layout>
 </template>
 
+<router>
+{
+  path : '/aluno/alterar'
+}
+</router>
 
 <script scoped>
 import auth from '../../services/http/auth'
 import users from '../../services/http/users'
 import http from '~/services/http/generic'
 import utils from '~/utils/index'
+import NavigationBar from '~/components/NavigationBar.vue'
 
 export default {
   components: {
@@ -176,6 +182,10 @@ export default {
 
     gotoHome() {
       $nuxt._router.push('/aluno/home')
+    },
+
+    goBack() {
+     $nuxt._router.push('/aluno/perfil')
     },
 
     confirmSnackbar(text, status) {

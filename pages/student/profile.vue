@@ -10,7 +10,7 @@
           </v-card>
         </v-col>
 
-        <v-col cols="6" md="8">
+        <!-- <v-col cols="6" md="8">
           <v-card class="mx-auto item" max-width="344">
             <img src="~/assets/cursos.png" alt />
             <a href>Perfil</a>
@@ -22,7 +22,7 @@
             <img src="~/assets/configurações.png" alt />
             <a href>Perfil</a>
           </v-card>
-        </v-col>
+        </v-col> -->
       </v-row>
 
       <!-- <v-card class="mx-auto item" max-width="344">
