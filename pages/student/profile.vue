@@ -1,9 +1,6 @@
 <template>
   <div id="page">
-<<<<<<< HEAD
-=======
      <HeaderBar :title="'Meu Perfil'" :backPage="true"></HeaderBar>
->>>>>>> 04f2d68834244a8c4557aedd320e1c067c422e3e
     <div class="content">
       <v-row>
         <v-col cols="6" md="8">
@@ -81,20 +78,6 @@
 </template>
 
 <script>
-<<<<<<< HEAD
-import NavigationBar from '~/components/NavigationBar.vue'
-
-export default {
-  components: {
-    NavigationBar,
-  },
-  methods: {
-    gotoChangeData() {
-      $nuxt._router.push('/aluno/alterar')
-    },
-  },
-}
-=======
 import HeaderBar from "~/components/Header.vue";
 
 export default {
@@ -107,7 +90,6 @@ export default {
     }
   }
 };
->>>>>>> 04f2d68834244a8c4557aedd320e1c067c422e3e
 </script>
 
 <style scoped>
@@ -134,7 +116,7 @@ export default {
   margin-top: 2%;
 }
 body {
-  background-image: url('../../assets/paraisopolis.png');
+  background-image: url("../../assets/paraisopolis.png");
   background-repeat: repeat;
   background-size: cover;
 }
@@ -143,7 +125,7 @@ figure {
   margin: 0 5% 0 1%;
 }
 .titulo h1 {
-  font-family: 'Montserrat';
+  font-family: "Montserrat";
   font-weight: 900;
   font-size: 150%;
   display: flex;
