@@ -11,9 +11,6 @@
       <v-flex ref="flex">
         <v-container>
           <v-row>
-            <h2 class="page-title">Fale Conosco</h2>
-          </v-row>
-          <v-row>
             <v-col cols="12" mt-5>
               <v-row>
                 <img class="banner" src="../../assets/contact-us.svg" alt="imagem contato" />

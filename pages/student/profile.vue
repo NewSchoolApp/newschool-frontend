@@ -1,5 +1,6 @@
 <template>
-  <div  id="page">
+  <div id="page">
+     <HeaderBar :title="'Meu Perfil'" :backPage="true"></HeaderBar>
     <div class="content">
       <v-row>
         <v-col cols="6" md="8">
@@ -22,7 +23,6 @@
             <a href>Perfil</a>
           </v-card>
         </v-col>
-
       </v-row>
 
       <!-- <v-card class="mx-auto item" max-width="344">
@@ -74,27 +74,18 @@
         </section>
       </main>-->
     </div>
-    <client-only>
-      <navigation-bar />
-    </client-only>
   </div>
 </template>
 
-<router>
-  {
-    path: '/aluno/perfil'
-  }
-</router>
-
 <script>
-import NavigationBar from "~/components/NavigationBar.vue";
+import HeaderBar from "~/components/Header.vue";
 
 export default {
   components: {
-    NavigationBar
+    HeaderBar
   },
   methods: {
-    gotoChangeData(){
+    gotoChangeData() {
       $nuxt._router.push("/aluno/alterar");
     }
   }
@@ -102,13 +93,12 @@ export default {
 </script>
 
 <style scoped>
-@media(min-width: 600px){
-#page{
-  overflow-y: auto;
-  margin: 0 auto;
-  
+@media (min-width: 600px) {
+  #page {
+    overflow-y: auto;
+    margin: 0 auto;
   }
-}  
+}
 .item {
   margin: 1rem;
   display: flex;
@@ -154,7 +144,7 @@ div h1,
 h2,
 h3,
 p {
-   color: #6600cc;
+  color: #6600cc;
 }
 /* Modificar nomes das clases, padrão ingles e nomes mais abstratos */
 @media (max-height: 768px) {

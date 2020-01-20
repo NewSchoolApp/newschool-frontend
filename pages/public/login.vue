@@ -56,13 +56,12 @@
           </v-form>
           <v-col cols="12">
             <v-btn
-              class="btn-block btn-transparent"
-              role="button"
-              aria-haspopup="true"
-              aria-expanded="false"
+              dark
+              block
               depressed
               large
               to="/cadastro"
+              class="btn-transparent"
               >Cadastrar</v-btn
             >
           </v-col>
@@ -82,7 +81,7 @@
             </v-btn>
           </v-col> -->
           <v-col cols="12" class="text-center">
-            <v-btn tile outlined color="white" to="/esqueci-minha-senha"
+            <v-btn text small color="#fff" to="/esqueci-minha-senha"
               >Esqueceu sua senha?</v-btn
             >
           </v-col>
@@ -99,12 +98,13 @@
 
 <router>
   {
-    path: '/login'
+    path: '/login',
+    name : 'login'
   }
 </router>
 
 <script>
-import auth from '~/services/http/auth'
+import auth from '~/services/http/auth';
 
 export default {
   data: () => ({
@@ -140,88 +140,88 @@ export default {
             'Entre no aplicativo da New School - Levamos educação de qualidade na linguagem da quebrada para as periferias do Brasil, através da tecnologia e da curadoria de conteúdos baseados nas habilidades do futuro.',
         },
       ],
-    }
+    };
   },
 
   methods: {
     submit() {
-      event.preventDefault()
+      event.preventDefault();
       if (this.$refs.form.validate()) {
-        this.animateForm(true)
+        this.animateForm(true);
         auth
           .login(this.email, this.password)
           .then(() => {
-            $nuxt._router.push('/loading')
+            $nuxt._router.push('/loading/login');
           })
           .catch(err => {
             setTimeout(() => {
-              this.dialogMessage = 'Usuário ou senha incorretos!'
-              this.dialog = true
-              this.loading = false
-            }, 500)
-            console.error(err)
-          })
+              this.dialogMessage = 'Usuário ou senha incorretos!';
+              this.dialog = true;
+              this.loading = false;
+            }, 500);
+            console.error(err);
+          });
       } else {
-        this.animateForm(false)
+        this.animateForm(false);
       }
     },
 
     head() {
       return {
         title: this.title,
-      }
+      };
     },
 
     animateForm(status) {
       if (status) {
-        this.$refs.flex.classList.add('hide-form')
-        document.querySelector('html').style.overflow = 'hidden'
+        this.$refs.flex.classList.add('hide-form');
+        document.querySelector('html').style.overflow = 'hidden';
         setTimeout(() => {
-          this.loading = true
-        }, 300)
+          this.loading = true;
+        }, 300);
       } else {
-        this.$refs.flex.classList.add('error-form')
+        this.$refs.flex.classList.add('error-form');
         setTimeout(() => {
-          this.$refs.flex.classList.remove('error-form')
-        }, 500)
+          this.$refs.flex.classList.remove('error-form');
+        }, 500);
       }
     },
 
     async loginFacebook() {
       try {
-        this.animateForm(true)
+        this.animateForm(true);
 
-        await this.$auth.loginWith('facebook')
-        let facebookCredentials = this.getFacebookCredentials()
-        
+        await this.$auth.loginWith('facebook');
+        let facebookCredentials = this.getFacebookCredentials();
+
         // Implementar autenticação com o back-end
 
-        $nuxt._router.push('/loading')
       } catch (error) {
         setTimeout(() => {
-          this.dialogMessage = 'Falha ao realizar login via Facebook.'
-          this.dialog = true
-          this.loading = false
-        }, 500)
-        console.error(error)
+          this.dialogMessage = 'Falha ao realizar login via Facebook.';
+          this.dialog = true;
+          this.loading = false;
+        }, 500);
+        console.error(error);
       }
     },
 
     async loginGoogle() {
       try {
-        await this.$auth.loginWith('google')
-        let googleCredentials = this.getGoogleCredentials()
+        this.animateForm(true);
+        
+        await this.$auth.loginWith('google');
+        let googleCredentials = this.getGoogleCredentials();
 
         // Implementar autenticação com o back-end
 
-        $nuxt._router.push('/loading')
       } catch (error) {
         setTimeout(() => {
-          this.dialogMessage = 'Falha ao realizar login via Google.'
-          this.dialog = true
-          this.loading = false
-        }, 500)
-        console.error(error)
+          this.dialogMessage = 'Falha ao realizar login via Google.';
+          this.dialog = true;
+          this.loading = false;
+        }, 500);
+        console.error(error);
       }
     },
 
@@ -232,7 +232,7 @@ export default {
         name: this.$store.state.auth.user.name,
         picture: this.$store.state.auth.user.picture,
         birthdate: this.$store.state.auth.user.birthday,
-      }
+      };
     },
 
     getGoogleCredentials() {
@@ -241,20 +241,23 @@ export default {
         email: this.$store.state.auth.user.email,
         name: this.$store.state.auth.user.name,
         picture: this.$store.state.auth.user.picture,
-      }
+      };
     },
   },
 
   mounted() {
-    const { status } = auth.isTokenValid()
+    const { status } = auth.isTokenValid();
     if (status) {
-      $nuxt._router.push('/loading')
+      // $nuxt._router.push('/loading');
     }
   },
-}
+};
 </script>
 
 <style scoped>
+.theme--light.v-icon {
+  color: #d6adff;
+}
 .theme--light.v-icon {
   color: #d6adff;
 }
