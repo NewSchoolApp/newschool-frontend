@@ -124,7 +124,6 @@
                     this.showConfirmSnack('Parte salva! ;)', 'success')
                 })
                 .catch(err => {
-                    this.showConfirmSnack('Ocorreu um erro.', 'error')
                     setTimeout(() => {
                         this.loading = false
                     }, 500)

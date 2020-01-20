@@ -1,9 +1,10 @@
 export const state = () => ({
   list: [],
   current: {},
-  currentClass: {},
-  currentSection: {},
-  currentQuestion: {},
+  currentState: {},
+  currentLesson: {},
+  currentPart: {},
+  currentTest: {},
 })
 
 export const mutations = {
@@ -13,6 +14,7 @@ export const mutations = {
   setCurrent(state, course) {
     state.current = course
   },
+<<<<<<< HEAD
   setCurrentClasses(state, classes) {
     state.current.classes = classes
   },
@@ -30,5 +32,18 @@ export const mutations = {
   },
   setCurrentQuestion(state, question) {
     state.currentQuestion = question
+=======
+  setCurrentClass(state, lesson) {
+    state.currentLesson = lesson
+  },
+  setCurrentPart(state, part) {
+    state.currentPart = part
+  },
+  setCurrentTest(state, test) {
+    state.currentTest = test
+  },
+  setCurrentState(state, courseState) {
+    state.currentState = courseState
+>>>>>>> 04f2d68834244a8c4557aedd320e1c067c422e3e
   },
 }

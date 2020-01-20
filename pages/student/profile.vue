@@ -1,5 +1,9 @@
 <template>
   <div id="page">
+<<<<<<< HEAD
+=======
+     <HeaderBar :title="'Meu Perfil'" :backPage="true"></HeaderBar>
+>>>>>>> 04f2d68834244a8c4557aedd320e1c067c422e3e
     <div class="content">
       <v-row>
         <v-col cols="6" md="8">
@@ -73,19 +77,11 @@
         </section>
       </main>-->
     </div>
-    <client-only>
-      <navigation-bar />
-    </client-only>
   </div>
 </template>
 
-<router>
-  {
-    path: '/aluno/perfil'
-  }
-</router>
-
 <script>
+<<<<<<< HEAD
 import NavigationBar from '~/components/NavigationBar.vue'
 
 export default {
@@ -98,6 +94,20 @@ export default {
     },
   },
 }
+=======
+import HeaderBar from "~/components/Header.vue";
+
+export default {
+  components: {
+    HeaderBar
+  },
+  methods: {
+    gotoChangeData() {
+      $nuxt._router.push("/aluno/alterar");
+    }
+  }
+};
+>>>>>>> 04f2d68834244a8c4557aedd320e1c067c422e3e
 </script>
 
 <style scoped>

@@ -55,37 +55,37 @@
   </v-container>
 </template>
 <script>
-import shareBtnPageCertificate from '~/components/ShareBtnPageCertificate.vue'
-import http from '~/services/http/generic'
-import utils from '~/utils/index'
+import shareBtnPageCertificate from '~/components/ShareBtnPageCertificate.vue';
+import http from '~/services/http/generic';
+import utils from '~/utils/index';
 
 export default {
   components: {
     shareBtnPageCertificate,
   },
   data() {
-    return ''
+    return '';
   },
   mounted() {
-    this.loadClientCredentials()
+    this.loadClientCredentials();
     http
       .getAll(process.env.endpointCourseTaken.CERTIFICATES_COURSE_TAKEN_ME)
       .then(certificates => {
-        this.certificates = certificates.data
+        this.certificates = certificates.data;
       })
-      .catch(error => console.log(error))
+      .catch(error => console.log(error));
   },
   methods: {
     loadClientCredentials() {
       utils.getExternalCredentials().then(res => {
-        this.token = res.data.accessToken
-      })
+        this.token = res.data.accessToken;
+      });
     },
     gotoChangeData() {
-      this.$nuxt._router.push('home')
+      this.$nuxt._router.push('home');
     },
   },
-}
+};
 </script>
 <router>
   path: "/aluno/pagina-certificado"

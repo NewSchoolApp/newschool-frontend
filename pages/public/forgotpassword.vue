@@ -1,14 +1,18 @@
 <template>
   <v-layout align-center justify-center>
-    <v-progress-circular
-      v-if="loading"
-      :size="70"
-      :width="5"
-      indeterminate
-    ></v-progress-circular>
+    <v-progress-circular v-if="loading" :size="70" :width="5" indeterminate></v-progress-circular>
 
-    <v-flex xs10 sm15 md6 ref="flex" v-else>
+    <v-flex xs10 sm8 md6 ref="flex" v-else>
       <v-container>
+        <v-row>
+          <v-col cols="12" class="relative-col">
+            <v-btn class="btn-back" text icon @click="gotoLogin">
+              <v-icon>mdi-arrow-left</v-icon>
+            </v-btn>
+            <h2 class="page-title">Perdeu a senha?</h2>
+          </v-col>
+        </v-row>
+
         <v-row>
           <v-col cols="15">
             <div class="logo-center">
@@ -19,9 +23,7 @@
 
         <v-row>
           <v-col cols="15">
-            <a class="page-text"
-              >Digite seu email registrado para redefinir sua senha</a
-            >
+            <a class="page-text">Digite seu email registrado para redefinir sua senha</a>
           </v-col>
         </v-row>
         <v-row>
@@ -36,18 +38,11 @@
               ></v-text-field>
             </v-col>
             <v-col cols="12">
-              <v-btn
-                 color="#60c" 
-                 dark block depressed large 
-                 @click="submit"
-                >Redefinir senha</v-btn
-              >
+              <v-btn color="#60c" dark block depressed large @click="submit">Redefinir senha</v-btn>
             </v-col>
           </v-form>
           <v-col cols="12" class="text-center">
-            <a class="login-link" @click="gotoLogin"
-              >Opa, lembrei minha senha!</a
-            >
+            <a class="login-link" @click="gotoLogin">Voltar para o Login</a>
           </v-col>
           <v-snackbar
             v-model="snackbar"
@@ -107,7 +102,7 @@ export default {
             }, 2500)
           })
           .catch(err => {
-            this.confirmSnackbar('Ocorreu um erro.', 'error')
+            this.confirmSnackbar('E-mail inválido.', 'error')
             setTimeout(() => {
               this.loading = false
             }, 500)
@@ -120,22 +115,22 @@ export default {
 
     animateForm(status) {
       if (status) {
-        this.$refs.flex.classList.add("hide-form")
-        document.querySelector("html").style.overflow = "hidden"
+        this.$refs.flex.classList.add('hide-form')
+        document.querySelector('html').style.overflow = 'hidden'
         setTimeout(() => {
           this.loading = true
         }, 300)
       } else {
-        this.$refs.flex.classList.add("error-form")
+        this.$refs.flex.classList.add('error-form')
         setTimeout(() => {
-          this.$refs.flex.classList.remove("error-form")
+          this.$refs.flex.classList.remove('error-form')
         }, 500)
       }
-      document.querySelector("html").style.overflow = "scroll"
+      document.querySelector('html').style.overflow = 'scroll'
     },
 
     gotoLogin() {
-      $nuxt._router.push("/login")
+      $nuxt._router.push('/login')
     },
     confirmSnackbar(text, status) {
       this.snackbarText = text
@@ -159,25 +154,34 @@ export default {
 </script>
 
 <style scoped>
-
 /* Global */
 * {
-  font-family: "Montserrat", Helvetica, Arial, sans-serif !important;
+  font-family: 'Montserrat', Helvetica, Arial, sans-serif !important;
 }
+
 .flex {
   animation: intro 300ms backwards;
   animation-delay: 350ms;
 }
+
 .layout {
   background: #fff !important;
 }
+
 /* Page */
 .page-title {
-  font-size: 24px;
+  font-size: 16px;
   font-weight: 900;
+  line-height: 19px;
+  text-align: center;
   text-transform: uppercase;
   color: #6600cc;
 }
+
+.relative-col {
+  position: relative;
+}
+
 /* Logo */
 .logo-container {
   display: flex;
@@ -186,12 +190,15 @@ export default {
   -webkit-box-align: start;
   align-items: flex-start;
 }
+
 .logo-container img {
   width: 80px;
 }
+
 .logo-center {
   text-align: center;
 }
+
 /* Form */
 .v-form {
   width: 100%;
@@ -255,5 +262,35 @@ export default {
 /* Snackbar */
 .v-snack__content {
   border-radius: 5px;
+}
+
+::v-deep .theme--light.v-label,
+::v-deep .theme--light.v-icon {
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 15px;
+  color: #aa56ff;
+}
+
+::v-deep .btn-back {
+  position: absolute;
+  left: 0;
+  top: 0;
+  margin-top: 3px;
+}
+
+::v-deep .btn-back .theme--light.v-icon {
+  color: #60c;
+  font-size: 25px;
+}
+
+::v-deep .theme--light.v-icon {
+  font-size: 20px;
+}
+
+::v-deep .change-btn {
+  margin-top: 20px;
+  width: 100%;
+  box-shadow: 0 4px 5px gray !important;
 }
 </style>
