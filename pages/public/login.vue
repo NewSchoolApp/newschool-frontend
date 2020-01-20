@@ -68,12 +68,12 @@
           </v-col>
           <v-col cols="12" class="text-center">
             <v-btn text color="white" @click="loginFacebook">
-              <v-icon left>mdi-facebook</v-icon>Entrar com Facebook
+              <v-icon dark left>mdi-facebook-box</v-icon>Entrar com Facebook
             </v-btn>
           </v-col>
           <v-col cols="12" class="text-center">
             <v-btn text color="white" @click="loginGoogle">
-              <v-icon left>mdi-google-plus</v-icon>Entrar com Google
+              <v-icon dark left>mdi-google-plus</v-icon>Entrar com Google
             </v-btn>
           </v-col>
           <!-- <v-col cols="12" class="text-center">
@@ -189,11 +189,14 @@ export default {
 
     async loginFacebook() {
       try {
+        this.animateForm(true)
 
         await this.$auth.loginWith('facebook')
-        facebookCredentials = this.getFacebookCredentials()
-        $nuxt._router.push('/loading')
+        let facebookCredentials = this.getFacebookCredentials()
+        
+        // Implementar autenticação com o back-end
 
+        $nuxt._router.push('/loading')
       } catch (error) {
         setTimeout(() => {
           this.dialogMessage = 'Falha ao realizar login via Facebook.'
@@ -206,9 +209,12 @@ export default {
 
     async loginGoogle() {
       try {
-        
         await this.$auth.loginWith('google')
+        let googleCredentials = this.getGoogleCredentials()
 
+        // Implementar autenticação com o back-end
+
+        $nuxt._router.push('/loading')
       } catch (error) {
         setTimeout(() => {
           this.dialogMessage = 'Falha ao realizar login via Google.'
@@ -224,8 +230,17 @@ export default {
         id: this.$store.state.auth.user.id,
         email: this.$store.state.auth.user.email,
         name: this.$store.state.auth.user.name,
-        picture: this.$store.state.auth.user.picture.data.url,
+        picture: this.$store.state.auth.user.picture,
         birthdate: this.$store.state.auth.user.birthday,
+      }
+    },
+
+    getGoogleCredentials() {
+      return {
+        id: this.$store.state.auth.user.sub,
+        email: this.$store.state.auth.user.email,
+        name: this.$store.state.auth.user.name,
+        picture: this.$store.state.auth.user.picture,
       }
     },
   },
