@@ -83,21 +83,14 @@
         </v-row>
       </v-container>
     </v-flex>
-    <navigation-bar />
   </v-layout>
 </template>
 
-<router>
-  {
-    path: '/aluno/alterar'
-  }
-</router>
 
 <script scoped>
 import auth from '../../services/http/auth'
 import users from '../../services/http/users'
 import http from '~/services/http/generic'
-import NavigationBar from '~/components/NavigationBar.vue'
 import utils from '~/utils/index'
 
 export default {
