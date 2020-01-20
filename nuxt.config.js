@@ -1,4 +1,9 @@
+<<<<<<< HEAD
 import colors from "vuetify/es5/util/colors";
+=======
+/* eslint-disable prettier/prettier */
+import colors from 'vuetify/es5/util/colors'
+>>>>>>> upstream/develop
 
 export default {
   router: {
@@ -6,6 +11,22 @@ export default {
 
     extendRoutes(routes, resolve) {
       routes.push({
+<<<<<<< HEAD
+=======
+        path: '/aluno/curso/:slug',
+        component: resolve(__dirname, 'pages/student/course.vue'),
+      })
+
+      routes.push({
+        path: '/alterar-senha/:token',
+        name: 'alerar-senha',
+        props: true,
+        component: resolve(__dirname, "pages/public/reset_password.vue")
+      });
+
+
+      routes.push({
+>>>>>>> upstream/develop
         path: '*',
         component: resolve(__dirname, 'pages/public/404.vue'),
       })
@@ -88,6 +109,7 @@ export default {
           "NEWSCHOOL@EXTERNALSECRET"
       }
     },
+<<<<<<< HEAD
     dateEnd: process.env.OPENING_DATE || "20/01/2020",
     endpoints: {
       CERTIFICATES_ME: "api/v1/user/me/certificate",
@@ -99,6 +121,17 @@ export default {
       COURSE_BY_SLUG: "/api/v1/course/slug/",
       INIT_COURSE: "courseTaken/attendAClass/",
       LESSONS_BY_COURSE: "/api/v1/lesson/course/"
+=======
+    dateEnd:
+      process.env.OPENING_DATE || '20/01/2020',
+    endpoints: {
+      CERTIFICATES_ME: 'api/v1/user/me/certificate',
+      USER_ME: 'api/v1/user/me',
+      LOGIN: 'oauth/token',
+      SIGN_UP: 'api/v1/user/student',
+      FORGOT_PASSWORD: 'api/v1/user/forgot-password'
+
+>>>>>>> upstream/develop
     },
     GATOKEN: process.env.GA_TOKEN
   },

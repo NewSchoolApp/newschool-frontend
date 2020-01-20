@@ -168,6 +168,9 @@ export default {
 .theme--light.v-icon {
   color: #d6adff;
 }
+.theme--light.v-icon {
+  color: #d6adff;
+}
 ::placeholder {
   color: #aa56ff !important;
 }

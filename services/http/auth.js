@@ -24,15 +24,12 @@ export default {
         headers: { Authorization: clientCredentials }
       })
       .then(res => {
-        localStorage.setItem(
-          "auth",
-          JSON.stringify({
-            accessToken: `Bearer ${res.data.accessToken}`,
-            refreshToken: res.data.refreshToken,
-            expiresIn: Date.now() + ms(res.data.expiresIn)
-          })
-        );
-      });
+        localStorage.setItem('auth', JSON.stringify({
+          accessToken: `Bearer ${res.data.accessToken}`,
+          refreshToken: res.data.refreshToken,
+          expiresIn: Date.now() + ms(res.data.expiresIn),
+        }));
+      })
   },
 
   signUp: (form, token) => {
@@ -47,6 +44,22 @@ export default {
         headers: { Authorization: `Bearer ${res.data.accessToken}` }
       });
     });
+  },
+
+  changePasswordRequestValidate: token => {
+    return utils.getExternalCredentials().then(res => {
+      return http.get(`${process.env.endpoints.FORGOT_PASSWORD}/${token}/validate`, {
+        headers: { Authorization: `Bearer ${res.data.accessToken}` }
+      })
+    })
+  },
+
+  changePassword: (form, token) => {
+    return utils.getExternalCredentials().then(res => {
+      return http.post(`${process.env.endpoints.FORGOT_PASSWORD}/${token}`, form, {
+        headers: { Authorization: `Bearer ${res.data.accessToken}` }
+      })
+    })
   },
 
   isTokenValid: () => {
