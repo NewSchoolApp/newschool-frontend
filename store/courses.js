@@ -6,7 +6,7 @@ export const state = () => ({
   currentPart: {},
   currentTest: {},
 })
-
+  
 export const mutations = {
   set(state, courses) {
     state.list = courses
@@ -14,6 +14,7 @@ export const mutations = {
   setCurrent(state, course) {
     state.current = course
   },
+<<<<<<< HEAD
 <<<<<<< HEAD
   setCurrentClasses(state, classes) {
     state.current.classes = classes
@@ -34,6 +35,9 @@ export const mutations = {
     state.currentQuestion = question
 =======
   setCurrentClass(state, lesson) {
+=======
+  setCurrentLesson(state, lesson) {
+>>>>>>> c84e550c5d18fce3575082b172c85d77c95f222f
     state.currentLesson = lesson
   },
   setCurrentPart(state, part) {
