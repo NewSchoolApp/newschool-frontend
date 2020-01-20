@@ -155,11 +155,6 @@ export default {
       }
       document.querySelector('html').style.overflow = 'scroll';
     },
-
-    goBack() {
-      $nuxt._router.push('/aluno/alterar');
-    },
-
     gotoHome() {
       $nuxt._router.push('/aluno/home');
     },
