@@ -34,6 +34,9 @@ export default {
 <style scoped>
 main {
   text-align: center;
+  width: 90%;
+  max-width: 500px;
+  margin: 10% auto;
 }
 main p {
   color: #656565;
@@ -44,7 +47,6 @@ main p {
   line-height: 20px;
 }
 .container {
-  position: absolute;
   height: 80%;
   display: flex;
   justify-content: center;
