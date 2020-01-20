@@ -126,7 +126,7 @@ export default {
     passwordRules: [
       v => !!v || "Digite a senha",
       v => (v && v.length >= 6) || "A senha deve ter no mínimo 6 caracteres"
-    ],
+    ]
   }),
 
   head() {
@@ -137,7 +137,7 @@ export default {
           hid: "description",
           name: "description",
           content:
-            "Entre no aplicativo da New School - Levamos educação de qualidade na linguagem da quebrada para as periferias do Brasil, através da tecnologia e da curadoria de conteúdos baseados nas habilidades do futuro.",
+            "Entre no aplicativo da New School - Levamos educação de qualidade na linguagem da quebrada para as periferias do Brasil, através da tecnologia e da curadoria de conteúdos baseados nas habilidades do futuro."
         }
       ]
     };
@@ -243,13 +243,6 @@ export default {
         picture: this.$store.state.auth.user.picture
       };
     },
-  },
-
-  mounted() {
-    const { status } = auth.isTokenValid();
-    if (status) {
-      $nuxt._router.push("/loading");
-    }
   }
 };
 </script>
