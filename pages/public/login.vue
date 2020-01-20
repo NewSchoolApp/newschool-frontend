@@ -104,7 +104,8 @@
 </router>
 
 <script>
-import auth from "~/services/http/auth";
+import auth from '~/services/http/auth';
+import utils from '~/utils/index';
 
 export default {
   data: () => ({
@@ -112,21 +113,21 @@ export default {
     status: true,
     loading: false,
     dialog: false,
-    dialogMessage: "",
+    dialogMessage: '',
     showPass: false,
 
-    title: "Entrar",
+    title: 'Entrar',
 
-    email: "",
+    email: '',
     emailRules: [
-      v => !!v || "Digite o e-mail",
-      v => /.+@.+\..+/.test(v) || "E-mail inválido"
+      v => !!v || 'Digite o e-mail',
+      v => /.+@.+\..+/.test(v) || 'E-mail inválido',
     ],
-    password: "",
+    password: '',
     passwordRules: [
-      v => !!v || "Digite a senha",
-      v => (v && v.length >= 6) || "A senha deve ter no mínimo 6 caracteres"
-    ]
+      v => !!v || 'Digite a senha',
+      v => (v && v.length >= 6) || 'A senha deve ter no mínimo 6 caracteres',
+    ],
   }),
 
   head() {
@@ -134,12 +135,12 @@ export default {
       title: this.title,
       meta: [
         {
-          hid: "description",
-          name: "description",
+          hid: 'description',
+          name: 'description',
           content:
-            "Entre no aplicativo da New School - Levamos educação de qualidade na linguagem da quebrada para as periferias do Brasil, através da tecnologia e da curadoria de conteúdos baseados nas habilidades do futuro."
-        }
-      ]
+            'Entre no aplicativo da New School - Levamos educação de qualidade na linguagem da quebrada para as periferias do Brasil, através da tecnologia e da curadoria de conteúdos baseados nas habilidades do futuro.',
+        },
+      ],
     };
   },
 
@@ -151,11 +152,11 @@ export default {
         auth
           .login(this.email, this.password)
           .then(() => {
-            $nuxt._router.push("/loading/login");
+            $nuxt._router.push('/loading/login');
           })
           .catch(err => {
             setTimeout(() => {
-              this.dialogMessage = "Usuário ou senha incorretos!";
+              this.dialogMessage = 'Usuário ou senha incorretos!';
               this.dialog = true;
               this.loading = false;
             }, 500);
@@ -168,37 +169,88 @@ export default {
 
     head() {
       return {
-        title: this.title
+        title: this.title,
       };
     },
 
     animateForm(status) {
       if (status) {
-        this.$refs.flex.classList.add("hide-form");
-        document.querySelector("html").style.overflow = "hidden";
+        this.$refs.flex.classList.add('hide-form');
+        document.querySelector('html').style.overflow = 'hidden';
         setTimeout(() => {
           this.loading = true;
         }, 300);
       } else {
-        this.$refs.flex.classList.add("error-form");
+        this.$refs.flex.classList.add('error-form');
         setTimeout(() => {
-          this.$refs.flex.classList.remove("error-form");
+          this.$refs.flex.classList.remove('error-form');
         }, 500);
       }
     },
 
     async loginFacebook() {
       try {
+        await this.$auth.loginWith('facebook');
         this.animateForm(true);
+        var facebookCredentials = this.getFacebookCredentials();
 
-        await this.$auth.loginWith("facebook");
-        let facebookCredentials = this.getFacebookCredentials();
+        let error = auth.loginFacebook(facebookCredentials);
 
-        // Implementar autenticação com o back-end
+        // Usuário do Facebook ainda não cadastrado na base de dados
+        if (error === '404') {
+          let randomPassword = Math.random()
+            .toString(36)
+            .slice(-10);
 
+          const facebookCredentialsRegisterJSON = utils.toFormData({
+            name: facebookCredentials.name,
+            email: facebookCredentials.email,
+            password: randomPassword,
+            urlFaceebook: '',
+            urlInstagram: '',
+          });
+
+          const { success } = this.registerUserFacebook(
+            facebookCredentialsRegisterJSON,
+          );
+
+          if (success) {
+            auth
+              .login(
+                facebookCredentialsRegister.email,
+                facebookCredentialsRegister.password,
+              )
+              .then(() => {
+                $nuxt._router.push('/loading/login');
+              })
+              .catch(err => {
+                setTimeout(() => {
+                  this.dialogMessage = 'Usuário ou senha incorretos!';
+                  this.dialog = true;
+                  this.loading = false;
+                }, 500);
+                console.error(err);
+              });
+          } else {
+            setTimeout(() => {
+              this.dialogMessage =
+                'Usuário não encontrado na base de dados, falha ao realizar cadastro.';
+              this.dialog = true;
+              this.loading = false;
+            }, 500);
+          }
+        } else if (error === '0') {
+          $nuxt._router.push('/loading/login');
+        } else {
+          setTimeout(() => {
+            this.dialogMessage = 'Falha ao realizar login utilizando Facebook.';
+            this.dialog = true;
+            this.loading = false;
+          }, 500);
+        }
       } catch (error) {
         setTimeout(() => {
-          this.dialogMessage = "Falha ao realizar login via Facebook.";
+          this.dialogMessage = 'Falha ao realizar login utilizando Facebook.';
           this.dialog = true;
           this.loading = false;
         }, 500);
@@ -210,14 +262,13 @@ export default {
       try {
         this.animateForm(true);
 
-        await this.$auth.loginWith("google");
+        await this.$auth.loginWith('google');
         let googleCredentials = this.getGoogleCredentials();
 
         // Implementar autenticação com o back-end
-
       } catch (error) {
         setTimeout(() => {
-          this.dialogMessage = "Falha ao realizar login via Google.";
+          this.dialogMessage = 'Falha ao realizar login via Google.';
           this.dialog = true;
           this.loading = false;
         }, 500);
@@ -230,20 +281,43 @@ export default {
         id: this.$store.state.auth.user.id,
         email: this.$store.state.auth.user.email,
         name: this.$store.state.auth.user.name,
-        picture: this.$store.state.auth.user.picture,
-        birthdate: this.$store.state.auth.user.birthday
+        // picture: this.$store.state.auth.user.picture,
+        birthday: this.$store.state.auth.user.birthday,
       };
     },
 
     getGoogleCredentials() {
       return {
-        id: this.$store.state.auth.user.sub,
         email: this.$store.state.auth.user.email,
+        email_verified: this.$store.state.auth.user.email_verified,
+        id: this.$store.state.auth.user.sub,
+        id: this.$store.state.auth.user.sub,
+        id: this.$store.state.auth.user.sub,
         name: this.$store.state.auth.user.name,
-        picture: this.$store.state.auth.user.picture
+        picture: this.$store.state.auth.user.picture,
       };
     },
-  }
+
+    registerUserFacebook(facebookCredentials) {
+      utils
+        .getExternalCredentials()
+        .then(res => {
+          const token = res.data.accessToken;
+          auth
+            .signUp(facebookCredentials, token)
+            .then(res => {
+              return { success: true };
+            })
+            .catch(err => {
+              console.error(err);
+              return { success: false };
+            });
+        })
+        .catch(() => {
+          return { success: false };
+        });
+    },
+  },
 };
 </script>
 
@@ -261,7 +335,7 @@ export default {
   width: 100%;
   height: 100%;
   position: fixed;
-  background: url("../../assets/paraisopolis.png");
+  background: url('../../assets/paraisopolis.png');
   background-size: cover;
   background-position: center;
 }

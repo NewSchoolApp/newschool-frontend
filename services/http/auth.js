@@ -86,7 +86,32 @@ export default {
         refreshToken: ``
       };
     }
-  }
+  },
+
+  loginFacebook: (facebookCredentials) => {
+    return http
+      .post(process.env.endpoints.FACEBOOK_LOGIN, facebookCredentials)
+      .then(res => {
+        console.log('SUCESSO' + res);
+        localStorage.setItem(
+          "auth",
+          JSON.stringify({
+            accessToken: `Bearer ${res.data.accessToken}`,
+            refreshToken: res.data.refreshToken,
+            expiresIn: Date.now() + ms(res.data.expiresIn)
+          })
+        );
+        return { error: "0" };
+      })
+      .catch(err => {
+        console.log('ERRO' + JSON.stringify(err.response));
+        return { error: err };
+      });
+  },
+
+  loginGoogle: (googleCredentials) => {
+    
+  },
 };
 const getNewAccessToken = refreshToken => {
   const body = utils.toFormData({

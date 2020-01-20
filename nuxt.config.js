@@ -99,7 +99,9 @@ export default {
       COURSE_BY_SLUG: "/api/v1/course/slug/",
       INIT_COURSE: "api/v1/course-taken/",
       LESSONS_BY_COURSE: "/api/v1/lesson/course/",
-      STATE_COURSE: "api/v1/course-taken/"
+      STATE_COURSE: "api/v1/course-taken/",
+      FACEBOOK_LOGIN: "oauth/facebook/token",
+      GOOGLE_LOGIN: "oauth/google/token"
     },
     GATOKEN: process.env.GA_TOKEN
   },
