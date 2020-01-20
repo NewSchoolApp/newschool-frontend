@@ -1,9 +1,4 @@
-<<<<<<< HEAD
 import colors from "vuetify/es5/util/colors";
-=======
-/* eslint-disable prettier/prettier */
-import colors from 'vuetify/es5/util/colors'
->>>>>>> upstream/develop
 
 export default {
   router: {
@@ -11,22 +6,6 @@ export default {
 
     extendRoutes(routes, resolve) {
       routes.push({
-<<<<<<< HEAD
-=======
-        path: '/aluno/curso/:slug',
-        component: resolve(__dirname, 'pages/student/course.vue'),
-      })
-
-      routes.push({
-        path: '/alterar-senha/:token',
-        name: 'alerar-senha',
-        props: true,
-        component: resolve(__dirname, "pages/public/reset_password.vue")
-      });
-
-
-      routes.push({
->>>>>>> upstream/develop
         path: '*',
         component: resolve(__dirname, 'pages/public/404.vue'),
       })
