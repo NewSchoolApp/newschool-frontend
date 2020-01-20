@@ -104,7 +104,7 @@
 </router>
 
 <script>
-import auth from '~/services/http/auth';
+import auth from "~/services/http/auth";
 
 export default {
   data: () => ({
@@ -112,20 +112,20 @@ export default {
     status: true,
     loading: false,
     dialog: false,
-    dialogMessage: '',
+    dialogMessage: "",
     showPass: false,
 
-    title: 'Entrar',
+    title: "Entrar",
 
-    email: '',
+    email: "",
     emailRules: [
-      v => !!v || 'Digite o e-mail',
-      v => /.+@.+\..+/.test(v) || 'E-mail inválido',
+      v => !!v || "Digite o e-mail",
+      v => /.+@.+\..+/.test(v) || "E-mail inválido",
     ],
-    password: '',
+    password: "",
     passwordRules: [
-      v => !!v || 'Digite a senha',
-      v => (v && v.length >= 6) || 'A senha deve ter no mínimo 6 caracteres',
+      v => !!v || "Digite a senha",
+      v => (v && v.length >= 6) || "A senha deve ter no mínimo 6 caracteres",
     ],
   }),
 
@@ -134,10 +134,10 @@ export default {
       title: this.title,
       meta: [
         {
-          hid: 'description',
-          name: 'description',
+          hid: "description",
+          name: "description",
           content:
-            'Entre no aplicativo da New School - Levamos educação de qualidade na linguagem da quebrada para as periferias do Brasil, através da tecnologia e da curadoria de conteúdos baseados nas habilidades do futuro.',
+            "Entre no aplicativo da New School - Levamos educação de qualidade na linguagem da quebrada para as periferias do Brasil, através da tecnologia e da curadoria de conteúdos baseados nas habilidades do futuro.",
         },
       ],
     };
@@ -151,11 +151,11 @@ export default {
         auth
           .login(this.email, this.password)
           .then(() => {
-            $nuxt._router.push('/loading/login');
+            $nuxt._router.push("/loading/login");
           })
           .catch(err => {
             setTimeout(() => {
-              this.dialogMessage = 'Usuário ou senha incorretos!';
+              this.dialogMessage = "Usuário ou senha incorretos!";
               this.dialog = true;
               this.loading = false;
             }, 500);
@@ -174,15 +174,15 @@ export default {
 
     animateForm(status) {
       if (status) {
-        this.$refs.flex.classList.add('hide-form');
-        document.querySelector('html').style.overflow = 'hidden';
+        this.$refs.flex.classList.add("hide-form");
+        document.querySelector("html").style.overflow = "hidden";
         setTimeout(() => {
           this.loading = true;
         }, 300);
       } else {
-        this.$refs.flex.classList.add('error-form');
+        this.$refs.flex.classList.add("error-form");
         setTimeout(() => {
-          this.$refs.flex.classList.remove('error-form');
+          this.$refs.flex.classList.remove("error-form");
         }, 500);
       }
     },
@@ -191,14 +191,14 @@ export default {
       try {
         this.animateForm(true);
 
-        await this.$auth.loginWith('facebook');
+        await this.$auth.loginWith("facebook");
         let facebookCredentials = this.getFacebookCredentials();
 
         // Implementar autenticação com o back-end
 
       } catch (error) {
         setTimeout(() => {
-          this.dialogMessage = 'Falha ao realizar login via Facebook.';
+          this.dialogMessage = "Falha ao realizar login via Facebook.";
           this.dialog = true;
           this.loading = false;
         }, 500);
@@ -209,15 +209,15 @@ export default {
     async loginGoogle() {
       try {
         this.animateForm(true);
-        
-        await this.$auth.loginWith('google');
+
+        await this.$auth.loginWith("google");
         let googleCredentials = this.getGoogleCredentials();
 
         // Implementar autenticação com o back-end
 
       } catch (error) {
         setTimeout(() => {
-          this.dialogMessage = 'Falha ao realizar login via Google.';
+          this.dialogMessage = "Falha ao realizar login via Google.";
           this.dialog = true;
           this.loading = false;
         }, 500);
@@ -248,7 +248,7 @@ export default {
   mounted() {
     const { status } = auth.isTokenValid();
     if (status) {
-      // $nuxt._router.push('/loading');
+      $nuxt._router.push("/loading");
     }
   },
 };
@@ -268,7 +268,7 @@ export default {
   width: 100%;
   height: 100%;
   position: fixed;
-  background: url('../../assets/paraisopolis.png');
+  background: url("../../assets/paraisopolis.png");
   background-size: cover;
   background-position: center;
 }
