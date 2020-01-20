@@ -120,12 +120,12 @@ export default {
     email: "",
     emailRules: [
       v => !!v || "Digite o e-mail",
-      v => /.+@.+\..+/.test(v) || "E-mail inválido",
+      v => /.+@.+\..+/.test(v) || "E-mail inválido"
     ],
     password: "",
     passwordRules: [
       v => !!v || "Digite a senha",
-      v => (v && v.length >= 6) || "A senha deve ter no mínimo 6 caracteres",
+      v => (v && v.length >= 6) || "A senha deve ter no mínimo 6 caracteres"
     ],
   }),
 
@@ -138,8 +138,8 @@ export default {
           name: "description",
           content:
             "Entre no aplicativo da New School - Levamos educação de qualidade na linguagem da quebrada para as periferias do Brasil, através da tecnologia e da curadoria de conteúdos baseados nas habilidades do futuro.",
-        },
-      ],
+        }
+      ]
     };
   },
 
@@ -168,7 +168,7 @@ export default {
 
     head() {
       return {
-        title: this.title,
+        title: this.title
       };
     },
 
@@ -231,7 +231,7 @@ export default {
         email: this.$store.state.auth.user.email,
         name: this.$store.state.auth.user.name,
         picture: this.$store.state.auth.user.picture,
-        birthdate: this.$store.state.auth.user.birthday,
+        birthdate: this.$store.state.auth.user.birthday
       };
     },
 
@@ -240,7 +240,7 @@ export default {
         id: this.$store.state.auth.user.sub,
         email: this.$store.state.auth.user.email,
         name: this.$store.state.auth.user.name,
-        picture: this.$store.state.auth.user.picture,
+        picture: this.$store.state.auth.user.picture
       };
     },
   },
@@ -250,7 +250,7 @@ export default {
     if (status) {
       $nuxt._router.push("/loading");
     }
-  },
+  }
 };
 </script>
 
