@@ -63,7 +63,7 @@
                 class="btn-block btn-submit btn-second"
                 depressed
                 large
-                to="/aluno/alterar-senha"
+                to="/admin/alterar-senha"
                 >Alterar Senha</v-btn
               >
             </v-col>
@@ -88,7 +88,7 @@
 
 <router>
 {
-  path : '/aluno/alterar'
+  path : '/admin/alterar'
 }
 </router>
 
@@ -181,11 +181,11 @@ export default {
     },
 
     gotoHome() {
-      $nuxt._router.push('/aluno/home')
+      $nuxt._router.push('/admin/home')
     },
 
     goBack() {
-     $nuxt._router.push('/aluno/perfil')
+     $nuxt._router.push('/admin/perfil')
     },
 
     confirmSnackbar(text, status) {

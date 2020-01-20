@@ -1,10 +1,8 @@
 <template>
   <v-layout justify-center>
-
     <div v-if="loading" class="spiner-container">  
       <v-progress-circular :size="70" :width="5" indeterminate></v-progress-circular>
     </div>
-
     <v-flex xs10 sm8 md6 ref="flex" v-else>
       <v-container>
         <v-row>
@@ -84,8 +82,7 @@
 
 <router>
 {
-  path : '/aluno/alterar-senha',
-  name: 'alterar-senha'
+  path : '/admin/alterar-senha'
 }
 
 </router>
