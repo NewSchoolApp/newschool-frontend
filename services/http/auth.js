@@ -1,6 +1,6 @@
 import ms from 'ms'
 import { http } from './config'
-import utils from "~/utils/index"
+import utils from '~/utils/index'
 /**
  * @author Andrews
  *
@@ -12,24 +12,26 @@ export default {
    * autenticação na API do sistema
    */
   login: (username, password) => {
-
     const body = utils.toFormData({
-      grant_type: "password",
-      username: username,
-      password: password
+      grant_type: 'password',
+      username,
+      password,
     })
-    const clientCredentials = utils.getPasswordCredentials();
+    const clientCredentials = utils.getPasswordCredentials()
 
     return http
       .post(process.env.endpoints.LOGIN, body, {
-        headers: { Authorization: clientCredentials }
+        headers: { Authorization: clientCredentials },
       })
       .then(res => {
-        localStorage.setItem('auth', JSON.stringify({
-          accessToken: `Bearer ${res.data.accessToken}`,
-          refreshToken: res.data.refreshToken,
+        localStorage.setItem(
+          'auth',
+          JSON.stringify({
+            accessToken: `Bearer ${res.data.accessToken}`,
+            refreshToken: res.data.refreshToken,
             expiresIn: Date.now() + ms(res.data.expiresIn),
-        }));
+          }),
+        )
       })
   },
 
@@ -40,7 +42,7 @@ export default {
   },
 
   forgotPassword: form => {
-    let email = utils.toFormData(form)
+    const email = utils.toFormData(form)
     return utils.getExternalCredentials().then(res => {
       return http.post(process.env.endpoints.FORGOT_PASSWORD, form, {
         headers: { Authorization: `Bearer ${res.data.accessToken}` },
@@ -59,7 +61,7 @@ export default {
         return { status: true, token: utils.getToken() }
       }
     } else {
-      return { status: false, token: "" }
+      return { status: false, token: '' }
     }
   },
 
@@ -73,12 +75,11 @@ export default {
       }
     }
   },
-
 }
 const getNewAccessToken = refreshToken => {
   const body = utils.toFormData({
-    grant_type: "refresh_token",
-    refresh_token: refreshToken
+    grant_type: 'refresh_token',
+    refresh_token: refreshToken,
   })
 
   const clientCredentials = utils.getPasswordCredentials()
@@ -88,15 +89,18 @@ const getNewAccessToken = refreshToken => {
       headers: { Authorization: clientCredentials },
     })
     .then(res => {
-      localStorage.setItem('auth', JSON.stringify({
-        accessToken: `Bearer ${res.data.accessToken}`,
-        refreshToken: res.data.refreshToken,
-        expiresIn: Date.now() + ms(res.data.expiresIn),
-      }))
+      localStorage.setItem(
+        'auth',
+        JSON.stringify({
+          accessToken: `Bearer ${res.data.accessToken}`,
+          refreshToken: res.data.refreshToken,
+          expiresIn: Date.now() + ms(res.data.expiresIn),
+        }),
+      )
 
       return { status: true, token: utils.getToken() }
     })
     .catch(() => {
-      return { status: false, token: "" }
+      return { status: false, token: '' }
     })
 }

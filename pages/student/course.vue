@@ -37,6 +37,7 @@ export default {
       notFound: false,
       course: null,
     }
+    console.log(course)
   },
   mounted() {
     const { slug } = this.$route.params

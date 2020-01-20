@@ -1,5 +1,5 @@
 <template>
-  <div  id="page">
+  <div id="page">
     <div class="content">
       <v-row>
         <v-col cols="6" md="8">
@@ -22,7 +22,6 @@
             <a href>Perfil</a>
           </v-card>
         </v-col>
-
       </v-row>
 
       <!-- <v-card class="mx-auto item" max-width="344">
@@ -87,28 +86,27 @@
 </router>
 
 <script>
-import NavigationBar from "~/components/NavigationBar.vue";
+import NavigationBar from '~/components/NavigationBar.vue'
 
 export default {
   components: {
-    NavigationBar
+    NavigationBar,
   },
   methods: {
-    gotoChangeData(){
-      $nuxt._router.push("/aluno/alterar");
-    }
-  }
-};
+    gotoChangeData() {
+      $nuxt._router.push('/aluno/alterar')
+    },
+  },
+}
 </script>
 
 <style scoped>
-@media(min-width: 600px){
-#page{
-  overflow-y: auto;
-  margin: 0 auto;
-  
+@media (min-width: 600px) {
+  #page {
+    overflow-y: auto;
+    margin: 0 auto;
   }
-}  
+}
 .item {
   margin: 1rem;
   display: flex;
@@ -126,7 +124,7 @@ export default {
   margin-top: 2%;
 }
 body {
-  background-image: url("../../assets/paraisopolis.png");
+  background-image: url('../../assets/paraisopolis.png');
   background-repeat: repeat;
   background-size: cover;
 }
@@ -135,7 +133,7 @@ figure {
   margin: 0 5% 0 1%;
 }
 .titulo h1 {
-  font-family: "Montserrat";
+  font-family: 'Montserrat';
   font-weight: 900;
   font-size: 150%;
   display: flex;
@@ -154,7 +152,7 @@ div h1,
 h2,
 h3,
 p {
-   color: #6600cc;
+  color: #6600cc;
 }
 /* Modificar nomes das clases, padrão ingles e nomes mais abstratos */
 @media (max-height: 768px) {

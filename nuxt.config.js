@@ -40,14 +40,18 @@ export default {
           'NEWSCHOOL@EXTERNALSECRET',
       },
     },
-	dateEnd: 
-	process.env.OPENING_DATE || '20/01/2020',
+    dateEnd: process.env.OPENING_DATE || '20/01/2020',
     endpoints: {
       CERTIFICATES_ME: 'api/v1/user/me/certificate',
       USER_ME: 'api/v1/user/me',
       LOGIN: 'oauth/token',
       SIGN_UP: 'api/v1/user/student',
-      FORGOT_PASSWORD: 'api/v1/user/forgot-password'
+      FORGOT_PASSWORD: 'api/v1/user/forgot-password',
+    },
+    endpointCourseTaken: {
+      CERTIFICATES_COURSE_TAKEN_ME: 'api/v1/user/me/certificate_course_taken',
+      USER_ME: 'api/v1/user/me',
+      LOGIN: 'oauth/token',
     },
     GATOKEN: process.env.GA_TOKEN,
   },
@@ -58,7 +62,7 @@ export default {
   head: {
     htmlAttrs: {
       lang: 'en',
-      style:'overflow-y: auto'
+      style: 'overflow-y: auto',
     },
     titleTemplate:
       '%s | ' + 'New School | Formando os protagonistas da quebrada',
@@ -175,6 +179,6 @@ export default {
     /*
      ** You can extend webpack config here
      */
-    extend(config, ctx) { },
+    extend(config, ctx) {},
   },
 }

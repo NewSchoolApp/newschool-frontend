@@ -76,7 +76,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .share-container {
   width: 90px;
   height: 35px;

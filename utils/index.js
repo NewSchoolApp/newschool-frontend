@@ -1,16 +1,16 @@
-import { http } from "~/services/http/config";
-import utils from "~/utils/index";
+import { http } from '~/services/http/config'
+import utils from '~/utils/index'
 
 export default {
-
   getToken: () => {
     return JSON.parse(localStorage.getItem('auth')).accessToken
   },
 
   getPasswordCredentials: () => {
-    const base64 = btoa(`${process.env.credentials.name}:${process.env.credentials.secret}`)
+    const base64 = btoa(
+      `${process.env.credentials.name}:${process.env.credentials.secret}`,
+    )
     return `Basic ${base64}`
-
   },
   getExternalCredentials: () => {
     const base64 = btoa(
@@ -25,12 +25,11 @@ export default {
     })
   },
 
-  toFormData: (object) => {
+  toFormData: object => {
     const form = new FormData()
     Object.keys(object).forEach(item => {
       form.append(item, object[item])
     })
-    return form;
-  }
+    return form
+  },
 }
-
