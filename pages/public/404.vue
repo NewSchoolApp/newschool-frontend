@@ -20,7 +20,7 @@ export default {
   },
   methods: {
     gotoBack() {
-      $nuxt._router.back();
+      $nuxt._router.go(-2);
     }
   }
 };

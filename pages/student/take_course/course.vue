@@ -51,34 +51,34 @@
 </template>
 
 <script>
-import NotFound from "~/pages/public/404.vue";
-import NavigationBar from "~/components/NavigationBar.vue";
-import HeaderBar from "~/components/Header.vue";
-import Modal from "~/components/Modal.vue";
-import http from "~/services/http/generic";
-import utils from "~/utils/index";
+import NotFound from '~/pages/public/404.vue';
+import NavigationBar from '~/components/NavigationBar.vue';
+import HeaderBar from '~/components/Header.vue';
+import Modal from '~/components/Modal.vue';
+import http from '~/services/http/generic';
+import utils from '~/utils/index';
 
 export default {
   components: {
     NavigationBar,
     NotFound,
     Modal,
-    HeaderBar
+    HeaderBar,
   },
   data() {
     return {
-      idUser: "",
-      slug: "",
-      dialogMessage: "",
+      idUser: 0,
+      slug: '',
+      dialogMessage: '',
       dialogOptions: {
         ok: false,
         cancel: false,
-        toRoute: false
+        toRoute: false,
       },
       loadingInit: false,
       loading: true,
       notFound: false,
-      course: {}
+      course: {},
     };
   },
   mounted() {
@@ -103,21 +103,40 @@ export default {
   methods: {
     initCourse(id) {
       this.loadingInit = true;
-      if (utils.getToken()) {
+      if (utils.getToken() && this.idUser) {
         http
-          .post(`${process.env.endpoints.INIT_COURSE}${this.idUser}/${id}`)
+          .post(process.env.endpoints.INIT_COURSE, {
+            user: this.idUser,
+            course: id,
+          })
           .then(res => {
-            console.log()
-            setTimeout(() => {
-              $nuxt._router.push(`/curso/aulas/${id}`);
-            }, 400);
+            this.$store.commit(
+              'courses/setCurrentClass',
+              res.data.currentLesson,
+            );
+            this.$store.commit('courses/setCurrentPart', res.data.currentPart);
+            this.$store.commit('courses/setCurrentTest', res.data.currentTest);
+
+            http
+              .getAll(
+                `${process.env.endpoints.STATE_COURSE}/${this.idUser}/${id}`,
+              )
+              .then(res => {
+                this.$store.commit('courses/setCurrent', res.data.course);
+                delete res.data.user;
+                delete res.data.course;
+                this.$store.commit('courses/setCurrentState', res.data);
+                setTimeout(() => {
+                  $nuxt._router.push(`aluno/curso/${this.slug}/aula/parte`);
+                }, 400);
+              });
           })
           .catch(error => {
             this.dialogOptions.ok = true;
             this.dialogMessage =
               error.response.status === 401
-                ? "Você precisa estar logado para fazer um curso!"
-                : "Erro ao iniciar o curso, tente novamente";
+                ? 'Você precisa estar logado para fazer um curso!'
+                : 'Erro ao iniciar o curso, tente novamente';
             setTimeout(() => {
               this.loadingInit = false;
               utils.runModal();
@@ -125,10 +144,10 @@ export default {
           });
       } else {
         setTimeout(() => {
-          this.dialogOptions.toRoute = { path: "/login", name: "Fazer Login" };
+          this.dialogOptions.toRoute = { path: '/login', name: 'Fazer Login' };
           this.dialogOptions.ok = true;
           this.dialogMessage =
-            "Você precisa estar logado para fazer um curso! faça o login e tente novamente";
+            'Você precisa estar logado para fazer um curso! faça o login e tente novamente';
           this.loadingInit = false;
           utils.runModal();
         }, 1000);
@@ -136,9 +155,11 @@ export default {
     },
     comeBackPage() {
       window.history.go(-1);
-    }
-  }
+    },
+  },
 };
+
+//
 </script>
 
 <style scoped lang="scss">

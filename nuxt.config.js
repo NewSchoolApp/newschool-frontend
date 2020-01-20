@@ -49,7 +49,7 @@ export default {
                 name: 'aluno-curso',
                 props: true,
                 component: resolve(__dirname, "pages/student/take_course/course.vue"),
-              }
+              },
             ]
           },
           {
@@ -97,8 +97,9 @@ export default {
       FORGOT_PASSWORD: "api/v1/user/forgot-password",
       COURSE: "/api/v1/course",
       COURSE_BY_SLUG: "/api/v1/course/slug/",
-      INIT_COURSE: "courseTaken/attendAClass/",
-      LESSONS_BY_COURSE: "/api/v1/lesson/course/"
+      INIT_COURSE: "api/v1/course-taken/",
+      LESSONS_BY_COURSE: "/api/v1/lesson/course/",
+      STATE_COURSE: "api/v1/course-taken/"
     },
     GATOKEN: process.env.GA_TOKEN
   },

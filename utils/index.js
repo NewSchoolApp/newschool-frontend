@@ -34,7 +34,10 @@ export default {
     });
     return form;
   },
-  runModal() {
+  runModal(message = "") {
+    if (message) {
+      document.getElementById("textModal").innerHTML(message)
+    }
     document.getElementById('viewModal').click()
   }
 };
