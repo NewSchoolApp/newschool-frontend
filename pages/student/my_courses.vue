@@ -1,26 +1,20 @@
 <template>
   <div>
+    <HeaderBar :title="'Meus Cursos'" :backPage="true"></HeaderBar>
     <div id="page">
       <!-- HTML aqui! -->
     </div>
-      <navigation-bar />
   </div>
 </template>
 
-<router>
-  {
-    path: '/aluno/meus-cursos'
-  }
-</router>
-
 <script>
-import NavigationBar from '~/components/NavigationBar.vue'
+import HeaderBar from "~/components/Header.vue";
 
 export default {
   components: {
-    NavigationBar,
-  },
-}
+    HeaderBar
+  }
+};
 </script>
 
 <style scoped></style>
