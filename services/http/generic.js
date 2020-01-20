@@ -11,6 +11,24 @@ http.interceptors.request.use(config => {
   config.headers.Authorization = utils.getToken();
   return config;
 });
+
+// Interceptor para gaurd e redirecionamento
+// TODO criar um arquivo específico para inetrceptors
+http.interceptors.response.use(response => {
+  return response
+}, (error) => {
+  if (401 === error.response.statusCode) {
+    localStorage.clear();
+    $nuxt._router.push("/login")
+  } else {
+    $nuxt._router.push("/404")
+    document.getElementById("textModal").innerHTML("Erro ao efetuar a ação")
+    document.getElementById("viewModal").click();
+    return Promise.reject(error);
+  }
+  return config;
+});
+
 addInterceptorError(http);
 /**
  * @author Andrews
@@ -30,7 +48,7 @@ export default {
     return http.post(path, payload);
   },
 
-  put: (path, id, payload= {}) => {
+  put: (path, id, payload = {}) => {
     return http.put(`${path}/${id}`, payload);
   },
 

@@ -21,7 +21,7 @@ export default {
   },
   methods: {
     gotoBack() {
-      $nuxt._router.go(-1);
+      $nuxt._router.back();
     }
   }
 };

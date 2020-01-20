@@ -4,7 +4,7 @@
       <v-card-title class="headline">
         <v-icon>mdi-close-circle-outline</v-icon>
       </v-card-title>
-      <v-card-text>
+      <v-card-text id="textModal">
         <h1>Atenção!</h1>
         {{ dialogMessage }}
       </v-card-text>
@@ -23,7 +23,7 @@
  * @author Andrews
  * Para usar é necessário passar os seguintes parametros para o componente
  * @param dialogMessage mensagem a ser exibida
- * @param toRoute caso você queira redirecionar para uma rota passa o objeto assim {path : "/path_rota" , name : "nome_do_botão"}
+ * @param toRoute caso você queira redirecionar para uma rota, passe o objeto dessa forma {path : "/path_rota" , name : "nome_do_botão"}
  * @param cancel flag para opção cancelar
  * @param ok flag para opção ok
  */
@@ -65,8 +65,8 @@ export default {
     font-size: 3rem;
   }
   .btn-group {
-      display: flex;
-      justify-content: center;
+    display: flex;
+    justify-content: center;
   }
 }
 </style>

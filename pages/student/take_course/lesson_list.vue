@@ -18,11 +18,9 @@ export default {
   },
   mounted() {
     const { id } = this.$route.params;
-    console.log(id)
     http
       .getAll(`${process.env.endpoints.LESSONS_BY_COURSE}${id}`)
       .then(res => {
-        console.log(res);
         this.lesson_list = res.data;
         this.loading = true;
       });

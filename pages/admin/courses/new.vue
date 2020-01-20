@@ -201,12 +201,6 @@ export default {
 </script>
 
 <style scoped>
-@import url("https://fonts.googleapis.com/css?family=Montserrat:400,500,900&display=swap");
-
-/* Global */
-* {
-  font-family: "Montserrat", Helvetica, Arial, sans-serif !important;
-}
 
 .flex {
   animation: intro 300ms backwards;

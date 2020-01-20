@@ -107,6 +107,7 @@ export default {
         http
           .post(`${process.env.endpoints.INIT_COURSE}${this.idUser}/${id}`)
           .then(res => {
+            console.log()
             setTimeout(() => {
               $nuxt._router.push(`/curso/aulas/${id}`);
             }, 400);
