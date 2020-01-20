@@ -3,12 +3,14 @@
          <v-flex xs10 sm8 md6 ref="flex">  
                 <v-container>
     
-            <v-col cols="12">
+            <v-col cols="12" class="initial-text">
+                <v-row >
+                    <p>Eita! Ainda não finalizamos essa página.</p>
+                </v-row>
+            </v-col>
+            <v-col cols="12" class="initial-text">
                 <v-row>
-                <h1 class="initial-text">Salve salve, estamos 
-                    terminando de criar a New School. Então relaxa que 
-                    logo logo vem novidade ai, tamo together wow! 
-                    </h1>  
+                    <p>Mas relaxa aí que logo, logo vem novidade. Tamo together!</p>
                 </v-row>
             </v-col>
             <v-col cols="12">    
@@ -31,7 +33,7 @@
             </v-col >
             <v-col cols="12">
                 <v-row>
-                    <h1 class="end-text">25 de Janeiro de 2020</h1>
+                    <h1 class="end-text">Quer ajudar a gente?</h1>
                 </v-row>
             </v-col>
         </v-container>
@@ -84,8 +86,9 @@ export default {
             }, 1000);            
         }
     }
-
     
+
+
 }
 </script>
 
@@ -101,11 +104,11 @@ export default {
 .initial-text {
     font-style: normal!important;
     font-size: 18px;
+    font-weight: 900;
     line-height: 22px;
     display: flex;
-    text-align: left;
-    align-items: center;
-    color: #8036ca;
+    text-align: center;
+    color: #656565;
 }
     /* Img */ 
 .img{
@@ -117,14 +120,14 @@ export default {
 .data-text{
     font-style: normal;
     font-weight: 900;
-    font-size: 48px;
-    line-height: 59px;
+    font-size: 18px;
+    line-height: 22px;
     display: flex;
     justify-content: center;
     align-items: center;
     text-align: center;
     letter-spacing: 0.2em;
-    color: #6600CC;
+    color: #6600cc; 
     width: 90%;
     margin: 0 5%;
 }
@@ -156,7 +159,7 @@ export default {
     display: flex;
     align-items: center;
     text-align: center;
-    color: #6600cc; 
+    color: #656565; 
     margin: 0 auto;
 }
 
