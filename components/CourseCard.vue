@@ -11,7 +11,7 @@
       />
     </n-link>
     <div class="media-and-footer-container">
-      <n-link :to="`/curso/${slug}`" class="footer-container">
+      <n-link :to="'/curso/' + slug + '/aula/7bbce4d9-ec13-441d-bf97-00d2b6d77bde/parte/0e687ee1-16db-4ce2-96f2-92555e9105fd'" class="footer-container">
         <v-card-title :to="'/curso/' + slug">{{title}}</v-card-title>
         <v-card-subtitle class="mt-0" :to="'/curso/' + slug">{{teacher}}</v-card-subtitle>
       </n-link>

@@ -1,34 +1,29 @@
 export const state = () => ({
   list: [],
   current: {},
-  currentClass: {},
-  currentSection: {},
-  currentQuestion: {},
+  currentState: {},
+  currentLesson: {},
+  currentPart: {},
+  currentTest: {},
 })
-
+  
 export const mutations = {
-  set (state, courses) {
+  set(state, courses) {
     state.list = courses
   },
-  setCurrent (state, course) {
+  setCurrent(state, course) {
     state.current = course
   },
-  setCurrentClasses (state, classes) {
-    state.current.classes = classes
+  setCurrentLesson(state, lesson) {
+    state.currentLesson = lesson
   },
-  setCurrentClass (state, klass) {
-    state.currentClass = klass
+  setCurrentPart(state, part) {
+    state.currentPart = part
   },
-  setClassSections (state, sections) {
-    state.currentClass.sections = sections
+  setCurrentTest(state, test) {
+    state.currentTest = test
   },
-  setCurrentSection (state, section) {
-    state.currentSection = section
-  },
-  setSectionQuestions (state, questions) {
-    state.currentSection.questions = questions
-  },
-  setCurrentQuestion (state, question) {
-    state.currentQuestion = question
+  setCurrentState(state, courseState) {
+    state.currentState = courseState
   },
 }
