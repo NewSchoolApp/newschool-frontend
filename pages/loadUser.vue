@@ -70,7 +70,7 @@ export default {
   width: 142px;
   height: 40px;
   margin: -20px 0 0 -71px;
-  background: #FAFAFA;
+  background: transparent;
 }
 .gooey .dot {
   position: absolute;
