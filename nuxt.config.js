@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import colors from 'vuetify/es5/util/colors'
 
 export default {
@@ -9,6 +10,14 @@ export default {
         path: '/aluno/curso/:slug',
         component: resolve(__dirname, 'pages/student/course.vue'),
       })
+
+      routes.push({
+        path: '/alterar-senha/:token',
+        name: 'alerar-senha',
+        props: true,
+        component: resolve(__dirname, "pages/public/reset_password.vue")
+      });
+
 
       routes.push({
         path: '*',
@@ -39,14 +48,15 @@ export default {
           'NEWSCHOOL@EXTERNALSECRET',
       },
     },
-	dateEnd: 
-	process.env.OPENING_DATE || '20/01/2020',
+    dateEnd:
+      process.env.OPENING_DATE || '20/01/2020',
     endpoints: {
       CERTIFICATES_ME: 'api/v1/user/me/certificate',
       USER_ME: 'api/v1/user/me',
       LOGIN: 'oauth/token',
       SIGN_UP: 'api/v1/user/student',
       FORGOT_PASSWORD: 'api/v1/user/forgot-password'
+
     },
     GATOKEN: process.env.GA_TOKEN,
   },
