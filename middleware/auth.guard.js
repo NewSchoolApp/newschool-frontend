@@ -1,4 +1,5 @@
-import PRIVATE_MODULES_URL from "~/routes/private";
+import { PRIVATE_MODULES_URL } from "~/routes/private";
+import { HYBRID_ROUTES } from "~/routes/private";
 
 /**
  * @author Guilherme
@@ -7,21 +8,26 @@ import PRIVATE_MODULES_URL from "~/routes/private";
 
 /**
  * Verificação e validação de acesso a rotas
- * @param {*} route estado de rota da aplicação 
+ * @param {*} route estado de rota da aplicação
  */
 export default async function ({ route, store, redirect }) {
-  const pathModule = route.path.split("/")
+  const pathModule = route.path.split("/");
 
-  if (pathModule[1] == PRIVATE_MODULES_URL.studant || pathModule[1] == PRIVATE_MODULES_URL.admin) {
-    let session = await store.dispatch("user/validateSession", pathModule)
-    if (!session) {
-      redirect("/loading")
-    }
-    // Sessão válida ? redirecionando para home
-    if (pathModule[0] == "login") {
-      redirect(`${store.getters.roleModule}/home`)
+  if (route.pathFull !== "/loading" && !HYBRID_ROUTES.includes(route.name)) {
+
+    if (
+      pathModule[1] === PRIVATE_MODULES_URL.STUDENT ||
+      pathModule[1] === PRIVATE_MODULES_URL.ADMIN
+    ) {
+      const { validRole, session } = await store.dispatch(
+        "user/validateSession",
+        pathModule[1]
+      );
+      if (!session) {
+        redirect(`/loading/${route.name}`);
+      } else if (!validRole) {
+        redirect(`/login`);
+      }
     }
   }
 }
-
-

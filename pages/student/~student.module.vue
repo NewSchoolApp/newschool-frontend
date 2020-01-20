@@ -1,29 +1,23 @@
 <template>
-  <div>
-    <div id="page">
-      <!-- HTML aqui! -->
-    </div>
+  <div id="app">
+    <router-view></router-view>
     <client-only>
       <navigation-bar />
     </client-only>
+    <modal />
   </div>
 </template>
 
-<router>
-  {
-    path: '/aluno/meus-cursos'
-  }
-</router>
-
 <script>
 import NavigationBar from "~/components/NavigationBar.vue";
-
+import Modal from "~/components/Modal.vue";
 export default {
   components: {
-    NavigationBar
+    NavigationBar,
+    Modal
   }
 };
 </script>
 
-<style scoped>
+<style>
 </style>

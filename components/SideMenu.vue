@@ -1,17 +1,18 @@
 <template>
   <div class="container-page">
-    <main v-if="flagdisplayInfoUser">
+    <main>
       <section id="info">
         <div id="avatar">
           <div class="flex-center border-profile-photo">
             <div class="flex-center profile-container">
-              <avatar :username="this.user.name" :size="90"></avatar>
+              <avatar :username="user.name | simplifyName" :size="90"></avatar>
             </div>
           </div>
         </div>
         <div class="flex-center" id="flex-info-user">
           <h1>{{user.name}}</h1>
           <p>{{user.type}}</p>
+          <v-btn id="btnLogout" small outlined color="error" width="80px" @click="logout">Sair</v-btn>
         </div>
       </section>
       <div id="close">
@@ -25,6 +26,7 @@
         v-for="item in menu"
         v-bind:key="item.id"
         :to="item.link"
+        v-on:click.native="closeMenu()"
       >
         <div>
           <v-icon color="primary">{{item.icon}}</v-icon>
@@ -37,39 +39,34 @@
 
 <script>
 import Avatar from "vue-avatar";
+import { mapActions } from "vuex";
 
 export default {
   data: () => ({
-    flagdisplayInfoUser: false,
-
-    user: {
-      name: "",
-      type: ""
-    },
     menu: [
       {
         id: 1,
         label: "Meu Perfil",
         icon: "mdi-account",
-        link: "/aluno/perfil"
+        link: "perfil"
       },
       {
         id: 2,
         label: "Meus Cursos",
         icon: "mdi-library",
-        link: "/aluno/meus-cursos"
+        link: "meus-cursos"
       },
       {
         id: 3,
         label: "Meus Certificados",
         icon: "mdi-school",
-        link: "/aluno/certificados"
+        link: "certificados"
       },
       {
         id: 4,
         label: "Contribua",
         icon: "mdi-source-fork",
-        link: "/contribua"
+        link: "contribua"
       },
       { id: 5, label: "Sobre", icon: "mdi-file-document-box", link: "/sobre" },
       { id: 6, label: "Ajuda", icon: "mdi-help-circle", link: "/ajuda" },
@@ -79,34 +76,36 @@ export default {
     ]
   }),
   methods: {
+    ...mapActions("user", ["clearInfoUser"]),
     /**
      * Método para fechar o side-menu
      */
     closeMenu() {
       document.getElementById("menu-btn").click();
     },
-    /**
-     * Método para recuperar as informações do usuário no local storage
-     */
-    getInforUser() {
-      let userStorage = JSON.parse(localStorage.getItem("user"));
-      if (userStorage) {
-        this.user = userStorage;
-        this.simplifyName();
-        this.flagdisplayInfoUser = true;
-      }
-    },
-    /*
-     * Método responsável por simplificar o nome com: primeiro_nome segundo_nome
-     */
-    simplifyName() {
-      let regex = /^(\S*\s+\S+).*/; // Regex para remover todos os caracteres após o segundo espaço em branco
-      let numberOfNames = this.user.name.split(" ").length;
-      if (numberOfNames > 2) this.user.name = regex.exec(this.user.name)[1];
+    logout() {
+      localStorage.clear();
+      $nuxt._router.push("/login");
+      this.clearInfoUser();
     }
   },
-  mounted() {
-    this.getInforUser();
+  computed: {
+    user() {
+      return this.$store.state.user.data;
+    }
+  },
+  filters: {
+    simplifyName(name) {
+      if (!name) {
+        return ''
+      }
+      const regex = /^(\S*\s+\S+).*/ // Regex para remover todos os caracteres após o segundo espaço em branco
+      const numberOfNames = name.split(' ').length
+      if (numberOfNames > 2) {
+        return regex.exec(name)[1];
+      }
+      return name
+    },
   },
   components: {
     Avatar
@@ -115,6 +114,13 @@ export default {
 </script>
 
 <style lang="scss">
+.container-page {
+  z-index: 2;
+}
+#btnLogout {
+  margin-top: 5px;
+}
+
 .container-page > main {
   display: flex;
   justify-content: space-between;
@@ -216,5 +222,10 @@ p {
 }
 h4 {
   font-weight: 600;
+}
+@media (max-width: 320px) {
+  .item-menu {
+    height: 42px;
+  }
 }
 </style>

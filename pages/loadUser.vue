@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="body__loading">
     <div class="gooey">
       <span class="dot"></span>
       <div class="dots">
@@ -16,30 +16,40 @@
 
 <router>
     {
-        path : '/loading'
+        path : '/loading/:route',
+        props: true
     }
 </router>
 
 <script>
-import auth from '~/services/http/auth'
-import { mapActions } from 'vuex'
+import { mapActions } from "vuex";
+import auth from "~/services/http/auth";
 
 export default {
   mounted() {
-    const { status, token } = auth.isTokenValid()
+    const { status, token } = auth.isTokenValid();
     if (status) {
-      this.loadInfoUser(token)
+      this.loadInfoUser({ token, route: this.route });
     } else {
-      $nuxt._router.push('/login')
+      localStorage.clear();
+      // eslint-disable-next-line no-undef
+      $nuxt._router.push("/login");
     }
   },
   methods: {
-    ...mapActions(['loadInfoUser']),
+    ...mapActions("user", ["loadInfoUser"])
   },
-}
+  props: ["route"]
+};
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
+.body__loading {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: white;
+}
 #text {
   position: absolute;
   top: 55%;
@@ -60,8 +70,7 @@ export default {
   width: 142px;
   height: 40px;
   margin: -20px 0 0 -71px;
-  background: #fff;
-  filter: contrast(20);
+  background: #FAFAFA;
 }
 .gooey .dot {
   position: absolute;
@@ -69,7 +78,6 @@ export default {
   height: 16px;
   top: 12px;
   left: 15px;
-  filter: blur(4px);
   background: #000;
   border-radius: 50%;
   transform: translateX(0);
@@ -87,7 +95,6 @@ export default {
   width: 16px;
   height: 16px;
   margin-left: 16px;
-  filter: blur(4px);
   background: #000;
   border-radius: 50%;
 }
