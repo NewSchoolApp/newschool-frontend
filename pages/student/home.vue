@@ -1,8 +1,8 @@
 <template>
   <main class="max-content" id="page">
     <header class="welcome">
-      <h1 class="welcome-title">{{ "Salve, " + loadUserName() }}</h1>
-      <h2 class="welcome-subtitle">Seja bem vindo</h2>
+      <h1 class="welcome-title">{{ "Salve, " + loadUserName()+ "!"}}</h1>
+      <h2 class="welcome-subtitle">Seja bem-vindo</h2>
     </header>
 
     <h3 class="title-section">CURSOS</h3>
