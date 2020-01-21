@@ -66,7 +66,7 @@ export default {
         id: 4,
         label: "Contribua",
         icon: "mdi-source-fork",
-        link: "/contribua"
+        link: "contribua"
       },
       { id: 5, label: "Sobre", icon: "mdi-file-document-box", link: "/sobre" },
       { id: 6, label: "Ajuda", icon: "mdi-help-circle", link: "/ajuda" },

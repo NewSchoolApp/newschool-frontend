@@ -52,23 +52,26 @@
         </article>
       </v-container>
     </article>
+    <navigation-bar />
   </section>
 </template>
 
 <router>
   {
-    path: '/contribua'
+    path: '/aluno/contribua'
   }
 </router>
 
 
 <script>
 import HeaderBar from "~/components/Header.vue";
+import NavigationBar from "~/components/NavigationBar.vue";
 
 
 export default {
   components: {
-    HeaderBar
+    HeaderBar,
+    NavigationBar
   },
 
   data() {
