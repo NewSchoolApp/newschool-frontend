@@ -60,7 +60,6 @@
           </v-container>
         </v-flex>
       </v-layout>
-      <navigation-bar />
     </div>
   </div>
 </template>
@@ -73,7 +72,6 @@
 
 <script scoped>
 import HeaderBar from '~/components/Header.vue';
-import NavigationBar from '~/components/NavigationBar.vue';
 import auth from '../../services/http/auth';
 import contactUs from '../../services/http/contact_us';
 import utils from '~/utils/index';
@@ -160,7 +158,6 @@ export default {
     },
   },
   components: {
-    NavigationBar,
     HeaderBar,
   },
 };
@@ -170,11 +167,11 @@ export default {
 @import url('https://fonts.googleapis.com/css?family=Montserrat:400,500,900&display=swap');
 
 .align-global {
-  width: 99%;
-  max-width: 400px;
-  margin: 0 1% 0 -3%;
+  width: 100%;
+  max-width: 500px;
   justify-content: center;
   background: #ffffff;
+
 }
 @media (min-width: 600px) {
   .align-global {
@@ -195,7 +192,8 @@ export default {
   text-align: center;
 }
 .banner {
-  width: 100%;
+  width: 90%;
+  margin: 0 5%
 }
 
 h2 {
