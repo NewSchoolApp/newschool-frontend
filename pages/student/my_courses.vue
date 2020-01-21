@@ -13,7 +13,7 @@
           <h1>{{course.course.title}}</h1>
           <v-btn
             v-if="course.status === 'TAKEN'"
-            class="btn-back incaps"
+            class="btn-back"
             text
             icon
             @click="continueCourse(course.course)"
