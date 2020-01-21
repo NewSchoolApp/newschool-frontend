@@ -2,7 +2,7 @@
   <div>
     <HeaderBar :title="'DEU RUIM :/'" :backPage="true"></HeaderBar>
     <v-container>
-      <main>
+      <main class="middle">
         <p>Página não encontrada.</p>
         <p>Tenta de novo, mano.</p>
         <img src="~/assets/page-404.svg" alt />
@@ -32,13 +32,13 @@ export default {
 </script>
 
 <style scoped>
-main {
+.middle {
   text-align: center;
   width: 90%;
   max-width: 500px;
   margin: 10% auto;
 }
-main p {
+.middle p {
   color: #656565;
   font-family: Montserrat;
   font-style: normal;

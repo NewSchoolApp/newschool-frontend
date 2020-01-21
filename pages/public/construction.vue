@@ -85,36 +85,42 @@ export default {
   },
 };
 </script>
+<router>
+  {
+    path: '/construindo'
+  }
+</router>
 
 
 <style scoped>
 /* Global */
 * {
   font-family: 'Montserrat', Helvetica, Arial, sans-serif !important;
-  max-width: 800px;
+  max-width: 600px;
   margin: 0 auto;
 }
 /* Text Header */
 .initial-text {
   font-style: normal !important;
-  font-size: 18px;
-  font-weight: 900;
+  font-size: 16px;
+  font-weight: 700;
   line-height: 22px;
   display: flex;
   text-align: center;
   color: #656565;
+  width: 100%;
 }
 /* Img */
 .img {
-  width: 80%;
+  width: 90%;
   margin: 10% 5%;
 }
 /* Date Text */
 .data-text {
   font-style: normal;
   font-weight: 900;
-  font-size: 18px;
-  line-height: 22px;
+  font-size: 48px;
+  line-height: 59px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -122,7 +128,7 @@ export default {
   letter-spacing: 0.2em;
   color: #6600cc;
   width: 90%;
-  margin: 0 5%;
+  margin: 0 6%;
 }
 
 .atribute-data {
@@ -137,15 +143,15 @@ export default {
   justify-content: center;
   color: #6600cc;
   width: 80%;
-  margin: 0 7% 7%;
+  margin: 0 4% 7%;
 }
 .atribute-data span {
-  margin-left: 5%;
+  margin-left: 13%;
   justify-content: center;
 }
 .end-text {
   font-style: normal;
-  font-weight: normal;
+  font-weight: 700;
   font-size: 18px;
   line-height: 22px;
   justify-content: center;

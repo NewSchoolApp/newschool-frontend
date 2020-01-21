@@ -8,7 +8,7 @@
           <div class="subtext">
             <p>
               Você deve estar se perguntando o que é a
-              <span>New School</span>, né
+              <span>New School</span>, né?
             </p>
             <p>
               A New School não é só um app, uma escola ou uma startup. É um
@@ -32,6 +32,7 @@
         </v-flex>
       </v-layout>
     </div>
+    <navigation-bar />  
   </div>
 </template>
 <router>
@@ -49,22 +50,22 @@ export default {
   },
 };
 </script>
-<style>
-.text {
+<style scoped>
+::v-deep .text {
   width: 100%;
   color: #6600cc;
   font-family: 'Montserrat';
   text-transform: uppercase;
 }
-.container {
+::v-deep .container {
   max-width: 500px;
 }
-.subtext {
+::v-deep .subtext {
   width: 100%;
   margin: 0 auto;
   font-size: 100%;
 }
-.bg {
+::v-deep .bg {
   width: 100%;
   height: 100%;
   position: fixed;
@@ -72,10 +73,10 @@ export default {
   background-size: cover;
   background-position: center;
 }
-span {
+::v-deep .subtext span {
   font-weight: 700;
 }
-p {
+::v-deep .subtext p {
   margin: 15px;
 }
 </style>
