@@ -100,7 +100,7 @@ export default {
           'NEWSCHOOL@EXTERNALSECRET',
       },
     },
-    dateEnd: process.env.OPENING_DATE || '20/01/2020',
+    dateEnd: process.env.OPENING_DATE || "25/01/2020",
     endpoints: {
       CERTIFICATES_ME: 'api/v1/user/me/certificate',
       USER_ME: 'api/v1/user/me',

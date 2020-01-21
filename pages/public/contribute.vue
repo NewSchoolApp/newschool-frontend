@@ -1,5 +1,6 @@
 <template>
   <section>
+    <HeaderBar :title="'CONTRIBUA'" :backPage="true"></HeaderBar>
     <article id="page">
       <v-container>
         <div class="title">APOIE O PROJETO</div>
@@ -51,7 +52,6 @@
         </article>
       </v-container>
     </article>
-    <navigation-bar />
   </section>
 </template>
 
@@ -61,13 +61,14 @@
   }
 </router>
 
+
 <script>
-import NavigationBar from "~/components/NavigationBar.vue";
+import HeaderBar from "~/components/Header.vue";
 
 
 export default {
   components: {
-    NavigationBar
+    HeaderBar
   },
 
   data() {
