@@ -1,4 +1,6 @@
 <template>
+<div>
+    <HeaderBar :title="'Alterar Dados'" :backPage="true"></HeaderBar>
   <v-layout justify-center>
     <div v-if="loading" class="spiner-container">
       <v-progress-circular
@@ -10,14 +12,6 @@
 
     <v-flex xs10 sm8 md6 ref="flex" v-else>
       <v-container>
-        <v-row>
-          <v-col cols="12" class="relative-col">
-            <v-btn class="btn-back" text icon @click="goBack">
-              <v-icon>mdi-arrow-left</v-icon>
-            </v-btn>
-            <h2 class="page-title">Alterar meus dados</h2>
-          </v-col>
-        </v-row>
         <v-row>
           <v-form ref="form" v-model="status" lazy-validation>
             <v-col cols="12">
@@ -84,7 +78,15 @@
       </v-container>
     </v-flex>
   </v-layout>
+  </div>
 </template>
+<router>
+{
+  path : '/aluno/alterar',
+  name: 'alterar'
+}
+
+</router>
 
 <router>
 {
@@ -97,11 +99,11 @@ import auth from '../../services/http/auth'
 import users from '../../services/http/users'
 import http from '~/services/http/generic'
 import utils from '~/utils/index'
-import NavigationBar from '~/components/NavigationBar.vue'
+import HeaderBar from '~/components/Header.vue'
 
 export default {
   components: {
-    NavigationBar,
+    HeaderBar
   },
   data() {
     return {
@@ -244,36 +246,6 @@ export default {
 .relative-col {
   position: relative;
 }
-
-/* Botão */
-::v-deep .btn-back {
-  position: absolute;
-  left: 0;
-  top: 0;
-  margin-top: 3px;
-  font-size: 12px;
-}
-@media (max-width: 350px) {
-  ::v-deep .btn-back {
-    position: absolute;
-    left: -25px;
-    top: 0;
-    margin-top: 3px;
-    font-size: 12px;
-  }
-}
-
-::v-deep .v-btn.v-size--large {
-  font-size: 12px;
-  line-height: 15px;
-}
-
-@media (max-width: 375px) {
-  ::v-deep .v-btn {
-    font-size: inherit;
-  }
-}
-
 /* Form */
 .v-form {
   width: 100%;
