@@ -7,31 +7,22 @@
             <h4>Missão Newschool</h4>
           </button>
           <td>Educação de qualidade</td>
-          <!-- <strong>{{ certificate.title }}</strong> -->
-          <strong>Matemática na prática</strong>
-          <!-- <tr>
+          <strong>{{ certificate.title }}</strong>
+          <tr>
             Carga horária de
             {{
               certificate.workload
             }}
             horas
-          </tr> -->
-          <tr>
-            Carga horária de 56 horas
           </tr>
           <span>Este certificado é orgulhosamente apresentado para</span>
-          <!-- <p>{{ certificate.name }}</p> -->
-          <p>Thiago Carvalho</p>
+          <p>{{ certificate.name }}</p>
         </div>
 
-        <!-- <ul>
-          <li>{{ certificate.courseStartDate }}</li>
-          <li>{{ certificate.courseCompleteDate }}</li>
-        </ul> -->
         <ul>
           <li>Emissão: 16/01/2020</li>
-          <li>06/12/2029</li>
-          <li>15/01/2020</li>
+          <li>{{ certificate.courseStartDate }}</li>
+          <li>{{ certificate.courseCompleteDate }}</li>
         </ul>
       </div>
       <div class="footer">
@@ -66,7 +57,7 @@
 </template>
 <script>
 import shareBtnPageCertificate from '~/components/ShareBtnPageCertificate.vue';
-// import http from '~/services/http/generic';
+import http from '~/services/http/generic';
 import utils from '~/utils/index';
 
 export default {
@@ -77,13 +68,13 @@ export default {
     return '';
   },
   mounted() {
-    // this.loadClientCredentials();
-    // http
-    //   .getAll(process.env.endpointCourseTaken.CERTIFICATES_COURSE_TAKEN_ME)
-    //   .then(certificates => {
-    //     this.certificates = certificates.data;
-    //   })
-    //   .catch(error => console.log(error));
+    this.loadClientCredentials();
+    http
+      .getAll(process.env.endpointCourseTaken.CERTIFICATES_COURSE_TAKEN_ME)
+      .then(certificates => {
+        this.certificates = certificates.data;
+      })
+      .catch(error => console.log(error));
   },
   methods: {
     loadClientCredentials() {
@@ -99,7 +90,9 @@ export default {
 </script>
 
 <router>
-  path: "/pagina-certificado"
+  {
+    path: "/pagina-certificado"
+  }
 </router>
 
 <style lang="scss" scoped>

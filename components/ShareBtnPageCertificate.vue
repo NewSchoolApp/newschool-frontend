@@ -37,10 +37,14 @@
 
 <script>
 import SocialSharing from 'vue-social-sharing';
+import '@mdi/font/css/materialdesignicons.css';
 
 export default {
   components: {
     SocialSharing,
+  },
+  icons: {
+    iconfont: 'mdi', // default - only for display purposes
   },
 
   props: {

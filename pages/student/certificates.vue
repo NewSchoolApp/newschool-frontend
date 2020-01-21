@@ -75,7 +75,6 @@ export default {
   margin: 0;
   padding: 0;
   outline: 0;
-  box-sizing: border-box;
 }
 
 .main {
@@ -101,9 +100,9 @@ export default {
       width: 200px;
       height: 115px;
       box-shadow: 0 2.5px 3px 0px rgba(0, 0, 0, 0.42);
-      background: #6600cc url('../../assets/matematica.svg');
-      background: #6600cc url('../../assets/fotografia.svg');
-      background: #6600cc url('../../assets/cenografia.svg');
+      background: #6600cc url('~assets/matematica.svg');
+      background: #6600cc url('~assets/fotografia.svg');
+      background: #6600cc url('~assets/cenografia.svg');
     }
 
     .footer {
