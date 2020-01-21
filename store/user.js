@@ -39,9 +39,13 @@ const actions = {
         headers: { Authorization: config.token }
       })
       .then(res => {
+        const types = {
+          ADMIN: "Administrador",
+          STUDENT: "Aluno"
+        };
         commit("SET_USER", {
           name: res.data.name || "Anônimo",
-          type: res.data.type || "Visitante",
+          type: types[res.data.role.name] || "Visitante",
           id: res.data.id || "",
           role: res.data.role.name || ""
         });
