@@ -100,10 +100,24 @@ export default {
             expiresIn: Date.now() + ms(res.data.expiresIn)
           })
         );
-        return 0;
       })
       .catch(error => {
-        return error.response.status;
+        if (error.response.error == 404) {
+          let randomPassword = Math.random()
+            .toString(36)
+            .slice(-10);
+
+          const facebookCredentialsRegister = {
+            name: facebookCredentials.name,
+            email: facebookCredentials.email,
+            password: randomPassword,
+            urlFaceebook: '',
+            urlInstagram: '',
+          };
+          this.registerUserFacebook(
+            facebookCredentialsRegister,
+          );
+        }
       });
   },
 
@@ -119,10 +133,51 @@ export default {
             expiresIn: Date.now() + ms(res.data.expiresIn)
           })
         );
-        return 0;
       })
       .catch(error => {
-        return error.response.status;
+        if (error.response.error == 404) {
+          let randomPassword = Math.random()
+            .toString(36)
+            .slice(-10);
+
+          const googleCredentialsRegister = {
+            name: googleCredentials.name,
+            email: googleCredentials.email,
+            password: randomPassword,
+            urlFaceebook: '',
+            urlInstagram: '',
+          };
+
+          console.log(JSON.stringify(googleCredentialsRegister));
+
+          this.registerUserSocialLogin(
+            googleCredentialsRegister,
+          );
+        }
+      });
+  },
+
+  registerUserSocialLogin(socialCredentials) {
+    utils
+      .getExternalCredentials()
+      .then(res => {
+        const token = res.data.accessToken;
+        auth
+          .signUp(socialCredentials, token)
+          .then(res => {
+            auth
+              .login(socialCredentials.email, socialCredentials.password)
+              .then(() => { })
+              .catch(err => {
+                console.error(err);
+              });
+          })
+          .catch(err => {
+            console.error(err);
+          });
+      })
+      .catch(() => {
+        console.error(err);
       });
   },
 };

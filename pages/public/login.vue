@@ -50,28 +50,19 @@
                 depressed
                 large
                 @click="submit"
-                >Entrar</v-btn
-              >
+              >Entrar</v-btn>
             </v-col>
           </v-form>
           <v-col cols="12">
-            <v-btn
-              dark
-              block
-              depressed
-              large
-              to="/cadastro"
-              class="btn-transparent"
-              >Cadastrar</v-btn
-            >
+            <v-btn dark block depressed large to="/cadastro" class="btn-transparent">Cadastrar</v-btn>
           </v-col>
           <v-col cols="12" class="text-center">
-            <v-btn text color="white" @click="loginFacebook">
+            <v-btn text color="white" @click="loginSocial('facebook')">
               <v-icon dark left>mdi-facebook</v-icon>Entrar com Facebook
             </v-btn>
           </v-col>
           <v-col cols="12" class="text-center">
-            <v-btn text color="white" @click="loginGoogle">
+            <v-btn text color="white" @click="loginSocial('google')">
               <v-icon dark left>mdi-google-glass</v-icon>Entrar com Google
             </v-btn>
           </v-col>
@@ -79,11 +70,9 @@
             <v-btn text color="white">
               <v-icon left>mdi-instagram</v-icon>Entrar com Instagram
             </v-btn>
-          </v-col> -->
+          </v-col>-->
           <v-col cols="12" class="text-center">
-            <v-btn text small color="#fff" to="/esqueci-minha-senha"
-              >Esqueceu sua senha?</v-btn
-            >
+            <v-btn text small color="#fff" to="/esqueci-minha-senha">Esqueceu sua senha?</v-btn>
           </v-col>
         </v-row>
       </v-container>
@@ -188,103 +177,30 @@ export default {
       }
     },
 
-    async loginFacebook() {
-      try {
-        await this.$auth.loginWith('facebook');
-        this.animateForm(true);
-        var facebookCredentials = this.getFacebookCredentials();
-
-        let error = await auth.loginFacebook(facebookCredentials);
-
-        // Usuário do Facebook ainda não cadastrado na base de dados
-        if (error == 404) {
-          let randomPassword = Math.random()
-            .toString(36)
-            .slice(-10);
-
-          const facebookCredentialsRegister = {
-            name: facebookCredentials.name,
-            email: facebookCredentials.email,
-            password: randomPassword,
-            urlFaceebook: '',
-            urlInstagram: '',
-          };
-
-          let success = await this.registerUserFacebook(
-            facebookCredentialsRegister,
-          );
-        } else if (error == 0) {
-          $nuxt._router.push('/loading/login');
-        } else {
+    loginSocial: function(provider) {
+      const this_ = this;
+      this.$auth.loginWith(provider).then(function() {
+        try {
+          if (provider == 'facebook') {
+            var facebookCredentials = this_.getFacebookCredentials();
+            auth.loginFacebook(facebookCredentials);
+          } else if (provider == 'google') {
+            var googleCredentials = this_.getGoogleCredentials();
+            auth.loginGoogle(googleCredentials);
+          }
+        } catch (error) {
           setTimeout(() => {
-            this.dialogMessage = 'Falha ao realizar login utilizando Facebook.';
-            this.dialog = true;
-            this.loading = false;
+            this_.dialogMessage =
+              'Falha ao realizar login utilizando ' + provider + '.';
+            this_.dialog = true;
+            this_.loading = false;
           }, 500);
+          console.error(error);
         }
-      } catch (error) {
-        setTimeout(() => {
-          this.dialogMessage = 'Falha ao realizar login utilizando Facebook.';
-          this.dialog = true;
-          this.loading = false;
-        }, 500);
-        console.error(error);
-      }
+
+        $nuxt._router.push('/loading/login');
+      });
     },
-
-    async loginGoogle() {
-      try {
-        await this.$auth.loginWith('google');
-        this.animateForm(true);
-        var googleCredentials = this.getGoogleCredentials();
-
-        let error = await auth.loginGoogle(googleCredentials);
-
-        // Usuário do Google ainda não cadastrado na base de dados
-        if (error == 404) {
-          let randomPassword = Math.random()
-            .toString(36)
-            .slice(-10);
-
-          const googleCredentialsRegister = {
-            name: googleCredentials.name,
-            email: googleCredentials.email,
-            password: randomPassword,
-            urlFaceebook: '',
-            urlInstagram: '',
-          };
-
-          let success = await this.registerUserGoogle(
-            googleCredentialsRegister,
-          );
-        } else if (error == 0) {
-          $nuxt._router.push('/loading/login');
-        } else {
-          setTimeout(() => {
-            this.dialogMessage = 'Falha ao realizar login utilizando Google.';
-            this.dialog = true;
-            this.loading = false;
-          }, 500);
-        }
-      } catch (error) {
-        setTimeout(() => {
-          this.dialogMessage = 'Falha ao realizar login utilizando Google.';
-          this.dialog = true;
-          this.loading = false;
-        }, 500);
-        console.error(error);
-      }
-    },
-
-    //  ******* Informações mockadas para o desenvolvimento *******
-    // getFacebookCredentials() {
-    //   return {
-    //     email: 'viny_ownz14@hotmail.com',
-    //     name: 'Vinicius Dalmazzo',
-    //     birthday: '01/09/1997',
-    //     id: '2671984159537058',
-    //   };
-    // },
 
     getFacebookCredentials() {
       return {
@@ -295,20 +211,10 @@ export default {
       };
     },
 
-    //  ******* Informações mockadas para o desenvolvimento *******
-    // getGoogleCredentials() {
-    //   return {
-    //     email: 'viny_ownz14@hotmail.com',
-    //     name: 'Vinicius Dalmazzo',
-    //     birthday: '01/09/1997',
-    //     id: '2671984159537058',
-    //   };
-    // },
-
     getGoogleCredentials() {
       return {
         email: this.$store.state.auth.user.email,
-        email_verified: this.$store.state.auth.user.email_verified,
+        email_verified: this.$store.state.auth.user.email_verified.toString(),
         family_name: this.$store.state.auth.user.family_name,
         given_name: this.$store.state.auth.user.given_name,
         locale: this.$store.state.auth.user.locale,
@@ -316,62 +222,6 @@ export default {
         picture: this.$store.state.auth.user.picture,
         sub: this.$store.state.auth.user.sub,
       };
-    },
-
-    registerUserFacebook(facebookCredentials) {
-      utils
-        .getExternalCredentials()
-        .then(res => {
-          const token = res.data.accessToken;
-          auth
-            .signUp(facebookCredentials, token)
-            .then(res => {
-              auth
-                .login(facebookCredentials.email, facebookCredentials.password)
-                .then(() => {
-                  $nuxt._router.push('/loading/login');
-                })
-                .catch(err => {
-                  console.error(err);
-                  return false;
-                });
-            })
-            .catch(err => {
-              console.error(err);
-              return false;
-            });
-        })
-        .catch(() => {
-          return false;
-        });
-    },
-
-    registerUserGoogle(googleCredentials) {
-      utils
-        .getExternalCredentials()
-        .then(res => {
-          const token = res.data.accessToken;
-          auth
-            .signUp(googleCredentials, token)
-            .then(res => {
-              auth
-                .login(googleCredentials.email, googleCredentials.password)
-                .then(() => {
-                  $nuxt._router.push('/loading/login');
-                })
-                .catch(err => {
-                  console.error(err);
-                  return false;
-                });
-            })
-            .catch(err => {
-              console.error(err);
-              return false;
-            });
-        })
-        .catch(() => {
-          return false;
-        });
     },
   },
 };
