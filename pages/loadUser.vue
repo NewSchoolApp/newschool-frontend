@@ -39,7 +39,8 @@ export default {
   methods: {
     ...mapActions("user", ["loadInfoUser"])
   },
-  props: ["route"]
+  props: ["route"],
+  
 };
 </script>
 

@@ -15,6 +15,10 @@ export default {
         component: resolve(__dirname, "pages/student/~student.module.vue"),
         children: [
           {
+            path: '404',
+            component: resolve(__dirname, "pages/public/404.vue"),
+          },
+          {
             path: 'home',
             name: 'aluno-home',
             component: resolve(__dirname, "pages/student/home.vue"),
@@ -48,7 +52,7 @@ export default {
                 path: ':slug',
                 name: 'aluno-curso',
                 props: true,
-                component: resolve(__dirname, "pages/student/take_course/course.vue"),
+                component: resolve(__dirname, "pages/student/take_course/course.vue")
               },
             ]
           },
@@ -102,7 +106,8 @@ export default {
       STATE_COURSE: "api/v1/course-taken/",
       FACEBOOK_LOGIN: "oauth/facebook/token",
       GOOGLE_LOGIN: "oauth/google/token",
-      STATE_COURSE: "api/v1/course-taken"
+      STATE_COURSE: "api/v1/course-taken",
+      MY_COURSES: "api/v1/course-taken/user/"
     },
     GATOKEN: process.env.GA_TOKEN
   },
