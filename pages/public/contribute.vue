@@ -1,5 +1,6 @@
 <template>
   <section>
+    <HeaderBar :title="'CONTRIBUA'" :backPage="true"></HeaderBar>
     <article id="page">
       <v-container>
         <div class="title">APOIE O PROJETO</div>
@@ -57,16 +58,19 @@
 
 <router>
   {
-    path: '/contribua'
+    path: '/aluno/contribua'
   }
 </router>
 
+
 <script>
+import HeaderBar from "~/components/Header.vue";
 import NavigationBar from "~/components/NavigationBar.vue";
 
 
 export default {
   components: {
+    HeaderBar,
     NavigationBar
   },
 

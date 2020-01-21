@@ -17,7 +17,7 @@
             </v-col>
             <v-col cols="12">
               <h1>{{ user.name }}</h1>
-              <p>Aluno</p>
+              <p>Administrador</p>
             </v-col>
             <v-col cols="12">
               <v-btn
@@ -50,10 +50,20 @@
         </v-container>
       </v-flex>
     </v-layout>
+    <client-only>
+      <navigation-bar />
+    </client-only>
   </div>
 </template>
 
+<router>
+  {
+    path: '/admin/perfil'
+  }
+</router>
+
 <script>
+import NavigationBar from "~/components/NavigationBar.vue";
 import HeaderBar from '~/components/Header.vue';
 import Avatar from 'vue-avatar';
 
@@ -61,13 +71,14 @@ export default {
   components: {
     HeaderBar,
     Avatar,
+    NavigationBar,
   },
   methods: {
     goToChangePassword() {
-      $nuxt._router.push('/aluno/alterar-senha');
+      $nuxt._router.push('/admin/alterar-senha');
     },
     goToChangeData() {
-      $nuxt._router.push('/aluno/alterar');
+      $nuxt._router.push('/admin/alterar');
     },
     goToExit() {
       localStorage.clear();
