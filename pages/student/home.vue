@@ -6,10 +6,16 @@
     </header>
 
     <h3 class="title-section">CURSOS</h3>
-    <article class="article-container">
+
+    <div v-if="loading">
+      <div class="container-spinner">
+        <v-progress-circular :size="70" :width="5" indeterminate color="#6600cc" />
+      </div>
+    </div>
+    <article v-else class="article-container">
       <course-card
         :key="course.id"
-        v-for="course in courses"
+        v-for="course in list"
         :title="course.title"
         :description="course.description"
         :teacher="course.authorName"
@@ -21,48 +27,53 @@
 </template>
 
 <script>
-import CourseCard from "~/components/CourseCard";
-import http from "~/services/http/generic";
+import CourseCard from '~/components/CourseCard';
+import http from '~/services/http/generic';
 
 export default {
   components: {
-    CourseCard
+    CourseCard,
   },
   data: () => ({
-    title: "Bem-vindo"
+    title: 'Bem-vindo',
+    list: [],
+    loading: true,
   }),
   head() {
     return {
       title: this.title,
       meta: [
         {
-          hid: "description",
-          name: "description",
+          hid: 'description',
+          name: 'description',
           content:
-            "Seja bem vindo(a) ao aplicativo da New School - Levamos educação de qualidade " +
-            "na linguagem da quebrada para as periferias do Brasil, através da tecnologia e da " +
-            "curadoria de conteúdos baseados nas habilidades do futuro."
-        }
-      ]
+            'Seja bem vindo(a) ao aplicativo da New School - Levamos educação de qualidade ' +
+            'na linguagem da quebrada para as periferias do Brasil, através da tecnologia e da ' +
+            'curadoria de conteúdos baseados nas habilidades do futuro.',
+        },
+      ],
     };
   },
   computed: {
-    courses() {
-      return this.$store.state.courses.list;
-    },
     user() {
       return this.$store.state.user.data;
-    }
+    },
   },
   methods: {
     loadUserName() {
-      return this.user.name.split(" ")[0];
-    }
+      return this.user.name.split(' ')[0];
+    },
+  },
+  mounted() {
+    return http.getAll(process.env.endpoints.COURSE).then(res => {
+      this.list = res.data;
+      this.loading = false;
+    });
   },
   asyncData({ store, data, params, $axios }) {
     return http
-      .getAll(process.env.endpoints.COURSE)
-      .then(response => store.commit("courses/set", response.data));
+      .getAll(`${process.env.endpoints.MY_COURSES}${store.state.user.data.id}`)
+      .then(response => store.commit('courses/set', response.data));
   },
 };
 </script>
