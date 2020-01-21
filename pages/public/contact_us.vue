@@ -1,6 +1,6 @@
 <template>
   <div>
-    <HeaderBar :title="'FALA COM A GENTE'" :backPage="true"></HeaderBar>
+    <HeaderBar :title="'FALE COM A GENTE'" :backPage="true"></HeaderBar>
     <div class="align-global">
       <div v-if="loading">
         <div class="container-spinner">
