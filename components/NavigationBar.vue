@@ -69,6 +69,7 @@ export default {
     changeRoutingIfAdmin() {
       if (this.$store.state.user.data.role === "ADMIN") {
         this.menu[0].link = "/admin/home";
+        this.menu[1].link = "/admin/perfil";
         this.menu[2].link = "/admin/listar-cursos";
       }
     }
