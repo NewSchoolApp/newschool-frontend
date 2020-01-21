@@ -99,7 +99,7 @@ export default {
 </script>
 
 <router>
-  path: "/aluno/pagina-certificado"
+  path: "/pagina-certificado"
 </router>
 
 <style lang="scss" scoped>
@@ -121,7 +121,7 @@ export default {
   .card-box {
     padding: 10px 20px 10px 20px;
     height: 100%;
-    max-width: 500px;
+    max-width: 100%;
     text-align: center;
 
     .course {
@@ -240,7 +240,7 @@ export default {
 
   .icons {
     height: 35px;
-    width: 27%;
+    width: 23%;
 
     display: flex;
     align-items: left;

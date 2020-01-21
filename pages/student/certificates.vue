@@ -66,6 +66,10 @@ export default {
 };
 </script>
 
+<router>
+  path: "/certificados"
+</router>
+
 <style lang="scss" scoped>
 * {
   margin: 0;
@@ -77,7 +81,10 @@ export default {
 .main {
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
+  max-width: 100%;
+  height: 100%;
 
   .cards-box {
     display: flex;
@@ -129,7 +136,7 @@ export default {
 
         .sharing-icons {
           position: absolute;
-          margin: 0 0 0 110px;
+          margin: 4px 0 0 110px;
         }
       }
 
