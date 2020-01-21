@@ -88,7 +88,7 @@ export default {
           "NEWSCHOOL@EXTERNALSECRET"
       }
     },
-    dateEnd: process.env.OPENING_DATE || "20/01/2020",
+    dateEnd: process.env.OPENING_DATE || "25/01/2020",
     endpoints: {
       CERTIFICATES_ME: "api/v1/user/me/certificate",
       USER_ME: "api/v1/user/me",
@@ -97,11 +97,12 @@ export default {
       FORGOT_PASSWORD: "api/v1/user/forgot-password",
       COURSE: "/api/v1/course",
       COURSE_BY_SLUG: "/api/v1/course/slug/",
-      INIT_COURSE: "api/v1/course-taken/",
+      INIT_COURSE: "api/v1/course-taken",
       LESSONS_BY_COURSE: "/api/v1/lesson/course/",
       STATE_COURSE: "api/v1/course-taken/",
       FACEBOOK_LOGIN: "oauth/facebook/token",
-      GOOGLE_LOGIN: "oauth/google/token"
+      GOOGLE_LOGIN: "oauth/google/token",
+      STATE_COURSE: "api/v1/course-taken"
     },
     GATOKEN: process.env.GA_TOKEN
   },

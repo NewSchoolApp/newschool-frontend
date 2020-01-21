@@ -13,7 +13,7 @@
 </template>
 <router>
     {
-        path : '/finish'
+        path : '/aluno/curso/:courseSlug/fim'
     }
 </router>
 <script>
