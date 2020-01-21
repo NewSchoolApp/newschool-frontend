@@ -9,15 +9,18 @@
         <v-btn class="back" color="#60c" dark block depressed large @click="gotoBack">Voltar</v-btn>
       </main>
     </v-container>
+    <navigation-bar />
   </div>
 </template>
 
 <script>
 import HeaderBar from '~/components/Header.vue';
+import NavigationBar from '~/components/NavigationBar.vue';
 
 export default {
   components: {
     HeaderBar,
+    NavigationBar,
   },
   methods: {
     gotoBack() {
