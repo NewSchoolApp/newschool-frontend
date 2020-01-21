@@ -8,24 +8,23 @@
         <img src="~/assets/page-404.svg" alt />
         <v-btn class="back" color="#60c" dark block depressed large @click="gotoBack">Voltar</v-btn>
       </main>
-
-      <navigation-bar />
     </v-container>
+        <client-only>
+      <navigation-bar />
+    </client-only>
   </div>
 </template>
 
 <script>
-import NavigationBar from '~/components/NavigationBar.vue';
 import HeaderBar from '~/components/Header.vue';
 
 export default {
   components: {
-    NavigationBar,
     HeaderBar,
   },
   methods: {
     gotoBack() {
-      $nuxt._router.go(-2);
+      $nuxt._router.go(-1);
     },
   },
 };
@@ -46,7 +45,7 @@ export default {
   font-size: 16px;
   line-height: 20px;
 }
-.container {
+::v-deep .container {
   height: 80%;
   display: flex;
   justify-content: center;

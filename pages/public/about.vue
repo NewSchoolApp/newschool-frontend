@@ -1,10 +1,10 @@
 <template>
   <div>
     <div class="bg"></div>
+    <HeaderBar class="top" :title="'O QUE É A NEW SCHOOL?'" :backPage="true"></HeaderBar>
     <div class="container">
       <v-layout text-left>
         <v-flex>
-          <h2 class="font-weight-bold mr-3 ml-3 mt-3 mb-3 text">O que é a New School?</h2>
           <div class="subtext">
             <p>
               Você deve estar se perguntando o que é a
@@ -32,7 +32,6 @@
         </v-flex>
       </v-layout>
     </div>
-    <navigation-bar />  
   </div>
 </template>
 <router>
@@ -42,11 +41,11 @@
 </router>
 
 <script>
-import NavigationBar from '~/components/NavigationBar.vue';
+import HeaderBar from '~/components/Header.vue';
 
 export default {
   components: {
-    NavigationBar,
+    HeaderBar,
   },
 };
 </script>
@@ -78,6 +77,12 @@ export default {
 }
 ::v-deep .subtext p {
   margin: 15px;
+}
+@media (max-width: 400px) {
+  .top{
+    text-align: center;
+  }
+  
 }
 </style>
 

@@ -97,8 +97,8 @@ export default {
 </script>
 
 <style scoped>
-h1,
-p {
+#page h1,
+#page p {
   color: #6600cc;
   text-transform: uppercase;
 }
