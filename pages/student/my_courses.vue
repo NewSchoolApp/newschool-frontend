@@ -1,7 +1,13 @@
 <template>
   <div>
     <HeaderBar :title="'Meus Cursos'" :backPage="true"></HeaderBar>
-    <div id="page">
+
+    <div v-if="loading">
+      <div class="container-spinner">
+        <v-progress-circular :size="70" :width="5" indeterminate color="#6600cc" />
+      </div>
+    </div>
+    <div v-else id="page">
       <div class="card" v-for="course of courses" v-bind:key="course.course.id">
         <div class="header__info">
           <h1>{{course.course.title}}</h1>
@@ -31,8 +37,12 @@ import HeaderBar from '~/components/Header.vue';
 import http from '~/services/http/generic';
 
 export default {
+  data: () => ({
+    loading: false,
+  }),
   methods: {
     continueCourse(course) {
+      this.loading = true
       http
         .getAll(
           `${process.env.endpoints.STATE_COURSE}/${this.user.id}/${course.id}`,
@@ -60,9 +70,8 @@ export default {
                 'courses/setCurrentTest',
                 res.data.currentTest,
               );
-              setTimeout(() => {
-                $nuxt._router.push(`/aluno/curso/${this.slug}/aula/parte`);
-              }, 400);
+
+              $nuxt._router.push(`/aluno/curso/${course.id}/aula/parte`);
             });
         });
     },

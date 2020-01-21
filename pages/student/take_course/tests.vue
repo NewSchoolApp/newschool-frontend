@@ -56,6 +56,13 @@
       </div>
 
       <v-btn color="primary" class="save-button" @click="nextTest">Próximo</v-btn>
+      <v-snackbar
+        v-model="snackbar"
+        :color="snackbarStatus"
+        :timeout="5000"
+        :top="true"
+        :right="true"
+      ></v-snackbar>
     </v-flex>
     <client-only>
       <navigation-bar />
