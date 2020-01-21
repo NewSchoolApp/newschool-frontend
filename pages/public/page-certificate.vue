@@ -7,7 +7,9 @@
             <h4>Missão Newschool</h4>
           </button>
           <td>Educação de qualidade</td>
-          <strong>{{ certificate.title }}</strong>
+          <strong v-for="course in courses" :key="course.id">{{
+            course.title
+          }}</strong>
           <tr>
             Carga horária de
             {{
@@ -16,11 +18,12 @@
             horas
           </tr>
           <span>Este certificado é orgulhosamente apresentado para</span>
-          <p>{{ certificate.name }}</p>
+          <p v-for="userName in users" :key="userName.id">
+            {{ userName.name }}
+          </p>
         </div>
 
         <ul>
-          <li>Emissão: 16/01/2020</li>
           <li>{{ certificate.courseStartDate }}</li>
           <li>{{ certificate.courseCompleteDate }}</li>
         </ul>
@@ -67,12 +70,23 @@ export default {
   data() {
     return '';
   },
+  computed: {
+    courses() {
+      return this.$store.state.courses.list;
+    },
+    user() {
+      return this.$store.state.user.data;
+    },
+  },
   mounted() {
     this.loadClientCredentials();
     http
-      .getAll(process.env.endpointCourseTaken.CERTIFICATES_COURSE_TAKEN_ME)
+      .getAll(
+        process.env.endpointCertificateCourseTaken.CERTIFICATES_COURSE_TAKEN_ME,
+      )
       .then(certificates => {
         this.certificates = certificates.data;
+        console.log(certificates);
       })
       .catch(error => console.log(error));
   },
@@ -90,9 +104,7 @@ export default {
 </script>
 
 <router>
-  {
     path: "/pagina-certificado"
-  }
 </router>
 
 <style lang="scss" scoped>

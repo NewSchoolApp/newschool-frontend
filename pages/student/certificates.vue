@@ -57,7 +57,7 @@ export default {
   },
   methods: {
     goToCertificate() {
-      this.$nuxt._router.push('/aluno/pagina-certificado');
+      $nuxt._router.push('/aluno/pagina-certificado');
     },
     backgroundClass(certificateBackgroundName) {
       return `background-image: url(/_nuxt/assets/${certificateBackgroundName})`;

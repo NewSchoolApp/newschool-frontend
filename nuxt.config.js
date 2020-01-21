@@ -114,8 +114,9 @@ export default {
       STATE_COURSE: 'api/v1/course-taken',
     },
     endpointCertificateCourseTaken: {
-      CERTIFICATES_COURSE_TAKEN_ME: 'api/v1/user/me/certificate_course_taken',
-      USER_ME: 'api/v1/user/me',
+      CERTIFICATES_COURSE_TAKEN_ME:
+        'api/v1/course-taken/certificates/user/:user',
+      USER_ME: 'api/v1/course-taken/certificates',
       LOGIN: 'oauth/token',
     },
     GATOKEN: process.env.GA_TOKEN,
