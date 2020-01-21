@@ -92,7 +92,6 @@ export default {
     return http
       .post(process.env.endpoints.FACEBOOK_LOGIN, facebookCredentials)
       .then(res => {
-        console.log('SUCESSO' + res);
         localStorage.setItem(
           "auth",
           JSON.stringify({
@@ -101,16 +100,30 @@ export default {
             expiresIn: Date.now() + ms(res.data.expiresIn)
           })
         );
-        return { error: "0" };
+        return 0;
       })
-      .catch(err => {
-        console.log('ERRO' + JSON.stringify(err.response));
-        return { error: err };
+      .catch(error => {
+        return error.response.status;
       });
   },
 
   loginGoogle: (googleCredentials) => {
-    
+    return http
+      .post(process.env.endpoints.GOOGLE_LOGIN, googleCredentials)
+      .then(res => {
+        localStorage.setItem(
+          "auth",
+          JSON.stringify({
+            accessToken: `Bearer ${res.data.accessToken}`,
+            refreshToken: res.data.refreshToken,
+            expiresIn: Date.now() + ms(res.data.expiresIn)
+          })
+        );
+        return 0;
+      })
+      .catch(error => {
+        return error.response.status;
+      });
   },
 };
 const getNewAccessToken = refreshToken => {
