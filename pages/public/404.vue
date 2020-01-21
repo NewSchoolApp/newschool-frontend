@@ -9,9 +9,6 @@
         <v-btn class="back" color="#60c" dark block depressed large @click="gotoBack">Voltar</v-btn>
       </main>
     </v-container>
-        <client-only>
-      <navigation-bar />
-    </client-only>
   </div>
 </template>
 
