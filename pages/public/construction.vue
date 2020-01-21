@@ -161,4 +161,13 @@ export default {
   color: #656565;
   margin: 0 auto;
 }
+@media (max-width: 350px){
+.img{
+  margin: 3% 5%;
+}
+.atribute-data span {
+  margin-left: 20%; 
+}
+  
+}
 </style>

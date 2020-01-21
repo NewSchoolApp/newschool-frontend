@@ -13,9 +13,7 @@
       <div class="inner-container">
         <v-form ref="form" lazy-validation>
           <h3>{{ test.title || 'Título do Teste'}}</h3>
-          <h4>
-            {{ test.text || 'Enunciado do teste'}}
-          </h4>
+          <h4>{{ test.question || 'Enunciado do teste'}}</h4>
           <div class="alternatives-container">
             <v-checkbox
               class="first-alternative"
@@ -58,6 +56,13 @@
       </div>
 
       <v-btn color="primary" class="save-button" @click="nextTest">Próximo</v-btn>
+      <v-snackbar
+        v-model="snackbar"
+        :color="snackbarStatus"
+        :timeout="5000"
+        :top="true"
+        :right="true"
+      ></v-snackbar>
     </v-flex>
     <client-only>
       <navigation-bar />
@@ -80,6 +85,9 @@ export default {
     NavigationBar,
   },
   data: () => ({
+    snackbar: false,
+    snackbarText: '',
+    snackbarStatus: '',
     computedSelection: [],
     cmpSelect: [],
   }),
@@ -127,6 +135,11 @@ export default {
     this.slug = this.$route.params.courseSlug;
   },
   methods: {
+    confirmSnackbar(text, status) {
+      this.snackbarText = text;
+      this.snackbarStatus = status;
+      this.snackbar = true;
+    },
     nextTest() {
       if (this.$refs.form.validate()) {
         // Primeiro passo é verificar se a resposta está correta
@@ -137,19 +150,17 @@ export default {
           .then(res => {
             if (res.data) {
               // Como a resposta está certa a gente limpa a validação e escolha para o próximo teste
-              this.$refs.form.reset()
+              this.$refs.form.reset();
               // Apenas para tornar mais vísivel o acerto, depois mudar para um componente melhor
-              alert("Acertou!")
-
-              let courseTaken = this.$store.state.courses.currentState
-              courseTaken['user'] = this.$store.state.user.data.id
-              courseTaken['course'] = this.$store.state.courses.current.id
+              this.confirmSnackbar('Acertou!!!', 'success');
+              let courseTaken = this.$store.state.courses.currentState;
+              courseTaken['user'] = this.$store.state.user.data.id;
+              courseTaken['course'] = this.$store.state.courses.current.id;
 
               // Se a resposta está certa a gente avança no curso
               tests
                 .post('/api/v1/course-taken/advance-on-course', courseTaken)
                 .then(res => {
-
                   // Como o advance-on-course endpoint não retorna qual o estado atual da Aula, Parte e Teste eu preciso chamar attend-a-class
                   tests
                     .getAll(
@@ -157,7 +168,7 @@ export default {
                     )
                     .then(res => {
                       // Primeiro checa se por acaso ele já terminou o curso, isso vai evitar as próximas verificações
-                      if(res.data.status === 'COMPLETED') {
+                      if (res.data.status === 'COMPLETED') {
                         delete res.data.user;
                         delete res.data.course;
                         delete res.data.currentLesson;
@@ -170,35 +181,63 @@ export default {
                       }
 
                       // Se muda a aula atual, ele completou todas as partes da anterior e deve ir para a parte da nova aula
-                      if(res.data.currentLesson.id != this.$store.state.courses.currentLesson.id) {
-                        this.$store.commit('courses/setCurrentLesson', res.data.currentLesson,);
-                        this.$store.commit('courses/setCurrentPart', res.data.currentPart);
-                        this.$store.commit('courses/setCurrentTest', res.data.currentTest);
+                      if (
+                        res.data.currentLesson.id !=
+                        this.$store.state.courses.currentLesson.id
+                      ) {
+                        this.$store.commit(
+                          'courses/setCurrentLesson',
+                          res.data.currentLesson,
+                        );
+                        this.$store.commit(
+                          'courses/setCurrentPart',
+                          res.data.currentPart,
+                        );
+                        this.$store.commit(
+                          'courses/setCurrentTest',
+                          res.data.currentTest,
+                        );
                         setTimeout(() => {
-                          $nuxt._router.push(`/aluno/curso/${this.slug}/aula/parte`);
+                          $nuxt._router.push(
+                            `/aluno/curso/${this.slug}/aula/parte`,
+                          );
                         }, 400);
                       }
 
                       // Se mudar a parte atual, quer dizer que ele terminou todos os testes da anterior e agora precisa assistir ao vídeo da nova parte
-                      if(res.data.currentPart.id != this.$store.state.courses.currentPart.id) {
-                        this.$store.commit('courses/setCurrentPart', res.data.currentPart);
-                        this.$store.commit('courses/setCurrentTest', res.data.currentTest);
+                      if (
+                        res.data.currentPart.id !=
+                        this.$store.state.courses.currentPart.id
+                      ) {
+                        this.$store.commit(
+                          'courses/setCurrentPart',
+                          res.data.currentPart,
+                        );
+                        this.$store.commit(
+                          'courses/setCurrentTest',
+                          res.data.currentTest,
+                        );
                         setTimeout(() => {
-                          $nuxt._router.push(`/aluno/curso/${this.slug}/aula/parte`);
-                        }, 400);                        
+                          $nuxt._router.push(
+                            `/aluno/curso/${this.slug}/aula/parte`,
+                          );
+                        }, 400);
                       }
 
                       // Se quando avançar no curso o teste mudar ele deve permanecer na página e apenas mudar o contexto
-                      if(res.data.currentTest.id != this.$store.state.courses.currentTest.id) {
-                        this.$store.commit('courses/setCurrentTest', res.data.currentTest);                        
+                      if (
+                        res.data.currentTest.id !=
+                        this.$store.state.courses.currentTest.id
+                      ) {
+                        this.$store.commit(
+                          'courses/setCurrentTest',
+                          res.data.currentTest,
+                        );
                       }
-                    }
-                  );
-                }
-              );
-            } else this.computedSelection = []            
-          }
-        );
+                    });
+                });
+            } else this.computedSelection = [];
+          });
       }
     },
   },

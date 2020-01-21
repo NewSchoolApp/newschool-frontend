@@ -52,26 +52,22 @@
         </article>
       </v-container>
     </article>
-    <navigation-bar />
   </section>
 </template>
 
 <router>
   {
-    path: '/aluno/contribua'
+    path: '/contribua'
   }
 </router>
 
 
 <script>
-import HeaderBar from "~/components/Header.vue";
-import NavigationBar from "~/components/NavigationBar.vue";
-
+import HeaderBar from '~/components/Header.vue';
 
 export default {
   components: {
     HeaderBar,
-    NavigationBar
   },
 
   data() {
@@ -173,9 +169,9 @@ export default {
           class: 'heroku',
         },
       ],
-    }
+    };
   },
-}
+};
 </script>
 
 
