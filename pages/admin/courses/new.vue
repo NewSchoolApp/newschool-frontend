@@ -1,6 +1,6 @@
 <template>
   <div>
-    <HeaderBar :title="'Gerenciar meus Cursos'" :backPage="true"></HeaderBar>
+    <HeaderBar :title="'Criar Curso'" :backPage="true"></HeaderBar>
     <v-layout justify-center>
       <v-progress-circular v-if="loading" :size="70" :width="5" indeterminate></v-progress-circular>
 
@@ -74,7 +74,7 @@
                   Aulas
                   <v-btn @click="gotoAddClass" class="btn-add-class" text icon>
                     <v-icon size="30">mdi-plus-circle-outline</v-icon>
-                  </v-btn>
+                  </v-btn>w
                 </h2>
               </v-col>
               <v-col cols="12" class="classes">
@@ -113,43 +113,46 @@
 </router>
 
 <script scoped>
-import courses from "~/services/http/courses";
-import utils from "~/utils";
-import HeaderBar from "~/components/Header.vue";
-import NavigationBar from "~/components/NavigationBar.vue";
+import courses from '~/services/http/courses';
+import utils from '~/utils';
+import HeaderBar from '~/components/Header.vue';
+import NavigationBar from '~/components/NavigationBar.vue';
 
 export default {
   data() {
     return {
-      title: "Gerenciar meus cursos",
+      title: 'Gerenciar meus cursos',
+      sendCourse: false,
       status: true,
       loading: false,
       snackbar: false,
-      snackbarText: "",
-      snackbarStatus: "",
-      token: "",
+      snackbarText: '',
+      snackbarStatus: '',
+      token: '',
       form: {
-        title: "",
-        description: "",
-        authorName: "",
-        authorDescription: "",
-        workload: "",
-        thumbUrl: "",
+        title: '',
+        description: '',
+        authorName: '',
+        authorDescription: '',
+        workload: '',
+        thumbUrl: '',
         photo: null,
       },
 
-      titleRules: [v => !!v || "O título é obrigatório"],
-      descriptionRules: [v => !!v || "A descrição é obrigatória"],
-      authorNameRules: [v => !!v || "O professor é obrigatório"],
-      authorDescriptionRules: [v => !!v || "A biografia do professor é obrigatória"],
-      workloadRules: [v => !!v || "A carga horária é obrigatória"],
+      titleRules: [v => !!v || 'O título é obrigatório'],
+      descriptionRules: [v => !!v || 'A descrição é obrigatória'],
+      authorNameRules: [v => !!v || 'O professor é obrigatório'],
+      authorDescriptionRules: [
+        v => !!v || 'A biografia do professor é obrigatória',
+      ],
+      workloadRules: [v => !!v || 'A carga horária é obrigatória'],
       photoRules: [v => !!v || 'A foto de capa é obrigatória'],
     };
   },
 
   head() {
     return {
-      title: this.title
+      title: this.title,
     };
   },
 
@@ -162,28 +165,30 @@ export default {
     submit() {
       if (this.$refs.form.validate()) {
         const formData = new FormData();
-        formData.append("title", this.form.title);
-        formData.append("description", this.form.description);
-        formData.append("authorName", this.form.authorName);
-        formData.append("authorDescription", this.form.authorDescription);
-        formData.append("workload", this.form.workload);
-        formData.append("photo", this.form.photo);
-        formData.append("thumbUrl", this.form.thumbUrl);
+        formData.append('title', this.form.title);
+        formData.append('description', this.form.description);
+        formData.append('authorName', this.form.authorName);
+        formData.append('authorDescription', this.form.authorDescription);
+        formData.append('workload', this.form.workload);
+        formData.append('photo', this.form.photo);
+        formData.append('thumbUrl', this.form.thumbUrl);
 
         this.animateForm(true);
         courses
           .createCourse(formData)
           .then(res => {
             this.loading = false;
-            this.confirmSnackbar("Curso cadastrado com sucesso!", "success");
+            this.sendCourse = true;
+            this.confirmSnackbar('Curso cadastrado com sucesso!', 'success');
             setTimeout(() => {
-              this.goBack();
+              localStorage.setItem('current_course', JSON.stringify(res.data));
+              this.gotoAddClass(res.data.id);
             }, 2500);
           })
           .catch(err => {
             this.confirmSnackbar(
-              "Ocorreu um erro ao cadastrar o curso.",
-              "error"
+              'Ocorreu um erro ao cadastrar o curso.',
+              'error',
             );
             setTimeout(() => {
               this.loading = false;
@@ -197,38 +202,48 @@ export default {
 
     animateForm(status) {
       if (status) {
-        this.$refs.flex.classList.add("hide-form");
-        document.querySelector("html").style.overflow = "hidden";
+        this.$refs.flex.classList.add('hide-form');
+        document.querySelector('html').style.overflow = 'hidden';
         setTimeout(() => {
           this.loading = true;
         }, 300);
       } else {
-        this.$refs.flex.classList.add("error-form");
+        this.$refs.flex.classList.add('error-form');
         setTimeout(() => {
-          this.$refs.flex.classList.remove("error-form");
+          this.$refs.flex.classList.remove('error-form');
         }, 500);
       }
-      document.querySelector("html").style.overflow = "scroll";
+      document.querySelector('html').style.overflow = 'scroll';
     },
 
-    gotoAddClass() {
-      $nuxt._router.push("/admin/courses");
+    gotoAddClass(courseId) {
+      if (this.sendCourse) {
+        $nuxt._router.push(`/admin/course/${courseId}/lesson/new`);
+      } else {
+        this.confirmSnackbar(
+          'Você precisa salvar o curso antes de adicionar uma aula',
+          'error',
+        );
+      }
     },
 
     goBack() {
       window.history.length > 1
         ? $nuxt._router.go(-1)
-        : $nuxt._router.push("/");
+        : $nuxt._router.push('/');
     },
 
     confirmSnackbar(text, status) {
       this.snackbarText = text;
       this.snackbarStatus = status;
       this.snackbar = true;
-    }
+    },
   },
 
   mounted() {
+    if (localStorage.getItem('current_course')) {
+      
+    }
     utils
       .getExternalCredentials()
       .then(res => {
@@ -238,12 +253,11 @@ export default {
       .catch(err => {
         console.error(err);
       });
-  }
+  },
 };
 </script>
 
 <style scoped>
-
 .flex {
   animation: intro 300ms backwards;
   animation-delay: 350ms;
