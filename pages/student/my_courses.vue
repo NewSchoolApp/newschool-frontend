@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="full__height">
     <HeaderBar :title="'Meus Cursos'" :backPage="true"></HeaderBar>
 
     <div v-if="loading">
@@ -8,25 +8,37 @@
       </div>
     </div>
     <div v-else id="page">
-      <div class="card" v-for="course of courses" v-bind:key="course.course.id">
-        <div class="header__info">
-          <h1>{{course.course.title}}</h1>
-          <v-btn
-            v-if="course.status === 'TAKEN'"
-            class="btn-back"
-            text
-            icon
-            @click="continueCourse(course.course)"
-          >
-            CONTINUAR
-            <v-icon>mdi-arrow-right</v-icon>
-          </v-btn>
-          <p class="text__success" v-else>CONCLUÍDO</p>
+      <div v-if="courses.length">
+        <div class="card" v-for="course of courses" v-bind:key="course.course.id">
+          <div class="header__info">
+            <h1>{{course.course.title}}</h1>
+            <v-btn
+              v-if="course.status === 'TAKEN'"
+              class="btn-back"
+              text
+              icon
+              @click="continueCourse(course.course)"
+            >
+              CONTINUAR
+              <v-icon>mdi-arrow-right</v-icon>
+            </v-btn>
+            <p class="text__success" v-else>CONCLUÍDO</p>
+          </div>
+          <div class="progress">
+            <p id="value__progress">{{course.completition}}%</p>
+            <v-progress-linear :value="course.completition" height="7" rounded="true"></v-progress-linear>
+          </div>
         </div>
-        <div class="progress">
-          <p id="value__progress">{{course.completition}}%</p>
-          <v-progress-linear :value="course.completition" height="7" rounded="true"></v-progress-linear>
-        </div>
+      </div>
+      <div class="full__height" v-else>
+        <v-container class="wrapper__without__courses full__height">
+          <v-row align="center" class="full__height">
+            <v-col cols="12">
+              <h1 class="full__width text__without__courses">VIXE :/</h1>
+              <p class="full__width">Você não começou nenhum curso.</p>
+            </v-col>
+          </v-row>
+        </v-container>
       </div>
     </div>
   </div>
@@ -95,7 +107,10 @@ export default {
 };
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
+#page {
+  height: 100%;
+}
 h1 {
   font-size: 0.9rem;
 }
@@ -123,6 +138,20 @@ h1 {
 ::v-deep .v-btn--icon.v-size--default {
   height: unset;
   color: #6600cc;
+}
+.wrapper__without__courses {
+  opacity: 0.5;
+  text-align: center;
+  .text__without__courses {
+    color: #6600cc;
+    font-size: 3.5em;
+  }
+}
+.full__width {
+  width: 100%;
+}
+.full__height {
+  height: 90%;
 }
 .text__success {
   font-weight: 400;
