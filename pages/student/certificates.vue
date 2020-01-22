@@ -6,28 +6,32 @@
         v-for="certificate in certificates"
         :key="certificate.id"
         class="cards-box"
+        @click="goToCertificate(certificate.course.id)"
       >
-        <button type="button" @click="goToCertificate">
-          <div
-            :style="backgroundClass(certificate.certificateBackgroundName)"
+        <!-- <div
+            :style="backgroundClass(certificate.course.thumbUrl)"
             class="background-image"
-          >
-            <img
-              src="~/assets/medalha-imagem.svg"
-              alt="Imagem de uma medalha"
-            />
-          </div>
-        </button>
+          >-->
+        <div class="content-image">
+          <img class="background-img" :src="certificate.course.thumbUrl" alt />
+          <img
+            class="medal"
+            src="~/assets/medalha-imagem.svg"
+            alt="Imagem de uma medalha"
+          />
+        </div>
         <div class="footer">
           <div class="title-and-socialMedias">
             <button type="button" @click="goToCertificate">
-              <strong class="certificate-title">{{ certificate.title }}</strong>
+              <strong class="certificate-title">
+                {{ certificate.course.title }}
+              </strong>
             </button>
             <div class="sharing-icons">
               <shareBtn />
             </div>
           </div>
-          <p>{{ certificate.userName }}</p>
+          <p>{{ certificate.user.name }}</p>
         </div>
       </div>
     </v-container>
@@ -49,18 +53,24 @@ export default {
   }),
   mounted() {
     http
-      .getAll(process.env.endpoints.CERTIFICATES_ME)
+      .getAll(
+        `${process.env.endpoints.CERTIFICATES_ME}${this.$store.state.user.data.id}`,
+      )
       .then(certificates => {
         this.certificates = certificates.data;
+        console.log(this.certificates);
       })
       .catch(error => console.log(error));
   },
   methods: {
-    goToCertificate() {
-      $nuxt._router.push('/aluno/pagina-certificado');
+    goToCertificate(id) {
+      // eslint-disable-next-line no-undef
+      $nuxt._router.push(
+        `/pagina-certificado/${this.$store.state.user.data.id}/${id}`,
+      );
     },
     backgroundClass(certificateBackgroundName) {
-      return `background-image: url(/_nuxt/assets/${certificateBackgroundName})`;
+      return `background-image: url(${certificateBackgroundName})`;
     },
   },
 };
@@ -85,6 +95,27 @@ export default {
   max-width: 100%;
   height: 100%;
 
+  .content-image {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 80%;
+    height: 14rem;
+    overflow: hidden;
+    background: #6600cc;
+    /* background: aquamarine; */
+  }
+
+  .background-img {
+    max-width: 100%;
+    opacity: 0.1;
+  }
+
+  .medal {
+    position: absolute;
+  }
+
   .cards-box {
     display: flex;
     flex-direction: column;
@@ -100,9 +131,6 @@ export default {
       width: 200px;
       height: 115px;
       box-shadow: 0 2.5px 3px 0px rgba(0, 0, 0, 0.42);
-      background: #6600cc url('~assets/matematica.svg');
-      background: #6600cc url('~assets/fotografia.svg');
-      background: #6600cc url('~assets/cenografia.svg');
     }
 
     .footer {

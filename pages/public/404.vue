@@ -1,12 +1,21 @@
 <template>
   <div>
-    <HeaderBar :title="'DEU RUIM :/'" :backPage="true"></HeaderBar>
+    <HeaderBar :title="'DEU RUIM :/'" :back-page="true"></HeaderBar>
     <v-container>
       <main class="middle">
         <p>Página não encontrada.</p>
         <p>Tenta de novo, mano.</p>
         <img src="~/assets/page-404.svg" alt />
-        <v-btn class="back" color="#60c" dark block depressed large @click="gotoBack">Voltar</v-btn>
+        <v-btn
+          class="back"
+          color="#60c"
+          dark
+          block
+          depressed
+          large
+          @click="gotoBack"
+          >Voltar</v-btn
+        >
       </main>
     </v-container>
   </div>

@@ -1,9 +1,9 @@
-import { http } from "~/services/http/config";
-import { PRIVATE_MODULES_URL } from "~/routes/private";
+import { http } from '~/services/http/config';
+import { PRIVATE_MODULES_URL } from '~/routes/private';
 
 const state = () => ({
   data: {},
-  flag_session: false // sessão do usuário, é definida pelo status online do store.
+  flag_session: false, // sessão do usuário, é definida pelo status online do store.
 });
 
 const getters = {
@@ -16,7 +16,7 @@ const getters = {
   roleModule: state => {
     const { role } = state.data;
     return PRIVATE_MODULES_URL[role];
-  }
+  },
 };
 const mutations = {
   SET_USER(state, object) {
@@ -24,31 +24,31 @@ const mutations = {
   },
   SET_FLAG_SESSION(state, value) {
     state.flag_session = value;
-  }
+  },
 };
 const actions = {
   validateSession({ getters }, route) {
     return {
       validRole: getters.roleModule === route,
-      session: getters.flagSession
+      session: getters.flagSession,
     };
   },
   loadInfoUser({ commit, dispatch, getters }, config) {
     return http
       .get(process.env.endpoints.USER_ME, {
-        headers: { Authorization: config.token }
+        headers: { Authorization: config.token },
       })
       .then(res => {
-        commit("SET_USER", {
-          name: res.data.name || "Anônimo",
-          type: res.data.type || "Visitante",
-          id: res.data.id || "",
-          role: res.data.role.name || ""
+        commit('SET_USER', {
+          name: res.data.name || 'Anônimo',
+          type: res.data.type || 'Visitante',
+          id: res.data.id || '',
+          role: res.data.role.name || '',
         });
-        dispatch("initSessionUser");
+        dispatch('initSessionUser');
 
         const lastRouteAccessed =
-          config.route === "login"
+          config.route === 'login'
             ? `${getters.roleModule}-home`
             : config.route;
 
@@ -56,24 +56,24 @@ const actions = {
         $nuxt._router.push({ name: lastRouteAccessed });
       })
       .catch(() => {
-        dispatch("clearInfoUser");
+        dispatch('clearInfoUser');
         localStorage.clear();
         // eslint-disable-next-line no-undef
-        $nuxt._router.push("/login");
+        $nuxt._router.push('/login');
       });
   },
   initSessionUser({ commit }) {
-    commit("SET_FLAG_SESSION", true);
+    commit('SET_FLAG_SESSION', true);
   },
   clearInfoUser({ commit }) {
-    commit("SET_USER", {});
-    commit("SET_FLAG_SESSION", false);
-  }
+    commit('SET_USER', {});
+    commit('SET_FLAG_SESSION', false);
+  },
 };
 export default {
   namespaced: true,
   state,
   getters,
   actions,
-  mutations
+  mutations,
 };

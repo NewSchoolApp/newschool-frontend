@@ -112,64 +112,92 @@ export default {
   },
   methods: {
     initCourse(id) {
-      this.loadingInit = true;
-      if (utils.getToken() && this.idUser) {
-        http
-          .post(process.env.endpoints.INIT_COURSE, {
-            user: this.idUser,
-            course: id,
-          })
-          .then(res => {
-            this.$store.commit(
-              'courses/setCurrentLesson',
-              res.data.currentLesson,
-            );
-            this.$store.commit('courses/setCurrentPart', res.data.currentPart);
-            this.$store.commit('courses/setCurrentTest', res.data.currentTest);
+      if (this.verifyStore(id)) {
+        this.dialogOptions.ok = true;
+        this.dialogMessage =
+          'Você já iniciou esse curso, confira ele na aba "meus curso"';
+        this.loadingInit = false;
+        utils.runModal();
+      } else {
+        this.loadingInit = true;
+        if (utils.getToken() && this.idUser) {
+          http
+            .post(process.env.endpoints.INIT_COURSE, {
+              user: this.idUser,
+              course: id,
+            })
+            .then(res => {
+              this.$store.commit(
+                'courses/setCurrentLesson',
+                res.data.currentLesson,
+              );
+              this.$store.commit(
+                'courses/setCurrentPart',
+                res.data.currentPart,
+              );
+              this.$store.commit(
+                'courses/setCurrentTest',
+                res.data.currentTest,
+              );
 
-            http
-              .getAll(
-                `${process.env.endpoints.STATE_COURSE}/${this.idUser}/${id}`,
-              )
-              .then(res => {
-                this.$store.commit('courses/setCurrent', res.data.course);
-                delete res.data.user;
-                delete res.data.course;
-                this.$store.commit('courses/setCurrentState', res.data);
-                setTimeout(() => {
-                  $nuxt._router.push(`/aluno/curso/${this.slug}/aula/parte`);
-                }, 400);
-              });
-          })
-          .catch(error => {
+              http
+                .getAll(
+                  `${process.env.endpoints.STATE_COURSE}/${this.idUser}/${id}`,
+                )
+                .then(res => {
+                  this.$store.commit('courses/setCurrent', res.data.course);
+                  delete res.data.user;
+                  delete res.data.course;
+                  this.$store.commit('courses/setCurrentState', res.data);
+                  setTimeout(() => {
+                    $nuxt._router.push(`/aluno/curso/${this.slug}/aula/parte`);
+                  }, 400);
+                });
+            })
+            .catch(error => {
+              this.dialogOptions.ok = true;
+              this.dialogMessage =
+                error.response.status === 401
+                  ? 'Você precisa estar logado para fazer um curso!'
+                  : 'Erro ao iniciar o curso, tente novamente';
+              setTimeout(() => {
+                this.loadingInit = false;
+                utils.runModal();
+              }, 1000);
+            });
+        } else {
+          setTimeout(() => {
+            this.dialogOptions.toRoute = {
+              path: '/login',
+              name: 'Fazer Login',
+            };
             this.dialogOptions.ok = true;
             this.dialogMessage =
-              error.response.status === 401
-                ? 'Você precisa estar logado para fazer um curso!'
-                : 'Erro ao iniciar o curso, tente novamente';
-            setTimeout(() => {
-              this.loadingInit = false;
-              utils.runModal();
-            }, 1000);
-          });
-      } else {
-        setTimeout(() => {
-          this.dialogOptions.toRoute = { path: '/login', name: 'Fazer Login' };
-          this.dialogOptions.ok = true;
-          this.dialogMessage =
-            'Você precisa estar logado para fazer um curso! faça o login e tente novamente';
-          this.loadingInit = false;
-          utils.runModal();
-        }, 1000);
+              'Você precisa estar logado para fazer um curso! faça o login e tente novamente';
+            this.loadingInit = false;
+            utils.runModal();
+          }, 1000);
+        }
       }
     },
     comeBackPage() {
       window.history.go(-1);
     },
+    verifyStore(id) {
+      this.list.forEach(item => {
+        if (item.course.id == id && item.status === 'TAKEN') {
+          return true;
+        }
+      });
+      return false;
+    },
+  },
+  computed: {
+    list() {
+      return this.$store.state.courses.list;
+    },
   },
 };
-
-//
 </script>
 
 <style scoped lang="scss">

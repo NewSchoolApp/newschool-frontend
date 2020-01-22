@@ -15,6 +15,10 @@ export default {
         component: resolve(__dirname, 'pages/student/~student.module.vue'),
         children: [
           {
+            path: '404',
+            component: resolve(__dirname, 'pages/public/404.vue'),
+          },
+          {
             path: 'home',
             name: 'aluno-home',
             component: resolve(__dirname, 'pages/student/home.vue'),
@@ -102,7 +106,7 @@ export default {
     },
     dateEnd: process.env.OPENING_DATE || '25/01/2020',
     endpoints: {
-      CERTIFICATES_ME: 'api/v1/user/me/certificate',
+      CERTIFICATES_ME: 'api/v1/course-taken/certificates/user/',
       USER_ME: 'api/v1/user/me',
       LOGIN: 'oauth/token',
       SIGN_UP: 'api/v1/user/student',
@@ -112,11 +116,10 @@ export default {
       INIT_COURSE: 'api/v1/course-taken',
       LESSONS_BY_COURSE: '/api/v1/lesson/course/',
       STATE_COURSE: 'api/v1/course-taken',
+      MY_COURSES: 'api/v1/course-taken/user/',
     },
     endpointCertificateCourseTaken: {
-      CERTIFICATES_COURSE_TAKEN_ME:
-        'api/v1/course-taken/certificates/user/:user',
-      USER_ME: 'api/v1/course-taken/certificates',
+      CERTIFICATES_COURSE_TAKEN_ME: 'api/v1/course-taken/certificate/user/',
       LOGIN: 'oauth/token',
     },
     GATOKEN: process.env.GA_TOKEN,

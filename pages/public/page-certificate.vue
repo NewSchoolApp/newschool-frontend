@@ -1,25 +1,33 @@
 <template>
   <v-container class="main">
-    <div class="card-box">
+    <div v-if="loading">
+      <div class="container-spinner">
+        <v-progress-circular
+          :size="70"
+          :width="5"
+          indeterminate
+          color="#6600cc"
+        />
+      </div>
+    </div>
+    <div v-else class="card-box">
       <div class="card">
         <div class="course">
           <button type="button" @click="goToHome">
             <h4>Missão Newschool</h4>
           </button>
           <td>Educação de qualidade</td>
-          <strong v-for="course in courses" :key="course.id">{{
-            course.title
-          }}</strong>
+          <strong>{{ certificate.course.title }}</strong>
           <tr>
             Carga horária de
             {{
-              certificate.workload
+              certificate.course.workload
             }}
             horas
           </tr>
           <span>Este certificado é orgulhosamente apresentado para</span>
-          <p v-for="userName in users" :key="userName.id">
-            {{ userName.name }}
+          <p>
+            {{ certificate.user.name }}
           </p>
         </div>
 
@@ -67,26 +75,30 @@ export default {
   components: {
     shareBtnPageCertificate,
   },
-  data() {
-    return '';
-  },
+  data: () => ({
+    certificate: {},
+    loading: true,
+  }),
   computed: {
-    courses() {
-      return this.$store.state.courses.list;
-    },
-    user() {
-      return this.$store.state.user.data;
-    },
+    // user() {
+    //   return this.$store.state.user.data.name;
+    // },
   },
   mounted() {
     this.loadClientCredentials();
+    const idCourse = this.$route.params.idCourse;
+    const idUser = this.$route.params.idUser;
+    // 1 - Requesicao no enpoint.
+    // 2 retorno vc jogar na course: (data)
+    // 3 user os dados do course:
     http
       .getAll(
-        process.env.endpointCertificateCourseTaken.CERTIFICATES_COURSE_TAKEN_ME,
+        `${process.env.endpointCertificateCourseTaken.CERTIFICATES_COURSE_TAKEN_ME}${idUser}/course/${idCourse}`,
       )
-      .then(certificates => {
-        this.certificates = certificates.data;
-        console.log(certificates);
+      .then(response => {
+        this.certificate = response.data;
+        this.loading = false;
+        console.log(this.certificate);
       })
       .catch(error => console.log(error));
   },
@@ -104,7 +116,7 @@ export default {
 </script>
 
 <router>
-    path: "/pagina-certificado"
+    path: "/pagina-certificado/:idUser/:idCourse"
 </router>
 
 <style lang="scss" scoped>
