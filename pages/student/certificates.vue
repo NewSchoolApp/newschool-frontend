@@ -6,14 +6,9 @@
         v-for="certificate in certificates"
         :key="certificate.id"
         class="cards-box"
-        @click="goToCertificate(certificate.course.id)"
       >
-        <!-- <div
-            :style="backgroundClass(certificate.course.thumbUrl)"
-            class="background-image"
-          >-->
-        <div class="content-image">
-          <img class="background-img" :src="certificate.course.thumbUrl" alt />
+        <div class="content-image" @click="goToCertificate(certificate.course.id)">
+          <button><img class="background-img" :src="certificate.course.thumbUrl" alt /></button>
           <img
             class="medal"
             src="~/assets/medalha-imagem.svg"
@@ -85,6 +80,10 @@ export default {
   margin: 0;
   padding: 0;
   outline: 0;
+
+  button {
+    cursor: pointer !important;
+  }
 }
 
 .main {
@@ -93,7 +92,7 @@ export default {
   justify-content: center;
   align-items: center;
   max-width: 100%;
-  height: 100%;
+  // height: 100%;
 
   .content-image {
     position: relative;
@@ -104,7 +103,6 @@ export default {
     height: 14rem;
     overflow: hidden;
     background: #6600cc;
-    /* background: aquamarine; */
   }
 
   .background-img {
@@ -134,7 +132,7 @@ export default {
     }
 
     .footer {
-      width: 200px;
+      width: 312px;
       padding-top: 10px;
       line-height: 15px;
       text-align: center;
@@ -163,7 +161,7 @@ export default {
 
         .sharing-icons {
           position: absolute;
-          margin: 4px 0 0 110px;
+          margin: 4px 0 0 226px;
         }
       }
 
@@ -181,9 +179,5 @@ export default {
       }
     }
   }
-}
-
-button {
-  cursor: pointer !important;
 }
 </style>

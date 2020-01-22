@@ -79,18 +79,10 @@ export default {
     certificate: {},
     loading: true,
   }),
-  computed: {
-    // user() {
-    //   return this.$store.state.user.data.name;
-    // },
-  },
   mounted() {
     this.loadClientCredentials();
     const idCourse = this.$route.params.idCourse;
     const idUser = this.$route.params.idUser;
-    // 1 - Requesicao no enpoint.
-    // 2 retorno vc jogar na course: (data)
-    // 3 user os dados do course:
     http
       .getAll(
         `${process.env.endpointCertificateCourseTaken.CERTIFICATES_COURSE_TAKEN_ME}${idUser}/course/${idCourse}`,
