@@ -3,7 +3,7 @@
     <main class="container__screen">
       <div id="info__winner">
         <img src="~/assets/winner.svg" alt="vencedor" />
-        <h1>Parabéns, voce terminou o Curso :)</h1>
+        <h1>AEEEE, parabéns por mais esse passo!</h1>
       </div>
       <div id="container__btn">
         <v-btn color="#60c" dark block depressed large @click="finish">Meu Certificado</v-btn>

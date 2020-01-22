@@ -114,18 +114,21 @@ h1 {
   -webkit-box-pack: justify;
   justify-content: space-between;
 }
+
 .header__info {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
 }
-.v-btn--icon.v-size--default {
+::v-deep .v-btn--icon.v-size--default {
   height: unset;
   color: #6600cc;
 }
 .text__success {
   font-weight: 400;
   color: #35de63;
+  font-size: 13px;
+
 }
 .progress-linear {
   height: 6px;
@@ -134,5 +137,9 @@ h1 {
 #value__progress {
   color: darkgray;
   padding-bottom: 5px;
+}
+::v-deep .v-btn__content{
+  margin: -5% 0 0 -150%;
+  font-size: 12px;
 }
 </style>

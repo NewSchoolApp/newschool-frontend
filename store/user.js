@@ -39,11 +39,15 @@ const actions = {
         headers: { Authorization: config.token },
       })
       .then(res => {
-        commit('SET_USER', {
-          name: res.data.name || 'Anônimo',
-          type: res.data.type || 'Visitante',
-          id: res.data.id || '',
-          role: res.data.role.name || '',
+        const types = {
+          ADMIN: "Administrador",
+          STUDENT: "Aluno"
+        };
+        commit("SET_USER", {
+          name: res.data.name || "Anônimo",
+          type: types[res.data.role.name] || "Visitante",
+          id: res.data.id || "",
+          role: res.data.role.name || ""
         });
         dispatch('initSessionUser');
 
