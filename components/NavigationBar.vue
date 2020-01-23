@@ -10,10 +10,12 @@
       horizontal
     >
       <v-btn
+        
         class="btn-fixed menu__bottom"
         v-for="item in menu"
         v-bind:key="item.id"
         :to="item.link"
+        :class="item.class"
       >
         <span>{{ item.name }}</span>
         <v-icon>{{ item.icon }}</v-icon>
@@ -48,7 +50,8 @@ export default {
         id: 4,
         name: "Certificados",
         icon: "mdi-school",
-        link: "/aluno/certificados"
+        link: "/aluno/certificados",
+        class: ""
       }
     ]
   }),
@@ -71,6 +74,7 @@ export default {
         this.menu[0].link = "/admin/home";
         this.menu[1].link = "/admin/perfil";
         this.menu[2].link = "/admin/listar-cursos"; 
+        this.menu[3].class = "remove-certificates"
       }
     }
   }
@@ -108,5 +112,8 @@ export default {
   .v-btn {
     font-size: 0.65rem !important;
   }
+}
+.remove-certificates {
+  display: none;
 }
 </style>
