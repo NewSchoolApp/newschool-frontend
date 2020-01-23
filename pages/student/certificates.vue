@@ -1,152 +1,183 @@
 <template>
   <div>
-    <HeaderBar :title="'Certificados'" :backPage="true"></HeaderBar>
+    <HeaderBar :title="'Certificados'" :back-page="true"></HeaderBar>
     <v-container class="main">
-      <div v-for="certificate in certificates" v-bind:key="certificate.id" class="cards-box">
-        <div
-          :style="backgroundClass(certificate.certificateBackgroundName)"
-          class="background-image"
-        >
-          <img src="~/assets/medalha-image.svg" alt="Imagem de uma medalha" />
+      <div
+        v-for="certificate in certificates"
+        :key="certificate.id"
+        class="cards-box"
+      >
+        <div class="content-image" @click="goToCertificate(certificate.course.id)">
+          <button><img class="background-img" :src="certificate.course.thumbUrl" alt /></button>
+          <img
+            class="medal"
+            src="~/assets/medalha-imagem.svg"
+            alt="Imagem de uma medalha"
+          />
         </div>
         <div class="footer">
           <div class="title-and-socialMedias">
-            <strong class="certificate-title">{{ certificate.title }}</strong>
+            <button type="button" @click="goToCertificate">
+              <strong class="certificate-title">
+                {{ certificate.course.title }}
+              </strong>
+            </button>
             <div class="sharing-icons">
               <shareBtn />
             </div>
           </div>
-          <p>{{ certificate.userName }}</p>
+          <p>{{ certificate.user.name }}</p>
         </div>
       </div>
     </v-container>
   </div>
 </template>
 
-
 <script>
-import shareBtn from "~/components/ShareBtn.vue";
-import http from "~/services/http/generic";
-import HeaderBar from "~/components/Header.vue";
+import shareBtn from '~/components/ShareBtn.vue';
+import http from '~/services/http/generic';
+import HeaderBar from '~/components/Header.vue';
 
 export default {
   components: {
     shareBtn,
-    HeaderBar
+    HeaderBar,
   },
   data: () => ({
-    certificates: []
+    certificates: [],
   }),
   mounted() {
     http
-      .getAll(process.env.endpoints.CERTIFICATES_ME)
+      .getAll(
+        `${process.env.endpoints.CERTIFICATES_ME}${this.$store.state.user.data.id}`,
+      )
       .then(certificates => {
         this.certificates = certificates.data;
+        console.log(this.certificates);
       })
       .catch(error => console.log(error));
   },
   methods: {
+    goToCertificate(id) {
+      // eslint-disable-next-line no-undef
+      $nuxt._router.push(
+        `/pagina-certificado/${this.$store.state.user.data.id}/${id}`,
+      );
+    },
     backgroundClass(certificateBackgroundName) {
-      return `background-image: url(/_nuxt/assets/${certificateBackgroundName})`;
-    }
-  }
+      return `background-image: url(${certificateBackgroundName})`;
+    },
+  },
 };
 </script>
-<style scoped>
-.main {
-  padding: 0;
-  margin-top: 30px;
-  width: 375px;
-}
 
+<router>
+  path: "/certificados"
+</router>
+
+<style lang="scss" scoped>
 * {
   margin: 0;
   padding: 0;
   outline: 0;
-  box-sizing: border-box;
+
+  button {
+    cursor: pointer !important;
+  }
 }
 
-button {
-  cursor: pointer !important;
-}
-
-.cards-box {
+.main {
   display: flex;
   flex-direction: column;
-  align-items: center;
-
-  margin-bottom: 25px;
-}
-
-.page-title {
-  font-family: Montserrat;
-  color: #6600cc;
-  font-size: 16px;
-  text-transform: uppercase;
-  padding-left: 34px;
-  margin-bottom: 10px;
-}
-.background-image {
-  display: flex;
   justify-content: center;
   align-items: center;
+  max-width: 100%;
+  // height: 100%;
 
-  width: 200px;
-  height: 115px;
-  box-shadow: 0 2.5px 3px 0px rgba(0, 0, 0, 0.42);
-  background: #6600cc url("../../assets/matematica.svg");
-  background: #6600cc url("../../assets/fotografia.svg");
-  background: #6600cc url("../../assets/cenografia.svg");
-}
+  .content-image {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 80%;
+    height: 14rem;
+    overflow: hidden;
+    background: #6600cc;
+  }
 
-.footer {
-  width: 200px;
-  padding-top: 10px;
-  line-height: 15px;
-  text-align: center;
-  font-family: Montserrat;
-  font-style: normal;
-  font-weight: 500;
-}
+  .background-img {
+    max-width: 100%;
+    opacity: 0.1;
+  }
 
-.footer p {
-  display: flex;
-  align-items: center;
+  .medal {
+    position: absolute;
+  }
 
-  font-family: Montserrat;
-  font-style: normal;
-  font-weight: 300;
-  font-size: 10px;
-  line-height: 12px;
-  padding-left: 2px;
-  color: #1a1a1a;
-  margin-top: 7px;
-}
+  .cards-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 500px;
+    margin-bottom: 25px;
 
-.certificate-title {
-  display: flex;
-  align-items: center;
+    .background-image {
+      display: flex;
+      justify-content: center;
+      align-items: center;
 
-  font-family: Montserrat;
-  font-style: normal;
-  font-weight: 600;
-  font-size: 12px;
-  line-height: 15px;
-  color: #1a1a1a;
-  padding-left: 2px;
-  text-align: center;
-}
+      width: 200px;
+      height: 115px;
+      box-shadow: 0 2.5px 3px 0px rgba(0, 0, 0, 0.42);
+    }
 
-.title-and-socialMedias {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+    .footer {
+      width: 312px;
+      padding-top: 10px;
+      line-height: 15px;
+      text-align: center;
+      font-family: Montserrat;
+      font-style: normal;
+      font-weight: 500;
 
-  font-family: Montserrat;
-}
+      .title-and-socialMedias {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-family: Montserrat;
 
-.sharing-icons {
-  position: absolute;
-  margin: 0 0 0 110px;
+        .certificate-title {
+          display: flex;
+          align-items: center;
+          font-family: Montserrat;
+          font-style: normal;
+          font-weight: 600;
+          font-size: 12px;
+          line-height: 15px;
+          color: #1a1a1a;
+          padding-left: 2px;
+          text-align: center;
+        }
+
+        .sharing-icons {
+          position: absolute;
+          margin: 4px 0 0 226px;
+        }
+      }
+
+      p {
+        display: flex;
+        align-items: center;
+        font-family: Montserrat;
+        font-style: normal;
+        font-weight: 300;
+        font-size: 10px;
+        line-height: 12px;
+        padding-left: 2px;
+        color: #1a1a1a;
+        margin-top: 7px;
+      }
+    }
+  }
 }
 </style>

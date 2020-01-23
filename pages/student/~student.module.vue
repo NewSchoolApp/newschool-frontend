@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" class="full__height">
     <router-view></router-view>
     <client-only>
       <navigation-bar />
@@ -19,5 +19,8 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
+.full__height {
+  height: 100%;
+}
 </style>
