@@ -31,7 +31,7 @@
         <div>
           <v-icon color="primary">{{item.icon}}</v-icon>
         </div>
-        <p>{{item.label}}</p>
+        <p class="text-menu">{{item.label}}</p>
       </router-link>
     </section>
   </div>
@@ -64,15 +64,14 @@ export default {
       },
       {
         id: 4,
-        label: "Contribua",
-        icon: "mdi-source-fork",
+        label: "Cola com Nóix",
+        icon: "mdi-gesture-double-tap",
         link: "/contribua"
       },
-      { id: 5, label: "Sobre", icon: "mdi-file-document-box", link: "/sobre" },
-      { id: 6, label: "Ajuda", icon: "mdi-help-circle", link: "/ajuda" },
-      { id: 7, label: "Contato", icon: "mdi-cellphone", link: "/contato" },
-      { id: 8, label: "Imprensa", icon: "mdi-camcorder", link: "/imprensa" },
-      { id: 9, label: "Investidores", icon: "mdi-coin", link: "/investidores" }
+      { id: 5, label: "O que é a new school?", icon: "mdi-library-books", link: "/sobre" },
+      { id: 6, label: "Ajuda", icon: "mdi-hand-right", link: "/ajuda" },
+      { id: 7, label: "Fale com a gente", icon: "mdi-phone-message-outline", link: "/contato" },
+      { id: 8, label: "Apoie a new school", icon: "mdi-volume-high", link: "/investidores" }
     ]
   }),
   methods: {
@@ -134,6 +133,9 @@ export default {
 
 #avatar {
   margin-right: 1rem;
+}
+.text-menu{
+  text-transform: uppercase;
 }
 
 h1 {

@@ -32,6 +32,7 @@
         </v-flex>
       </v-layout>
     </div>
+    <navigation-bar />
   </div>
 </template>
 <router>
@@ -41,11 +42,13 @@
 </router>
 
 <script>
+import NavigationBar from '~/components/NavigationBar.vue';
 import HeaderBar from '~/components/Header.vue';
 
 export default {
   components: {
     HeaderBar,
+    NavigationBar,
   },
 };
 </script>
@@ -75,15 +78,19 @@ export default {
 ::v-deep .subtext span {
   font-weight: 700;
 }
-::v-deep .subtext p {
+p ::v-deep .subtext p {
+  width: 70%;
+  margin: 0 15%;
   margin: 15px;
 }
-@media (max-width: 400px) {
-  .top{
+@media (max-width: 375px) {
+  .top {
+    width: 90%;
+    margin: 0 5%;
     text-align: center;
   }
-  
 }
+
 </style>
 
 

@@ -149,7 +149,7 @@ export default {
       document.querySelector('html').style.overflow = 'scroll';
     },
     gotoHome() {
-      $nuxt._router.push('/index');
+      $nuxt._router.push('/aluno/home');
     },
     confirmSnackbar(text, status) {
       this.snackbarText = text;
