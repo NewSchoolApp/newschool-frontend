@@ -34,13 +34,14 @@
                     name="email"
                     required
                   ></v-text-field>
-                  <v-text-field
+                  <v-textarea
                     v-model="form.message"
                     :rules="messageRules"
                     label="Passa a visão!"
                     name="message"
+                    rows="3"
                     required
-                  ></v-text-field>
+                  ></v-textarea>
                   <v-card>
                     <v-btn class="btn-block btn-submit" depressed large @click="submit">Enviar</v-btn>
                   </v-card>
@@ -149,7 +150,7 @@ export default {
       document.querySelector('html').style.overflow = 'scroll';
     },
     gotoHome() {
-      $nuxt._router.push('/index');
+      $nuxt._router.push('/aluno/home');
     },
     confirmSnackbar(text, status) {
       this.snackbarText = text;
@@ -211,7 +212,7 @@ h2 {
 ::v-deep .v-form {
   width: 100%;
   color: #6600cc;
-  margin: 6% 4%;
+  margin: 0 4%;
 }
 ::v-deep .theme--light.v-label {
   font-weight: 500;
@@ -245,6 +246,6 @@ h2 {
 
 ::v-deep .v-card {
   box-shadow: 0px 5px 10px gray;
-  margin: 2% 4%;
+  margin: 2% 4% 0 4%;
 }
 </style>

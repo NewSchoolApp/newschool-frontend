@@ -27,44 +27,52 @@
         </div>
       </social-sharing>
     </div>
-    <v-btn v-if="!isOpen" :color="color" class="btn-ma-2" tile large icon @click="isOpen = !isOpen">
+    <v-btn
+      v-if="!isOpen"
+      :color="color"
+      class="btn-ma-2"
+      tile
+      large
+      icon
+      @click="isOpen = !isOpen"
+    >
       <v-icon size="28">mdi-share-variant</v-icon>
     </v-btn>
   </v-layout>
 </template>
 
 <script>
-import SocialSharing from "vue-social-sharing";
+import SocialSharing from 'vue-social-sharing';
 
 export default {
   components: {
-    SocialSharing
+    SocialSharing,
   },
 
   props: {
     color: {
-      default: "#CCC"
+      default: '#CCC',
     },
     url: String,
     title: String,
     description: String,
     hashtags: {
-      default: "MissaoNewSchoolApp"
+      default: 'MissaoNewSchoolApp',
     },
     twitterUser: {
-      default: "NewSchoolApp"
-    }
+      default: 'NewSchoolApp',
+    },
   },
 
   data() {
     return {
-      isOpen: false
+      isOpen: false,
     };
-  }
+  },
 };
 </script>
 
-<style>
+<style scoped>
 .share-container {
   width: 90px;
   height: 35px;
@@ -78,7 +86,7 @@ export default {
   justify-content: space-around;
   height: 100%;
   width: 100%;
-  box-shadow:2px 4px 4px rgba(0, 0, 0, 0.25);
+  box-shadow: 2px 4px 4px rgba(0, 0, 0, 0.25);
 }
 
 .btn-ma-2 {

@@ -52,6 +52,7 @@
         </article>
       </v-container>
     </article>
+    <navigation-bar />
   </section>
 </template>
 
@@ -63,11 +64,13 @@
 
 
 <script>
+import NavigationBar from '~/components/NavigationBar.vue';
 import HeaderBar from '~/components/Header.vue';
 
 export default {
   components: {
     HeaderBar,
+    NavigationBar,
   },
 
   data() {

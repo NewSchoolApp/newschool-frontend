@@ -28,7 +28,7 @@ export default {
   mounted() {
     setCaptureError(error => {
       this.message = getErrorMessage(error)
-      this.showError = true
+      this.showError = $nuxt._router.currentRoute.path !== '/login'
     })
   },
 }
