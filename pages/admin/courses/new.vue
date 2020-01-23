@@ -74,11 +74,11 @@
                   Aulas
                   <v-btn @click="gotoAddClass" class="btn-add-class" text icon>
                     <v-icon size="30">mdi-plus-circle-outline</v-icon>
-                  </v-btn>w
+                  </v-btn>
                 </h2>
               </v-col>
               <v-col cols="12" class="classes">
-                <p>Favor adicionar uma aula</p>
+                <p>Favor, adicionar uma aula</p>
               </v-col>
             </v-row>
             <v-row>
@@ -370,5 +370,9 @@ export default {
 
 .error-form {
   animation: nono 300ms, intro paused;
+}
+::v-deep .v-btn:not(.v-btn--round).v-size--large {
+      margin-bottom: 50px;
+
 }
 </style>
