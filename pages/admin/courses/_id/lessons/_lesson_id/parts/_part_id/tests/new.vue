@@ -63,8 +63,8 @@
           required
         />
       </v-form>
-      <v-btn color="primary" class="save-button" @click="submit">Adicionar</v-btn>
-      <v-btn color="primary" :disabled="!submited" class="save-button" @click="finish()">Finalizar</v-btn>
+      <v-btn color="primary" class="save-button mb-5 mt-5" @click="submit">Adicionar</v-btn>
+      <v-btn color="primary" :disabled="!submited" class="save-button button-ajust" @click="finish()">Finalizar</v-btn>
     </v-flex>
 
     <v-snackbar
@@ -256,7 +256,9 @@ h3 {
   font-size: 12px;
   line-height: 14px;
 }
-
+.button-ajust{
+  margin-bottom: 50px;
+}
 .back-button {
   min-width: 0 !important;
   float: left;
