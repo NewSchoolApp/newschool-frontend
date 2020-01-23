@@ -17,7 +17,7 @@
             </v-col>
             <v-col cols="12">
               <h1>{{ user.name }}</h1>
-              <p>{{user.type}}</p>
+              <p>Aluno</p>
             </v-col>
             <v-col cols="12">
               <v-btn
