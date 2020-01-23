@@ -22,8 +22,7 @@
           v-model="test.question"
           :rules="answerRules"
           color="#60c"
-          label="Enuciado"
-          required
+          label="Enunciado"
         />
         <br />
         <br />

@@ -74,7 +74,7 @@
                   Aulas
                   <v-btn @click="gotoAddClass" class="btn-add-class" text icon>
                     <v-icon size="30">mdi-plus-circle-outline</v-icon>
-                  </v-btn>w
+                  </v-btn>
                 </h2>
               </v-col>
               <v-col cols="12" class="classes">
