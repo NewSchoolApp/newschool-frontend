@@ -1,6 +1,49 @@
-import ms from "ms";
-import { http } from "./config";
-import utils from "~/utils/index";
+import ms from 'ms';
+import { http } from './config';
+import utils from '~/utils/index';
+
+/**
+ * autenticação na API do sistema
+ */
+const login = (username, password) => {
+  const body = utils.toFormData({
+    grant_type: 'password',
+    username,
+    password,
+  });
+  const clientCredentials = utils.getPasswordCredentials();
+
+  return http
+    .post(process.env.endpoints.LOGIN, body, {
+      headers: { Authorization: clientCredentials },
+    })
+    .then(res => {
+      localStorage.setItem(
+        'auth',
+        JSON.stringify({
+          accessToken: `Bearer ${res.data.accessToken}`,
+          refreshToken: res.data.refreshToken,
+          expiresIn: Date.now() + ms(res.data.expiresIn),
+        }),
+      );
+    });
+};
+
+const signUp = (form, token) => {
+  return http.post(process.env.endpoints.SIGN_UP, form, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+};
+
+const registerUserSocialLogin = socialCredentials => {
+  return utils
+    .getExternalCredentials()
+    .then(res => signUp(socialCredentials, res.data.accessToken))
+    .then(() => login(socialCredentials.email, socialCredentials.password))
+    .catch(err => {
+      console.error(err);
+    });
+};
 /**
  * @author Andrews
  *
@@ -8,36 +51,8 @@ import utils from "~/utils/index";
  */
 
 export default {
-  /**
-   * autenticação na API do sistema
-   */
-  login: (username, password) => {
-    const body = utils.toFormData({
-      grant_type: "password",
-      username,
-      password
-    });
-    const clientCredentials = utils.getPasswordCredentials();
-
-    return http
-      .post(process.env.endpoints.LOGIN, body, {
-        headers: { Authorization: clientCredentials }
-      })
-      .then(res => {
-        localStorage.setItem('auth', JSON.stringify({
-          accessToken: `Bearer ${res.data.accessToken}`,
-          refreshToken: res.data.refreshToken,
-          expiresIn: Date.now() + ms(res.data.expiresIn),
-        }));
-      })
-  },
-
-  signUp: (form, token) => {
-    return http.post(process.env.endpoints.SIGN_UP, form, {
-      headers: { Authorization: `Bearer ${token}` }
-    });
-  },
-
+  login,
+  signUp,
   forgotPassword: form => {
     return utils.getExternalCredentials().then(res => {
       return http.post(process.env.endpoints.FORGOT_PASSWORD, form, {
@@ -88,21 +103,21 @@ export default {
     }
   },
 
-  loginFacebook: (facebookCredentials) => {
+  loginFacebook: facebookCredentials => {
     return http
       .post(process.env.endpoints.FACEBOOK_LOGIN, facebookCredentials)
       .then(res => {
         localStorage.setItem(
-          "auth",
+          'auth',
           JSON.stringify({
             accessToken: `Bearer ${res.data.accessToken}`,
             refreshToken: res.data.refreshToken,
-            expiresIn: Date.now() + ms(res.data.expiresIn)
-          })
+            expiresIn: Date.now() + ms(res.data.expiresIn),
+          }),
         );
       })
       .catch(error => {
-        if (error.response.error == 404) {
+        if (error.response.status === 404) {
           let randomPassword = Math.random()
             .toString(36)
             .slice(-10);
@@ -114,28 +129,26 @@ export default {
             urlFaceebook: '',
             urlInstagram: '',
           };
-          this.registerUserFacebook(
-            facebookCredentialsRegister,
-          );
+          return registerUserSocialLogin(facebookCredentialsRegister);
         }
       });
   },
 
-  loginGoogle: (googleCredentials) => {
+  loginGoogle: googleCredentials => {
     return http
       .post(process.env.endpoints.GOOGLE_LOGIN, googleCredentials)
       .then(res => {
         localStorage.setItem(
-          "auth",
+          'auth',
           JSON.stringify({
             accessToken: `Bearer ${res.data.accessToken}`,
             refreshToken: res.data.refreshToken,
-            expiresIn: Date.now() + ms(res.data.expiresIn)
-          })
+            expiresIn: Date.now() + ms(res.data.expiresIn),
+          }),
         );
       })
       .catch(error => {
-        if (error.response.error == 404) {
+        if (error.response.status === 404) {
           let randomPassword = Math.random()
             .toString(36)
             .slice(-10);
@@ -150,34 +163,8 @@ export default {
 
           console.log(JSON.stringify(googleCredentialsRegister));
 
-          this.registerUserSocialLogin(
-            googleCredentialsRegister,
-          );
+          return registerUserSocialLogin(googleCredentialsRegister);
         }
-      });
-  },
-
-  registerUserSocialLogin(socialCredentials) {
-    utils
-      .getExternalCredentials()
-      .then(res => {
-        const token = res.data.accessToken;
-        auth
-          .signUp(socialCredentials, token)
-          .then(res => {
-            auth
-              .login(socialCredentials.email, socialCredentials.password)
-              .then(() => { })
-              .catch(err => {
-                console.error(err);
-              });
-          })
-          .catch(err => {
-            console.error(err);
-          });
-      })
-      .catch(() => {
-        console.error(err);
       });
   },
 };
