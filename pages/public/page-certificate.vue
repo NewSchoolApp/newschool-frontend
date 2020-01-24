@@ -126,9 +126,11 @@ export default {
   flex-direction: column;
   align-items: center;
   background: url('../../assets/backgroundCertificates.svg');
+  max-width: 100%;
+  height: 100vh;
 
   .card-box {
-    padding: 10px 20px 10px 20px;
+    padding: 30px 20px 10px 20px;
     height: 100%;
     max-width: 100%;
     text-align: center;
@@ -212,7 +214,7 @@ export default {
       align-items: center;
       justify-content: center;
       width: 100%;
-      padding: 60px 0 10px 0;
+      padding: 130px 0 10px 0;
       font-size: 10px;
       letter-spacing: 3px;
       color: #6600ccb7;
@@ -224,7 +226,7 @@ export default {
   display: flex;
   align-items: left;
   justify-content: space-between;
-  padding: 0 25px 10px 25px;
+  padding: 10px 25px 10px 25px;
 
   .export-title {
     display: flex;
@@ -254,16 +256,6 @@ export default {
     display: flex;
     align-items: left;
     justify-content: space-between;
-
-    :hover {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 35px;
-      height: 35px;
-      background: #d6d6d6;
-      border-radius: 5px;
-    }
 
     .share {
       height: 30px;

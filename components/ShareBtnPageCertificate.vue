@@ -11,23 +11,17 @@
       <div class="icons">
         <button type="button">
           <network network="facebook">
-            <v-icon color="#6600CC" size="20">
-              mdi-facebook
-            </v-icon>
+            <img src="~/assets/facebook-purple.png" alt="">
           </network>
         </button>
         <button type="button">
           <network network="twitter">
-            <v-icon color="#6600CC" size="20">
-              mdi-twitter
-            </v-icon>
+            <img src="~/assets/twitter-purple.png" alt="">
           </network>
         </button>
         <button type="button">
           <network network="linkedin">
-            <v-icon color="#6600CC" size="20">
-              mdi-linkedin
-            </v-icon>
+            <img src="~/assets/linkedin-purple.png" alt="">
           </network>
         </button>
       </div>
@@ -76,16 +70,6 @@ export default {
   justify-content: space-between;
   width: 110px;
   height: 20px;
-
-  :hover {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 35px;
-    height: 35px;
-    background: #d6d6d6;
-    border-radius: 5px;
-  }
 }
 
 .ma-2 {
