@@ -28,12 +28,6 @@
                     requiredv-model="form.name"
                   ></v-text-field>
                   <v-text-field
-                    v-model="form.email"
-                    :rules="emailRules"
-                    label="E-mail"
-                    name="email"
-                  ></v-text-field>
-                  <v-text-field
                     v-model="form.cellphone"
                     type="tel"
                     v-mask="'(##) #####-####'"
@@ -99,16 +93,12 @@ export default {
       token: '',
       form: {
         name: '',
-        email: '',
         message: '',
         cellphone: '',
       },
       nameRules: [v => !!v || 'Digite seu nome'],
       messageRules: [v => !!v || 'Digite uma mensagem'],
       cellphoneRules: [v => !!v || 'Digite seu celular com o DDD'],
-      emailRules: [
-         v => (v === '' || /.+@.+\..+/.test(v)) || 'E-mail inválido',
-      ],
     };
   },
 
@@ -276,6 +266,6 @@ h2 {
 
 ::v-deep .v-card {
   box-shadow: 0px 5px 10px gray;
-  margin: -4% 4% 0 4%;
+  margin: 4% 4% 0 4%;
 }
 </style>
