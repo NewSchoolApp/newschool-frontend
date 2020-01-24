@@ -2,7 +2,7 @@
   <v-layout>
     <div v-if="isOpen" class="share-container">
       <social-sharing
-        :url="url"
+        :url="shareUrl"
         :title="title"
         :description="description"
         :hashtags="hashtags"
@@ -12,17 +12,13 @@
       >
         <div class="icons">
           <network network="facebook">
-            <v-icon color="#fff" size="20">mdi-facebook</v-icon>
+            <img src="~/assets/facebook.png" alt="">
           </network>
           <network network="twitter">
-            <v-icon color="#fff" size="20">
-              mdi-linkedin
-            </v-icon>
+            <img src="~/assets/twitter.png" alt="">
           </network>
           <network network="linkedin">
-            <v-icon color="#fff" size="20">
-              mdi-twitter
-            </v-icon>
+            <img src="~/assets/linkedin.png" alt="">
           </network>
         </div>
       </social-sharing>
@@ -67,30 +63,32 @@ export default {
   data() {
     return {
       isOpen: false,
+      shareUrl: window.location.origin + '/' + this.url,
     };
   },
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .share-container {
-  width: 90px;
+  width: 100px;
   height: 35px;
   background: #60c;
-  margin-top: -8px;
 }
 
-.icons {
+::v-deep .icons {
   display: flex;
   align-items: center;
   justify-content: space-around;
   height: 100%;
   width: 100%;
+  padding: 7px 2px 0 0;
   box-shadow: 2px 4px 4px rgba(0, 0, 0, 0.25);
-}
 
-.btn-ma-2 {
-  padding-left: 55px;
-  margin: 5px 0px !important;
+  span {
+    img {
+      cursor: pointer;
+    }
+  }
 }
 </style>

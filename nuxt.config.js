@@ -117,6 +117,8 @@ export default {
       LESSONS_BY_COURSE: '/api/v1/lesson/course/',
       STATE_COURSE: 'api/v1/course-taken',
       MY_COURSES: 'api/v1/course-taken/user/',
+      FACEBOOK_LOGIN: "oauth/facebook/token",
+      GOOGLE_LOGIN: "oauth/google/token"
     },
     endpointCertificateCourseTaken: {
       CERTIFICATES_COURSE_TAKEN_ME: 'api/v1/course-taken/certificate/user/',
@@ -208,6 +210,7 @@ export default {
     '@nuxtjs/dotenv',
     '@nuxtjs/proxy',
     'nuxt-i18n',
+    '@nuxtjs/auth'
   ],
   i18n: {
     locales: [
@@ -266,6 +269,20 @@ export default {
     /*
      ** You can extend webpack config here
      */
-    extend(config, ctx) {},
+    extend(config, ctx) { },
   },
-};
+
+  auth: {
+    strategies: {
+      facebook: {
+        client_id: process.env.FACEBOOK_ID || '3289978134361895',
+        userinfo_endpoint:
+          'https://graph.facebook.com/v2.12/me?fields=about,name,picture{url},email,birthday',
+        scope: ['public_profile', 'email', 'user_birthday'],
+      },
+      google: {
+        client_id: process.env.GOOGLE_ID || '889053794643-qu89df6ei5u2sncnfmedi39m2ascih3k.apps.googleusercontent.com'
+      },
+    },
+  },
+}

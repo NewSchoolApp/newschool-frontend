@@ -62,7 +62,11 @@
         :timeout="5000"
         :top="true"
         :right="true"
-      ></v-snackbar>
+      > {{ snackbarText }}
+        <v-btn color="#FFF" text @click="snackbar = false">
+            Fechar
+        </v-btn>
+      </v-snackbar>
     </v-flex>
     <client-only>
       <navigation-bar />
