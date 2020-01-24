@@ -2,7 +2,7 @@
   <v-layout>
     <div v-if="isOpen" class="share-container">
       <social-sharing
-        :url="url"
+        :url="shareUrl"
         :title="title"
         :description="description"
         :hashtags="hashtags"
@@ -63,19 +63,20 @@ export default {
   data() {
     return {
       isOpen: false,
+      shareUrl: window.location.origin + '/' + this.url,
     };
   },
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .share-container {
-  width: 90px;
+  width: 100px;
   height: 35px;
   background: #60c;
 }
 
-.icons {
+::v-deep .icons {
   display: flex;
   align-items: center;
   justify-content: space-around;
@@ -83,5 +84,11 @@ export default {
   width: 100%;
   padding: 7px 2px 0 0;
   box-shadow: 2px 4px 4px rgba(0, 0, 0, 0.25);
+
+  span {
+    img {
+      cursor: pointer;
+    }
+  }
 }
 </style>

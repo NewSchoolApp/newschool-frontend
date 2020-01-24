@@ -37,17 +37,12 @@ export default {
 }
 
 .media-container {
-  justify-content: flex-end;
   flex: 0 0 auto;
-  display: flex;
-  align-items: flex-end;
 }
 
 .media-and-footer-container {
   display: flex;
   flex-direction: row;
-  padding: 0.5em 0;
-  height: 3.5rem;
 }
 
 .v-responsive.v-image {
@@ -138,10 +133,9 @@ export default {
 .v-card__title {
   font-weight: 600;
   font-size: 1em;
-  padding: 5px 0 0;
-  line-height: 0.8em;
+  padding: 0.5em 0 0;
+  line-height: 1em;
   color: #1a1a1a;
-  margin-bottom: 0.7rem;
 }
 
 .theme--light.v-card .v-card__subtitle {
