@@ -107,7 +107,7 @@ export default {
       messageRules: [v => !!v || 'Digite uma mensagem'],
       cellphoneRules: [v => !!v || 'Digite seu celular com o DDD'],
       emailRules: [
-        // v => /.+@.+\..+/.test(v) || 'E-mail inválido',
+         v => (v === '' || /.+@.+\..+/.test(v)) || 'E-mail inválido',
       ],
     };
   },
@@ -183,13 +183,23 @@ export default {
 
 .align-global {
   width: 100%;
-  max-width: 500px;
+  max-width: 400px;
   justify-content: center;
   background: #ffffff;
 }
-@media (min-width: 600px) {
+@media (min-width: 400px) {
   .align-global {
     margin: 0 auto;
+
+  }
+}
+@media (max-width: 320px){
+  ::v-deep.v-input input {
+    max-height: 25px!important;
+}
+  .container{
+  padding: 0px 12px 0 12px!important;
+
   }
 }
 .container-spinner,
