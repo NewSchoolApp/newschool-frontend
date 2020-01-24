@@ -79,6 +79,10 @@ export default {
 </script>
 
 <style scoped>
+#page {
+  height: 100vh;
+}
+
 .welcome {
   padding: 2em 0 0 1.5em;
   text-transform: uppercase;
