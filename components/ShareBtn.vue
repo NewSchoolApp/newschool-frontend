@@ -12,17 +12,13 @@
       >
         <div class="icons">
           <network network="facebook">
-            <v-icon color="#fff" size="20">mdi-facebook</v-icon>
+            <img src="~/assets/facebook.png" alt="">
           </network>
           <network network="twitter">
-            <v-icon color="#fff" size="20">
-              mdi-linkedin
-            </v-icon>
+            <img src="~/assets/twitter.png" alt="">
           </network>
           <network network="linkedin">
-            <v-icon color="#fff" size="20">
-              mdi-twitter
-            </v-icon>
+            <img src="~/assets/linkedin.png" alt="">
           </network>
         </div>
       </social-sharing>
@@ -77,7 +73,6 @@ export default {
   width: 90px;
   height: 35px;
   background: #60c;
-  margin-top: -8px;
 }
 
 .icons {
@@ -86,11 +81,7 @@ export default {
   justify-content: space-around;
   height: 100%;
   width: 100%;
+  padding: 7px 2px 0 0;
   box-shadow: 2px 4px 4px rgba(0, 0, 0, 0.25);
-}
-
-.btn-ma-2 {
-  padding-left: 55px;
-  margin: 5px 0px !important;
 }
 </style>
