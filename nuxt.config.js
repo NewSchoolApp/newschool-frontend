@@ -275,13 +275,13 @@ export default {
   auth: {
     strategies: {
       facebook: {
-        client_id: '3289978134361895',
+        client_id: process.env.FACEBOOK_ID || '3289978134361895',
         userinfo_endpoint:
           'https://graph.facebook.com/v2.12/me?fields=about,name,picture{url},email,birthday',
         scope: ['public_profile', 'email', 'user_birthday'],
       },
       google: {
-        client_id: '889053794643-qu89df6ei5u2sncnfmedi39m2ascih3k.apps.googleusercontent.com'
+        client_id: process.env.GOOGLE_ID || '889053794643-qu89df6ei5u2sncnfmedi39m2ascih3k.apps.googleusercontent.com'
       },
     },
   },

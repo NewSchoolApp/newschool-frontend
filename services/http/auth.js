@@ -160,9 +160,6 @@ export default {
             urlFaceebook: '',
             urlInstagram: '',
           };
-
-          console.log(JSON.stringify(googleCredentialsRegister));
-
           return registerUserSocialLogin(googleCredentialsRegister);
         }
       });
