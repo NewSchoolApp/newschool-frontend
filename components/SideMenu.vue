@@ -40,6 +40,7 @@
 <script>
 import Avatar from "vue-avatar";
 import { mapActions } from "vuex";
+import auth from "~/services/http/auth";
 
 export default {
   data: () => ({
@@ -86,11 +87,23 @@ export default {
       localStorage.clear();
       $nuxt._router.push("/login");
       this.clearInfoUser();
+    },
+    changeRoutingIfAdmin() {
+      if (this.$store.state.user.data.role === "ADMIN") {
+        this.menu[1].link = "/admin/listar-cursos";
+      }
     }
   },
   computed: {
     user() {
       return this.$store.state.user.data;
+    }
+  },
+  mounted() {
+    const { status } = auth.isTokenValid();
+    if (status) {
+      this.auth = true;
+      this.changeRoutingIfAdmin();
     }
   },
   filters: {
