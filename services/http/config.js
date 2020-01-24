@@ -1,5 +1,7 @@
-import Axios from 'axios';
+import Axios from 'axios'
+import { addInterceptorError } from './error-interceptor'
 
-export const http = new Axios.create({
-  baseURL: process.env.VUE_APP_BASE_URL
+export const http = Axios.create({
+  baseURL: process.env.baseUrl,
 })
+addInterceptorError(http)

@@ -1,4 +1,5 @@
-# NewSchool-frontend
+# NewSchool-frontend  
+[![releases](https://img.shields.io/badge/Changelog-Releases-orange)](https://github.com/NewSchoolBR/newschool-frontend/releases)
 
 > Frontend da New School, desenvolvido em VueJs, Nuxt e Vuetify
 
@@ -24,6 +25,11 @@ $ npm run generate
 For detailed explanation on how things work, check out [Nuxt.js docs](https://nuxtjs.org).
 
 ## Guidelines
+
+> ### Variáveis de ambiente necessárias para execução do projeto
+```
+GA_TOKEN: Variável com o token do Google Analytics do ambiente
+```
 
 ## Como contribuir
 
@@ -70,5 +76,13 @@ $ git checkout -b sua-nova-funcionalidade-ou-tarefa
 Depois de concluir e testar, envie e aguarde o PULL REQUEST ser aprovado.
 
 5 - MISSÃO CUMPRIDA. VC AJUDOU O PROJETO. ❤️
+
+API NO AMBIENTE DEV: 
+
+http://newschoolbrapi-dev.herokuapp.com/swagger/#/default 
+
+CONFIRA OS LAYOUTS NO FIGMA: 
+
+https://www.figma.com/file/whTp4hE6ZQR3V8LBxSZnjv/NewSchool?node-id=0%3A1
 
 ## Código de conduta
