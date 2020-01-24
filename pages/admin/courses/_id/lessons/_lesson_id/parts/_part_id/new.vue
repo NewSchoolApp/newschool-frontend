@@ -185,7 +185,7 @@ h3 {
 .main-container {
   display: flex;
   flex-direction: column;
-  padding: 2em 3em 1.5em 2em;
+  padding: 2em 3em 78px 2em;
 }
 
 .v-input {

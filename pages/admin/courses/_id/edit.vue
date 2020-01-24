@@ -1,124 +1,104 @@
 <template>
-  <div>
-    <HeaderBar :title="'Gerenciar meus cursos'" :backPage="true"></HeaderBar>
-    <v-layout justify-center>
-      <v-progress-circular v-if="loading" :size="70" :width="5" indeterminate></v-progress-circular>
+  <v-layout>
+    <v-flex ref="flex" class="main-container">
+      <h1>
+        <n-link to="../">
+          <v-btn class="back-button" text icon color="primary">
+            <v-icon>mdi-arrow-left</v-icon>
+          </v-btn>
+        </n-link>Gerenciar meus cursos
+      </h1>
 
-      <v-flex ref="flex" v-else xs10 sm8 md6>
-        <v-container>
-          <v-row></v-row>
-          <v-form ref="form" lazy-validation>
-            <v-row>
-              <v-col cols="12">
-                <h2 class="section-title">Curso</h2>
-                <v-text-field
-                  :rules="titleRules"
-                  v-model="course.title"
-                  color="#60c"
-                  label="Título *"
-                  name="title"
-                  required
-                ></v-text-field>
-                <v-text-field
-                  :rules="descriptionRules"
-                  v-model="course.description"
-                  color="#60c"
-                  label="Descrição *"
-                  name="description"
-                  required
-                ></v-text-field>
-                <v-text-field
-                  :rules="authorNameRules"
-                  v-model="course.authorName"
-                  color="#60c"
-                  label="Professor *"
-                  name="authorName"
-                  required
-                ></v-text-field>
-                <v-text-field
-                  :rules="authorDescriptionRules"
-                  v-model="course.authorDescription"
-                  color="#60c"
-                  label="Biografia do Professor *"
-                  name="authorDescription"
-                  required
-                ></v-text-field>
-                <v-text-field
-                  :rules="workloadRules"
-                  v-model="form.workload"
-                  type="number"
-                  color="#60c"
-                  label="Carga Horária *"
-                  name="workload"
-                  required
-                ></v-text-field>
-                <v-text-field
-                  v-model="form.thumbUrl"
-                  color="#60c"
-                  label="URL da Imagem do Curso"
-                  name="thumbUrl"
-                  required
-                ></v-text-field>
-                <v-file-input
-                  v-model="form.photo"
-                  :rules="photoRules"
-                  color="#60c"
-                  label="Foto de Capa *"
-                  name="photo"
-                  prepend-icon
-                  required
-                ></v-file-input>
-              </v-col>
-              <v-col cols="12" class="classes-title">
-                <h2 class="section-title">
-                  Aulas
-                  <v-btn @click="gotoAddClass" class="btn-add-class" text icon>
-                    <v-icon size="30">mdi-plus-circle-outline</v-icon>
-                  </v-btn>
-                </h2>
-              </v-col>
-              <v-col cols="12" class="classes">
-                <p>Favor, adicionar uma aula</p>
-              </v-col>
-            </v-row>
-            <v-row>
-              <v-col cols="12">
-                <v-btn @click="submit" color="#60c" dark block depressed large>Salvar</v-btn>
-              </v-col>
-            </v-row>
-            <v-snackbar
-              v-model="snackbar"
-              :color="snackbarStatus"
-              :timeout="5000"
-              :top="true"
-              :right="true"
-            >
-              {{ snackbarText }}
-              <v-btn @click="snackbar = false" color="#FFF" text>Fechar</v-btn>
-            </v-snackbar>
-          </v-form>
-        </v-container>
-      </v-flex>
-      <client-only>
-        <navigation-bar />
-      </client-only>
-    </v-layout>
-  </div>
+      <v-form ref="form" lazy-validation>
+        <h3>Curso</h3>
+        <v-text-field
+          :rules="titleRules"
+          v-model="course.title"
+          color="#60c"
+          label="Título *"
+          name="title"
+          required
+        ></v-text-field>
+        <v-text-field
+          :rules="descriptionRules"
+          v-model="course.description"
+          color="#60c"
+          label="Descrição *"
+          name="description"
+          required
+        ></v-text-field>
+        <v-text-field
+          :rules="authorNameRules"
+          v-model="course.authorName"
+          color="#60c"
+          label="Professor *"
+          name="authorName"
+          required
+        ></v-text-field>
+        <v-text-field
+          :rules="authorDescriptionRules"
+          v-model="course.authorDescription"
+          color="#60c"
+          label="Biografia do Professor *"
+          name="authorDescription"
+          required
+        ></v-text-field>
+        <v-text-field
+          :rules="workloadRules"
+          v-model="course.workload"
+          type="number"
+          color="#60c"
+          label="Carga Horária *"
+          name="workload"
+          required
+        ></v-text-field>
+        <v-text-field
+          v-model="course.thumbUrl"
+          color="#60c"
+          label="URL da Imagem do Curso"
+          name="thumbUrl"
+          required
+        ></v-text-field>
+
+        <resources-list name="Aula" :resources="lessons" redirect="true" path="lesson" />
+        <span v-if="!lessons.length" class="new-tests-span">Favor, adicionar uma aula</span>
+
+        <v-btn @click="submit" color="#60c" dark block depressed large>Salvar</v-btn>
+
+        <v-snackbar
+          v-model="snackbar"
+          :color="snackbarStatus"
+          :timeout="5000"
+          :top="true"
+          :right="true"
+        >
+          {{ snackbarText }}
+          <v-btn @click="snackbar = false" color="#FFF" text>Fechar</v-btn>
+        </v-snackbar>
+      </v-form>
+    </v-flex>
+    <client-only>
+      <navigation-bar />
+    </client-only>
+  </v-layout>
 </template>
 
 <router>
   {
-    path: '/admin/criar-curso'
+    path: '/admin/course/:id/edit'
   }
 </router>
 
 <script scoped>
-import courses from '~/services/http/courses';
-import utils from '~/utils';
+import courses from '~/services/http/generic';
 import HeaderBar from '~/components/Header.vue';
 import NavigationBar from '~/components/NavigationBar.vue';
 
 export default {
+  components: {
+    HeaderBar,
+    NavigationBar,
+  },
   data() {
     return {
       title: 'Gerenciar meus cursos',
@@ -128,16 +108,6 @@ export default {
       snackbar: false,
       snackbarText: '',
       snackbarStatus: '',
-      token: '',
-      form: {
-        title: '',
-        description: '',
-        authorName: '',
-        authorDescription: '',
-        workload: '',
-        thumbUrl: '',
-        photo: null,
-      },
 
       titleRules: [v => !!v || 'O título é obrigatório'],
       descriptionRules: [v => !!v || 'A descrição é obrigatória'],
@@ -146,7 +116,7 @@ export default {
         v => !!v || 'A biografia do professor é obrigatória',
       ],
       workloadRules: [v => !!v || 'A carga horária é obrigatória'],
-      photoRules: [v => !!v || 'A foto de capa é obrigatória'],
+      // photoRules: [v => !!v || 'A foto de capa é obrigatória'],
     };
   },
 
@@ -156,34 +126,19 @@ export default {
     };
   },
 
-  components: {
-    HeaderBar,
-    NavigationBar,
-  },
-
   methods: {
     submit() {
       if (this.$refs.form.validate()) {
-        const formData = new FormData();
-        formData.append('title', this.form.title);
-        formData.append('description', this.form.description);
-        formData.append('authorName', this.form.authorName);
-        formData.append('authorDescription', this.form.authorDescription);
-        formData.append('workload', this.form.workload);
-        formData.append('photo', this.form.photo);
-        formData.append('thumbUrl', this.form.thumbUrl);
+        this.course['authorId'] = 'null'
 
-        this.animateForm(true);
         courses
-          .createCourse(formData)
+          .put(process.env.endpoints.COURSE, this.course.id, this.course)
           .then(res => {
             this.loading = false;
             this.sendCourse = true;
-            this.confirmSnackbar('Curso cadastrado com sucesso!', 'success');
-            setTimeout(() => {
-              localStorage.setItem('current_course', JSON.stringify(res.data));
-              this.gotoAddClass(res.data.id);
-            }, 2500);
+            this.confirmSnackbar('Curso salvo!', 'success');
+            this.$store.commit('courses/setCurrent', res.data);
+            this.gotoAddClass(res.data.id);
           })
           .catch(err => {
             this.confirmSnackbar(
@@ -227,37 +182,63 @@ export default {
       }
     },
 
-    goBack() {
-      window.history.length > 1
-        ? $nuxt._router.go(-1)
-        : $nuxt._router.push('/');
-    },
-
     confirmSnackbar(text, status) {
       this.snackbarText = text;
       this.snackbarStatus = status;
       this.snackbar = true;
     },
   },
+  async asyncData({ store, data, params }) {
+    const _course = await courses.getById(
+      process.env.endpoints.COURSE,
+      params.id,
+    );
+    const _lessons = await courses.getById(
+      process.env.endpoints.LESSON + '/course',
+      params.id,
+    );
 
-  mounted() {
-    if (localStorage.getItem('current_course')) {
-      
-    }
-    utils
-      .getExternalCredentials()
-      .then(res => {
-        const { data } = res;
-        this.token = data.accessToken;
-      })
-      .catch(err => {
-        console.error(err);
-      });
+    return { course: _course.data, lessons: _lessons.data };
   },
 };
 </script>
 
 <style scoped>
+h1 {
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 36px;
+  text-transform: uppercase;
+  text-align: center;
+  color: #6600cc;
+}
+
+@media screen and (max-width: 20.625em) {
+  h1 {
+    font-size: 14px;
+  }
+}
+
+h3 {
+  font-weight: 900;
+  font-size: 1em;
+  line-height: 24px;
+  text-transform: uppercase;
+  text-align: left;
+  color: #6600cc;
+}
+
+.back-button {
+  min-width: 0 !important;
+  float: left;
+}
+
+.main-container {
+  display: flex;
+  flex-direction: column;
+  padding: 2em 3em 78px 2em;
+}
+
 .flex {
   animation: intro 300ms backwards;
   animation-delay: 350ms;
@@ -305,43 +286,17 @@ export default {
   justify-content: flex-start;
 }
 
-/* inputs */
-::v-deep .theme--light.v-text-field {
-  margin-top: 0;
-}
-
-::v-deep .v-input {
-  width: 90%;
-  margin-left: 50%;
-  transform: translateX(-50%);
-}
-
-::v-deep .theme--light.v-input:not(.v-input--is-disabled) input,
 ::v-deep
-  .theme--light.v-file-input:not(.v-input--has-state)
-  .v-file-input__text {
-  font-size: 12px;
-  color: #60c;
-}
-
-::v-deep
-  .theme--light.v-text-field:not(.v-input--has-state)
+  .v-text-field:not(.v-input--has-state)
   > .v-input__control
   > .v-input__slot:hover:before {
   border-color: #60c;
 }
 
-::v-deep .theme--light.v-label,
-::v-deep .flex .theme--light.v-icon {
-  font-size: 12px;
+::v-deep .v-label {
   font-weight: 600;
-  line-height: 15px;
-  color: #60c;
-}
-
-/* Botão */
-::v-deep .btn-back {
-  margin-top: 15px;
+  font-size: 14px;
+  color: #aa56ff;
 }
 
 ::v-deep
@@ -359,9 +314,8 @@ export default {
 }
 
 ::v-deep .v-messages__message {
-  color: #ff5252;
-  font-size: 12px;
-  margin-left: 5px;
+  text-align: right;
+  margin-top: -0.3em;
 }
 
 .hide-form {
@@ -370,9 +324,5 @@ export default {
 
 .error-form {
   animation: nono 300ms, intro paused;
-}
-::v-deep .v-btn:not(.v-btn--round).v-size--large {
-      margin-bottom: 50px;
-
 }
 </style>
