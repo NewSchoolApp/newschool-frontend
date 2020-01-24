@@ -84,15 +84,23 @@ export default {
       document.getElementById("menu-btn").click();
     },
     logout() {
-      localStorage.clear();
-      $nuxt._router.push("/login");
-      this.clearInfoUser();
+      this.logoutSocial().then(() => {
+        localStorage.clear();
+        $nuxt._router.push('/login');
+        this.clearInfoUser();
+      });
     },
     changeRoutingIfAdmin() {
       if (this.$store.state.user.data.role === "ADMIN") {
         this.menu[1].link = "/admin/listar-cursos";
       }
+    },
+    logoutSocial() {
+      if (!this.$auth.loggedIn) {
+        return Promise.resolve();
     }
+      return this.$auth.logout();
+    },
   },
   computed: {
     user() {
