@@ -1,15 +1,14 @@
 <template>
-  <div class="full__height">
-    <HeaderBar :title="'Meus Cursos'" :backPage="true"></HeaderBar>
-
-    <div v-if="loading">
-      <div class="container-spinner">
-        <v-progress-circular :size="70" :width="5" indeterminate color="#6600cc" />
-      </div>
-    </div>
-    <div v-else id="page">
+  <div>
+    <div v-show="!loading" id="page">
+      <HeaderBar :title="'Meus Cursos'" :backPage="true"></HeaderBar>
       <div v-if="courses.length">
-        <div class="card" v-for="course of courses" v-bind:key="course.course.id">
+        <div
+          class="card"
+          v-for="course of courses"
+          v-bind:key="course.course.id"
+          @click="goToCourse(course)"
+        >
           <div class="header__info">
             <h1>{{course.course.title}}</h1>
             <v-btn
@@ -41,6 +40,11 @@
         </v-container>
       </div>
     </div>
+    <div v-if="loading">
+      <div class="container-spinner">
+        <v-progress-circular :size="70" :width="5" indeterminate color="#6600cc" />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -50,11 +54,11 @@ import http from '~/services/http/generic';
 
 export default {
   data: () => ({
-    loading: false,
+    loading: true,
   }),
   methods: {
     continueCourse(course) {
-      this.loading = true
+      this.loading = true;
       http
         .getAll(
           `${process.env.endpoints.STATE_COURSE}/${this.user.id}/${course.id}`,
@@ -83,9 +87,38 @@ export default {
                 res.data.currentTest,
               );
 
+              // eslint-disable-next-line no-undef
               $nuxt._router.push(`/aluno/curso/${course.id}/aula/parte`);
             });
         });
+    },
+    goToCourse(courseAndState) {
+      if (courseAndState.status === 'COMPLETED') {
+        const url = courseAndState.course.slug
+          ? courseAndState.course.slug
+          : this.convertToSlug(courseAndState.course.title);
+        // eslint-disable-next-line no-undef
+        $nuxt._router.push(`/aluno/curso/${url}`);
+      } else {
+        this.continueCourse(courseAndState.course);
+      }
+    },
+
+    convertToSlug(str) {
+      str = str.replace(/^\s+|\s+$/g, ''); // trim
+      str = str.toLowerCase();
+
+      const from = 'ãàáäâẽèéëêìíïîõòóöôùúüûñç·/_,:;';
+      const to = 'aaaaaeeeeeiiiiooooouuuunc------';
+
+      for (let i = 0, l = from.length; i < l; i++) {
+        str = str.replace(new RegExp(from.charAt(i), 'g'), to.charAt(i));
+      }
+      str = str
+        .replace(/[^a-z0-9 -]/g, '') // remove invalid chars
+        .replace(/\s+/g, '-') // collapse whitespace and replace by -
+        .replace(/-+/g, '-'); // collapse dashes
+      return str;
     },
   },
   computed: {
@@ -96,13 +129,18 @@ export default {
       return this.$store.state.user.data;
     },
   },
+  mounted() {
+    setTimeout(() => {
+      this.loading = false;
+    }, 400);
+  },
+  components: {
+    HeaderBar,
+  },
   asyncData({ store, data, params, $axios }) {
     return http
       .getAll(`${process.env.endpoints.MY_COURSES}${store.state.user.data.id}`)
       .then(response => store.commit('courses/set', response.data));
-  },
-  components: {
-    HeaderBar,
   },
 };
 </script>
@@ -112,7 +150,9 @@ export default {
   height: 100%;
 }
 h1 {
-  font-size: 0.9rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  width: 55%;
 }
 .card {
   margin: 1.3rem;
@@ -120,7 +160,6 @@ h1 {
   background: #fff;
   box-shadow: 0px 12px 20px 0px #00000026;
   border-radius: 5px;
-  height: 6.5rem;
   display: -webkit-box;
   display: flex;
   -webkit-box-orient: vertical;
@@ -157,7 +196,6 @@ h1 {
   font-weight: 400;
   color: #35de63;
   font-size: 13px;
-
 }
 .progress-linear {
   height: 6px;
@@ -166,9 +204,5 @@ h1 {
 #value__progress {
   color: darkgray;
   padding-bottom: 5px;
-}
-::v-deep .v-btn__content{
-  margin: -5% 0 0 -150%;
-  font-size: 12px;
 }
 </style>
