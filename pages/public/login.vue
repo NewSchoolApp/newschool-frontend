@@ -100,7 +100,7 @@ export default {
   data: () => ({
     // flags
     status: true,
-    loading: false,
+    loading: true,
     dialog: false,
     dialogMessage: '',
     showPass: false,
@@ -118,6 +118,9 @@ export default {
       v => (v && v.length >= 6) || 'A senha deve ter no mínimo 6 caracteres',
     ],
   }),
+  mounted() {
+    this.loginSocialReturn();
+  },
 
   head() {
     return {
@@ -177,29 +180,35 @@ export default {
       }
     },
 
-    loginSocial: function(provider) {
-      const this_ = this;
-      this.$auth.loginWith(provider).then(function() {
+    async loginSocialReturn() {
+      if (!this.$auth.loggedIn) {
+        this.loading = false;
+        return;
+      }
+      const provider = this.$auth.strategy.name;
         try {
-          if (provider == 'facebook') {
-            var facebookCredentials = this_.getFacebookCredentials();
-            auth.loginFacebook(facebookCredentials);
-          } else if (provider == 'google') {
-            var googleCredentials = this_.getGoogleCredentials();
-            auth.loginGoogle(googleCredentials);
+        if (provider === 'facebook') {
+          const facebookCredentials = this.getFacebookCredentials();
+          await auth.loginFacebook(facebookCredentials);
+        } else if (provider === 'google') {
+          const googleCredentials = this.getGoogleCredentials();
+          await auth.loginGoogle(googleCredentials);
           }
+        $nuxt._router.push('/loading/login');
         } catch (error) {
           setTimeout(() => {
-            this_.dialogMessage =
+          this.dialogMessage =
               'Falha ao realizar login utilizando ' + provider + '.';
-            this_.dialog = true;
-            this_.loading = false;
+          this.dialog = true;
+          this.loading = false;
           }, 500);
           console.error(error);
         }
+    },
 
-        $nuxt._router.push('/loading/login');
-      });
+    loginSocial(provider) {
+      this.loading = true;
+      this.$auth.loginWith(provider);
     },
 
     getFacebookCredentials() {
