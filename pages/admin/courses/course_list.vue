@@ -11,22 +11,24 @@
       </header>
       <div class="body-list">
         <v-card v-for="item in list" v-bind:key="item.id" class="v-card-border">
-          <div class="content">
-            <div class="img-mask">
-              <img :src="item.thumbUrl" alt />
+
+            <div class="content" >
+              <div class="img-mask">
+                <img :src="item.thumbUrl" alt />
+              </div>
+              <div class="info-text">
+                <h1>{{ item.title }}</h1>
+                <p>{{ item.description }}</p>
+              </div>
             </div>
-            <div class="info-text">
-              <h1>{{ item.title }}</h1>
-              <p>{{ item.description }}</p>
-            </div>
-          </div>
-          <div class="group-buttons">
-            <v-btn class="btn-item bg-blue">
-              <v-icon class="text-white">mdi-border-color</v-icon>
-            </v-btn>
-            <v-btn class="btn-item bg-danger" @click="deleteCourse(item.id)">
-              <v-icon class="text-white">mdi-delete</v-icon>
-            </v-btn>
+            <div class="group-buttons" >
+              <v-btn class="btn-item bg-blue" @click="editCourse(item.id)">
+                <v-icon class="text-white">mdi-border-color</v-icon>
+              </v-btn>
+              <v-btn class="btn-item bg-danger" @click="deleteCourse(item.id)">
+                <v-icon class="text-white">mdi-delete</v-icon>
+              </v-btn>
+
           </div>
         </v-card>
       </div>
@@ -41,28 +43,28 @@
   }
 </router>
 <script>
-import NavigationBar from "~/components/NavigationBar.vue";
-import http from "~/services/http/generic";
+import NavigationBar from '~/components/NavigationBar.vue';
+import http from '~/services/http/generic';
 export default {
   data: () => ({
     list: [],
     flagView: false,
-    title: "Listagem de Cursos"
+    title: 'Listagem de Cursos',
   }),
   head() {
     return {
       title: this.title,
       meta: [
         {
-          hid: "description",
-          name: "description",
-          content: "Listagem de Cursos New School"
-        }
-      ]
+          hid: 'description',
+          name: 'description',
+          content: 'Listagem de Cursos New School',
+        },
+      ],
     };
   },
   components: {
-    NavigationBar
+    NavigationBar,
   },
 
   methods: {
@@ -70,7 +72,11 @@ export default {
       http
         .getAll(process.env.endpoints.COURSE)
         .then(res => {
-          this.list = res.data;
+          this.list = []
+          res.data.forEach(element => {
+            if(element.enabled){this.list.push(element)};
+          });
+
           this.flagView = this.list.length < 1;
         })
         .catch(err => {
@@ -81,22 +87,26 @@ export default {
       http
         .delete(process.env.endpoints.COURSE, id)
         .then(res => {
-          alert("Curso excluído com sucesso!");
+          alert('Curso excluído com sucesso!');
+          this.getAllCourses();
         })
         .catch(err => {
           console.error(err);
-          alert("Erro ao excluir o curso!");
+          alert('Erro ao excluir o curso!');
         });
-    }
+    },
+    editCourse(id) {
+      $nuxt._router.push(`/admin/course/${id}/edit`);
+    },
   },
   mounted() {
     this.getAllCourses();
-  }
+  },
 };
 </script>
 <style scoped>
 #page {
-  font-family: "Montserrat", sans-serif !important;
+  font-family: 'Montserrat', sans-serif !important;
 }
 h1 {
   font-size: 0.9rem;
@@ -132,7 +142,7 @@ p {
   font-size: 25px;
   color: #6600cc;
   font-weight: 900;
-  font-family: "Montserrat", sans-serif !important;
+  font-family: 'Montserrat', sans-serif !important;
 }
 .v-card {
   width: 90%;
