@@ -1,41 +1,37 @@
 <template>
-  <v-layout justify-center id="page">
-    <v-flex ref="flex" class="main-container">
-      <h1>
-        <n-link to="../">
-          <v-btn class="back-button" text icon color="primary">
-            <v-icon>mdi-arrow-left</v-icon>
-          </v-btn>
-        </n-link>
-        {{ lessonName || 'Título da Aula'}}
-      </h1>
+  <div>
+    <header-bar :title="'Partes'" :backPage="true"></header-bar>
+    <v-layout justify-center id="page">
+      <v-flex ref="flex" class="main-container">
+        <h1>{{ lessonName || 'Título da Aula' }}</h1>
 
-      <div class="inner-container">
-        <h3>{{ part.title }}</h3>
-        <h4>{{ part.description }}</h4>
+        <div class="inner-container">
+          <h3>{{ part.title }}</h3>
+          <h4>{{ part.description }}</h4>
 
-        <div class="video-iframe-container">
-          <iframe
-            :src="part.youtubeUrl"
-            frameborder="0"
-            allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"
-            allowfullscreen
-          ></iframe>
+          <div class="video-iframe-container">
+            <iframe
+              :src="part.youtubeUrl"
+              frameborder="0"
+              allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen
+            ></iframe>
+          </div>
+          <h4>Youtube</h4>
+
+          <div class="video-iframe-container">
+            <iframe :src="part.vimeoUrl" frmeborder="0" allow="fullscreen" allowfullscreen></iframe>
+          </div>
+          <h4>Vimeo</h4>
         </div>
-        <h4>Youtube</h4>
 
-        <div class="video-iframe-container">
-          <iframe :src="part.vimeoUrl" frmeborder="0" allow="fullscreen" allowfullscreen></iframe>
-        </div>
-        <h4>Vimeo</h4>
-      </div>
-
-      <v-btn color="primary" class="save-button" to="parte/teste">Próximo</v-btn>
-    </v-flex>
-    <client-only>
-      <navigation-bar />
-    </client-only>
-  </v-layout>
+        <v-btn color="primary" class="save-button" to="parte/teste">Próximo</v-btn>
+      </v-flex>
+      <client-only>
+        <navigation-bar />
+      </client-only>
+    </v-layout>
+  </div>
 </template>
 
 <router>
@@ -46,11 +42,12 @@
 
 <script>
 import NavigationBar from '~/components/NavigationBar';
-import parts from '~/services/http/generic';
+import HeaderBar from '~/components/Header.vue';
 
 export default {
   components: {
     NavigationBar,
+    HeaderBar,
   },
   computed: {
     part() {
@@ -83,7 +80,6 @@ h1 {
   font-weight: 900;
   font-size: 1em;
   line-height: 36px;
-  text-align: center;
   color: #6600cc;
 }
 
@@ -94,8 +90,9 @@ h1 {
 }
 
 h3 {
-  font-weight: 900;
+  font-weight: 600;
   font-size: 1em;
+  line-height: normal;
   line-height: initial;
   text-align: left;
   color: #6600cc;
@@ -111,11 +108,11 @@ h4 {
 .main-container {
   display: flex;
   flex-direction: column;
-  padding: 2em 2em 78px;
+  padding: 0em 2em 78px;
 }
 
 .inner-container {
-  margin-top: 1.5em;
+  margin-top: 0.5rem;
 }
 
 .video-iframe-container {

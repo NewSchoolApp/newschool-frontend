@@ -10,10 +10,12 @@
       horizontal
     >
       <v-btn
+        
         class="btn-fixed menu__bottom"
         v-for="item in menu"
         v-bind:key="item.id"
         :to="item.link"
+        :class="item.class"
       >
         <span>{{ item.name }}</span>
         <v-icon>{{ item.icon }}</v-icon>
@@ -36,19 +38,20 @@ export default {
     viewMenu: false,
     auth: false,
     menu: [
-      { id: 1, name: "Home", icon: "mdi-home", link: "home" },
-      { id: 2, name: "Perfil", icon: "mdi-account", link: "perfil" },
+      { id: 1, name: "Home", icon: "mdi-home", link: "/aluno/home" },
+      { id: 2, name: "Perfil", icon: "mdi-account", link: "/aluno/perfil" },
       {
         id: 3,
         name: "Meus Cursos",
         icon: "mdi-library",
-        link: "meus-cursos"
+        link: "/aluno/meus-cursos"
       },
       {
         id: 4,
         name: "Certificados",
         icon: "mdi-school",
-        link: "certificados"
+        link: "/aluno/certificados",
+        class: ""
       }
     ]
   }),
@@ -69,7 +72,9 @@ export default {
     changeRoutingIfAdmin() {
       if (this.$store.state.user.data.role === "ADMIN") {
         this.menu[0].link = "/admin/home";
-        this.menu[2].link = "/admin/listar-cursos";
+        this.menu[1].link = "/admin/perfil";
+        this.menu[2].link = "/admin/listar-cursos"; 
+        this.menu[3].class = "remove-certificates"
       }
     }
   }
@@ -107,5 +112,8 @@ export default {
   .v-btn {
     font-size: 0.65rem !important;
   }
+}
+.remove-certificates {
+  display: none;
 }
 </style>

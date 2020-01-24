@@ -1,155 +1,105 @@
 <template>
   <div id="page">
-     <HeaderBar :title="'Meu Perfil'" :backPage="true"></HeaderBar>
-    <div class="content">
-      <v-row>
-        <v-col cols="6" md="8">
-          <v-card class="mx-auto item" max-width="344" @click="gotoChangeData">
-            <img src="~/assets/perfil.png" alt />
-            <a href>Alterar Dados</a>
-          </v-card>
-        </v-col>
-
-        <v-col cols="6" md="8">
-          <v-card class="mx-auto item" max-width="344">
-            <img src="~/assets/cursos.png" alt />
-            <a href>Perfil</a>
-          </v-card>
-        </v-col>
-
-        <v-col cols="6" md="8">
-          <v-card class="mx-auto item" max-width="344">
-            <img src="~/assets/configurações.png" alt />
-            <a href>Perfil</a>
-          </v-card>
-        </v-col>
-      </v-row>
-
-      <!-- <v-card class="mx-auto item" max-width="344">
-          <img src="../assets/cursos.png" alt />
-          <a href>Cursos</a>
-        </v-card>
-
-        <v-card class="mx-auto item" max-width="344">
-          <img src="../assets/configurações.png" alt />
-          <a href>Configurações</a>
-        </v-card>
-
-        <v-card class="mx-auto item" max-width="344">
-          <img src="../assets/configurações.png" alt />
-          <a href>Configurações</a>
-        </v-card>
-      </div>-->
-
-      <!-- <main>
-        <section>
-          <div class="titulo">
-            <h1>MEU PAINEL</h1>
-          </div>
-        </section>
-        <section>
-          <div class="íconestextos">
-            <img src="../assets/perfil.png" alt />
-            <h3>Meu Perfil</h3>
-            <p>Visualizar Perfil, alterar foto de perfil</p>
-          </div>
-          <div>
-            <img src="../assets/cursos.png" alt />
-            <h3>Meus Cursos</h3>
-            <p>Cursos concluídos, cursos em andamento e emitir certificados</p>
-          </div>
-          <div>
-            <img src="../assets/configurações.png" alt />
-            <h3>Configurações</h3>
-            <p>Configurar usúario, alterar senha...</p>
-          </div>
-          <div>
-            <p>
-              asdfjasdifadsuifhauidshfauisdfhauisdfhadsiufhasdufia
-              sodfhasioduhfasduiofhauidsfhadsufa asdoifhasdiufhasdufabndsif
-              asdnfaoidsfhnaiodsnhfaoidsfhansdf
-              asoidfnaoidsfnasdoifnaodsifadsfioahjos
-            </p>
-          </div>
-        </section>
-      </main>-->
-    </div>
+    <HeaderBar :title="'Meu Perfil'" :backPage="true"></HeaderBar>
+    <v-layout align-center justify-center>
+      <v-flex
+        ref="flex"
+        role="main"
+        xs10
+        sm8
+        md4
+        style="text-align: -webkit-center;"
+      >
+        <v-container>
+          <v-row>
+            <v-col cols="12">
+              <avatar :username="user.name | simplifyName" :size="150"></avatar>
+            </v-col>
+            <v-col cols="12">
+              <h1>{{ user.name }}</h1>
+              <p>Aluno</p>
+            </v-col>
+            <v-col cols="12">
+              <v-btn
+                large
+                color="#6600cc"
+                outlined
+                block
+                @click="goToChangePassword"
+              >
+                Alterar Senha<v-icon right>mdi-key</v-icon></v-btn
+              >
+            </v-col>
+            <v-col cols="12">
+              <v-btn
+                large
+                color="#6600cc"
+                outlined
+                block
+                @click="goToChangeData"
+              >
+                Alterar Dados<v-icon right>mdi-pencil</v-icon></v-btn
+              >
+            </v-col>
+            <v-col cols="12">
+              <v-btn large color="red" outlined block @click="goToExit">
+                Sair<v-icon right>mdi-exit-to-app</v-icon></v-btn
+              >
+            </v-col>
+          </v-row>
+        </v-container>
+      </v-flex>
+    </v-layout>
   </div>
 </template>
 
 <script>
-import HeaderBar from "~/components/Header.vue";
+import HeaderBar from '~/components/Header.vue';
+import Avatar from 'vue-avatar';
 
 export default {
   components: {
-    HeaderBar
+    HeaderBar,
+    Avatar,
   },
   methods: {
-    gotoChangeData() {
-      $nuxt._router.push("/aluno/alterar");
-    }
-  }
+    goToChangePassword() {
+      $nuxt._router.push('/aluno/alterar-senha');
+    },
+    goToChangeData() {
+      $nuxt._router.push('/aluno/alterar');
+    },
+    goToExit() {
+      localStorage.clear();
+      $nuxt._router.push('/login');
+      this.clearInfoUser();
+    },
+  },
+  computed: {
+    user() {
+      return this.$store.state.user.data;
+    },
+  },
+  filters: {
+    simplifyName(name) {
+      if (!name) {
+        return '';
+      }
+      const regex = /^(\S*\s+\S+).*/; // Regex para remover todos os caracteres após o segundo espaço em branco
+      const numberOfNames = name.split(' ').length;
+      if (numberOfNames > 2) {
+        return regex.exec(name)[1];
+      }
+      return name;
+    },
+  },
 };
 </script>
 
 <style scoped>
-@media (min-width: 600px) {
-  #page {
-    overflow-y: auto;
-    margin: 0 auto;
-  }
-}
-.item {
-  margin: 1rem;
-  display: flex;
-  flex-direction: column;
-  padding: 25px;
-}
-
-* {
-  margin: 0;
-  padding: 0;
-}
-.logo {
-  width: 48%;
-  margin-left: -11%;
-  margin-top: 2%;
-}
-body {
-  background-image: url("../../assets/paraisopolis.png");
-  background-repeat: repeat;
-  background-size: cover;
-}
-
-figure {
-  margin: 0 5% 0 1%;
-}
-.titulo h1 {
-  font-family: "Montserrat";
-  font-weight: 900;
-  font-size: 150%;
-  display: flex;
-  align-items: center;
+#page h1,
+#page p {
   color: #6600cc;
-}
-.titulo {
-  margin: 3% 0 0 4%;
-}
-
-div {
-  text-align: center;
-  align-items: center;
-}
-div h1,
-h2,
-h3,
-p {
-  color: #6600cc;
-}
-/* Modificar nomes das clases, padrão ingles e nomes mais abstratos */
-@media (max-height: 768px) {
-  .rodapé {
-    position: relative;
-  }
+  text-transform: uppercase;
 }
 </style>
