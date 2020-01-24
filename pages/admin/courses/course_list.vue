@@ -21,7 +21,7 @@
             </div>
           </div>
           <div class="group-buttons">
-            <v-btn class="btn-item bg-blue">
+            <v-btn class="btn-item bg-blue" :to="`/admin/course/${item.id}/edit`">
               <v-icon class="text-white">mdi-border-color</v-icon>
             </v-btn>
             <v-btn class="btn-item bg-danger" @click="deleteCourse(item.id)">
@@ -112,6 +112,7 @@ p {
 .img-mask {
   display: flex;
   width: 100px;
+  flex-shrink: 0;
 }
 .img-mask img {
   width: 100%;
@@ -119,7 +120,6 @@ p {
 .info-text {
   padding-left: 8px;
   padding-top: 8px;
-  width: 13rem;
 }
 .title {
   background: white;
@@ -146,6 +146,7 @@ p {
 .group-buttons {
   width: 2.1rem;
   overflow: hidden;
+  flex: 0 0 auto;
 }
 .btn-item {
   height: 50px !important;

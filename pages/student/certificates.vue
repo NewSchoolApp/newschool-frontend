@@ -21,12 +21,12 @@
               <strong class="certificate-title">
                 {{ certificate.course.title }}
               </strong>
+              <p>{{ certificate.user.name }}</p>
             </button>
-            <div class="sharing-icons">
-              <shareBtn />
-            </div>
           </div>
-          <p>{{ certificate.user.name }}</p>
+          <div class="sharing-icons">
+            <shareBtn />
+          </div>
         </div>
       </div>
     </v-container>
@@ -92,7 +92,6 @@ export default {
   justify-content: center;
   align-items: center;
   max-width: 100%;
-  // height: 100%;
 
   .content-image {
     position: relative;
@@ -132,20 +131,12 @@ export default {
     }
 
     .footer {
-      width: 312px;
-      padding-top: 10px;
-      line-height: 15px;
+      display: flex;
       text-align: center;
-      font-family: Montserrat;
-      font-style: normal;
-      font-weight: 500;
+      justify-content: space-between;
+      width: 80%;
 
       .title-and-socialMedias {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        font-family: Montserrat;
-
         .certificate-title {
           display: flex;
           align-items: center;
@@ -155,7 +146,7 @@ export default {
           font-size: 12px;
           line-height: 15px;
           color: #1a1a1a;
-          padding-left: 2px;
+          padding-left: 5px;
           text-align: center;
         }
 
@@ -173,7 +164,7 @@ export default {
         font-weight: 300;
         font-size: 10px;
         line-height: 12px;
-        padding-left: 2px;
+        padding-left: 5px;
         color: #1a1a1a;
         margin-top: 7px;
       }

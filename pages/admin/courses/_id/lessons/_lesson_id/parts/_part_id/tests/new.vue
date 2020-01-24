@@ -79,7 +79,7 @@
     </v-snackbar>
     <client-only>
       <navigation-bar />
-    </client-only>s
+    </client-only>
   </v-layout>
 </template>
 
@@ -105,7 +105,8 @@ export default {
     snackbar: false,
     snackbarText: '',
     snackbarStatus: '',
-    courseId : '', 
+    courseId: '',
+    lessonId: '',
     test: {
       title: '',
       question: '',
@@ -140,6 +141,7 @@ export default {
   created() {
     this.test.part = this.$route.params.partId;
     this.courseId = this.$route.params.courseId;
+    this.lessonId = this.$route.params.lessonId;
   },
   methods: {
     submit() {
@@ -151,6 +153,9 @@ export default {
             this.loading = false;
             this.showConfirmSnack('Teste criado! ;)', 'success');
             this.submited = true;
+            $nuxt._router.push(
+              `/admin/course/${this.courseId}/lesson/${this.lessonId}/part/${this.test.part}/edit`,
+            );
           })
           .catch(err => {
             setTimeout(() => {

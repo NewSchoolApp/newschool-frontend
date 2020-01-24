@@ -1,5 +1,7 @@
 <template>
-  <v-container class="main">
+  <div class="background">
+    <HeaderBar :title="'Newschool'" :back-page="true"></HeaderBar>
+      <v-container class="main">
     <div v-if="loading">
       <div class="container-spinner">
         <v-progress-circular
@@ -13,9 +15,6 @@
     <div v-else class="card-box">
       <div class="card">
         <div class="course">
-          <button type="button" @click="goToHome">
-            <h4>Missão Newschool</h4>
-          </button>
           <td>Educação de qualidade</td>
           <strong>{{ certificate.course.title }}</strong>
           <tr>
@@ -64,16 +63,19 @@
         </div>
       </div>
     </div>
-  </v-container>
+  </v-container> 
+  </div>
 </template>
 <script>
 import shareBtnPageCertificate from '~/components/ShareBtnPageCertificate.vue';
 import http from '~/services/http/generic';
 import utils from '~/utils/index';
+import HeaderBar from '~/components/Header.vue';
 
 export default {
   components: {
     shareBtnPageCertificate,
+    HeaderBar
   },
   data: () => ({
     certificate: {},
@@ -100,9 +102,6 @@ export default {
         this.token = res.data.accessToken;
       });
     },
-    goToHome() {
-      this.$nuxt._router.push('home');
-    },
   },
 };
 </script>
@@ -121,14 +120,19 @@ export default {
   box-sizing: border-box;
 }
 
+.background {
+  background: url('../../assets/backgroundCertificates.svg');
+}
+
 .main {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: url('../../assets/backgroundCertificates.svg');
+  max-width: 100%;
+  height: 100vh;
 
   .card-box {
-    padding: 10px 20px 10px 20px;
+    padding: 30px 0 10px 0;
     height: 100%;
     max-width: 100%;
     text-align: center;
@@ -212,7 +216,7 @@ export default {
       align-items: center;
       justify-content: center;
       width: 100%;
-      padding: 60px 0 10px 0;
+      padding: 80px 0 10px 0;
       font-size: 10px;
       letter-spacing: 3px;
       color: #6600ccb7;
@@ -224,7 +228,7 @@ export default {
   display: flex;
   align-items: left;
   justify-content: space-between;
-  padding: 0 25px 10px 25px;
+  padding: 10px 25px 10px 25px;
 
   .export-title {
     display: flex;
@@ -254,16 +258,6 @@ export default {
     display: flex;
     align-items: left;
     justify-content: space-between;
-
-    :hover {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 35px;
-      height: 35px;
-      background: #d6d6d6;
-      border-radius: 5px;
-    }
 
     .share {
       height: 30px;
