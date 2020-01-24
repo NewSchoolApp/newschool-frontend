@@ -83,10 +83,18 @@ export default {
       document.getElementById("menu-btn").click();
     },
     logout() {
+      this.logoutSocial().then(() => {
       localStorage.clear();
-      $nuxt._router.push("/login");
+        $nuxt._router.push('/login');
       this.clearInfoUser();
+      });
+    },
+    logoutSocial() {
+      if (!this.$auth.loggedIn) {
+        return Promise.resolve();
     }
+      return this.$auth.logout();
+    },
   },
   computed: {
     user() {
