@@ -30,16 +30,11 @@
         </div>
       </div>
     </v-container>
-    <div class="full__height" v-else>
-      <v-container fluid class="wrapper__without__certificates full__height">
-        <v-row class="full__height">
-          <v-col cols="12">
-            <h1 class="full__width text__without__certificates">Oloco meu!</h1>
-            <p class="full__width">Você ainda não tem nenhum certificado. :(</p>
-          </v-col>
-        </v-row>
-      </v-container>
-    </div>
+    <NothingToShow
+      v-else
+      title="Vixe :/"
+      message="Você ainda não tem nenhum certificado. :("
+    />
   </div>
 </template>
 
@@ -47,11 +42,13 @@
 import shareBtn from '~/components/ShareBtn.vue';
 import http from '~/services/http/generic';
 import HeaderBar from '~/components/Header.vue';
+import NothingToShow from '~/components/NothingToShow';
 
 export default {
   components: {
     shareBtn,
     HeaderBar,
+    NothingToShow
   },
   data: () => ({
     certificates: [],
@@ -180,22 +177,5 @@ export default {
       }
     }
   }
-}
-
-.wrapper__without__certificates {
-  opacity: 0.5;
-  text-align: center;
-  .text__without__certificates {
-    color: #6600cc;
-    text-transform: uppercase;
-    font-size: 3.5em;
-    font-weight: normal;
-  }
-}
-.full__width {
-  width: 100%;
-}
-.full__height {
-  height: 90%;
 }
 </style>
