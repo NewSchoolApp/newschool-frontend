@@ -83,15 +83,15 @@ export default {
     courseStartDate:'',
     courseCompleteDate:'',
   }),
-   mounted() {
+  mounted() {
     const idCourse = this.$route.params.idCourse;
     const idUser = this.$route.params.idUser;
-    http. 
-    pageCertificate(idUser, idCourse).then(res => {
-      this.certificate = res.data
+    http.pageCertificate(idUser, idCourse).then(res => {
+      this.certificate = res.data;
       this.courseStartDate = moment(this.certificate.courseStartDate).format("DD/MM/YYYY");
       this.courseCompleteDate = moment(this.certificate.courseCompleteDate).format("DD/MM/YYYY");
-    })
+      this.loading = false;
+    });
   },
 };
 </script>
