@@ -1,6 +1,6 @@
 <template>
-  <v-layout justify-center id="page">
-    <v-flex ref="flex" xs10 sm8 md6 class="main-container">
+  <v-layout id="page">
+    <v-flex ref="flex" class="main-container">
       <h1>
         <n-link to="../../edit">
           <v-btn class="back-button" text icon color="primary">
@@ -37,9 +37,7 @@
         redirect="true"
         path="part"
       />
-      <span v-if="!parts.length" class="new-parts-span"
-        >Favor, adicionar uma parte</span
-      >
+      <span v-if="!parts.length" class="new-parts-span">Favor, adicionar uma parte</span>
 
       <v-btn color="primary" class="save-button" @click="submit">Salvar</v-btn>
     </v-flex>
@@ -187,7 +185,7 @@ h3 {
 .main-container {
   display: flex;
   flex-direction: column;
-  padding: 2em 3em 1.5em 2em;
+  padding: 2em 3em 78px 2em;
 }
 
 .v-input {
@@ -198,7 +196,7 @@ h3 {
 .save-button {
   height: 2.75em;
   width: 100%;
-  font-weight: 900;
+  font-weight: 600;
   margin-top: auto;
   display: flex;
   align-items: center;

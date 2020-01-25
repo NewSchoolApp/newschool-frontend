@@ -29,16 +29,11 @@
           </div>
         </div>
       </div>
-      <div class="full__height" v-else>
-        <v-container class="wrapper__without__courses full__height">
-          <v-row align="center" class="full__height">
-            <v-col cols="12">
-              <h1 class="full__width text__without__courses">VIXE :/</h1>
-              <p class="full__width">Você não começou nenhum curso.</p>
-            </v-col>
-          </v-row>
-        </v-container>
-      </div>
+      <NothingToShow
+        v-else
+        title="Vixe :/"
+        message="Você não começou nenhum curso."
+      />
     </div>
     <div v-if="loading">
       <div class="container-spinner">
@@ -51,6 +46,7 @@
 <script>
 import HeaderBar from '~/components/Header.vue';
 import http from '~/services/http/generic';
+import NothingToShow from '~/components/NothingToShow';
 
 export default {
   data: () => ({
@@ -71,7 +67,7 @@ export default {
           http
             .post('api/v1/course-taken/advance-on-course', {
               user: this.user.id,
-              course: course.id,
+              course: course.id,  
             })
             .then(res => {
               this.$store.commit(
@@ -136,6 +132,7 @@ export default {
   },
   components: {
     HeaderBar,
+    NothingToShow
   },
   asyncData({ store, data, params, $axios }) {
     return http
@@ -177,20 +174,6 @@ h1 {
 ::v-deep .v-btn--icon.v-size--default {
   height: unset;
   color: #6600cc;
-}
-.wrapper__without__courses {
-  opacity: 0.5;
-  text-align: center;
-  .text__without__courses {
-    color: #6600cc;
-    font-size: 3.5em;
-  }
-}
-.full__width {
-  width: 100%;
-}
-.full__height {
-  height: 90%;
 }
 .text__success {
   font-weight: 400;

@@ -7,9 +7,9 @@
           <v-progress-circular :size="70" :width="5" indeterminate color="#000" />
         </div>
       </div>
-      <v-layout mt-1>
+      <v-layout mt-1 flat class="container">
         <v-flex ref="flex">
-          <v-container>
+          <v-container flat>
             <v-row>
               <v-col cols="12" mt-5>
                 <v-row>
@@ -28,10 +28,12 @@
                     requiredv-model="form.name"
                   ></v-text-field>
                   <v-text-field
-                    v-model="form.email"
-                    :rules="emailRules"
-                    label="E-mail"
-                    name="email"
+                    v-model="form.cellphone"
+                    type="tel"
+                    v-mask="'(##) #####-####'"
+                    :rules="cellphoneRules"
+                    label="Whatsapp"
+                    name="cellphone"
                     required
                   ></v-text-field>
                   <v-textarea
@@ -62,6 +64,7 @@
         </v-flex>
       </v-layout>
     </div>
+    <navigation-bar/>
   </div>
 </template>
 
@@ -73,9 +76,11 @@
 
 <script scoped>
 import HeaderBar from '~/components/Header.vue';
+import NavigationBar from '~/components/NavigationBar.vue';
 import auth from '../../services/http/auth';
 import contactUs from '../../services/http/contact_us';
 import utils from '~/utils/index';
+import { mask } from 'vue-the-mask';
 
 export default {
   data() {
@@ -88,14 +93,14 @@ export default {
       token: '',
       form: {
         name: '',
-        email: '',
         message: '',
+        cellphone: '',
       },
       nameRules: [v => !!v || 'Digite seu nome'],
       messageRules: [v => !!v || 'Digite uma mensagem'],
-      emailRules: [
-        v => !!v || 'Digite o e-mail',
-        v => /.+@.+\..+/.test(v) || 'E-mail inválido',
+      cellphoneRules: [
+        v => !!v || 'Digite seu celular com o DDD',
+        v => /^\(\d{2}\) \d{5}-\d{3,4}$/.test(v) || 'Complete seu celular com o DDD',
       ],
     };
   },
@@ -160,7 +165,9 @@ export default {
   },
   components: {
     HeaderBar,
+    NavigationBar,
   },
+  directives: { mask },
 };
 </script>
 
@@ -169,22 +176,35 @@ export default {
 
 .align-global {
   width: 100%;
-  max-width: 500px;
+  max-width: 400px;
   justify-content: center;
   background: #ffffff;
-
 }
-@media (min-width: 600px) {
+@media (min-width: 400px) {
   .align-global {
     margin: 0 auto;
+
+  }
+}
+@media (max-width: 320px){
+  ::v-deep.v-input input {
+    max-height: 25px!important;
+}
+  .container{
+  padding: 0px 12px 0 12px!important;
+
   }
 }
 .container-spinner,
 .flex {
-  z-index: 2;
+  z-index: 1;
   text-align: center;
+  margin-top: -55px;
 }
-
+.container {
+  z-index: -1;
+  padding: 12px 12px 0 12px;
+}
 .page-title {
   font-size: 24px;
   font-weight: 900;
@@ -194,7 +214,7 @@ export default {
 }
 .banner {
   width: 90%;
-  margin: 0 5%
+  margin: 5% 5% -5% 5%;
 }
 
 h2 {
@@ -243,9 +263,12 @@ h2 {
   font-weight: normal;
   width: 100%;
 }
+::v-deep .theme--light.v-input:not(.v-input--is-disabled) textarea {
+  color: #6600cc;
+}
 
 ::v-deep .v-card {
   box-shadow: 0px 5px 10px gray;
-  margin: 2% 4% 0 4%;
+  margin: 4% 4% 0 4%;
 }
 </style>
