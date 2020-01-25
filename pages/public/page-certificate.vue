@@ -80,14 +80,13 @@ export default {
     certificate: {},
     loading: true,
   }),
-   mounted() {
+  mounted() {
     const idCourse = this.$route.params.idCourse;
     const idUser = this.$route.params.idUser;
-    http. 
-    pageCertificate(idUser, idCourse).then(res => {
-      this.certificate = res.data
-      console.log(this.certificate)
-    })
+    http.pageCertificate(idUser, idCourse).then(res => {
+      this.certificate = res.data;
+      this.loading = false;
+    });
   },
 };
 </script>
