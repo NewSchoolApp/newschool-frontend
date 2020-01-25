@@ -1,5 +1,5 @@
 <template>
-  <v-layout justify-center id="page">
+  <v-layout id="page">
     <v-flex ref="flex" class="main-container">
 
       <h1>
@@ -223,7 +223,7 @@ h3 {
 .save-button {
     height: 2.75em;
     width: 100%;
-    font-weight: 900;
+    font-weight: 600;
     margin-top: auto;
     display: flex;
     align-items: center;
