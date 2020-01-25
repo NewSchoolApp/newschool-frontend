@@ -40,6 +40,7 @@
 <script>
 import Avatar from "vue-avatar";
 import { mapActions } from "vuex";
+import auth from "~/services/http/auth";
 
 export default {
   data: () => ({
@@ -69,7 +70,7 @@ export default {
         link: "/contribua"
       },
       { id: 5, label: "O que é a new school?", icon: "mdi-library-books", link: "/sobre" },
-      { id: 6, label: "Ajuda", icon: "mdi-hand-right", link: "/ajuda" },
+      // { id: 6, label: "Ajuda", icon: "mdi-hand-right", link: "/ajuda" },
       { id: 7, label: "Fale com a gente", icon: "mdi-phone-message-outline", link: "/contato" },
       { id: 8, label: "Apoie a new school", icon: "mdi-volume-high", link: "/investidores" }
     ]
@@ -83,14 +84,34 @@ export default {
       document.getElementById("menu-btn").click();
     },
     logout() {
-      localStorage.clear();
-      $nuxt._router.push("/login");
-      this.clearInfoUser();
+      this.logoutSocial().then(() => {
+        localStorage.clear();
+        $nuxt._router.push('/login');
+        this.clearInfoUser();
+      });
+    },
+    changeRoutingIfAdmin() {
+      if (this.$store.state.user.data.role === "ADMIN") {
+        this.menu[1].link = "/admin/listar-cursos";
+      }
+    },
+    logoutSocial() {
+      if (!this.$auth.loggedIn) {
+        return Promise.resolve();
     }
+      return this.$auth.logout();
+    },
   },
   computed: {
     user() {
       return this.$store.state.user.data;
+    }
+  },
+  mounted() {
+    const { status } = auth.isTokenValid();
+    if (status) {
+      this.auth = true;
+      this.changeRoutingIfAdmin();
     }
   },
   filters: {

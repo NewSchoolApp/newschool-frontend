@@ -57,6 +57,21 @@
             <v-btn dark block depressed large to="/cadastro" class="btn-transparent">Cadastrar</v-btn>
           </v-col>
           <v-col cols="12" class="text-center">
+            <v-btn text color="white" @click="loginSocial('facebook')">
+              <v-icon dark left>mdi-facebook</v-icon>Entrar com Facebook
+            </v-btn>
+          </v-col>
+          <v-col cols="12" class="text-center">
+            <v-btn text color="white" @click="loginSocial('google')">
+              <v-icon dark left>mdi-google-glass</v-icon>Entrar com Google
+            </v-btn>
+          </v-col>
+          <!-- <v-col cols="12" class="text-center">
+            <v-btn text color="white">
+              <v-icon left>mdi-instagram</v-icon>Entrar com Instagram
+            </v-btn>
+          </v-col>-->
+          <v-col cols="12" class="text-center">
             <v-btn text small color="#fff" to="/esqueci-minha-senha">Esqueceu sua senha?</v-btn>
           </v-col>
         </v-row>
@@ -78,42 +93,46 @@
 </router>
 
 <script>
-import auth from "~/services/http/auth";
+import auth from '~/services/http/auth';
+import utils from '~/utils/index';
 
 export default {
   data: () => ({
     // flags
     status: true,
-    loading: false,
+    loading: true,
     dialog: false,
-    dialogMessage: "",
+    dialogMessage: '',
     showPass: false,
 
-    title: "Entrar",
+    title: 'Entrar',
 
-    email: "",
+    email: '',
     emailRules: [
-      v => !!v || "Digite o e-mail",
-      v => /.+@.+\..+/.test(v) || "E-mail inválido"
+      v => !!v || 'Digite o e-mail',
+      v => /.+@.+\..+/.test(v) || 'E-mail inválido',
     ],
-    password: "",
+    password: '',
     passwordRules: [
-      v => !!v || "Digite a senha",
-      v => (v && v.length >= 6) || "A senha deve ter no mínimo 6 caracteres"
-    ]
+      v => !!v || 'Digite a senha',
+      v => (v && v.length >= 6) || 'A senha deve ter no mínimo 6 caracteres',
+    ],
   }),
+  mounted() {
+    this.loginSocialReturn();
+  },
 
   head() {
     return {
       title: this.title,
       meta: [
         {
-          hid: "description",
-          name: "description",
+          hid: 'description',
+          name: 'description',
           content:
-            "Entre no aplicativo da New School - Levamos educação de qualidade na linguagem da quebrada para as periferias do Brasil, através da tecnologia e da curadoria de conteúdos baseados nas habilidades do futuro."
-        }
-      ]
+            'Entre no aplicativo da New School - Levamos educação de qualidade na linguagem da quebrada para as periferias do Brasil, através da tecnologia e da curadoria de conteúdos baseados nas habilidades do futuro.',
+        },
+      ],
     };
   },
 
@@ -125,11 +144,11 @@ export default {
         auth
           .login(this.email, this.password)
           .then(() => {
-            $nuxt._router.push("/loading/login");
+            $nuxt._router.push('/loading/login');
           })
           .catch(err => {
             setTimeout(() => {
-              this.dialogMessage = "Usuário ou senha incorretos!";
+              this.dialogMessage = 'Usuário ou senha incorretos!';
               this.dialog = true;
               this.loading = false;
             }, 500);
@@ -142,25 +161,78 @@ export default {
 
     head() {
       return {
-        title: this.title
+        title: this.title,
       };
     },
 
     animateForm(status) {
       if (status) {
-        this.$refs.flex.classList.add("hide-form");
-        document.querySelector("html").style.overflow = "hidden";
+        this.$refs.flex.classList.add('hide-form');
+        document.querySelector('html').style.overflow = 'hidden';
         setTimeout(() => {
           this.loading = true;
         }, 300);
       } else {
-        this.$refs.flex.classList.add("error-form");
+        this.$refs.flex.classList.add('error-form');
         setTimeout(() => {
-          this.$refs.flex.classList.remove("error-form");
+          this.$refs.flex.classList.remove('error-form');
         }, 500);
       }
-    }
-  }
+    },
+
+    async loginSocialReturn() {
+      if (!this.$auth.loggedIn) {
+        this.loading = false;
+        return;
+      }
+      const provider = this.$auth.strategy.name;
+        try {
+        if (provider === 'facebook') {
+          const facebookCredentials = this.getFacebookCredentials();
+          await auth.loginFacebook(facebookCredentials);
+        } else if (provider === 'google') {
+          const googleCredentials = this.getGoogleCredentials();
+          await auth.loginGoogle(googleCredentials);
+          }
+        $nuxt._router.push('/loading/login');
+        } catch (error) {
+          setTimeout(() => {
+          this.dialogMessage =
+              'Falha ao realizar login utilizando ' + provider + '.';
+          this.dialog = true;
+          this.loading = false;
+          }, 500);
+          console.error(error);
+        }
+    },
+
+    loginSocial(provider) {
+      this.loading = true;
+      this.$auth.loginWith(provider);
+    },
+
+    getFacebookCredentials() {
+      return {
+        id: this.$store.state.auth.user.id,
+        email: this.$store.state.auth.user.email,
+        name: this.$store.state.auth.user.name,
+        birthday: this.$store.state.auth.user.birthday,
+      };
+    },
+
+    getGoogleCredentials() {
+      return {
+        email: this.$store.state.auth.user.email,
+        email_verified: this.$store.state.auth.user.email_verified.toString(),
+        family_name: this.$store.state.auth.user.family_name,
+        given_name: this.$store.state.auth.user.given_name,
+        locale: this.$store.state.auth.user.locale,
+        name: this.$store.state.auth.user.name,
+        picture: this.$store.state.auth.user.picture,
+        sub: this.$store.state.auth.user.sub,
+      };
+    },
+  },
 };
 </script>
 
@@ -178,7 +250,7 @@ export default {
   width: 100%;
   height: 100%;
   position: fixed;
-  background: url("../../assets/paraisopolis.png");
+  background: url('../../assets/paraisopolis.png');
   background-size: cover;
   background-position: center;
 }

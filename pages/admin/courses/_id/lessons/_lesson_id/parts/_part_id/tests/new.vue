@@ -22,8 +22,7 @@
           v-model="test.question"
           :rules="answerRules"
           color="#60c"
-          label="Enuciado"
-          required
+          label="Enunciado"
         />
         <br />
         <br />
@@ -64,8 +63,8 @@
           required
         />
       </v-form>
-      <v-btn color="primary" class="save-button" @click="submit">Adicionar</v-btn>
-      <v-btn color="primary" :disabled="!submited" class="save-button" @click="finish()">Finalizar</v-btn>
+      <v-btn color="primary" class="save-button mb-5 mt-5" @click="submit">Adicionar</v-btn>
+      <v-btn color="primary" :disabled="!submited" class="save-button button-ajust" @click="finish()">Finalizar</v-btn>
     </v-flex>
 
     <v-snackbar
@@ -80,7 +79,7 @@
     </v-snackbar>
     <client-only>
       <navigation-bar />
-    </client-only>s
+    </client-only>
   </v-layout>
 </template>
 
@@ -106,7 +105,8 @@ export default {
     snackbar: false,
     snackbarText: '',
     snackbarStatus: '',
-    courseId : '', 
+    courseId: '',
+    lessonId: '',
     test: {
       title: '',
       question: '',
@@ -141,6 +141,7 @@ export default {
   created() {
     this.test.part = this.$route.params.partId;
     this.courseId = this.$route.params.courseId;
+    this.lessonId = this.$route.params.lessonId;
   },
   methods: {
     submit() {
@@ -152,6 +153,9 @@ export default {
             this.loading = false;
             this.showConfirmSnack('Teste criado! ;)', 'success');
             this.submited = true;
+            $nuxt._router.push(
+              `/admin/course/${this.courseId}/lesson/${this.lessonId}/part/${this.test.part}/edit`,
+            );
           })
           .catch(err => {
             setTimeout(() => {
@@ -257,7 +261,9 @@ h3 {
   font-size: 12px;
   line-height: 14px;
 }
-
+.button-ajust{
+  margin-bottom: 50px;
+}
 .back-button {
   min-width: 0 !important;
   float: left;

@@ -33,7 +33,7 @@
       <resources-list name="Parte" :resources="[]" redirect="true" path="part" />
       <span class="new-tests-span">Favor, adicionar uma parte</span>
 
-      <v-btn color="primary" class="save-button" @click="submit">Salvar</v-btn>
+      <v-btn color="primary" class="save-button mb-50" @click="submit">Salvar</v-btn>
     </v-flex>
 
     <v-snackbar
@@ -228,7 +228,7 @@ h3 {
 }
 
 .lesson-form {
-  margin-top: 1.5em;
+  margin-top: 0;
 }
 
 ::v-deep
