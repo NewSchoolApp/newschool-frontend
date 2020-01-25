@@ -98,7 +98,10 @@ export default {
       },
       nameRules: [v => !!v || 'Digite seu nome'],
       messageRules: [v => !!v || 'Digite uma mensagem'],
-      cellphoneRules: [v => !!v || 'Digite seu celular com o DDD'],
+      cellphoneRules: [
+        v => !!v || 'Digite seu celular com o DDD',
+        v => /^\(\d{2}\) \d{5}-\d{3,4}$/.test(v) || 'Complete seu celular com o DDD',
+      ],
     };
   },
 
