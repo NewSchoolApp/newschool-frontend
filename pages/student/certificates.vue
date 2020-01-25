@@ -1,7 +1,7 @@
 <template>
   <div>
     <HeaderBar :title="'Certificados'" :back-page="true"></HeaderBar>
-    <v-container class="main">
+    <v-container v-if="certificates.length" class="main">
       <div
         v-for="certificate in certificates"
         :key="certificate.id"
@@ -30,6 +30,11 @@
         </div>
       </div>
     </v-container>
+    <NothingToShow
+      v-else
+      title="Vixe :/"
+      message="Você ainda não tem nenhum certificado. :("
+    />
   </div>
 </template>
 
@@ -37,11 +42,13 @@
 import shareBtn from '~/components/ShareBtn.vue';
 import http from '~/services/http/generic';
 import HeaderBar from '~/components/Header.vue';
+import NothingToShow from '~/components/NothingToShow';
 
 export default {
   components: {
     shareBtn,
     HeaderBar,
+    NothingToShow
   },
   data: () => ({
     certificates: [],
