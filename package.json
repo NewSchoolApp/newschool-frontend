@@ -32,6 +32,7 @@
     "@nuxtjs/router-extras": "^1.0.0",
     "@nuxtjs/vuetify": "^1.0.0",
     "fs": "0.0.1-security",
+    "moment": "^2.24.0",
     "ms": "^2.1.2",
     "nuxt": "^2.11.0",
     "nuxt-i18n": "^6.4.1",
