@@ -10,12 +10,12 @@
       horizontal
     >
       <v-btn
-        
         class="btn-fixed menu__bottom"
         v-for="item in menu"
         v-bind:key="item.id"
         :to="item.link"
         :class="item.class"
+        @click="viewMenu = false"
       >
         <span>{{ item.name }}</span>
         <v-icon>{{ item.icon }}</v-icon>
@@ -30,33 +30,33 @@
 </template>
 
 <script>
-import SideMenu from "~/components/SideMenu.vue";
-import auth from "~/services/http/auth";
+import SideMenu from '~/components/SideMenu.vue';
+import auth from '~/services/http/auth';
 
 export default {
   data: () => ({
     viewMenu: false,
     auth: false,
     menu: [
-      { id: 1, name: "Home", icon: "mdi-home", link: "/aluno/home" },
-      { id: 2, name: "Perfil", icon: "mdi-account", link: "/aluno/perfil" },
+      { id: 1, name: 'Home', icon: 'mdi-home', link: '/aluno/home' },
+      { id: 2, name: 'Perfil', icon: 'mdi-account', link: '/aluno/perfil' },
       {
         id: 3,
-        name: "Meus Cursos",
-        icon: "mdi-library",
-        link: "/aluno/meus-cursos"
+        name: 'Meus Cursos',
+        icon: 'mdi-library',
+        link: '/aluno/meus-cursos',
       },
       {
         id: 4,
-        name: "Certificados",
-        icon: "mdi-school",
-        link: "/aluno/certificados",
-        class: ""
-      }
-    ]
+        name: 'Certificados',
+        icon: 'mdi-school',
+        link: '/aluno/certificados',
+        class: '',
+      },
+    ],
   }),
   components: {
-    SideMenu
+    SideMenu,
   },
   mounted() {
     const { status } = auth.isTokenValid();
@@ -70,14 +70,14 @@ export default {
       this.viewMenu = !this.viewMenu;
     },
     changeRoutingIfAdmin() {
-      if (this.$store.state.user.data.role === "ADMIN") {
-        this.menu[0].link = "/admin/home";
-        this.menu[1].link = "/admin/perfil";
-        this.menu[2].link = "/admin/listar-cursos"; 
-        this.menu[3].class = "remove-certificates"
+      if (this.$store.state.user.data.role === 'ADMIN') {
+        this.menu[0].link = '/admin/home';
+        this.menu[1].link = '/admin/perfil';
+        this.menu[2].link = '/admin/listar-cursos';
+        this.menu[3].class = 'remove-certificates';
       }
-    }
-  }
+    },
+  },
 };
 </script>
 

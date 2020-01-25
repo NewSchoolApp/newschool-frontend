@@ -11,7 +11,7 @@ export default {
         return http.get(`api/v1/part/${id}`, { headers: { 'Authorization': accessToken } })
     },
 
-    getByLesson: (lessonId)  => {
+    getByLesson: (lessonId) => {
         const { accessToken } = auth.getInfoAuth()
         return http.get(`api/v1/part/lesson/${lessonId}`, { headers: { 'Authorization': accessToken } })
     },
