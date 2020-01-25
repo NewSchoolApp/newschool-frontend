@@ -30,9 +30,9 @@
           </p>
         </div>
 
-        <ul>
-          <li>{{ certificate.courseStartDate }}</li>
-          <li>{{ certificate.courseCompleteDate }}</li>
+        <ul>       
+          <li>{{this.courseStartDate}}</li>
+          <li>{{this.courseCompleteDate}}</li>
         </ul>
       </div>
       <div class="footer">
@@ -70,6 +70,7 @@
 import shareBtnPageCertificate from '~/components/ShareBtnPageCertificate.vue';
 import http from '../../services/http/public'
 import HeaderBar from '~/components/Header.vue';
+import moment from 'moment'
 
 export default {
   components: {
@@ -79,12 +80,16 @@ export default {
   data: () => ({
     certificate: {},
     loading: true,
+    courseStartDate:'',
+    courseCompleteDate:'',
   }),
   mounted() {
     const idCourse = this.$route.params.idCourse;
     const idUser = this.$route.params.idUser;
     http.pageCertificate(idUser, idCourse).then(res => {
       this.certificate = res.data;
+      this.courseStartDate = moment(this.certificate.courseStartDate).format("DD/MM/YYYY");
+      this.courseCompleteDate = moment(this.certificate.courseCompleteDate).format("DD/MM/YYYY");
       this.loading = false;
     });
   },
