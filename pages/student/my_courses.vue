@@ -55,7 +55,7 @@ export default {
           http
             .post('api/v1/course-taken/advance-on-course', {
               user: this.user.id,
-              course: course.id,
+              course: course.id,  
             })
             .then(res => {
               this.$store.commit(
