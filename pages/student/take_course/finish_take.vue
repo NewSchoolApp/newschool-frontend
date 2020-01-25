@@ -20,7 +20,7 @@
 export default {
   methods: {
     finish() {
-      $nuxt._router.push('/aluno/certificados');
+      $nuxt._router.push('/certificados');
     },
   },
 };
