@@ -112,6 +112,7 @@ export default {
       SIGN_UP: 'api/v1/user/student',
       FORGOT_PASSWORD: 'api/v1/user/forgot-password',
       COURSE: '/api/v1/course',
+      LESSON: '/api/v1/lesson',
       COURSE_BY_SLUG: '/api/v1/course/slug/',
       INIT_COURSE: 'api/v1/course-taken',
       LESSONS_BY_COURSE: '/api/v1/lesson/course/',
