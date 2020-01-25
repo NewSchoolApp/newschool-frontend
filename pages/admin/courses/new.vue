@@ -1,9 +1,9 @@
 <template>
-  <v-layout>
+  <v-layout id="page">
     <v-flex ref="flex" class="main-container">
       <v-progress-circular v-if="loading" :size="70" :width="5" indeterminate></v-progress-circular>
       <h1>
-        <n-link to="../">
+        <n-link to="/admin/listar-cursos">
           <v-btn class="back-button" text icon color="primary">
             <v-icon>mdi-arrow-left</v-icon>
           </v-btn>
@@ -69,14 +69,12 @@
           prepend-icon
           required
         ></v-file-input>
-        <h2 class="section-title">
-          Aulas
-          <v-btn @click="gotoAddClass" class="btn-add-class" text icon>
-            <v-icon size="30">mdi-plus-circle-outline</v-icon>
-          </v-btn>
-        </h2>
-        <p>Favor, adicionar uma aula</p>
-        <v-btn @click="submit" color="#60c" dark block depressed large>Salvar</v-btn>
+
+        <resources-list name="Aula" :resources="[]" redirect="true" path="lesson" />
+        <span class="new-lessons-span">Favor, adicionar uma aula</span>
+
+        <v-btn color="primary" class="save-button" @click="submit">Salvar</v-btn>
+
         <v-snackbar
           v-model="snackbar"
           :color="snackbarStatus"
@@ -132,7 +130,7 @@ export default {
       descriptionRules: [v => !!v || 'A descrição é obrigatória'],
       authorNameRules: [v => !!v || 'O professor é obrigatório'],
       authorDescriptionRules: [
-        v => !!v || 'A biografia do professor é obrigatória',
+        v => !!v || 'Campo obrigatório',
       ],
       workloadRules: [v => !!v || 'A carga horária é obrigatória'],
       photoRules: [v => !!v || 'A foto de capa é obrigatória'],
@@ -287,6 +285,11 @@ h3 {
   background: #fff !important;
 }
 
+.v-input {
+  width: 90%;
+  height: 50px;
+}
+
 /* Page */
 .page-title {
   text-align: center;
@@ -323,6 +326,27 @@ h3 {
   display: flex;
   align-items: center;
   justify-content: flex-start;
+}
+
+.new-lessons-span {
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 20px;
+  color: #656565;
+  width: 100%;
+  text-align: center;
+  display: inline-block;
+}
+
+.save-button {
+  height: 2.75em;
+  width: 100%;
+  font-weight: 600;
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: #FFFFFF;
 }
 
 ::v-deep

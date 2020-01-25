@@ -1,8 +1,8 @@
 <template>
-  <v-layout>
+  <v-layout id="page">
     <v-flex ref="flex" class="main-container">
       <h1>
-        <n-link to="../">
+        <n-link to="/admin/listar-cursos">
           <v-btn class="back-button" text icon color="primary">
             <v-icon>mdi-arrow-left</v-icon>
           </v-btn>
@@ -12,7 +12,7 @@
       <v-form ref="form" lazy-validation>
         <h3>Curso</h3>
         <v-text-field
-          :rules="titleRules"
+          :rules="rules"
           v-model="course.title"
           color="#60c"
           label="Título *"
@@ -20,7 +20,7 @@
           required
         ></v-text-field>
         <v-text-field
-          :rules="descriptionRules"
+          :rules="rules"
           v-model="course.description"
           color="#60c"
           label="Descrição *"
@@ -28,7 +28,7 @@
           required
         ></v-text-field>
         <v-text-field
-          :rules="authorNameRules"
+          :rules="rules"
           v-model="course.authorName"
           color="#60c"
           label="Professor *"
@@ -36,7 +36,7 @@
           required
         ></v-text-field>
         <v-text-field
-          :rules="authorDescriptionRules"
+          :rules="rules"
           v-model="course.authorDescription"
           color="#60c"
           label="Biografia do Professor *"
@@ -44,7 +44,7 @@
           required
         ></v-text-field>
         <v-text-field
-          :rules="workloadRules"
+          :rules="rules"
           v-model="course.workload"
           type="number"
           color="#60c"
@@ -53,6 +53,7 @@
           required
         ></v-text-field>
         <v-text-field
+          :rules="rules"
           v-model="course.thumbUrl"
           color="#60c"
           label="URL da Imagem do Curso"
@@ -61,9 +62,9 @@
         ></v-text-field>
 
         <resources-list name="Aula" :resources="lessons" redirect="true" path="lesson" />
-        <span v-if="!lessons.length" class="new-tests-span">Favor, adicionar uma aula</span>
+        <span v-if="!lessons.length" class="new-lessons-span">Favor, adicionar uma aula</span>
 
-        <v-btn @click="submit" color="#60c" dark block depressed large>Salvar</v-btn>
+        <v-btn color="primary" class="save-button" @click="submit">Salvar</v-btn>
 
         <v-snackbar
           v-model="snackbar"
@@ -109,14 +110,7 @@ export default {
       snackbarText: '',
       snackbarStatus: '',
 
-      titleRules: [v => !!v || 'O título é obrigatório'],
-      descriptionRules: [v => !!v || 'A descrição é obrigatória'],
-      authorNameRules: [v => !!v || 'O professor é obrigatório'],
-      authorDescriptionRules: [
-        v => !!v || 'A biografia do professor é obrigatória',
-      ],
-      workloadRules: [v => !!v || 'A carga horária é obrigatória'],
-      // photoRules: [v => !!v || 'A foto de capa é obrigatória'],
+      rules: [v => !!v || 'Obrigatório'],
     };
   },
 
@@ -248,7 +242,6 @@ h3 {
   background: #fff !important;
 }
 
-/* Page */
 .page-title {
   text-align: center;
   font-size: 20px;
@@ -286,11 +279,37 @@ h3 {
   justify-content: flex-start;
 }
 
+.save-button {
+  height: 2.75em;
+  width: 100%;
+  font-weight: 600;
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: #FFFFFF;
+}
+
+.new-lessons-span {
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 20px;
+  color: #656565;
+  width: 100%;
+  text-align: center;
+  display: inline-block;
+}
+
 ::v-deep
   .v-text-field:not(.v-input--has-state)
   > .v-input__control
   > .v-input__slot:hover:before {
   border-color: #60c;
+}
+
+.v-input {
+  width: 90%;
+  height: 50px;
 }
 
 ::v-deep .v-label {
