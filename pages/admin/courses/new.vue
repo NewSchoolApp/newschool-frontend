@@ -1,109 +1,96 @@
 <template>
-  <div>
-    <HeaderBar :title="'Criar Curso'" :backPage="true"></HeaderBar>
-    <v-layout justify-center>
+  <v-layout id="page">
+    <v-flex ref="flex" class="main-container">
       <v-progress-circular v-if="loading" :size="70" :width="5" indeterminate></v-progress-circular>
+      <h1>
+        <n-link to="/admin/listar-cursos">
+          <v-btn class="back-button" text icon color="primary">
+            <v-icon>mdi-arrow-left</v-icon>
+          </v-btn>
+        </n-link>Gerenciar meus cursos
+      </h1>
 
-      <v-flex ref="flex" v-else xs10 sm8 md6>
-        <v-container>
-          <v-row></v-row>
-          <v-form ref="form" lazy-validation>
-            <v-row>
-              <v-col cols="12">
-                <h2 class="section-title">Curso</h2>
-                <v-text-field
-                  :rules="titleRules"
-                  v-model="form.title"
-                  color="#60c"
-                  label="Título *"
-                  name="title"
-                  required
-                ></v-text-field>
-                <v-text-field
-                  :rules="descriptionRules"
-                  v-model="form.description"
-                  color="#60c"
-                  label="Descrição *"
-                  name="description"
-                  required
-                ></v-text-field>
-                <v-text-field
-                  :rules="authorNameRules"
-                  v-model="form.authorName"
-                  color="#60c"
-                  label="Professor *"
-                  name="authorName"
-                  required
-                ></v-text-field>
-                <v-text-field
-                  :rules="authorDescriptionRules"
-                  v-model="form.authorDescription"
-                  color="#60c"
-                  label="Biografia do Professor *"
-                  name="authorDescription"
-                  required
-                ></v-text-field>
-                <v-text-field
-                  :rules="workloadRules"
-                  v-model="form.workload"
-                  type="number"
-                  color="#60c"
-                  label="Carga Horária *"
-                  name="workload"
-                  required
-                ></v-text-field>
-                <v-text-field
-                  v-model="form.thumbUrl"
-                  color="#60c"
-                  label="URL da Imagem do Curso"
-                  name="thumbUrl"
-                  required
-                ></v-text-field>
-                <v-file-input
-                  v-model="form.photo"
-                  :rules="photoRules"
-                  color="#60c"
-                  label="Foto de Capa *"
-                  name="photo"
-                  prepend-icon
-                  required
-                ></v-file-input>
-              </v-col>
-              <v-col cols="12" class="classes-title">
-                <h2 class="section-title">
-                  Aulas
-                  <v-btn @click="gotoAddClass" class="btn-add-class" text icon>
-                    <v-icon size="30">mdi-plus-circle-outline</v-icon>
-                  </v-btn>
-                </h2>
-              </v-col>
-              <v-col cols="12" class="classes">
-                <p>Favor, adicionar uma aula</p>
-              </v-col>
-            </v-row>
-            <v-row>
-              <v-col cols="12">
-                <v-btn @click="submit" color="#60c" dark block depressed large>Salvar</v-btn>
-              </v-col>
-            </v-row>
-            <v-snackbar
-              v-model="snackbar"
-              :color="snackbarStatus"
-              :timeout="5000"
-              :top="true"
-              :right="true"
-            >
-              {{ snackbarText }}
-              <v-btn @click="snackbar = false" color="#FFF" text>Fechar</v-btn>
-            </v-snackbar>
-          </v-form>
-        </v-container>
-      </v-flex>
-      <client-only>
-        <navigation-bar />
-      </client-only>
-    </v-layout>
-  </div>
+      <v-form class="course-form" ref="form" lazy-validation>
+        <h3>Curso</h3>
+        <v-text-field
+          :rules="titleRules"
+          v-model="form.title"
+          color="#60c"
+          label="Título *"
+          name="title"
+          required
+        ></v-text-field>
+        <v-text-field
+          :rules="descriptionRules"
+          v-model="form.description"
+          color="#60c"
+          label="Descrição *"
+          name="description"
+          required
+        ></v-text-field>
+        <v-text-field
+          :rules="authorNameRules"
+          v-model="form.authorName"
+          color="#60c"
+          label="Professor *"
+          name="authorName"
+          required
+        ></v-text-field>
+        <v-text-field
+          :rules="authorDescriptionRules"
+          v-model="form.authorDescription"
+          color="#60c"
+          label="Biografia do Professor *"
+          name="authorDescription"
+          required
+        ></v-text-field>
+        <v-text-field
+          :rules="workloadRules"
+          v-model="form.workload"
+          type="number"
+          color="#60c"
+          label="Carga Horária *"
+          name="workload"
+          required
+        ></v-text-field>
+        <v-text-field
+          v-model="form.thumbUrl"
+          color="#60c"
+          label="URL da Imagem do Curso"
+          name="thumbUrl"
+          required
+        ></v-text-field>
+        <v-file-input
+          v-model="form.photo"
+          :rules="photoRules"
+          color="#60c"
+          label="Foto de Capa *"
+          name="photo"
+          prepend-icon
+          required
+        ></v-file-input>
+
+        <resources-list name="Aula" :resources="[]" redirect="true" path="lesson" />
+        <span class="new-lessons-span">Favor, adicionar uma aula</span>
+
+        <v-btn color="primary" class="save-button" @click="submit">Salvar</v-btn>
+
+        <v-snackbar
+          v-model="snackbar"
+          :color="snackbarStatus"
+          :timeout="5000"
+          :top="true"
+          :right="true"
+        >
+          {{ snackbarText }}
+          <v-btn @click="snackbar = false" color="#FFF" text>Fechar</v-btn>
+        </v-snackbar>
+      </v-form>
+    </v-flex>
+    <client-only>
+      <navigation-bar />
+    </client-only>
+  </v-layout>
 </template>
 
 <router>
@@ -143,7 +130,7 @@ export default {
       descriptionRules: [v => !!v || 'A descrição é obrigatória'],
       authorNameRules: [v => !!v || 'O professor é obrigatório'],
       authorDescriptionRules: [
-        v => !!v || 'A biografia do professor é obrigatória',
+        v => !!v || 'Campo obrigatório',
       ],
       workloadRules: [v => !!v || 'A carga horária é obrigatória'],
       photoRules: [v => !!v || 'A foto de capa é obrigatória'],
@@ -173,17 +160,14 @@ export default {
         formData.append('photo', this.form.photo);
         formData.append('thumbUrl', this.form.thumbUrl);
 
-        this.animateForm(true);
         courses
           .createCourse(formData)
           .then(res => {
             this.loading = false;
             this.sendCourse = true;
             this.confirmSnackbar('Curso cadastrado com sucesso!', 'success');
-            setTimeout(() => {
-              localStorage.setItem('current_course', JSON.stringify(res.data));
-              this.gotoAddClass(res.data.id);
-            }, 2500);
+            this.$store.commit('courses/setCurrent', res.data)
+            this.gotoAddClass(res.data.id);
           })
           .catch(err => {
             this.confirmSnackbar(
@@ -242,7 +226,6 @@ export default {
 
   mounted() {
     if (localStorage.getItem('current_course')) {
-      
     }
     utils
       .getExternalCredentials()
@@ -258,6 +241,41 @@ export default {
 </script>
 
 <style scoped>
+h1 {
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 36px;
+  text-transform: uppercase;
+  text-align: center;
+  color: #6600cc;
+}
+
+@media screen and (max-width: 20.625em) {
+  h1 {
+    font-size: 14px;
+  }
+}
+
+h3 {
+  font-weight: 900;
+  font-size: 1em;
+  line-height: 24px;
+  text-transform: uppercase;
+  text-align: left;
+  color: #6600cc;
+}
+
+.back-button {
+  min-width: 0 !important;
+  float: left;
+}
+
+.main-container {
+  display: flex;
+  flex-direction: column;
+  padding: 2em 3em 78px 2em;
+}
+
 .flex {
   animation: intro 300ms backwards;
   animation-delay: 350ms;
@@ -265,6 +283,11 @@ export default {
 
 .layout {
   background: #fff !important;
+}
+
+.v-input {
+  width: 90%;
+  height: 50px;
 }
 
 /* Page */
@@ -305,43 +328,38 @@ export default {
   justify-content: flex-start;
 }
 
-/* inputs */
-::v-deep .theme--light.v-text-field {
-  margin-top: 0;
+.new-lessons-span {
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 20px;
+  color: #656565;
+  width: 100%;
+  text-align: center;
+  display: inline-block;
 }
 
-::v-deep .v-input {
-  width: 90%;
-  margin-left: 50%;
-  transform: translateX(-50%);
+.save-button {
+  height: 2.75em;
+  width: 100%;
+  font-weight: 600;
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: #FFFFFF;
 }
 
-::v-deep .theme--light.v-input:not(.v-input--is-disabled) input,
 ::v-deep
-  .theme--light.v-file-input:not(.v-input--has-state)
-  .v-file-input__text {
-  font-size: 12px;
-  color: #60c;
-}
-
-::v-deep
-  .theme--light.v-text-field:not(.v-input--has-state)
+  .v-text-field:not(.v-input--has-state)
   > .v-input__control
   > .v-input__slot:hover:before {
   border-color: #60c;
 }
 
-::v-deep .theme--light.v-label,
-::v-deep .flex .theme--light.v-icon {
-  font-size: 12px;
+::v-deep .v-label {
   font-weight: 600;
-  line-height: 15px;
-  color: #60c;
-}
-
-/* Botão */
-::v-deep .btn-back {
-  margin-top: 15px;
+  font-size: 14px;
+  color: #aa56ff;
 }
 
 ::v-deep
@@ -359,9 +377,8 @@ export default {
 }
 
 ::v-deep .v-messages__message {
-  color: #ff5252;
-  font-size: 12px;
-  margin-left: 5px;
+  text-align: right;
+  margin-top: -0.3em;
 }
 
 .hide-form {
@@ -372,7 +389,6 @@ export default {
   animation: nono 300ms, intro paused;
 }
 ::v-deep .v-btn:not(.v-btn--round).v-size--large {
-      margin-bottom: 50px;
-
+  margin-bottom: 50px;
 }
 </style>

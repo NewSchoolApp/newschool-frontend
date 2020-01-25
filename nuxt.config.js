@@ -90,7 +90,7 @@ export default {
   env: {
     baseUrl:
       process.env.VUE_APP_BASE_URL ||
-      'https://newschoolbrapi-dev.herokuapp.com/',
+      'http://newschool-api.us-east-2.elasticbeanstalk.com/',
     credentials: {
       name: process.env.VUE_APP_CLIENT_CREDENTIAL_NAME || 'NEWSCHOOL@FRONT',
       secret:
@@ -112,6 +112,7 @@ export default {
       SIGN_UP: 'api/v1/user/student',
       FORGOT_PASSWORD: 'api/v1/user/forgot-password',
       COURSE: '/api/v1/course',
+      LESSON: '/api/v1/lesson',
       COURSE_BY_SLUG: '/api/v1/course/slug/',
       INIT_COURSE: 'api/v1/course-taken',
       LESSONS_BY_COURSE: '/api/v1/lesson/course/',
