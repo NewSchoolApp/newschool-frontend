@@ -12,26 +12,18 @@
       >
         <div class="icons">
           <network network="facebook">
-            <img src="~/assets/facebook.png" alt="">
+            <img src="~/assets/facebook.png" alt />
           </network>
           <network network="twitter">
-            <img src="~/assets/twitter.png" alt="">
+            <img src="~/assets/twitter.png" alt />
           </network>
           <network network="linkedin">
-            <img src="~/assets/linkedin.png" alt="">
+            <img src="~/assets/linkedin.png" alt />
           </network>
         </div>
       </social-sharing>
     </div>
-    <v-btn
-      v-if="!isOpen"
-      :color="color"
-      class="btn-ma-2"
-      tile
-      large
-      icon
-      @click="isOpen = !isOpen"
-    >
+    <v-btn v-if="!isOpen" :color="color" class="btn-ma-2" tile large icon @click="isOpen = !isOpen">
       <v-icon size="28">mdi-share-variant</v-icon>
     </v-btn>
   </v-layout>
@@ -88,6 +80,7 @@ export default {
   span {
     img {
       cursor: pointer;
+      max-width: 18px;
     }
   }
 }

@@ -30,9 +30,9 @@
           </p>
         </div>
 
-        <ul>
-          <li>{{ certificate.courseStartDate }}</li>
-          <li>{{ certificate.courseCompleteDate }}</li>
+        <ul>       
+          <li>{{this.courseStartDate}}</li>
+          <li>{{this.courseCompleteDate}}</li>
         </ul>
       </div>
       <div class="footer">
@@ -68,9 +68,9 @@
 </template>
 <script>
 import shareBtnPageCertificate from '~/components/ShareBtnPageCertificate.vue';
-import http from '~/services/http/generic';
-import utils from '~/utils/index';
+import http from '../../services/http/public'
 import HeaderBar from '~/components/Header.vue';
+import moment from 'moment'
 
 export default {
   components: {
@@ -80,28 +80,18 @@ export default {
   data: () => ({
     certificate: {},
     loading: true,
+    courseStartDate:'',
+    courseCompleteDate:'',
   }),
   mounted() {
-    this.loadClientCredentials();
     const idCourse = this.$route.params.idCourse;
     const idUser = this.$route.params.idUser;
-    http
-      .getAll(
-        `${process.env.endpointCertificateCourseTaken.CERTIFICATES_COURSE_TAKEN_ME}${idUser}/course/${idCourse}`,
-      )
-      .then(response => {
-        this.certificate = response.data;
-        this.loading = false;
-        console.log(this.certificate);
-      })
-      .catch(error => console.log(error));
-  },
-  methods: {
-    loadClientCredentials() {
-      utils.getExternalCredentials().then(res => {
-        this.token = res.data.accessToken;
-      });
-    },
+    http.pageCertificate(idUser, idCourse).then(res => {
+      this.certificate = res.data;
+      this.courseStartDate = moment(this.certificate.courseStartDate).format("DD/MM/YYYY");
+      this.courseCompleteDate = moment(this.certificate.courseCompleteDate).format("DD/MM/YYYY");
+      this.loading = false;
+    });
   },
 };
 </script>

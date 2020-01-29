@@ -6,12 +6,7 @@
     <div v-else>
       <div v-if="loading">
         <div class="container-spinner">
-          <v-progress-circular
-            :size="70"
-            :width="5"
-            indeterminate
-            color="#6600cc"
-          />
+          <v-progress-circular :size="70" :width="5" indeterminate color="#6600cc" />
         </div>
       </div>
       <div v-else>
@@ -19,11 +14,7 @@
           <main>
             <h1 id="title__course" class="h1__theme">{{ course.title }}</h1>
             <div class="mask__img">
-              <img
-                :src="course.thumbUrl"
-                alt="imagem-curso"
-                title="imagem curso"
-              />
+              <img :src="course.thumbUrl" alt="imagem-curso" title="imagem curso" />
             </div>
             <div class="info__box">
               <section>
@@ -42,8 +33,7 @@
               depressed
               large
               @click="initCourse(course.id)"
-              >Iniciar</v-btn
-            >
+            >Iniciar</v-btn>
           </main>
         </div>
         <modal
@@ -213,8 +203,13 @@ main {
   align-items: center;
   width: 100%;
   overflow: hidden;
-  height: 12rem;
+  height: 15rem;
   margin-top: 0.5rem;
+
+  img{
+    width: 100%;
+  }
+
 }
 #head__bar {
   display: flex;

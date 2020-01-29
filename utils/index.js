@@ -39,5 +39,9 @@ export default {
       document.getElementById("textModal").innerHTML(message)
     }
     document.getElementById('viewModal').click()
+  },
+
+  verifyVideo(url) {
+    return http.get(url)
   }
 };
