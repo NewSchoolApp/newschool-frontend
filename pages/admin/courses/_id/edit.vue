@@ -1,70 +1,347 @@
 <template>
-  <v-layout justify-center>
-    <v-flex ref="flex" xs10 sm8 md4>
-      <h1>Editando curso</h1>
-      <v-form>
-        <v-text-field
-          :value="course.title"
-          label="Título"
-          required
-        />
-        <v-textarea
-          :value="course.description"
-          label="Descrição"
-          required
-        />
-        <v-text-field
-          :value="course.author"
-          label="Professor"
-          required
-        />
-        <v-textarea
-          :value="course.authorInfo"
-          label="Biografia do professor"
-          required
-        />
-        <v-btn color="primary">Salvar</v-btn>
-      </v-form>
+  <v-layout id="page">
+    <v-flex ref="flex" class="main-container">
+      <h1>
+        <n-link to="/admin/listar-cursos">
+          <v-btn class="back-button" text icon color="primary">
+            <v-icon>mdi-arrow-left</v-icon>
+          </v-btn>
+        </n-link>Gerenciar meus cursos
+      </h1>
 
-      <resources-list
-        name="Aulas"
-        :resources="course.classes"
-        path="classes/"
-      />
+      <v-form ref="form" lazy-validation>
+        <h3>Curso</h3>
+        <v-text-field
+          :rules="rules"
+          v-model="course.title"
+          color="#60c"
+          label="Título *"
+          name="title"
+          required
+        ></v-text-field>
+        <v-text-field
+          :rules="rules"
+          v-model="course.description"
+          color="#60c"
+          label="Descrição *"
+          name="description"
+          required
+        ></v-text-field>
+        <v-text-field
+          :rules="rules"
+          v-model="course.authorName"
+          color="#60c"
+          label="Professor *"
+          name="authorName"
+          required
+        ></v-text-field>
+        <v-text-field
+          :rules="rules"
+          v-model="course.authorDescription"
+          color="#60c"
+          label="Biografia do Professor *"
+          name="authorDescription"
+          required
+        ></v-text-field>
+        <v-text-field
+          :rules="rules"
+          v-model="course.workload"
+          type="number"
+          color="#60c"
+          label="Carga Horária *"
+          name="workload"
+          required
+        ></v-text-field>
+        <v-text-field
+          :rules="rules"
+          v-model="course.thumbUrl"
+          color="#60c"
+          label="URL da Imagem do Curso"
+          name="thumbUrl"
+          required
+        ></v-text-field>
+
+        <resources-list name="Aula" :resources="lessons" redirect="true" path="lesson" />
+        <span v-if="!lessons.length" class="new-lessons-span">Favor, adicionar uma aula</span>
+
+        <v-btn color="primary" class="save-button" @click="submit">Salvar</v-btn>
+
+        <v-snackbar
+          v-model="snackbar"
+          :color="snackbarStatus"
+          :timeout="5000"
+          :top="true"
+          :right="true"
+        >
+          {{ snackbarText }}
+          <v-btn @click="snackbar = false" color="#FFF" text>Fechar</v-btn>
+        </v-snackbar>
+      </v-form>
     </v-flex>
+    <client-only>
+      <navigation-bar />
+    </client-only>
   </v-layout>
 </template>
 
-<script>
-  export default {
-    computed: {
-      course() {
-        return this.$store.state.courses.current
+<router>
+  {
+    path: '/admin/course/:id/edit'
+  }
+</router>
+
+<script scoped>
+import courses from '~/services/http/generic';
+import HeaderBar from '~/components/Header.vue';
+import NavigationBar from '~/components/NavigationBar.vue';
+
+export default {
+  components: {
+    HeaderBar,
+    NavigationBar,
+  },
+  data() {
+    return {
+      title: 'Gerenciar meus cursos',
+      sendCourse: false,
+      status: true,
+      loading: false,
+      snackbar: false,
+      snackbarText: '',
+      snackbarStatus: '',
+
+      rules: [v => !!v || 'Obrigatório'],
+    };
+  },
+
+  head() {
+    return {
+      title: this.title,
+    };
+  },
+
+  methods: {
+    submit() {
+      if (this.$refs.form.validate()) {
+        this.course['authorId'] = 'null'
+
+        courses
+          .put(process.env.endpoints.COURSE, this.course.id, this.course)
+          .then(res => {
+            this.loading = false;
+            this.sendCourse = true;
+            this.confirmSnackbar('Curso salvo!', 'success');
+            this.$store.commit('courses/setCurrent', res.data);
+            this.gotoAddClass(res.data.id);
+          })
+          .catch(err => {
+            this.confirmSnackbar(
+              'Ocorreu um erro ao cadastrar o curso.',
+              'error',
+            );
+            setTimeout(() => {
+              this.loading = false;
+            }, 500);
+            console.error(err);
+          });
+      } else {
+        this.animateForm(false);
       }
     },
-    asyncData({ store, data, params, $axios }) {
-      const coursePromise = $axios.get(
-        `/api/v1/courses/${params.id}`
-      ).then(res =>
-        store.commit('courses/setCurrent', res.data.course)
-      )
-      const classesPromise = $axios.get(
-        `/api/v1/courses/${params.id}/classes`
-      ).then(res =>
-        store.commit('courses/setCurrentClasses', res.data.classes)
-      )
-      return Promise.all([coursePromise, classesPromise])
-    }
-  }
+
+    animateForm(status) {
+      if (status) {
+        this.$refs.flex.classList.add('hide-form');
+        document.querySelector('html').style.overflow = 'hidden';
+        setTimeout(() => {
+          this.loading = true;
+        }, 300);
+      } else {
+        this.$refs.flex.classList.add('error-form');
+        setTimeout(() => {
+          this.$refs.flex.classList.remove('error-form');
+        }, 500);
+      }
+      document.querySelector('html').style.overflow = 'scroll';
+    },
+
+    gotoAddClass(courseId) {
+      if (this.sendCourse) {
+        $nuxt._router.push(`/admin/course/${courseId}/lesson/new`);
+      } else {
+        this.confirmSnackbar(
+          'Você precisa salvar o curso antes de adicionar uma aula',
+          'error',
+        );
+      }
+    },
+
+    confirmSnackbar(text, status) {
+      this.snackbarText = text;
+      this.snackbarStatus = status;
+      this.snackbar = true;
+    },
+  },
+  async asyncData({ store, data, params }) {
+    const _course = await courses.getById(
+      process.env.endpoints.COURSE,
+      params.id,
+    );
+    const _lessons = await courses.getById(
+      process.env.endpoints.LESSON + '/course',
+      params.id,
+    );
+
+    return { course: _course.data, lessons: _lessons.data };
+  },
+};
 </script>
 
 <style scoped>
 h1 {
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 36px;
+  text-transform: uppercase;
+  text-align: center;
+  color: #6600cc;
+}
+
+@media screen and (max-width: 20.625em) {
+  h1 {
+    font-size: 14px;
+  }
+}
+
+h3 {
   font-weight: 900;
-  font-size: 20px;
+  font-size: 1em;
   line-height: 24px;
   text-transform: uppercase;
+  text-align: left;
+  color: #6600cc;
+}
 
-  color: #6600CC;
+.back-button {
+  min-width: 0 !important;
+  float: left;
+}
+
+.main-container {
+  display: flex;
+  flex-direction: column;
+  padding: 2em 3em 78px 2em;
+}
+
+.flex {
+  animation: intro 300ms backwards;
+  animation-delay: 350ms;
+}
+
+.layout {
+  background: #fff !important;
+}
+
+.page-title {
+  text-align: center;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 24px;
+  text-transform: uppercase;
+  color: #6600cc;
+  width: 90%;
+  margin-left: 45%;
+  transform: translateX(-50%);
+  margin-top: 20px;
+}
+
+.section-title {
+  font-size: 20px;
+  font-weight: 900;
+  line-height: 24px;
+  text-transform: uppercase;
+  color: #6600cc;
+  width: 60%;
+  margin-left: 35%;
+  transform: translateX(-50%);
+}
+
+.classes > p {
+  text-align: center;
+  font-weight: 600;
+  font-size: 18px;
+  color: rgb(141, 139, 139);
+}
+
+.classes-title {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.save-button {
+  height: 2.75em;
+  width: 100%;
+  font-weight: 600;
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: #FFFFFF;
+}
+
+.new-lessons-span {
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 20px;
+  color: #656565;
+  width: 100%;
+  text-align: center;
+  display: inline-block;
+}
+
+::v-deep
+  .v-text-field:not(.v-input--has-state)
+  > .v-input__control
+  > .v-input__slot:hover:before {
+  border-color: #60c;
+}
+
+.v-input {
+  width: 90%;
+  height: 50px;
+}
+
+::v-deep .v-label {
+  font-weight: 600;
+  font-size: 14px;
+  color: #aa56ff;
+}
+
+::v-deep
+  .theme--light.v-text-field
+  > .v-input__control
+  > .v-input__slot::before {
+  border-color: #aa56ff;
+}
+
+::v-deep
+  .v-text-field.v-input--has-state
+  > .v-input__control
+  > .v-input__slot:before {
+  border-color: #ff5252; /* cor da borda quando der estado de erro */
+}
+
+::v-deep .v-messages__message {
+  text-align: right;
+  margin-top: -0.3em;
+}
+
+.hide-form {
+  animation: down 300ms forwards;
+}
+
+.error-form {
+  animation: nono 300ms, intro paused;
 }
 </style>
