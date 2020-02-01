@@ -262,6 +262,7 @@ export default {
 
 .v-card__title {
   justify-content: center;
+  line-height: 1.2;
 }
 
 .v-form {
