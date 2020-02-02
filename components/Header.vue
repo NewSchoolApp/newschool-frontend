@@ -15,12 +15,12 @@
  * @param backPage botão para voltar ? true ou false
  */
 export default {
-  props: ["title", "backPage"],
+  props: ['title', 'backPage'],
   methods: {
     comeBackPage() {
       this.$router.back();
-    }
-  }
+    },
+  },
 };
 </script>
 
