@@ -51,7 +51,7 @@ export default {
     hashtags: {
       default: 'MissaoNewSchoolApp',
     },
-    twitterUser:
+    twitterUser: {
       default: 'NewSchoolApp',
     },
   },
