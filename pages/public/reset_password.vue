@@ -96,8 +96,8 @@ export default {
   },
 
   mounted() {
-     this.token = this.$route.params.token
-    console.log(this.token)
+    this.token = this.$route.params.token
+    
 
     auth.changePasswordRequestValidate(this.token).catch(() => {
       setTimeout(() => {
