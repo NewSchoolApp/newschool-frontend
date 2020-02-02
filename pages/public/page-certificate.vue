@@ -100,8 +100,6 @@ export default {
 </router>
 
 <style lang="scss" scoped>
-@import url('https://fonts.googleapis.com/css?family=Oxygen&display=swap');
-
 * {
   margin: 0;
   padding: 0;
@@ -110,14 +108,13 @@ export default {
 }
 
 .background {
-  background: url(/_nuxt/assets/backgroundCertificates.svg);
+  background: url('../../assets/backgroundCertificates.svg');
   position: absolute;
   height: 100%;
+  width: 100%;
 }
 
 .main {
-  
-
   .card-box {
     padding: 30px 0 10px 0;
     height: 100%;
