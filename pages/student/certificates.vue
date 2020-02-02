@@ -60,7 +60,6 @@ export default {
       )
       .then(certificates => {
         this.certificates = certificates.data;
-        console.log(this.certificates);
       })
       .catch(error => console.log(error));
   },

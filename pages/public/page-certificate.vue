@@ -1,6 +1,6 @@
 <template>
   <div class="background">
-    <HeaderBar :title="'Newschool'" :back-page="true"></HeaderBar>
+    <HeaderBar :title="'Newschool'" :back-page="true" :route="'/login'"></HeaderBar>
     <v-container class="main">
       <div v-if="loading">
         <div class="container-spinner">
