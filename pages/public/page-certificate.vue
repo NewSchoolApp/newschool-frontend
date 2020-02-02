@@ -18,13 +18,7 @@
             <td>Educação de qualidade</td>
             <strong>{{ certificate.course.title }}</strong>
             <tr>
-              Carga horária de
-              {{
-
-              certificate.course.workload
-              
-              }}
-              horas
+              Carga horária de {{ certificate.course.workload }} horas
             </tr>
             <span>Este certificado é orgulhosamente apresentado para</span>
             <p>{{ certificate.user.name }}</p>
