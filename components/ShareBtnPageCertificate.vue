@@ -49,10 +49,10 @@ export default {
     title: String,
     description: String,
     hashtags: {
-      default: '',
+      default: 'MissaoNewSchoolApp',
     },
-    twitterUser: {
-      default: '',
+    twitterUser:
+      default: 'NewSchoolApp',
     },
   },
 
