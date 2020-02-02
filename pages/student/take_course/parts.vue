@@ -2,7 +2,7 @@
   <div>
     <header-bar :title="'Partes'" :backPage="true"></header-bar>
     <v-layout justify-center id="page">
-      <v-flex ref="flex" class="main-container" v-if="loading">
+      <v-flex ref="flex" class="main-container">
         <h1>{{ lessonName || 'Título da Aula' }}</h1>
 
         <div class="inner-container">

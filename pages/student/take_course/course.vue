@@ -267,4 +267,7 @@ main {
   color: #ffffff;
   font-size: 3rem;
 }
+#page {
+  margin-bottom: 5rem !important;
+}
 </style>

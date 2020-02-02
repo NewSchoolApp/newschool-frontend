@@ -36,10 +36,7 @@ export default {
   align-items: center;
   background: transparent;
 }
-::v-deep .btn-back {
-  padding-right: 2rem;
-  margin-top: unset !important;
-}
+
 ::v-deep .btn-back .theme--light.v-icon {
   color: #60c;
   font-size: 35px;
