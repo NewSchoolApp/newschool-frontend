@@ -11,6 +11,11 @@ export default {
       });
 
       routes.push({
+        path: '/recuperar-senha/:token',
+        component: resolve(__dirname, 'pages/public/reset_password.vue'),
+      });
+
+      routes.push({
         path: '/aluno',
         component: resolve(__dirname, 'pages/student/~student.module.vue'),
         children: [
