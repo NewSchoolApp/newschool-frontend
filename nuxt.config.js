@@ -122,7 +122,11 @@ export default {
       COURSE_BY_SLUG: '/api/v1/course/slug/',
       INIT_COURSE: 'api/v1/course-taken/start-course',
       LESSONS_BY_COURSE: '/api/v1/lesson/course/',
+      ADVANCE_COURSE: '/api/v1/course-taken/advance-on-course',
+
       STATE_COURSE: 'api/v1/course-taken',
+      CURRENT_STEP: '/api/v1/course-taken/current-step',
+
       MY_COURSES: 'api/v1/course-taken/user/',
       FACEBOOK_LOGIN: "oauth/facebook/token",
       GOOGLE_LOGIN: "oauth/google/token"

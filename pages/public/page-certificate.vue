@@ -131,7 +131,6 @@ export default {
 
 .main {
   .card-box {
-    padding: 30px 0 10px 0;
     height: 100%;
     max-width: 100%;
     text-align: center;

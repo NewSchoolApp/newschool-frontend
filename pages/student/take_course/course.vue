@@ -113,34 +113,30 @@ export default {
         if (utils.getToken() && this.idUser) {
           http
             .post(process.env.endpoints.INIT_COURSE, {
-              user: this.idUser,
-              course: id,
+              userId: this.idUser,
+              courseId: id,
             })
-            .then(res => {
-              this.$store.commit(
-                'courses/setCurrentLesson',
-                res.data.currentLesson,
-              );
-              this.$store.commit(
-                'courses/setCurrentPart',
-                res.data.currentPart,
-              );
-              this.$store.commit(
-                'courses/setCurrentTest',
-                res.data.currentTest,
-              );
-
+            .then(() => {
               http
                 .getAll(
-                  `${process.env.endpoints.STATE_COURSE}/${this.idUser}/${id}`,
+                  `${process.env.endpoints.STATE_COURSE}/user/${this.idUser}/course/${id}`,
                 )
                 .then(res => {
                   this.$store.commit('courses/setCurrent', res.data.course);
                   delete res.data.user;
                   delete res.data.course;
                   this.$store.commit('courses/setCurrentState', res.data);
+
+                  http
+                    .getAll(
+                      `${process.env.endpoints.CURRENT_STEP}/user/${this.idUser}/course/${id}`,
+                    )
+                    .then(res => {
+                      this.$store.commit('courses/setCurrentPart', res.data.data);
+                    });
+
                   setTimeout(() => {
-                    $nuxt._router.push(`/aluno/curso/${this.slug}/aula/parte`);
+                    $nuxt._router.push(`/aluno/curso/${id}/aula/parte`);
                   }, 400);
                 });
             })
@@ -206,10 +202,9 @@ main {
   height: 15rem;
   margin-top: 0.5rem;
 
-  img{
+  img {
     width: 100%;
   }
-
 }
 #head__bar {
   display: flex;
