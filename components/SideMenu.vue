@@ -38,74 +38,89 @@
 </template>
 
 <script>
-import Avatar from "vue-avatar";
-import { mapActions } from "vuex";
-import auth from "~/services/http/auth";
+import Avatar from 'vue-avatar';
+import { mapActions } from 'vuex';
+import auth from '~/services/http/auth';
 
 export default {
   data: () => ({
     menu: [
       {
         id: 1,
-        label: "Meu Perfil",
-        icon: "mdi-account",
-        link: "perfil"
+        label: 'Meu Perfil',
+        icon: 'mdi-account',
+        link: 'perfil',
       },
       {
         id: 2,
-        label: "Meus Cursos",
-        icon: "mdi-library",
-        link: "meus-cursos"
+        label: 'Meus Cursos',
+        icon: 'mdi-library',
+        link: 'meus-cursos',
       },
       {
         id: 3,
-        label: "Meus Certificados",
-        icon: "mdi-school",
-        link: "certificados"
+        label: 'Meus Certificados',
+        icon: 'mdi-school',
+        link: 'certificados',
       },
       {
         id: 4,
-        label: "Cola com Nóix",
-        icon: "mdi-gesture-double-tap",
-        link: "/contribua"
+        label: 'Cola com Nóix',
+        icon: 'mdi-gesture-double-tap',
+        link: '/contribua',
       },
-      { id: 5, label: "O que é a new school?", icon: "mdi-library-books", link: "/sobre" },
+      {
+        id: 5,
+        label: 'O que é a new school?',
+        icon: 'mdi-library-books',
+        link: '/sobre',
+      },
       // { id: 6, label: "Ajuda", icon: "mdi-hand-right", link: "/ajuda" },
-      { id: 7, label: "Fale com a gente", icon: "mdi-phone-message-outline", link: "/contato" },
-      { id: 8, label: "Apoie a new school", icon: "mdi-volume-high", link: "/investidores" }
-    ]
+      {
+        id: 7,
+        label: 'Fale com a gente',
+        icon: 'mdi-phone-message-outline',
+        link: '/contato',
+      },
+      {
+        id: 8,
+        label: 'Apoie a new school',
+        icon: 'mdi-volume-high',
+        link: '/investidores',
+      },
+    ],
   }),
   methods: {
-    ...mapActions("user", ["clearInfoUser"]),
+    ...mapActions('user', ['clearInfoUser']),
     /**
      * Método para fechar o side-menu
      */
     closeMenu() {
-      document.getElementById("menu-btn").click();
+      document.getElementById('menu-btn').click();
     },
     logout() {
       this.logoutSocial().then(() => {
-        localStorage.clear();
         $nuxt._router.push('/login');
+        localStorage.clear();
         this.clearInfoUser();
       });
     },
     changeRoutingIfAdmin() {
-      if (this.$store.state.user.data.role === "ADMIN") {
-        this.menu[1].link = "/admin/listar-cursos";
+      if (this.$store.state.user.data.role === 'ADMIN') {
+        this.menu[1].link = '/admin/listar-cursos';
       }
     },
     logoutSocial() {
       if (!this.$auth.loggedIn) {
         return Promise.resolve();
-    }
+      }
       return this.$auth.logout();
     },
   },
   computed: {
     user() {
       return this.$store.state.user.data;
-    }
+    },
   },
   mounted() {
     const { status } = auth.isTokenValid();
@@ -117,19 +132,19 @@ export default {
   filters: {
     simplifyName(name) {
       if (!name) {
-        return ''
+        return '';
       }
-      const regex = /^(\S*\s+\S+).*/ // Regex para remover todos os caracteres após o segundo espaço em branco
-      const numberOfNames = name.split(' ').length
+      const regex = /^(\S*\s+\S+).*/; // Regex para remover todos os caracteres após o segundo espaço em branco
+      const numberOfNames = name.split(' ').length;
       if (numberOfNames > 2) {
         return regex.exec(name)[1];
       }
-      return name
+      return name;
     },
   },
   components: {
-    Avatar
-  }
+    Avatar,
+  },
 };
 </script>
 
@@ -155,7 +170,7 @@ export default {
 #avatar {
   margin-right: 1rem;
 }
-.text-menu{
+.text-menu {
   text-transform: uppercase;
 }
 

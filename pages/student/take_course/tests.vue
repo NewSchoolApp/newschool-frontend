@@ -1,77 +1,77 @@
 <template>
-  <v-layout justify-center id="page">
-    <v-flex ref="flex" class="main-container">
-      <h1>
-        <n-link to="../parte">
-          <v-btn class="back-button" text icon color="primary">
-            <v-icon>mdi-arrow-left</v-icon>
-          </v-btn>
-        </n-link>
-        {{ $route.params.courseSlug || 'Titúlo do Curso'}}
-      </h1>
-
-      <div class="inner-container">
-        <v-form ref="form" lazy-validation>
-          <h3>{{ test.title || 'Título do Teste'}}</h3>
-          <h4>{{ test.question || 'Enunciado do teste'}}</h4>
-          <div class="alternatives-container">
-            <v-checkbox
-              class="first-alternative"
-              v-model="selected"
-              hide-details
-              color="#60c"
-              :rules="alternativeRule"
-              :label="test.firstAlternative"
-              value="A"
-            />
-            <v-checkbox
-              class="second-alternative"
-              v-model="selected"
-              hide-details
-              color="#60c"
-              :rules="alternativeRule"
-              :label="test.secondAlternative"
-              value="B"
-            />
-            <v-checkbox
-              class="third-alternative"
-              v-model="selected"
-              hide-details
-              color="#60c"
-              :rules="alternativeRule"
-              :label="test.thirdAlternative"
-              value="C"
-            />
-            <v-checkbox
-              class="fourth-alternative"
-              v-model="selected"
-              hide-details
-              color="#60c"
-              :rules="alternativeRule"
-              :label="test.fourthAlternative"
-              value="D"
-            />
+  <div>
+    <HeaderBar :title="'Questionário'" :back-page="true"></HeaderBar>
+    <v-layout justify-center id="page">
+      <v-flex ref="flex" class="main-container">
+        <div v-if="loading">
+          <div class="container-spinner">
+            <v-progress-circular :size="70" :width="5" indeterminate color="#6600cc" />
           </div>
-        </v-form>
-      </div>
+        </div>
 
-      <v-btn color="primary" class="save-button" @click="nextTest">Próximo</v-btn>
-      <v-snackbar
-        v-model="snackbar"
-        :color="snackbarStatus"
-        :timeout="5000"
-        :top="true"
-        :right="true"
-      > {{ snackbarText }}
-        <v-btn color="#FFF" text @click="snackbar = false">
-            Fechar
-        </v-btn>
-      </v-snackbar>
-    </v-flex>
-    <client-only>
-      <navigation-bar />
-    </client-only>
-  </v-layout>
+        <div class="inner-container" v-else>
+          <v-form ref="form" lazy-validation>
+            <h3>{{ test.title || 'Título do Teste'}}</h3>
+            <h4>{{ test.question || 'Enunciado do teste'}}</h4>
+            <div class="alternatives-container">
+              <v-checkbox
+                class="first-alternative"
+                v-model="selected"
+                hide-details
+                color="#60c"
+                :rules="alternativeRule"
+                :label="test.firstAlternative"
+                value="A"
+              />
+              <v-checkbox
+                class="second-alternative"
+                v-model="selected"
+                hide-details
+                color="#60c"
+                :rules="alternativeRule"
+                :label="test.secondAlternative"
+                value="B"
+              />
+              <v-checkbox
+                class="third-alternative"
+                v-model="selected"
+                hide-details
+                color="#60c"
+                :rules="alternativeRule"
+                :label="test.thirdAlternative"
+                value="C"
+              />
+              <v-checkbox
+                class="fourth-alternative"
+                v-model="selected"
+                hide-details
+                color="#60c"
+                :rules="alternativeRule"
+                :label="test.fourthAlternative"
+                value="D"
+              />
+            </div>
+          </v-form>
+
+          <v-btn color="primary" class="save-button" @click="nextTest">Próximo</v-btn>
+        </div>
+
+        <v-snackbar
+          v-model="snackbar"
+          :color="snackbarStatus"
+          :timeout="5000"
+          :top="true"
+          :right="true"
+        >
+          {{ snackbarText }}
+          <v-btn color="#FFF" text @click="snackbar = false">Fechar</v-btn>
+        </v-snackbar>
+      </v-flex>
+      <client-only>
+        <navigation-bar />
+      </client-only>
+    </v-layout>
+  </div>
 </template>
 
 <router>
@@ -83,10 +83,13 @@
 <script>
 import NavigationBar from '~/components/NavigationBar';
 import tests from '~/services/http/generic';
+import http from '~/services/http/generic';
+import HeaderBar from '~/components/Header.vue';
 
 export default {
   components: {
     NavigationBar,
+    HeaderBar,
   },
   data: () => ({
     snackbar: false,
@@ -94,6 +97,7 @@ export default {
     snackbarStatus: '',
     computedSelection: [],
     cmpSelect: [],
+    loading: true,
   }),
   computed: {
     test() {
@@ -101,6 +105,12 @@ export default {
     },
     alternativeRule() {
       return [!!this.computedSelection.length || 'Selecione uma alternativa'];
+    },
+    idUser() {
+      return this.$store.state.user.data.id;
+    },
+    courseId() {
+      return this.$store.state.courses.current.id;
     },
 
     // Vamos alterar o getter e setter do selected para poder alterar os valores do checkbox como se fosse um radio group
@@ -137,6 +147,7 @@ export default {
   },
   mounted() {
     this.slug = this.$route.params.courseSlug;
+    this.loading = false;
   },
   methods: {
     confirmSnackbar(text, status) {
@@ -149,100 +160,80 @@ export default {
         // Primeiro passo é verificar se a resposta está correta
         tests
           .getAll(
-            `/api/v1/test/checkTest/${this.test.id}/${this.computedSelection[0]}`,
+            `/api/v1/test/${this.test.id}/checkTest/alternative/${this.computedSelection[0]}`,
           )
           .then(res => {
             if (res.data) {
               // Como a resposta está certa a gente limpa a validação e escolha para o próximo teste
               this.$refs.form.reset();
+
               // Apenas para tornar mais vísivel o acerto, depois mudar para um componente melhor
               this.confirmSnackbar('Acertou!!!', 'success');
-              let courseTaken = this.$store.state.courses.currentState;
-              courseTaken['user'] = this.$store.state.user.data.id;
-              courseTaken['course'] = this.$store.state.courses.current.id;
+
+              // Camando método para avançar
+              this.advanceCourse();
 
               // Se a resposta está certa a gente avança no curso
-              tests
-                .post('/api/v1/course-taken/advance-on-course', courseTaken)
-                .then(res => {
-                  // Como o advance-on-course endpoint não retorna qual o estado atual da Aula, Parte e Teste eu preciso chamar attend-a-class
-                  tests
-                    .getAll(
-                      `/api/v1/course-taken/attend-a-class/${courseTaken.user}/${courseTaken.course}`,
-                    )
-                    .then(res => {
-                      // Primeiro checa se por acaso ele já terminou o curso, isso vai evitar as próximas verificações
-                      if (res.data.status === 'COMPLETED') {
-                        delete res.data.user;
-                        delete res.data.course;
-                        delete res.data.currentLesson;
-                        delete res.data.currentPart;
-                        delete res.data.currentTest;
-                        this.$store.commit('courses/setCurrentState', res.data);
-                        setTimeout(() => {
-                          $nuxt._router.push(`/aluno/curso/${this.slug}/fim`);
-                        }, 400);
-                      }
-
-                      // Se muda a aula atual, ele completou todas as partes da anterior e deve ir para a parte da nova aula
-                      if (
-                        res.data.currentLesson.id !=
-                        this.$store.state.courses.currentLesson.id
-                      ) {
-                        this.$store.commit(
-                          'courses/setCurrentLesson',
-                          res.data.currentLesson,
-                        );
-                        this.$store.commit(
-                          'courses/setCurrentPart',
-                          res.data.currentPart,
-                        );
-                        this.$store.commit(
-                          'courses/setCurrentTest',
-                          res.data.currentTest,
-                        );
-                        setTimeout(() => {
-                          $nuxt._router.push(
-                            `/aluno/curso/${this.slug}/aula/parte`,
-                          );
-                        }, 400);
-                      }
-
-                      // Se mudar a parte atual, quer dizer que ele terminou todos os testes da anterior e agora precisa assistir ao vídeo da nova parte
-                      if (
-                        res.data.currentPart.id !=
-                        this.$store.state.courses.currentPart.id
-                      ) {
-                        this.$store.commit(
-                          'courses/setCurrentPart',
-                          res.data.currentPart,
-                        );
-                        this.$store.commit(
-                          'courses/setCurrentTest',
-                          res.data.currentTest,
-                        );
-                        setTimeout(() => {
-                          $nuxt._router.push(
-                            `/aluno/curso/${this.slug}/aula/parte`,
-                          );
-                        }, 400);
-                      }
-
-                      // Se quando avançar no curso o teste mudar ele deve permanecer na página e apenas mudar o contexto
-                      if (
-                        res.data.currentTest.id !=
-                        this.$store.state.courses.currentTest.id
-                      ) {
-                        this.$store.commit(
-                          'courses/setCurrentTest',
-                          res.data.currentTest,
-                        );
-                      }
-                    });
-                });
             } else this.computedSelection = [];
           });
       }
+    },
+
+    advanceCourse() {
+      this.loading = true;
+      // avançando no curso
+      http
+        .post(
+          `${process.env.endpoints.ADVANCE_COURSE}/user/${this.idUser}/course/${this.courseId}`,
+        )
+        .then(() => {
+          // Atualizando o estado do curso
+          http
+            .getAll(
+              `${process.env.endpoints.STATE_COURSE}/user/${this.idUser}/course/${this.courseId}`,
+            )
+            .then(res => {
+              // Verificando se já concluiu
+              if (res.data.status === 'COMPLETED') {
+                delete res.data.user;
+                delete res.data.course;
+                delete res.data.currentLesson;
+                delete res.data.currentPart;
+                delete res.data.currentTest;
+                this.$store.commit('courses/setCurrentState', res.data);
+                $nuxt._router.push(`/aluno/curso/${this.slug}/fim`);
+              } else {
+                // caso não houver concluído, salva o estado atual
+                this.$store.commit('courses/setCurrent', res.data.course);
+                delete res.data.user;
+                delete res.data.course;
+                this.$store.commit('courses/setCurrentState', res.data);
+
+                // Verificando qual o próximo passo
+                http
+                  .getAll(
+                    `${process.env.endpoints.CURRENT_STEP}/user/${this.idUser}/course/${this.courseId}`,
+                  )
+                  .then(res => {
+                    if (res.data.type === 'NEW_TEST') {
+                      this.$store.commit(
+                        'courses/setCurrentTest',
+                        res.data.data,
+                      );
+                      this.loading = false;
+                    } else {
+                      this.$store.commit(
+                        'courses/setCurrentPart',
+                        res.data.data,
+                      );
+                      $nuxt._router.push(
+                        `/aluno/curso/${this.courseId}/aula/parte`,
+                      );
+                    }
+                  });
+              }
+            });
+        });
     },
   },
 };
@@ -281,7 +272,8 @@ h4 {
 .main-container {
   display: flex;
   flex-direction: column;
-  padding: 2em 2em 78px;
+  padding: 0em 2rem 0rem;
+  margin-bottom: 5rem;
 }
 
 .inner-container,
@@ -294,7 +286,7 @@ h4 {
   width: 100%;
   font-weight: 900;
   font-size: 12px !important;
-  margin-top: auto;
+  margin-top: 2rem;
   display: flex;
   align-items: center;
   text-align: center;
