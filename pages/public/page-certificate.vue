@@ -92,6 +92,21 @@ export default {
       this.loading = false;
     });
   },
+  methods: {
+    head() {
+      return {
+        title: this.certificate.course.title,
+        meta: [
+          {
+            hid: 'description',
+            name: 'description',
+            content:
+              'Certificado de conclusão de curso na plataforma New School',
+          },
+        ],
+      };
+    },
+  },
 };
 </script>
 
@@ -116,7 +131,6 @@ export default {
 
 .main {
   .card-box {
-    padding: 30px 0 10px 0;
     height: 100%;
     max-width: 100%;
     text-align: center;

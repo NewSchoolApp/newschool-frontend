@@ -9,13 +9,13 @@
 </template>
 
 <script>
-import NavigationBar from "~/components/NavigationBar.vue";
-import Modal from "~/components/Modal.vue";
+import NavigationBar from '~/components/NavigationBar.vue';
+import Modal from '~/components/Modal.vue';
 export default {
   components: {
     NavigationBar,
-    Modal
-  }
+    Modal,
+  },
 };
 </script>
 
