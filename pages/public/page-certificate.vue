@@ -92,6 +92,21 @@ export default {
       this.loading = false;
     });
   },
+  methods: {
+    head() {
+      return {
+        title: this.certificate.course.title,
+        meta: [
+          {
+            hid: 'description',
+            name: 'description',
+            content:
+              'Certificado de conclusão de curso na plataforma New School',
+          },
+        ],
+      };
+    },
+  },
 };
 </script>
 
