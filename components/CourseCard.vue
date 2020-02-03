@@ -8,24 +8,14 @@
         <v-card-title :to="'/curso/' + slug">{{title}}</v-card-title>
         <v-card-subtitle class="mt-0" :to="'/curso/' + slug">{{teacher}}</v-card-subtitle>
       </n-link>
-      <share-btn
-        class="media-container"
-        :url="'curso/' + slug"
-        :title="title"
-        :description="description"
-      />
     </div>
   </v-card>
 </template>
 
 <script>
-import ShareBtn from "@/components/ShareBtn";
 export default {
   name: "courseCard",
   props: ["title", "description", "image", "teacher", "slug"],
-  components: {
-    ShareBtn
-  }
 };
 </script>
 

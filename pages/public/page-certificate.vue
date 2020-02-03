@@ -1,10 +1,15 @@
 <template>
   <div class="background">
-    <HeaderBar :title="'Newschool'" :back-page="true" :route="'/login'"></HeaderBar>
+    <HeaderBar :title="'New School'" :back-page="true" :route="'/login'"></HeaderBar>
     <v-container class="main">
       <div v-if="loading">
         <div class="container-spinner">
-          <v-progress-circular :size="70" :width="5" indeterminate color="#6600cc" />
+          <v-progress-circular
+            :size="70"
+            :width="5"
+            indeterminate
+            color="#6600cc"
+          />
         </div>
       </div>
       <div v-else class="card-box">
@@ -13,16 +18,11 @@
             <td>Educação de qualidade</td>
             <strong>{{ certificate.course.title }}</strong>
             <tr>
-              Carga horária de
-              {{
-              certificate.course.workload
-              }}
-              horas
+              Carga horária de {{ certificate.course.workload }} horas
             </tr>
             <span>Este certificado é orgulhosamente apresentado para</span>
             <p>{{ certificate.user.name }}</p>
           </div>
-
           <div>
             <p>
               Início:
