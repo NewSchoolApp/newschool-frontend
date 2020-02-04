@@ -1,97 +1,111 @@
 <template>
   <div class="background">
-    <HeaderBar :title="'Newschool'" :back-page="true"></HeaderBar>
-      <v-container class="main">
-    <div v-if="loading">
-      <div class="container-spinner">
-        <v-progress-circular
-          :size="70"
-          :width="5"
-          indeterminate
-          color="#6600cc"
-        />
-      </div>
-    </div>
-    <div v-else class="card-box">
-      <div class="card">
-        <div class="course">
-          <td>Educação de qualidade</td>
-          <strong>{{ certificate.course.title }}</strong>
-          <tr>
-            Carga horária de
-            {{
-              certificate.course.workload
-            }}
-            horas
-          </tr>
-          <span>Este certificado é orgulhosamente apresentado para</span>
-          <p>
-            {{ certificate.user.name }}
-          </p>
+    <HeaderBar :title="'New School'" :back-page="true" :route="'/login'"></HeaderBar>
+    <v-container class="main">
+      <div v-if="loading">
+        <div class="container-spinner">
+          <v-progress-circular
+            :size="70"
+            :width="5"
+            indeterminate
+            color="#6600cc"
+          />
         </div>
-
-        <ul>       
-          <li>{{this.courseStartDate}}</li>
-          <li>{{this.courseCompleteDate}}</li>
-        </ul>
       </div>
-      <div class="footer">
-        <p>Professor</p>
-        <p>Diretoria</p>
-      </div>
-      <div class="export">
-        <div class="title-export-share">
-          <div class="export-title">Exportar</div>
-          <div class="export-title">Compartilhar</div>
-        </div>
-        <div class="export-share">
-          <div class="icons">
-            <button type="button">
-              <v-icon color="#6600CC" size="20">
-                mdi-format-vertical-align-bottom
-              </v-icon>
-            </button>
-            <button type="button">
-              <v-icon color="#6600CC" size="20">
-                mdi-printer
-              </v-icon>
-            </button>
+      <div v-else class="card-box">
+        <div class="card">
+          <div class="course">
+            <td>Educação de qualidade</td>
+            <strong>{{ certificate.course.title }}</strong>
+            <tr>
+              Carga horária de {{ certificate.course.workload }} horas
+            </tr>
+            <span>Este certificado é orgulhosamente apresentado para</span>
+            <p>{{ certificate.user.name }}</p>
           </div>
-          <div class="share">
-            <shareBtnPageCertificate />
+          <div>
+            <p>
+              Início:
+              <span class="p__theme">{{this.courseStartDate}}</span>
+            </p>
+            <p>
+              Término:
+              <span class="p__theme">{{this.courseCompleteDate}}</span>
+            </p>
+          </div>
+        </div>
+        <div class="footer">
+          <p>Professor</p>
+          <p>Diretoria</p>
+        </div>
+        <div class="export">
+          <div class="title-export-share">
+            <div class="export-title">Exportar</div>
+            <div class="export-title">Compartilhar</div>
+          </div>
+          <div class="export-share">
+            <div class="icons">
+              <button type="button">
+                <v-icon color="#6600CC" size="20">mdi-format-vertical-align-bottom</v-icon>
+              </button>
+              <button type="button">
+                <v-icon color="#6600CC" size="20">mdi-printer</v-icon>
+              </button>
+            </div>
+            <div class="share">
+              <shareBtnPageCertificate />
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  </v-container> 
+    </v-container>
   </div>
 </template>
 <script>
 import shareBtnPageCertificate from '~/components/ShareBtnPageCertificate.vue';
-import http from '../../services/http/public'
+import http from '../../services/http/public';
 import HeaderBar from '~/components/Header.vue';
-import moment from 'moment'
+import moment from 'moment';
 
 export default {
   components: {
     shareBtnPageCertificate,
-    HeaderBar
+    HeaderBar,
   },
   data: () => ({
     certificate: {},
     loading: true,
-    courseStartDate:'',
-    courseCompleteDate:'',
+    courseStartDate: '',
+    courseCompleteDate: '',
   }),
   mounted() {
     const idCourse = this.$route.params.idCourse;
     const idUser = this.$route.params.idUser;
     http.pageCertificate(idUser, idCourse).then(res => {
       this.certificate = res.data;
-      this.courseStartDate = moment(this.certificate.courseStartDate).format("DD/MM/YYYY");
-      this.courseCompleteDate = moment(this.certificate.courseCompleteDate).format("DD/MM/YYYY");
+      this.courseStartDate = moment(this.certificate.courseStartDate).format(
+        'DD/MM/YYYY',
+      );
+      this.courseCompleteDate = moment(
+        this.certificate.courseCompleteDate,
+      ).format('DD/MM/YYYY');
       this.loading = false;
     });
+  },
+  methods: {
+    head() {
+      return {
+        title: this.certificate.course.title,
+        meta: [
+          {
+            hid: 'description',
+            name: 'description',
+            content:
+              'Certificado de conclusão de curso na plataforma New School',
+          },
+        ],
+      };
+    },
   },
 };
 </script>
@@ -101,8 +115,6 @@ export default {
 </router>
 
 <style lang="scss" scoped>
-@import url('https://fonts.googleapis.com/css?family=Oxygen&display=swap');
-
 * {
   margin: 0;
   padding: 0;
@@ -112,17 +124,13 @@ export default {
 
 .background {
   background: url('../../assets/backgroundCertificates.svg');
+  position: absolute;
+  height: 100%;
+  width: 100%;
 }
 
 .main {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  max-width: 100%;
-  height: 100vh;
-
   .card-box {
-    padding: 30px 0 10px 0;
     height: 100%;
     max-width: 100%;
     text-align: center;

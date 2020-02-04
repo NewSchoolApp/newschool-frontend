@@ -15,12 +15,16 @@
  * @param backPage botão para voltar ? true ou false
  */
 export default {
-  props: ["title", "backPage"],
+  props: ['title', 'backPage', 'route'],
   methods: {
     comeBackPage() {
-      this.$router.back();
-    }
-  }
+      if (this.route) {
+        this.$router.push(this.route);
+      } else {
+        this.$router.back();
+      }
+    },
+  },
 };
 </script>
 
@@ -36,10 +40,7 @@ export default {
   align-items: center;
   background: transparent;
 }
-::v-deep .btn-back {
-  padding-right: 2rem;
-  margin-top: unset !important;
-}
+
 ::v-deep .btn-back .theme--light.v-icon {
   color: #60c;
   font-size: 35px;

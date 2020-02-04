@@ -11,6 +11,11 @@ export default {
       });
 
       routes.push({
+        path: '/recuperar-senha/:token',
+        component: resolve(__dirname, 'pages/public/reset_password.vue'),
+      });
+
+      routes.push({
         path: '/aluno',
         component: resolve(__dirname, 'pages/student/~student.module.vue'),
         children: [
@@ -90,7 +95,8 @@ export default {
   env: {
     baseUrl:
       process.env.VUE_APP_BASE_URL ||
-      'http://newschool-api.us-east-2.elasticbeanstalk.com/',
+     'https://newschoolbrapi-predev.herokuapp.com/',
+    
     credentials: {
       name: process.env.VUE_APP_CLIENT_CREDENTIAL_NAME || 'NEWSCHOOL@FRONT',
       secret:
@@ -114,9 +120,13 @@ export default {
       COURSE: '/api/v1/course',
       LESSON: '/api/v1/lesson',
       COURSE_BY_SLUG: '/api/v1/course/slug/',
-      INIT_COURSE: 'api/v1/course-taken',
+      INIT_COURSE: 'api/v1/course-taken/start-course',
       LESSONS_BY_COURSE: '/api/v1/lesson/course/',
+      ADVANCE_COURSE: '/api/v1/course-taken/advance-on-course',
+
       STATE_COURSE: 'api/v1/course-taken',
+      CURRENT_STEP: '/api/v1/course-taken/current-step',
+
       MY_COURSES: 'api/v1/course-taken/user/',
       FACEBOOK_LOGIN: "oauth/facebook/token",
       GOOGLE_LOGIN: "oauth/google/token"

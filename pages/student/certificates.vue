@@ -7,8 +7,17 @@
         :key="certificate.id"
         class="cards-box"
       >
-        <div class="content-image" @click="goToCertificate(certificate.course.id)">
-          <button><img class="background-img" :src="certificate.course.thumbUrl" alt /></button>
+        <div
+          class="content-image"
+          @click="goToCertificate(certificate.course.id)"
+        >
+          <button>
+            <img
+              class="background-img"
+              :src="certificate.course.thumbUrl"
+              alt
+            />
+          </button>
           <img
             class="medal"
             src="~/assets/medalha-imagem.svg"
@@ -48,7 +57,7 @@ export default {
   components: {
     shareBtn,
     HeaderBar,
-    NothingToShow
+    NothingToShow,
   },
   data: () => ({
     certificates: [],
@@ -60,7 +69,6 @@ export default {
       )
       .then(certificates => {
         this.certificates = certificates.data;
-        console.log(this.certificates);
       })
       .catch(error => console.log(error));
   },

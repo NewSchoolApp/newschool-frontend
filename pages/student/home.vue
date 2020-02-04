@@ -120,7 +120,6 @@ h1 {
     flex-flow: row nowrap;
     justify-content: flex-start;
     align-content: flex-start;
-    overflow-x: auto;
     margin: 0 2em 56px 1.5em;
     padding: 0;
   }
@@ -156,7 +155,6 @@ h1 {
 
 .max-content {
   max-height: 100vh;
-  overflow-x: hidden;
   width: 100%;
   box-sizing: border-box;
   margin: 0 auto;
