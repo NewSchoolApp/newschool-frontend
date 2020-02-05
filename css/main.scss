@@ -1,0 +1,83 @@
+@import url("https://fonts.googleapis.com/css?family=Montserrat:400,500,900&display=swap");
+
+.text-watermark {
+  color: #d6adff !important;
+}
+
+.text-white {
+  color: #fff !important;
+}
+
+.p__theme{
+  color: #6600cc;
+}
+
+.v-btn {
+  border-radius: unset !important;
+}
+
+.btn-block {
+  border-radius: 5px;
+  width: 100%;
+}
+.btn-primary {
+  font-weight: 900 !important;
+  color: #6600cc !important;
+}
+
+.btn-white {
+  background-color: #ffffff !important;
+}
+
+.v-dialog {
+  border-radius: 15px;
+}
+
+.btn-transparent {
+  font-weight: 900 !important;
+  background-color: transparent !important;
+  color: #fff !important;
+  border: solid 1px #fff;
+}
+
+.btn-secondary {
+  background-color: #f189de00 !important;
+  color: #f189de;
+  border: solid 1px #f189de;
+}
+.v-dialog {
+  background: white;
+}
+
+.theme--dark.v-application {
+  background: none !important;
+}
+
+.text-center {
+  text-align: center !important;
+}
+
+.bg-blue {
+  background-color: #6600cc !important;
+}
+
+.bg-danger {
+  background-color: #f86969 !important;
+}
+
+.h1__theme {
+  font-weight: 900;
+  color: #6600cc;
+}
+
+.container-spinner {
+  width: 100%;
+  justify-content: center;
+  display: flex;
+  height: 100%;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: transparent;
+}
