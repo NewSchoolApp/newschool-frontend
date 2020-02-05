@@ -4,12 +4,7 @@
     <v-container class="main">
       <div v-if="loading">
         <div class="container-spinner">
-          <v-progress-circular
-            :size="70"
-            :width="5"
-            indeterminate
-            color="#6600cc"
-          />
+          <v-progress-circular :size="70" :width="5" indeterminate color="#6600cc" />
         </div>
       </div>
       <div v-else class="card-box">
@@ -17,9 +12,7 @@
           <div class="course">
             <td>Educação de qualidade</td>
             <strong>{{ certificate.course.title }}</strong>
-            <tr>
-              Carga horária de {{ certificate.course.workload }} horas
-            </tr>
+            <tr>Carga horária de {{ certificate.course.workload }} horas</tr>
             <span>Este certificado é orgulhosamente apresentado para</span>
             <p>{{ certificate.user.name }}</p>
           </div>
@@ -53,7 +46,7 @@
               </button>
             </div>
             <div class="share">
-              <shareBtnPageCertificate />
+              <shareBtnPageCertificate :url="certificateUrl" :title="'Certificado'" :description="certificate.course.title" />
             </div>
           </div>
         </div>
@@ -72,6 +65,11 @@ export default {
     shareBtnPageCertificate,
     HeaderBar,
   },
+  computed: {
+    certificateUrl: function() {
+      return this.$route.path;
+    },
+  },
   data: () => ({
     certificate: {},
     loading: true,
@@ -83,6 +81,7 @@ export default {
     const idUser = this.$route.params.idUser;
     http.pageCertificate(idUser, idCourse).then(res => {
       this.certificate = res.data;
+      
       this.courseStartDate = moment(this.certificate.courseStartDate).format(
         'DD/MM/YYYY',
       );
