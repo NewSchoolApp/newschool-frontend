@@ -14,8 +14,8 @@
 
 <script>
 export default {
-  name: "courseCard",
-  props: ["title", "description", "image", "teacher", "slug"],
+  name: 'courseCard',
+  props: ['title', 'description', 'image', 'teacher', 'slug'],
 };
 </script>
 
@@ -24,6 +24,8 @@ export default {
   flex-grow: 1;
   display: flex;
   flex-direction: column;
+  height: 45px;
+  justify-content: space-between;
 }
 
 .media-container {
@@ -47,7 +49,7 @@ export default {
 }
 
 .v-image__image {
-  background: url("http://i.imgur.com/SrPdUD4.png") 50% 50% no-repeat;
+  background: url('http://i.imgur.com/SrPdUD4.png') 50% 50% no-repeat;
   background-color: #000;
   position: absolute;
   width: 100%;
@@ -56,14 +58,14 @@ export default {
 
 @media screen and (orientation: landscape) {
   .v-image__image {
-    background: url("http://i.imgur.com/SrPdUD4.png") no-repeat;
+    background: url('http://i.imgur.com/SrPdUD4.png') no-repeat;
     position: absolute;
     width: 300px;
     height: 200px;
   }
 
   .v-card-body {
-    margin-right: 2.5em;
+    margin-bottom: 1.2em;
   }
 
   .v-card-body div {

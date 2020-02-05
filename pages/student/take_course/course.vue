@@ -283,7 +283,7 @@ main {
 }
 .btn__primary {
   width: 100%;
-  margin-top: 2rem;
+  margin-top: 1rem;
   font-weight: 700;
   box-shadow: 0px 4px 4px #21212154 !important;
 }
