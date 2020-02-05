@@ -163,7 +163,9 @@ h1 {
   -webkit-box-pack: justify;
   justify-content: space-between;
 }
-
+.btn-back{
+  width: unset !important;
+}
 .header__info {
   display: flex;
   justify-content: space-between;
