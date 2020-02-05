@@ -16,7 +16,7 @@
         <v-row>
           <v-col cols="15">
             <div class="logo-center">
-              <img src="~/assets/gabs.svg" alt="castor" />
+              <img src="~/assets/forgout.svg" alt="castor" />
             </div>
           </v-col>
         </v-row>
