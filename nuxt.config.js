@@ -86,6 +86,57 @@ export default {
       });
 
       routes.push({
+        path: '/admin',
+        component: resolve(__dirname, 'pages/student/~student.module.vue'),
+        children: [
+          {
+            path: '404',
+            component: resolve(__dirname, 'pages/public/404.vue'),
+          },
+          {
+            path: 'home',
+            name: 'admin-home',
+            component: resolve(__dirname, 'pages/admin/home.vue'),
+          },
+          {
+            path: 'perfil',
+            name: 'meu-perfil',
+            component: resolve(__dirname, 'pages/admin/profile.vue'),
+          },
+          {
+            path: 'curso',
+            component: resolve(
+              __dirname,
+              'pages/student/take_course/~take_course.module.vue',
+            ),
+            children: [
+              {
+                path: ':slug',
+                name: 'aluno-curso',
+                props: true,
+                component: resolve(
+                  __dirname,
+                  'pages/student/take_course/course.vue',
+                ),
+              },
+            ],
+          },
+          {
+            path: 'admin/aulas/:id',
+            component: resolve(
+              __dirname,
+              'pages/student/take_course/lesson_list.vue',
+            ),
+            props: true,
+          },
+          {
+            path: '',
+            redirect: 'home',
+          },
+        ],
+      });
+
+      routes.push({
         path: '',
         redirect: '/login',
       });
