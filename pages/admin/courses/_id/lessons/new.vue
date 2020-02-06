@@ -77,6 +77,7 @@ export default {
     lesson: {
       title: '',
       description: '',
+      courseId: '',
     },
     titleRules: [title => !!title || 'Digite um título'],
     descriptionRules: [v => !!v || 'Digite uma descrição'],
@@ -97,7 +98,7 @@ export default {
     };
   },
   created() {
-    this.lesson.course = this.$route.params.courseId;
+    this.lesson.courseId = this.$route.params.courseId;
   },
   methods: {
     submit() {
@@ -110,7 +111,7 @@ export default {
             this.showConfirmSnack('Aula criada! ;)', 'success');
             this.submited = true;
             setTimeout(() => {
-              $nuxt._router.push(`/admin/course/${res.data.course}/lesson/${res.data.id}/part/new`);
+              $nuxt._router.push(`/admin/course/${this.lesson.courseId}/lesson/${res.data.id}/part/new`);
             }, 2500);
           })
           .catch(err => {

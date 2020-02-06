@@ -112,7 +112,7 @@ export default {
       secondAlternative: '',
       thirdAlternative: '',
       fourthAlternative: '',
-      part: '',
+      partId: '',
     },
     titleRules: [title => !!title || 'Digite um título'],
     answerRules: [answer => !!answer || 'Digite a resposta'],
@@ -136,7 +136,7 @@ export default {
     };
   },
   created() {
-    this.test.part = this.$route.params.partId;
+    this.test.partId = this.$route.params.partId;
     this.courseId = this.$route.params.courseId;
     this.lessonId = this.$route.params.lessonId;
   },
@@ -151,7 +151,7 @@ export default {
             this.showConfirmSnack('Teste criado! ;)', 'success');
             this.submited = true;
             $nuxt._router.push(
-              `/admin/course/${this.courseId}/lesson/${this.lessonId}/part/${this.test.part}/edit`,
+              `/admin/course/${this.courseId}/lesson/${this.lessonId}/part/${this.test.partId}/edit`,
             );
           })
           .catch(err => {
