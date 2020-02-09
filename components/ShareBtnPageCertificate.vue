@@ -57,7 +57,11 @@ export default {
   },
 
   data() {
-    return {};
+    let baseUrl = process.env.domain;
+    return {
+      isOpen: false,
+      shareUrl: `${baseUrl}${this.url}`,
+    };
   },
 };
 </script>
