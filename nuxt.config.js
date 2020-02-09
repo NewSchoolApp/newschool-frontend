@@ -144,9 +144,10 @@ export default {
   },
 
   env: {
+    domain: process.env.DOMAIN_URL || 'https://newschoolapp.com.br',
     baseUrl:
       process.env.VUE_APP_BASE_URL ||
-     'https://newschoolbrapi-predev.herokuapp.com/',
+     'https://newschoolbrapi-dev.herokuapp.com/',
     
     credentials: {
       name: process.env.VUE_APP_CLIENT_CREDENTIAL_NAME || 'NEWSCHOOL@FRONT',
@@ -162,6 +163,7 @@ export default {
       },
     },
     dateEnd: process.env.OPENING_DATE || '25/01/2020',
+    
     endpoints: {
       CERTIFICATES_ME: 'api/v1/course-taken/certificates/user/',
       USER_ME: 'api/v1/user/me',
