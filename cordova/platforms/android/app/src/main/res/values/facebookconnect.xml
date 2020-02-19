@@ -1,0 +1,6 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="fb_app_id">1584605795055838</string>
+    <string name="fb_app_name">NewSchool</string>
+    <bool name="fb_hybrid_app_events">false</bool>
+</resources>

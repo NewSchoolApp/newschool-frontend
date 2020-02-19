@@ -2,6 +2,7 @@ import colors from 'vuetify/es5/util/colors';
 
 export default {
   router: {
+    mode: 'hash',
     middleware: 'auth.guard',
 
     extendRoutes(routes, resolve) {
@@ -146,7 +147,7 @@ export default {
   env: {
     baseUrl:
       process.env.VUE_APP_BASE_URL ||
-     'https://newschoolbrapi-predev.herokuapp.com/',
+     'https://api.newschoolapp.com.br/',
     
     credentials: {
       name: process.env.VUE_APP_CLIENT_CREDENTIAL_NAME || 'NEWSCHOOL@FRONT',
@@ -188,7 +189,7 @@ export default {
     },
     GATOKEN: process.env.GA_TOKEN,
   },
-  mode: 'universal',
+  mode: 'spa',
   /*
    ** Headers of the page
    */
@@ -241,6 +242,7 @@ export default {
    ** Plugins to load before mounting the App
    */
   plugins: [
+    '~/plugins/cordova.client.js',
     '~/plugins/admin-components.js',
     { src: '~/plugins/ga.js', mode: 'client' },
     { src: '~/plugins/redirect', mode: 'client' },
@@ -272,7 +274,7 @@ export default {
     '@nuxtjs/dotenv',
     '@nuxtjs/proxy',
     'nuxt-i18n',
-    '@nuxtjs/auth'
+    '@nuxtjs/auth',
   ],
   i18n: {
     locales: [
@@ -331,13 +333,14 @@ export default {
     /*
      ** You can extend webpack config here
      */
+    publicPath: '/nuxtfiles/',
     extend(config, ctx) { },
   },
 
   auth: {
     strategies: {
       facebook: {
-        client_id: process.env.FACEBOOK_ID || '3289978134361895',
+        client_id: process.env.FACEBOOK_ID || '1584605795055838',
         userinfo_endpoint:
           'https://graph.facebook.com/v2.12/me?fields=about,name,picture{url},email,birthday',
         scope: ['public_profile', 'email'],
