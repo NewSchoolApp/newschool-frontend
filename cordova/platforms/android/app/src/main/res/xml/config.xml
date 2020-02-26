@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="com.newschool.app" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <feature name="FacebookConnectPlugin">
+        <param name="android-package" value="org.apache.cordova.facebook.ConnectPlugin" />
+        <param name="onload" value="true" />
+    </feature>
+    <access origin="https://m.facebook.com" />
+    <access origin="https://graph.facebook.com" />
+    <access origin="https://api.facebook.com" />
+    <access origin="https://*.fbcdn.net" />
+    <access origin="https://*.akamaihd.net" />
+    <feature name="InAppBrowser">
+        <param name="android-package" value="org.apache.cordova.inappbrowser.InAppBrowser" />
+    </feature>
+    <feature name="Whitelist">
+        <param name="android-package" value="org.apache.cordova.whitelist.WhitelistPlugin" />
+        <param name="onload" value="true" />
+    </feature>
+    <name>New School</name>
+    <description>
+        New School App
+    </description>
+    <author email="newschool@newschoolapp.com.br" href="http://cordova.io">
+        New School Team
+    </author>
+    <content src="index.html" />
+    <access origin="*" />
+    <allow-intent href="http://*/*" />
+    <allow-intent href="https://*/*" />
+    <allow-intent href="tel:*" />
+    <allow-intent href="sms:*" />
+    <allow-intent href="mailto:*" />
+    <allow-intent href="geo:*" />
+    <icon density="ldpi" src="res/android/36px.png" />
+    <icon density="mdpi" src="res/android/48px.png" />
+    <icon density="hdpi" src="res/android/72px.png" />
+    <icon density="xhdpi" src="res/android/96px.png" />
+    <icon density="xxhdpi" src="res/android/144px.png" />
+    <icon density="xxxhdpi" src="res/android/192px.png" />
+    <splash density="land-hdpi" src="res/screen/android/l320.jpg" />
+    <splash density="land-ldpi" src="res/screen/android/l320.jpg" />
+    <splash density="land-mdpi" src="res/screen/android/l480.jpg" />
+    <splash density="land-xhdpi" src="res/screen/android/l1280.jpg" />
+    <splash density="port-hdpi" src="res/screen/android/l800.jpg" />
+    <splash density="port-ldpi" src="res/screen/android/l320.jpg" />
+    <splash density="port-mdpi" src="res/screen/android/l480.jpg" />
+    <splash density="port-xhdpi" src="res/screen/android/l1280.jpg" />
+    <allow-intent href="market:*" />
+    <preference name="loglevel" value="DEBUG" />
+    <preference name="android-minSdkVersion" value="19" />
+</widget>

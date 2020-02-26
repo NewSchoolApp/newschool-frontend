@@ -1,0 +1,25 @@
+{
+  "prepare_queue": {
+    "installed": [],
+    "uninstalled": []
+  },
+  "config_munge": {
+    "files": {}
+  },
+  "installed_plugins": {
+    "cordova-plugin-facebook4": {
+      "APP_ID": "1584605795055838",
+      "APP_NAME": "NewSchool",
+      "FACEBOOK_HYBRID_APP_EVENTS": "false",
+      "FACEBOOK_ANDROID_SDK_VERSION": "5.5.2",
+      "PACKAGE_NAME": "com.newschool.app"
+    },
+    "cordova-plugin-inappbrowser": {
+      "PACKAGE_NAME": "com.newschool.app"
+    },
+    "cordova-plugin-whitelist": {
+      "PACKAGE_NAME": "com.newschool.app"
+    }
+  },
+  "dependent_plugins": {}
+}

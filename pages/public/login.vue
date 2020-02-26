@@ -94,7 +94,6 @@
 
 <script>
 import auth from '~/services/http/auth';
-import utils from '~/utils/index';
 
 export default {
   data: () => ({
@@ -205,7 +204,6 @@ export default {
           console.error(error);
         }
     },
-
     loginSocial(provider) {
       this.loading = true;
       this.$auth.loginWith(provider);
