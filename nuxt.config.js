@@ -2,12 +2,18 @@ import colors from 'vuetify/es5/util/colors';
 
 export default {
   router: {
+    mode: 'hash',
     middleware: 'auth.guard',
 
     extendRoutes(routes, resolve) {
       routes.push({
         path: '*',
         component: resolve(__dirname, 'pages/public/404.vue'),
+      });
+
+      routes.push({
+        path: '/recuperar-senha/:token',
+        component: resolve(__dirname, 'pages/public/reset_password.vue'),
       });
 
       routes.push({
@@ -81,6 +87,57 @@ export default {
       });
 
       routes.push({
+        path: '/admin',
+        component: resolve(__dirname, 'pages/student/~student.module.vue'),
+        children: [
+          {
+            path: '404',
+            component: resolve(__dirname, 'pages/public/404.vue'),
+          },
+          {
+            path: 'home',
+            name: 'admin-home',
+            component: resolve(__dirname, 'pages/admin/home.vue'),
+          },
+          {
+            path: 'perfil',
+            name: 'meu-perfil',
+            component: resolve(__dirname, 'pages/admin/profile.vue'),
+          },
+          {
+            path: 'curso',
+            component: resolve(
+              __dirname,
+              'pages/student/take_course/~take_course.module.vue',
+            ),
+            children: [
+              {
+                path: ':slug',
+                name: 'aluno-curso',
+                props: true,
+                component: resolve(
+                  __dirname,
+                  'pages/student/take_course/course.vue',
+                ),
+              },
+            ],
+          },
+          {
+            path: 'admin/aulas/:id',
+            component: resolve(
+              __dirname,
+              'pages/student/take_course/lesson_list.vue',
+            ),
+            props: true,
+          },
+          {
+            path: '',
+            redirect: 'home',
+          },
+        ],
+      });
+
+      routes.push({
         path: '',
         redirect: '/login',
       });
@@ -88,9 +145,11 @@ export default {
   },
 
   env: {
+    domain: process.env.DOMAIN_URL || 'https://newschoolapp.com.br',
     baseUrl:
       process.env.VUE_APP_BASE_URL ||
-      'http://newschool-api.us-east-2.elasticbeanstalk.com/',
+     'https://newschoolbrapi-dev.herokuapp.com/',
+    
     credentials: {
       name: process.env.VUE_APP_CLIENT_CREDENTIAL_NAME || 'NEWSCHOOL@FRONT',
       secret:
@@ -105,6 +164,7 @@ export default {
       },
     },
     dateEnd: process.env.OPENING_DATE || '25/01/2020',
+    
     endpoints: {
       CERTIFICATES_ME: 'api/v1/course-taken/certificates/user/',
       USER_ME: 'api/v1/user/me',
@@ -114,9 +174,13 @@ export default {
       COURSE: '/api/v1/course',
       LESSON: '/api/v1/lesson',
       COURSE_BY_SLUG: '/api/v1/course/slug/',
-      INIT_COURSE: 'api/v1/course-taken',
+      INIT_COURSE: 'api/v1/course-taken/start-course',
       LESSONS_BY_COURSE: '/api/v1/lesson/course/',
+      ADVANCE_COURSE: '/api/v1/course-taken/advance-on-course',
+
       STATE_COURSE: 'api/v1/course-taken',
+      CURRENT_STEP: '/api/v1/course-taken/current-step',
+
       MY_COURSES: 'api/v1/course-taken/user/',
       FACEBOOK_LOGIN: "oauth/facebook/token",
       GOOGLE_LOGIN: "oauth/google/token"
@@ -127,7 +191,7 @@ export default {
     },
     GATOKEN: process.env.GA_TOKEN,
   },
-  mode: 'universal',
+  mode: 'spa',
   /*
    ** Headers of the page
    */
@@ -180,6 +244,7 @@ export default {
    ** Plugins to load before mounting the App
    */
   plugins: [
+    '~/plugins/cordova.client.js',
     '~/plugins/admin-components.js',
     { src: '~/plugins/ga.js', mode: 'client' },
     { src: '~/plugins/redirect', mode: 'client' },
@@ -211,7 +276,7 @@ export default {
     '@nuxtjs/dotenv',
     '@nuxtjs/proxy',
     'nuxt-i18n',
-    '@nuxtjs/auth'
+    '@nuxtjs/auth',
   ],
   i18n: {
     locales: [
@@ -270,16 +335,17 @@ export default {
     /*
      ** You can extend webpack config here
      */
+    publicPath: '/nuxtfiles/',
     extend(config, ctx) { },
   },
 
   auth: {
     strategies: {
       facebook: {
-        client_id: process.env.FACEBOOK_ID || '3289978134361895',
+        client_id: process.env.FACEBOOK_ID || '1584605795055838',
         userinfo_endpoint:
           'https://graph.facebook.com/v2.12/me?fields=about,name,picture{url},email,birthday',
-        scope: ['public_profile', 'email', 'user_birthday'],
+        scope: ['public_profile', 'email'],
       },
       google: {
         client_id: process.env.GOOGLE_ID || '889053794643-qu89df6ei5u2sncnfmedi39m2ascih3k.apps.googleusercontent.com'

@@ -1,17 +1,20 @@
 <template>
   <div>
-    <header-bar :title="'Partes'" :backPage="true"></header-bar>
+    <header-bar :title="'Aula'" :backPage="true"></header-bar>
     <v-layout justify-center id="page">
-      <v-flex ref="flex" class="main-container" v-if="loading">
-        <h1>{{ lessonName || 'Título da Aula' }}</h1>
-
+      <div v-if="loading">
+        <div class="container-spinner">
+          <v-progress-circular :size="70" :width="5" indeterminate color="#6600cc" />
+        </div>
+      </div>
+      <v-flex ref="flex" class="main-container" v-else>
         <div class="inner-container">
-          <h3>{{ part.title }}</h3>
+          <h3>{{ part.lessonTitle }}</h3>
           <h4>{{ part.description }}</h4>
 
           <div class="video-iframe-container">
             <iframe
-              :src="part.youtubeUrl"
+              :src="part.videoUrl"
               frameborder="0"
               allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"
               allowfullscreen
@@ -20,7 +23,7 @@
           <h4>Youtube</h4>
         </div>
 
-        <v-btn color="primary" class="save-button" to="parte/teste">Próximo</v-btn>
+        <v-btn color="primary" class="save-button" @click="advanceCourse">Próximo</v-btn>
       </v-flex>
       <client-only>
         <navigation-bar />
@@ -39,6 +42,7 @@
 import NavigationBar from '~/components/NavigationBar';
 import HeaderBar from '~/components/Header.vue';
 import utils from '~/utils/index';
+import http from '~/services/http/generic';
 
 export default {
   data: () => ({
@@ -53,21 +57,62 @@ export default {
     part() {
       return this.$store.state.courses.currentPart;
     },
-    lessonName() {
-      return this.$store.state.courses.currentLesson.title;
+    idUser() {
+      return this.$store.state.user.data.id;
+    },
+    courseId() {
+      return this.$store.state.courses.current.id;
     },
   },
+  mounted() {
+    this.loading = false;
+  },
   methods: {
-    parseUrlVideo() {
-      utils
-        .verifyVideo(this.part.youtubeUrl)
+    advanceCourse() {
+      this.loading = true;
+      // avançando no curso
+      http
+        .post(
+          `${process.env.endpoints.ADVANCE_COURSE}/user/${this.idUser}/course/${this.courseId}`,
+        )
         .then(() => {
-          this.urlVideo = this.part.youtubeUrl;
-          this.loading = false;
-        })
-        .catch(() => {
-          this.urlVideo = this.part.vimeoUrl;
-          this.loading = false;
+          // Atualizando o estado do curso
+          http
+            .getAll(
+              `${process.env.endpoints.STATE_COURSE}/user/${this.idUser}/course/${this.courseId}`,
+            )
+            .then(res => {
+              // Verificando se já concluiu
+              if (res.data.status === 'COMPLETED') {
+                delete res.data.user;
+                delete res.data.course;
+                delete res.data.currentLesson;
+                delete res.data.currentPart;
+                delete res.data.currentTest;
+                this.$store.commit('courses/setCurrentState', res.data);
+                $nuxt._router.push(`/aluno/curso/${this.slug}/fim`);
+              }
+
+              // caso não houver concluído, salva o estado atual
+              this.$store.commit('courses/setCurrent', res.data.course);
+              delete res.data.user;
+              delete res.data.course;
+              this.$store.commit('courses/setCurrentState', res.data);
+
+              // Verificando qual o próximo passo
+              http
+                .getAll(
+                  `${process.env.endpoints.CURRENT_STEP}/user/${this.idUser}/course/${this.courseId}`,
+                )
+                .then(res => {
+                  if (res.data.type === 'NEW_TEST') {
+                    this.$store.commit('courses/setCurrentTest', res.data.data);
+                    $nuxt._router.push(`parte/teste`);
+                  } else {
+                    this.$store.commit('courses/setCurrentPart', res.data.data);
+                  }
+                });
+            });
         });
     },
   },

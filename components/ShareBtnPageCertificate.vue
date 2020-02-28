@@ -1,7 +1,7 @@
 <template>
   <v-layout>
     <social-sharing
-      :url="url"
+      :url="shareUrl"
       :title="title"
       :description="description"
       :hashtags="hashtags"
@@ -11,17 +11,17 @@
       <div class="icons">
         <button type="button">
           <network network="facebook">
-            <img src="~/assets/facebook-purple.png" alt="">
+            <img src="~/assets/facebook-purple.png" alt />
           </network>
         </button>
         <button type="button">
           <network network="twitter">
-            <img src="~/assets/twitter-purple.png" alt="">
+            <img src="~/assets/twitter-purple.png" alt />
           </network>
         </button>
         <button type="button">
           <network network="linkedin">
-            <img src="~/assets/linkedin-purple.png" alt="">
+            <img src="~/assets/linkedin-purple.png" alt />
           </network>
         </button>
       </div>
@@ -57,7 +57,11 @@ export default {
   },
 
   data() {
-    return {};
+    let baseUrl = process.env.domain;
+    return {
+      isOpen: false,
+      shareUrl: `${baseUrl}${this.url}`,
+    };
   },
 };
 </script>

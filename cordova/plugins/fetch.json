@@ -1,0 +1,29 @@
+{
+  "cordova-plugin-whitelist": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-plugin-whitelist@1"
+    },
+    "is_top_level": true,
+    "variables": {}
+  },
+  "cordova-plugin-facebook4": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-plugin-facebook4"
+    },
+    "is_top_level": true,
+    "variables": {
+      "APP_ID": "1584605795055838",
+      "APP_NAME": "NewSchool"
+    }
+  },
+  "cordova-plugin-inappbrowser": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-plugin-inappbrowser@^3.2.0"
+    },
+    "is_top_level": true,
+    "variables": {}
+  }
+}

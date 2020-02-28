@@ -2,7 +2,7 @@
   <div>
     <div v-show="!loading" id="page">
       <HeaderBar :title="'Meus Cursos'" :backPage="true"></HeaderBar>
-      <div v-if="courses.length">
+      <div v-if="courses.length" class="container__list">
         <div
           class="card"
           v-for="course of courses"
@@ -18,22 +18,20 @@
               icon
               @click="continueCourse(course.course)"
             >
-              CONTINUAR
-              <v-icon>mdi-arrow-right</v-icon>
+              <p id="continue__text">
+                CONTINUAR
+                <v-icon>mdi-arrow-right</v-icon>
+              </p>
             </v-btn>
             <p class="text__success" v-else>CONCLUÍDO</p>
           </div>
           <div class="progress">
-            <p id="value__progress">{{course.completition}}%</p>
-            <v-progress-linear :value="course.completition" height="7" rounded="true"></v-progress-linear>
+            <p id="value__progress">{{course.completion}}%</p>
+            <v-progress-linear :value="course.completion" height="7" rounded="true"></v-progress-linear>
           </div>
         </div>
       </div>
-      <NothingToShow
-        v-else
-        title="Vixe :/"
-        message="Você não começou nenhum curso."
-      />
+      <NothingToShow v-else title="Vixe :/" message="Você não começou nenhum curso." />
     </div>
     <div v-if="loading">
       <div class="container-spinner">
@@ -57,34 +55,30 @@ export default {
       this.loading = true;
       http
         .getAll(
-          `${process.env.endpoints.STATE_COURSE}/${this.user.id}/${course.id}`,
+          `${process.env.endpoints.STATE_COURSE}/user/${this.user.id}/course/${course.id}`,
         )
         .then(res => {
+          // salvando o estado atual
           this.$store.commit('courses/setCurrent', res.data.course);
           delete res.data.user;
           delete res.data.course;
           this.$store.commit('courses/setCurrentState', res.data);
-          http
-            .post('api/v1/course-taken/advance-on-course', {
-              user: this.user.id,
-              course: course.id,  
-            })
-            .then(res => {
-              this.$store.commit(
-                'courses/setCurrentLesson',
-                res.data.currentLesson,
-              );
-              this.$store.commit(
-                'courses/setCurrentPart',
-                res.data.currentPart,
-              );
-              this.$store.commit(
-                'courses/setCurrentTest',
-                res.data.currentTest,
-              );
 
-              // eslint-disable-next-line no-undef
-              $nuxt._router.push(`/aluno/curso/${course.id}/aula/parte`);
+          // Verificando qual o próximo passo
+          http
+            .getAll(
+              `${process.env.endpoints.CURRENT_STEP}/user/${this.user.id}/course/${course.id}`,
+            )
+            .then(res => {
+              if (res.data.type === 'NEW_TEST') {
+                this.$store.commit('courses/setCurrentTest', res.data.data);
+                $nuxt._router.push(
+                  `/aluno/curso/${course.id}/aula/parte/teste`,
+                );
+              } else {
+                this.$store.commit('courses/setCurrentPart', res.data.data);
+                $nuxt._router.push(`/aluno/curso/${course.id}/aula/parte`);
+              }
             });
         });
     },
@@ -132,7 +126,7 @@ export default {
   },
   components: {
     HeaderBar,
-    NothingToShow
+    NothingToShow,
   },
   asyncData({ store, data, params, $axios }) {
     return http
@@ -151,7 +145,11 @@ h1 {
   font-weight: 600;
   width: 55%;
 }
+.container__list {
+  margin-bottom: 5rem;
+}
 .card {
+  height: 8rem;
   margin: 1.3rem;
   padding: 0.9rem;
   background: #fff;
@@ -165,7 +163,9 @@ h1 {
   -webkit-box-pack: justify;
   justify-content: space-between;
 }
-
+.btn-back{
+  width: unset !important;
+}
 .header__info {
   display: flex;
   justify-content: space-between;
@@ -187,5 +187,8 @@ h1 {
 #value__progress {
   color: darkgray;
   padding-bottom: 5px;
+}
+#continue__text {
+  font-size: smaller;
 }
 </style>
