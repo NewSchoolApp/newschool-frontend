@@ -2,7 +2,7 @@ import colors from 'vuetify/es5/util/colors';
 
 export default {
   router: {
-    mode: 'hash',
+    //mode: 'hash',
     middleware: 'auth.guard',
 
     extendRoutes(routes, resolve) {
@@ -149,7 +149,7 @@ export default {
     baseUrl:
       process.env.VUE_APP_BASE_URL ||
      'https://newschoolbrapi-dev.herokuapp.com/',
-    
+
     credentials: {
       name: process.env.VUE_APP_CLIENT_CREDENTIAL_NAME || 'NEWSCHOOL@FRONT',
       secret:
@@ -164,7 +164,7 @@ export default {
       },
     },
     dateEnd: process.env.OPENING_DATE || '25/01/2020',
-    
+
     endpoints: {
       CERTIFICATES_ME: 'api/v1/course-taken/certificates/user/',
       USER_ME: 'api/v1/user/me',
@@ -191,7 +191,7 @@ export default {
     },
     GATOKEN: process.env.GA_TOKEN,
   },
-  mode: 'spa',
+  mode: 'universal',
   /*
    ** Headers of the page
    */
