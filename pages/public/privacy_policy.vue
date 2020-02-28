@@ -44,9 +44,9 @@
           2. Forma de coleta dos dados dos usuários
         </h2>
         <p>
-          Usamos ferramentas tais como xxxxx, serviços de análise e provedores de publicidade para reunir os dados listados acima. Algumas dessas ferramentas oferecem ao usuário a possibilidade de optar por não permitir a coleta de dados.
+          Usamos ferramentas de análise e provedores de publicidade para reunir os dados listados acima. Algumas dessas ferramentas oferecem ao usuário a possibilidade de optar por não permitir a coleta de dados.
         </p>
-        
+
         <h2 class="policy__text-title">
           2.1 Cookies e ferramentas de coleta de dados
         </h2>
@@ -66,7 +66,7 @@
         <p>
           Usamos serviços de navegador e de de análise móvel de terceiros, como o Google Analytics, Hotjar e Intercom nos Serviços. Esses serviços usam ferramentas de coleta de dados para nos ajudar a analisar o uso dos Serviços por parte do usuário, inclusive informações tais como o site de terceiros de proveniência do usuário, a frequência de visitas do usuário, eventos dentro dos Serviços, dados sobre uso e desempenho e de onde o aplicativo foi baixado. Usamos estes dados para melhorar os Serviços, entender melhor como os Serviços funcionam em diferentes dispositivos e fornecer informações que possam ser de interesse do usuário.
         </p>
-        
+
         <h2 class="policy__text-title">
           2.3 Publicidade online
         </h2>
@@ -213,7 +213,7 @@
             </ul>
           </li>
         </ul>
-        
+
         <h2 class="policy__text-title">
           5. Segurança
         </h2>
@@ -269,7 +269,7 @@
             </ul>
           </li>
         </ul>
-        
+
         <h2 class="policy__text-title">
           6.3 Nossa política em relação a crianças
         </h2>
