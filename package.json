@@ -16,7 +16,15 @@
     "generate": "nuxt generate",
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
     "test": "jest --coverage",
-    "lint-staged": "lint-staged"
+    "lint-staged": "lint-staged",
+    "cordova-ios": "npm run build-spa && npm run replace-relative-paths && npm run copy-cordova && npm run run-ios;",
+    "cordova-android": "npm run build-spa && npm run replace-relative-paths && npm run copy-cordova && npm run run-android;",
+    "build-spa": "nuxt build --spa",
+    "replace-relative-paths": "replace '/nuxtfiles/' 'nuxtfiles/' dist --recursive && replace '/assets/' 'nuxtfiles/' dist --recursive && replace '(href|src|\"href\"|\"src\")=\"/' '$1=\"../' dist --recursive && replace '(href|src|\"href\"|\"src\"):\"/' '$1:\"../' dist --recursive",
+    "copy-cordova": "cp -R dist/* cordova/www/",
+    "clear-cordova": "rm -R cordova/www/*",
+    "run-ios": "cd cordova && cordova run ios --buildFlag='-UseModernBuildSystem=0' --target='iPhone-X, 12.2'",
+    "run-android": "cd cordova && cordova run android"
   },
   "lint-staged": {
     "*.js": "eslint --ignore-path .gitignore",
@@ -31,6 +39,7 @@
     "@nuxtjs/pwa": "^3.0.0-0",
     "@nuxtjs/router-extras": "^1.0.0",
     "@nuxtjs/vuetify": "^1.0.0",
+    "cordova-plugin-facebook4": "^6.2.0",
     "fs": "0.0.1-security",
     "moment": "^2.24.0",
     "ms": "^2.1.2",

@@ -85,7 +85,7 @@ export default {
       description: '',
       youtubeUrl: '',
       vimeoUrl: '',
-      lesson: '',
+      lessonId: '',
     },
     titleRules: [title => !!title || 'Digite um título'],
     videoUrlRules: [video => !!video || 'Insira o link do vídeo'],
@@ -106,7 +106,7 @@ export default {
     };
   },
   created() {
-    this.part.lesson = this.$route.params.lessonId;
+    this.part.lessonId = this.$route.params.lessonId;
     this.courseId = this.$route.params.courseId;
   },
   methods: {
@@ -120,7 +120,7 @@ export default {
             this.showConfirmSnack('Parte criada! ;)', 'success');
             this.submited = true;
             $nuxt._router.push(
-              `/admin/course/${this.courseId}/lesson/${res.data.lesson}/part/${res.data.id}/test/new`,
+              `/admin/course/${this.courseId}/lesson/${this.part.lessonId}/part/${res.data.id}/test/new`,
             );
           })
           .catch(err => {
