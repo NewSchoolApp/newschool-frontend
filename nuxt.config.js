@@ -338,7 +338,7 @@ export default {
     /*
      ** You can extend webpack config here
      */
-    publicPath: '/nuxtfiles/',
+    // publicPath: '/nuxtfiles/',
     extend(config, ctx) { },
   },
 
