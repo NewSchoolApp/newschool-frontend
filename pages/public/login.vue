@@ -188,8 +188,6 @@ export default {
       const provider = this.$auth.strategy.name;
       try {
         if (provider === 'facebook') {
-          // const facebookCredentials = this.getFacebookCredentials();
-
           window.facebookConnectPlugin.login(['public_profile', 'user_friends', 'email'])
             .then(res => {
               console.log('Logged into Facebook!', JSON.stringify(res));
