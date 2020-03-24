@@ -20,6 +20,24 @@
         <v-row>
           <v-col cols="12">
             <v-form ref="form" v-model="status" lazy-validation>
+              <div class="image-upload">
+                <label for="file-input">
+                  <v-img class="input" v-model="form.image" @click="pickFile()">
+                    <img src="~/assets/retangle.svg" alt="Retangulo" />
+                    <img class="camera" src="~/assets/Camera.svg" alt="Camera" />
+                  </v-img>
+                </label>
+                <input
+                  id="file-input"
+                  type="file"
+                  ref="image"
+                  accept="image/*"
+                  @change="onFilePicked"
+                />
+              </div>
+              <div class="text-user">
+                <h1>Escolha uma foto para seu perfil</h1>
+              </div>
               <v-text-field color="#60c" v-model="form.name" label="Nome *" name="name" required></v-text-field>
               <v-text-field
                 color="#60c"
@@ -40,30 +58,87 @@
                 @click:append="() => (showPass = !showPass)"
                 required
               ></v-text-field>
+              <v-text-field color="#60c" v-model="form.nickname" label="Apelido" name="nickname"></v-text-field>
               <v-text-field
                 color="#60c"
-                v-model="form.confirmPassword"
-                label="Confirmar senha *"
-                :rules="confirmPasswordRules"
-                :type="showConfirmPass ? 'password' : 'text'"
-                :append-icon="showConfirmPass ? 'mdi-eye-off' : 'mdi-eye'"
-                @click:append="() => (showConfirmPass = !showConfirmPass)"
+                class="nasc"
+                type="date"
+                v-model="form.birthDate"
+                label="Data de nascimento"
+                name="birthDate"
+                required
+              ></v-text-field>
+              <v-select
+                color="#60c"
+                name="birthDate"
+                v-model="form.genero"
+                :items="items"
+                :menu-props="{ bottom: true, offsetY: true }"
+                label="Genêro"
+              ></v-select>
+              <v-select
+                color="#60c"
+                name="birthDate"
+                v-model="form.perfil"
+                :items="items"
+                :menu-props="{ bottom: true, offsetY: true }"
+                label="Qual é o seu perfil?"
+              ></v-select>
+              <v-text-field color="#60c" v-model="form.pais" label="País" name="pais" required></v-text-field>
+              <v-text-field
+                color="#60c"
+                v-model="form.estado"
+                label="Estado"
+                name="estado"
                 required
               ></v-text-field>
               <v-text-field
                 color="#60c"
-                v-model="form.urlFacebook"
-                label="URL do Facebook"
-                name="urlFacebook"
+                v-model="form.cidade"
+                label="Cidade"
+                name="cidade"
                 required
+              ></v-text-field>
+              <v-text-field
+                color="#60c"
+                v-model="form.bairro"
+                label="Bairro"
+                name="bairro"
+                required
+              ></v-text-field>
+              <v-select
+                color="#60c"
+                name="birthDate"
+                v-model="form.educationalLevel"
+                :items="items"
+                :menu-props="{ bottom: true, offsetY: true }"
+                label="Grau de escolaridade"
+              ></v-select>
+              <v-col cols="12">
+                <p class="job">Empregado?</p>
+                <v-radio-group :readonly="false" :mandatory="true" :multiple="false" color="#60c">
+                  <v-radio label="Sim"></v-radio>
+                  <v-radio label="Não"></v-radio>
+                </v-radio-group>
+              </v-col>
+              <v-text-field
+                color="#60c"
+                v-model="form.profession"
+                label="Profissão"
+                name="profession"
+              ></v-text-field>
+              <v-text-field
+                color="#60c"
+                v-model="form.urlFacebook"
+                label="Facebook"
+                name="urlFacebook"
               ></v-text-field>
               <v-text-field
                 color="#60c"
                 type="text"
                 v-model="form.urlInstagram"
-                label="URL do Instagram"
+                label="Instagram"
                 name="urlInstagram"
-                required
               ></v-text-field>
               <v-btn color="#60c" dark block depressed large @click="submit">Cadastrar</v-btn>
             </v-form>
@@ -95,28 +170,38 @@
 </router>
 
 <script scoped>
-import auth from '../../services/http/auth'
-import utils from '~/utils/index'
+import auth from '../../services/http/auth';
+import utils from '~/utils/index';
 
 export default {
   data() {
     return {
+      rules: [
+        value =>
+          !value ||
+          value.size < 2000000 ||
+          'Avatar size should be less than 2 MB!',
+      ],
+      dialog: false,
+      imageName: '',
+      imageUrl: '',
+      imageFile: '',
+      items: ['Foo', 'Bar', 'Fizz', 'Buzz'],
       title: 'Cadastro',
       status: true,
       loading: false,
       showPass: String,
-      showConfirmPass: String,
       snackbar: false,
       snackbarText: '',
       snackbarStatus: '',
       form: {
-        name: "",
-        email: "",
-        password: "",
-        confirmPassword: "",
-        urlFacebook: "",
-        urlInstagram: "",
-        role: "STUDENT"
+        name: '',
+        email: '',
+        password: '',
+        urlFacebook: '',
+        iamge: '',
+        urlInstagram: '',
+        role: 'STUDENT',
       },
 
       nameRules: [v => !!v || 'Digite seu nome'],
@@ -128,7 +213,7 @@ export default {
         v => !!v || 'Digite o e-mail',
         v => /.+@.+\..+/.test(v) || 'E-mail inválido',
       ],
-    }
+    };
   },
 
   head() {
@@ -142,95 +227,97 @@ export default {
             'Cadastra-se no aplicativo da New School - Levamos educação de qualidade na linguagem da quebrada para as periferias do Brasil, através da tecnologia e da curadoria de conteúdos baseados nas habilidades do futuro.',
         },
       ],
-    }
+    };
   },
 
   methods: {
     submit() {
       if (this.$refs.form.validate()) {
-        const postObject = Object.assign({}, this.form)
-        delete postObject.confirmPassword
-        this.animateForm(true)
+        const postObject = Object.assign({}, this.form);
+        this.animateForm(true);
         this.loadClientCredentials()
           .then(res => {
-            const token = res.data.accessToken
+            const token = res.data.accessToken;
             auth
               .signUp(postObject, token)
               .then(res => {
-                this.loading = false
-                this.confirmSnackbar('Cadastro efetuado! ;)', 'success')
+                this.loading = false;
+                this.confirmSnackbar('Cadastro efetuado! ;)', 'success');
                 setTimeout(() => {
-                  this.gotoLogin()
-                }, 2500)
+                  this.gotoLogin();
+                }, 2500);
               })
               .catch(err => {
                 setTimeout(() => {
-                  this.loading = false
-                }, 500)
-                console.error(err)
-              })
+                  this.loading = false;
+                }, 500);
+                console.error(err);
+              });
           })
           .catch(() => {
-            $nuxt._router.push('/login')
-          })
+            $nuxt._router.push('/login');
+          });
       } else {
-        this.animateForm(false)
+        this.animateForm(false);
       }
+    },
+    pickFile() {
+      this.$refs.image.click();
+    },
+    onFilePicked(e) {
+      const files = e.target.files;
+      if (files[0] !== undefined) {
+        this.imageName = files[0].name;
+        if (this.imageName.lastIndexOf('.') <= 0) {
+          return;
+        }
+        const fr = new FileReader();
+        fr.readAsDataURL(files[0]);
+        fr.addEventListener('load', () => {
+          this.imageUrl = fr.result;
+          this.imageFile = files[0]; // this is an image file that can be sent to server...
+        });
+      }
+      console.log(this.imageName);
+      console.log(this.imageUrl);
     },
 
     animateForm(status) {
       if (status) {
-        this.$refs.flex.classList.add('hide-form')
-        document.querySelector('html').style.overflow = 'hidden'
+        this.$refs.flex.classList.add('hide-form');
+        document.querySelector('html').style.overflow = 'hidden';
         setTimeout(() => {
-          this.loading = true
-        }, 300)
+          this.loading = true;
+        }, 300);
       } else {
-        this.$refs.flex.classList.add('error-form')
+        this.$refs.flex.classList.add('error-form');
         setTimeout(() => {
-          this.$refs.flex.classList.remove('error-form')
-        }, 500)
+          this.$refs.flex.classList.remove('error-form');
+        }, 500);
       }
-      document.querySelector('html').style.overflow = 'scroll'
+      document.querySelector('html').style.overflow = 'scroll';
     },
 
     showPassword() {
       this.eyeIcon === 'mdi-eye'
         ? (this.eyeIcon = 'mdi-eye-off')
-        : (this.eyeIcon = 'mdi-eye')
-    },
-
-    showConfirmPassword() {
-      this.eyeIcon2 === 'mdi-eye'
-        ? (this.eyeIcon2 = 'mdi-eye-off')
-        : (this.eyeIcon2 = 'mdi-eye')
+        : (this.eyeIcon = 'mdi-eye');
     },
 
     gotoLogin() {
-      $nuxt._router.push('/login')
+      $nuxt._router.push('/login');
     },
 
     confirmSnackbar(text, status) {
-      this.snackbarText = text
-      this.snackbarStatus = status
-      this.snackbar = true
+      this.snackbarText = text;
+      this.snackbarStatus = status;
+      this.snackbar = true;
     },
     loadClientCredentials() {
-      return utils.getExternalCredentials()
+      return utils.getExternalCredentials();
     },
   },
-
-  computed: {
-    confirmPasswordRules() {
-      return [
-        v => !!v || 'Confirme a senha',
-        () =>
-          this.form.password === this.form.confirmPassword ||
-          'As senhas devem ser idênticas.',
-      ]
-    },
-  },
-}
+};
 </script>
 
 <style scoped>
@@ -274,11 +361,22 @@ export default {
 .logo-container img {
   width: 48px;
 }
+.camera {
+  left: 17px;
+  top: 17px;
+  position: absolute;
+  z-index: 999999;
+}
+.job {
+  color: #aa56ff;
+  font-weight: 600;
+  margin: 0 0 0 5px;
+}
 
 /* Form */
 .v-form {
   width: 100%;
-/* inputs */
+  /* inputs */
 }
 ::v-deep .theme--light.v-text-field {
   margin-top: 0;
@@ -294,6 +392,9 @@ export default {
   font-size: 12px;
   color: #60c;
 }
+.image-upload > input {
+  display: none;
+}
 
 ::v-deep
   .theme--light.v-text-field:not(.v-input--has-state)
@@ -306,20 +407,19 @@ export default {
   > .v-input__control
   > .v-input__slot:hover:before {
   border-color: #6600cc !important;
-  }
+}
 ::v-deep .theme--light.v-label,
 ::v-deep .theme--light.v-icon {
-  font-size: 12px;
+  /* font-size: 12px; */
   font-weight: 600;
   line-height: 15px;
   color: #aa56ff;
 }
-
+::v-deep .v-text-field .v-label {
+  font-size: 16px !important;
+}
 .theme--light.v-input:not(.v-input--is-disabled) input {
   color: #6600cc !important;
-}
-::v-deep .theme--light.v-icon {
-  font-size: 20px;
 }
 
 ::v-deep .v-btn {
@@ -337,12 +437,22 @@ export default {
   margin-top: 0 !important;
   color: #6600cc;
 }
+.input {
+  width: 60%;
+  margin: 0 40%;
+}
+.text-user h1 {
+  color: #aa56ff;
+  text-align: center;
+  font-size: 12px;
+}
 
 ::v-deep
   .theme--light.v-text-field
   > .v-input__control
   > .v-input__slot::before {
-  border-color: #aa56ff;}
+  border-color: #aa56ff;
+}
 .theme--dark.v-input:not(.v-input--is-disabled) input {
   color: #6600cc;
 }
@@ -372,8 +482,6 @@ export default {
 .error-form {
   animation: nono 300ms, intro paused;
 }
-</style>
-
 /* Error messages */
 .v-messages__message {
   color: #ff5252 !important;
@@ -386,3 +494,5 @@ export default {
   border-radius: 5px;
 }
 </style>
+
+
