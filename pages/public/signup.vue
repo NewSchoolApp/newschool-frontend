@@ -74,7 +74,7 @@
                 v-model="form.genero"
                 :items="items"
                 :menu-props="{ bottom: true, offsetY: true }"
-                label="Genêro"
+                label="Gênero"
               ></v-select>
               <v-select
                 color="#60c"
