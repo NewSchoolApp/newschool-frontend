@@ -70,7 +70,6 @@
                 v-model="form.nickname"
                 placeholder="Digite seu apelido"
                 color="#60c"
-                :rules="nameRules"
                 label="Apelido *"
                 name="nickaname"
                 required
@@ -146,6 +145,14 @@
                 name="bairro"
                 required
               ></v-text-field>
+              <v-text-field
+                v-model="form.institutionName"
+                placeholder="Digite onde você estuda"
+                color="#60c"
+                label="Onde estuda? *"
+                name="institutionName"
+                required
+              ></v-text-field>
               <v-select
                 v-model="form.schooling"
                 class="select__text"
@@ -156,9 +163,9 @@
               ></v-select>
               <v-container fluid>
                 <v-text class="employee__text">Empregado?</v-text>
-                <v-radio-group v-model="employee" :mandatory="false">
-                  <v-radio label="Sim" value="radio-1"></v-radio>
-                  <v-radio label="Não" value="radio-2"></v-radio>
+                <v-radio-group v-model="form.working" :mandatory="false">
+                  <v-radio label="Sim" value="sim"></v-radio>
+                  <v-radio label="Não" value="nao"></v-radio>
                 </v-radio-group>
               </v-container>
               <v-text-field
@@ -241,9 +248,13 @@ export default {
       schooling: [
         'Ensino fundamental imcompleto',
         'Ensino fundamental completo',
+        'Ensino fundamental cursando',
         'Ensino médio imcompleto',
         'Ensino médio completo',
-        'Cursando faculdade/universidade',
+        'Ensino médio cursando',
+        'Superior incompleto',
+        'Superior completo',
+        'Superior cursando',
       ],
       form: {
         name: '',
@@ -253,10 +264,11 @@ export default {
         nickname: '',
         gender: '',
         schooling: '',
+        institutionName: '',
         country: '',
         state: '',
         city: '',
-        employee: '',
+        working: '',
         urlFacebook: '',
         urlInstagram: '',
         role: 'STUDENT',
@@ -288,8 +300,32 @@ export default {
   methods: {
     submit() {
       if (this.$refs.form.validate()) {
-        const object = Object.assign({}, this.form);
-        const postObject = postObjectParse(object);
+        const postObject = Object.assign({}, this.form);
+        postObject.address = `${postObject.neighborhood}, ${postObject.city} - ${postObject.state}, ${postObject.country}`;
+        postObject.birthday = `${postObject.birthday}T00:00:00.000Z`;
+        postObject.working = postObject.working === 'sim';
+
+        if (postObject.gender === 'Masculino') {
+          postObject.gender = 'MALE';
+        } else {
+          postObject.gender = 'FEMALE';
+        }
+        if (postObject.schooling.includes('Superior')) {
+          postObject.schooling = postObject.schooling
+            .replace('Superior', 'faculdade')
+            .replace(/\s/g, '_')
+            .toUpperCase();
+        } else if (postObject.schooling.includes('médio')) {
+          postObject.schooling = postObject.schooling
+            .replace('médio', 'medio')
+            .replace(/\s/g, '_')
+            .toUpperCase();
+        } else {
+          postObject.schooling = postObject.schooling
+            .replace(/\s/g, '_')
+            .toUpperCase();
+        }
+        console.log(postObject);
 
         delete postObject.confirmPassword;
         this.animateForm(true);
@@ -320,16 +356,7 @@ export default {
       }
     },
 
-    postObjectParse(postObject) {
-      if (postObject.gender === 'Masculino') {
-        postObject.gender = 'MALE';
-      } else {
-        postObject.gender = 'FEMALE';
-      }
-      postObject.schooling = postObject.schooling
-        .replace(' ', '_')
-        .toUpperCase();
-    },
+    postObjectParse(postObject) {},
 
     animateForm(status) {
       if (status) {
