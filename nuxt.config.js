@@ -147,8 +147,10 @@ export default {
 
   env: {
     domain: process.env.DOMAIN_URL || 'https://newschoolapp.com.br',
-    baseUrl: process.env.VUE_APP_BASE_URL || 'http://develop.dev-newschool.tk/',
-
+    baseUrl:
+      process.env.VUE_APP_BASE_URL ||
+      'http://newschool-api-dev2.eba-gxtzwa9m.us-east-2.elasticbeanstalk.com/',
+    // http://develop.dev-newschool.tk/
     credentials: {
       name: process.env.VUE_APP_CLIENT_CREDENTIAL_NAME || 'NEWSCHOOL@FRONT',
       secret:
