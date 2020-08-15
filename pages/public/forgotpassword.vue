@@ -68,7 +68,6 @@
 
 <script scoped>
 import auth from '../../services/http/auth'
-import StackUtils from 'stack-utils'
 export default {
   data() {
     return {
