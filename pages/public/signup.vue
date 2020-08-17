@@ -166,23 +166,16 @@
               <v-container fluid>
                 <v-text class="employee__text">Empregado?</v-text>
                 <v-radio-group v-model="form.working" :mandatory="false">
-                  <v-radio
-                    class="radio__text"
-                    label="Sim"
-                    value="sim"
-                  ></v-radio>
-                  <v-radio
-                    class="radio__text"
-                    label="Não"
-                    value="nao"
-                  ></v-radio>
+                  <v-radio label="Sim" value="sim"></v-radio>
+                  <v-radio label="Não" value="nao"></v-radio>
                 </v-radio-group>
               </v-container>
               <v-text-field
                 v-model="form.profession"
                 placeholder="Digite sua profissão"
                 color="#60c"
-                label="Profissão"
+                required
+                label="Profissão *"
                 name="profession"
               ></v-text-field>
               <v-text-field
@@ -535,7 +528,7 @@ export default {
 }
 ::v-deep .theme--light.v-label,
 ::v-deep .theme--light.v-icon {
-  font-size: 18px !important;
+  font-size: 17px !important;
   font-weight: 650;
   line-height: 15px;
   color: #6600cc;
