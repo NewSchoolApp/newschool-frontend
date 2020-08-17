@@ -145,14 +145,16 @@
                 name="bairro"
                 required
               ></v-text-field>
-              <v-text-field
+              <v-autocomplete
                 v-model="form.institutionName"
-                placeholder="Digite onde você estuda"
-                color="#60c"
-                label="Onde estuda? *"
-                name="institutionName"
-                required
-              ></v-text-field>
+                :items="schools"
+                hide-no-data
+                hide-selected
+                placeholder="Procure sua escola"
+                :loading="isLoading"
+                label="Onde você estuda? "
+                @keyup="searchTimeOut($event.target.value)"
+              ></v-autocomplete>
               <v-select
                 v-model="form.schooling"
                 class="select__text"
@@ -164,8 +166,16 @@
               <v-container fluid>
                 <v-text class="employee__text">Empregado?</v-text>
                 <v-radio-group v-model="form.working" :mandatory="false">
-                  <v-radio label="Sim" value="sim"></v-radio>
-                  <v-radio label="Não" value="nao"></v-radio>
+                  <v-radio
+                    class="radio__text"
+                    label="Sim"
+                    value="sim"
+                  ></v-radio>
+                  <v-radio
+                    class="radio__text"
+                    label="Não"
+                    value="nao"
+                  ></v-radio>
                 </v-radio-group>
               </v-container>
               <v-text-field
@@ -238,18 +248,20 @@ export default {
       title: 'Cadastro',
       status: true,
       loading: false,
+      isLoading: false,
       showPass: String,
       showConfirmPass: String,
       snackbar: false,
       snackbarText: '',
+      schools: [],
       snackbarStatus: '',
       neighborhood: '',
       gender: ['Masculino', 'Feminino', 'Não definido'],
       schooling: [
-        'Ensino fundamental imcompleto',
+        'Ensino fundamental incompleto',
         'Ensino fundamental completo',
         'Ensino fundamental cursando',
-        'Ensino médio imcompleto',
+        'Ensino médio incompleto',
         'Ensino médio completo',
         'Ensino médio cursando',
         'Superior incompleto',
@@ -325,7 +337,6 @@ export default {
             .replace(/\s/g, '_')
             .toUpperCase();
         }
-        console.log(postObject);
 
         delete postObject.confirmPassword;
         this.animateForm(true);
@@ -355,8 +366,33 @@ export default {
         this.animateForm(false);
       }
     },
+    searchTimeOut(school) {
+      if (this.timer) {
+        clearTimeout(this.timer);
+        this.timer = null;
+      }
+      this.timer = setTimeout(() => {
+        this.getSchool(school);
+      }, 800);
+    },
 
-    postObjectParse(postObject) {},
+    async getSchool(school) {
+      if (this.isLoading) return;
+
+      this.isLoading = true;
+
+      const response = await fetch(
+        `https://api-newschool.herokuapp.com/school?nome=${school}`,
+      )
+        .then(res => res.text())
+        .then(res => res)
+        .catch(err => {
+          console.log(err);
+        })
+        .finally(() => (this.isLoading = false));
+      // this.schools.push(response)
+      JSON.parse(response)[1].forEach(item => this.schools.push(item.nome));
+    },
 
     animateForm(status) {
       if (status) {
@@ -463,6 +499,7 @@ export default {
   width: 100%;
   /* inputs */
 }
+
 ::v-deep .theme--light.v-text-field {
   margin-top: 0;
 }
@@ -474,12 +511,12 @@ export default {
 }
 
 ::v-deep .theme--light.v-input:not(.v-input--is-disabled) input {
-  font-size: 12px;
+  font-size: 13px;
   color: #60c;
 }
 
 ::v-deep .theme--light.v-select .v-select__selection--comma {
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 200;
   color: #6600cc !important;
 }
@@ -498,7 +535,7 @@ export default {
 }
 ::v-deep .theme--light.v-label,
 ::v-deep .theme--light.v-icon {
-  font-size: 16px !important;
+  font-size: 18px !important;
   font-weight: 650;
   line-height: 15px;
   color: #6600cc;
@@ -514,6 +551,10 @@ export default {
 
 ::v-deep .v-btn {
   margin-top: 15px;
+}
+
+::v-deep .v-radio {
+  margin-left: -14px;
 }
 
 .btn__content {
@@ -545,6 +586,11 @@ export default {
 .theme--dark.v-input:not(.v-input--is-disabled) input {
   color: #6600cc;
 }
+::v-deep .v-list-item .v-list-item__title,
+.v-list-item .v-list-item__subtitl {
+  color: #6600cc;
+  font-size: 14px;
+}
 
 ::v-deep
   .v-text-field.v-input--has-state
@@ -558,12 +604,12 @@ export default {
 }
 ::v-deep .v-messages__message {
   color: #ff5252;
-  font-size: 12px;
+  font-size: 14px;
   margin-left: 5px;
 }
 
 .login-link {
-  font-size: 12px;
+  font-size: 14px;
   color: #6600cc;
 }
 
