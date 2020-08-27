@@ -76,7 +76,9 @@
 </router>
 
 <script scoped>
+
 import auth from '../../services/http/auth';
+
 export default {
   data() {
     return {
