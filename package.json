@@ -31,6 +31,7 @@
     "*.vue": "eslint --ignore-path .gitignore"
   },
   "dependencies": {
+    "@babel/runtime": "^7.11.2",
     "@mdi/font": "^4.6.95",
     "@nuxtjs/auth": "^4.8.5",
     "@nuxtjs/axios": "^5.9.3",
@@ -50,11 +51,15 @@
     "vue-the-mask": "^0.11.1"
   },
   "devDependencies": {
+    "@babel/core": "^7.11.1",
+    "@babel/plugin-transform-runtime": "^7.11.0",
+    "@babel/preset-env": "^7.11.0",
     "@nuxtjs/eslint-config": "^2.0.0",
     "@nuxtjs/eslint-module": "^1.0.0",
     "@vue/test-utils": "^1.0.0-beta.27",
     "babel-eslint": "^10.0.1",
     "babel-jest": "^24.1.0",
+    "babel-loader": "^8.1.0",
     "eslint": "^6.1.0",
     "eslint-config-prettier": "^6.9.0",
     "eslint-plugin-nuxt": ">=0.4.2",
@@ -63,6 +68,7 @@
     "jest": "^24.1.0",
     "lint-staged": "^9.5.0",
     "prettier": "^1.19.1",
-    "vue-jest": "^4.0.0-0"
+    "vue-jest": "^4.0.0-0",
+    "webpack": "^4.44.1"
   }
 }

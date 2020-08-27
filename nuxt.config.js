@@ -149,8 +149,8 @@ export default {
     domain: process.env.DOMAIN_URL || 'https://newschoolapp.com.br',
     baseUrl:
       process.env.VUE_APP_BASE_URL ||
-     'https://newschoolbrapi-dev.herokuapp.com/',
-
+      'http://newschool-api-dev2.eba-gxtzwa9m.us-east-2.elasticbeanstalk.com/',
+    // http://develop.dev-newschool.tk/
     credentials: {
       name: process.env.VUE_APP_CLIENT_CREDENTIAL_NAME || 'NEWSCHOOL@FRONT',
       secret:
@@ -183,8 +183,8 @@ export default {
       CURRENT_STEP: '/api/v1/course-taken/current-step',
 
       MY_COURSES: 'api/v1/course-taken/user/',
-      FACEBOOK_LOGIN: "oauth/facebook/token",
-      GOOGLE_LOGIN: "oauth/google/token"
+      FACEBOOK_LOGIN: 'oauth/facebook/token',
+      GOOGLE_LOGIN: 'oauth/google/token',
     },
     endpointCertificateCourseTaken: {
       CERTIFICATES_COURSE_TAKEN_ME: 'api/v1/course-taken/certificate/user/',
@@ -339,7 +339,7 @@ export default {
      ** You can extend webpack config here
      */
     publicPath: '/nuxtfiles/',
-    extend(config, ctx) { },
+    extend(config, ctx) {},
   },
 
   auth: {
@@ -351,8 +351,10 @@ export default {
         scope: ['public_profile', 'email'],
       },
       google: {
-        client_id: process.env.GOOGLE_ID || '889053794643-qu89df6ei5u2sncnfmedi39m2ascih3k.apps.googleusercontent.com'
+        client_id:
+          process.env.GOOGLE_ID ||
+          '889053794643-qu89df6ei5u2sncnfmedi39m2ascih3k.apps.googleusercontent.com',
       },
     },
   },
-}
+};
