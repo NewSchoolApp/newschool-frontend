@@ -1,13 +1,12 @@
 <template>
-  <v-layout justify-center id="page">
-    <v-flex ref="flex" xs10 sm8 md6 class="main-container">
+  <v-layout id="page">
+    <v-flex ref="flex" class="main-container">
       <h1>
         <n-link to="../edit">
           <v-btn class="back-button" text icon color="primary">
             <v-icon>mdi-arrow-left</v-icon>
           </v-btn>
-        </n-link>
-        Gerenciar meus cursos
+        </n-link>Gerenciar meus cursos
       </h1>
 
       <v-form class="lesson-form" ref="lesson" v-model="status" lazy-validation>
@@ -31,13 +30,8 @@
         />
       </v-form>
 
-      <resources-list
-        name="Parte"
-        :resources="[]"
-        redirect="true"
-        path="part"
-      />
-      <span class="new-tests-span">Favor, adicionar uma parte</span>
+      <resources-list name="Parte" :resources="[]" redirect="true" path="part" />
+      <span class="new-parts-span">Favor, adicionar uma parte</span>
 
       <v-btn color="primary" class="save-button" @click="submit">Salvar</v-btn>
     </v-flex>
@@ -50,9 +44,7 @@
       :right="true"
     >
       {{ snackbarText }}
-      <v-btn color="#FFF" text @click="snackbar = false">
-        Fechar
-      </v-btn>
+      <v-btn color="#FFF" text @click="snackbar = false">Fechar</v-btn>
     </v-snackbar>
     <client-only>
       <navigation-bar />
@@ -67,8 +59,8 @@
 </router>
 
 <script>
-import NavigationBar from '~/components/NavigationBar'
-import generic from '~/services/http/generic'
+import NavigationBar from '~/components/NavigationBar';
+import generic from '~/services/http/generic';
 
 export default {
   components: {
@@ -85,6 +77,7 @@ export default {
     lesson: {
       title: '',
       description: '',
+      courseId: '',
     },
     titleRules: [title => !!title || 'Digite um título'],
     descriptionRules: [v => !!v || 'Digite uma descrição'],
@@ -102,64 +95,66 @@ export default {
             'curadoria de conteúdos baseados nas habilidades do futuro.',
         },
       ],
-    }
+    };
   },
   created() {
-    this.lesson.course = this.$route.params.courseId
+    this.lesson.courseId = this.$route.params.courseId;
   },
   methods: {
     submit() {
       if (this.$refs.lesson.validate()) {
-        this.animateForm(true)
+        this.animateForm(true);
         generic
           .post('/api/v1/lesson', this.lesson)
           .then(res => {
-            this.loading = false
-            this.showConfirmSnack('Aula criada! ;)', 'success')
-            this.submited = true
+            this.loading = false;
+            this.showConfirmSnack('Aula criada! ;)', 'success');
+            this.submited = true;
             setTimeout(() => {
-              this.goBack()
-            }, 2500)
+              $nuxt._router.push(`/admin/course/${this.lesson.courseId}/lesson/${res.data.id}/part/new`);
+            }, 2500);
           })
           .catch(err => {
-            this.showConfirmSnack('Ocorreu um erro.', 'error')
+            this.showConfirmSnack('Ocorreu um erro.', 'error');
             setTimeout(() => {
-              this.loading = false
-            }, 500)
-            console.error(err)
-          })
+              this.loading = false;
+            }, 500);
+            console.error(err);
+          });
       } else {
-        this.animateForm(false)
+        this.animateForm(false);
       }
     },
 
     animateForm(status) {
       if (status) {
-        this.$refs.flex.classList.add('hide-form')
-        document.querySelector('html').style.overflow = 'hidden'
+        this.$refs.flex.classList.add('hide-form');
+        document.querySelector('html').style.overflow = 'hidden';
         setTimeout(() => {
-          this.loading = true
-        }, 300)
+          this.loading = true;
+        }, 300);
       } else {
-        this.$refs.flex.classList.add('error-form')
+        this.$refs.flex.classList.add('error-form');
         setTimeout(() => {
-          this.$refs.flex.classList.remove('error-form')
-        }, 500)
+          this.$refs.flex.classList.remove('error-form');
+        }, 500);
       }
-      document.querySelector('html').style.overflow = 'scroll'
+      document.querySelector('html').style.overflow = 'scroll';
     },
 
     showConfirmSnack(text, status) {
-      this.snackbarText = text
-      this.snackbarStatus = status
-      this.snackbar = true
+      this.snackbarText = text;
+      this.snackbarStatus = status;
+      this.snackbar = true;
     },
 
     goBack() {
-      window.history.length > 1 ? $nuxt._router.go(-1) : $nuxt._router.push('/')
+      window.history.length > 1
+        ? $nuxt._router.go(-1)
+        : $nuxt._router.push('/');
     },
   },
-}
+};
 </script>
 
 <style scoped>
@@ -190,7 +185,7 @@ h3 {
 .main-container {
   display: flex;
   flex-direction: column;
-  padding: 2em 3em 1.5em 2em;
+  padding: 2em 3em 78px 2em;
 }
 
 .v-input {
@@ -201,12 +196,12 @@ h3 {
 .save-button {
   height: 2.75em;
   width: 100%;
-  font-weight: 900;
-  margin-top: auto;
+  font-weight: 600;
   display: flex;
   align-items: center;
   text-align: center;
   color: #ffffff;
+  margin-top: auto;
 }
 
 .v-button__content {
@@ -215,7 +210,7 @@ h3 {
   line-height: 14px;
 }
 
-.new-tests-span {
+.new-parts-span {
   font-weight: 600;
   font-size: 16px;
   line-height: 20px;
@@ -235,7 +230,7 @@ h3 {
 }
 
 .lesson-form {
-  margin-top: 1.5em;
+  margin-top: 0;
 }
 
 ::v-deep

@@ -26,19 +26,21 @@
         v-for="item in menu"
         v-bind:key="item.id"
         :to="item.link"
+        v-on:click.native="closeMenu()"
       >
         <div>
           <v-icon color="primary">{{item.icon}}</v-icon>
         </div>
-        <p>{{item.label}}</p>
+        <p class="text-menu">{{item.label}}</p>
       </router-link>
     </section>
   </div>
 </template>
 
 <script>
-import Avatar from 'vue-avatar'
-import { mapActions } from 'vuex'
+import Avatar from 'vue-avatar';
+import { mapActions } from 'vuex';
+import auth from '~/services/http/auth';
 
 export default {
   data: () => ({
@@ -47,31 +49,45 @@ export default {
         id: 1,
         label: 'Meu Perfil',
         icon: 'mdi-account',
-        link: '/aluno/perfil',
+        link: 'perfil',
       },
       {
         id: 2,
         label: 'Meus Cursos',
         icon: 'mdi-library',
-        link: '/aluno/meus-cursos',
+        link: 'meus-cursos',
       },
       {
         id: 3,
         label: 'Meus Certificados',
         icon: 'mdi-school',
-        link: '/aluno/certificados',
+        link: 'certificados',
       },
       {
         id: 4,
-        label: 'Contribua',
-        icon: 'mdi-source-fork',
+        label: 'Cola com Nóix',
+        icon: 'mdi-gesture-double-tap',
         link: '/contribua',
       },
-      { id: 5, label: 'Sobre', icon: 'mdi-file-document-box', link: '/sobre' },
-      { id: 6, label: 'Ajuda', icon: 'mdi-help-circle', link: '/ajuda' },
-      { id: 7, label: 'Contato', icon: 'mdi-cellphone', link: '/contato' },
-      { id: 8, label: 'Imprensa', icon: 'mdi-camcorder', link: '/imprensa' },
-      { id: 9, label: 'Investidores', icon: 'mdi-coin', link: '/investidores' },
+      {
+        id: 5,
+        label: 'O que é a new school?',
+        icon: 'mdi-library-books',
+        link: '/sobre',
+      },
+      // { id: 6, label: "Ajuda", icon: "mdi-hand-right", link: "/ajuda" },
+      {
+        id: 7,
+        label: 'Fale com a gente',
+        icon: 'mdi-phone-message-outline',
+        link: '/contato',
+      },
+      {
+        id: 8,
+        label: 'Apoie a new school',
+        icon: 'mdi-volume-high',
+        link: '/investidores',
+      },
     ],
   }),
   methods: {
@@ -80,43 +96,63 @@ export default {
      * Método para fechar o side-menu
      */
     closeMenu() {
-      document.getElementById('menu-btn').click()
+      document.getElementById('menu-btn').click();
     },
     logout() {
-      localStorage.clear()
-      $nuxt._router.push('/login')
-      this.clearInfoUser()
+      this.logoutSocial().then(() => {
+        $nuxt._router.push('/login');
+        localStorage.clear();
+        this.clearInfoUser();
+      });
+    },
+    changeRoutingIfAdmin() {
+      if (this.$store.state.user.data.role === 'ADMIN') {
+        this.menu[1].link = '/admin/listar-cursos';
+      }
+    },
+    logoutSocial() {
+      if (!this.$auth.loggedIn) {
+        return Promise.resolve();
+      }
+      return this.$auth.logout();
     },
   },
   computed: {
     user() {
-      return this.$store.state.user.data
+      return this.$store.state.user.data;
     },
+  },
+  mounted() {
+    const { status } = auth.isTokenValid();
+    if (status) {
+      this.auth = true;
+      this.changeRoutingIfAdmin();
+    }
   },
   filters: {
     simplifyName(name) {
       if (!name) {
-        return ''
+        return '';
       }
-      const regex = /^(\S*\s+\S+).*/ // Regex para remover todos os caracteres após o segundo espaço em branco
-      const numberOfNames = name.split(' ').length
+      const regex = /^(\S*\s+\S+).*/; // Regex para remover todos os caracteres após o segundo espaço em branco
+      const numberOfNames = name.split(' ').length;
       if (numberOfNames > 2) {
-        return regex.exec(name)[1]
+        return regex.exec(name)[1];
       }
-      return name
+      return name;
     },
   },
   components: {
     Avatar,
   },
-}
+};
 </script>
 
-<style lang="scss">
-.container-page{
+<style lang="scss" scoped>
+.container-page {
   z-index: 2;
 }
-#btnLogout{
+#btnLogout {
   margin-top: 5px;
 }
 
@@ -133,6 +169,9 @@ export default {
 
 #avatar {
   margin-right: 1rem;
+}
+.text-menu {
+  text-transform: uppercase;
 }
 
 h1 {

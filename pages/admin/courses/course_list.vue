@@ -1,10 +1,9 @@
 <template>
   <div id="page">
-    <v-container class="layout" v-if="!flagView"></v-container>
-    <div v-else>
+    <div>
       <header class="title">
         <h1>MEUS CURSOS</h1>
-        <v-btn class="mx-2 btn-icon" icon>
+        <v-btn class="mx-2 btn-icon" icon to="/admin/criar-curso">
           <v-icon dark id="plus-icon">mdi-plus-circle</v-icon>
         </v-btn>
       </header>
@@ -15,12 +14,12 @@
               <img :src="item.thumbUrl" alt />
             </div>
             <div class="info-text">
-              <h1>{{item.title}}</h1>
-              <p>{{item.description}}</p>
+              <h1>{{ item.title }}</h1>
+              <p id="description">{{ item.description }}</p>
             </div>
           </div>
           <div class="group-buttons">
-            <v-btn class="btn-item bg-blue">
+            <v-btn class="btn-item bg-blue" :to="`/admin/course/${item.id}/edit`">
               <v-icon class="text-white">mdi-border-color</v-icon>
             </v-btn>
             <v-btn class="btn-item bg-danger" @click="deleteCourse(item.id)">
@@ -40,8 +39,8 @@
   }
 </router>
 <script>
-import NavigationBar from '~/components/NavigationBar.vue'
-import http from '~/services/http/generic'
+import NavigationBar from '~/components/NavigationBar.vue';
+import http from '~/services/http/generic';
 export default {
   data: () => ({
     list: [],
@@ -58,7 +57,7 @@ export default {
           content: 'Listagem de Cursos New School',
         },
       ],
-    }
+    };
   },
   components: {
     NavigationBar,
@@ -67,28 +66,31 @@ export default {
   methods: {
     getAllCourses() {
       http
-        .getAll('/api/v1/course')
+        .getAll(process.env.endpoints.COURSE)
         .then(res => {
-          list = res.data
-          this.flagView = this.list.length < 1
+          this.list = res.data;
+          this.flagView = this.list.length < 1;
         })
+        .catch(err => {
+          alert(err);
+        });
     },
     deleteCourse(id) {
       http
-        .delete(`/api/v1/course/${id}`)
+        .delete(process.env.endpoints.COURSE, id)
         .then(res => {
-          alert('Curso excluído com sucesso!')
+          alert('Curso excluído com sucesso!');
         })
         .catch(err => {
-          console.error(err)
-          alert('Erro ao excluir o curso!')
-        })
+          console.error(err);
+          alert('Erro ao excluir o curso!');
+        });
     },
   },
   mounted() {
-    this.getAllCourses()
+    this.getAllCourses();
   },
-}
+};
 </script>
 <style scoped>
 #page {
@@ -108,6 +110,7 @@ p {
 .img-mask {
   display: flex;
   width: 100px;
+  flex-shrink: 0;
 }
 .img-mask img {
   width: 100%;
@@ -115,7 +118,6 @@ p {
 .info-text {
   padding-left: 8px;
   padding-top: 8px;
-  width: 13rem;
 }
 .title {
   background: white;
@@ -142,9 +144,10 @@ p {
 .group-buttons {
   width: 2.1rem;
   overflow: hidden;
+  flex: 0 0 auto;
 }
 .btn-item {
-  height: 50px !important;
+  height: 56px !important;
   min-width: unset !important;
   border-radius: none !important;
 }
@@ -166,4 +169,11 @@ p {
 .content {
   display: flex;
 }
+#description {
+  width: 11rem;
+  word-break: break-word;
+  height: 67px;
+  overflow: hidden;
+}
+
 </style>

@@ -54,18 +54,25 @@
             </v-col>
           </v-form>
           <v-col cols="12">
-            <v-btn
-              class="btn-block btn-transparent"
-              role="button"
-              aria-haspopup="true"
-              aria-expanded="false"
-              depressed
-              large
-              to="/cadastro"
-            >Cadastrar</v-btn>
+            <v-btn dark block depressed large to="/cadastro" class="btn-transparent">Cadastrar</v-btn>
           </v-col>
           <v-col cols="12" class="text-center">
-            <v-btn tile outlined color="white" to="/esqueci-minha-senha">Esqueceu a senha?</v-btn>
+            <v-btn text color="white" @click="loginSocial('facebook')">
+              <v-icon dark left>mdi-facebook</v-icon>Entrar com Facebook
+            </v-btn>
+          </v-col>
+          <v-col cols="12" class="text-center">
+            <v-btn text color="white" @click="loginSocial('google')">
+              <v-icon dark left>mdi-google-glass</v-icon>Entrar com Google
+            </v-btn>
+          </v-col>
+          <!-- <v-col cols="12" class="text-center">
+            <v-btn text color="white">
+              <v-icon left>mdi-instagram</v-icon>Entrar com Instagram
+            </v-btn>
+          </v-col>-->
+          <v-col cols="12" class="text-center">
+            <v-btn text small color="#fff" to="/esqueci-minha-senha">Esqueceu sua senha?</v-btn>
           </v-col>
         </v-row>
       </v-container>
@@ -80,18 +87,19 @@
 
 <router>
   {
-    path: '/login'
+    path: '/login',
+    name : 'login'
   }
 </router>
 
 <script>
-import auth from '~/services/http/auth'
+import auth from '~/services/http/auth';
 
 export default {
   data: () => ({
     // flags
     status: true,
-    loading: false,
+    loading: true,
     dialog: false,
     dialogMessage: '',
     showPass: false,
@@ -109,6 +117,9 @@ export default {
       v => (v && v.length >= 6) || 'A senha deve ter no mínimo 6 caracteres',
     ],
   }),
+  mounted() {
+    this.loginSocialReturn();
+  },
 
   head() {
     return {
@@ -121,67 +132,112 @@ export default {
             'Entre no aplicativo da New School - Levamos educação de qualidade na linguagem da quebrada para as periferias do Brasil, através da tecnologia e da curadoria de conteúdos baseados nas habilidades do futuro.',
         },
       ],
-    }
+    };
   },
 
   methods: {
     submit() {
-      event.preventDefault()
+      event.preventDefault();
       if (this.$refs.form.validate()) {
-        this.animateForm(true)
+        this.animateForm(true);
         auth
           .login(this.email, this.password)
           .then(() => {
-            $nuxt._router.push('/loading')
+            $nuxt._router.push('/loading/login');
           })
           .catch(err => {
             setTimeout(() => {
-              this.dialogMessage = 'Usuário ou senha incorretos!'
-              this.dialog = true
-              this.loading = false
-            }, 500)
-            console.error(err)
-          })
+              this.dialogMessage = 'Usuário ou senha incorretos!';
+              this.dialog = true;
+              this.loading = false;
+            }, 500);
+            console.error(err);
+          });
       } else {
-        this.animateForm(false)
+        this.animateForm(false);
       }
     },
 
     head() {
       return {
         title: this.title,
-      }
+      };
     },
 
     animateForm(status) {
       if (status) {
-        this.$refs.flex.classList.add('hide-form')
-        document.querySelector('html').style.overflow = 'hidden'
+        this.$refs.flex.classList.add('hide-form');
+        document.querySelector('html').style.overflow = 'hidden';
         setTimeout(() => {
-          this.loading = true
-        }, 300)
+          this.loading = true;
+        }, 300);
       } else {
-        this.$refs.flex.classList.add('error-form')
+        this.$refs.flex.classList.add('error-form');
         setTimeout(() => {
-          this.$refs.flex.classList.remove('error-form')
-        }, 500)
+          this.$refs.flex.classList.remove('error-form');
+        }, 500);
       }
     },
+
+    async loginSocialReturn() {
+      if (!this.$auth.loggedIn) {
+        this.loading = false;
+        return;
+      }
+      const provider = this.$auth.strategy.name;
+        try {
+        if (provider === 'facebook') {
+          const facebookCredentials = this.getFacebookCredentials();
+          await auth.loginFacebook(facebookCredentials);
+        } else if (provider === 'google') {
+          const googleCredentials = this.getGoogleCredentials();
+          await auth.loginGoogle(googleCredentials);
+          }
+        $nuxt._router.push('/loading/login');
+        } catch (error) {
+          setTimeout(() => {
+          this.dialogMessage =
+              'Falha ao realizar login utilizando ' + provider + '.';
+          this.dialog = true;
+          this.loading = false;
+          }, 500);
+          console.error(error);
+        }
+    },
+    loginSocial(provider) {
+      this.loading = true;
+      this.$auth.loginWith(provider);
+    },
+
+    getFacebookCredentials() {
+      return {
+        id: this.$store.state.auth.user.id,
+        email: this.$store.state.auth.user.email,
+        name: this.$store.state.auth.user.name,
+        birthday: this.$store.state.auth.user.birthday,
+      };
+    },
+
+    getGoogleCredentials() {
+      return {
+        email: this.$store.state.auth.user.email,
+        email_verified: this.$store.state.auth.user.email_verified.toString(),
+        family_name: this.$store.state.auth.user.family_name,
+        given_name: this.$store.state.auth.user.given_name,
+        locale: this.$store.state.auth.user.locale,
+        name: this.$store.state.auth.user.name,
+        picture: this.$store.state.auth.user.picture,
+        sub: this.$store.state.auth.user.sub,
+      };
+    },
   },
-  mounted() {
-    const { status } = auth.isTokenValid()
-    if (status) {
-      $nuxt._router.push('/loading')
-    }
-  },
-}
+};
 </script>
 
-<style>
+<style scoped>
 .theme--light.v-icon {
   color: #d6adff;
 }
-<style scoped>
 .theme--light.v-icon {
   color: #d6adff;
 }

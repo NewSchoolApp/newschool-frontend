@@ -1,5 +1,6 @@
 <template>
   <section>
+    <HeaderBar :title="'CONTRIBUA'" :backPage="true"></HeaderBar>
     <article id="page">
       <v-container>
         <div class="title">APOIE O PROJETO</div>
@@ -61,13 +62,15 @@
   }
 </router>
 
-<script>
-import NavigationBar from "~/components/NavigationBar.vue";
 
+<script>
+import NavigationBar from '~/components/NavigationBar.vue';
+import HeaderBar from '~/components/Header.vue';
 
 export default {
   components: {
-    NavigationBar
+    HeaderBar,
+    NavigationBar,
   },
 
   data() {
@@ -169,9 +172,9 @@ export default {
           class: 'heroku',
         },
       ],
-    }
+    };
   },
-}
+};
 </script>
 
 

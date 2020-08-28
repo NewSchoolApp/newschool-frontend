@@ -1,40 +1,156 @@
-/* eslint-disable prettier/prettier */
-import colors from 'vuetify/es5/util/colors'
+import colors from 'vuetify/es5/util/colors';
 
 export default {
   router: {
+    // uncomment for cordova release on android/ios
+    // mode: 'hash',
     middleware: 'auth.guard',
 
     extendRoutes(routes, resolve) {
       routes.push({
-        path: '/aluno/curso/:slug',
-        component: resolve(__dirname, 'pages/student/course.vue'),
-      })
-
-      routes.push({
-        path: '/alterar-senha/:token',
-        name: 'alerar-senha',
-        props: true,
-        component: resolve(__dirname, "pages/public/reset_password.vue")
-      });
-
-
-      routes.push({
         path: '*',
         component: resolve(__dirname, 'pages/public/404.vue'),
-      })
+      });
+
+      routes.push({
+        path: '/recuperar-senha/:token',
+        component: resolve(__dirname, 'pages/public/reset_password.vue'),
+      });
+
+      routes.push({
+        path: '/aluno',
+        component: resolve(__dirname, 'pages/student/~student.module.vue'),
+        children: [
+          {
+            path: '404',
+            component: resolve(__dirname, 'pages/public/404.vue'),
+          },
+          {
+            path: 'home',
+            name: 'aluno-home',
+            component: resolve(__dirname, 'pages/student/home.vue'),
+          },
+          {
+            path: 'perfil',
+            name: 'meu-perfil',
+            component: resolve(__dirname, 'pages/student/profile.vue'),
+          },
+          {
+            path: 'certificados',
+            name: 'meus-certificados',
+            component: resolve(__dirname, 'pages/student/certificates.vue'),
+          },
+          {
+            path: 'alterar-dados',
+            name: 'alterar-dados',
+            component: resolve(
+              __dirname,
+              'pages/student/change_personal_info.vue',
+            ),
+          },
+
+          {
+            path: 'meus-cursos',
+            name: 'meus-cursos',
+            component: resolve(__dirname, 'pages/student/my_courses.vue'),
+          },
+          {
+            path: 'curso',
+            component: resolve(
+              __dirname,
+              'pages/student/take_course/~take_course.module.vue',
+            ),
+            children: [
+              {
+                path: ':slug',
+                name: 'aluno-curso',
+                props: true,
+                component: resolve(
+                  __dirname,
+                  'pages/student/take_course/course.vue',
+                ),
+              },
+            ],
+          },
+          {
+            path: 'curso/aulas/:id',
+            component: resolve(
+              __dirname,
+              'pages/student/take_course/lesson_list.vue',
+            ),
+            props: true,
+          },
+          {
+            path: '',
+            redirect: 'home',
+          },
+        ],
+      });
+
+      routes.push({
+        path: '/admin',
+        component: resolve(__dirname, 'pages/student/~student.module.vue'),
+        children: [
+          {
+            path: '404',
+            component: resolve(__dirname, 'pages/public/404.vue'),
+          },
+          {
+            path: 'home',
+            name: 'admin-home',
+            component: resolve(__dirname, 'pages/admin/home.vue'),
+          },
+          {
+            path: 'perfil',
+            name: 'meu-perfil',
+            component: resolve(__dirname, 'pages/admin/profile.vue'),
+          },
+          {
+            path: 'curso',
+            component: resolve(
+              __dirname,
+              'pages/student/take_course/~take_course.module.vue',
+            ),
+            children: [
+              {
+                path: ':slug',
+                name: 'aluno-curso',
+                props: true,
+                component: resolve(
+                  __dirname,
+                  'pages/student/take_course/course.vue',
+                ),
+              },
+            ],
+          },
+          {
+            path: 'admin/aulas/:id',
+            component: resolve(
+              __dirname,
+              'pages/student/take_course/lesson_list.vue',
+            ),
+            props: true,
+          },
+          {
+            path: '',
+            redirect: 'home',
+          },
+        ],
+      });
 
       routes.push({
         path: '',
         redirect: '/login',
-      })
+      });
     },
   },
 
   env: {
+    domain: process.env.DOMAIN_URL || 'https://newschoolapp.com.br',
     baseUrl:
       process.env.VUE_APP_BASE_URL ||
-      'https://newschoolbrapi-dev.herokuapp.com/',
+      'http://newschool-api-dev2.eba-gxtzwa9m.us-east-2.elasticbeanstalk.com/',
+    // http://develop.dev-newschool.tk/
     credentials: {
       name: process.env.VUE_APP_CLIENT_CREDENTIAL_NAME || 'NEWSCHOOL@FRONT',
       secret:
@@ -48,18 +164,36 @@ export default {
           'NEWSCHOOL@EXTERNALSECRET',
       },
     },
-    dateEnd:
-      process.env.OPENING_DATE || '20/01/2020',
+    dateEnd: process.env.OPENING_DATE || '25/01/2020',
+
     endpoints: {
-      CERTIFICATES_ME: 'api/v1/user/me/certificate',
+      CERTIFICATES_ME: 'api/v1/course-taken/certificates/user/',
       USER_ME: 'api/v1/user/me',
       LOGIN: 'oauth/token',
       SIGN_UP: 'api/v1/user/student',
-      FORGOT_PASSWORD: 'api/v1/user/forgot-password'
+      FORGOT_PASSWORD: 'api/v1/user/forgot-password',
+      COURSE: '/api/v1/course',
+      LESSON: '/api/v1/lesson',
+      COURSE_BY_SLUG: '/api/v1/course/slug/',
+      INIT_COURSE: 'api/v1/course-taken/start-course',
+      LESSONS_BY_COURSE: '/api/v1/lesson/course/',
+      ADVANCE_COURSE: '/api/v1/course-taken/advance-on-course',
 
+      STATE_COURSE: 'api/v1/course-taken',
+      CURRENT_STEP: '/api/v1/course-taken/current-step',
+
+      MY_COURSES: 'api/v1/course-taken/user/',
+      FACEBOOK_LOGIN: 'oauth/facebook/token',
+      GOOGLE_LOGIN: 'oauth/google/token',
+    },
+    endpointCertificateCourseTaken: {
+      CERTIFICATES_COURSE_TAKEN_ME: 'api/v1/course-taken/certificate/user/',
+      LOGIN: 'oauth/token',
     },
     GATOKEN: process.env.GA_TOKEN,
   },
+  // uncomment for cordova release on android/ios
+  // mode: 'spa',
   mode: 'universal',
   /*
    ** Headers of the page
@@ -67,7 +201,7 @@ export default {
   head: {
     htmlAttrs: {
       lang: 'en',
-      style:'overflow-y: auto'
+      style: 'overflow-y: auto',
     },
     titleTemplate:
       '%s | ' + 'New School | Formando os protagonistas da quebrada',
@@ -113,8 +247,10 @@ export default {
    ** Plugins to load before mounting the App
    */
   plugins: [
+    '~/plugins/cordova.client.js',
     '~/plugins/admin-components.js',
     { src: '~/plugins/ga.js', mode: 'client' },
+    { src: '~/plugins/redirect', mode: 'client' },
   ],
   /*
    ** Nuxt.js dev-modules
@@ -143,6 +279,7 @@ export default {
     '@nuxtjs/dotenv',
     '@nuxtjs/proxy',
     'nuxt-i18n',
+    '@nuxtjs/auth',
   ],
   i18n: {
     locales: [
@@ -201,6 +338,23 @@ export default {
     /*
      ** You can extend webpack config here
      */
-    extend(config, ctx) { },
+    publicPath: '/nuxtfiles/',
+    extend(config, ctx) {},
   },
-}
+
+  auth: {
+    strategies: {
+      facebook: {
+        client_id: process.env.FACEBOOK_ID || '1584605795055838',
+        userinfo_endpoint:
+          'https://graph.facebook.com/v2.12/me?fields=about,name,picture{url},email,birthday',
+        scope: ['public_profile', 'email'],
+      },
+      google: {
+        client_id:
+          process.env.GOOGLE_ID ||
+          '889053794643-qu89df6ei5u2sncnfmedi39m2ascih3k.apps.googleusercontent.com',
+      },
+    },
+  },
+};

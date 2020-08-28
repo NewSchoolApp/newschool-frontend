@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="com.newschool.app" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>New School</name>
+    <description>
+        New School App
+    </description>
+    <author email="newschool@newschoolapp.com.br" href="http://cordova.io">
+        New School Team
+    </author>
+    <content src="index.html" />
+    <plugin name="cordova-plugin-whitelist" spec="1" />
+    <access origin="*" />
+    <allow-intent href="http://*/*" />
+    <allow-intent href="https://*/*" />
+    <allow-intent href="tel:*" />
+    <allow-intent href="sms:*" />
+    <allow-intent href="mailto:*" />
+    <allow-intent href="geo:*" />
+    <platform name="android">
+        <preference name="android-minSdkVersion" value="19" />
+        <icon src="res/android/36px.png" density="ldpi" />
+        <icon src="res/android/48px.png" density="mdpi" />
+        <icon src="res/android/72px.png" density="hdpi" />
+        <icon src="res/android/96px.png" density="xhdpi" />
+        <icon src="res/android/144px.png" density="xxhdpi" />
+        <icon src="res/android/192px.png" density="xxxhdpi" />
+        <splash src="res/screen/android/l320.jpg" density="land-hdpi"/>
+        <splash src="res/screen/android/l320.jpg" density="land-ldpi"/>
+        <splash src="res/screen/android/l480.jpg" density="land-mdpi"/>
+        <splash src="res/screen/android/l1280.jpg" density="land-xhdpi"/>
+        <splash src="res/screen/android/l800.jpg" density="port-hdpi"/>
+        <splash src="res/screen/android/l320.jpg" density="port-ldpi"/>
+        <splash src="res/screen/android/l480.jpg" density="port-mdpi"/>
+        <splash src="res/screen/android/l1280.jpg" density="port-xhdpi"/>
+        <allow-intent href="market:*" />
+    </platform>
+    <platform name="ios">
+        <allow-intent href="itms:*" />
+        <allow-intent href="itms-apps:*" />
+    </platform>
+</widget>

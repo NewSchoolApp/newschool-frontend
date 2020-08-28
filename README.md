@@ -5,7 +5,13 @@
 
 > **Ambiente de DEV:** https://newschoolbr-dev.herokuapp.com/
 
+> **Ambiente de QA:** https://newschoolbr-qa.herokuapp.com/
+
+> **Ambiente de PROD:** https://newschoolapp.com.br/
+
 ## Como rodar o projeto
+
+https://www.youtube.com/watch?v=4-nc3Ig7jxk&t=3s
 
 ``` bash
 # install dependencies
@@ -86,3 +92,4 @@ CONFIRA OS LAYOUTS NO FIGMA:
 https://www.figma.com/file/whTp4hE6ZQR3V8LBxSZnjv/NewSchool?node-id=0%3A1
 
 ## Código de conduta
+.

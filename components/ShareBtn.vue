@@ -2,7 +2,7 @@
   <v-layout>
     <div v-if="isOpen" class="share-container">
       <social-sharing
-        :url="url"
+        :url="shareUrl"
         :title="title"
         :description="description"
         :hashtags="hashtags"
@@ -12,41 +12,25 @@
       >
         <div class="icons">
           <network network="facebook">
-            <v-icon color="#fff" size="20">
-              mdi-facebook
-            </v-icon>
+            <img src="~/assets/facebook.png" alt />
           </network>
           <network network="twitter">
-            <v-icon color="#fff" size="20">
-              mdi-linkedin
-            </v-icon>
+            <img src="~/assets/twitter.png" alt />
           </network>
           <network network="linkedin">
-            <v-icon color="#fff" size="20">
-              mdi-twitter
-            </v-icon>
+            <img src="~/assets/linkedin.png" alt />
           </network>
         </div>
       </social-sharing>
     </div>
-    <v-btn
-      v-if="!isOpen"
-      :color="color"
-      class="ma-2"
-      tile
-      large
-      icon
-      @click="isOpen = !isOpen"
-    >
-      <v-icon size="20">
-        mdi-share-variant
-      </v-icon>
+    <v-btn v-if="!isOpen" :color="color" class="btn-ma-2" tile large icon @click="isOpen = !isOpen">
+      <v-icon size="28">mdi-share-variant</v-icon>
     </v-btn>
   </v-layout>
 </template>
 
 <script>
-import SocialSharing from 'vue-social-sharing'
+import SocialSharing from 'vue-social-sharing';
 
 export default {
   components: {
@@ -69,31 +53,36 @@ export default {
   },
 
   data() {
+    let baseUrl = process.env.domain;
     return {
       isOpen: false,
-    }
+      shareUrl: `${baseUrl}${this.url}`,
+    };
   },
-}
+};
 </script>
 
-<style>
+<style lang="scss" scoped>
 .share-container {
-  width: 90px;
+  width: 100px;
   height: 35px;
   background: #60c;
-  margin-top: -8px;
 }
 
-.icons {
+::v-deep .icons {
   display: flex;
   align-items: center;
   justify-content: space-around;
   height: 100%;
   width: 100%;
-  box-shadow:2px 4px 4px rgba(0, 0, 0, 0.25);
-}
+  padding: 7px 2px 0 0;
+  box-shadow: 2px 4px 4px rgba(0, 0, 0, 0.25);
 
-.ma-2 {
-  padding-left: 55px;
+  span {
+    img {
+      cursor: pointer;
+      max-width: 18px;
+    }
+  }
 }
 </style>
