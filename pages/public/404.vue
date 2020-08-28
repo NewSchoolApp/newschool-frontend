@@ -14,8 +14,7 @@
           depressed
           large
           @click="gotoBack"
-          >Voltar</v-btn
-        >
+          >Voltar</v-btn>
       </main>
     </v-container>
     <navigation-bar />
@@ -30,7 +29,7 @@ export default {
   components: {
     HeaderBar,
     NavigationBar,
-  },
+},
   methods: {
     gotoBack() {
       $nuxt._router.go(-1);
@@ -59,12 +58,6 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-}
-::v-deep .v-btn__content {
-  color: #fff;
-  font-size: 12px;
-  font-weight: 900;
-  line-height: 15px;
 }
 ::v-deep .back {
   margin-top: 50px;
