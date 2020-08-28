@@ -1,54 +1,67 @@
 <template>
-  <v-container>
-    <main>
-      <h1>Desculpa :(</h1>
-       <v-btn
-            <v-btn class="btn-back" text icon @click="gotoBack">
-              <v-icon>mdi-arrow-left</v-icon>
-            </v-btn>
-      <p>Página não encontrada</p>
-      <img src="~/assets/page-404.svg" alt />
-    </main>
+  <div>
+    <HeaderBar :title="'DEU RUIM :/'" :back-page="true"></HeaderBar>
+    <v-container>
+      <main class="middle">
+        <p>Página não encontrada.</p>
+        <p>Tenta de novo, mano.</p>
+        <img src="~/assets/page-404.svg" alt />
+        <v-btn
+          class="back"
+          color="#60c"
+          dark
+          block
+          depressed
+          large
+          @click="gotoBack"
+          >Voltar</v-btn>
+      </main>
+    </v-container>
     <navigation-bar />
-  </v-container>
+  </div>
 </template>
 
 <script>
-import NavigationBar from "~/components/NavigationBar.vue";
+import HeaderBar from '~/components/Header.vue';
+import NavigationBar from '~/components/NavigationBar.vue';
 
 export default {
-    components: {
-    NavigationBar
-  },
+  components: {
+    HeaderBar,
+    NavigationBar,
+},
   methods: {
-  gotoBack() {
-      $nuxt._router.go(-1)
-    }
-  }
+    gotoBack() {
+      $nuxt._router.go(-1);
+    },
+  },
 };
 </script>
 
 <style scoped>
-main {
+.middle {
   text-align: center;
+  width: 90%;
+  max-width: 500px;
+  margin: 10% auto;
 }
-main h1 {
-  color: #6600cc;
+.middle p {
+  color: #656565;
+  font-family: Montserrat;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 20px;
 }
-.container {
-  height: 100%;
+::v-deep .container {
+  height: 80%;
   display: flex;
   justify-content: center;
   align-items: center;
 }
-::v-deep .btn-back {
-  position: absolute;
-  left: 0;
-  top: 0;
-  margin-top: 3px;
-}
-::v-deep .btn-back .theme--light.v-icon {
-  color: #60c;
-  font-size: 35px;
+::v-deep .back {
+  margin-top: 50px;
+  width: 100%;
+  box-shadow: 0 4px 5px gray !important;
 }
 </style>
