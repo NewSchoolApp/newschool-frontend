@@ -76,10 +76,8 @@
               ></v-text-field>
               <v-dialog
                 ref="dialog"
-                v-model="modal"
                 :return-value.sync="form.birthday"
                 persistent
-                width="290px"
               >
                 <template v-slot:activator="{ on, attrs }">
                   <v-text-field
@@ -92,7 +90,11 @@
                     v-on="on"
                   ></v-text-field>
                 </template>
-                <v-date-picker v-model="form.birthday" scrollable>
+                <v-date-picker
+                  v-model="form.birthday"
+                  locale="PT-BR"
+                  scrollable
+                >
                   <v-spacer></v-spacer>
                   <v-btn
                     text
@@ -385,6 +387,7 @@ export default {
         .finally(() => (this.isLoading = false));
       // this.schools.push(response)
       JSON.parse(response)[1].forEach(item => this.schools.push(item.nome));
+      this.schools.unshift(school.toUpperCase());
     },
 
     animateForm(status) {
@@ -568,6 +571,13 @@ export default {
   line-height: 15px;
   color: #6600cc;
   margin-left: 3%;
+}
+::v-deep .v-date-picker-table {
+  height: 280px !important;
+}
+
+::v-deep .v-card__actions {
+  padding: 0;
 }
 
 ::v-deep
