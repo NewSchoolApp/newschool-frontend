@@ -21,12 +21,14 @@
           </div>
         </div>
       </div>
+        <navigation-bar />
     </v-container>
     <NothingToShow v-else title="Vixe :/" message="Você ainda não tem nenhum certificado. :(" />
   </div>
 </template>
 
 <script>
+import NavigationBar from '~/components/NavigationBar.vue';
 import shareBtn from '~/components/ShareBtn.vue';
 import http from '~/services/http/generic';
 import HeaderBar from '~/components/Header.vue';
@@ -37,6 +39,7 @@ export default {
     shareBtn,
     HeaderBar,
     NothingToShow,
+    NavigationBar,
   },
   data: () => ({
     certificates: [],
