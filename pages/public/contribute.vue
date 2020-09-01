@@ -153,7 +153,7 @@ export default {
         {
           id: 5,
           cover:
-            'https://www.stickpng.com/assets/images/58482feacef1014c0b5e4a8d.png',
+            'https://cdn.worldvectorlogo.com/logos/rollbar.svg',
           title: 'Rollbar',
           description:
             'Monitoramento e notificação de erros integrado com nossas demais ferramentas.',
@@ -164,7 +164,7 @@ export default {
         {
           id: 6,
           cover:
-            'http://assets.stickpng.com/thumbs/58480873cef1014c0b5e48ea.png',
+            'https://cdn.worldvectorlogo.com/logos/heroku.svg',
           title: 'Heroku',
           description: 'Hospedagem gratuita para os ambientes DEV e STG.',
           linkUrl: 'https://www.heroku.com/',
