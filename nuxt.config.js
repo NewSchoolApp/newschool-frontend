@@ -2,6 +2,8 @@ import colors from 'vuetify/es5/util/colors';
 
 export default {
   router: {
+    // uncomment for cordova release on android/ios
+    // mode: 'hash',
     middleware: 'auth.guard',
 
     extendRoutes(routes, resolve) {
@@ -144,10 +146,11 @@ export default {
   },
 
   env: {
+    domain: process.env.DOMAIN_URL || 'https://newschoolapp.com.br',
     baseUrl:
       process.env.VUE_APP_BASE_URL ||
-     'https://newschoolbrapi-predev.herokuapp.com/',
-    
+      'http://newschool-api-dev2.eba-gxtzwa9m.us-east-2.elasticbeanstalk.com/',
+    // http://develop.dev-newschool.tk/
     credentials: {
       name: process.env.VUE_APP_CLIENT_CREDENTIAL_NAME || 'NEWSCHOOL@FRONT',
       secret:
@@ -162,6 +165,7 @@ export default {
       },
     },
     dateEnd: process.env.OPENING_DATE || '25/01/2020',
+
     endpoints: {
       CERTIFICATES_ME: 'api/v1/course-taken/certificates/user/',
       USER_ME: 'api/v1/user/me',
@@ -179,8 +183,8 @@ export default {
       CURRENT_STEP: '/api/v1/course-taken/current-step',
 
       MY_COURSES: 'api/v1/course-taken/user/',
-      FACEBOOK_LOGIN: "oauth/facebook/token",
-      GOOGLE_LOGIN: "oauth/google/token"
+      FACEBOOK_LOGIN: 'oauth/facebook/token',
+      GOOGLE_LOGIN: 'oauth/google/token',
     },
     endpointCertificateCourseTaken: {
       CERTIFICATES_COURSE_TAKEN_ME: 'api/v1/course-taken/certificate/user/',
@@ -188,6 +192,8 @@ export default {
     },
     GATOKEN: process.env.GA_TOKEN,
   },
+  // uncomment for cordova release on android/ios
+  // mode: 'spa',
   mode: 'universal',
   /*
    ** Headers of the page
@@ -241,6 +247,7 @@ export default {
    ** Plugins to load before mounting the App
    */
   plugins: [
+    '~/plugins/cordova.client.js',
     '~/plugins/admin-components.js',
     { src: '~/plugins/ga.js', mode: 'client' },
     { src: '~/plugins/redirect', mode: 'client' },
@@ -272,7 +279,7 @@ export default {
     '@nuxtjs/dotenv',
     '@nuxtjs/proxy',
     'nuxt-i18n',
-    '@nuxtjs/auth'
+    '@nuxtjs/auth',
   ],
   i18n: {
     locales: [
@@ -331,20 +338,23 @@ export default {
     /*
      ** You can extend webpack config here
      */
-    extend(config, ctx) { },
+    publicPath: '/nuxtfiles/',
+    extend(config, ctx) {},
   },
 
   auth: {
     strategies: {
       facebook: {
-        client_id: process.env.FACEBOOK_ID || '3289978134361895',
+        client_id: process.env.FACEBOOK_ID || '1584605795055838',
         userinfo_endpoint:
           'https://graph.facebook.com/v2.12/me?fields=about,name,picture{url},email,birthday',
         scope: ['public_profile', 'email'],
       },
       google: {
-        client_id: process.env.GOOGLE_ID || '889053794643-qu89df6ei5u2sncnfmedi39m2ascih3k.apps.googleusercontent.com'
+        client_id:
+          process.env.GOOGLE_ID ||
+          '889053794643-qu89df6ei5u2sncnfmedi39m2ascih3k.apps.googleusercontent.com',
       },
     },
   },
-}
+};

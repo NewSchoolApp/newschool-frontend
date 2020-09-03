@@ -2,52 +2,33 @@
   <div>
     <HeaderBar :title="'Certificados'" :back-page="true"></HeaderBar>
     <v-container v-if="certificates.length" class="main">
-      <div
-        v-for="certificate in certificates"
-        :key="certificate.id"
-        class="cards-box"
-      >
-        <div
-          class="content-image"
-          @click="goToCertificate(certificate.course.id)"
-        >
+      <div v-for="certificate in certificates" :key="certificate.id" class="cards-box">
+        <div class="content-image" @click="goToCertificate(certificate.course.id)">
           <button>
-            <img
-              class="background-img"
-              :src="certificate.course.thumbUrl"
-              alt
-            />
+            <img class="background-img" :src="certificate.course.thumbUrl" alt />
           </button>
-          <img
-            class="medal"
-            src="~/assets/medalha-imagem.svg"
-            alt="Imagem de uma medalha"
-          />
+          <img class="medal" src="~/assets/medalha-imagem.svg" alt="Imagem de uma medalha" />
         </div>
         <div class="footer">
           <div class="title-and-socialMedias">
-            <button type="button" @click="goToCertificate">
-              <strong class="certificate-title">
-                {{ certificate.course.title }}
-              </strong>
+            <button type="button" @click="goToCertificate(certificate.course.id)">
+              <strong class="certificate-title">{{ certificate.course.title }}</strong>
               <p>{{ certificate.user.name }}</p>
             </button>
           </div>
           <div class="sharing-icons">
-            <shareBtn />
+            <shareBtn :url="mountUrlCertificate(certificate.course.id)" :title="'Certificado de conclusão de curso New School'" :description="certificate.course.title"/>
           </div>
         </div>
       </div>
+        <navigation-bar />
     </v-container>
-    <NothingToShow
-      v-else
-      title="Vixe :/"
-      message="Você ainda não tem nenhum certificado. :("
-    />
+    <NothingToShow v-else title="Vixe :/" message="Você ainda não tem nenhum certificado. :(" />
   </div>
 </template>
 
 <script>
+import NavigationBar from '~/components/NavigationBar.vue';
 import shareBtn from '~/components/ShareBtn.vue';
 import http from '~/services/http/generic';
 import HeaderBar from '~/components/Header.vue';
@@ -58,6 +39,7 @@ export default {
     shareBtn,
     HeaderBar,
     NothingToShow,
+    NavigationBar,
   },
   data: () => ({
     certificates: [],
@@ -81,6 +63,9 @@ export default {
     },
     backgroundClass(certificateBackgroundName) {
       return `background-image: url(${certificateBackgroundName})`;
+    },
+    mountUrlCertificate(id) {
+      return `/pagina-certificado/${this.$store.state.user.data.id}/${id}`;
     },
   },
 };

@@ -57,10 +57,10 @@ export default {
   },
 
   data() {
-    let baseUrl = window.location.origin;
+    let baseUrl = process.env.domain;
     return {
       isOpen: false,
-      shareUrl: baseUrl + '/' + this.url,
+      shareUrl: `${baseUrl}${this.url}`,
     };
   },
 };

@@ -46,7 +46,11 @@
               </button>
             </div>
             <div class="share">
-              <shareBtnPageCertificate :url="certificateUrl" :title="'Certificado'" :description="certificate.course.title" />
+              <shareBtnPageCertificate
+                :url="this.certificateUrl"
+                :title="'Certificado de conclusão de curso New School'"
+                :description="certificate.course.title"
+              />
             </div>
           </div>
         </div>
@@ -59,6 +63,7 @@ import shareBtnPageCertificate from '~/components/ShareBtnPageCertificate.vue';
 import http from '../../services/http/public';
 import HeaderBar from '~/components/Header.vue';
 import moment from 'moment';
+import ogImage from '~/assets/backgroundCertificates.svg';
 
 export default {
   components: {
@@ -81,7 +86,7 @@ export default {
     const idUser = this.$route.params.idUser;
     http.pageCertificate(idUser, idCourse).then(res => {
       this.certificate = res.data;
-      
+
       this.courseStartDate = moment(this.certificate.courseStartDate).format(
         'DD/MM/YYYY',
       );
@@ -94,13 +99,11 @@ export default {
   methods: {
     head() {
       return {
-        title: this.certificate.course.title,
         meta: [
           {
-            hid: 'description',
-            name: 'description',
-            content:
-              'Certificado de conclusão de curso na plataforma New School',
+            hid: 'og:image',
+            property: 'og:image',
+            content: `${process.env.domain}/assets/backgroundCertificates.svg`,
           },
         ],
       };
