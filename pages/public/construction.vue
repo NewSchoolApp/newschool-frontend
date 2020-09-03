@@ -4,12 +4,12 @@
       <v-container>
         <v-col cols="12" class="initial-text">
           <v-row>
-            <p>Eita! Ainda não finalizamos essa página.</p>
+            <p>Salve salve, estamos terminando de criar a New School.</p>
           </v-row>
         </v-col>
         <v-col cols="12" class="initial-text">
           <v-row>
-            <p>Mas relaxa aí que logo, logo vem novidade. Tamo together!</p>
+            <p>Então relaxa que logo logo vem novidade ai, Tamo Together wow!</p>
           </v-row>
         </v-col>
         <v-col cols="12">
@@ -98,6 +98,7 @@ export default {
   font-family: 'Montserrat', Helvetica, Arial, sans-serif !important;
   max-width: 600px;
   margin: 0 auto;
+  color: #6600cc;
 }
 /* Text Header */
 .initial-text {
@@ -119,7 +120,7 @@ export default {
 .data-text {
   font-style: normal;
   font-weight: 900;
-  font-size: 48px;
+  font-size: 35px;
   line-height: 59px;
   display: flex;
   justify-content: center;
@@ -141,13 +142,14 @@ export default {
   align-items: center;
   text-align: center;
   justify-content: center;
-  color: #6600cc;
   width: 80%;
   margin: 0 4% 7%;
 }
 .atribute-data span {
   margin-left: 13%;
   justify-content: center;
+  color: gray;
+  font-size: 15px;
 }
 .end-text {
   font-style: normal;
@@ -158,16 +160,15 @@ export default {
   display: flex;
   align-items: center;
   text-align: center;
-  color: #656565;
+  color: #6600cc;
   margin: 0 auto;
 }
-@media (max-width: 350px){
+@media (max-width: 340px){
 .img{
   margin: 3% 5%;
 }
 .atribute-data span {
   margin-left: 20%; 
-}
-  
+} 
 }
 </style>
