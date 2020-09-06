@@ -207,7 +207,10 @@ export default {
     verifyStore(id) {
       this.list.forEach(item => {
         if (item.course.id === id && item.status === 'TAKEN') {
-          this.flagButton = false;
+          this.flagButtonTaken = true;
+        }
+        else if (item.course.id === id && item.status === 'COMPLETED') {
+          this.flagButtonCompleted = true;
         }
       });
       this.loading = false;
