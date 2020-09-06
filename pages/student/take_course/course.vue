@@ -27,19 +27,7 @@
               <p id="description">{{ course.description }}</p>
             </div>
             <v-btn
-              v-if="flagButton"
-              class="btn__primary"
-              color="#60c"
-              :loading="loadingInit"
-              :disabled="loadingInit"
-              dark
-              block
-              depressed
-              large
-              @click="initCourse(course.id)"
-            >Iniciar</v-btn>
-            <v-btn
-              v-else
+              v-if="flagButtonTaken"
               class="btn__primary"
               color="#60c"
               :loading="loadingInit"
@@ -50,6 +38,30 @@
               large
               @click="continueCourse(course)"
             >Continuar</v-btn>
+            <v-btn
+              v-else-if="flagButtonCompleted"
+              class="btn__primary"
+              color="#60c"
+              :loading="loadingInit"
+              :disabled="loadingInit"
+              dark
+              block
+              depressed
+              large
+              @click="goToCertificate(course.id)"
+            >Certificado</v-btn>
+            <v-btn
+              v-else
+              class="btn__primary"
+              color="#60c"
+              :loading="loadingInit"
+              :disabled="loadingInit"
+              dark
+              block
+              depressed
+              large
+              @click="initCourse(course.id)"
+            >Iniciar</v-btn>
           </main>
         </div>
         <modal
@@ -95,9 +107,9 @@ export default {
       loadingInit: false,
       loading: true,
       notFound: false,
-      flagButton: true,
       course: {},
-      snackbar: false,
+      flagButtonTaken: false,
+      flagButtonCompleted: false,
     };
   },
   mounted() {
@@ -230,6 +242,12 @@ export default {
               }
             });
         });
+    },
+    goToCertificate(id) {
+      // eslint-disable-next-line no-undef
+      $nuxt._router.push(
+        `/pagina-certificado/${this.$store.state.user.data.id}/${id}`,
+      );
     },
   },
   computed: {
