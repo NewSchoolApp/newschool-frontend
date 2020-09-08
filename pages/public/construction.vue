@@ -119,26 +119,6 @@
   width: 90%;
   margin: 0 6%;
 }
-
-/**.atribute-data {
-  font-style: normal;
-  font-weight: normal;
-  font-size: 18px;
-  line-height: 22px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  justify-content: center;
-  width: 80%;
-  margin: 0 4% 7%;
-}**/
-/**.atribute-data span {
-  margin-left: 13%;
-  justify-content: center;
-  color: gray;
-  font-size: 15px;
-}**/
 .end-text {
   font-style: normal;
   font-weight: 700;
