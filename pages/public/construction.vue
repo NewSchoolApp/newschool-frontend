@@ -17,26 +17,10 @@
             <img class="img" src="../../assets/construction.svg" alt />
           </v-row>
         </v-col>
-        <v-col cols="12">
-          <v-row>
-            <h1 class="data-text">
-              <span>{{ days }}</span>:
-              <span>{{ hours }}</span>:
-              <span>{{ minutes }}</span>
-            </h1>
-          </v-row>
-
-          <v-row>
-            <p class="atribute-data">
-              <span>Dias</span>
-              <span>Horas</span>
-              <span>Minutos</span>
-            </p>
-          </v-row>
         </v-col>
         <v-col cols="12">
           <v-row>
-            <h1 class="end-text">Quer ajudar a gente?</h1>
+          <router-link to="/contribua" class="end-text">Quer ajudar a gente?</router-link>
           </v-row>
         </v-col>
       </v-container>
@@ -50,40 +34,42 @@
 
 </router>
 <script>
-export default {
-  data() {
-    return {
-      days: '',
-      hours: '',
-      minutes: '',
-    };
-  },
-  mounted() {
-    this.syncDate();
-  },
-  methods: {
-    syncDate() {
-      let dateEnd = process.env.dateEnd;
-      let split = dateEnd.split('/');
-      let dateSpliced = split[1] + '/' + split[0] + '/' + split[2];
-      let date = new Date(dateSpliced).getTime();
 
-      setInterval(() => {
-        let dateToday = new Date().getTime();
-        var seconds = (date - dateToday) / 1000;
+// export default {
 
-        this.days = parseInt(seconds / 86400);
-        seconds = seconds % 86400;
+//   data() {
+//     return {
+//       days: '',
+//       hours: '',
+//       minutes: '',
+//     };
+//   },
+//   mounted() {
+//     this.syncDate();
+//   },
+//   methods: {
+//     syncDate() {
+//       let dateEnd = process.env.dateEnd;
+//       let split = dateEnd.split('/');
+//       let dateSpliced = split[1] + '/' + split[0] + '/' + split[2];
+//       let date = new Date(dateSpliced).getTime();
 
-        this.hours = parseInt(seconds / 3600);
-        seconds = seconds % 3600;
+//       setInterval(() => {
+//         let dateToday = new Date().getTime();
+//         var seconds = (date - dateToday) / 1000;
 
-        this.minutes = parseInt(seconds / 60);
-        seconds = parseInt(seconds % 60);
-      }, 1000);
-    },
-  },
-};
+//         this.days = parseInt(seconds / 86400);
+//         seconds = seconds % 86400;
+
+//         this.hours = parseInt(seconds / 3600);
+//         seconds = seconds % 3600;
+
+//         this.minutes = parseInt(seconds / 60);
+//         seconds = parseInt(seconds % 60);
+//       }, 1000);
+//     },
+//   },
+// };
 </script>
 <router>
   {
@@ -99,6 +85,7 @@ export default {
   max-width: 600px;
   margin: 0 auto;
   color: #6600cc;
+  margin-bottom: 16px;
 }
 /* Text Header */
 .initial-text {
@@ -110,11 +97,12 @@ export default {
   text-align: center;
   color: #656565;
   width: 100%;
+  margin-bottom: -39px;
 }
 /* Img */
 .img {
   width: 90%;
-  margin: 10% 5%;
+  margin: 15% 5%;
 }
 /* Date Text */
 .data-text {
@@ -132,7 +120,7 @@ export default {
   margin: 0 6%;
 }
 
-.atribute-data {
+/**.atribute-data {
   font-style: normal;
   font-weight: normal;
   font-size: 18px;
@@ -144,13 +132,13 @@ export default {
   justify-content: center;
   width: 80%;
   margin: 0 4% 7%;
-}
-.atribute-data span {
+}**/
+/**.atribute-data span {
   margin-left: 13%;
   justify-content: center;
   color: gray;
   font-size: 15px;
-}
+}**/
 .end-text {
   font-style: normal;
   font-weight: 700;
@@ -161,7 +149,7 @@ export default {
   align-items: center;
   text-align: center;
   color: #6600cc;
-  margin: 0 auto;
+  margin: 8px auto;
 }
 @media (max-width: 340px){
 .img{
