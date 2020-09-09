@@ -9,29 +9,39 @@
             </div>
           </div>
         </div>
-        <div class="flex-center" id="flex-info-user">
-          <h1>{{user.name}}</h1>
-          <p>{{user.type}}</p>
-          <v-btn id="btnLogout" small outlined color="error" width="80px" @click="logout">Sair</v-btn>
+        <div id="flex-info-user" class="flex-center">
+          <h1>{{ user.name }}</h1>
+          <p>{{ user.type }}</p>
+          <v-btn
+            id="btnLogout"
+            small
+            outlined
+            color="error"
+            width="80px"
+            @click="logout"
+            >Sair</v-btn
+          >
         </div>
       </section>
       <div id="close">
-        <v-icon id="close-btn" color="primary" @click="closeMenu()">mdi-close-circle</v-icon>
+        <v-icon id="close-btn" color="primary" @click="closeMenu()"
+          >mdi-close-circle</v-icon
+        >
       </div>
     </main>
     <section class="menu-list">
       <router-link
+        v-for="item in menu"
+        :key="item.id"
         tag="div"
         class="item-menu"
-        v-for="item in menu"
-        v-bind:key="item.id"
         :to="item.link"
-        v-on:click.native="closeMenu()"
+        @click.native="closeMenu()"
       >
         <div>
-          <v-icon color="primary">{{item.icon}}</v-icon>
+          <v-icon color="primary">{{ item.icon }}</v-icon>
         </div>
-        <p class="text-menu">{{item.label}}</p>
+        <p class="text-menu">{{ item.label }}</p>
       </router-link>
     </section>
   </div>
@@ -86,7 +96,7 @@ export default {
         id: 8,
         label: 'Apoie a new school',
         icon: 'mdi-volume-high',
-        link: '/investidores',
+        link: '/contribuindo',
       },
     ],
   }),

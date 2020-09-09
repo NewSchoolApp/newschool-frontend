@@ -1,8 +1,11 @@
 <template>
   <div>
     <div class="bg"></div>
-    <HeaderBar class="top" :backPage="true"  ></HeaderBar>
-    <header><h1 id="titulo">O QUE É A NEW SCHOOL?</h1></header>
+    <HeaderBar
+      class="top"
+      :title="'O QUE É A NEW SCHOOL?'"
+      :back-page="true"
+    ></HeaderBar>
     <div class="container">
       <v-layout text-left>
         <v-flex>
@@ -17,16 +20,18 @@
             </p>
             <p>
               A gente leva
-              <span>educação de qualidade</span> traduzida na linguagem da quebrada para todo o Brasil
-              através da
-              <span>tecnologia</span> e de conteúdos baseados nas novas
+              <span>educação de qualidade</span> traduzida na linguagem da
+              quebrada para todo o Brasil através da <span>tecnologia</span> e
+              de conteúdos baseados nas novas
               <span>habilidades do futuro.</span>
             </p>
             <p>
               Nosso objetivo é formar
-              <span>protagonistas</span> por meio de um conceito diferente de educação prática, futurista e
+              <span>protagonistas</span> por meio de um conceito diferente de
+              educação prática, futurista e
               <span>descolada.</span>
-              Criamos experiências transformadoras de aprendizagem para que jovens como você encarem melhor os
+              Criamos experiências transformadoras de aprendizagem para que
+              jovens como você encarem melhor os
               <span>desafios da vida.</span>
             </p>
           </div>
@@ -60,17 +65,6 @@ export default {
   font-family: 'Montserrat';
   text-transform: uppercase;
 }
-h1#titulo {
-  font-size: 14px;
-  color: #6600cc;
-  text-align: center;
-  position: relative;
-  bottom: 30px;
-}
-.top {
-  position: relative;
-  right: 23px;
-}
 ::v-deep .container {
   max-width: 500px;
 }
@@ -95,14 +89,22 @@ p ::v-deep .subtext p {
   margin: 0 15%;
   margin: 15px;
 }
-@media (max-width: 375px) {
-  .top {
+
+::v-deep .h1__theme {
+  font-size: 1.3rem;
+  width: 80%;
+  text-align: center;
+}
+
+@media (max-width: 80px) {
+  /* .top {
     width: 90%;
     margin: 0 5%;
+    text-align: center;
+  } */
+  ::v-deep .h1__theme {
+    font-size: 1.2rem;
     text-align: center;
   }
 }
 </style>
-
-
-
