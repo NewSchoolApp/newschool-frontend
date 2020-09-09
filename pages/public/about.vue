@@ -1,7 +1,8 @@
 <template>
   <div>
     <div class="bg"></div>
-    <HeaderBar class="top" :title="'O QUE É A NEW SCHOOL?'" :backPage="true"></HeaderBar>
+    <HeaderBar class="top" :backPage="true"  ></HeaderBar>
+    <header><h1 id="titulo">O QUE É A NEW SCHOOL?</h1></header>
     <div class="container">
       <v-layout text-left>
         <v-flex>
@@ -59,6 +60,17 @@ export default {
   font-family: 'Montserrat';
   text-transform: uppercase;
 }
+h1#titulo {
+  font-size: 14px;
+  color: #6600cc;
+  text-align: center;
+  position: relative;
+  bottom: 30px;
+}
+.top {
+  position: relative;
+  right: 23px;
+}
 ::v-deep .container {
   max-width: 500px;
 }
@@ -90,7 +102,6 @@ p ::v-deep .subtext p {
     text-align: center;
   }
 }
-
 </style>
 
 

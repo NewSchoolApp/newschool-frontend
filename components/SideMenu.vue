@@ -49,19 +49,19 @@ export default {
         id: 1,
         label: 'Meu Perfil',
         icon: 'mdi-account',
-        link: 'perfil',
+        link: '/aluno/perfil',
       },
       {
         id: 2,
         label: 'Meus Cursos',
         icon: 'mdi-library',
-        link: 'meus-cursos',
+        link: '/aluno/meus-cursos',
       },
       {
         id: 3,
         label: 'Meus Certificados',
         icon: 'mdi-school',
-        link: 'certificados',
+        link: '/aluno/certificados',
       },
       {
         id: 4,

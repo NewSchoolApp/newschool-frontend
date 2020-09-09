@@ -38,10 +38,12 @@
         <v-progress-circular :size="70" :width="5" indeterminate color="#6600cc" />
       </div>
     </div>
+    <navigation-bar />
   </div>
 </template>
 
 <script>
+import NavigationBar from '~/components/NavigationBar.vue';
 import HeaderBar from '~/components/Header.vue';
 import http from '~/services/http/generic';
 import NothingToShow from '~/components/NothingToShow';
@@ -125,6 +127,7 @@ export default {
     }, 400);
   },
   components: {
+    NavigationBar,
     HeaderBar,
     NothingToShow,
   },
