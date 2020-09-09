@@ -96,7 +96,7 @@ export default {
         id: 8,
         label: 'Apoie a new school',
         icon: 'mdi-volume-high',
-        link: '/contribuindo',
+        link: '/construindo',
       },
     ],
   }),
