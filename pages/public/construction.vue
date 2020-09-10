@@ -25,6 +25,7 @@
         </v-col>
       </v-container>
     </v-flex>
+    <navigation-bar />
   </v-layout>
 </template>
 <router>
@@ -34,42 +35,13 @@
 
 </router>
 <script>
+import NavigationBar from '~/components/NavigationBar.vue';
 
-// export default {
-
-//   data() {
-//     return {
-//       days: '',
-//       hours: '',
-//       minutes: '',
-//     };
-//   },
-//   mounted() {
-//     this.syncDate();
-//   },
-//   methods: {
-//     syncDate() {
-//       let dateEnd = process.env.dateEnd;
-//       let split = dateEnd.split('/');
-//       let dateSpliced = split[1] + '/' + split[0] + '/' + split[2];
-//       let date = new Date(dateSpliced).getTime();
-
-//       setInterval(() => {
-//         let dateToday = new Date().getTime();
-//         var seconds = (date - dateToday) / 1000;
-
-//         this.days = parseInt(seconds / 86400);
-//         seconds = seconds % 86400;
-
-//         this.hours = parseInt(seconds / 3600);
-//         seconds = seconds % 3600;
-
-//         this.minutes = parseInt(seconds / 60);
-//         seconds = parseInt(seconds % 60);
-//       }, 1000);
-//     },
-//   },
-// };
+export default {
+  components: {
+    NavigationBar
+  },
+};
 </script>
 <router>
   {
@@ -86,6 +58,10 @@
   margin: 0 auto;
   color: #6600cc;
   margin-bottom: 16px;
+}
+.container {
+  width: 104%;
+  padding: 0px;
 }
 /* Text Header */
 .initial-text {
