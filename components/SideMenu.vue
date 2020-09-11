@@ -82,7 +82,7 @@ export default {
       {
         id: 5,
         label: 'O que é a new school?',
-        icon: 'mdi-library-books',
+        icon: 'mdi-book-multiple',
         link: '/sobre',
       },
       // { id: 6, label: "Ajuda", icon: "mdi-hand-right", link: "/ajuda" },
