@@ -1,6 +1,6 @@
 <template>
   <v-layout justify-center>
-    <v-flex xs10 sm8 md6 ref="flex">
+    <v-flex ref="flex" xs10 sm8 md6>
       <v-container>
         <v-col cols="12" class="initial-text">
           <v-row>
@@ -57,7 +57,6 @@ export default {
   max-width: 600px;
   margin: 0 auto;
   color: #6600cc;
-  margin-bottom: 16px;
   padding-left: 5px;
 }
 .container {
@@ -81,6 +80,7 @@ export default {
   width: 90%;
   margin: 15% 5%;
 }
+
 /* Date Text */
 .data-text {
   font-style: normal;
@@ -98,6 +98,7 @@ export default {
 }
 .end-text {
   font-style: normal;
+  text-decoration: underline;
   font-weight: 700;
   font-size: 18px;
   line-height: 22px;
@@ -113,7 +114,7 @@ export default {
   margin: 3% 5%;
 }
 .atribute-data span {
-  margin-left: 20%; 
-} 
+  margin-left: 20%;
+}
 }
 </style>
