@@ -1,7 +1,10 @@
 <template>
   <div>
     <HeaderBar :title="'Curso'" :back-page="true"></HeaderBar>
-
+    
+    <v-snackbar v-model="snackbar" :top="true" :right="true" color="snackbarStatus">
+      <span>Este curso já foi finalizado</span>      
+    </v-snackbar>
     <not-found v-if="notFound" />
     <div v-else>
       <div v-if="loading">
@@ -24,19 +27,7 @@
               <p id="description">{{ course.description }}</p>
             </div>
             <v-btn
-              v-if="flagButton"
-              class="btn__primary"
-              color="#60c"
-              :loading="loadingInit"
-              :disabled="loadingInit"
-              dark
-              block
-              depressed
-              large
-              @click="initCourse(course.id)"
-            >Iniciar</v-btn>
-            <v-btn
-              v-else
+              v-if="flagButtonTaken"
               class="btn__primary"
               color="#60c"
               :loading="loadingInit"
@@ -47,6 +38,30 @@
               large
               @click="continueCourse(course)"
             >Continuar</v-btn>
+            <v-btn
+              v-else-if="flagButtonCompleted"
+              class="btn__primary"
+              color="#60c"
+              :loading="loadingInit"
+              :disabled="loadingInit"
+              dark
+              block
+              depressed
+              large
+              @click="goToCertificate(course.id)"
+            >Certificado</v-btn>
+            <v-btn
+              v-else
+              class="btn__primary"
+              color="#60c"
+              :loading="loadingInit"
+              :disabled="loadingInit"
+              dark
+              block
+              depressed
+              large
+              @click="initCourse(course.id)"
+            >Iniciar</v-btn>
           </main>
         </div>
         <modal
@@ -92,8 +107,9 @@ export default {
       loadingInit: false,
       loading: true,
       notFound: false,
-      flagButton: true,
       course: {},
+      flagButtonTaken: false,
+      flagButtonCompleted: false,
     };
   },
   mounted() {
@@ -117,60 +133,72 @@ export default {
   },
   methods: {
     initCourse(id) {
-      this.loadingInit = true;
-      if (utils.getToken() && this.idUser) {
-        http
-          .post(process.env.endpoints.INIT_COURSE, {
-            userId: this.idUser,
-            courseId: id,
-          })
-          .then(() => {
-            http
-              .getAll(
-                `${process.env.endpoints.STATE_COURSE}/user/${this.idUser}/course/${id}`,
-              )
-              .then(res => {
-                this.$store.commit('courses/setCurrent', res.data.course);
-                delete res.data.user;
-                delete res.data.course;
-                this.$store.commit('courses/setCurrentState', res.data);
+      var isComplete = false;
+      this.list.forEach(item => {        
+        if(item.course.id === id && item.status === 'COMPLETED'){
+          isComplete = true;          
+        }
+      });
+      if(isComplete){
+        this.snackbar = true
+       setTimeout(() => $nuxt._router.push(`/aluno/certificados`), 2000);
+      }
+      else{
+        this.loadingInit = true;
+        if (utils.getToken() && this.idUser) {
+          http
+            .post(process.env.endpoints.INIT_COURSE, {
+              userId: this.idUser,
+              courseId: id,
+            })
+            .then(() => {
+              http
+                .getAll(
+                  `${process.env.endpoints.STATE_COURSE}/user/${this.idUser}/course/${id}`,
+                )
+                .then(res => {
+                  this.$store.commit('courses/setCurrent', res.data.course);
+                  delete res.data.user;
+                  delete res.data.course;
+                  this.$store.commit('courses/setCurrentState', res.data);
 
-                http
-                  .getAll(
-                    `${process.env.endpoints.CURRENT_STEP}/user/${this.idUser}/course/${id}`,
-                  )
-                  .then(res => {
-                    this.$store.commit('courses/setCurrentPart', res.data.data);
-                  });
+                  http
+                    .getAll(
+                      `${process.env.endpoints.CURRENT_STEP}/user/${this.idUser}/course/${id}`,
+                    )
+                    .then(res => {
+                      this.$store.commit('courses/setCurrentPart', res.data.data);
+                    });
 
-                setTimeout(() => {
-                  $nuxt._router.push(`/aluno/curso/${id}/aula/parte`);
-                }, 400);
-              });
-          })
-          .catch(error => {
+                  setTimeout(() => {
+                    $nuxt._router.push(`/aluno/curso/${id}/aula/parte`);
+                  }, 400);
+                });
+            })
+            .catch(error => {
+              this.dialogOptions.ok = true;
+              this.dialogMessage =
+                error.response.status === 401
+                  ? 'Você precisa estar logado para fazer um curso!'
+                  : 'Erro ao iniciar o curso, tente novamente';
+              setTimeout(() => {
+                this.loadingInit = false;
+                utils.runModal();
+              }, 1000);
+            });
+        } else {
+          setTimeout(() => {
+            this.dialogOptions.toRoute = {
+              path: '/login',
+              name: 'Fazer Login',
+            };
             this.dialogOptions.ok = true;
             this.dialogMessage =
-              error.response.status === 401
-                ? 'Você precisa estar logado para fazer um curso!'
-                : 'Erro ao iniciar o curso, tente novamente';
-            setTimeout(() => {
-              this.loadingInit = false;
-              utils.runModal();
-            }, 1000);
-          });
-      } else {
-        setTimeout(() => {
-          this.dialogOptions.toRoute = {
-            path: '/login',
-            name: 'Fazer Login',
-          };
-          this.dialogOptions.ok = true;
-          this.dialogMessage =
-            'Você precisa estar logado para fazer um curso! faça o login e tente novamente';
-          this.loadingInit = false;
-          utils.runModal();
-        }, 1000);
+              'Você precisa estar logado para fazer um curso! faça o login e tente novamente';
+            this.loadingInit = false;
+            utils.runModal();
+          }, 1000);
+        }
       }
     },
     comeBackPage() {
@@ -179,7 +207,10 @@ export default {
     verifyStore(id) {
       this.list.forEach(item => {
         if (item.course.id === id && item.status === 'TAKEN') {
-          this.flagButton = false;
+          this.flagButtonTaken = true;
+        }
+        else if (item.course.id === id && item.status === 'COMPLETED') {
+          this.flagButtonCompleted = true;
         }
       });
       this.loading = false;
@@ -214,6 +245,12 @@ export default {
               }
             });
         });
+    },
+    goToCertificate(id) {
+      // eslint-disable-next-line no-undef
+      $nuxt._router.push(
+        `/pagina-certificado/${this.$store.state.user.data.id}/${id}`,
+      );
     },
   },
   computed: {
