@@ -1,10 +1,19 @@
 <template>
   <div class="background">
-    <HeaderBar :title="'New School'" :back-page="true" :route="'/login'"></HeaderBar>
+    <HeaderBar
+      :title="'New School'"
+      :back-page="true"
+      :route="'/login'"
+    ></HeaderBar>
     <v-container class="main">
       <div v-if="loading">
         <div class="container-spinner">
-          <v-progress-circular :size="70" :width="5" indeterminate color="#6600cc" />
+          <v-progress-circular
+            :size="70"
+            :width="5"
+            indeterminate
+            color="#6600cc"
+          />
         </div>
       </div>
       <div v-else class="card-box">
@@ -12,18 +21,25 @@
           <div class="course">
             <td>Educação de qualidade</td>
             <strong>{{ certificate.course.title }}</strong>
-            <tr>Carga horária de {{ certificate.course.workload }} horas</tr>
+            <tr>
+              Carga horária de
+              {{
+                certificate.course.workload
+              }}
+              horas
+            </tr>
             <span>Este certificado é orgulhosamente apresentado para</span>
             <p>{{ certificate.user.name }}</p>
           </div>
+
           <div>
             <p>
               Início:
-              <span class="p__theme">{{this.courseStartDate}}</span>
+              <span class="p__theme">{{ this.courseStartDate }}</span>
             </p>
             <p>
               Término:
-              <span class="p__theme">{{this.courseCompleteDate}}</span>
+              <span class="p__theme">{{ this.courseCompleteDate }}</span>
             </p>
           </div>
         </div>
@@ -39,7 +55,9 @@
           <div class="export-share">
             <div class="icons">
               <button type="button">
-                <v-icon color="#6600CC" size="20">mdi-format-vertical-align-bottom</v-icon>
+                <v-icon color="#6600CC" size="20"
+                  >mdi-format-vertical-align-bottom</v-icon
+                >
               </button>
               <button type="button">
                 <v-icon color="#6600CC" size="20">mdi-printer</v-icon>
@@ -59,10 +77,10 @@
   </div>
 </template>
 <script>
-import shareBtnPageCertificate from '~/components/ShareBtnPageCertificate.vue';
-import http from '../../services/http/public';
-import HeaderBar from '~/components/Header.vue';
 import moment from 'moment';
+import http from '../../services/http/public';
+import shareBtnPageCertificate from '~/components/ShareBtnPageCertificate.vue';
+import HeaderBar from '~/components/Header.vue';
 import ogImage from '~/assets/backgroundCertificates.svg';
 
 export default {
@@ -70,17 +88,17 @@ export default {
     shareBtnPageCertificate,
     HeaderBar,
   },
-  computed: {
-    certificateUrl: function() {
-      return this.$route.path;
-    },
-  },
   data: () => ({
     certificate: {},
     loading: true,
     courseStartDate: '',
     courseCompleteDate: '',
   }),
+  computed: {
+    certificateUrl() {
+      return window.location.href;
+    },
+  },
   mounted() {
     const idCourse = this.$route.params.idCourse;
     const idUser = this.$route.params.idUser;
