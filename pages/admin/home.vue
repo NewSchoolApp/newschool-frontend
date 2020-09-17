@@ -1,15 +1,15 @@
 <template>
-  <main class="max-content" id="page">
+  <main id="page" class="max-content">
     <header class="welcome">
-      <h1 class="welcome-title">{{'Olá ' + user.name}}</h1>
+      <h1 class="welcome-title">{{ 'Olá ' + user.name }}</h1>
       <h2 class="welcome-subtitle">Seja bem vindo</h2>
     </header>
 
     <h3 class="title-section">CURSOS</h3>
     <article class="article-container">
       <course-card
+        v-for="course in list"
         :key="course.id"
-        v-for="course in courses"
         :title="course.title"
         :teacher="course.authorId"
         :image="course.thumbUrl"
@@ -30,57 +30,62 @@
 </router>
 
 <script>
-import NavigationBar from "~/components/NavigationBar.vue";
-import CourseCard from "~/components/CourseCard";
-import courses from "~/services/http/courses";
+import NavigationBar from '~/components/NavigationBar.vue';
+import CourseCard from '~/components/CourseCard';
+import http from '~/services/http/generic';
+import courses from '~/services/http/courses';
 
 export default {
   components: {
     NavigationBar,
-    CourseCard
+    CourseCard,
+  },
+  asyncData({ store, data, params, $axios }) {
+    return courses
+      .getAll()
+      .then(response => store.commit('courses/set', response.data));
   },
   data: () => ({
-    title: "Bem-vindo"
+    title: 'Bem-vindo',
+    list: [],
   }),
+  computed: {
+    user() {
+      return this.$store.state.user.data;
+    },
+  },
+  async mounted() {
+    this.loadUserName();
+
+    await http.getAll(process.env.endpoints.COURSE).then(res => {
+      this.list = res.data;
+      console.log(this.list);
+      this.loading = false;
+    });
+  },
+  methods: {
+    loadUserName() {
+      const storedUser = JSON.parse(localStorage.getItem('user'));
+      if (storedUser) {
+        this.user.name = storedUser.name.split(' ')[0];
+      }
+    },
+  },
   head() {
     return {
       title: this.title,
       meta: [
         {
-          hid: "description",
-          name: "description",
+          hid: 'description',
+          name: 'description',
           content:
-            "Seja bem vindo(a) ao aplicativo da New School - Levamos educação de qualidade " +
-            "na linguagem da quebrada para as periferias do Brasil, através da tecnologia e da " +
-            "curadoria de conteúdos baseados nas habilidades do futuro."
-        }
-      ]
+            'Seja bem vindo(a) ao aplicativo da New School - Levamos educação de qualidade ' +
+            'na linguagem da quebrada para as periferias do Brasil, através da tecnologia e da ' +
+            'curadoria de conteúdos baseados nas habilidades do futuro.',
+        },
+      ],
     };
   },
-  computed: {
-    courses() {
-      return this.$store.state.courses.list;
-    },
-    user() {
-      return this.$store.state.user.data;
-    }
-  },
-  methods: {
-    loadUserName() {
-      let storedUser = JSON.parse(localStorage.getItem("user"));
-      if (storedUser) {
-        this.user.name = storedUser.name.split(" ")[0];
-      }
-    }
-  },
-  mounted() {
-    this.loadUserName();
-  },
-  asyncData({ store, data, params, $axios }) {
-    return courses
-      .getAll()
-      .then(response => store.commit("courses/set", response.data));
-  }
 };
 </script>
 

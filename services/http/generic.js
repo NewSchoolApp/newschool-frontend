@@ -1,9 +1,9 @@
-import Axios from "axios";
-import { addInterceptorError } from "./error-interceptor";
-import utils from "~/utils/index";
+import Axios from 'axios';
+import { addInterceptorError } from './error-interceptor';
+import utils from '~/utils/index';
 
 const http = Axios.create({
-  baseURL: process.env.baseUrl
+  baseURL: process.env.baseUrl,
 });
 
 // Interceptor para adicionar o token no authorization header
@@ -14,18 +14,21 @@ http.interceptors.request.use(config => {
 
 // Interceptor para gaurd e redirecionamento
 // TODO criar um arquivo específico para inetrceptors
-http.interceptors.response.use(response => {
-  return response
-}, (error) => {
-  if (401 === error.response.statusCode) {
-    localStorage.clear();
-    $nuxt._router.push("/login")
-  } else {
-    $nuxt._router.push("/login")
-    return Promise.reject(error);
-  }
-  return config;
-});
+http.interceptors.response.use(
+  response => {
+    return response;
+  },
+  error => {
+    if (error.response.statusCode === 401) {
+      localStorage.clear();
+      $nuxt._router.push('/login');
+    } else {
+      $nuxt._router.push('/login');
+      return Promise.reject(error);
+    }
+    return config;
+  },
+);
 
 addInterceptorError(http);
 /**
@@ -52,5 +55,5 @@ export default {
 
   delete: (path, id) => {
     return http.delete(`${path}/${id}`);
-  }
+  },
 };

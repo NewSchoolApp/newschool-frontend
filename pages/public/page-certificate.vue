@@ -21,12 +21,19 @@
           <div class="course">
             <td>Educação de qualidade</td>
             <strong>{{ certificate.course.title }}</strong>
-            <tr>
+            <tr v-if="certificate.course.workload >= 2">
               Carga horária de
               {{
                 certificate.course.workload
               }}
               horas
+            </tr>
+            <tr v-if="certificate.course.workload <= 1">
+              Carga horária de
+              {{
+                certificate.course.workload
+              }}
+              hora
             </tr>
             <span>Este certificado é orgulhosamente apresentado para</span>
             <p>{{ certificate.user.name }}</p>
@@ -44,7 +51,10 @@
           </div>
         </div>
         <div class="footer">
-          <p>Professor</p>
+          <div class="professor">
+            <p>Professor</p>
+            <p class="authorName">{{ author }}</p>
+          </div>
           <p>Diretoria</p>
         </div>
         <div class="export">
@@ -54,12 +64,12 @@
           </div>
           <div class="export-share">
             <div class="icons">
-              <button type="button">
+              <button type="button" @click="print">
                 <v-icon color="#6600CC" size="20"
                   >mdi-format-vertical-align-bottom</v-icon
                 >
               </button>
-              <button type="button">
+              <button type="button" @click="print">
                 <v-icon color="#6600CC" size="20">mdi-printer</v-icon>
               </button>
             </div>
@@ -93,6 +103,7 @@ export default {
     loading: true,
     courseStartDate: '',
     courseCompleteDate: '',
+    author: '',
   }),
   computed: {
     certificateUrl() {
@@ -103,8 +114,9 @@ export default {
     const idCourse = this.$route.params.idCourse;
     const idUser = this.$route.params.idUser;
     http.pageCertificate(idUser, idCourse).then(res => {
+      console.log(res.data);
       this.certificate = res.data;
-
+      this.author = this.convertName('Leonardo Oliveira Balsalobre');
       this.courseStartDate = moment(this.certificate.courseStartDate).format(
         'DD/MM/YYYY',
       );
@@ -126,6 +138,16 @@ export default {
         ],
       };
     },
+    print() {
+      window.print();
+    },
+    convertName(name) {
+      name = name.split(' ');
+      if (name.length > 2) {
+        name[1] = name[1].charAt(0);
+      }
+      return name.join(' ');
+    },
   },
 };
 </script>
@@ -136,7 +158,6 @@ export default {
 
 <style lang="scss" scoped>
 * {
-  margin: 0;
   padding: 0;
   outline: 0;
   box-sizing: border-box;
@@ -144,9 +165,21 @@ export default {
 
 .background {
   background: url('../../assets/backgroundCertificates.svg');
+  background-repeat: no-repeat;
+  background-size: cover;
   position: absolute;
   height: 100%;
   width: 100%;
+}
+.authorName {
+  font-size: 12px !important;
+  font-weight: 600 !important;
+}
+.professor {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .main {
@@ -230,14 +263,17 @@ export default {
     margin-top: 5px;
 
     p {
+      display: -webkit-box;
       display: flex;
+      -webkit-box-align: center;
       align-items: center;
-      justify-content: center;
-      width: 100%;
-      padding: 80px 0 10px 0;
+      -webkit-box-pack: center;
+      justify-content: space-between;
+      padding: 5px 0 0 0;
+      margin: 0px 60px;
       font-size: 10px;
       letter-spacing: 3px;
-      color: #6600ccb7;
+      color: #6600cc;
     }
   }
 }
@@ -289,6 +325,21 @@ export default {
 
   button {
     cursor: pointer !important;
+  }
+}
+@media print {
+  @page {
+    margin: 0;
+  }
+  body {
+    margin: 1.6cm;
+  }
+  .title-export-share,
+  .export-share {
+    display: none;
+  }
+  ::v-deep .v-btn__content {
+    display: none;
   }
 }
 </style>

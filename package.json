@@ -47,6 +47,7 @@
     "nuxt": "^2.11.0",
     "nuxt-i18n": "^6.4.1",
     "vue-avatar": "^2.1.8",
+    "vue-html2pdf": "^1.6.6",
     "vue-social-sharing": "^2.4.7",
     "vue-the-mask": "^0.11.1"
   },
