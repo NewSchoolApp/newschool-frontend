@@ -8,7 +8,7 @@
     <h3 class="title-section">CURSOS</h3>
     <article class="article-container">
       <course-card
-        v-for="course in list"
+        v-for="course in courses"
         :key="course.id"
         :title="course.title"
         :teacher="course.authorId"
@@ -32,7 +32,6 @@
 <script>
 import NavigationBar from '~/components/NavigationBar.vue';
 import CourseCard from '~/components/CourseCard';
-import http from '~/services/http/generic';
 import courses from '~/services/http/courses';
 
 export default {
@@ -47,21 +46,17 @@ export default {
   },
   data: () => ({
     title: 'Bem-vindo',
-    list: [],
   }),
   computed: {
+    courses() {
+      return this.$store.state.courses.list;
+    },
     user() {
       return this.$store.state.user.data;
     },
   },
-  async mounted() {
+  mounted() {
     this.loadUserName();
-
-    await http.getAll(process.env.endpoints.COURSE).then(res => {
-      this.list = res.data;
-      console.log(this.list);
-      this.loading = false;
-    });
   },
   methods: {
     loadUserName() {
