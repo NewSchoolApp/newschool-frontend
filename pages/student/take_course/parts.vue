@@ -1,16 +1,21 @@
 <template>
   <div>
-    <header-bar :title="'Aula'" :backPage="true"></header-bar>
-    <v-layout justify-center id="page">
+    <header-bar :title="'Aula'" :back-page="true"></header-bar>
+    <v-layout id="page" justify-center>
       <div v-if="loading">
         <div class="container-spinner">
-          <v-progress-circular :size="70" :width="5" indeterminate color="#6600cc" />
+          <v-progress-circular
+            :size="70"
+            :width="5"
+            indeterminate
+            color="#6600cc"
+          />
         </div>
       </div>
-      <v-flex ref="flex" class="main-container" v-else>
+      <v-flex v-else ref="flex" class="main-container">
         <div class="inner-container">
           <h3>{{ part.lessonTitle }}</h3>
-          <h4>{{ part.description }}</h4>
+          <h4>{{ description }}</h4>
 
           <div class="video-iframe-container">
             <iframe
@@ -23,7 +28,9 @@
           <h4>Youtube</h4>
         </div>
 
-        <v-btn color="primary" class="save-button" @click="advanceCourse">Próximo</v-btn>
+        <v-btn color="primary" class="save-button" @click="advanceCourse"
+          >Próximo</v-btn
+        >
       </v-flex>
       <client-only>
         <navigation-bar />
@@ -45,14 +52,15 @@ import utils from '~/utils/index';
 import http from '~/services/http/generic';
 
 export default {
-  data: () => ({
-    urlVideo: '',
-    loading: true,
-  }),
   components: {
     NavigationBar,
     HeaderBar,
   },
+  data: () => ({
+    urlVideo: '',
+    description: '',
+    loading: true,
+  }),
   computed: {
     part() {
       return this.$store.state.courses.currentPart;
@@ -64,10 +72,22 @@ export default {
       return this.$store.state.courses.current.id;
     },
   },
+  created() {
+    this.getCourse();
+  },
   mounted() {
     this.loading = false;
   },
   methods: {
+    async getCourse() {
+      const lessons = await http.getAll(
+        `${process.env.endpoints.LESSONS_BY_COURSE}${this.courseId}`,
+      );
+      const currentLessonData = await lessons.data.filter(
+        data => data.title === this.part.lessonTitle,
+      );
+      this.description = currentLessonData[0].description;
+    },
     advanceCourse() {
       this.loading = true;
       // avançando no curso

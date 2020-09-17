@@ -55,7 +55,10 @@
             <p>Professor</p>
             <p class="authorName">{{ author }}</p>
           </div>
-          <p>Diretoria</p>
+          <div class="professor">
+            <p>Diretoria</p>
+            <p class="authorName">{{ director }}</p>
+          </div>
         </div>
         <div class="export">
           <div class="title-export-share">
@@ -104,6 +107,7 @@ export default {
     courseStartDate: '',
     courseCompleteDate: '',
     author: '',
+    director: 'New School',
   }),
   computed: {
     certificateUrl() {
@@ -116,7 +120,7 @@ export default {
     http.pageCertificate(idUser, idCourse).then(res => {
       console.log(res.data);
       this.certificate = res.data;
-      this.author = this.convertName('Leonardo Oliveira Balsalobre');
+      this.author = this.convertName(this.certificate.course.authorName);
       this.courseStartDate = moment(this.certificate.courseStartDate).format(
         'DD/MM/YYYY',
       );
