@@ -63,7 +63,6 @@
               ></v-autocomplete>
               <v-text-field
                 v-model="form.password"
-                style="margin-bottom:-20px;"
                 placeholder="Digite sua senha"
                 color="#60c"
                 label="Crie sua senha"
@@ -75,7 +74,7 @@
                 @click:append="() => (showPass = !showPass)"
               ></v-text-field>
               <v-text-field
-                 style=" margin-top:-15px; |important; margin-bottom:20px;"
+                 style=" margin-top:-15px !important; margin-bottom:20px;"
                 v-model="form.confirmPassword"
                 placeholder="Confirme sua senha"
                 color="#60c"
