@@ -118,7 +118,6 @@ export default {
     const idCourse = this.$route.params.idCourse;
     const idUser = this.$route.params.idUser;
     http.pageCertificate(idUser, idCourse).then(res => {
-      console.log(res.data);
       this.certificate = res.data;
       this.author = this.convertName(this.certificate.course.authorName);
       this.courseStartDate = moment(this.certificate.courseStartDate).format(
