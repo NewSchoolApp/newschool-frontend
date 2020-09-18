@@ -120,7 +120,6 @@ export default {
         this.certificate.courseCompleteDate,
       ).format('DD/MM/YYYY');
       this.loading = false;
-      console.log(this.certificate);
     });
   },
   methods: {
