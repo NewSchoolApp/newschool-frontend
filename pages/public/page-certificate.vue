@@ -60,6 +60,19 @@
                 <h6 class="medium__text">DIRETORIA</h6>
               </div>
             </div>
+            <div class="download-container">
+              <button class="download" type="button" @click="print">
+                BAIXAR
+                <v-icon color="#6600CC" size="20"
+                  >mdi-format-vertical-align-bottom</v-icon
+                >
+              </button>
+            </div>
+            <img
+              class="new__logo"
+              src="../../assets/NS-Logo-vertical.svg"
+              alt=""
+            />
           </footer>
         </div>
       </div>
@@ -150,7 +163,7 @@ export default {
   background: url('../../assets/backgroundCertificates.svg');
   background-repeat: no-repeat;
   background-size: cover;
-  position: absolute;
+  position: fixed;
   height: 100%;
   width: 100%;
 }
@@ -187,8 +200,21 @@ export default {
 .user {
   font-size: 16px;
 }
+.new__logo {
+  display: none;
+}
+.download {
+  margin: 10% auto;
+  color: #6600cc;
+}
+
+.download-container {
+  width: 90%;
+  text-align: center;
+}
+
 .assignature {
-  margin-top: 20%;
+  margin-top: -55px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -201,16 +227,15 @@ export default {
     align-items: flex-start;
   }
   .asn {
-    border-bottom: 2px solid black;
+    border-bottom: 1px solid black;
     width: 75%;
   }
 }
 .asn_img {
-  position: absolute;
   width: 91px;
   height: 192px;
-  bottom: 35%;
   margin-left: 26px;
+  margin-bottom: -80px;
 }
 h6 {
   font-size: 12px !important;
@@ -228,12 +253,62 @@ button {
   body {
     margin: 1.6cm;
   }
-  .title-export-share,
-  .export-share {
+  .certificate__title {
+    margin-top: 3%;
+  }
+  .certificate__title .conclusion {
+    font-size: 27px;
+    line-height: 37px;
+  }
+  .certificate__title .new_school__bold {
+    font-size: 75px;
+  }
+  .main,
+  .medium__text {
+    font-size: 25px;
+  }
+
+  .main .middle__text {
+    font-size: 20px;
+  }
+  .user {
+    font-size: 25px;
+  }
+  .assignature {
+    margin-top: 12%;
+    justify-content: flex-start;
+  }
+  .asn_img {
+    position: absolute;
+    width: 150px;
+    height: 250px;
+    bottom: 25%;
+    margin-left: 50px;
+  }
+
+  .new__logo {
+    width: 200px;
+    height: 200px;
+    display: block;
+    position: absolute;
+    right: 35px;
+    bottom: 0;
+  }
+  .download-container {
     display: none;
   }
-  ::v-deep .v-btn__content {
+
+  ::v-deep .v-item-group.v-bottom-navigation--fixed,
+  #head__bar {
     display: none;
+  }
+  .assignature .professor,
+  .assignature .director {
+    width: 30%;
+  }
+
+  .background {
+    border: 20px solid #6600cc;
   }
 }
 </style>
