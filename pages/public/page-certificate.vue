@@ -23,8 +23,8 @@
         </header>
         <div class="container">
           <main class="main">
-            <h4>CURSO DE EDUCAÇÃO DE QUALIDADE</h4>
-            <h4 class="medium__text justify">
+            <h4>CURSO DE {{ certificate.course.title.toUpperCase() }}</h4>
+            <h4 class="medium__text">
               FINALIZADO NO DIA {{ courseCompleteDate }} COM CARGA HORÁRIA DE
               {{ certificate.course.workload }}HRS
             </h4>
@@ -120,6 +120,7 @@ export default {
         this.certificate.courseCompleteDate,
       ).format('DD/MM/YYYY');
       this.loading = false;
+      console.log(this.certificate);
     });
   },
   methods: {
@@ -192,9 +193,6 @@ export default {
   font-size: 16px;
   .middle__text {
     font-size: 14px;
-  }
-  .justify {
-    text-align: justify;
   }
 }
 .user {
