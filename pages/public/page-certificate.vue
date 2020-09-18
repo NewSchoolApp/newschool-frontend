@@ -275,15 +275,13 @@ button {
     font-size: 25px;
   }
   .assignature {
-    margin-top: 12%;
     justify-content: flex-start;
   }
   .asn_img {
-    position: absolute;
     width: 150px;
     height: 250px;
-    bottom: 25%;
-    margin-left: 50px;
+    margin-left: 20px;
+    margin-bottom: -110px;
   }
 
   .new__logo {
