@@ -1,11 +1,11 @@
 <template>
   <div class="background">
     <HeaderBar
-      :title="'New School'"
+      :title="'CERTIFICADO'"
       :back-page="true"
       :route="'/login'"
     ></HeaderBar>
-    <v-container class="main">
+    <v-container>
       <div v-if="loading">
         <div class="container-spinner">
           <v-progress-circular
@@ -17,81 +17,73 @@
         </div>
       </div>
       <div v-else class="card-box">
-        <div class="card">
-          <div class="course">
-            <td>Educação de qualidade</td>
-            <strong>{{ certificate.course.title }}</strong>
-            <tr v-if="certificate.course.workload >= 2">
-              Carga horária de
-              {{
-                certificate.course.workload
-              }}
-              horas
-            </tr>
-            <tr v-if="certificate.course.workload <= 1">
-              Carga horária de
-              {{
-                certificate.course.workload
-              }}
-              hora
-            </tr>
-            <span>Este certificado é orgulhosamente apresentado para</span>
-            <p>{{ certificate.user.name }}</p>
-          </div>
-
-          <div>
-            <p>
-              Início:
-              <span class="p__theme">{{ this.courseStartDate }}</span>
-            </p>
-            <p>
-              Término:
-              <span class="p__theme">{{ this.courseCompleteDate }}</span>
-            </p>
-          </div>
-        </div>
-        <div class="footer">
-          <div class="professor">
-            <p>Professor</p>
-            <p class="authorName">{{ author }}</p>
-          </div>
-          <div class="professor">
-            <p>Diretoria</p>
-            <p class="authorName">{{ director }}</p>
-          </div>
-        </div>
-        <div class="export">
-          <div class="title-export-share">
-            <div class="export-title">Exportar</div>
-            <div class="export-title">Compartilhar</div>
-          </div>
-          <div class="export-share">
-            <div class="icons">
-              <button type="button" @click="print">
+        <header class="certificate__title">
+          <h3 class="medium__text conclusion">CERTIFICADO DE CONCLUSÃO</h3>
+          <h1 class="new_school__bold">NEW SCHOOL</h1>
+        </header>
+        <div class="container">
+          <main class="main">
+            <h4>CURSO DE EDUCAÇÃO DE QUALIDADE</h4>
+            <h4 class="medium__text justify">
+              FINALIZADO NO DIA {{ courseCompleteDate }} COM CARGA HORÁRIA DE
+              {{ certificate.course.workload }}HRS
+            </h4>
+          </main>
+          <main class="main">
+            <h4 class="medium__text middle__text">
+              ESTE CERTIFICADO É ORGULHOSAMENTE APRESENTADO PARA
+            </h4>
+            <h4 class="user">
+              {{ certificate.user.name.toUpperCase() }}
+            </h4>
+          </main>
+          <footer>
+            <div class="assignature">
+              <div class="professor ">
+                <div class="asn">
+                  <img
+                    class="asn_img"
+                    src="../../assets/assinatura.png"
+                    alt=""
+                  />
+                </div>
+                <h6 class="medium__text">PROFESSOR</h6>
+              </div>
+              <div class="director ">
+                <div class="asn">
+                  <img
+                    class="asn_img"
+                    src="../../assets/assinatura.png"
+                    alt=""
+                  />
+                </div>
+                <h6 class="medium__text">DIRETORIA</h6>
+              </div>
+            </div>
+            <div class="download-container">
+              <button class="download" type="button" @click="print">
+                BAIXAR
                 <v-icon color="#6600CC" size="20"
                   >mdi-format-vertical-align-bottom</v-icon
                 >
               </button>
-              <button type="button" @click="print">
-                <v-icon color="#6600CC" size="20">mdi-printer</v-icon>
-              </button>
             </div>
-            <div class="share">
-              <shareBtnPageCertificate
-                :url="this.certificateUrl"
-                :title="'Certificado de conclusão de curso New School'"
-                :description="certificate.course.title"
-              />
-            </div>
-          </div>
+            <img
+              class="new__logo"
+              src="../../assets/NS-Logo-vertical.svg"
+              alt=""
+            />
+          </footer>
         </div>
       </div>
     </v-container>
+    <navigation-bar />
   </div>
 </template>
 <script>
 import moment from 'moment';
 import http from '../../services/http/public';
+import NavigationBar from '~/components/NavigationBar.vue';
 import shareBtnPageCertificate from '~/components/ShareBtnPageCertificate.vue';
 import HeaderBar from '~/components/Header.vue';
 import ogImage from '~/assets/backgroundCertificates.svg';
@@ -100,6 +92,7 @@ export default {
   components: {
     shareBtnPageCertificate,
     HeaderBar,
+    NavigationBar,
   },
   data: () => ({
     certificate: {},
@@ -170,166 +163,89 @@ export default {
   background: url('../../assets/backgroundCertificates.svg');
   background-repeat: no-repeat;
   background-size: cover;
-  position: absolute;
+  position: fixed;
   height: 100%;
   width: 100%;
 }
-.authorName {
-  font-size: 12px !important;
-  font-weight: 600 !important;
+
+.card-box {
+  margin-left: 5%;
 }
-.professor {
+.medium__text {
+  font-size: 16px;
+  line-height: 20px;
+  font-weight: 400;
+  text-align: left;
+}
+.certificate__title {
+  .conclusion {
+    width: 35%;
+  }
+  .new_school__bold {
+    font-weight: 700;
+    color: #6600cc;
+  }
+}
+.main {
+  width: 85%;
+  margin: 4% 0 5% 0;
+  font-size: 16px;
+  .middle__text {
+    font-size: 14px;
+  }
+  .justify {
+    text-align: justify;
+  }
+}
+.user {
+  font-size: 16px;
+}
+.new__logo {
+  display: none;
+}
+.download {
+  margin: 10% auto;
+  color: #6600cc;
+}
+
+.download-container {
+  width: 90%;
+  text-align: center;
+}
+
+.assignature {
+  margin-top: -55px;
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
-}
-
-.main {
-  .card-box {
-    height: 100%;
-    max-width: 100%;
-    text-align: center;
-
-    .course {
-      display: flex;
-      flex-direction: column;
-      padding: 0 10px;
-
-      h4 {
-        padding-top: 30px;
-        line-height: 15px;
-        font-family: 'Oxygen', sans-serif;
-        text-transform: uppercase;
-        font-style: normal;
-        font-weight: 600;
-        color: #6600cc;
-        letter-spacing: 1px;
-      }
-
-      td {
-        padding-top: 5px;
-        font-size: 10px;
-        color: #6600ccb7;
-      }
-
-      tr {
-        padding-top: 8px;
-        font-size: 12px;
-        color: #6600ccb7;
-      }
-
-      strong {
-        padding-top: 50px;
-        line-height: 15px;
-        font-family: Montserrat;
-        font-style: normal;
-        font-weight: bold;
-        color: #6600cc;
-        letter-spacing: 3px;
-      }
-      span {
-        font-family: Montserrat;
-        font-weight: 300;
-        padding-top: 40px;
-        font-size: 14px;
-        color: #6600cc;
-      }
-
-      p {
-        padding-top: 5px;
-        font-weight: bold;
-        color: #1a1a1a;
-        font-family: Montserrat;
-      }
-    }
-  }
-
-  ul {
-    padding: 0;
-    padding-top: 20px;
-    list-style: none;
-
-    li {
-      font-family: Montserrat;
-      font-weight: 300;
-      font-size: 12px;
-      color: #6600ccb7;
-    }
-  }
-
-  .footer {
+  .professor,
+  .director {
+    width: 50%;
     display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    margin-top: 5px;
-
-    p {
-      display: -webkit-box;
-      display: flex;
-      -webkit-box-align: center;
-      align-items: center;
-      -webkit-box-pack: center;
-      justify-content: space-between;
-      padding: 5px 0 0 0;
-      margin: 0px 60px;
-      font-size: 10px;
-      letter-spacing: 3px;
-      color: #6600cc;
-    }
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+  }
+  .asn {
+    border-bottom: 1px solid black;
+    width: 75%;
   }
 }
-
-.title-export-share {
-  display: flex;
-  align-items: left;
-  justify-content: space-between;
-  padding: 10px 25px 10px 25px;
-
-  .export-title {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    font-family: Montserrat;
-    font-weight: 900;
-    font-size: 12px;
-    line-height: 15px;
-    margin-top: 25px;
-    text-transform: uppercase;
-    color: rgba(102, 0, 204, 0.5);
-  }
+.asn_img {
+  width: 91px;
+  height: 192px;
+  margin-left: 26px;
+  margin-bottom: -80px;
+}
+h6 {
+  font-size: 12px !important;
+  margin-top: 2%;
 }
 
-.export-share {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 25px 10px 25px;
-
-  .icons {
-    height: 35px;
-    width: 23%;
-
-    display: flex;
-    align-items: left;
-    justify-content: space-between;
-
-    .share {
-      height: 30px;
-      width: 30%;
-
-      display: flex;
-      align-items: right;
-      justify-content: space-around;
-    }
-  }
-
-  button {
-    cursor: pointer !important;
-  }
+button {
+  cursor: pointer !important;
 }
+
 @media print {
   @page {
     margin: 0;
@@ -337,12 +253,60 @@ export default {
   body {
     margin: 1.6cm;
   }
-  .title-export-share,
-  .export-share {
+  .certificate__title {
+    margin-top: 3%;
+  }
+  .certificate__title .conclusion {
+    font-size: 27px;
+    line-height: 37px;
+  }
+  .certificate__title .new_school__bold {
+    font-size: 75px;
+  }
+  .main,
+  .medium__text {
+    font-size: 25px;
+  }
+
+  .main .middle__text {
+    font-size: 20px;
+  }
+  .user {
+    font-size: 25px;
+  }
+  .assignature {
+    justify-content: flex-start;
+  }
+  .asn_img {
+    width: 150px;
+    height: 250px;
+    margin-left: 20px;
+    margin-bottom: -110px;
+  }
+
+  .new__logo {
+    width: 200px;
+    height: 200px;
+    display: block;
+    position: absolute;
+    right: 35px;
+    bottom: 0;
+  }
+  .download-container {
     display: none;
   }
-  ::v-deep .v-btn__content {
+
+  ::v-deep .v-item-group.v-bottom-navigation--fixed,
+  #head__bar {
     display: none;
+  }
+  .assignature .professor,
+  .assignature .director {
+    width: 30%;
+  }
+
+  .background {
+    border: 20px solid #6600cc;
   }
 }
 </style>
