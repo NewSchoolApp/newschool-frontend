@@ -40,6 +40,7 @@
     "@nuxtjs/pwa": "^3.0.0-0",
     "@nuxtjs/router-extras": "^1.0.0",
     "@nuxtjs/vuetify": "^1.0.0",
+    "chart.js": "^2.9.3",
     "cordova-plugin-facebook4": "^6.2.0",
     "fs": "0.0.1-security",
     "moment": "^2.24.0",
@@ -47,6 +48,7 @@
     "nuxt": "^2.11.0",
     "nuxt-i18n": "^6.4.1",
     "vue-avatar": "^2.1.8",
+    "vue-chartjs": "^3.5.1",
     "vue-social-sharing": "^2.4.7",
     "vue-the-mask": "^0.11.1"
   },
