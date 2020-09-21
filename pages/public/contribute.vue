@@ -206,11 +206,11 @@ export default {
   margin-top: -33px;
 }
 ::v-deep .heroku .v-image__image {
-  height: 70%;
-  margin-top: 7%;
+  height: 40%;
+  margin-top: 10%;
 }
 ::v-deep .heroku .v-card__title {
-  margin-top: -20%;
+  margin-top: -80%;
 }
 ::v-deep .rollbar .v-image__image {
   width: 80%;
