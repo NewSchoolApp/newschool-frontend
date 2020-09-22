@@ -14,10 +14,10 @@
     >
     <alert :status="status" :info="info" :show="isActive" />
   </v-layout>
-  <router>
+</template>
+<router>
     { path: '/snack' }
   </router>
-</template>
 <script>
 import Alert from '../../components/Alert';
 export default {
