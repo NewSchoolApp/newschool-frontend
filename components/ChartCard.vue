@@ -1,9 +1,8 @@
 <template>
-  <div class="chardCard">
+  <div class="chartCard">
       <div v-if="title" class="cardTitle">
         <h3>{{ cardTitle }}</h3>
       </div>
-
       <div class="chart">
         <pie-chart
         :data="data"
@@ -11,7 +10,6 @@
         :chartColors="colors"
         />
       </div>
-
       <div class="labels">
         <div class="label"
           v-for="(label, index) in labels"
@@ -25,13 +23,11 @@
           </div>
         </div>
       </div>
-
   </div>
 </template>
 
 <script>
 import PieChart from '~/components/PieChart';
-
 export default {
   components: {
     PieChart,
@@ -53,7 +49,7 @@ export default {
 </script>
 
 <style scoped>
-.chardCard{
+.chartCard{
   width: 100%;
   margin-bottom: 1.5em;
   display: flex;
@@ -105,7 +101,7 @@ export default {
 }
 
 @media screen and (orientation: landscape){
-  .chardCard {
+  .chartCard {
   width: 250px;
   margin-bottom: 1.5em;
   margin-right: 2.5em;
@@ -129,7 +125,7 @@ export default {
   } 
 
   @media (min-width: 700px){
-    .chardCard{
+    .chartCard{
     width: 46%;
     margin-bottom: 1.5em;
     margin-right: 16px;
@@ -145,7 +141,7 @@ export default {
   }
 
   @media (min-width: 1000px){
-    .chardCard{
+    .chartCard{
     width: 25%;
     margin-bottom: 1.5em;
     margin-right: 3em;
@@ -163,7 +159,7 @@ export default {
 
 @media screen and (orientation: portrait){
   @media (max-width: 280px){
-    .chardCard{
+    .chartCard{
     margin-bottom: 1.5em;
     }
 
@@ -180,7 +176,7 @@ export default {
   } 
 
   @media (min-width: 700px){
-    .chardCard{
+    .chartCard{
       width: 47%;
       margin-bottom: 1.5em;
       margin-right: 1em;
