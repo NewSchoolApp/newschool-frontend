@@ -3,8 +3,8 @@
     <div class="main">
       <canvas ref="myChart" width="500" height="500"> </canvas>
       <div class="innerChart">
-        <div class="total">{{totalTitle}}</div>
-        <div class="innerTitle">{{title}}</div>
+        <div class="total">{{ totalTitle }}</div>
+        <div class="innerTitle">{{ title }}</div>
       </div>
     </div>
   </div>
@@ -18,7 +18,7 @@ export default {
   data: () => ({
     cutout: 70,
     totalTitle: "",
-    colors:["#3399ff", "#003399", "#6d9be4", "#c2daff", "#e9f2ff"]
+    colors:["#3399ff", "#003399", "#6d9be4", "#c2daff", "#e9f2ff"],
   }),
   mounted() {
     this.totalTitle = this.data.reduce((a, b) => a + b, 0).toLocaleString();
@@ -28,7 +28,7 @@ export default {
     };
     if (this.chartColors) {
       this.colors = this.chartColors;
-    }
+    };
     new Chart(this.$refs.myChart, {
       type: 'pie',
       data: {
@@ -57,12 +57,11 @@ export default {
 }
 
 .innerChart {
-  max-width: 0;
   position: absolute;
-  text-align: center;
   line-height: 1.2;
   display: flex;
   flex-wrap: wrap;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
 }
@@ -70,13 +69,45 @@ export default {
 .innerTitle{
   flex-wrap: wrap;
   font-weight: 900;
-  font-size: 10vw;
+  font-size: 5vw;
   color: #999999;
 }
 
 .total{
   font-weight: 900;
-  font-size: 10vw;
+  font-size: 5vw;
   color: #000000;
+}
+
+@media screen and (orientation: landscape){
+  .innerTitle{
+    font-size: 2.5vw;
+  }
+
+  .total{
+    font-size: 2.5vw;
+  }
+
+  @media (min-width: 1000px){
+    .innerTitle{
+      font-size: 1.5vw;
+    }
+
+    .total{
+      font-size: 1.5vw;
+    }
+  }
+}
+
+@media screen and (orientation: portrait){
+  @media (min-width: 700px){
+    .innerTitle{
+      font-size: 2.5vw;
+    }
+
+    .total{
+      font-size: 2.5vw;
+    }
+  }
 }
 </style>
