@@ -77,7 +77,7 @@ export default {
         id: 4,
         label: 'Cola com Nóix',
         icon: 'mdi-gesture-double-tap',
-        link: '/contribua',
+        link: '/cola-com-noix',
       },
       {
         id: 5,
