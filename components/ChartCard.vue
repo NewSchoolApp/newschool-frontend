@@ -55,11 +55,6 @@
 
         </div>
       </div>
-<<<<<<< HEAD
-
-
-=======
->>>>>>> d4ef1340de00e31075c669d866253c94a60850e7
   </div>
 </template>
 
@@ -231,14 +226,7 @@ export default {
 }
 
 @media screen and (orientation: portrait){
-<<<<<<< HEAD
   @media (min-width: 280px){
-=======
-  @media (max-width: 280px){
-    .chartCard{
-    margin-bottom: 1.5em;
-    }
->>>>>>> d4ef1340de00e31075c669d866253c94a60850e7
 
     .label{
       font-size: 3.5vw;
