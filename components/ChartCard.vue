@@ -9,6 +9,7 @@
         :title="chartTitle"
         :total="chartTotal"
         :chartColors="colors"
+        :labels="labels"
         />
       </div>
 

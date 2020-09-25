@@ -15,7 +15,7 @@
 import { Pie } from 'vue-chartjs'
 export default {
   extends: Pie,
-  props: ['data', 'title', 'total', 'chartColors'],
+  props: ['data', 'title', 'total', 'chartColors', 'labels'],
   data: () => ({
     cutout: 70,
     colors:["#3399ff", "#003399", "#6d9be4", "#c2daff", "#e9f2ff"],
@@ -44,6 +44,7 @@ export default {
             backgroundColor: this.colors,
           },
         ],
+        labels: this.labels
       },
       options: {
         cutoutPercentage: this.cutout,
