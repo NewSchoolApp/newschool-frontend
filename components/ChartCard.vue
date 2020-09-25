@@ -1,9 +1,8 @@
 <template>
-  <div class="chardCard">
+  <div class="chartCard">
       <div v-if="title" class="cardTitle">
         <h3>{{ cardTitle }}</h3>
       </div>
-
       <div class="chart">
         <pie-chart
         :data="data"
@@ -56,14 +55,16 @@
 
         </div>
       </div>
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> d4ef1340de00e31075c669d866253c94a60850e7
   </div>
 </template>
 
 <script>
 import PieChart from '~/components/PieChart';
-
 export default {
   components: {
     PieChart,
@@ -99,7 +100,7 @@ export default {
 </script>
 
 <style scoped>
-.chardCard{
+.chartCard{
   width: 100%;
   margin-bottom: 1.5em;
   display: flex;
@@ -161,7 +162,7 @@ export default {
 }
 
 @media screen and (orientation: landscape){
-  .chardCard {
+  .chartCard {
   width: 250px;
   margin-bottom: 1.5em;
   margin-right: 2.5em;
@@ -189,7 +190,7 @@ export default {
   } 
 
   @media (min-width: 700px){
-    .chardCard{
+    .chartCard{
     width: 46%;
     margin-bottom: 1.5em;
     margin-right: 16px;
@@ -205,7 +206,7 @@ export default {
   }
 
   @media (min-width: 1000px){
-    .chardCard{
+    .chartCard{
     width: 25%;
     margin-bottom: 1.5em;
     margin-right: 3em;
@@ -230,7 +231,14 @@ export default {
 }
 
 @media screen and (orientation: portrait){
+<<<<<<< HEAD
   @media (min-width: 280px){
+=======
+  @media (max-width: 280px){
+    .chartCard{
+    margin-bottom: 1.5em;
+    }
+>>>>>>> d4ef1340de00e31075c669d866253c94a60850e7
 
     .label{
       font-size: 3.5vw;
@@ -239,7 +247,7 @@ export default {
   } 
 
   @media (min-width: 700px){
-    .chardCard{
+    .chartCard{
       width: 47%;
       margin-bottom: 1.5em;
       margin-right: 1em;
