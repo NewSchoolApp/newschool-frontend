@@ -101,6 +101,11 @@ export default {
             component: resolve(__dirname, 'pages/admin/home.vue'),
           },
           {
+            path: 'dashboard',
+            name: 'admin-dashboard',
+            component: resolve(__dirname, 'pages/admin/dashboard.vue'),
+          },
+          {
             path: 'perfil',
             name: 'meu-perfil',
             component: resolve(__dirname, 'pages/admin/profile.vue'),
@@ -185,6 +190,12 @@ export default {
       MY_COURSES: 'api/v1/course-taken/user/',
       FACEBOOK_LOGIN: 'oauth/facebook/token',
       GOOGLE_LOGIN: 'oauth/google/token',
+      
+      TOTAL_USERS: '/api/v1/user',
+      ACTIVE_USERS: '/api/v1/dashboard/user/quantity',
+      COURSE_VIEWS: '/api/v1/dashboard/course/views',      
+      NS_CERTIFICATED_QUANTITY: '/api/v1/dashboard/course-taken/user/quantity',
+      CERTIFICATE_QUANTITY: '/api/v1/dashboard/certificate/quantity',
     },
     endpointCertificateCourseTaken: {
       CERTIFICATES_COURSE_TAKEN_ME: 'api/v1/course-taken/certificate/user/',

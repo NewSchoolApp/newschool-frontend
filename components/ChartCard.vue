@@ -8,23 +8,55 @@
         <pie-chart
         :data="data"
         :title="chartTitle"
+        :total="chartTotal"
         :chartColors="colors"
         />
       </div>
 
-      <div class="labels">
-        <div class="label"
-          v-for="(label, index) in labels"
-          :index="index"
-          :key="label">
+      <div v-if="labelsSubject" class="labels" :style= "labelwSubject.labels">
+        <div class="label" :style= "labelwSubject.label"
+        v-for="(label, index) in labels"
+        :index="index"
+        :key="label">
           <div class="labelIcon" :style="{ borderColor: colors[index] }"></div>
           <div>
-            <div class="labelInfo">{{ label }}</div>
-            <div class="labelValue">{{ data[index].toLocaleString() }}</div>
-            <div class="labelInfo">{{ (data[index] / (data.reduce((a, b) => a + b, 0)/100)).toFixed(2) + '%' }}</div>
+
+            <div class="labelSubject">
+              <strong :style="{ Color: colors[index] + '!important' }">{{ labelsSubject[index] }}</strong>
+            </div>
+
+            <div class="labelInfos" :style= "labelwSubject.labelInfos">
+                <strong>{{ label }}</strong>
+                <p>{{ data[index].toLocaleString() }}</p>
+                <div v-if="labelSuffix">
+                   <p>{{ labelSuffix }}</p>
+                </div>
+            </div>
+
           </div>
         </div>
       </div>
+
+      <div v-else class="labels">
+        <div class="label"
+        v-for="(label, index) in labels"
+        :index="index"
+        :key="label">
+          <div class="labelIcon" :style="{ borderColor: colors[index] }"></div>
+          <div class="labelInfos">
+            <div class="labelInfo">{{ label }}</div>
+            <div class="labelValue">
+              {{ data[index].toLocaleString() }}
+              <div v-if="labelSuffix" class="labelSuffix">
+                {{ labelSuffix }}
+              </div>
+            </div>
+            <div class="labelInfo">{{ (data[index] / (data.reduce((a, b) => a + b, 0)/100)).toFixed(2) + '%' }}</div>      
+          </div>
+
+        </div>
+      </div>
+
 
   </div>
 </template>
@@ -36,10 +68,24 @@ export default {
   components: {
     PieChart,
   },
-  props: ['data', 'chartTitle', 'cardTitle', 'labels', 'chartColors'],
+  props: ['labelsSubject', 'data', 'chartTitle', 'chartTotal', 'cardTitle', 'labels', 'chartColors', 'labelSuffix'],
   data: () => ({
     title: false,
     colors:["#3399ff", "#003399", "#6d9be4", "#c2daff", "#e9f2ff"],
+    labelwSubject: {
+      labels:{
+        display: 'initial',
+        'margin-left': '55px',
+      },
+      label:{
+        width: '100%',
+        'justify-content': 'initial',
+      },
+      labelInfos:{
+        display: 'flex',
+        gap: '5px'
+      },
+    }
   }),
   created() {
     if (this.cardTitle) {
@@ -76,7 +122,6 @@ export default {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  margin: 0 30px;
 }
 
 .label{
@@ -88,11 +133,15 @@ export default {
   line-height: 1.3;
 }
 
+.labelSubject{
+  font-size: 85%;
+}
+
 .labelIcon{
   height: 20px;
   width: 20px;
   border: 5px solid blue;
-  border-radius: 50px;
+  border-radius: 100%;
   margin-right: 10px;
 }
 
@@ -101,7 +150,14 @@ export default {
 }
 
 .labelValue{
+  display: flex;
+  align-items: baseline;
   font-size: 5vw;
+  gap: 3px;
+}
+
+.labelSuffix{
+ font-size: 3vw;
 }
 
 @media screen and (orientation: landscape){
@@ -113,6 +169,10 @@ export default {
 
   .chart{
     margin: 10px 50px;
+  }
+
+  .label{
+    font-size: 1.5vw;
   }
 
   .labelIcon{
@@ -141,7 +201,7 @@ export default {
 
     .labelValue{
       font-size: 2vw;
-    } 
+    }
   }
 
   @media (min-width: 1000px){
@@ -151,6 +211,10 @@ export default {
     margin-right: 3em;
     }
 
+    .label{
+      font-size: 1vw;
+    }
+
     .labelInfo{
       font-size: 1vw;
     }
@@ -158,25 +222,20 @@ export default {
     .labelValue{
       font-size: 1.5vw;
     } 
+
+    .labelSuffix{
+      font-size: 1vw;
+    }
   }
 }
 
 @media screen and (orientation: portrait){
-  @media (max-width: 280px){
-    .chardCard{
-    margin-bottom: 1.5em;
+  @media (min-width: 280px){
+
+    .label{
+      font-size: 3.5vw;
     }
 
-    .chart{
-      margin: 10px 20px;
-    }
-    .labelInfo{
-      font-size: 3vw;
-    }
-
-    .labelValue{
-      font-size: 4vw;
-    }
   } 
 
   @media (min-width: 700px){
@@ -185,12 +244,21 @@ export default {
       margin-bottom: 1.5em;
       margin-right: 1em;
     }
+
+    .label{
+      font-size: 2vw;
+    }
+
     .labelInfo{
       font-size: 2vw;
     }
 
     .labelValue{
       font-size: 3vw;
+    }
+
+    .labelSuffix{
+      font-size: 2.5vw;
     }
   } 
 }

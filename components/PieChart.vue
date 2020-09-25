@@ -3,7 +3,8 @@
     <div class="main">
       <canvas ref="myChart" width="500" height="500"> </canvas>
       <div class="innerChart">
-        <div class="total">{{ totalTitle }}</div>
+        <div class="total" v-if="total">{{ total }}</div>
+        <div class="total" v-else>{{ totalTitle }}</div>
         <div class="innerTitle">{{ title }}</div>
       </div>
     </div>
@@ -14,14 +15,19 @@
 import { Pie } from 'vue-chartjs'
 export default {
   extends: Pie,
-  props: ['data', 'title', 'chartColors'],
+  props: ['data', 'title', 'total', 'chartColors'],
   data: () => ({
     cutout: 70,
-    totalTitle: "",
     colors:["#3399ff", "#003399", "#6d9be4", "#c2daff", "#e9f2ff"],
   }),
+
+  computed:{
+   totalTitle: function(){
+     return this.data.reduce((a, b) => a + b, 0).toLocaleString();
+   }
+  },
+
   mounted() {
-    this.totalTitle = this.data.reduce((a, b) => a + b, 0).toLocaleString();
     if (!this.title) {
       this.cutout = 0;
       this.totalTitle = "";
