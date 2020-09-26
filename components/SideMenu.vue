@@ -119,11 +119,11 @@ export default {
       if (this.$store.state.user.data.role === 'ADMIN') {
         this.menu[1].link = '/admin/listar-cursos';
         this.menu.push({
-        id: 9,
-        label: 'Dashboard',
-        icon: 'mdi-chart-bar',
-        link: '/admin/dashboard',
-        })
+          id: 9,
+          label: 'Dashboard',
+          icon: 'mdi-chart-bar',
+          link: '/admin/dashboard',
+        });
       }
     },
     logoutSocial() {
