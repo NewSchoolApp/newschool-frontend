@@ -1,10 +1,14 @@
 <template>
   <v-layout justify-center>
     <div v-if="loading" class="spiner-container">
-      <v-progress-circular :size="70" :width="5" indeterminate></v-progress-circular>
+      <v-progress-circular
+        :size="70"
+        :width="5"
+        indeterminate
+      ></v-progress-circular>
     </div>
 
-    <v-flex xs10 sm8 md6 ref="flex" v-else>
+    <v-flex v-else ref="flex" xs10 sm8 md6>
       <v-container>
         <v-row>
           <v-col cols="12" class="relative-col">
@@ -23,26 +27,31 @@
 
         <v-row>
           <v-col cols="12">
-            <v-form ref="form" v-model="status" lazy-validation v-if="!isChanged">
+            <v-form
+              v-if="!isChanged"
+              ref="form"
+              v-model="status"
+              lazy-validation
+            >
               <v-text-field
-                color="#60c"
                 v-model="form.newPassword"
+                color="#60c"
                 label="Nova senha *"
                 :rules="passwordRules"
                 :type="showNewPass ? 'password' : 'text'"
                 :append-icon="showNewPass ? 'mdi-eye-off' : 'mdi-eye'"
-                @click:append="() => (showNewPass = !showNewPass)"
                 required
+                @click:append="() => (showNewPass = !showNewPass)"
               ></v-text-field>
               <v-text-field
-                color="#60c"
                 v-model="form.confirmNewPassword"
+                color="#60c"
                 label="Confirmar nova senha *"
                 :rules="confirmPasswordRules"
                 :type="showConfirmNewPass ? 'password' : 'text'"
                 :append-icon="showConfirmNewPass ? 'mdi-eye-off' : 'mdi-eye'"
-                @click:append="() => (showConfirmNewPass = !showConfirmNewPass)"
                 required
+                @click:append="() => (showConfirmNewPass = !showConfirmNewPass)"
               ></v-text-field>
               <v-btn
                 class="change-btn"
@@ -52,7 +61,8 @@
                 depressed
                 large
                 @click="switchPassword"
-              >Alterar Senha</v-btn>
+                >Alterar Senha</v-btn
+              >
             </v-form>
 
             <div v-else>
@@ -68,13 +78,11 @@
   </v-layout>
 </template>
 
-
-
 <script scoped>
-import auth from '../../services/http/auth'
+import auth from '../../services/http/auth';
 
 export default {
-  name: 'changePassword',
+  name: 'ChangePassword',
   data() {
     return {
       status: true,
@@ -92,66 +100,7 @@ export default {
         v => !!v || 'Digite a senha',
         v => (v && v.length >= 6) || 'A senha deve ter no mínimo 6 caractéres',
       ],
-    }
-  },
-
-  mounted() {
-    this.token = this.$route.params.token
-    
-
-    auth.changePasswordRequestValidate(this.token).catch(() => {
-      setTimeout(() => {
-        this.loading = false
-        this.snackbar = true
-      }, 500)
-      this.goBack()
-    })
-  },
-
-  methods: {
-    switchPassword() {
-      if (this.$refs.form.validate()) {
-        this.animateForm(true)
-        auth
-          .changePassword(this.form, this.token)
-          .then(res => {
-            this.loading = false
-            this.isChanged = true
-            setTimeout(() => {
-              this.gotoHome()
-            }, 1500)
-          })
-          .catch(err => {
-            setTimeout(() => {
-              this.loading = false
-              this.snackbar = true
-            }, 500)
-            console.error(err)
-          })
-      } else {
-        this.animateForm(false)
-      }
-    },
-
-    animateForm(status) {
-      if (status) {
-        this.$refs.flex.classList.add('hide-form')
-        document.querySelector('html').style.overflow = 'hidden'
-        setTimeout(() => {
-          this.loading = true
-        }, 300)
-      } else {
-        this.$refs.flex.classList.add('error-form')
-        setTimeout(() => {
-          this.$refs.flex.classList.remove('error-form')
-        }, 500)
-      }
-      document.querySelector('html').style.overflow = 'scroll'
-    },
-
-    goBack() {
-      $nuxt._router.push('/login')
-    },
+    };
   },
 
   computed: {
@@ -161,10 +110,68 @@ export default {
         () =>
           this.form.confirmNewPassword === this.form.newPassword ||
           'As senhas devem ser idênticas.',
-      ]
+      ];
     },
   },
-}
+
+  mounted() {
+    this.token = this.$route.params.token;
+
+    auth.changePasswordRequestValidate(this.token).catch(() => {
+      setTimeout(() => {
+        this.loading = false;
+        this.snackbar = true;
+      }, 500);
+      this.goBack();
+    });
+  },
+
+  methods: {
+    switchPassword() {
+      if (this.$refs.form.validate()) {
+        this.animateForm(true);
+        auth
+          .changePassword(this.form, this.token)
+          .then(res => {
+            this.loading = false;
+            this.isChanged = true;
+            setTimeout(() => {
+              this.gotoHome();
+            }, 1500);
+          })
+          .catch(err => {
+            setTimeout(() => {
+              this.loading = false;
+              this.snackbar = true;
+            }, 500);
+            console.error(err);
+          });
+      } else {
+        this.animateForm(false);
+      }
+    },
+
+    animateForm(status) {
+      if (status) {
+        this.$refs.flex.classList.add('hide-form');
+        document.querySelector('html').style.overflow = 'hidden';
+        setTimeout(() => {
+          this.loading = true;
+        }, 300);
+      } else {
+        this.$refs.flex.classList.add('error-form');
+        setTimeout(() => {
+          this.$refs.flex.classList.remove('error-form');
+        }, 500);
+      }
+      document.querySelector('html').style.overflow = 'scroll';
+    },
+
+    goBack() {
+      $nuxt._router.push('/login');
+    },
+  },
+};
 </script>
 
 <style scoped>
