@@ -1,14 +1,20 @@
 <template>
-  <v-snackbar
-    v-model="snackbar"
-    :color="snackbarColor"
-    :timeout="5000"
-    :top="true"
-    :right="true"
-  >
-    {{ snackbarText }}
-    <v-btn color="#FFF" text @click="snackbar = false">Fechar</v-btn>
-  </v-snackbar>
+  <div>
+    <div v-if="snackbar" class="bg"></div>
+    <v-snackbar
+      v-model="snackbar"
+      :color="snackbarColor"
+      :timeout="4000"
+      :top="true"
+      :right="true"
+      style="z-index: 99999;"
+    >
+      {{ snackbarText }}
+      <v-btn color="#FFF" text @click="snackbar = false"
+        ><v-icon>mdi-close-circle</v-icon></v-btn
+      >
+    </v-snackbar>
+  </div>
 </template>
 
 <script>
@@ -56,4 +62,16 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.bg {
+  width: 100%;
+  height: 100%;
+  top: 0;
+  position: fixed;
+  filter: blur(1px);
+  -webkit-filter: blur(1px);
+  backdrop-filter: blur(1px);
+  background-size: cover;
+  background-position: center;
+}
+</style>
