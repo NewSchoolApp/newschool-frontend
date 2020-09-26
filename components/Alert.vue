@@ -67,10 +67,10 @@ export default {
   width: 100%;
   height: 100%;
   top: 0;
+  left: 0;
   position: fixed;
-  filter: blur(1px);
-  -webkit-filter: blur(1px);
-  backdrop-filter: blur(1px);
+  background: #c4c4c4;
+  opacity: 0.6;
   background-size: cover;
   background-position: center;
 }

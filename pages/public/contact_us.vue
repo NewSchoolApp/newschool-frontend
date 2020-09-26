@@ -114,6 +114,7 @@ import Alert from '~/components/Alert.vue';
 import utils from '~/utils/index';
 
 export default {
+  transition: 'bounce',
   components: {
     HeaderBar,
     NavigationBar,

@@ -19,7 +19,7 @@
 import {
   setCaptureError,
   getErrorMessage,
-} from '../services/http/error-interceptor'
+} from '../services/http/error-interceptor';
 export default {
   data: () => ({
     showError: false,
@@ -27,11 +27,11 @@ export default {
   }),
   mounted() {
     setCaptureError(error => {
-      this.message = getErrorMessage(error)
-      this.showError = $nuxt._router.currentRoute.path !== '/login'
-    })
+      this.message = getErrorMessage(error);
+      this.showError = $nuxt._router.currentRoute.path !== '/login';
+    });
   },
-}
+};
 </script>
 
 <style>
