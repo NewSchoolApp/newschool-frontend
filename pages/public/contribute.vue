@@ -1,6 +1,6 @@
 <template>
   <section>
-    <HeaderBar :title="'COLA COM NOIX'" :back-page="true"></HeaderBar>
+    <HeaderBar :title="'CONTRIBUA'" :back-page="true"></HeaderBar>
     <article id="page">
       <v-container>
         <div class="title">APOIE O PROJETO</div>
@@ -86,7 +86,7 @@
 
 <router>
   {
-    path: '/cola-com-noix'
+    path: '/contribua'
   }
 </router>
 
