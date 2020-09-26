@@ -22,7 +22,7 @@ export default {
   name: 'Alert',
   props: ['status', 'info', 'show'],
   data: () => ({
-    snackbarColor: 'success',
+    snackbarColor: '',
     snackbarText: '',
     snackbar: false,
   }),
