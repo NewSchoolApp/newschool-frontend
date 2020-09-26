@@ -1,6 +1,7 @@
 <template>
   <v-app class="global-style-class">
     <nuxt />
+
     <v-snackbar
       v-model="showError"
       color="error"
@@ -20,7 +21,6 @@ import {
   getErrorMessage,
 } from '../services/http/error-interceptor';
 export default {
-  transition: 'bounce',
   data: () => ({
     showError: false,
     message: '',
