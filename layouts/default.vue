@@ -1,7 +1,6 @@
 <template>
   <v-app class="global-style-class">
     <nuxt />
-
     <v-snackbar
       v-model="showError"
       color="error"
@@ -19,19 +18,20 @@
 import {
   setCaptureError,
   getErrorMessage,
-} from '../services/http/error-interceptor'
+} from '../services/http/error-interceptor';
 export default {
+  transition: 'bounce',
   data: () => ({
     showError: false,
     message: '',
   }),
   mounted() {
     setCaptureError(error => {
-      this.message = getErrorMessage(error)
-      this.showError = $nuxt._router.currentRoute.path !== '/login'
-    })
+      this.message = getErrorMessage(error);
+      this.showError = $nuxt._router.currentRoute.path !== '/login';
+    });
   },
-}
+};
 </script>
 
 <style>
