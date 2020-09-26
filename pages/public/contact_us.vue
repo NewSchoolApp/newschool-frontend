@@ -1,9 +1,9 @@
 <template>
   <div>
-    <HeaderBar :title="'FALE COM A GENTE'" :back-page="true"></HeaderBar>
+    <HeaderBar :title="'Fale com a gente'" :back-page="true"></HeaderBar>
     <div class="align-global">
       <div v-if="loading">
-        <div class="container-spinner">
+        <div class="container-spinner" style="z-index: 9999999;">
           <v-progress-circular
             :size="70"
             :width="5"
@@ -71,7 +71,7 @@
                   </v-card>
                 </v-col>
               </v-form>
-              <v-snackbar
+              <!-- <v-snackbar
                 v-model="snackbar"
                 :color="snackbarStatus"
                 :timeout="5000"
@@ -82,13 +82,19 @@
                 <v-btn color="#FFF" text @click="snackbar = false"
                   >Fechar</v-btn
                 >
-              </v-snackbar>
+              </v-snackbar> -->
+              <navigation-bar v-if="!isActive"></navigation-bar>
             </v-row>
+            <alert
+              style="z-index: 99999;"
+              :status="alertStatus"
+              :info="info"
+              :show="isActive"
+            />
           </v-container>
         </v-flex>
       </v-layout>
     </div>
-    <navigation-bar />
   </div>
 </template>
 
@@ -104,21 +110,23 @@ import auth from '../../services/http/auth';
 import contactUs from '../../services/http/contact_us';
 import HeaderBar from '~/components/Header.vue';
 import NavigationBar from '~/components/NavigationBar.vue';
+import Alert from '~/components/Alert.vue';
 import utils from '~/utils/index';
 
 export default {
   components: {
     HeaderBar,
     NavigationBar,
+    Alert,
   },
   directives: { mask },
   data() {
     return {
+      alertStatus: '',
+      info: '',
+      isActive: false,
       status: true,
       loading: false,
-      snackbar: false,
-      snackbarText: '',
-      snackbarStatus: '',
       token: '',
       form: {
         name: '',
@@ -154,15 +162,21 @@ export default {
           .submit(this.form, this.token)
           .then(res => {
             this.loading = false;
-            this.confirmSnackbar('Email enviado com sucesso!', 'success');
+            this.isActive = true;
+            this.alertStatus = 'success';
+            this.info = 'Você passou a visão!';
             setTimeout(() => {
               this.gotoHome();
-            }, 2500);
+              this.isActive = false;
+            }, 4000);
           })
           .catch(err => {
+            this.isActive = true;
+            this.alertStatus = 'error';
             setTimeout(() => {
+              this.isActive = false;
               this.loading = false;
-            }, 500);
+            }, 800);
             console.error(err);
           });
       } else {
@@ -203,11 +217,6 @@ export default {
     gotoHome() {
       $nuxt._router.push('/aluno/home');
     },
-    confirmSnackbar(text, status) {
-      this.snackbarText = text;
-      this.snackbarStatus = status;
-      this.snackbar = true;
-    },
   },
 };
 </script>
@@ -233,6 +242,9 @@ export default {
   .container {
     padding: 0px 12px 0 12px !important;
   }
+  ::v-deep .h1__theme {
+    font-size: 20px;
+  }
 }
 .container-spinner,
 .flex {
@@ -242,7 +254,7 @@ export default {
 }
 .container {
   z-index: -1;
-  padding: 12px 12px 0 12px;
+  padding: 20px 12px 0 12px;
 }
 .page-title {
   font-size: 24px;
@@ -265,7 +277,7 @@ h2 {
   color: #6600cc;
   padding-top: 0;
   color: #6600cc;
-  margin: 3.5% 9%;
+  margin: 3.5% 4.5%;
 }
 
 ::v-deep .v-form {
@@ -299,7 +311,7 @@ h2 {
   background: #6600cc !important;
   border-radius: 0 !important;
   color: #fff;
-  font-weight: normal;
+  font-weight: 600;
   width: 100%;
 }
 ::v-deep .theme--light.v-input:not(.v-input--is-disabled) textarea {
