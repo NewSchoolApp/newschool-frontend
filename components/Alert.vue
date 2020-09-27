@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="snackbar" class="bg"></div>
+    <div v-show="snackbar" class="bg"></div>
     <v-snackbar
       v-model="snackbar"
       :color="snackbarColor"
@@ -20,44 +20,44 @@
 <script>
 export default {
   name: 'Alert',
-  props: ['status', 'info', 'show'],
   data: () => ({
     snackbarColor: '',
     snackbarText: '',
     snackbar: false,
   }),
-  watch: {
-    show() {
-      if (this.show) {
-        this.checkStatus();
+  created() {
+    this.$store.subscribe((mutation, state) => {
+      if (mutation.type === 'snackbar/showMessage') {
+        switch (state.snackbar.type) {
+          case 'success':
+            this.snackbarColor = 'success';
+            this.snackbarText = state.snackbar.message
+              ? `${state.snackbar.message} 👍`
+              : 'Boa! deu certo 👍';
+            break;
+          case 'error':
+            this.snackbarColor = 'error';
+            this.snackbarText = state.snackbar.message
+              ? `${state.snackbar.message} 👎`
+              : 'Vish! deu ruim 👎';
+            break;
+          case 'warning':
+            this.snackbarColor = '#B09F66';
+            this.snackbarText = state.snackbar.message
+              ? `${state.snackbar.message} ⚠️`
+              : 'Eita! toma cuidado ⚠️';
+            break;
+          case 'custom':
+            this.snackbarColor = '#6600cc';
+            this.snackbarText = state.snackbar.message;
+            break;
+          default:
+            this.snackbarColor = 'error';
+            this.snackbarText = 'Poxa! algo deu errado ☹️';
+        }
+        this.snackbar = true;
       }
-    },
-  },
-  methods: {
-    checkStatus() {
-      switch (this.status) {
-        case 'success':
-          this.snackbarColor = 'success';
-          this.snackbarText = this.info || 'Boa, deu certo 👍';
-          break;
-        case 'error':
-          this.snackbarColor = 'error';
-          this.snackbarText = this.info || 'Vish, deu ruim 👎';
-          break;
-        case 'warning':
-          this.snackbarColor = '#B09F66';
-          this.snackbarText = this.info || 'Eita, toma cuidado ⚠️';
-          break;
-        case 'custom':
-          this.snackbarColor = '#6600cc';
-          this.snackbarText = this.info;
-          break;
-        default:
-          this.snackbarColor = 'error';
-          this.snackbarText = 'Poxa, algo deu errado ☹️';
-      }
-      this.snackbar = true;
-    },
+    });
   },
 };
 </script>

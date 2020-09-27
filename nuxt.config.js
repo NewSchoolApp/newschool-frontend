@@ -190,10 +190,10 @@ export default {
       MY_COURSES: 'api/v1/course-taken/user/',
       FACEBOOK_LOGIN: 'oauth/facebook/token',
       GOOGLE_LOGIN: 'oauth/google/token',
-      
+
       TOTAL_USERS: '/api/v1/user',
       ACTIVE_USERS: '/api/v1/dashboard/user/quantity',
-      COURSE_VIEWS: '/api/v1/dashboard/course/views',      
+      COURSE_VIEWS: '/api/v1/dashboard/course/views',
       NS_CERTIFICATED_QUANTITY: '/api/v1/dashboard/course-taken/user/quantity',
       CERTIFICATE_QUANTITY: '/api/v1/dashboard/certificate/quantity',
     },
@@ -258,6 +258,7 @@ export default {
    ** Plugins to load before mounting the App
    */
   plugins: [
+    '~/plugins/notifier.js',
     '~/plugins/cordova.client.js',
     '~/plugins/admin-components.js',
     { src: '~/plugins/ga.js', mode: 'client' },
@@ -350,7 +351,7 @@ export default {
      ** You can extend webpack config here
      */
     publicPath: '/nuxtfiles/',
-    extend(config, ctx) {},
+    extend(config, ctx) { },
   },
 
   auth: {

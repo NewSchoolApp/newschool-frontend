@@ -1,17 +1,7 @@
 <template>
   <v-app class="global-style-class">
     <nuxt />
-
-    <v-snackbar
-      v-model="showError"
-      color="error"
-      :timeout="5000"
-      :top="true"
-      :right="true"
-    >
-      {{ $t(message) }}
-      <v-btn color="#FFF" text @click="showError = false">Fechar</v-btn>
-    </v-snackbar>
+    <Alert></Alert>
   </v-app>
 </template>
 
@@ -20,11 +10,15 @@ import {
   setCaptureError,
   getErrorMessage,
 } from '../services/http/error-interceptor';
+
+import Alert from '~/components/Alert.vue';
+
 export default {
   data: () => ({
     showError: false,
     message: '',
   }),
+  components: { Alert },
   mounted() {
     setCaptureError(error => {
       this.message = getErrorMessage(error);
