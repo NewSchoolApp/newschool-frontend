@@ -258,6 +258,7 @@ export default {
    ** Plugins to load before mounting the App
    */
   plugins: [
+    '~/plugins/notifier.js',
     '~/plugins/cordova.client.js',
     '~/plugins/admin-components.js',
     { src: '~/plugins/ga.js', mode: 'client' },
