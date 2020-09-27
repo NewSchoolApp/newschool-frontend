@@ -9,29 +9,39 @@
             </div>
           </div>
         </div>
-        <div class="flex-center" id="flex-info-user">
-          <h1>{{user.name}}</h1>
-          <p>{{user.type}}</p>
-          <v-btn id="btnLogout" small outlined color="error" width="80px" @click="logout">Sair</v-btn>
+        <div id="flex-info-user" class="flex-center">
+          <h1>{{ user.name }}</h1>
+          <p>{{ user.type }}</p>
+          <v-btn
+            id="btnLogout"
+            small
+            outlined
+            color="error"
+            width="80px"
+            @click="logout"
+            >Sair</v-btn
+          >
         </div>
       </section>
       <div id="close">
-        <v-icon id="close-btn" color="primary" @click="closeMenu()">mdi-close-circle</v-icon>
+        <v-icon id="close-btn" color="primary" @click="closeMenu()"
+          >mdi-close-circle</v-icon
+        >
       </div>
     </main>
     <section class="menu-list">
       <router-link
+        v-for="item in menu"
+        :key="item.id"
         tag="div"
         class="item-menu"
-        v-for="item in menu"
-        v-bind:key="item.id"
         :to="item.link"
-        v-on:click.native="closeMenu()"
+        @click.native="closeMenu()"
       >
         <div>
-          <v-icon color="primary">{{item.icon}}</v-icon>
+          <v-icon color="primary">{{ item.icon }}</v-icon>
         </div>
-        <p class="text-menu">{{item.label}}</p>
+        <p class="text-menu">{{ item.label }}</p>
       </router-link>
     </section>
   </div>
@@ -49,19 +59,19 @@ export default {
         id: 1,
         label: 'Meu Perfil',
         icon: 'mdi-account',
-        link: 'perfil',
+        link: '/aluno/perfil',
       },
       {
         id: 2,
         label: 'Meus Cursos',
         icon: 'mdi-library',
-        link: 'meus-cursos',
+        link: '/aluno/meus-cursos',
       },
       {
         id: 3,
         label: 'Meus Certificados',
         icon: 'mdi-school',
-        link: 'certificados',
+        link: '/aluno/certificados',
       },
       {
         id: 4,
@@ -72,7 +82,7 @@ export default {
       {
         id: 5,
         label: 'O que é a new school?',
-        icon: 'mdi-library-books',
+        icon: 'mdi-book-multiple',
         link: '/sobre',
       },
       // { id: 6, label: "Ajuda", icon: "mdi-hand-right", link: "/ajuda" },
@@ -86,7 +96,7 @@ export default {
         id: 8,
         label: 'Apoie a new school',
         icon: 'mdi-volume-high',
-        link: '/investidores',
+        link: '/construindo',
       },
     ],
   }),
@@ -105,9 +115,15 @@ export default {
         this.clearInfoUser();
       });
     },
-    changeRoutingIfAdmin() {
+    pushAdminOnlyOptions() {
       if (this.$store.state.user.data.role === 'ADMIN') {
         this.menu[1].link = '/admin/listar-cursos';
+        this.menu.push({
+          id: 9,
+          label: 'Dashboard',
+          icon: 'mdi-chart-bar',
+          link: '/admin/dashboard',
+        });
       }
     },
     logoutSocial() {
@@ -126,7 +142,7 @@ export default {
     const { status } = auth.isTokenValid();
     if (status) {
       this.auth = true;
-      this.changeRoutingIfAdmin();
+      this.pushAdminOnlyOptions();
     }
   },
   filters: {

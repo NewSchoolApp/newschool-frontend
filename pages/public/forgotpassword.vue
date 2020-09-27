@@ -1,8 +1,13 @@
 <template>
   <v-layout align-center justify-center>
-    <v-progress-circular v-if="loading" :size="70" :width="5" indeterminate></v-progress-circular>
+    <v-progress-circular
+      v-if="loading"
+      :size="70"
+      :width="5"
+      indeterminate
+    ></v-progress-circular>
 
-    <v-flex xs10 sm8 md6 ref="flex" v-else>
+    <v-flex v-else ref="flex" xs10 sm8 md6>
       <v-container>
         <v-row>
           <v-col cols="12" class="relative-col">
@@ -23,7 +28,9 @@
 
         <v-row>
           <v-col cols="15">
-            <a class="page-text">Digite seu email registrado para redefinir sua senha</a>
+            <a class="page-text"
+              >Digite seu email registrado para redefinir sua senha</a
+            >
           </v-col>
         </v-row>
         <v-row>
@@ -38,7 +45,9 @@
               ></v-text-field>
             </v-col>
             <v-col cols="12">
-              <v-btn color="#60c" dark block depressed large @click="submit">Redefinir senha</v-btn>
+              <v-btn color="#60c" dark block depressed large @click="submit"
+                >Redefinir senha</v-btn
+              >
             </v-col>
           </v-form>
           <v-col cols="12" class="text-center">
@@ -67,8 +76,9 @@
 </router>
 
 <script scoped>
-import auth from '../../services/http/auth'
-import StackUtils from 'stack-utils'
+
+import auth from '../../services/http/auth';
+
 export default {
   data() {
     return {
@@ -85,57 +95,57 @@ export default {
         v => !!v || 'Digite o e-mail',
         v => /.+@.+\..+/.test(v) || 'E-mail inválido',
       ],
-    }
+    };
   },
 
   methods: {
     submit() {
       if (this.$refs.form.validate()) {
-        this.animateForm(true)
+        this.animateForm(true);
         auth
           .forgotPassword(this.form)
           .then(res => {
-            this.loading = false
-            this.confirmSnackbar('O link foi pro seu email! ;)', 'success')
+            this.loading = false;
+            this.confirmSnackbar('O link foi pro seu email! ;)', 'success');
             setTimeout(() => {
-              this.gotoLogin()
-            }, 2500)
+              this.gotoLogin();
+            }, 2500);
           })
           .catch(err => {
-            this.confirmSnackbar('E-mail inválido.', 'error')
+            this.confirmSnackbar('E-mail inválido.', 'error');
             setTimeout(() => {
-              this.loading = false
-            }, 500)
-            console.error(err)
-          })
+              this.loading = false;
+            }, 500);
+            console.error(err);
+          });
       } else {
-        this.animateForm(false)
+        this.animateForm(false);
       }
     },
 
     animateForm(status) {
       if (status) {
-        this.$refs.flex.classList.add('hide-form')
-        document.querySelector('html').style.overflow = 'hidden'
+        this.$refs.flex.classList.add('hide-form');
+        document.querySelector('html').style.overflow = 'hidden';
         setTimeout(() => {
-          this.loading = true
-        }, 300)
+          this.loading = true;
+        }, 300);
       } else {
-        this.$refs.flex.classList.add('error-form')
+        this.$refs.flex.classList.add('error-form');
         setTimeout(() => {
-          this.$refs.flex.classList.remove('error-form')
-        }, 500)
+          this.$refs.flex.classList.remove('error-form');
+        }, 500);
       }
-      document.querySelector('html').style.overflow = 'scroll'
+      document.querySelector('html').style.overflow = 'scroll';
     },
 
     gotoLogin() {
-      $nuxt._router.push('/login')
+      $nuxt._router.push('/login');
     },
     confirmSnackbar(text, status) {
-      this.snackbarText = text
-      this.snackbarStatus = status
-      this.snackbar = true
+      this.snackbarText = text;
+      this.snackbarStatus = status;
+      this.snackbar = true;
     },
   },
 
@@ -143,14 +153,14 @@ export default {
     utils
       .getExternalCredentials()
       .then(res => {
-        console.log(res)
-        this.token = res.data.accessToken
+        console.log(res);
+        this.token = res.data.accessToken;
       })
       .catch(() => {
-        $$nuxt._router.push('/login')
-      })
+        $$nuxt._router.push('/login');
+      });
   },
-}
+};
 </script>
 
 <style scoped>

@@ -1,83 +1,84 @@
 <template>
-<div>
-    <HeaderBar :title="'Alterar Dados'" :backPage="true"></HeaderBar>
-  <v-layout justify-center>
-    <div v-if="loading" class="spiner-container">
-      <v-progress-circular
-        :size="70"
-        :width="5"
-        indeterminate
-      ></v-progress-circular>
-    </div>
+  <div>
+    <HeaderBar :title="'Alterar Dados'" :back-page="true"></HeaderBar>
+    <v-layout justify-center>
+      <div v-if="loading" class="spiner-container">
+        <v-progress-circular
+          :size="70"
+          :width="5"
+          indeterminate
+        ></v-progress-circular>
+      </div>
 
-    <v-flex xs10 sm8 md6 ref="flex" v-else>
-      <v-container>
-        <v-row>
-          <v-form ref="form" v-model="status" lazy-validation>
-            <v-col cols="12">
-              <v-text-field
-                v-model="form.name"
-                :rules="nameRules"
-                placeholder="Nome"
-                name="name"
-                required
-              ></v-text-field>
-              <v-text-field
-                v-model="form.email"
-                :rules="emailRules"
-                placeholder="E-mail"
-                name="email"
-                required
-              ></v-text-field>
-              <v-text-field
-                v-model="form.urlFacebook"
-                placeholder="URL do Facebook"
-                name="urlFacebook"
-                required
-              ></v-text-field>
-              <v-text-field
-                type="text"
-                v-model="form.urlInstagram"
-                placeholder="URL do Instagram"
-                name="urlInstagram"
-                required
-              ></v-text-field>
-            </v-col>
-            <v-col cols="12">
-              <v-btn
-                class="btn-block btn-submit btn-primary"
-                depressed
-                large
-                @click="submit"
-                >Alterar</v-btn
-              >
-            </v-col>
-            <v-col cols="12">
-              <v-btn
-                class="btn-block btn-submit btn-second"
-                depressed
-                large
-                to="/aluno/alterar-senha"
-                >Alterar Senha</v-btn
-              >
-            </v-col>
-          </v-form>
-          <v-snackbar
-            v-model="snackbar"
-            :color="snackbarStatus"
-            :timeout="5000"
-            :top="true"
-            :right="true"
-          >
-            {{ snackbarText }}
-            <v-btn color="#FFF" text @click="snackbar = false">
-              Fechar
-            </v-btn>
-          </v-snackbar>
-        </v-row>
-      </v-container>
-    </v-flex>
-  </v-layout>
+      <v-flex v-else ref="flex" xs10 sm8 md6>
+        <v-container>
+          <v-row>
+            <v-form ref="form" v-model="status" lazy-validation>
+              <v-col cols="12">
+                <v-text-field
+                  v-model="form.name"
+                  :rules="nameRules"
+                  placeholder="Nome"
+                  name="name"
+                  required
+                ></v-text-field>
+                <v-text-field
+                  v-model="form.email"
+                  :rules="emailRules"
+                  placeholder="E-mail"
+                  name="email"
+                  required
+                ></v-text-field>
+                <v-text-field
+                  v-model="form.urlFacebook"
+                  placeholder="URL do Facebook"
+                  name="urlFacebook"
+                  required
+                ></v-text-field>
+                <v-text-field
+                  v-model="form.urlInstagram"
+                  type="text"
+                  placeholder="URL do Instagram"
+                  name="urlInstagram"
+                  required
+                ></v-text-field>
+              </v-col>
+              <v-col cols="12">
+                <v-btn
+                  class="btn-block btn-submit btn-primary"
+                  depressed
+                  large
+                  @click="submit"
+                  >Alterar</v-btn
+                >
+              </v-col>
+              <v-col cols="12">
+                <v-btn
+                  class="btn-block btn-submit btn-second"
+                  depressed
+                  large
+                  to="/aluno/alterar-senha"
+                  >Alterar Senha</v-btn
+                >
+              </v-col>
+            </v-form>
+            <v-snackbar
+              v-model="snackbar"
+              :color="snackbarStatus"
+              :timeout="5000"
+              :top="true"
+              :right="true"
+            >
+              {{ snackbarText }}
+              <v-btn color="#FFF" text @click="snackbar = false">
+                Fechar
+              </v-btn>
+            </v-snackbar>
+          </v-row>
+        </v-container>
+      </v-flex>
+    </v-layout>
+    <navigation-bar />
   </div>
 </template>
 <router>
@@ -95,15 +96,17 @@
 </router>
 
 <script scoped>
-import auth from '../../services/http/auth'
-import users from '../../services/http/users'
-import http from '~/services/http/generic'
-import utils from '~/utils/index'
-import HeaderBar from '~/components/Header.vue'
+import auth from '../../services/http/auth';
+import users from '../../services/http/users';
+import http from '~/services/http/generic';
+import utils from '~/utils/index';
+import HeaderBar from '~/components/Header.vue';
+import NavigationBar from '~/components/NavigationBar.vue';
 
 export default {
   components: {
-    HeaderBar
+    HeaderBar,
+    NavigationBar,
   },
   data() {
     return {
@@ -124,7 +127,7 @@ export default {
         v => !!v || 'Digite o e-mail',
         v => /.+@.+\..+/.test(v) || 'E-mail inválido',
       ],
-    }
+    };
   },
   mounted() {
     http.getAll(process.env.endpoints.USER_ME).then(res => {
@@ -138,65 +141,65 @@ export default {
           id: res.data.role.id || '',
           name: res.data.role.name || '',
         },
-      }
-    })
+      };
+    });
   },
   methods: {
     submit() {
       if (this.$refs.form.validate()) {
-        this.animateForm(true)
+        this.animateForm(true);
         // let payload = utils(this.form)
         users
           .update(this.form)
           .then(res => {
-            this.loading = false
-            this.confirmSnackbar('Dados alterados com sucesso', 'success')
+            this.loading = false;
+            this.confirmSnackbar('Dados alterados com sucesso', 'success');
             setTimeout(() => {
-              this.gotoHome()
-            }, 1500)
+              this.gotoHome();
+            }, 1500);
           })
           .catch(err => {
             setTimeout(() => {
-              this.loading = false
-            }, 500)
-            console.error(err)
-          })
+              this.loading = false;
+            }, 500);
+            console.error(err);
+          });
       } else {
-        this.animateForm(false)
+        this.animateForm(false);
       }
     },
 
     animateForm(status) {
       if (status) {
-        this.$refs.flex.classList.add('hide-form')
-        document.querySelector('html').style.overflow = 'hidden'
+        this.$refs.flex.classList.add('hide-form');
+        document.querySelector('html').style.overflow = 'hidden';
         setTimeout(() => {
-          this.loading = true
-        }, 300)
+          this.loading = true;
+        }, 300);
       } else {
-        this.$refs.flex.classList.add('error-form')
+        this.$refs.flex.classList.add('error-form');
         setTimeout(() => {
-          this.$refs.flex.classList.remove('error-form')
-        }, 500)
+          this.$refs.flex.classList.remove('error-form');
+        }, 500);
       }
-      document.querySelector('html').style.overflow = 'scroll'
+      document.querySelector('html').style.overflow = 'scroll';
     },
 
     gotoHome() {
-      $nuxt._router.push('/aluno/home')
+      $nuxt._router.push('/aluno/home');
     },
 
     goBack() {
-     $nuxt._router.push('/aluno/perfil')
+      $nuxt._router.push('/aluno/perfil');
     },
 
     confirmSnackbar(text, status) {
-      this.snackbarText = text
-      this.snackbarStatus = status
-      this.snackbar = true
+      this.snackbarText = text;
+      this.snackbarStatus = status;
+      this.snackbar = true;
     },
   },
-}
+};
 </script>
 
 <style scoped>

@@ -1,16 +1,16 @@
 <template>
   <div>
     <div v-show="!loading" id="page">
-      <HeaderBar :title="'Meus Cursos'" :backPage="true"></HeaderBar>
+      <HeaderBar :title="'Meus Cursos'" :back-page="true"></HeaderBar>
       <div v-if="courses.length" class="container__list">
         <div
-          class="card"
           v-for="course of courses"
-          v-bind:key="course.course.id"
+          :key="course.course.id"
+          class="card"
           @click="goToCourse(course)"
         >
           <div class="header__info">
-            <h1>{{course.course.title}}</h1>
+            <h1>{{ course.course.title }}</h1>
             <v-btn
               v-if="course.status === 'TAKEN'"
               class="btn-back"
@@ -23,33 +23,72 @@
                 <v-icon>mdi-arrow-right</v-icon>
               </p>
             </v-btn>
-            <p class="text__success" v-else>CONCLUÍDO</p>
+            <p v-else class="text__success">CONCLUÍDO</p>
           </div>
           <div class="progress">
-            <p id="value__progress">{{course.completion}}%</p>
-            <v-progress-linear :value="course.completion" height="7" rounded="true"></v-progress-linear>
+            <p id="value__progress">{{ course.completion }}%</p>
+            <v-progress-linear
+              :value="course.completion"
+              height="7"
+              rounded="true"
+            ></v-progress-linear>
           </div>
         </div>
       </div>
-      <NothingToShow v-else title="Vixe :/" message="Você não começou nenhum curso." />
+      <NothingToShow
+        v-else
+        title="Vixe :/"
+        message="Você não começou nenhum curso."
+      />
     </div>
     <div v-if="loading">
       <div class="container-spinner">
-        <v-progress-circular :size="70" :width="5" indeterminate color="#6600cc" />
+        <v-progress-circular
+          :size="70"
+          :width="5"
+          indeterminate
+          color="#6600cc"
+        />
       </div>
     </div>
+    <navigation-bar />
   </div>
 </template>
 
 <script>
+import NavigationBar from '~/components/NavigationBar.vue';
 import HeaderBar from '~/components/Header.vue';
 import http from '~/services/http/generic';
 import NothingToShow from '~/components/NothingToShow';
 
 export default {
+  transition: 'bounce',
+  components: {
+    NavigationBar,
+    HeaderBar,
+    NothingToShow,
+  },
+  asyncData({ store, data, params, $axios }) {
+    return http
+      .getAll(`${process.env.endpoints.MY_COURSES}${store.state.user.data.id}`)
+      .then(response => store.commit('courses/set', response.data));
+  },
   data: () => ({
     loading: true,
   }),
+  computed: {
+    courses() {
+      return this.$store.state.courses.list;
+    },
+    user() {
+      return this.$store.state.user.data;
+    },
+  },
+  mounted() {
+    setTimeout(() => {
+      this.loading = false;
+    }, 400);
+  },
   methods: {
     continueCourse(course) {
       this.loading = true;
@@ -111,32 +150,13 @@ export default {
       return str;
     },
   },
-  computed: {
-    courses() {
-      return this.$store.state.courses.list;
-    },
-    user() {
-      return this.$store.state.user.data;
-    },
-  },
-  mounted() {
-    setTimeout(() => {
-      this.loading = false;
-    }, 400);
-  },
-  components: {
-    HeaderBar,
-    NothingToShow,
-  },
-  asyncData({ store, data, params, $axios }) {
-    return http
-      .getAll(`${process.env.endpoints.MY_COURSES}${store.state.user.data.id}`)
-      .then(response => store.commit('courses/set', response.data));
-  },
 };
 </script>
 
 <style scoped lang="scss">
+* {
+  transition: 0.2 ease-in;
+}
 #page {
   height: 100%;
 }
@@ -163,7 +183,7 @@ h1 {
   -webkit-box-pack: justify;
   justify-content: space-between;
 }
-.btn-back{
+.btn-back {
   width: unset !important;
 }
 .header__info {

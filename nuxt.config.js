@@ -2,7 +2,8 @@ import colors from 'vuetify/es5/util/colors';
 
 export default {
   router: {
-    mode: 'hash',
+    // uncomment for cordova release on android/ios
+    // mode: 'hash',
     middleware: 'auth.guard',
 
     extendRoutes(routes, resolve) {
@@ -100,6 +101,11 @@ export default {
             component: resolve(__dirname, 'pages/admin/home.vue'),
           },
           {
+            path: 'dashboard',
+            name: 'admin-dashboard',
+            component: resolve(__dirname, 'pages/admin/dashboard.vue'),
+          },
+          {
             path: 'perfil',
             name: 'meu-perfil',
             component: resolve(__dirname, 'pages/admin/profile.vue'),
@@ -148,8 +154,8 @@ export default {
     domain: process.env.DOMAIN_URL || 'https://newschoolapp.com.br',
     baseUrl:
       process.env.VUE_APP_BASE_URL ||
-     'https://newschoolbrapi-dev.herokuapp.com/',
-    
+      'http://newschool-api-dev2.eba-gxtzwa9m.us-east-2.elasticbeanstalk.com/',
+    // http://develop.dev-newschool.tk/
     credentials: {
       name: process.env.VUE_APP_CLIENT_CREDENTIAL_NAME || 'NEWSCHOOL@FRONT',
       secret:
@@ -164,7 +170,7 @@ export default {
       },
     },
     dateEnd: process.env.OPENING_DATE || '25/01/2020',
-    
+
     endpoints: {
       CERTIFICATES_ME: 'api/v1/course-taken/certificates/user/',
       USER_ME: 'api/v1/user/me',
@@ -182,8 +188,14 @@ export default {
       CURRENT_STEP: '/api/v1/course-taken/current-step',
 
       MY_COURSES: 'api/v1/course-taken/user/',
-      FACEBOOK_LOGIN: "oauth/facebook/token",
-      GOOGLE_LOGIN: "oauth/google/token"
+      FACEBOOK_LOGIN: 'oauth/facebook/token',
+      GOOGLE_LOGIN: 'oauth/google/token',
+      
+      TOTAL_USERS: '/api/v1/user',
+      ACTIVE_USERS: '/api/v1/dashboard/user/quantity',
+      COURSE_VIEWS: '/api/v1/dashboard/course/views',      
+      NS_CERTIFICATED_QUANTITY: '/api/v1/dashboard/course-taken/user/quantity',
+      CERTIFICATE_QUANTITY: '/api/v1/dashboard/certificate/quantity',
     },
     endpointCertificateCourseTaken: {
       CERTIFICATES_COURSE_TAKEN_ME: 'api/v1/course-taken/certificate/user/',
@@ -191,7 +203,9 @@ export default {
     },
     GATOKEN: process.env.GA_TOKEN,
   },
-  mode: 'spa',
+  // uncomment for cordova release on android/ios
+  // mode: 'spa',
+  mode: 'universal',
   /*
    ** Headers of the page
    */
@@ -336,7 +350,7 @@ export default {
      ** You can extend webpack config here
      */
     publicPath: '/nuxtfiles/',
-    extend(config, ctx) { },
+    extend(config, ctx) {},
   },
 
   auth: {
@@ -348,8 +362,10 @@ export default {
         scope: ['public_profile', 'email'],
       },
       google: {
-        client_id: process.env.GOOGLE_ID || '889053794643-qu89df6ei5u2sncnfmedi39m2ascih3k.apps.googleusercontent.com'
+        client_id:
+          process.env.GOOGLE_ID ||
+          '889053794643-qu89df6ei5u2sncnfmedi39m2ascih3k.apps.googleusercontent.com',
       },
     },
   },
-}
+};
