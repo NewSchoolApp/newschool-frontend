@@ -101,11 +101,6 @@ export default {
             component: resolve(__dirname, 'pages/admin/home.vue'),
           },
           {
-            path: 'dashboard',
-            name: 'admin-dashboard',
-            component: resolve(__dirname, 'pages/admin/dashboard.vue'),
-          },
-          {
             path: 'perfil',
             name: 'meu-perfil',
             component: resolve(__dirname, 'pages/admin/profile.vue'),
@@ -154,8 +149,8 @@ export default {
     domain: process.env.DOMAIN_URL || 'https://newschoolapp.com.br',
     baseUrl:
       process.env.VUE_APP_BASE_URL ||
-      'http://newschool-api-dev2.eba-gxtzwa9m.us-east-2.elasticbeanstalk.com/',
-    // http://develop.dev-newschool.tk/
+     'https://newschoolbrapi-dev.herokuapp.com/',
+
     credentials: {
       name: process.env.VUE_APP_CLIENT_CREDENTIAL_NAME || 'NEWSCHOOL@FRONT',
       secret:
@@ -183,16 +178,13 @@ export default {
       INIT_COURSE: 'api/v1/course-taken/start-course',
       LESSONS_BY_COURSE: '/api/v1/lesson/course/',
       ADVANCE_COURSE: '/api/v1/course-taken/advance-on-course',
+
       STATE_COURSE: 'api/v1/course-taken',
       CURRENT_STEP: '/api/v1/course-taken/current-step',
+
       MY_COURSES: 'api/v1/course-taken/user/',
-      FACEBOOK_LOGIN: 'oauth/facebook/token',
-      GOOGLE_LOGIN: 'oauth/google/token',
-      TOTAL_USERS: '/api/v1/user',
-      ACTIVE_USERS: '/api/v1/dashboard/user/quantity',
-      COURSE_VIEWS: '/api/v1/dashboard/course/views',
-      NS_CERTIFICATED_QUANTITY: '/api/v1/dashboard/course-taken/user/quantity',
-      CERTIFICATE_QUANTITY: '/api/v1/dashboard/certificate/quantity',
+      FACEBOOK_LOGIN: "oauth/facebook/token",
+      GOOGLE_LOGIN: "oauth/google/token"
     },
     endpointCertificateCourseTaken: {
       CERTIFICATES_COURSE_TAKEN_ME: 'api/v1/course-taken/certificate/user/',
@@ -347,8 +339,8 @@ export default {
     /*
      ** You can extend webpack config here
      */
-    publicPath: '/nuxtfiles/',
-    extend(config, ctx) {},
+    // publicPath: '/nuxtfiles/',
+    extend(config, ctx) { },
   },
 
   auth: {
@@ -360,10 +352,8 @@ export default {
         scope: ['public_profile', 'email'],
       },
       google: {
-        client_id:
-          process.env.GOOGLE_ID ||
-          '889053794643-qu89df6ei5u2sncnfmedi39m2ascih3k.apps.googleusercontent.com',
+        client_id: process.env.GOOGLE_ID || '889053794643-qu89df6ei5u2sncnfmedi39m2ascih3k.apps.googleusercontent.com'
       },
     },
   },
-};
+}
