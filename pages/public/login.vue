@@ -94,6 +94,7 @@
 
 <script>
 import auth from '~/services/http/auth';
+// import facebook from '~cordova/plugins/cordova-plugin-facebook4/www/facebook-native';
 
 export default {
   data: () => ({
@@ -185,24 +186,32 @@ export default {
         return;
       }
       const provider = this.$auth.strategy.name;
-        try {
+      try {
         if (provider === 'facebook') {
-          const facebookCredentials = this.getFacebookCredentials();
-          await auth.loginFacebook(facebookCredentials);
+          window.facebookConnectPlugin.login(['public_profile', 'user_friends', 'email'])
+            .then(res => {
+              console.log('Logged into Facebook!', JSON.stringify(res));
+              alert(JSON.stringify(res))
+              await auth.loginFacebook(facebookCredentials);
+            })
+            .catch(e => {
+              console.log('Erroao tentar fazer login com facebook', e);
+              alert(JSON.stringify(e))
+            });
         } else if (provider === 'google') {
           const googleCredentials = this.getGoogleCredentials();
           await auth.loginGoogle(googleCredentials);
-          }
+        }
         $nuxt._router.push('/loading/login');
-        } catch (error) {
-          setTimeout(() => {
+      } catch (error) {
+        setTimeout(() => {
           this.dialogMessage =
-              'Falha ao realizar login utilizando ' + provider + '.';
+            'Falha ao realizar login utilizando ' + provider + '.';
           this.dialog = true;
           this.loading = false;
-          }, 500);
-          console.error(error);
-        }
+        }, 500);
+        console.error(error);
+      }
     },
     loginSocial(provider) {
       this.loading = true;
