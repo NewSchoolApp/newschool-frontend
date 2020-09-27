@@ -183,14 +183,11 @@ export default {
       INIT_COURSE: 'api/v1/course-taken/start-course',
       LESSONS_BY_COURSE: '/api/v1/lesson/course/',
       ADVANCE_COURSE: '/api/v1/course-taken/advance-on-course',
-
       STATE_COURSE: 'api/v1/course-taken',
       CURRENT_STEP: '/api/v1/course-taken/current-step',
-
       MY_COURSES: 'api/v1/course-taken/user/',
       FACEBOOK_LOGIN: 'oauth/facebook/token',
       GOOGLE_LOGIN: 'oauth/google/token',
-
       TOTAL_USERS: '/api/v1/user',
       ACTIVE_USERS: '/api/v1/dashboard/user/quantity',
       COURSE_VIEWS: '/api/v1/dashboard/course/views',
@@ -351,7 +348,7 @@ export default {
      ** You can extend webpack config here
      */
     publicPath: '/nuxtfiles/',
-    extend(config, ctx) { },
+    extend(config, ctx) {},
   },
 
   auth: {
