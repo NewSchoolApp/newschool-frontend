@@ -1,5 +1,7 @@
 @import url("https://fonts.googleapis.com/css?family=Montserrat:400,500,900&display=swap");
 
+
+
 .text-watermark {
   color: #d6adff !important;
 }
@@ -83,10 +85,8 @@
 }
 
 .page-enter-active,
-.page-leave-active {
-  transition: opacity 0.5s;
-}
 .page-enter,
-.page-leave-to {
-  opacity: 0;
+#page {
+  animation: intro 300ms backwards;
+  animation-delay: 200ms;
 }
