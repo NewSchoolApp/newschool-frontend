@@ -50,11 +50,20 @@
                 depressed
                 large
                 @click="submit"
-              >Entrar</v-btn>
+                >Entrar</v-btn
+              >
             </v-col>
           </v-form>
           <v-col cols="12">
-            <v-btn dark block depressed large to="/cadastro" class="btn-transparent">Cadastrar</v-btn>
+            <v-btn
+              dark
+              block
+              depressed
+              large
+              to="/cadastro"
+              class="btn-transparent"
+              >Cadastrar</v-btn
+            >
           </v-col>
           <v-col cols="12" class="text-center">
             <v-btn text color="white" @click="loginSocial('facebook')">
@@ -72,7 +81,9 @@
             </v-btn>
           </v-col>-->
           <v-col cols="12" class="text-center">
-            <v-btn text small color="#fff" to="/esqueci-minha-senha">Esqueceu sua senha?</v-btn>
+            <v-btn text small color="#fff" to="/esqueci-minha-senha"
+              >Esqueceu sua senha?</v-btn
+            >
           </v-col>
         </v-row>
       </v-container>
@@ -119,20 +130,6 @@ export default {
   }),
   mounted() {
     this.loginSocialReturn();
-  },
-
-  head() {
-    return {
-      title: this.title,
-      meta: [
-        {
-          hid: 'description',
-          name: 'description',
-          content:
-            'Entre no aplicativo da New School - Levamos educação de qualidade na linguagem da quebrada para as periferias do Brasil, através da tecnologia e da curadoria de conteúdos baseados nas habilidades do futuro.',
-        },
-      ],
-    };
   },
 
   methods: {
@@ -185,24 +182,24 @@ export default {
         return;
       }
       const provider = this.$auth.strategy.name;
-        try {
+      try {
         if (provider === 'facebook') {
           const facebookCredentials = this.getFacebookCredentials();
           await auth.loginFacebook(facebookCredentials);
         } else if (provider === 'google') {
           const googleCredentials = this.getGoogleCredentials();
           await auth.loginGoogle(googleCredentials);
-          }
+        }
         $nuxt._router.push('/loading/login');
-        } catch (error) {
-          setTimeout(() => {
+      } catch (error) {
+        setTimeout(() => {
           this.dialogMessage =
-              'Falha ao realizar login utilizando ' + provider + '.';
+            'Falha ao realizar login utilizando ' + provider + '.';
           this.dialog = true;
           this.loading = false;
-          }, 500);
-          console.error(error);
-        }
+        }, 500);
+        console.error(error);
+      }
     },
     loginSocial(provider) {
       this.loading = true;
@@ -230,6 +227,20 @@ export default {
         sub: this.$store.state.auth.user.sub,
       };
     },
+  },
+
+  head() {
+    return {
+      title: this.title,
+      meta: [
+        {
+          hid: 'description',
+          name: 'description',
+          content:
+            'Entre no aplicativo da New School - Levamos educação de qualidade na linguagem da quebrada para as periferias do Brasil, através da tecnologia e da curadoria de conteúdos baseados nas habilidades do futuro.',
+        },
+      ],
+    };
   },
 };
 </script>
