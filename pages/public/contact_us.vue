@@ -71,26 +71,8 @@
                   </v-card>
                 </v-col>
               </v-form>
-              <!-- <v-snackbar
-                v-model="snackbar"
-                :color="snackbarStatus"
-                :timeout="5000"
-                :top="true"
-                :right="true"
-              >
-                {{ snackbarText }}
-                <v-btn color="#FFF" text @click="snackbar = false"
-                  >Fechar</v-btn
-                >
-              </v-snackbar> -->
-              <navigation-bar v-if="!isActive"></navigation-bar>
+              <navigation-bar />
             </v-row>
-            <alert
-              style="z-index: 99999;"
-              :status="alertStatus"
-              :info="info"
-              :show="isActive"
-            />
           </v-container>
         </v-flex>
       </v-layout>
@@ -110,7 +92,6 @@ import auth from '../../services/http/auth';
 import contactUs from '../../services/http/contact_us';
 import HeaderBar from '~/components/Header.vue';
 import NavigationBar from '~/components/NavigationBar.vue';
-import Alert from '~/components/Alert.vue';
 import utils from '~/utils/index';
 
 export default {
@@ -118,14 +99,10 @@ export default {
   components: {
     HeaderBar,
     NavigationBar,
-    Alert,
   },
   directives: { mask },
   data() {
     return {
-      alertStatus: '',
-      info: '',
-      isActive: false,
       status: true,
       loading: false,
       token: '',
@@ -163,19 +140,17 @@ export default {
           .submit(this.form, this.token)
           .then(res => {
             this.loading = false;
-            this.isActive = true;
-            this.alertStatus = 'success';
-            this.info = 'Você passou a visão!';
+            this.$notifier.showMessage({
+              type: 'success',
+              message: 'Você passou a visão!',
+            });
             setTimeout(() => {
               this.gotoHome();
-              this.isActive = false;
             }, 4000);
           })
           .catch(err => {
-            this.isActive = true;
-            this.alertStatus = 'error';
+            this.$notifier.showMessage({ type: 'error' });
             setTimeout(() => {
-              this.isActive = false;
               this.loading = false;
             }, 800);
             console.error(err);

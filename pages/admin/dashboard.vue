@@ -1,6 +1,6 @@
 <template>
   <div class="main">
-    <HeaderBar :title="'Dashboard'" :backPage="true"></HeaderBar>
+    <HeaderBar :title="'Dashboard'" :back-page="true"></HeaderBar>
 
     <div v-if="loading">
       <div class="container-spinner">
@@ -15,26 +15,23 @@
 
     <article v-else class="article-container">
       <chart-card
-        :chartTitle="'Usuários'"
-        :data="[
-          dashboardInfo.activeUsers,
-          totalInactiveUsers,
-        ]"
+        :chart-title="'Usuários'"
+        :data="[dashboardInfo.activeUsers, totalInactiveUsers]"
         :labels="['Ativo', 'Inativo']"
-        :chartColors="['#29bf54', '#c02a2b']"
+        :chart-colors="['#29bf54', '#c02a2b']"
       />
 
       <chart-card
-        :cardTitle="'Cursos'"
-        :chartTitle="'Estudantes'"
-        :chartTotal="totalStudents"
+        :card-title="'Cursos'"
+        :chart-title="'Estudantes'"
+        :chart-total="totalStudents"
         :data="[
           parseInt(lessPopularCourse.frequency),
           parseInt(mostPopularCourse.frequency),
         ]"
         :labels="[lessPopularCourse.title, mostPopularCourse.title]"
-        :labelSuffix="'alunos'"
-        :labelsSubject="['Curso menos acessado', 'Cursos mais acessado']"
+        :label-suffix="'alunos'"
+        :labels-subject="['Curso menos acessado', 'Cursos mais acessado']"
       />
 
       <div class="dashboardFooter">
@@ -83,28 +80,32 @@ export default {
   }),
 
   computed: {
-    mostPopularCourse: function() {
+    mostPopularCourse() {
       return this.dashboardInfo.courseViews.reduce(function(prev, current) {
         return prev.frequency > current.frequency ? prev : current;
       });
     },
 
-    lessPopularCourse: function() {
+    lessPopularCourse() {
       return this.dashboardInfo.courseViews.reduce(function(prev, current) {
         return prev.frequency < current.frequency ? prev : current;
       });
     },
 
-    //get the sum of all students enrolled in all courses.
-    totalStudents: function() {
+    // get the sum of all students enrolled in all courses.
+    totalStudents() {
       return this.dashboardInfo.courseViews.reduce(function(prev, current) {
         return prev + parseInt(current.frequency);
       }, 0);
     },
-  
-    totalInactiveUsers: function() {
-      return (this.dashboardInfo.totalUsers - this.dashboardInfo.activeUsers);
-    }
+
+    totalInactiveUsers() {
+      return this.dashboardInfo.totalUsers - this.dashboardInfo.activeUsers;
+    },
+  },
+
+  created() {
+    this.loadDashboard();
   },
 
   methods: {
@@ -153,10 +154,6 @@ export default {
         this.loading = false;
       }, 1000);
     },
-  },
-
-  created() {
-    this.loadDashboard();
   },
 };
 </script>
