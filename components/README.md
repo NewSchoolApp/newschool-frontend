@@ -16,7 +16,7 @@ um objeto com as duas propriedades de parametro, type e message.
                 ...
                 methods: {
                     showSnackbar () {
-                    this.$notifier.showMessage({ type: 'sucess', message: 'Boa! deu certo' })
+                    this.$notifier.showMessage({ type: 'success', message: 'Boa! deu certo' })
                     }
                 }
                 ...
