@@ -69,7 +69,7 @@ export default {
   top: 0;
   left: 0;
   position: fixed;
-  z-index: 999;
+  z-index: 1;
   background: #c4c4c4;
   opacity: 0.6;
   background-size: cover;
