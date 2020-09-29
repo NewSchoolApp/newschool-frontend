@@ -7,43 +7,7 @@
         :key="certificate.id"
         class="cards-box"
       >
-        <div
-          class="content-image"
-          @click="goToCertificate(certificate.course.id)"
-        >
-          <button>
-            <img
-              class="background-img"
-              :src="certificate.course.thumbUrl"
-              alt
-            />
-          </button>
-          <img
-            class="medal"
-            src="~/assets/medalha-imagem.svg"
-            alt="Imagem de uma medalha"
-          />
-        </div>
-        <div class="footer">
-          <div class="title-and-socialMedias">
-            <button
-              type="button"
-              @click="goToCertificate(certificate.course.id)"
-            >
-              <strong class="certificate-title">{{
-                certificate.course.title
-              }}</strong>
-              <p>{{ certificate.user.name }}</p>
-            </button>
-          </div>
-          <div class="sharing-icons">
-            <shareBtn
-              :url="mountUrlCertificate(certificate.course.id)"
-              :title="'Certificado de conclusão de curso New School'"
-              :description="certificate.course.title"
-            />
-          </div>
-        </div>
+        <certificate-card :certificate="certificate" />
       </div>
       <navigation-bar />
     </v-container>
@@ -61,6 +25,7 @@ import shareBtn from '~/components/ShareBtn.vue';
 import http from '~/services/http/generic';
 import HeaderBar from '~/components/Header.vue';
 import NothingToShow from '~/components/NothingToShow';
+import CertificateCard from '~/components/CertificateCard';
 
 export default {
   components: {
@@ -68,6 +33,7 @@ export default {
     HeaderBar,
     NothingToShow,
     NavigationBar,
+    CertificateCard,
   },
   data: () => ({
     certificates: [],
@@ -120,17 +86,7 @@ export default {
   justify-content: center;
   align-items: center;
   max-width: 100%;
-
-  .content-image {
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 80%;
-    height: 14rem;
-    overflow: hidden;
-    background: #6600cc;
-  }
+  margin-bottom: 26px;
 
   .background-img {
     max-width: 100%;

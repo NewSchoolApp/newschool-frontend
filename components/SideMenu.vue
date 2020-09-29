@@ -115,9 +115,15 @@ export default {
         this.clearInfoUser();
       });
     },
-    changeRoutingIfAdmin() {
+    pushAdminOnlyOptions() {
       if (this.$store.state.user.data.role === 'ADMIN') {
         this.menu[1].link = '/admin/listar-cursos';
+        this.menu.push({
+          id: 9,
+          label: 'Dashboard',
+          icon: 'mdi-chart-bar',
+          link: '/admin/dashboard',
+        });
       }
     },
     logoutSocial() {
@@ -136,7 +142,7 @@ export default {
     const { status } = auth.isTokenValid();
     if (status) {
       this.auth = true;
-      this.changeRoutingIfAdmin();
+      this.pushAdminOnlyOptions();
     }
   },
   filters: {

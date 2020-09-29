@@ -1,6 +1,6 @@
 <template>
   <div id="page">
-    <HeaderBar :title="'Meu Perfil'" :backPage="true"></HeaderBar>
+    <HeaderBar :title="'Meu Perfil'" :back-page="true"></HeaderBar>
     <v-layout align-center justify-center>
       <v-flex
         ref="flex"
@@ -54,31 +54,13 @@
 </template>
 
 <script>
-import HeaderBar from '~/components/Header.vue';
 import Avatar from 'vue-avatar';
+import HeaderBar from '~/components/Header.vue';
 
 export default {
   components: {
     HeaderBar,
     Avatar,
-  },
-  methods: {
-    goToChangePassword() {
-      $nuxt._router.push('/aluno/alterar-senha');
-    },
-    goToChangeData() {
-      $nuxt._router.push('/aluno/alterar');
-    },
-    goToExit() {
-      localStorage.clear();
-      $nuxt._router.push('/login');
-      this.clearInfoUser();
-    },
-  },
-  computed: {
-    user() {
-      return this.$store.state.user.data;
-    },
   },
   filters: {
     simplifyName(name) {
@@ -91,6 +73,24 @@ export default {
         return regex.exec(name)[1];
       }
       return name;
+    },
+  },
+  computed: {
+    user() {
+      return this.$store.state.user.data;
+    },
+  },
+  methods: {
+    goToChangePassword() {
+      $nuxt._router.push('/aluno/alterar-senha');
+    },
+    goToChangeData() {
+      $nuxt._router.push('/aluno/alterar');
+    },
+    goToExit() {
+      localStorage.clear();
+      $nuxt._router.push('/login');
+      this.clearInfoUser();
     },
   },
 };

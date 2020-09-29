@@ -49,18 +49,14 @@
                 :items="profile"
                 label="Qual é o seu perfil?"
                 required
-              ></v-select>  
-              <v-autocomplete
-               v-if="this.form.profile === 'Aluno'"
-               v-model="form.institutionName"
-               :items="schools"
-               hide-no-data
-               hide-selected
-               :loanding="isLoanding"   
-               placeholder="Digite o nome da sua escola"
-               label="Onde estuda?"
-               @keyup="searchTimeOut($event.target.value)"
-              ></v-autocomplete>
+              ></v-select>
+              <v-text-field
+                v-if="this.form.profile === 'Aluno'"
+                v-model="form.institutionName"
+                :items="schools"
+                placeholder="Digite o nome da sua escola"
+                label="Onde estuda?"
+              ></v-text-field>
               <v-text-field
                 v-model="form.password"
                 placeholder="Digite sua senha"
@@ -74,8 +70,8 @@
                 @click:append="() => (showPass = !showPass)"
               ></v-text-field>
               <v-text-field
-                 style=" margin-top:-15px !important; margin-bottom:20px;"
                 v-model="form.confirmPassword"
+                style=" margin-top:-15px !important; margin-bottom:20px;"
                 placeholder="Confirme sua senha"
                 color="#60c"
                 :rules="confirmPasswordRules"
@@ -139,11 +135,10 @@ export default {
       snackbarText: '',
       schools: [],
       snackbarStatus: '',
-      neighborhood: '',
       profile: [
         'Aluno',
         'Ex-Aluno',
-        'Universatario',
+        'Universitário',
         'Pai',
         'Investidor',
         'Outros',
@@ -152,6 +147,7 @@ export default {
         name: '',
         email: '',
         password: '',
+        profile: '',
         confirmPassword: '',
         schooling: '',
         institutionName: '',
@@ -185,25 +181,16 @@ export default {
     submit() {
       if (this.$refs.form.validate()) {
         const postObject = Object.assign({}, this.form);
-        postObject.address = `${postObject.neighborhood}, ${postObject.city} - ${postObject.state}, ${postObject.country}`;
-        postObject.birthday = `${postObject.birthday}T00:00:00.000Z`;
-        postObject.working = postObject.working === 'sim';
-
-        if (postObject.schooling.includes('Superior')) {
-          postObject.schooling = postObject.schooling
-            .replace('Superior', 'faculdade')
-            .replace(/\s/g, '_')
-            .toUpperCase();
-        } else if (postObject.schooling.includes('médio')) {
-          postObject.schooling = postObject.schooling
-            .replace('médio', 'medio')
-            .replace(/\s/g, '_')
-            .toUpperCase();
-        } else {
-          postObject.schooling = postObject.schooling
-            .replace(/\s/g, '_')
-            .toUpperCase();
-        }
+        const profileEnum = {
+          Aluno: 'STUDENT',
+          'Ex-Aluno': 'EX_STUDENT',
+          Universitário: 'UNIVERSITY',
+          Pai: 'FATHER',
+          Investidor: 'INVESTOR',
+          Outros: 'OTHERS',
+        };
+        const { profile } = postObject;
+        postObject.profile = profileEnum[profile];
 
         delete postObject.confirmPassword;
         this.animateForm(true);
@@ -233,34 +220,34 @@ export default {
         this.animateForm(false);
       }
     },
-    searchTimeOut(school) {
-      if (this.timer) {
-        clearTimeout(this.timer);
-        this.timer = null;
-      }
-      this.timer = setTimeout(() => {
-        this.getSchool(school);
-      }, 800);
-    },
+    // searchTimeOut(school) {
+    //   if (this.timer) {
+    //     clearTimeout(this.timer);
+    //     this.timer = null;
+    //   }
+    //   this.timer = setTimeout(() => {
+    //     this.getSchool(school);
+    //   }, 800);
+    // },
 
-    async getSchool(school) {
-      if (this.isLoading) return;
+    // async getSchool(school) {
+    //   if (this.isLoading) return;
 
-      this.isLoading = true;
+    //   this.isLoading = true;
 
-      const response = await fetch(
-        `https://api-newschool.herokuapp.com/school?nome=${school}`,
-      )
-        .then(res => res.text())
-        .then(res => res)
-        .catch(err => {
-          console.log(err);
-        })
-        .finally(() => (this.isLoading = false));
-      // this.schools.push(response)
-      JSON.parse(response)[1].forEach(item => this.schools.push(item.nome));
-      this.schools.unshift(school.toUpperCase());
-    },
+    //   const response = await fetch(
+    //     `https://api-newschool.herokuapp.com/school?nome=${school}`,
+    //   )
+    //     .then(res => res.text())
+    //     .then(res => res)
+    //     .catch(err => {
+    //       console.log(err);
+    //     })
+    //     .finally(() => (this.isLoading = false));
+    //   // this.schools.push(response)
+    //   JSON.parse(response)[1].forEach(item => this.schools.push(item.nome));
+    //   this.schools.unshift(school.toUpperCase());
+    // },
 
     animateForm(status) {
       if (status) {
@@ -367,8 +354,6 @@ export default {
   width: 100%;
   /* inputs */
 }
-
-
 
 ::v-deep .theme--light.v-text-field {
   margin-top: 0;
@@ -497,5 +482,4 @@ export default {
 .error-form {
   animation: nono 300ms, intro paused;
 }
-
 </style>
