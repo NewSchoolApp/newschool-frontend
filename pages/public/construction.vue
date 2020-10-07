@@ -17,7 +17,6 @@
             <img class="img" src="../../assets/construction.svg" alt />
           </v-row>
         </v-col>
-        </v-col>
         <v-col cols="12">
           <v-row>
           <router-link to="/contribua" class="end-text">Quer ajudar a gente?</router-link>
