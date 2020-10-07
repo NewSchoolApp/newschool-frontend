@@ -17,10 +17,17 @@
                 >Filtrar por cidade</v-list-item
               >
               <v-list-item @click="change('school')"
+<<<<<<< HEAD
                 >Filtrar por Escola</v-list-item
               >
               <v-list-item @click="change('country')"
                 >Fitrar por pais
+=======
+                >Filtrr por Escola</v-list-item
+              >
+              <v-list-item @click="change('country')"
+                >Fitlrar por pais
+>>>>>>> cb89fa4927f2d67a778e3d6dfc4a45ded31f4c71
               </v-list-item>
             </v-col>
           </v-card>
@@ -53,6 +60,7 @@
                   :items="schools"
                   label="Escola"
                 ></v-select>
+<<<<<<< HEAD
                 <v-card>
                     <v-btn
                       class=" btn-block btn-search"
@@ -62,6 +70,8 @@
                       >Buscar</v-btn
                     >
                   </v-card>
+=======
+>>>>>>> cb89fa4927f2d67a778e3d6dfc4a45ded31f4c71
               </v-form>
             </v-col>
           </v-card>
@@ -77,6 +87,7 @@
         <img class="podio2" src="../../assets/Ellipse 8.svg" />
         <img class="bronze" src="../../assets/bronze-medal 1.svg" />
         <img class="podio3" src="../../assets/Ellipse 9.svg" />
+<<<<<<< HEAD
         <div class="top__3">
           <div class="top">
             <p class="top1">320 PTS</p>
@@ -91,21 +102,31 @@
             <h1 class="name3">Maria</h1>
           </div>
         </div>
+=======
+>>>>>>> cb89fa4927f2d67a778e3d6dfc4a45ded31f4c71
       </div>
     </div>
     <v-simple-table>
       <template v-slot:default>
         <thead>
           <tr>
+<<<<<<< HEAD
             <th>#</th>
             <th style="text-align: left;">Jogadores</th>
             <th>NV</th>
             <th>PTS</th>
+=======
+            <th class="text-left">#</th>
+            <th class="text-left">Jogadores</th>
+            <th class="text-left">Nv</th>
+            <th class="text-left">Pts</th>
+>>>>>>> cb89fa4927f2d67a778e3d6dfc4a45ded31f4c71
           </tr>
         </thead>
         <tbody>
           <tr v-for="item in ranking" :key="item.name">
             <td>{{ item.position }}</td>
+<<<<<<< HEAD
             <td >
               <p class="name_person">{{ item.name }}</p>
               <th class="school">
@@ -115,6 +136,9 @@
                 <img class="img__ranking" src="../../assets/Ellipse 7.svg" >
               </th>
             </td>
+=======
+            <td>{{ item.name }}</td>
+>>>>>>> cb89fa4927f2d67a778e3d6dfc4a45ded31f4c71
             <td>{{ item.nivel }}</td>
             <td>{{ item.pontos }}</td>
           </tr>
@@ -157,35 +181,50 @@ export default {
         {
           position: '4°',
           name: 'Neymar',
+<<<<<<< HEAD
           school: 'Geraldino',
+=======
+>>>>>>> cb89fa4927f2d67a778e3d6dfc4a45ded31f4c71
           nivel: 122,
           pontos: 305,
         },
         {
           position: '5°',
           name: 'Neymar',
+<<<<<<< HEAD
           school: 'Geraldino',
+=======
+>>>>>>> cb89fa4927f2d67a778e3d6dfc4a45ded31f4c71
           nivel: 122,
           pontos: 356,
         },
         {
           position: '6°',
           name: 'Neymar',
+<<<<<<< HEAD
           school: 'Geraldino',
+=======
+>>>>>>> cb89fa4927f2d67a778e3d6dfc4a45ded31f4c71
           nivel: 122,
           pontos: 375,
         },
         {
           position: '7°',
           name: 'Neymar',
+<<<<<<< HEAD
           school: 'Geraldino',
+=======
+>>>>>>> cb89fa4927f2d67a778e3d6dfc4a45ded31f4c71
           nivel: 122,
           pontos: 392,
         },
         {
           position: '8°',
           name: 'Neymar',
+<<<<<<< HEAD
           school: 'Geraldino',
+=======
+>>>>>>> cb89fa4927f2d67a778e3d6dfc4a45ded31f4c71
           nivel: 122,
           pontos: 408,
         },
@@ -223,6 +262,7 @@ export default {
 </script>
 
 <style scoped>
+<<<<<<< HEAD
 ::v-deep .theme--light.v-data-table thead tr:last-child th {
   border-bottom: none;
   text-align: center;
@@ -278,6 +318,12 @@ td {
 }
 .top__3 p {
   font-size: 12px;
+=======
+.page h1,
+.page p {
+  color: #6600cc;
+  text-transform: uppercase;
+>>>>>>> cb89fa4927f2d67a778e3d6dfc4a45ded31f4c71
 }
 .title {
   display: block;
@@ -299,7 +345,10 @@ td {
 .podio1 {
   display: block;
   position: relative;
+<<<<<<< HEAD
   top: 11px;
+=======
+>>>>>>> cb89fa4927f2d67a778e3d6dfc4a45ded31f4c71
   left: 140px;
 }
 .podio2 {
@@ -317,7 +366,11 @@ td {
 .podio3 {
   display: block;
   position: relative;
+<<<<<<< HEAD
   bottom: 189px;
+=======
+  bottom: 190px;
+>>>>>>> cb89fa4927f2d67a778e3d6dfc4a45ded31f4c71
   left: 250px;
   margin-bottom: 0px;
 }
@@ -337,6 +390,7 @@ td {
   width: 100%;
 }
 .v-data-table {
+<<<<<<< HEAD
   max-width: 100%;
   margin: 3% auto 0;
 }
@@ -345,6 +399,11 @@ td {
   padding-top: 12px;
 }
 
+=======
+  max-width: 70%;
+  margin: 0 auto;
+}
+>>>>>>> cb89fa4927f2d67a778e3d6dfc4a45ded31f4c71
 .collapse-button {
   position: absolute;
   top: 24px;
@@ -356,6 +415,7 @@ td {
   top: 45px;
   width: 57%;
 }
+<<<<<<< HEAD
 
 ::v-deep .h1__theme {
   position: relative;
@@ -382,4 +442,6 @@ td {
   font-weight: 600;
   width: 100%;
 }
+=======
+>>>>>>> cb89fa4927f2d67a778e3d6dfc4a45ded31f4c71
 </style>
