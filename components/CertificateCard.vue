@@ -1,6 +1,12 @@
 <template>
   <div>
-    <div class="content-image" @click="goToCertificate(certificate.course.id)">
+    <div
+      :style="{
+        'background-image': `url(${backgroundUrl})`,
+      }"
+      class="content-image"
+      @click="goToCertificate(certificate.course.id)"
+    >
       <button>
         <img class="background-img" :src="certificate.course.thumbUrl" alt />
       </button>
@@ -35,7 +41,7 @@ export default {
   components: {
     shareBtn,
   },
-  props: ['certificate', 'background'],
+  props: ['certificate', 'background-url'],
 
   methods: {
     goToCertificate(id) {
@@ -61,9 +67,12 @@ export default {
   justify-content: center;
   align-items: center;
   width: 300px;
-  height: 14rem;
+  height: 11rem;
   overflow: hidden;
-  background: #6600cc;
+  background-size: cover;
+
+  background-color: #6600cc;
+  background-position: center;
 }
 button {
   text-align: left;

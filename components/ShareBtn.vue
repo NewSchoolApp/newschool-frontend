@@ -23,7 +23,15 @@
         </div>
       </social-sharing>
     </div>
-    <v-btn v-if="!isOpen" :color="color" class="btn-ma-2" tile large icon @click="isOpen = !isOpen">
+    <v-btn
+      v-if="!isOpen"
+      :color="color"
+      class="btn-ma-2"
+      tile
+      large
+      icon
+      @click="isOpen = !isOpen"
+    >
       <v-icon size="28">mdi-share-variant</v-icon>
     </v-btn>
   </v-layout>
@@ -53,7 +61,7 @@ export default {
   },
 
   data() {
-    let baseUrl = process.env.domain;
+    const baseUrl = process.env.domain;
     return {
       isOpen: false,
       shareUrl: `${baseUrl}${this.url}`,
