@@ -1,7 +1,40 @@
 # COMPONENTS
 
-**This directory is not required, you can delete it if you don't want to use it.**
+## Alert
 
-The components directory contains your Vue.js Components.
+Componente responsável por exibir mensagens para o usuário de forma dinâmica usando **parametrização** e **estilização personalizada**.
 
-_Nuxt.js doesn't supercharge these components._
+
+### Como usar?
+
+Para usar o alert em qualquer lugar da aplicação, basta chamar o objeto global *$notifier* e invocar a função *showMessage* passando 
+um objeto com as duas propriedades de parametro, type e message.
+
+```
+        <script>
+            export default {
+                ...
+                methods: {
+                    showSnackbar () {
+                    this.$notifier.showMessage({ type: 'success', message: 'Boa! deu certo' })
+                    }
+                }
+                ...
+            }
+        </script>
+```
+
+### Opções
+
+**Parâmetros** Obs: *A parametrização do componente está considerando o valor alterado na store 'snackbar'*
+
+*type*
+- 'success'
+- 'error'
+- 'warning'
+- 'custom'
+- <N/D>
+
+*message*
+- string
+- <N/D>

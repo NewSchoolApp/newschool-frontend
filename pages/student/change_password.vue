@@ -1,13 +1,17 @@
 <template>
   <div>
-    <HeaderBar :title="'MUDAR A SENHA'" :backPage="true"></HeaderBar>
+    <HeaderBar :title="'ALTERAR A SENHA'" :back-page="true"></HeaderBar>
 
     <v-layout justify-center>
       <div v-if="loading" class="spiner-container">
-        <v-progress-circular :size="70" :width="5" indeterminate></v-progress-circular>
+        <v-progress-circular
+          :size="70"
+          :width="5"
+          indeterminate
+        ></v-progress-circular>
       </div>
 
-      <v-flex xs10 sm8 md6 ref="flex" v-else>
+      <v-flex v-else ref="flex" xs10 sm8 md6>
         <v-container>
           <v-row>
             <v-col cols="12">
@@ -17,37 +21,44 @@
 
           <v-row>
             <v-col cols="12">
-              <v-form ref="form" v-model="status" lazy-validation v-if="!isChanged">
+              <v-form
+                v-if="!isChanged"
+                ref="form"
+                v-model="status"
+                lazy-validation
+              >
                 <v-text-field
-                  color="#60c"
                   v-model="form.password"
+                  color="#60c"
                   label="Senha antiga *"
                   name="password"
                   :rules="passwordRules"
                   :type="showPass ? 'password' : 'text'"
                   :append-icon="showPass ? 'mdi-eye-off' : 'mdi-eye'"
-                  @click:append="() => (showPass = !showPass)"
                   required
+                  @click:append="() => (showPass = !showPass)"
                 ></v-text-field>
                 <v-text-field
-                  color="#60c"
                   v-model="form.newPassword"
+                  color="#60c"
                   label="Nova senha *"
                   :rules="passwordRules"
                   :type="showNewPass ? 'password' : 'text'"
                   :append-icon="showNewPass ? 'mdi-eye-off' : 'mdi-eye'"
-                  @click:append="() => (showNewPass = !showNewPass)"
                   required
+                  @click:append="() => (showNewPass = !showNewPass)"
                 ></v-text-field>
                 <v-text-field
-                  color="#60c"
                   v-model="form.confirmNewPassword"
+                  color="#60c"
                   label="Confirmar nova senha *"
                   :rules="confirmPasswordRules"
                   :type="showConfirmNewPass ? 'password' : 'text'"
                   :append-icon="showConfirmNewPass ? 'mdi-eye-off' : 'mdi-eye'"
-                  @click:append="() => (showConfirmNewPass = !showConfirmNewPass)"
                   required
+                  @click:append="
+                    () => (showConfirmNewPass = !showConfirmNewPass)
+                  "
                 ></v-text-field>
                 <v-btn
                   class="change-btn"
@@ -57,17 +68,19 @@
                   depressed
                   large
                   @click="switchPassword"
-                >Mudar Senha</v-btn>
+                  >Alterar Senha</v-btn
+                >
               </v-form>
 
               <div v-else>
-                <p class="change-status">Senha Mudada!</p>
+                <p class="change-status">Senha Alterada!</p>
               </div>
             </v-col>
           </v-row>
         </v-container>
       </v-flex>
     </v-layout>
+    <navigation-bar />
   </div>
 </template>
 
@@ -83,11 +96,13 @@
 import auth from '../../services/http/auth';
 import users from '../../services/http/users';
 import HeaderBar from '~/components/Header.vue';
+import NavigationBar from '~/components/NavigationBar.vue';
 
 export default {
-  name: 'changePassword',
+  name: 'ChangePassword',
   components: {
     HeaderBar,
+    NavigationBar,
   },
   data() {
     return {
@@ -113,6 +128,17 @@ export default {
         v => /.+@.+\..+/.test(v) || 'E-mail inválido',
       ],
     };
+  },
+
+  computed: {
+    confirmPasswordRules() {
+      return [
+        v => !!v || 'Confirme a senha',
+        () =>
+          this.form.confirmNewPassword === this.form.newPassword ||
+          'As senhas devem ser idênticas.',
+      ];
+    },
   },
 
   methods: {
@@ -153,7 +179,7 @@ export default {
           this.$refs.flex.classList.remove('error-form');
         }, 500);
       }
-      document.querySelector("html").style.overflow = "scroll";
+      document.querySelector('html').style.overflow = 'scroll';
     },
 
     goBack() {
@@ -161,17 +187,6 @@ export default {
     },
     gotoHome() {
       $nuxt._router.push('/aluno/home');
-    },
-  },
-
-  computed: {
-    confirmPasswordRules() {
-      return [
-        v => !!v || 'Confirme a senha',
-        () =>
-          this.form.confirmNewPassword === this.form.newPassword ||
-          'As senhas devem ser idênticas.',
-      ];
     },
   },
 };
@@ -244,12 +259,12 @@ export default {
   > .v-input__slot:hover:before {
   border-color: #60c;
 }
-
-::v-deep .theme--light.v-label,
-::v-deep .theme--light.v-icon {
+/* v-input theme--light v-text-field v-text-field--is-booted */
+::v-deep .v-label,
+::v-deep .mdi-eye-off {
   font-size: 12px;
   font-weight: 600;
-  line-height: 15px;
+  line-height: 12px;
   color: #aa56ff;
 }
 
@@ -264,6 +279,7 @@ export default {
 
 ::v-deep .change-btn {
   margin-top: 20px;
+  font-weight: 600;
   width: 100%;
   box-shadow: 0 4px 5px gray !important;
 }
@@ -271,12 +287,12 @@ export default {
   margin: 0 6% 0 6% !important;
 }
 
-::v-deep .v-btn__content {
+/* ::v-deep .v-btn__content {
   color: #fff;
   font-size: 12px;
   font-weight: 900;
   line-height: 15px;
-}
+} */
 
 ::v-deep
   .theme--light.v-text-field
@@ -312,5 +328,13 @@ export default {
   line-height: 22px;
   text-align: center;
   color: #60c;
+}
+@media (max-width: 320px) {
+  * {
+    margin-top: -5px;
+  }
+  ::v-deep .h1__theme {
+    font-size: 20px;
+  }
 }
 </style>

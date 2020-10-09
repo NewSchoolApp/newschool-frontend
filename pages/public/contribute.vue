@@ -1,25 +1,39 @@
 <template>
   <section>
-    <HeaderBar :title="'CONTRIBUA'" :backPage="true"></HeaderBar>
+    <HeaderBar :title="'CONTRIBUA'" :back-page="true"></HeaderBar>
     <article id="page">
       <v-container>
         <div class="title">APOIE O PROJETO</div>
-        <p
-          class="descricao"
-        >Que tal nosso stack tecnológico? Combinação boa heim! Em cada repositório GITHUB tem uma explicação passo-a-passo de como você fazer sua PRIMEIRA CONTRIBUIÇÃO no projeto. Bora?</p>
+        <p class="descricao">
+          Que tal nosso stack tecnológico? Combinação boa heim! Em cada
+          repositório GITHUB tem uma explicação passo-a-passo de como você fazer
+          sua PRIMEIRA CONTRIBUIÇÃO no projeto. Bora?
+        </p>
 
         <v-container fluid max-width="700">
           <v-row>
-            <v-col v-for="stack in stacks" :key="stack.id" :class="stack.class" cols="xs12 sm6">
-              <v-card class="mx-auto" max-width="344" min-width="200" min-height="400">
+            <v-col
+              v-for="stack in stacks"
+              :key="stack.id"
+              :class="stack.class"
+              cols="xs12 sm6"
+            >
+              <v-card
+                class="mx-auto"
+                max-width="344"
+                min-width="200"
+                min-height="400"
+              >
                 <v-img :src="stack.cover" margin-top="0"></v-img>
 
-                <v-card-title>{{stack.title}}</v-card-title>
+                <v-card-title>{{ stack.title }}</v-card-title>
 
-                <v-card-subtitle>{{stack.description}}</v-card-subtitle>
+                <v-card-subtitle>{{ stack.description }}</v-card-subtitle>
 
                 <v-card-actions>
-                  <v-btn text :href="stack.linkUrl" target="_blank">{{stack.linkText}}</v-btn>
+                  <v-btn text :href="stack.linkUrl" target="_blank">{{
+                    stack.linkText
+                  }}</v-btn>
                 </v-card-actions>
               </v-card>
             </v-col>
@@ -28,22 +42,36 @@
 
         <article>
           <div class="title">Ferramentas</div>
-          <p
-            class="descricao"
-          >Nós temos um monte de ferramentas legais pra esse trabalho colaborativo. SLACK, TRELLO, GITHUB. Tudo integrado e bem explicado, fácil de entender.</p>
+          <p class="descricao">
+            Nós temos um monte de ferramentas legais pra esse trabalho
+            colaborativo. SLACK, TRELLO, GITHUB. Tudo integrado e bem explicado,
+            fácil de entender.
+          </p>
 
           <v-container fluid>
             <v-row>
-              <v-col v-for="tool in tools" :key="tool.id" :class="tool.class" cols="xs12 sm6">
-                <v-card class="mx-auto" max-width="344" min-width="200" min-height="450">
+              <v-col
+                v-for="tool in tools"
+                :key="tool.id"
+                :class="tool.class"
+                cols="xs12 sm6"
+              >
+                <v-card
+                  class="mx-auto"
+                  max-width="344"
+                  min-width="200"
+                  min-height="450"
+                >
                   <v-img :src="tool.cover" contain></v-img>
 
-                  <v-card-title>{{tool.title}}</v-card-title>
+                  <v-card-title>{{ tool.title }}</v-card-title>
 
-                  <v-card-subtitle>{{tool.description}}</v-card-subtitle>
+                  <v-card-subtitle>{{ tool.description }}</v-card-subtitle>
 
                   <v-card-actions>
-                    <v-btn text :href="tool.linkUrl" target="_blank">{{tool.linkText}}</v-btn>
+                    <v-btn text :href="tool.linkUrl" target="_blank">{{
+                      tool.linkText
+                    }}</v-btn>
                   </v-card-actions>
                 </v-card>
               </v-col>
@@ -61,7 +89,6 @@
     path: '/contribua'
   }
 </router>
-
 
 <script>
 import NavigationBar from '~/components/NavigationBar.vue';
@@ -152,8 +179,7 @@ export default {
         },
         {
           id: 5,
-          cover:
-            'https://cdn.worldvectorlogo.com/logos/rollbar.svg',
+          cover: 'https://cdn.worldvectorlogo.com/logos/rollbar.svg',
           title: 'Rollbar',
           description:
             'Monitoramento e notificação de erros integrado com nossas demais ferramentas.',
@@ -163,8 +189,7 @@ export default {
         },
         {
           id: 6,
-          cover:
-            'https://cdn.worldvectorlogo.com/logos/heroku.svg',
+          cover: 'https://cdn.worldvectorlogo.com/logos/heroku.svg',
           title: 'Heroku',
           description: 'Hospedagem gratuita para os ambientes DEV e STG.',
           linkUrl: 'https://www.heroku.com/',
@@ -176,7 +201,6 @@ export default {
   },
 };
 </script>
-
 
 <style scoped>
 ::v-deep .title {
@@ -206,11 +230,11 @@ export default {
   margin-top: -33px;
 }
 ::v-deep .heroku .v-image__image {
-  height: 70%;
-  margin-top: 7%;
+  height: 40%;
+  margin-top: 10%;
 }
 ::v-deep .heroku .v-card__title {
-  margin-top: -20%;
+  margin-top: -80%;
 }
 ::v-deep .rollbar .v-image__image {
   width: 80%;
