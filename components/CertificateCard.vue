@@ -1,14 +1,12 @@
 <template>
   <div>
-    <div
-      :style="{
-        'background-image': `url(${backgroundUrl})`,
-      }"
-      class="content-image"
-      @click="goToCertificate(certificate.course.id)"
-    >
+    <div class="content-image" @click="goToCertificate(certificate.course.id)">
       <button>
-        <img class="background-img" :src="certificate.course.thumbUrl" alt />
+        <img
+          class="background-img"
+          :src="certificate.course.thumbUrl"
+          alt="Imagem do curso"
+        />
       </button>
       <img
         class="medal"
@@ -61,6 +59,16 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+img:after {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  content: '';
+  background-color: #6600cc;
+}
+
 .content-image {
   position: relative;
   display: flex;
@@ -69,43 +77,29 @@ export default {
   width: 300px;
   height: 11rem;
   overflow: hidden;
-  background-size: cover;
-
   background-color: #6600cc;
-  background-position: center;
-}
-button {
-  text-align: left;
 }
 
-.main {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  max-width: 100%;
-}
-.cards-box {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  max-width: 500px;
+.background-img {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
-  margin-bottom: 25px;
+  height: auto;
+  opacity: 0.4;
 }
-.background-image {
-  display: flex;
-  justify-content: center;
-  align-items: center;
 
-  width: 200px;
-  height: 115px;
-  box-shadow: 0 2.5px 3px 0px rgba(0, 0, 0, 0.42);
+.medal {
+  position: absolute;
+  width: 18%;
+  height: auto;
 }
+
 .certificate-title {
   font-weight: 600;
   font-size: 12px;
 }
+
 p {
   display: flex;
   align-items: center;
@@ -122,11 +116,13 @@ p {
   position: absolute;
   margin: 4px 0 0 265px;
 }
+
 ::v-deep .share-container {
   position: absolute;
   right: -35px;
   top: -4px;
 }
+
 .footer {
   display: flex;
   text-align: center;
