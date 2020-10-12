@@ -109,7 +109,6 @@ p {
   font-size: 10px;
   line-height: 12px;
   color: #1a1a1a;
-  margin-top: -10px;
 }
 
 .sharing-icons {
