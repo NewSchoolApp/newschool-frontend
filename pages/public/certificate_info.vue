@@ -31,7 +31,7 @@
     </div>
 
     <div class="info-box">
-      <div class="box-tittle">Compartilhar</div>
+      <div class="box-title">Compartilhar</div>
       <social-sharing
         :url="urlCertificate"
         :title="'Certificado de conclusão de curso New School'"
@@ -55,7 +55,7 @@
     </div>
 
     <div class="info-box">
-      <div class="box-tittle">Exportar</div>
+      <div class="box-title">Exportar</div>
       <div class="box-icons">
         <div class="icon" style="background-color: transparent">
           <v-icon color="purple darken-2" @click="gotoCertificate(1)">
@@ -189,7 +189,7 @@ p {
   height: auto;
 }
 
-.box-tittle {
+.box-title {
   text-transform: uppercase;
   font-weight: 900;
   font-size: 12px;
