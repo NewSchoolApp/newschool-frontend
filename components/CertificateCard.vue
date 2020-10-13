@@ -21,31 +21,22 @@
           <p>{{ certificate.user.name }}</p>
         </button>
       </div>
-      <div class="sharing-icons">
-        <shareBtn
-          :url="mountUrlCertificate(certificate.course.id)"
-          :title="'Certificado de conclusão de curso New School'"
-          :description="certificate.course.title"
-        />
-      </div>
     </div>
   </div>
 </template>
 
 <script>
-import shareBtn from '~/components/ShareBtn';
 export default {
   name: 'CertificateCard',
   components: {
-    shareBtn,
   },
-  props: ['certificate', 'background-url'],
+  props: ['certificate'],
 
   methods: {
     goToCertificate(id) {
       // eslint-disable-next-line no-undef
       $nuxt._router.push(
-        `/pagina-certificado/${this.$store.state.user.data.id}/${id}`,
+        `/certificado-info/${this.$store.state.user.data.id}/${id}`,
       );
     },
     backgroundClass(certificateBackgroundName) {
@@ -109,7 +100,6 @@ p {
   font-size: 10px;
   line-height: 12px;
   color: #1a1a1a;
-  margin-top: -10px;
 }
 
 .sharing-icons {
