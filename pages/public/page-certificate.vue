@@ -84,13 +84,11 @@
 import moment from 'moment';
 import http from '../../services/http/public';
 import NavigationBar from '~/components/NavigationBar.vue';
-import shareBtnPageCertificate from '~/components/ShareBtnPageCertificate.vue';
 import HeaderBar from '~/components/Header.vue';
 import ogImage from '~/assets/backgroundCertificates.svg';
 
 export default {
   components: {
-    shareBtnPageCertificate,
     HeaderBar,
     NavigationBar,
   },
@@ -120,6 +118,11 @@ export default {
         this.certificate.courseCompleteDate,
       ).format('DD/MM/YYYY');
       this.loading = false;
+      if (this.$route.params.print == 1) {
+        setTimeout(()=>{
+          this.print();
+        }, 500)
+      }
     });
   },
   methods: {
@@ -149,7 +152,7 @@ export default {
 </script>
 
 <router>
-    path: "/pagina-certificado/:idUser/:idCourse"
+    path: "/pagina-certificado/:idUser/:idCourse/:print"
 </router>
 
 <style lang="scss" scoped>
