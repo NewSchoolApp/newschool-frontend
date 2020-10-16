@@ -17,7 +17,12 @@
           <main>
             <h1 id="title__course" class="h1__theme">{{ course.title }}</h1>
             <div class="mask__img">
-              <img :src="course.thumbUrl" alt="imagem-curso" title="imagem curso" />
+              <img v-if="showThumb"
+                :src="course.thumbUrl" 
+                @error="imageLoadError"
+                alt="imagem-curso" 
+                title="imagem curso" 
+              />
             </div>
             <div class="info__box">
               <section>
@@ -97,7 +102,7 @@ export default {
     return {
       idUser: 0,
       slug: '',
-
+      showThumb: true,
       dialogMessage: '',
       dialogOptions: {
         ok: false,
@@ -132,6 +137,9 @@ export default {
       });
   },
   methods: {
+    imageLoadError () {
+      this.showThumb = false;
+    },
     initCourse(id) {
       var isComplete = false;
       this.list.forEach(item => {        
@@ -249,7 +257,7 @@ export default {
     goToCertificate(id) {
       // eslint-disable-next-line no-undef
       $nuxt._router.push(
-        `/pagina-certificado/${this.$store.state.user.data.id}/${id}`,
+        `/certificado-info/${this.$store.state.user.data.id}/${id}`,
       );
     },
   },

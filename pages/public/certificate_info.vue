@@ -16,9 +16,10 @@
     <div class="thumb">
       <div class="content-image" @click="gotoCertificate()">
         <button>
-          <img
+          <img v-if="showThumb"
             class="background-img"
             :src="certificate.course.thumbUrl"
+            @error="imageLoadError"
             alt="Imagem do curso"
           />
         </button>
@@ -100,6 +101,7 @@ export default {
   data: () => ({
     certificate: {},
     loading: true,
+    showThumb: true,
   }),
 
   computed: {
@@ -117,6 +119,9 @@ export default {
         `/pagina-certificado/${this.params.idUser}/${this.params.idCourse}/${forcePrint}`,
       );
     },
+    imageLoadError () {
+      this.showThumb = false;
+    },
   },
   mounted() {
     http.pageCertificate(this.params.idUser, this.params.idCourse).then(res => {
@@ -131,7 +136,7 @@ export default {
     path: "/certificado-info/:idUser/:idCourse"
 </router>
 
-<style>
+<style scoped>
 * {
   font-family: Montserrat;
   color: #1a1a1a;
@@ -203,7 +208,7 @@ p {
   padding-bottom: 30px;
 }
 
-.icon {
+::v-deep .icon {
   height: 35px;
   width: 35px;
   margin-right: 25px;
