@@ -9,7 +9,7 @@
           alt="Imagem do curso"
         />
       </button>
-      <img      
+      <img
         class="medal"
         src="~/assets/medalha-imagem.svg"
         alt="Imagem de uma medalha"
@@ -29,14 +29,12 @@
 <script>
 export default {
   name: 'CertificateCard',
-  components: {
-  },
   props: ['certificate'],
   data: () => ({
-      showThumb: true,
+    showThumb: true,
   }),
   methods: {
-    imageLoadError () {
+    imageLoadError() {
       this.showThumb = false;
     },
     goToCertificate(id) {

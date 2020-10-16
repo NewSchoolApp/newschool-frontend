@@ -1,15 +1,25 @@
 <template>
   <div>
     <HeaderBar :title="'Curso'" :back-page="true"></HeaderBar>
-    
-    <v-snackbar v-model="snackbar" :top="true" :right="true" color="snackbarStatus">
-      <span>Este curso já foi finalizado</span>      
+
+    <v-snackbar
+      v-model="snackbar"
+      :top="true"
+      :right="true"
+      color="snackbarStatus"
+    >
+      <span>Este curso já foi finalizado</span>
     </v-snackbar>
     <not-found v-if="notFound" />
     <div v-else>
       <div v-if="loading">
         <div class="container-spinner">
-          <v-progress-circular :size="70" :width="5" indeterminate color="#6600cc" />
+          <v-progress-circular
+            :size="70"
+            :width="5"
+            indeterminate
+            color="#6600cc"
+          />
         </div>
       </div>
       <div v-else>
@@ -17,11 +27,12 @@
           <main>
             <h1 id="title__course" class="h1__theme">{{ course.title }}</h1>
             <div class="mask__img">
-              <img v-if="showThumb"
-                :src="course.thumbUrl" 
+              <img
+                v-if="showThumb"
+                :src="course.thumbUrl"
                 @error="imageLoadError"
-                alt="imagem-curso" 
-                title="imagem curso" 
+                alt="imagem-curso"
+                title="imagem curso"
               />
             </div>
             <div class="info__box">
@@ -42,7 +53,9 @@
               depressed
               large
               @click="continueCourse(course)"
-            >Continuar</v-btn>
+              >
+              Continuar
+            </v-btn>
             <v-btn
               v-else-if="flagButtonCompleted"
               class="btn__primary"
@@ -54,7 +67,9 @@
               depressed
               large
               @click="goToCertificate(course.id)"
-            >Certificado</v-btn>
+              >
+              Certificado
+            </v-btn>
             <v-btn
               v-else
               class="btn__primary"
@@ -66,7 +81,9 @@
               depressed
               large
               @click="initCourse(course.id)"
-            >Iniciar</v-btn>
+              >
+              Iniciar
+            </v-btn>
           </main>
         </div>
         <modal
@@ -137,21 +154,21 @@ export default {
       });
   },
   methods: {
-    imageLoadError () {
+    imageLoadError() {
       this.showThumb = false;
     },
     initCourse(id) {
       var isComplete = false;
-      this.list.forEach(item => {        
-        if(item.course.id === id && item.status === 'COMPLETED'){
-          isComplete = true;          
+      this.list.forEach(item => {
+        if (item.course.id === id && item.status === 'COMPLETED') {
+          isComplete = true;
         }
       });
-      if(isComplete){
-        this.snackbar = true
-       setTimeout(() => $nuxt._router.push(`/aluno/certificados`), 2000);
+      if (isComplete) {
+        this.snackbar = true;
+        setTimeout(() => $nuxt._router.push(`/aluno/certificados`), 2000);
       }
-      else{
+      else {
         this.loadingInit = true;
         if (utils.getToken() && this.idUser) {
           http
@@ -175,7 +192,10 @@ export default {
                       `${process.env.endpoints.CURRENT_STEP}/user/${this.idUser}/course/${id}`,
                     )
                     .then(res => {
-                      this.$store.commit('courses/setCurrentPart', res.data.data);
+                      this.$store.commit(
+                        'courses/setCurrentPart',
+                        res.data.data,
+                      );
                     });
 
                   setTimeout(() => {

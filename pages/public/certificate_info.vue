@@ -119,7 +119,7 @@ export default {
         `/pagina-certificado/${this.params.idUser}/${this.params.idCourse}/${forcePrint}`,
       );
     },
-    imageLoadError () {
+    imageLoadError() {
       this.showThumb = false;
     },
   },
