@@ -2,9 +2,10 @@
   <div>
     <div class="content-image" @click="goToCertificate(certificate.course.id)">
       <button>
-        <img
+        <img v-if="showThumb"
           class="background-img"
           :src="certificate.course.thumbUrl"
+          @error="imageLoadError"
           alt="Imagem do curso"
         />
       </button>
@@ -28,11 +29,14 @@
 <script>
 export default {
   name: 'CertificateCard',
-  components: {
-  },
   props: ['certificate'],
-
+  data: () => ({
+    showThumb: true,
+  }),
   methods: {
+    imageLoadError() {
+      this.showThumb = false;
+    },
     goToCertificate(id) {
       // eslint-disable-next-line no-undef
       $nuxt._router.push(
@@ -50,16 +54,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-img:after {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  content: '';
-  background-color: #6600cc;
-}
-
 .content-image {
   position: relative;
   display: flex;
