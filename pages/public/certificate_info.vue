@@ -43,13 +43,13 @@
       >
         <div class="box-icons">
           <network class="icon" network="facebook">
-            <v-icon color="purple darken-2"> mdi-facebook </v-icon>
+            <img src="~/assets/facebook-purple.png" alt />
           </network>
           <network class="icon" network="twitter">
-            <v-icon color="purple darken-2"> mdi-twitter </v-icon>
+            <img src="~/assets/twitter-purple.png" alt />
           </network>
           <network class="icon" network="linkedin">
-            <v-icon color="purple darken-2"> mdi-linkedin </v-icon>
+            <img src="~/assets/linkedin-purple.png" alt />
           </network>
         </div>
       </social-sharing>
