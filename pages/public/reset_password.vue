@@ -53,6 +53,7 @@
                 required
                 @click:append="() => (showConfirmNewPass = !showConfirmNewPass)"
               ></v-text-field>
+              <!-- Button Purple Solid -->
               <v-btn
                 class="change-btn"
                 color="#60c"
@@ -264,6 +265,7 @@ export default {
   font-size: 20px;
 }
 
+/* Button Purple Solid */
 ::v-deep .change-btn {
   margin-top: 20px;
   width: 100%;

@@ -45,6 +45,7 @@
               ></v-text-field>
             </v-col>
             <v-col cols="12">
+              <!-- Button Purple Solid -->
               <v-btn color="#60c" dark block depressed large @click="submit"
                 >Redefinir senha</v-btn
               >

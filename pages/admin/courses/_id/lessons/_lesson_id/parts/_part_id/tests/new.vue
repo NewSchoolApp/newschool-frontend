@@ -8,7 +8,7 @@
           </v-btn>
         </n-link>Gerenciar meus cursos
       </h1>
-
+      <!-- Input Field --> 
       <v-form class="test-form" ref="test" v-model="status" lazy-validation>
         <h3>Teste</h3>
         <v-text-field
@@ -60,7 +60,9 @@
           required
         />
       </v-form>
+      <!-- Button Purple Solid -->
       <v-btn color="primary" class="save-button mb-5 mt-5" @click="submit">Adicionar</v-btn>
+      <!-- Button Disabled -->
       <v-btn color="primary" :disabled="!submited" class="save-button button-ajust" @click="finish()">Finalizar</v-btn>
     </v-flex>
 
@@ -242,6 +244,7 @@ h3 {
   height: 50px;
 }
 
+/* Button Purple Solid */
 .save-button {
   height: 2.75em;
   width: 100%;

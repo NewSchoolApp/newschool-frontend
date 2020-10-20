@@ -6,6 +6,7 @@
         <p>Página não encontrada.</p>
         <p>Tenta de novo, mano.</p>
         <img src="~/assets/page-404.svg" alt />
+        <!-- Button Purple Solid -->
         <v-btn
           class="back"
           color="#60c"
@@ -59,6 +60,7 @@ export default {
   justify-content: center;
   align-items: center;
 }
+/* Button Purple Solid */
 ::v-deep .back {
   margin-top: 50px;
   width: 100%;

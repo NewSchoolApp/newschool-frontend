@@ -8,7 +8,7 @@
           </v-btn>
         </n-link>Gerenciar meus cursos
       </h1>
-
+      <!-- Input Field --> 
       <v-form ref="form" lazy-validation>
         <h3>Curso</h3>
         <v-text-field
@@ -63,7 +63,7 @@
 
         <resources-list name="Aula" :resources="lessons" redirect="true" path="lesson" />
         <span v-if="!lessons.length" class="new-lessons-span">Favor, adicionar uma aula</span>
-
+        <!-- Button Purple Solid -->
         <v-btn color="primary" class="save-button" @click="submit">Salvar</v-btn>
 
         <v-snackbar
@@ -278,7 +278,7 @@ h3 {
   align-items: center;
   justify-content: flex-start;
 }
-
+/* Button Purple Solid */
 .save-button {
   height: 2.75em;
   width: 100%;

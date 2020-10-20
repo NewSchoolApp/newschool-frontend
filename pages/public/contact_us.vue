@@ -61,6 +61,7 @@
                     @blur="focusMessage($event.target.value)"
                   ></v-textarea>
                   <v-card>
+                    <!-- Button Purple Solid -->
                     <v-btn
                       class="btn-block btn-submit"
                       depressed

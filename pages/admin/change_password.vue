@@ -27,6 +27,7 @@
 
         <v-row>
           <v-col cols="12">
+            <!-- Input Field --> 
             <v-form ref="form" v-model="status" lazy-validation v-if="!isChanged">
               <v-text-field
                 color="#60c"
@@ -59,6 +60,7 @@
                 @click:append="() => (showConfirmNewPass = !showConfirmNewPass)"
                 required
               ></v-text-field>
+              <!-- Button Purple Solid -->
               <v-btn
                 class="change-btn"
                 color="#60c"
@@ -271,6 +273,7 @@ export default {
   font-size: 20px;
 }
 
+/* Button Purple Solid */
 ::v-deep .change-btn {
   margin-top: 20px;
   width: 100%;

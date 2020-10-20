@@ -10,7 +10,7 @@
         </n-link>
         Gerenciar meus cursos
       </h1>
-
+      <!-- Input Field --> 
       <v-form class="test-form" ref="test" v-model="status" lazy-validation>
         <h3>Teste</h3>
         <v-text-field

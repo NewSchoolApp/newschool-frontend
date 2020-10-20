@@ -3,6 +3,7 @@
     <div>
       <header class="title">
         <h1>MEUS CURSOS</h1>
+        <!-- Button Add Solid -->
         <v-btn class="mx-2 btn-icon" icon to="/admin/criar-curso">
           <v-icon dark id="plus-icon">mdi-plus-circle</v-icon>
         </v-btn>
@@ -162,6 +163,7 @@ p {
   right: 10px;
   top: 58px;
 }
+/* Button Add Solid */
 #plus-icon {
   font-size: 3.8rem !important;
   color: #6600cc;

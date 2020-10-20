@@ -27,7 +27,7 @@
           </div>
           <h4>Youtube</h4>
         </div>
-
+        <!-- Button Purple Solid -->
         <v-btn color="primary" class="save-button" @click="advanceCourse"
           >Próximo</v-btn
         >
@@ -216,7 +216,7 @@ h4 {
     margin-top: -0.5em;
   }
 }
-
+/* Button Purple Solid */
 .save-button {
   height: 45px !important;
   width: 100%;

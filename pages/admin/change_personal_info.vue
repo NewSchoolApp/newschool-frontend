@@ -19,6 +19,7 @@
           </v-col>
         </v-row>
         <v-row>
+          <!-- Input Field --> 
           <v-form ref="form" v-model="status" lazy-validation>
             <v-col cols="12">
               <v-text-field
@@ -50,6 +51,7 @@
               ></v-text-field>
             </v-col>
             <v-col cols="12">
+              <!-- Button Purple Solid -->
               <v-btn
                 class="btn-block btn-submit btn-primary"
                 depressed
@@ -58,6 +60,7 @@
                 >Alterar</v-btn
               >
             </v-col>
+            <!-- Button Purple Hollow -->
             <v-col cols="12">
               <v-btn
                 class="btn-block btn-submit btn-second"
@@ -332,6 +335,7 @@ export default {
   padding-right: 5px;
 }
 
+/* Button Purple Solid */
 ::v-deep
   .btn-primary.theme--light.v-btn:not(.v-btn--flat):not(.v-btn--text):not(.v-btn--outlined) {
   background: #6600cc !important;
@@ -340,6 +344,7 @@ export default {
   color: #fff !important;
   font-weight: bold !important;
 }
+/* Button Purple Hollow */
 ::v-deep
   .btn-second.theme--light.v-btn:not(.v-btn--flat):not(.v-btn--text):not(.v-btn--outlined) {
   background: #fff !important;

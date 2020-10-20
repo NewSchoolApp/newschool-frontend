@@ -6,6 +6,7 @@
         <h1>AEEEE, parabéns por mais esse passo!</h1>
       </div>
       <div id="container__btn">
+        <!-- Button Purple Solid -->
         <v-btn color="#60c" dark block depressed large @click="finish">Meu Certificado</v-btn>
       </div>
     </main>

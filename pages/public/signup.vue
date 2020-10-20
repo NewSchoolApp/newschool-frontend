@@ -24,6 +24,7 @@
         </v-row>
         <v-row>
           <v-col cols="12">
+            <!-- Input Field --> 
             <v-form ref="form" v-model="status" lazy-validation>
               <v-text-field
                 v-model="form.name"
@@ -80,6 +81,7 @@
                 required
                 @click:append="() => (showConfirmPass = !showConfirmPass)"
               ></v-text-field>
+              <!-- Button Purple Solid -->
               <v-btn
                 class="btn__content"
                 color="#60c"
@@ -411,7 +413,7 @@ export default {
 ::v-deep .v-radio {
   margin-left: -14px;
 }
-
+/* Button Purple Solid */
 .btn__content {
   color: #fff;
   font-size: 15px;

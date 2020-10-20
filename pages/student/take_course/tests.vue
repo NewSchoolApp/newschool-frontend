@@ -52,7 +52,7 @@
               />
             </div>
           </v-form>
-
+          <!-- Button Purple Solid -->
           <v-btn color="primary" class="save-button" @click="nextTest">Próximo</v-btn>
         </div>
 
@@ -280,7 +280,7 @@ h4 {
 .alternatives-container {
   margin-top: 1.5em;
 }
-
+/* Button Purple Solid */
 .save-button {
   height: 45px !important;
   width: 100%;

@@ -42,6 +42,7 @@
               </section>
               <p id="description">{{ course.description }}</p>
             </div>
+            <!-- Button Purple Solid -->
             <v-btn
               v-if="flagButtonTaken"
               class="btn__primary"
@@ -56,6 +57,7 @@
               >
               Continuar
             </v-btn>
+            <!-- Button Purple Solid -->
             <v-btn
               v-else-if="flagButtonCompleted"
               class="btn__primary"
@@ -70,6 +72,7 @@
               >
               Certificado
             </v-btn>
+            <!-- Button Purple Solid -->
             <v-btn
               v-else
               class="btn__primary"
@@ -346,6 +349,7 @@ main {
   color: #60c;
   font-size: 35px;
 }
+/* Button Purple Solid */
 .btn__primary {
   width: 100%;
   margin-top: 1rem;
