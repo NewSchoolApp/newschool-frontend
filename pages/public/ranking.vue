@@ -17,10 +17,10 @@
                 >Filtrar por cidade</v-list-item
               >
               <v-list-item @click="change('school')"
-                >Filtrr por Escola</v-list-item
+                >Filtrar por escola</v-list-item
               >
               <v-list-item @click="change('country')"
-                >Fitlrar por pais
+                >Filtrar por país
               </v-list-item>
             </v-col>
           </v-card>
@@ -53,6 +53,15 @@
                   :items="schools"
                   label="Escola"
                 ></v-select>
+                <v-card>
+                    <v-btn
+                      class=" btn-block btn-search"
+                      depressed
+                      large
+                      @click="search"
+                      >Buscar</v-btn
+                    >
+                  </v-card>
               </v-form>
             </v-col>
           </v-card>
@@ -68,22 +77,44 @@
         <img class="podio2" src="../../assets/Ellipse 8.svg" />
         <img class="bronze" src="../../assets/bronze-medal 1.svg" />
         <img class="podio3" src="../../assets/Ellipse 9.svg" />
+        <div class="top__3">
+          <div class="top">
+            <p class="top1">320 PTS</p>
+            <h1 class="name1">Fernanda</h1>
+          </div>
+          <div class="top">
+            <p class="top2">320 PTS</p>
+            <h1 class="name2">Juliana</h1>
+          </div>
+          <div class="top">
+            <p class="top3">320 PTS</p>
+            <h1 class="name3">Maria</h1>
+          </div>
+        </div>
       </div>
     </div>
     <v-simple-table>
       <template v-slot:default>
         <thead>
           <tr>
-            <th class="text-left">#</th>
-            <th class="text-left">Jogadores</th>
-            <th class="text-left">Nv</th>
-            <th class="text-left">Pts</th>
+            <th>#</th>
+            <th style="text-align: left;">Jogadores</th>
+            <th>NV</th>
+            <th>PTS</th>
           </tr>
         </thead>
         <tbody>
           <tr v-for="item in ranking" :key="item.name">
             <td>{{ item.position }}</td>
-            <td>{{ item.name }}</td>
+            <td >
+              <p class="name_person">{{ item.name }}</p>
+              <th class="school">
+                {{item.school}}
+              </th>
+                            <th>
+                <img class="img__ranking" src="../../assets/Ellipse 7.svg" >
+              </th>
+            </td>
             <td>{{ item.nivel }}</td>
             <td>{{ item.pontos }}</td>
           </tr>
@@ -126,30 +157,35 @@ export default {
         {
           position: '4°',
           name: 'Neymar',
+          school: 'Geraldino',
           nivel: 122,
           pontos: 305,
         },
         {
           position: '5°',
           name: 'Neymar',
+          school: 'Geraldino',
           nivel: 122,
           pontos: 356,
         },
         {
           position: '6°',
           name: 'Neymar',
+          school: 'Geraldino',
           nivel: 122,
           pontos: 375,
         },
         {
           position: '7°',
           name: 'Neymar',
+          school: 'Geraldino',
           nivel: 122,
           pontos: 392,
         },
         {
           position: '8°',
           name: 'Neymar',
+          school: 'Geraldino',
           nivel: 122,
           pontos: 408,
         },
@@ -187,10 +223,61 @@ export default {
 </script>
 
 <style scoped>
-.page h1,
-.page p {
-  color: #6600cc;
-  text-transform: uppercase;
+::v-deep .theme--light.v-data-table thead tr:last-child th {
+  border-bottom: none;
+  text-align: center;
+  font-weight: 500;
+}
+.name1,
+.name2,
+.name3 {
+  font-size: 14px;
+  position: relative;
+}
+.name1,
+.name2,
+.name3 {
+  bottom: 21px;
+}
+td {
+  text-align: center;
+  height: 70px;
+  border-top: 1px solid rgba(102, 0, 204, 0.35)
+}
+.name_person {
+  position: absolute;
+  margin-left: 36px;
+  margin-top: 10px;
+  font-weight: 800;
+}
+
+.top__3 {
+  display: flex;
+  position: relative;
+  bottom: 189px;
+  width: 100%;
+  text-align: center;
+}
+.top1,
+.name1 {
+  display: block;
+  position: relative;
+  left: 41px;
+}
+.top2,
+.name2 {
+  display: block;
+  position: relative;
+  left: 87px;
+}
+.top3,
+.name3 {
+  display: block;
+  position: relative;
+  left: 137px;
+}
+.top__3 p {
+  font-size: 12px;
 }
 .title {
   display: block;
@@ -212,6 +299,7 @@ export default {
 .podio1 {
   display: block;
   position: relative;
+  top: 11px;
   left: 140px;
 }
 .podio2 {
@@ -229,7 +317,7 @@ export default {
 .podio3 {
   display: block;
   position: relative;
-  bottom: 190px;
+  bottom: 189px;
   left: 250px;
   margin-bottom: 0px;
 }
@@ -249,9 +337,14 @@ export default {
   width: 100%;
 }
 .v-data-table {
-  max-width: 70%;
-  margin: 0 auto;
+  max-width: 100%;
+  margin: 3% auto 0;
 }
+
+::v-deep .v-data-table th {
+  padding-top: 12px;
+}
+
 .collapse-button {
   position: absolute;
   top: 24px;
@@ -263,4 +356,29 @@ export default {
   top: 45px;
   width: 57%;
 }
+
+::v-deep .h1__theme {
+  position: relative;
+  right: 60px;
+}
+
+.img__ranking {
+  width: 25px;
+  height: 25px;
+  position: absolute;
+  left: 83px;
+  margin-top: -16px;
+}
+.school {
+  position: absolute;
+  margin: 14px 0px 0 20px;
+  font-weight: normal;
+}
+.btn-search {
+  background: #6600cc !important;
+  border-radius: 0 !important;
+  color: #fff;
+  font-weight:600;
+  width: 100%;
+  }
 </style>

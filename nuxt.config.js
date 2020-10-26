@@ -31,6 +31,11 @@ export default {
             component: resolve(__dirname, 'pages/student/home.vue'),
           },
           {
+            path: "/certificado-info/:idUser/:idCourse",
+            name: 'certificado-info',
+            component: resolve(__dirname, 'pages/public/certificate_info.vue'),
+          },
+          {
             path: 'perfil',
             name: 'meu-perfil',
             component: resolve(__dirname, 'pages/student/profile.vue'),
