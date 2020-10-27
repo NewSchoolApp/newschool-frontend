@@ -4,11 +4,11 @@
       <header class="title">
         <h1>MEUS CURSOS</h1>
         <v-btn class="mx-2 btn-icon" icon to="/admin/criar-curso">
-          <v-icon dark id="plus-icon">mdi-plus-circle</v-icon>
+          <v-icon id="plus-icon" dark>mdi-plus-circle</v-icon>
         </v-btn>
       </header>
       <div class="body-list">
-        <v-card v-for="item in list" v-bind:key="item.id" class="v-card-border">
+        <v-card v-for="item in list" :key="item.id" class="v-card-border">
           <div class="content">
             <div class="img-mask">
               <img :src="item.thumbUrl" alt />
@@ -19,7 +19,10 @@
             </div>
           </div>
           <div class="group-buttons">
-            <v-btn class="btn-item bg-blue" :to="`/admin/course/${item.id}/edit`">
+            <v-btn
+              class="btn-item bg-blue"
+              :to="`/admin/course/${item.id}/edit`"
+            >
               <v-icon class="text-white">mdi-border-color</v-icon>
             </v-btn>
             <v-btn class="btn-item bg-danger" @click="deleteCourse(item.id)">
@@ -42,25 +45,16 @@
 import NavigationBar from '~/components/NavigationBar.vue';
 import http from '~/services/http/generic';
 export default {
+  components: {
+    NavigationBar,
+  },
   data: () => ({
     list: [],
     flagView: false,
     title: 'Listagem de Cursos',
   }),
-  head() {
-    return {
-      title: this.title,
-      meta: [
-        {
-          hid: 'description',
-          name: 'description',
-          content: 'Listagem de Cursos New School',
-        },
-      ],
-    };
-  },
-  components: {
-    NavigationBar,
+  mounted() {
+    this.getAllCourses();
   },
 
   methods: {
@@ -87,8 +81,17 @@ export default {
         });
     },
   },
-  mounted() {
-    this.getAllCourses();
+  head() {
+    return {
+      title: this.title,
+      meta: [
+        {
+          hid: 'description',
+          name: 'description',
+          content: 'Listagem de Cursos New School',
+        },
+      ],
+    };
   },
 };
 </script>
@@ -102,6 +105,7 @@ h1 {
 p {
   font-size: 0.7rem;
 }
+
 .body-list {
   display: flex;
   align-items: center;
@@ -127,7 +131,8 @@ p {
   margin-bottom: 2rem;
 }
 .title h1 {
-  font-size: 25px;
+  font-size: 20px;
+  line-height: 24px;
   color: #6600cc;
   font-weight: 900;
   font-family: 'Montserrat', sans-serif !important;
@@ -143,13 +148,18 @@ p {
 }
 .group-buttons {
   width: 2.1rem;
-  overflow: hidden;
-  flex: 0 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
+
 .btn-item {
   height: 56px !important;
   min-width: unset !important;
+  width: 100%;
   border-radius: none !important;
+  position: relative;
 }
 .v-card > *:last-child:not(.v-btn):not(.v-chip) {
   border-bottom-left-radius: unset !important;
@@ -159,11 +169,12 @@ p {
 }
 .btn-icon {
   position: absolute;
-  right: 10px;
-  top: 58px;
+  top: 1.72%;
+  right: 3%;
 }
+
 #plus-icon {
-  font-size: 3.8rem !important;
+  font-size: 49px !important;
   color: #6600cc;
 }
 .content {
@@ -175,5 +186,4 @@ p {
   height: 67px;
   overflow: hidden;
 }
-
 </style>
