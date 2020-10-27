@@ -110,14 +110,18 @@ p {
   display: flex;
   align-items: center;
   flex-direction: column;
+  background: #f8f8f8;
+  padding-top: 2rem;
 }
+
 .img-mask {
   display: flex;
-  width: 100px;
-  flex-shrink: 0;
+  max-width: 95px;
+  max-height: 95px;
 }
 .img-mask img {
   width: 100%;
+  object-fit: cover;
 }
 .info-text {
   padding-left: 8px;
@@ -128,7 +132,6 @@ p {
   padding: 23px;
   display: flex;
   border-bottom: solid 1.5px #e4e4e4;
-  margin-bottom: 2rem;
 }
 .title h1 {
   font-size: 20px;
@@ -139,6 +142,7 @@ p {
 }
 .v-card {
   width: 90%;
+  height: 95px;
   border-radius: 3px;
   margin: 11px;
   box-shadow: 0px 13px 18px #0000002b;
@@ -148,14 +152,15 @@ p {
 }
 .group-buttons {
   width: 2.1rem;
+  height: 97px;
   display: flex;
-  justify-content: center;
-  align-items: center;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .btn-item {
-  height: 56px !important;
+  height: 49px !important;
   min-width: unset !important;
   width: 100%;
   border-radius: none !important;
@@ -181,9 +186,9 @@ p {
   display: flex;
 }
 #description {
-  width: 11rem;
+  width: 95%;
   word-break: break-word;
-  height: 67px;
+  height: 48px;
   overflow: hidden;
 }
 </style>
