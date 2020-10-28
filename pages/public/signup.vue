@@ -24,21 +24,18 @@
         </v-row>
         <v-row>
           <v-col cols="12">
-            <!-- Input Field --> 
             <v-form ref="form" v-model="status" lazy-validation>
               <v-text-field
                 v-model="form.name"
                 :rules="nameRules"
-                placeholder="Digite seu nome"
-                color="#60c"
+                placeholder="Digite seu nome"       
                 label="Qual é o seu nome?"
                 name="name"
                 required
               ></v-text-field>
               <v-text-field
                 v-model="form.email"
-                placeholder="Digite seu e-mail"
-                color="#60c"
+                placeholder="Digite seu e-mail"    
                 :rules="emailRules"
                 label="E o seu e-mail?"
                 name="email"
@@ -61,7 +58,6 @@
               <v-text-field
                 v-model="form.password"
                 placeholder="Digite sua senha"
-                color="#60c"
                 label="Crie sua senha"
                 name="password"
                 :rules="passwordRules"
@@ -72,26 +68,18 @@
               ></v-text-field>
               <v-text-field
                 v-model="form.confirmPassword"
-                style=" margin-top:-15px !important; margin-bottom:20px;"
                 placeholder="Confirme sua senha"
-                color="#60c"
                 :rules="confirmPasswordRules"
                 :type="showConfirmPass ? 'password' : 'text'"
                 :append-icon="showConfirmPass ? 'mdi-eye-off' : 'mdi-eye'"
                 required
                 @click:append="() => (showConfirmPass = !showConfirmPass)"
               ></v-text-field>
-              <!-- Button Purple Solid -->
               <v-btn
-                class="btn__content"
-                color="#60c"
-                dark
-                block
-                depressed
-                large
-                @click="submit"
-                >Cadastrar</v-btn
-              >
+              class="btn-block btn-primary"                
+              @click="submit">
+                Cadastrar
+              </v-btn>
             </v-form>
           </v-col>
           <v-col cols="12" class="text-center">
@@ -310,13 +298,6 @@ export default {
 </script>
 
 <style scoped>
-@import url('https://fonts.googleapis.com/css?family=Montserrat:400,500,900&display=swap');
-
-/* Global */
-* {
-  font-family: 'Montserrat', Helvetica, Arial, sans-serif !important;
-}
-
 .flex {
   animation: intro 300ms backwards;
   animation-delay: 350ms;
@@ -332,10 +313,8 @@ export default {
   font-weight: 900;
   line-height: 24px;
   text-transform: uppercase;
-  color: #6600cc;
-  width: 90%;
-  margin-left: 50%;
-  transform: translateX(-50%);
+  color: var(--primary);
+  width: 100%;
 }
 
 /* Logo */
@@ -354,118 +333,26 @@ export default {
 /* Form */
 .v-form {
   width: 100%;
-  /* inputs */
 }
 
-::v-deep .theme--light.v-text-field {
-  margin-top: 0;
-}
-
-::v-deep .v-input {
-  width: 90%;
-  margin-left: 50%;
-  transform: translateX(-50%);
-}
-
-::v-deep .theme--light.v-input:not(.v-input--is-disabled) input {
-  font-size: 13px;
-  color: #60c;
-}
-
-::v-deep .theme--light.v-select .v-select__selection--comma {
-  font-size: 14px;
-  font-weight: 200;
-  color: #6600cc !important;
-}
-
-::v-deep
-  .theme--light.v-text-field:not(.v-input--has-state)
-  > .v-input__control
-  > .v-input__slot:hover:before {
-  border-color: #60c;
-}
-
-.theme--light.v-text-field:not(.v-input--has-state)
-  > .v-input__control
-  > .v-input__slot:hover:before {
-  border-color: #6600cc !important;
-}
-::v-deep .theme--light.v-label,
 ::v-deep .theme--light.v-icon {
-  font-size: 17px !important;
-  font-weight: 650;
-  line-height: 15px;
-  color: #6600cc;
-}
-
-.theme--light.v-input:not(.v-input--is-disabled) input {
-  color: #6600cc !important;
-  font-size: 16px;
-}
-::v-deep .theme--light.v-icon {
-  font-size: 20px;
+  color: var(--primary);
 }
 
 ::v-deep .v-btn {
   margin-top: 15px;
 }
 
-::v-deep .v-radio {
-  margin-left: -14px;
-}
-/* Button Purple Solid */
-.btn__content {
-  color: #fff;
-  font-size: 15px;
-  font-weight: 900;
-  line-height: 15px;
-}
-::v-deep .v-text-field--is-booted {
-  font-size: 16px !important;
-  padding-top: 0 !important;
-  margin-top: 5% !important;
-  color: #6600cc;
-}
-.employee__text {
-  font-size: 12px;
-  font-weight: 700;
-  line-height: 15px;
-  color: #6600cc;
-  margin-left: 3%;
-}
-::v-deep .v-date-picker-table {
-  height: 280px !important;
-}
-
 ::v-deep .v-card__actions {
   padding: 0;
 }
 
-::v-deep
-  .theme--light.v-text-field
-  > .v-input__control
-  > .v-input__slot::before {
-  border-color: #aa56ff;
-}
-.theme--dark.v-input:not(.v-input--is-disabled) input {
-  color: #6600cc;
-}
 ::v-deep .v-list-item .v-list-item__title,
 .v-list-item .v-list-item__subtitl {
-  color: #6600cc;
+  color: var(--primary);
   font-size: 14px;
 }
 
-::v-deep
-  .v-text-field.v-input--has-state
-  > .v-input__control
-  > .v-input__slot:before {
-  border-color: #ff5252; /* cor da borda quando der estado de erro */
-}
-::v-deep ::placeholder {
-  line-height: 15px;
-  color: #aa56ff !important;
-}
 ::v-deep .v-messages__message {
   color: #ff5252;
   font-size: 14px;
@@ -474,7 +361,7 @@ export default {
 
 .login-link {
   font-size: 14px;
-  color: #6600cc;
+  color: var(--primary);
 }
 
 .hide-form {

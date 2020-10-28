@@ -12,10 +12,7 @@
       <v-container>
         <v-row>
           <v-col cols="12" class="relative-col">
-            <v-btn class="btn-back" text icon @click="goBack">
-              <v-icon>mdi-arrow-left</v-icon>
-            </v-btn>
-            <h2 class="page-title">Alterar Senha</h2>
+            <HeaderBar :title="'Alterar Senha'" :back-page="true"></HeaderBar>
           </v-col>
         </v-row>
 
@@ -53,7 +50,6 @@
                 required
                 @click:append="() => (showConfirmNewPass = !showConfirmNewPass)"
               ></v-text-field>
-              <!-- Button Purple Solid -->
               <v-btn
                 class="change-btn"
                 color="#60c"
@@ -81,9 +77,13 @@
 
 <script scoped>
 import auth from '../../services/http/auth';
+import HeaderBar from '~/components/Header.vue';
 
 export default {
   name: 'ChangePassword',
+  components: {
+    HeaderBar
+},
   data() {
     return {
       status: true,
@@ -176,11 +176,6 @@ export default {
 </script>
 
 <style scoped>
-/* Global */
-* {
-  font-family: 'Montserrat', Helvetica, Arial, sans-serif !important;
-}
-
 .flex {
   animation: intro 300ms backwards;
   animation-delay: 350ms;
@@ -206,18 +201,11 @@ export default {
   line-height: 19px;
   text-align: center;
   text-transform: uppercase;
-  color: #6600cc;
+  color: var(--primary);
 }
 
 .relative-col {
   position: relative;
-}
-
-::v-deep .btn-back {
-  position: absolute;
-  left: 0;
-  top: 0;
-  margin-top: 3px;
 }
 
 .img-fluid {
@@ -227,74 +215,6 @@ export default {
   max-width: 100%;
 }
 
-::v-deep .theme--light.v-btn::before {
-  background-color: transparent;
-}
-
-/* inputs */
-::v-deep .theme--light.v-text-field {
-  margin-top: 0;
-}
-
-::v-deep .theme--light.v-input:not(.v-input--is-disabled) input {
-  font-size: 12px;
-  color: #60c;
-}
-
-::v-deep
-  .theme--light.v-text-field:not(.v-input--has-state)
-  > .v-input__control
-  > .v-input__slot:hover:before {
-  border-color: #60c;
-}
-
-::v-deep .theme--light.v-label,
-::v-deep .theme--light.v-icon {
-  font-size: 12px;
-  font-weight: 600;
-  line-height: 15px;
-  color: #aa56ff;
-}
-
-::v-deep .btn-back .theme--light.v-icon {
-  color: #60c;
-  font-size: 25px;
-}
-
-::v-deep .theme--light.v-icon {
-  font-size: 20px;
-}
-
-/* Button Purple Solid */
-::v-deep .change-btn {
-  margin-top: 20px;
-  width: 100%;
-  box-shadow: 0 4px 5px gray !important;
-}
-::v-deep .v-text-field {
-  margin: 0 6% 0 6% !important;
-}
-
-::v-deep .v-btn__content {
-  color: #fff;
-  font-size: 12px;
-  font-weight: 900;
-  line-height: 15px;
-}
-
-::v-deep
-  .theme--light.v-text-field
-  > .v-input__control
-  > .v-input__slot::before {
-  border-color: #aa56ff;
-}
-
-::v-deep
-  .v-text-field.v-input--has-state
-  > .v-input__control
-  > .v-input__slot:before {
-  border-color: #ff5252; /* cor da borda quando der estado de erro */
-}
 
 ::v-deep .v-messages__message {
   color: #ff5252;
@@ -315,6 +235,6 @@ export default {
   font-size: 18px;
   line-height: 22px;
   text-align: center;
-  color: #60c;
+  color: var(--primary);
 }
 </style>

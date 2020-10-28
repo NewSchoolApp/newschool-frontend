@@ -52,8 +52,11 @@
               />
             </div>
           </v-form>
-          <!-- Button Purple Solid -->
-          <v-btn color="primary" class="save-button" @click="nextTest">Próximo</v-btn>
+          <v-btn
+          class="btn-block btn-primary"
+          @click="nextTest">
+            Próximo
+          </v-btn>
         </div>
 
         <v-snackbar
@@ -245,7 +248,7 @@ h1 {
   font-size: 1em;
   line-height: 36px;
   text-align: center;
-  color: #6600cc;
+  color: var(--primary);
 }
 
 @media screen and (max-width: 20.625em) {
@@ -259,7 +262,7 @@ h3 {
   font-size: 1em;
   line-height: initial;
   text-align: left;
-  color: #6600cc;
+  color: var(--primary);
 }
 
 h4 {
@@ -280,34 +283,20 @@ h4 {
 .alternatives-container {
   margin-top: 1.5em;
 }
-/* Button Purple Solid */
-.save-button {
-  height: 45px !important;
-  width: 100%;
-  font-weight: 900;
-  font-size: 12px !important;
-  margin-top: 2rem;
-  display: flex;
-  align-items: center;
-  text-align: center;
-  color: #ffffff;
-}
 
-.v-button__content {
-  font-weight: 900;
-  font-size: 12px;
-  line-height: 14px;
-}
-
-.back-button {
-  min-width: 0 !important;
-  float: left;
+::v-deep .btn-primary{
+  margin-top: 25px;
 }
 
 @mixin inner-text-checkbox {
   font-weight: 900;
-  color: #60c;
+  color: var(--primary);
   margin-right: 0.5em;
+}
+
+::v-deep .theme--light.v-label {
+    color: rgba(0,0,0,.6) !important;
+    font-weight: 500;
 }
 
 ::v-deep .first-alternative > div > div > label:before {

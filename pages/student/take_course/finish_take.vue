@@ -6,8 +6,11 @@
         <h1>AEEEE, parabéns por mais esse passo!</h1>
       </div>
       <div id="container__btn">
-        <!-- Button Purple Solid -->
-        <v-btn color="#60c" dark block depressed large @click="finish">Meu Certificado</v-btn>
+        <v-btn
+        class="btn-block btn-primary"
+        @click="finish">
+          Meu Certificado
+        </v-btn>
       </div>
     </main>
   </div>
@@ -60,7 +63,7 @@ main {
   flex-direction: column;
 }
 h1 {
-  color: #60c;
+  color: var(--primary);
   font-weight: 600;
   font-size: 1.4rem;
   text-align: center;

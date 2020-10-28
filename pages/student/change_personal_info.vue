@@ -1,6 +1,6 @@
 <template>
   <div>
-    <HeaderBar :title="'Alterar Dados'" :back-page="true"></HeaderBar>
+    <HeaderBar :title="'Alterar Dados'" :back-page="true" />
     <v-layout justify-center>
       <div v-if="loading" class="spiner-container">
         <v-progress-circular
@@ -45,21 +45,17 @@
               </v-col>
               <v-col cols="12">
                 <v-btn
-                  class="btn-block btn-submit btn-primary"
-                  depressed
-                  large
-                  @click="submit"
-                  >Alterar</v-btn
-                >
+                class="btn-block btn-primary"
+                @click="submit">
+                  Alterar
+                </v-btn>
               </v-col>
               <v-col cols="12">
                 <v-btn
-                  class="btn-block btn-submit btn-second"
-                  depressed
-                  large
-                  to="/aluno/alterar-senha"
-                  >Alterar Senha</v-btn
-                >
+                class="btn-block btn-white"
+                to="/aluno/alterar-senha">
+                  Alterar Senha
+                </v-btn>
               </v-col>
             </v-form>
             <v-snackbar
@@ -81,17 +77,11 @@
     <navigation-bar />
   </div>
 </template>
+
 <router>
 {
   path : '/aluno/alterar',
   name: 'alterar'
-}
-
-</router>
-
-<router>
-{
-  path : '/aluno/alterar'
 }
 </router>
 
@@ -203,14 +193,6 @@ export default {
 </script>
 
 <style scoped>
-@import url('https://fonts.googleapis.com/css?family=Montserrat:400,500,900&display=swap');
-@import url('https://fonts.googleapis.com/css?family=Lato&display=swap');
-
-/* Global */
-* {
-  font-family: 'Montserrat', Helvetica, Arial, sans-serif !important;
-}
-
 .flex {
   animation: intro 300ms backwards;
   animation-delay: 350ms;
@@ -220,111 +202,13 @@ export default {
   background: #fff !important;
 }
 
-/* Spinner */
-.spiner-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 100vh;
-}
-
-/* Placeholder */
-::v-deep ::placeholder {
-  color: #6600cc !important;
-}
-
-/* Page */
-.page-title {
-  font-family: 'Lato', sans-serif;
-  font-style: normal;
-  font-weight: 900;
-  font-size: 16px;
-  text-transform: uppercase;
-  line-height: 19px;
-  text-align: center;
-  color: #6600cc;
-}
-
 .relative-col {
   position: relative;
 }
+
 /* Form */
 .v-form {
   width: 100%;
-}
-
-::v-deep .theme--light.v-label {
-  font-weight: 600;
-  color: #6600cc !important;
-}
-
-::v-deep
-  .theme--light.v-text-field
-  > .v-input__control
-  > .v-input__slot:before {
-  border: 1px solid #6600cc !important;
-}
-
-::v-deep
-  .theme--light.v-text-field:not(.v-input--has-state)
-  > .v-input__control
-  > .v-input__slot:hover:before {
-  border-color: #6600cc !important;
-}
-
-::v-deep .theme--light.v-input:not(.v-input--is-disabled) input {
-  color: #6600cc !important;
-}
-
-::v-deep .v-input__slot {
-  margin-top: 20px !important;
-  padding-left: 5px !important;
-  width: 100%;
-  border-radius: unset !important;
-  background-color: #fff !important;
-  box-shadow: none !important;
-}
-
-::v-deep .v-text-field {
-  padding-top: 0 !important;
-  margin: 0 6% 0 6% !important;
-  color: #6600cc;
-}
-
-::v-deep .v-text-field input {
-  font-size: 12px;
-  line-height: 15px;
-}
-
-::v-deep .btn-back .theme--light.v-icon {
-  color: #60c;
-  font-size: 25px;
-}
-
-::v-deep .v-icon.v-icon.v-icon--link {
-  color: #aa56ff;
-  padding-right: 5px;
-}
-
-::v-deep
-  .btn-primary.theme--light.v-btn:not(.v-btn--flat):not(.v-btn--text):not(.v-btn--outlined) {
-  background: #6600cc !important;
-  border-radius: 0 !important;
-  box-shadow: 0 4px 5px gray !important;
-  color: #fff !important;
-  font-weight: bold !important;
-}
-::v-deep
-  .btn-second.theme--light.v-btn:not(.v-btn--flat):not(.v-btn--text):not(.v-btn--outlined) {
-  background: #fff !important;
-  border: 1px solid #6600cc !important;
-  color: #6600cc !important;
-  font-weight: bold !important;
-}
-
-::v-deep .login-link {
-  color: #6600cc !important;
 }
 
 .hide-form {

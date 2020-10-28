@@ -43,27 +43,17 @@
             </v-col>
             <v-col cols="12">
               <v-btn
-                class="btn-block btn-primary btn-white"
-                role="button"
-                aria-haspopup="true"
-                aria-expanded="false"
-                depressed
-                large
-                @click="submit"
-                >Entrar</v-btn
-              >
+              class="btn-block btn-primary btn-white">
+                Entrar
+              </v-btn>
             </v-col>
           </v-form>
           <v-col cols="12">
-            <v-btn
-              dark
-              block
-              depressed
-              large
-              to="/cadastro"
-              class="btn-transparent"
-              >Cadastrar</v-btn
-            >
+            <v-btn              
+            to="/cadastro"
+            class="btn-block btn-transparent">
+              Cadastrar
+            </v-btn>
           </v-col>
           <v-col cols="12" class="text-center">
             <v-btn text color="white" @click="loginSocial('facebook')">
@@ -72,7 +62,7 @@
           </v-col>
           <v-col cols="12" class="text-center">
             <v-btn text color="white" @click="loginSocial('google')">
-              <v-icon dark left>mdi-google-glass</v-icon>Entrar com Google
+              <v-icon dark left>mdi-google</v-icon>Entrar com Google
             </v-btn>
           </v-col>
           <!-- <v-col cols="12" class="text-center">
@@ -246,15 +236,6 @@ export default {
 </script>
 
 <style scoped>
-.theme--light.v-icon {
-  color: #d6adff;
-}
-.theme--light.v-icon {
-  color: #d6adff;
-}
-::placeholder {
-  color: #aa56ff !important;
-}
 .bg {
   width: 100%;
   height: 100%;
@@ -265,7 +246,7 @@ export default {
 }
 
 ::v-deep .v-dialog {
-  background: #fff;
+  background-color: #fff;
   text-align: center;
 }
 
@@ -275,24 +256,6 @@ export default {
 
 .v-form {
   width: 100%;
-}
-
-.v-input__slot:before,
-.v-input__slot::before {
-  border-color: #c58aff !important;
-}
-
-.v-text-field > .v-input__control > .v-input__slot:after {
-  border-color: #fff !important;
-}
-
-.v-label {
-  color: #c58aff !important;
-}
-
-.primary--text {
-  color: #c58aff !important;
-  caret-color: #c58aff !important;
 }
 
 .container-spinner,
@@ -342,11 +305,25 @@ export default {
   color: #c58aff;
 }
 
-::v-deep .v-dialog {
-  background-color: #fff;
-}
-
 ::v-deep .v-card__title + .v-card__text {
   text-align: center;
+}
+
+::v-deep .v-input input {
+  color: #FFFFFF !important;
+}
+
+::v-deep .v-label {
+  font-weight: 500 !important;
+  color:rgba(255, 255, 255, 0.7) !important;
+}
+
+.v-text-field {
+  border-color: rgba(255, 255, 255, 0.7) !important;
+}
+
+::v-deep input:-webkit-autofill{
+  transition: background-color 9999s ease-in-out 0s;
+  -webkit-text-fill-color: #fff !important;
 }
 </style>

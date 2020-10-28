@@ -3,7 +3,6 @@
     
     <h2 class="resources-list__header">{{name}}
       <n-link :to="redirect ? `${path  || ''}/new` : ''">
-      <!-- Button Add Hollow -->
         <v-btn class="add-button" text icon color="primary">
           <v-icon>mdi-plus-circle-outline</v-icon>
         </v-btn>
@@ -68,7 +67,7 @@ a {
   line-height: 24px;
   text-transform: uppercase;
 
-  color: #6600CC;
+  color: var(--primary);
   margin-bottom: 10px;
 }
 
@@ -114,7 +113,6 @@ a {
   margin-left: 0;
 }
 
-/* Button Add Hollow */
 .add-button {
   min-width: 0 !important;
 }

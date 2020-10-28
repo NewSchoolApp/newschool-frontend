@@ -3,13 +3,12 @@
     <main id="page">
       <h3>New School</h3>
       <p>Front-end</p>
-      <!-- Button Purple Hollow -->
-      <v-btn class="ma-2" tile outlined color="primary" to="/contribua">Contribua</v-btn>
-      <v-btn class="ma-2" tile outlined color="primary" to="/login">Login</v-btn>
-      <v-btn class="ma-2" tile outlined color="primary" to="/aluno/home">home</v-btn>
-      <v-btn class="ma-2" tile outlined color="primary" to="/sobre">Quem Somos</v-btn>
-      <v-btn class="ma-2" tile outlined color="primary" to="/contato">Fale Conosco</v-btn>
-      <v-btn class="ma-2" tile outlined color="primary" to="/invista">Investidores</v-btn>
+      <v-btn class="btn-white" to="/contribua">Contribua</v-btn>
+      <v-btn class="btn-white" to="/login">Login</v-btn>
+      <v-btn class="btn-white" to="/aluno/home">home</v-btn>
+      <v-btn class="btn-white" to="/sobre">Quem Somos</v-btn>
+      <v-btn class="btn-white" to="/contato">Fale Conosco</v-btn>
+      <v-btn class="btn-white" to="/invista">Investidores</v-btn>
     </main>
   </div>
 </template>
@@ -37,5 +36,9 @@ main {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.btn-white {
+  margin: 5px;  
 }
 </style>

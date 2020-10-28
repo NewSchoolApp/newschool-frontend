@@ -137,7 +137,7 @@ h1 {
 }
 ::v-deep .v-btn--icon.v-size--default {
   height: unset;
-  color: #6600cc;
+  color: var(--primary);
 }
 .text__success {
   font-weight: 400;
