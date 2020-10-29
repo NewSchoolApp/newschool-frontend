@@ -98,7 +98,7 @@ h1 {
 }
 
 .welcome-subtitle {
-  color: #6600cc;
+  color: var(--primary);
   font-size: 1.1rem;
 }
 
@@ -164,7 +164,7 @@ h1 {
   font-weight: 900;
   font-size: 0.9rem;
   line-height: 17px;
-  color: #6600cc;
+  color: var(--primary);
   padding: 1.25em 0 0.5em 1.6em;
   text-transform: uppercase;
 }

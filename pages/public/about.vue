@@ -61,7 +61,7 @@ export default {
 <style scoped>
 ::v-deep .text {
   width: 100%;
-  color: #6600cc;
+  color: var(--primary);
   font-family: 'Montserrat';
   text-transform: uppercase;
 }

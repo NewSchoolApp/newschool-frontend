@@ -62,7 +62,7 @@ export default {
   width: 300px;
   height: 11rem;
   overflow: hidden;
-  background-color: #6600cc;
+  background-color: var(--primary);
 }
 
 .background-img {

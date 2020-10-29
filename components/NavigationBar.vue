@@ -99,7 +99,7 @@ export default {
   animation-duration: 0.2s;
 }
 >>> .v-item-group.v-bottom-navigation .v-btn.v-btn--active .v-btn__content {
-  color: #6600cc;
+  color: var(--primary);
 }
 
 @media (max-width: 375px) {
