@@ -43,45 +43,30 @@
               <p id="description">{{ course.description }}</p>
             </div>
             <v-btn
-              v-if="flagButtonTaken"
-              class="btn__primary"
-              color="#60c"
-              :loading="loadingInit"
-              :disabled="loadingInit"
-              dark
-              block
-              depressed
-              large
-              @click="continueCourse(course)"
-              >
+            v-if="flagButtonTaken"
+            class="btn-block btn-primary"
+            :loading="loadingInit"
+            :disabled="loadingInit"
+            @click="continueCourse(course)"
+            >
               Continuar
             </v-btn>
             <v-btn
-              v-else-if="flagButtonCompleted"
-              class="btn__primary"
-              color="#60c"
-              :loading="loadingInit"
-              :disabled="loadingInit"
-              dark
-              block
-              depressed
-              large
-              @click="goToCertificate(course.id)"
-              >
+            v-else-if="flagButtonCompleted"
+            class="btn-block btn-primary"
+            :loading="loadingInit"
+            :disabled="loadingInit"              
+            @click="goToCertificate(course.id)"
+            >
               Certificado
             </v-btn>
             <v-btn
-              v-else
-              class="btn__primary"
-              color="#60c"
-              :loading="loadingInit"
-              :disabled="loadingInit"
-              dark
-              block
-              depressed
-              large
-              @click="initCourse(course.id)"
-              >
+            v-else
+            class="btn-block btn-primary"
+            :loading="loadingInit"
+            :disabled="loadingInit"              
+            @click="initCourse(course.id)"
+            >
               Iniciar
             </v-btn>
           </main>
@@ -290,82 +275,53 @@ export default {
 </script>
 
 <style scoped lang="scss">
-h1 {
-  font-size: 1rem;
-}
-main {
-  padding: 0rem 1.6rem;
-}
-.mask__img {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  overflow: hidden;
-  height: 15rem;
-  margin-top: 0.5rem;
-
-  img {
-    width: 100%;
+  h1 {
+    font-size: 1rem;
   }
-}
-#head__bar {
-  display: flex;
-  justify-content: center;
-  padding: 1.6rem;
-  position: relative;
-}
-.info__box {
-  display: flex;
-  margin-top: 0.6rem;
-  flex-direction: column;
-}
-.info__box section {
-  width: 100%;
-  display: flex;
-  align-items: center;
-}
+  main {
+    padding: 0rem 1.6rem;
+  }
+  .mask__img {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    overflow: hidden;
+    height: 15rem;
+    margin-top: 0.5rem;
 
-#author__name {
-  font-size: 0.8555rem;
-  font-weight: 600;
-  margin-bottom: 0;
-}
-
-#description {
-  margin-top: 0.5rem;
-  color: gray;
-  font-size: smaller;
-  text-align: justify;
-}
-::v-deep .btn-back {
-  position: absolute;
-  left: 1rem;
-}
-::v-deep .btn-back .theme--light.v-icon {
-  color: #60c;
-  font-size: 35px;
-}
-.btn__primary {
-  width: 100%;
-  margin-top: 1rem;
-  font-weight: 700;
-  box-shadow: 0px 4px 4px #21212154 !important;
-}
-.v-progress-circular {
-  color: #b2b2b2;
-}
-.v-btn__loader {
-  background-color: #e9e9e9;
-}
-.theme--dark.v-btn.v-btn--disabled:not(.v-btn--flat):not(.v-btn--text):not(.v-btn--outlined) {
-  background-color: #6600cc !important;
-}
-.theme--light.v-icon {
-  color: #ffffff;
-  font-size: 3rem;
-}
-#page {
-  margin-bottom: 5rem !important;
-}
+    img {
+      width: 100%;
+    }
+  }
+  .info__box {
+    display: flex;
+    margin-top: 0.6rem;
+    flex-direction: column;
+  }
+  .info__box section {
+    width: 100%;
+    display: flex;
+    align-items: center;
+  }
+  #author__name {
+    font-size: 0.8555rem;
+    font-weight: 600;
+    margin-bottom: 0;
+  }
+  #description {
+    margin-top: 0.5rem;
+    color: gray;
+    font-size: smaller;
+    text-align: justify;
+  }
+  .v-progress-circular {
+    color: #b2b2b2;
+  }
+  .v-btn__loader {
+    background-color: #e9e9e9;
+  }
+  #page {
+    margin-bottom: 5rem !important;
+  }
 </style>

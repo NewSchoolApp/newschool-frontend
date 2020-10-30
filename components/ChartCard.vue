@@ -107,7 +107,7 @@ export default {
 
 .cardTitle{
   padding: 10px 20px 0 20px;
-  color: #6600cc;
+  color: var(--primary);
   font-size: 14px;
 }
 

@@ -60,15 +60,11 @@
                     required
                     @blur="focusMessage($event.target.value)"
                   ></v-textarea>
-                  <v-card>
-                    <v-btn
-                      class="btn-block btn-submit"
-                      depressed
-                      large
-                      @click="submit"
-                      >Enviar</v-btn
-                    >
-                  </v-card>
+                  <v-btn 
+                  class="btn-block btn-primary" 
+                  @click="submit">
+                    Enviar
+                  </v-btn>
                 </v-col>
               </v-form>
               <navigation-bar />
@@ -198,13 +194,12 @@ export default {
 </script>
 
 <style scoped>
-@import url('https://fonts.googleapis.com/css?family=Montserrat:400,500,900&display=swap');
-
 .align-global {
   width: 100%;
   max-width: 400px;
   justify-content: center;
   background: #ffffff;
+  padding-bottom: 50px;
 }
 @media (min-width: 400px) {
   .align-global {
@@ -212,9 +207,6 @@ export default {
   }
 }
 @media (max-width: 320px) {
-  ::v-deep.v-input input {
-    max-height: 25px !important;
-  }
   .container {
     padding: 0px 12px 0 12px !important;
   }
@@ -232,70 +224,12 @@ export default {
   z-index: -1;
   padding: 20px 12px 0 12px;
 }
-.page-title {
-  font-size: 24px;
-  font-weight: 900;
-  text-transform: uppercase;
-  color: #6600cc;
-  text-align: center;
-}
 .banner {
   width: 90%;
   margin: 5% 5% -5% 5%;
 }
-
-h2 {
-  width: 100%;
-}
-::v-deep .v-text-field {
-  padding-top: 0;
-  margin-top: 0;
-  color: #6600cc;
-  padding-top: 0;
-  color: #6600cc;
-  margin: 3.5% 4.5%;
-}
-
 ::v-deep .v-form {
   width: 100%;
-  color: #6600cc;
   margin: 0 4%;
-}
-::v-deep .theme--light.v-label {
-  font-weight: 500;
-  color: #aa56ff;
-}
-
-::v-deep
-  .theme--light.v-text-field
-  > .v-input__control
-  > .v-input__slot:before {
-  border-color: #aa56ff !important;
-}
-
-::v-deep
-  .theme--light.v-text-field:not(.v-input--has-state)
-  > .v-input__control
-  > .v-input__slot:hover:before {
-  border-color: #6600cc !important;
-}
-
-::v-deep .theme--light.v-input:not(.v-input--is-disabled) input {
-  color: #6600cc !important;
-}
-.theme--light.v-btn:not(.v-btn--flat):not(.v-btn--text):not(.v-btn--outlined) {
-  background: #6600cc !important;
-  border-radius: 0 !important;
-  color: #fff;
-  font-weight: 600;
-  width: 100%;
-}
-::v-deep .theme--light.v-input:not(.v-input--is-disabled) textarea {
-  color: #6600cc;
-}
-
-::v-deep .v-card {
-  box-shadow: 0px 5px 10px gray;
-  margin: 4% 4% 0 4%;
 }
 </style>

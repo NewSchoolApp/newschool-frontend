@@ -1,5 +1,5 @@
 <template>
-  <v-layout justify-center>
+  <v-layout class="container">
     <v-flex ref="flex" xs10 sm8 md6>
       <v-container>
         <v-col cols="12" class="initial-text">
@@ -27,12 +27,13 @@
     <navigation-bar />
   </v-layout>
 </template>
+
 <router>
 {
     path: '/construindo'
 }
-
 </router>
+
 <script>
 import NavigationBar from '~/components/NavigationBar.vue';
 // teste
@@ -42,25 +43,24 @@ export default {
   },
 };
 </script>
-<router>
-  {
-    path: '/construindo'
-  }
-</router>
-
 
 <style scoped>
 /* Global */
 * {
-  font-family: 'Montserrat', Helvetica, Arial, sans-serif !important;
   max-width: 600px;
   margin: 0 auto;
-  color: #6600cc;
-  padding-left: 5px;
+  color: var(--primary);
 }
 .container {
-  width: 104%;
+  width: 100%;
+  position: absolute;
+  top: 0px;
+  left: 0px;
   padding: 0px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 /* Text Header */
 .initial-text {
@@ -79,22 +79,6 @@ export default {
   width: 90%;
   margin: 15% 5%;
 }
-
-/* Date Text */
-.data-text {
-  font-style: normal;
-  font-weight: 900;
-  font-size: 35px;
-  line-height: 59px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  letter-spacing: 0.2em;
-  color: #6600cc;
-  width: 90%;
-  margin: 0 6%;
-}
 .end-text {
   font-style: normal;
   text-decoration: underline;
@@ -105,7 +89,7 @@ export default {
   display: flex;
   align-items: center;
   text-align: center;
-  color: #6600cc;
+  color: var(--primary);
   margin: 8px auto;
 }
 @media (max-width: 340px){

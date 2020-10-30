@@ -134,9 +134,8 @@ p {
   border-bottom: solid 1.5px #e4e4e4;
 }
 .title h1 {
-  font-size: 20px;
-  line-height: 24px;
-  color: #6600cc;
+  font-size: 25px;
+  color: var(--primary);
   font-weight: 900;
   font-family: 'Montserrat', sans-serif !important;
 }
@@ -179,8 +178,8 @@ p {
 }
 
 #plus-icon {
-  font-size: 49px !important;
-  color: #6600cc;
+  font-size: 3.8rem !important;
+  color: var(--primary);
 }
 .content {
   display: flex;

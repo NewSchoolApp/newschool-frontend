@@ -137,12 +137,6 @@ export default {
 </router>
 
 <style scoped>
-* {
-  font-family: Montserrat;
-  color: #1a1a1a;
-  font-size: 10px;
-}
-
 p {
   margin-bottom: 5px !important;
 }
@@ -158,7 +152,7 @@ p {
   font-size: 16px;
   margin-top: 10px;
   text-transform: uppercase;
-  color: #6600cc;
+  color: var(--primary);
 }
 
 .thumb {
@@ -175,7 +169,7 @@ p {
   width: 300px;
   height: 11rem;
   overflow: hidden;
-  background-color: #6600cc;
+  background-color: var(--primary);
   box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.5);
 }
 
@@ -217,7 +211,7 @@ p {
   flex-direction: column;
   text-transform: uppercase;
   font-size: 8px;
-  color: #6600cc;
+  color: var(--primary);
   line-height: 10px;
   align-items: center;
   justify-content: center;

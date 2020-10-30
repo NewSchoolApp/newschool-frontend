@@ -174,7 +174,7 @@ export default {
 .certificate__title {
   .new_school__bold {
     font-weight: 700;
-    color: #6600cc;
+    color: var(--primary);
   }
 }
 .main {
@@ -190,10 +190,6 @@ export default {
 }
 .new__logo {
   display: none;
-}
-.download {
-  margin: 10% auto;
-  color: #6600cc;
 }
 .assignature {
   margin-top: -55px;
@@ -223,11 +219,6 @@ h6 {
   font-size: 12px !important;
   margin-top: 2%;
 }
-
-button {
-  cursor: pointer !important;
-}
-
 @media print {
   @page {
     margin: 0;

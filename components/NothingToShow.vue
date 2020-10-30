@@ -26,7 +26,7 @@ export default {
   opacity: 0.5;
   text-align: center;
   .text__without__content {
-    color: #6600cc;
+    color: var(--primary);
     text-transform: uppercase;
     font-size: 3.5em;
     font-weight: normal;
