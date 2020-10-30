@@ -31,7 +31,7 @@ export default {
             component: resolve(__dirname, 'pages/student/home.vue'),
           },
           {
-            path: "/certificado-info/:idUser/:idCourse",
+            path: '/certificado-info/:idUser/:idCourse',
             name: 'certificado-info',
             component: resolve(__dirname, 'pages/public/certificate_info.vue'),
           },
@@ -178,6 +178,7 @@ export default {
 
     endpoints: {
       CERTIFICATES_ME: 'api/v1/course-taken/certificates/user/',
+      RANKING: '/api/v1/gamefication/ranking',
       USER_ME: 'api/v1/user/me',
       LOGIN: 'oauth/token',
       SIGN_UP: 'api/v1/user/student',
@@ -195,10 +196,10 @@ export default {
       MY_COURSES: 'api/v1/course-taken/user/',
       FACEBOOK_LOGIN: 'oauth/facebook/token',
       GOOGLE_LOGIN: 'oauth/google/token',
-      
+
       TOTAL_USERS: '/api/v1/user',
       ACTIVE_USERS: '/api/v1/dashboard/user/quantity',
-      COURSE_VIEWS: '/api/v1/dashboard/course/views',      
+      COURSE_VIEWS: '/api/v1/dashboard/course/views',
       NS_CERTIFICATED_QUANTITY: '/api/v1/dashboard/course-taken/user/quantity',
       CERTIFICATE_QUANTITY: '/api/v1/dashboard/certificate/quantity',
     },
@@ -356,7 +357,7 @@ export default {
      ** You can extend webpack config here
      */
     publicPath: '/nuxtfiles/',
-    extend(config, ctx) {},
+    extend(config, ctx) { },
   },
 
   auth: {
