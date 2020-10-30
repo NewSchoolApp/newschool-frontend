@@ -323,7 +323,7 @@ export default {
 }
 
 .btn-search {
-  background: #6600cc !important;
+  background: var(--primary) !important;
   border-radius: 0 !important;
   color: #fff;
   font-weight: 600;

@@ -9,7 +9,9 @@
         </v-col>
         <v-col cols="12" class="initial-text">
           <v-row>
-            <p>Então relaxa que logo logo vem novidade ai, Tamo Together wow!</p>
+            <p>
+              Então relaxa que logo logo vem novidade ai, Tamo Together wow!
+            </p>
           </v-row>
         </v-col>
         <v-col cols="12">
@@ -19,7 +21,9 @@
         </v-col>
         <v-col cols="12">
           <v-row>
-          <router-link to="/contribua" class="end-text">Quer ajudar a gente?</router-link>
+            <router-link to="/contribua" class="end-text"
+              >Quer ajudar a gente?</router-link
+            >
           </v-row>
         </v-col>
       </v-container>
@@ -39,7 +43,7 @@ import NavigationBar from '~/components/NavigationBar.vue';
 // teste
 export default {
   components: {
-    NavigationBar
+    NavigationBar,
   },
 };
 </script>
@@ -92,12 +96,12 @@ export default {
   color: var(--primary);
   margin: 8px auto;
 }
-@media (max-width: 340px){
-.img{
-  margin: 3% 5%;
-}
-.atribute-data span {
-  margin-left: 20%;
-}
+@media (max-width: 340px) {
+  .img {
+    margin: 3% 5%;
+  }
+  .atribute-data span {
+    margin-left: 20%;
+  }
 }
 </style>
