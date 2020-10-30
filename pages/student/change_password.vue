@@ -1,6 +1,6 @@
 <template>
   <div>
-    <HeaderBar :title="'ALTERAR A SENHA'" :back-page="true"></HeaderBar>
+    <HeaderBar :title="'ALTERAR A SENHA'" :back-page="true" />
 
     <v-layout justify-center>
       <div v-if="loading" class="spiner-container">
@@ -29,7 +29,6 @@
               >
                 <v-text-field
                   v-model="form.password"
-                  color="#60c"
                   label="Senha antiga *"
                   name="password"
                   :rules="passwordRules"
@@ -40,7 +39,6 @@
                 ></v-text-field>
                 <v-text-field
                   v-model="form.newPassword"
-                  color="#60c"
                   label="Nova senha *"
                   :rules="passwordRules"
                   :type="showNewPass ? 'password' : 'text'"
@@ -50,7 +48,6 @@
                 ></v-text-field>
                 <v-text-field
                   v-model="form.confirmNewPassword"
-                  color="#60c"
                   label="Confirmar nova senha *"
                   :rules="confirmPasswordRules"
                   :type="showConfirmNewPass ? 'password' : 'text'"
@@ -61,15 +58,10 @@
                   "
                 ></v-text-field>
                 <v-btn
-                  class="change-btn"
-                  color="#60c"
-                  dark
-                  block
-                  depressed
-                  large
-                  @click="switchPassword"
-                  >Alterar Senha</v-btn
-                >
+                class="btn-block btn-primary"                  
+                @click="switchPassword"
+                  >Alterar Senha
+                </v-btn>
               </v-form>
 
               <div v-else>
@@ -193,13 +185,6 @@ export default {
 </script>
 
 <style scoped>
-@import url('https://fonts.googleapis.com/css?family=Montserrat:400,500,900&display=swap');
-
-/* Global */
-* {
-  font-family: 'Montserrat', Helvetica, Arial, sans-serif !important;
-}
-
 .flex {
   animation: intro 300ms backwards;
   animation-delay: 350ms;
@@ -207,25 +192,6 @@ export default {
 
 .layout {
   background: #fff !important;
-}
-
-/* Spinner */
-.spiner-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 100vh;
-}
-
-/* Page */
-.page-title {
-  font-size: 16px;
-  font-weight: 900;
-  line-height: 19px;
-  text-align: center;
-  text-transform: uppercase;
-  color: #6600cc;
 }
 
 .relative-col {
@@ -237,75 +203,6 @@ export default {
   margin: 0 auto;
   width: 375px;
   max-width: 100%;
-}
-
-::v-deep .theme--light.v-btn::before {
-  background-color: transparent;
-}
-
-/* inputs */
-::v-deep .theme--light.v-text-field {
-  margin-top: 0;
-}
-
-::v-deep .theme--light.v-input:not(.v-input--is-disabled) input {
-  font-size: 12px;
-  color: #60c;
-}
-
-::v-deep
-  .theme--light.v-text-field:not(.v-input--has-state)
-  > .v-input__control
-  > .v-input__slot:hover:before {
-  border-color: #60c;
-}
-/* v-input theme--light v-text-field v-text-field--is-booted */
-::v-deep .v-label,
-::v-deep .mdi-eye-off {
-  font-size: 12px;
-  font-weight: 600;
-  line-height: 12px;
-  color: #aa56ff;
-}
-
-::v-deep .btn-back .theme--light.v-icon {
-  color: #60c;
-  font-size: 25px;
-}
-
-::v-deep .theme--light.v-icon {
-  font-size: 20px;
-}
-
-::v-deep .change-btn {
-  margin-top: 20px;
-  font-weight: 600;
-  width: 100%;
-  box-shadow: 0 4px 5px gray !important;
-}
-::v-deep .v-text-field {
-  margin: 0 6% 0 6% !important;
-}
-
-/* ::v-deep .v-btn__content {
-  color: #fff;
-  font-size: 12px;
-  font-weight: 900;
-  line-height: 15px;
-} */
-
-::v-deep
-  .theme--light.v-text-field
-  > .v-input__control
-  > .v-input__slot::before {
-  border-color: #aa56ff;
-}
-
-::v-deep
-  .v-text-field.v-input--has-state
-  > .v-input__control
-  > .v-input__slot:before {
-  border-color: #ff5252; /* cor da borda quando der estado de erro */
 }
 
 ::v-deep .v-messages__message {
@@ -327,8 +224,13 @@ export default {
   font-size: 18px;
   line-height: 22px;
   text-align: center;
-  color: #60c;
+  color: var(--primary);
 }
+
+::v-deep .btn-primary {
+  margin-bottom: 50px;
+}
+
 @media (max-width: 320px) {
   * {
     margin-top: -5px;

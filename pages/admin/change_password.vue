@@ -27,6 +27,7 @@
 
         <v-row>
           <v-col cols="12">
+            <!-- Input Field --> 
             <v-form ref="form" v-model="status" lazy-validation v-if="!isChanged">
               <v-text-field
                 color="#60c"
@@ -60,12 +61,7 @@
                 required
               ></v-text-field>
               <v-btn
-                class="change-btn"
-                color="#60c"
-                dark
-                block
-                depressed
-                large
+                class="btn-block btn-primary"                
                 @click="switchPassword"
               >Alterar Senha</v-btn>
             </v-form>
@@ -214,7 +210,7 @@ export default {
   line-height: 19px;
   text-align: center;
   text-transform: uppercase;
-  color: #6600cc;
+  color: var(--primary);
 }
 
 .relative-col {
@@ -247,11 +243,11 @@ export default {
 
 ::v-deep .theme--light.v-input:not(.v-input--is-disabled) input {
   font-size: 12px;
-  color: #60c;
+  color: var(--primary);
 }
 
 ::v-deep .theme--light.v-text-field:not(.v-input--has-state)>.v-input__control>.v-input__slot:hover:before {
-  border-color: #60c;
+  border-color: var(--primary);
 }
 
 ::v-deep .theme--light.v-label,
@@ -259,11 +255,11 @@ export default {
   font-size: 12px;
   font-weight: 600;
   line-height: 15px;
-  color: #aa56ff;
+  color: var(--primary-light);
 }
 
 ::v-deep .btn-back .theme--light.v-icon {
-  color: #60c;
+  color: var(--primary);
   font-size: 25px;
 }
 
@@ -271,11 +267,6 @@ export default {
   font-size: 20px;
 }
 
-::v-deep .change-btn {
-  margin-top: 20px;
-  width: 100%;
-  box-shadow: 0 4px 5px gray!important;
-}
 ::v-deep .v-text-field {
   margin: 0 6% 0 6% !important;
  }
@@ -288,7 +279,7 @@ export default {
 }
 
 ::v-deep .theme--light.v-text-field > .v-input__control > .v-input__slot::before {
-  border-color: #aa56ff;
+  border-color: var(--primary-light);
 }
 
 
@@ -315,6 +306,6 @@ export default {
   font-size: 18px;
   line-height: 22px;
   text-align: center;
-  color: #60c;
+  color: var(--primary);
 }
 </style>
