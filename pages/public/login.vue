@@ -43,7 +43,9 @@
             </v-col>
             <v-col cols="12">
               <v-btn
-              class="btn-block btn-primary btn-white">
+              class="btn-block btn-primary btn-white"
+              @click="submit"
+              >
                 Entrar
               </v-btn>
             </v-col>
