@@ -1,7 +1,7 @@
 <template>
   <div>
     <HeaderBar :title="'Certificados'" :back-page="true"></HeaderBar>
-    <v-container v-if="certificates.length">
+    <v-container class="container" v-if="certificates.length">
       <div
         v-for="certificate in certificates"
         :key="certificate.id"
@@ -54,18 +54,16 @@ export default {
 </router>
 
 <style lang="scss" scoped>
-* {
-  margin: 0;
-  padding: 0;
-  outline: 0;
-}
-
 .cards-box {
   display: flex;
   flex-direction: column;
   align-items: center;
   max-width: 500px;
   width: 100%;
+  margin-bottom: 25px;
+}
+
+.container {
   margin-bottom: 25px;
 }
 </style>

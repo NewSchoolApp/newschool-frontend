@@ -1,6 +1,6 @@
 <template>
   <div v-if="auth">
-    <side-menu class="intro-transition" v-show="viewMenu"></side-menu>
+    <side-menu v-show="viewMenu" class="intro-transition"></side-menu>
 
     <v-bottom-navigation
       scroll-target="#page"
@@ -10,9 +10,9 @@
       horizontal
     >
       <v-btn
-        class="btn-fixed menu__bottom"
         v-for="item in menu"
-        v-bind:key="item.id"
+        :key="item.id"
+        class="btn-fixed menu__bottom"
         :to="item.link"
         :class="item.class"
         @click="viewMenu = false"
@@ -21,7 +21,7 @@
         <v-icon>{{ item.icon }}</v-icon>
       </v-btn>
 
-      <v-btn class="btn-fixed" @click="setViewMenu" id="menu-btn">
+      <v-btn id="menu-btn" class="btn-fixed" @click="setViewMenu">
         <span>Outros</span>
         <v-icon>mdi-apps</v-icon>
       </v-btn>
@@ -34,11 +34,14 @@ import SideMenu from '~/components/SideMenu.vue';
 import auth from '~/services/http/auth';
 
 export default {
+  components: {
+    SideMenu,
+  },
   data: () => ({
     viewMenu: false,
     auth: false,
     menu: [
-      { id: 1, name: 'Home', icon: 'mdi-home', link: '/aluno/home' },
+      { id: 1, name: 'Início', icon: 'mdi-home', link: '/aluno/home' },
       { id: 2, name: 'Perfil', icon: 'mdi-account', link: '/aluno/perfil' },
       {
         id: 3,
@@ -55,9 +58,6 @@ export default {
       },
     ],
   }),
-  components: {
-    SideMenu,
-  },
   mounted() {
     const { status } = auth.isTokenValid();
     if (status) {
@@ -74,7 +74,7 @@ export default {
         this.menu[0].link = '/admin/home';
         this.menu[1].link = '/admin/perfil';
         this.menu[2].link = '/admin/listar-cursos';
-        this.menu[3].class = 'remove-certificates';
+        this.menu[3].link = '/admin/certificados';
       }
     },
   },
@@ -99,7 +99,7 @@ export default {
   animation-duration: 0.2s;
 }
 >>> .v-item-group.v-bottom-navigation .v-btn.v-btn--active .v-btn__content {
-  color: #6600cc;
+  color: var(--primary);
 }
 
 @media (max-width: 375px) {

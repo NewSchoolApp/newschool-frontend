@@ -16,9 +16,10 @@
     <div class="thumb">
       <div class="content-image" @click="gotoCertificate()">
         <button>
-          <img
+          <img v-if="showThumb"
             class="background-img"
             :src="certificate.course.thumbUrl"
+            @error="imageLoadError"
             alt="Imagem do curso"
           />
         </button>
@@ -42,13 +43,13 @@
       >
         <div class="box-icons">
           <network class="icon" network="facebook">
-            <v-icon color="purple darken-2"> mdi-facebook </v-icon>
+            <img src="~/assets/facebook-purple.png" alt />
           </network>
           <network class="icon" network="twitter">
-            <v-icon color="purple darken-2"> mdi-twitter </v-icon>
+            <img src="~/assets/twitter-purple.png" alt />
           </network>
           <network class="icon" network="linkedin">
-            <v-icon color="purple darken-2"> mdi-linkedin </v-icon>
+            <img src="~/assets/linkedin-purple.png" alt />
           </network>
         </div>
       </social-sharing>
@@ -100,6 +101,7 @@ export default {
   data: () => ({
     certificate: {},
     loading: true,
+    showThumb: true,
   }),
 
   computed: {
@@ -117,6 +119,9 @@ export default {
         `/pagina-certificado/${this.params.idUser}/${this.params.idCourse}/${forcePrint}`,
       );
     },
+    imageLoadError() {
+      this.showThumb = false;
+    },
   },
   mounted() {
     http.pageCertificate(this.params.idUser, this.params.idCourse).then(res => {
@@ -131,13 +136,7 @@ export default {
     path: "/certificado-info/:idUser/:idCourse"
 </router>
 
-<style>
-* {
-  font-family: Montserrat;
-  color: #1a1a1a;
-  font-size: 10px;
-}
-
+<style scoped>
 p {
   margin-bottom: 5px !important;
 }
@@ -153,7 +152,7 @@ p {
   font-size: 16px;
   margin-top: 10px;
   text-transform: uppercase;
-  color: #6600cc;
+  color: var(--primary);
 }
 
 .thumb {
@@ -170,7 +169,7 @@ p {
   width: 300px;
   height: 11rem;
   overflow: hidden;
-  background-color: #6600cc;
+  background-color: var(--primary);
   box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.5);
 }
 
@@ -203,7 +202,7 @@ p {
   padding-bottom: 30px;
 }
 
-.icon {
+::v-deep .icon {
   height: 35px;
   width: 35px;
   margin-right: 25px;
@@ -212,7 +211,7 @@ p {
   flex-direction: column;
   text-transform: uppercase;
   font-size: 8px;
-  color: #6600cc;
+  color: var(--primary);
   line-height: 10px;
   align-items: center;
   justify-content: center;

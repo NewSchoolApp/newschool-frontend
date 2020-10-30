@@ -38,7 +38,7 @@ export default {
       this.loading = true;
       http
         .getAll(
-          `${process.env.endpoints.STATE_COURSE}/user/${this.user.id}/course/${course.id}`,
+          `${process.env.endpoints.STATE_COURSE}/user/${this.$store.state.user.data.id}/course/${course.id}`,
         )
         .then(res => {
           // salvando o estado atual
@@ -50,7 +50,7 @@ export default {
           // Verificando qual o próximo passo
           http
             .getAll(
-              `${process.env.endpoints.CURRENT_STEP}/user/${this.user.id}/course/${course.id}`,
+              `${process.env.endpoints.CURRENT_STEP}/user/${this.$store.state.user.data.id}/course/${course.id}`,
             )
             .then(res => {
               if (res.data.type === 'NEW_TEST') {
@@ -137,7 +137,7 @@ h1 {
 }
 ::v-deep .v-btn--icon.v-size--default {
   height: unset;
-  color: #6600cc;
+  color: var(--primary);
 }
 .text__success {
   font-weight: 400;

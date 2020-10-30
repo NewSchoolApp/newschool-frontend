@@ -213,7 +213,7 @@ export default {
 }
 
 ::v-deep .title {
-  color: #6600cc;
+  color: var(--primary);
   font-family: 'Montserrat';
   font-style: normal;
   font-weight: 900;

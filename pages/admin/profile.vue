@@ -21,28 +21,24 @@
             </v-col>
             <v-col cols="12">
               <v-btn
-                large
-                color="#6600cc"
-                outlined
-                block
-                @click="goToChangePassword"
+              class="btn-block btn-white"
+              @click="goToChangePassword"
               >
                 Alterar Senha<v-icon right>mdi-key</v-icon></v-btn
               >
             </v-col>
             <v-col cols="12">
               <v-btn
-                large
-                color="#6600cc"
-                outlined
-                block
-                @click="goToChangeData"
+              class="btn-block btn-white"
+              @click="goToChangeData"
               >
                 Alterar Dados<v-icon right>mdi-pencil</v-icon></v-btn
               >
             </v-col>
             <v-col cols="12">
-              <v-btn large color="red" outlined block @click="goToExit">
+              <v-btn 
+              class="btn-block btn-white btn-alert"
+              @click="goToExit">
                 Sair<v-icon right>mdi-exit-to-app</v-icon></v-btn
               >
             </v-col>
@@ -110,7 +106,11 @@ export default {
 <style scoped>
 #page h1,
 #page p {
-  color: #6600cc;
+  color: var(--primary);
   text-transform: uppercase;
+}
+::v-deep .btn-alert{
+  color: #f44336 !important;
+  border-color: #f44336;
 }
 </style>
