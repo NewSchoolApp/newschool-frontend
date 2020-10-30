@@ -1,6 +1,6 @@
 <template>
   <div class="page">
-    <HeaderBar :title="'RANKING'" :back-page="true"></HeaderBar>
+    <HeaderBar :title="'Ranking'" :back-page="true"></HeaderBar>
     <template>
       <v-row class="row-container">
         <img
@@ -12,56 +12,54 @@
         />
         <v-dialog v-model="dialog" max-width="290">
           <v-card class="filter-modal">
-            <v-col cols="12">
-              <v-list-item @click="change('city')"
-                >Filtrar por cidade</v-list-item
-              >
-              <v-list-item @click="change('school')"
-                >Filtrar por escola</v-list-item
-              >
-              <v-list-item @click="change('country')"
-                >Filtrar por país
-              </v-list-item>
-            </v-col>
+            <v-list-item class="item-list" @click="change('city')"
+              >Filtrar por cidade</v-list-item
+            >
+            <v-list-item class="item-list" @click="change('school')"
+              >Filtrar por escola</v-list-item
+            >
+            <v-list-item class="item-list" @click="change('country')"
+              >Filtrar por país
+            </v-list-item>
           </v-card>
         </v-dialog>
-        <v-dialog v-model="filter" max-width="290">
+        <v-dialog v-model="filter" max-width="290" class="dialog-modal">
           <v-card>
             <v-col cols="12">
               <v-form ref="form" lazy-validation>
                 <v-select
-                  v-if="this.country"
+                  v-if="country"
                   placeholder="Selecione o seu país!"
                   :items="countries"
                   label="País"
                 ></v-select>
                 <v-select
-                  v-if="!this.country && this.state"
+                  v-if="!country && state"
                   placeholder="Selecione o seu estado!"
                   :items="states"
                   label="Estado"
                 ></v-select>
                 <v-select
-                  v-if="!this.country && this.city"
+                  v-if="!country && city"
                   placeholder="Selecione a sua cidade!"
                   :items="cities"
                   label="Cidade"
                 ></v-select>
                 <v-select
-                  v-if="!this.country && this.school"
+                  v-if="!country && school"
                   placeholder="Selecione a sua escola!"
                   :items="schools"
                   label="Escola"
                 ></v-select>
                 <v-card>
-                    <v-btn
-                      class=" btn-block btn-search"
-                      depressed
-                      large
-                      @click="search"
-                      >Buscar</v-btn
-                    >
-                  </v-card>
+                  <v-btn
+                    class=" btn-block btn-search"
+                    depressed
+                    large
+                    @click="search"
+                    >Buscar</v-btn
+                  >
+                </v-card>
               </v-form>
             </v-col>
           </v-card>
@@ -70,53 +68,45 @@
     </template>
 
     <div class="podio">
-      <div class="sub-podio">
-        <img class="trophy" src="../../assets/trophy 1.svg" />
-        <img class="podio1" src="../../assets/Ellipse 7.svg" />
-        <img class="silver" src="../../assets/silver-medal 1.svg" />
-        <img class="podio2" src="../../assets/Ellipse 8.svg" />
-        <img class="bronze" src="../../assets/bronze-medal 1.svg" />
-        <img class="podio3" src="../../assets/Ellipse 9.svg" />
-        <div class="top__3">
-          <div class="top">
-            <p class="top1">320 PTS</p>
-            <h1 class="name1">Fernanda</h1>
-          </div>
-          <div class="top">
-            <p class="top2">320 PTS</p>
-            <h1 class="name2">Juliana</h1>
-          </div>
-          <div class="top">
-            <p class="top3">320 PTS</p>
-            <h1 class="name3">Maria</h1>
-          </div>
-        </div>
+      <div class="flex top__one">
+        <img class="icon" src="../../assets/silver-medal.svg" alt="" />
+        <img class="icon" src="../../assets/person.svg" alt="" />
+        <p>{{ top2.points }} PTS</p>
+        <h1>{{ top2.name }}</h1>
+      </div>
+      <div class="flex top__two">
+        <img class="icon" src="../../assets/troph.png" alt="" />
+        <img class="icon middle__image" src="../../assets/person.svg" alt="" />
+        <p>{{ top1.points }} PTS</p>
+        <h1>{{ top1.name }}</h1>
+      </div>
+      <div class="flex top__three">
+        <img class="icon" src="../../assets/bronze.svg" alt="" />
+        <img class="icon" src="../../assets/person.svg" alt="" />
+        <p>{{ top3.points }} PTS</p>
+        <h1>{{ top3.name }}</h1>
       </div>
     </div>
     <v-simple-table>
       <template v-slot:default>
         <thead>
-          <tr>
+          <tr class="table">
             <th>#</th>
-            <th style="text-align: left;">Jogadores</th>
-            <th>NV</th>
-            <th>PTS</th>
+            <th class="text-left">Jogadores</th>
+            <th>XP</th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="item in ranking" :key="item.name">
-            <td>{{ item.position }}</td>
-            <td >
-              <p class="name_person">{{ item.name }}</p>
-              <th class="school">
-                {{item.school}}
-              </th>
-                            <th>
-                <img class="img__ranking" src="../../assets/Ellipse 7.svg" >
-              </th>
+          <tr v-for="(item, index) in ranking" :key="item.name" class="line">
+            <td>{{ index + 4 }}</td>
+            <td>
+              <div class="img-text">
+                <img src="../../assets/person.svg" class="img-middle" />
+                <p class="name_person">{{ item.user_name }}</p>
+              </div>
             </td>
-            <td>{{ item.nivel }}</td>
-            <td>{{ item.pontos }}</td>
+
+            <td>{{ item.points }}</td>
           </tr>
         </tbody>
       </template>
@@ -133,6 +123,7 @@
 <script>
 import NavigationBar from '~/components/NavigationBar.vue';
 import HeaderBar from '~/components/Header.vue';
+import http from '~/services/http/generic';
 
 export default {
   components: {
@@ -153,44 +144,33 @@ export default {
       schools: ['Geraldino', 'Colesan'],
       labels: ['Filtrar por Pais', 'Filtrar por Escola', 'Filtrar por Cidade '],
       dialog: false,
-      ranking: [
-        {
-          position: '4°',
-          name: 'Neymar',
-          school: 'Geraldino',
-          nivel: 122,
-          pontos: 305,
-        },
-        {
-          position: '5°',
-          name: 'Neymar',
-          school: 'Geraldino',
-          nivel: 122,
-          pontos: 356,
-        },
-        {
-          position: '6°',
-          name: 'Neymar',
-          school: 'Geraldino',
-          nivel: 122,
-          pontos: 375,
-        },
-        {
-          position: '7°',
-          name: 'Neymar',
-          school: 'Geraldino',
-          nivel: 122,
-          pontos: 392,
-        },
-        {
-          position: '8°',
-          name: 'Neymar',
-          school: 'Geraldino',
-          nivel: 122,
-          pontos: 408,
-        },
-      ],
+      top1: {
+        points: '',
+        name: '',
+      },
+      top2: {
+        points: '',
+        name: '',
+      },
+      top3: {
+        points: '',
+        name: '',
+      },
+      ranking: [],
     };
+  },
+  mounted() {
+    http
+      .getAll(`${process.env.endpoints.RANKING}`)
+      .then(ranking => {
+        this.generateTopPlayers(ranking);
+        this.ranking = ranking.data.slice(3);
+
+        this.ranking.forEach(person => {
+          person.user_name = this.splitName(person.userName);
+        });
+      })
+      .catch(error => console.log(error));
   },
   methods: {
     change(data) {
@@ -218,131 +198,116 @@ export default {
       }
       this.dialog = false;
     },
+    splitName(name) {
+      return name.split(' ')[0];
+    },
+    generateTopPlayers(ranking) {
+      ranking.data = ranking.data.reverse();
+      this.top1 = {
+        name: this.splitName(ranking.data[0].userName),
+        points: ranking.data[0].points,
+      };
+      this.top2 = {
+        name: this.splitName(ranking.data[1].userName),
+        points: ranking.data[1].points,
+      };
+      this.top3 = {
+        name: this.splitName(ranking.data[0].userName),
+        points: ranking.data[2].points,
+      };
+    },
   },
 };
 </script>
 
 <style scoped>
+.filter-modal {
+  position: absolute;
+  right: 21px;
+  top: 45px;
+  width: 151px;
+  height: 135px;
+}
+.item-list {
+  font-size: 12px;
+  padding: 0 0 0 15px;
+  margin-top: 5px;
+  font-weight: 500;
+  min-height: 38px;
+}
+
+.dialog-modal {
+  width: 151px;
+  height: 135px;
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 ::v-deep .theme--light.v-data-table thead tr:last-child th {
   border-bottom: none;
   text-align: center;
   font-weight: 500;
 }
-.name1,
-.name2,
-.name3 {
-  font-size: 14px;
-  position: relative;
-}
-.name1,
-.name2,
-.name3 {
-  bottom: 21px;
-}
-td {
-  text-align: center;
-  height: 70px;
-  border-top: 1px solid rgba(102, 0, 204, 0.35)
-}
-.name_person {
-  position: absolute;
-  margin-left: 36px;
-  margin-top: 10px;
-  font-weight: 800;
-}
-
-.top__3 {
-  display: flex;
-  position: relative;
-  bottom: 189px;
-  width: 100%;
-  text-align: center;
-}
-.top1,
-.name1 {
-  display: block;
-  position: relative;
-  left: 41px;
-}
-.top2,
-.name2 {
-  display: block;
-  position: relative;
-  left: 87px;
-}
-.top3,
-.name3 {
-  display: block;
-  position: relative;
-  left: 137px;
-}
-.top__3 p {
-  font-size: 12px;
-}
-.title {
-  display: block;
-  position: relative;
-  font-size: 20px;
-  left: 60px;
-  bottom: 36px;
-}
 .podio {
-  width: 100%;
-  box-sizing: border-box;
-  height: 175px;
+  width: 80%;
+  margin: 5% 10%;
+  align-items: flex-end;
+  justify-content: space-between;
+  display: flex;
+}
+.flex {
+  display: flex;
+  justify-content: baseline;
+  align-items: center;
+  flex-direction: column;
+  max-width: 50px;
 }
 
-.sub-podio {
-  max-width: 360px;
-  margin: 0 auto;
+.flex p {
+  font-weight: 400;
+  font-size: 12px;
+  width: 55px;
+  text-align: center;
+  color: #3f3d56;
 }
-.podio1 {
-  display: block;
-  position: relative;
-  top: 11px;
-  left: 140px;
+.flex h1 {
+  font-weight: 700;
+  font-size: 14px;
+  color: #3f3d56;
+  margin-top: -18px;
 }
-.podio2 {
-  display: block;
-  position: relative;
-  bottom: 90px;
-  left: 40px;
+.flex img:not(:first-child) {
+  border-radius: 50px;
+  width: 55px;
+  height: 55px;
 }
-.trophy {
-  display: inline-block;
-  position: relative;
-  left: 165px;
-  margin-bottom: 10px;
+
+.top__one img:not(:fist-child),
+.top__three img:not(:fist-child) {
+  width: 55px;
+  height: 55px;
+  margin-top: 10px;
 }
-.podio3 {
-  display: block;
-  position: relative;
-  bottom: 189px;
-  left: 250px;
-  margin-bottom: 0px;
+
+.middle__image {
+  height: 66px !important;
 }
-.silver {
-  display: block;
-  position: relative;
-  bottom: 100px;
-  left: 55px;
+.icon {
+  margin-bottom: 12px;
 }
-.bronze {
-  display: block;
-  position: relative;
-  bottom: 200px;
-  left: 270px;
+.img-middle {
+  width: 30px;
+  height: 30px;
+  border-radius: 50px;
+  margin-right: 15px;
 }
-.row-container {
-  width: 100%;
-}
+/**/
+
 .v-data-table {
   max-width: 100%;
   margin: 3% auto 0;
-}
-
-::v-deep .v-data-table th {
-  padding-top: 12px;
 }
 
 .collapse-button {
@@ -350,35 +315,48 @@ td {
   top: 24px;
   right: 24px;
 }
-.filter-modal {
-  position: absolute;
-  right: 21px;
-  top: 45px;
-  width: 57%;
-}
 
 ::v-deep .h1__theme {
   position: relative;
-  right: 60px;
+  font-size: 20px;
+  font-weight: 700;
 }
 
-.img__ranking {
-  width: 25px;
-  height: 25px;
-  position: absolute;
-  left: 83px;
-  margin-top: -16px;
-}
-.school {
-  position: absolute;
-  margin: 14px 0px 0 20px;
-  font-weight: normal;
-}
 .btn-search {
-  background: #6600cc !important;
+  background: var(--primary) !important;
   border-radius: 0 !important;
   color: #fff;
-  font-weight:600;
+  font-weight: 600;
   width: 100%;
-  }
+}
+.name_person {
+  font-size: 14px;
+  font-weight: 700;
+  margin-top: 5px;
+  color: rgb(63, 61, 86);
+}
+
+td {
+  text-align: center;
+  font-size: 12px;
+  font-weight: 400;
+}
+:v-deep .table-hover tbody tr:hover td {
+  background: aqua;
+}
+.text-left {
+  text-align: left;
+}
+
+.img-text {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.table th {
+  font-size: 12px;
+  font-weight: 400 !important;
+  color: black !important;
+}
 </style>
