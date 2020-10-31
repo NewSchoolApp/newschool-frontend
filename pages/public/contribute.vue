@@ -113,7 +113,8 @@ export default {
         },
         {
           id: 3,
-          cover: 'https://pngimg.com/uploads/github/github_PNG83.png',
+          cover:
+            'https://shazronatadobe.files.wordpress.com/2012/09/cordova_bot.png',
           title: 'Mobile',
           deion: 'Cordova',
           linkUrl: 'https://cordova.apache.org/',
@@ -136,8 +137,7 @@ export default {
           cover:
             'https://sharebook.com.br/assets/img/contribute-project/trello.jpg',
           title: 'Trello',
-          deion:
-            'Pegue uma tarefa, coloque no seu nome e mova pra DOING.',
+          deion: 'Pegue uma tarefa, coloque no seu nome e mova pra DOING.',
           linkUrl:
             'https://trello.com/invite/b/2MHuWn0C/b1a15b7112ea11b856cfa78174a6f72d/projeto-new-school-app',
           linkText: 'Trello',
@@ -147,8 +147,7 @@ export default {
           cover:
             'https://sharebook.com.br/assets/img/contribute-project/github.jpg',
           title: 'Github',
-          deion:
-            'Aqui nós temos o cuidado de ter um histórico educativo.',
+          deion: 'Aqui nós temos o cuidado de ter um histórico educativo.',
           linkUrl: 'https://github.com/newschoolbr',
           linkText: 'Github',
         },
