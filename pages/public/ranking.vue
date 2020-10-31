@@ -84,14 +84,13 @@
           <v-col><h3>20º</h3></v-col>
           <v-col
             ><v-avatar size="80">
-              <img :src="require(`@/assets/avatarTeste.png`)" /> </v-avatar
+              <img :src="require(`~/assets/avatarTeste.png`)" /> </v-avatar
           ></v-col>
           <v-col><h3>100 XP</h3></v-col>
         </v-row>
       </v-col>
 
       <v-col>
-        
         <!-- pondium -->
         <v-row class="podio">
           <v-col class="flex top__one">
