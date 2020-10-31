@@ -137,7 +137,7 @@ export default {
             'https://sharebook.com.br/assets/img/contribute-project/trello.jpg',
           title: 'Trello',
           deion:
-            'Peque uma tarefa, coloque no seu nome e mova pra DOING.',
+            'Pegue uma tarefa, coloque no seu nome e mova pra DOING.',
           linkUrl:
             'https://trello.com/invite/b/2MHuWn0C/b1a15b7112ea11b856cfa78174a6f72d/projeto-new-school-app',
           linkText: 'Trello',
