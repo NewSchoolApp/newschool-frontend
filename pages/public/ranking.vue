@@ -1,6 +1,7 @@
 <template>
-  <div class="page">
+  <div>
     <HeaderBar :title="'Ranking'" :back-page="true"></HeaderBar>
+
     <template>
       <v-row class="row-container">
         <img
@@ -67,50 +68,90 @@
       </v-row>
     </template>
 
-    <div class="podio">
-      <div class="flex top__one">
-        <img class="icon" src="../../assets/silver-medal.svg" alt="" />
-        <img class="icon" src="../../assets/person.svg" alt="" />
-        <p>{{ top2.points }} PTS</p>
-        <h1>{{ top2.name }}</h1>
-      </div>
-      <div class="flex top__two">
-        <img class="icon" src="../../assets/troph.png" alt="" />
-        <img class="icon middle__image" src="../../assets/person.svg" alt="" />
-        <p>{{ top1.points }} PTS</p>
-        <h1>{{ top1.name }}</h1>
-      </div>
-      <div class="flex top__three">
-        <img class="icon" src="../../assets/bronze.svg" alt="" />
-        <img class="icon" src="../../assets/person.svg" alt="" />
-        <p>{{ top3.points }} PTS</p>
-        <h1>{{ top3.name }}</h1>
-      </div>
-    </div>
-    <v-simple-table>
-      <template v-slot:default>
-        <thead>
-          <tr class="table">
-            <th>#</th>
-            <th class="text-left">Jogadores</th>
-            <th>XP</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="(item, index) in ranking" :key="item.name" class="line">
-            <td>{{ index + 4 }}</td>
-            <td>
-              <div class="img-text">
-                <img src="../../assets/person.svg" class="img-middle" />
-                <p class="name_person">{{ item.user_name }}</p>
-              </div>
-            </td>
+    <v-tabs fixed-tabs height="35px">
+      <v-tab>
+        Mensal
+      </v-tab>
+      <v-tab>
+        Anual
+      </v-tab>
+    </v-tabs>
 
-            <td>{{ item.points }}</td>
-          </tr>
-        </tbody>
-      </template>
-    </v-simple-table>
+    <v-col class="background">
+      <!-- self rank -->
+      <v-col>
+        <v-row align="center" style="text-align: center" class="frame">
+          <v-col><h3>20º</h3></v-col>
+          <v-col
+            ><v-avatar size="80">
+              <img :src="require(`@/assets/avatarTeste.png`)" /> </v-avatar
+          ></v-col>
+          <v-col><h3>100 XP</h3></v-col>
+        </v-row>
+      </v-col>
+
+      <v-col>
+        
+        <!-- pondium -->
+        <v-row class="podio">
+          <v-col class="flex top__one">
+            <img class="icon" src="../../assets/silver-medal.svg" alt="" />
+            <img class="icon" src="../../assets/person.svg" alt="" />
+            <p>{{ top2.points }} PTS</p>
+            <h1>{{ top2.name }}</h1>
+          </v-col>
+          <v-col class="flex top__two">
+            <img class="icon" src="../../assets/troph.png" alt="" />
+            <img
+              class="icon middle__image"
+              src="../../assets/person.svg"
+              alt=""
+            />
+            <p>{{ top1.points }} PTS</p>
+            <h1>{{ top1.name }}</h1>
+          </v-col>
+          <v-col class="flex top__three">
+            <img class="icon" src="../../assets/bronze.svg" alt="" />
+            <img class="icon" src="../../assets/person.svg" alt="" />
+            <p>{{ top3.points }} PTS</p>
+            <h1>{{ top3.name }}</h1>
+          </v-col>
+        </v-row>
+
+        <!-- rank lins -->
+        <v-row>
+          <v-simple-table class="rank-list">
+            <template v-slot:default>
+              <thead>
+                <tr class="table">
+                  <th>#</th>
+                  <th class="text-left">Jogadores</th>
+                  <th>XP</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr
+                  v-for="(item, index) in ranking"
+                  :key="item.name"
+                  class="line"
+                >
+                  <td>{{ index + 4 }}</td>
+                  <td>
+                    <div class="img-text">
+                      <img src="../../assets/person.svg" class="img-middle" />
+                      <p class="name_person">{{ item.user_name }}</p>
+                    </div>
+                  </td>
+
+                  <td>{{ item.points }}</td>
+                </tr>
+              </tbody>
+            </template>
+          </v-simple-table>
+        </v-row>
+      </v-col>
+    </v-col>
+
     <navigation-bar />
   </div>
 </template>
@@ -221,6 +262,50 @@ export default {
 </script>
 
 <style scoped>
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap');
+
+* {
+  font-family: 'Roboto', sans-serif;
+}
+
+.rank-list {
+  width: 100%;
+}
+
+.line {
+  outline: 2px solid #f8f8f8;
+}
+
+::v-deep .row {
+  background-color: white;
+}
+
+::v-deep .col {
+  padding: 12px 16px !important;
+}
+
+.background {
+  background-color: #f8f8f8;
+}
+
+::v-deep .v-tabs-slider-wrapper {
+  height: 4px !important;
+  color: var(--primary-light);
+}
+
+::v-deep .v-tab {
+  font-size: 12px !important;
+  line-height: 16px;
+  font-weight: 500;
+  color: grey;
+  text-transform: none;
+}
+
+::v-deep .v-avatar {
+  border: 2px solid #ffffff;
+  box-shadow: 0px 0px 0px 2px #f0e5fa;
+}
+
 .filter-modal {
   position: absolute;
   right: 21px;
@@ -250,12 +335,13 @@ export default {
   text-align: center;
   font-weight: 500;
 }
+
 .podio {
-  width: 80%;
+  /* width: 80%;
   margin: 5% 10%;
-  align-items: flex-end;
-  justify-content: space-between;
+  align-items: flex-end; */
   display: flex;
+  justify-content: space-around;
 }
 .flex {
   display: flex;
