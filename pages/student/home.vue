@@ -201,16 +201,17 @@ export default {
 }
 
 /* centraliza o label */
-::v-deep .v-input .v-label {
-  display: contents;
-}
+::v-deep .v-input:not(.v-input--is-focused) > .v-input__control > .v-input__slot > .v-text-field__slot > .v-label {
+  /* display: contents; */
+  line-height: 12px;
+} 
 
 /* container do icon: tira margin de cima, aplica um distanciamento do label e alinha ao centro do campo */
-::v-deep .v-text-field--enclosed .v-input__prepend-inner {
+ ::v-deep .v-text-field--enclosed .v-input__prepend-inner {
   margin-top: 0;
-  padding-right: 11.5px;
+  /* padding-right: 11.5px; */
   align-self: center;
-}
+} 
 
 /* margin lateral do conteudo do campo */
 ::v-deep
