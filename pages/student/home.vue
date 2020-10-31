@@ -47,7 +47,7 @@
         <p id="title">Cursos</p>
       </v-row>
 
-      <!-- Course Cards -->
+      <!-- Course Cards  -->
       <v-row>
         <course-card
           :key="course.id"
