@@ -15,7 +15,7 @@
         <v-icon id="bell">mdi-bell-ring-outline</v-icon>
       </v-row>
 
-      <!-- Header -->
+      <!-- Header-bar -->
       <v-row id="header" align="center">
         <v-avatar size="55">
           <img :src="require(`@/assets/avatarTeste.png`)" />
