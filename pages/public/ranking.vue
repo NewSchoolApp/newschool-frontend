@@ -69,10 +69,10 @@
     </template>
 
     <v-tabs fixed-tabs height="35px">
-      <v-tab>
+      <v-tab @click="monthRanking">
         Mensal
       </v-tab>
-      <v-tab>
+      <v-tab @click="yearRanking">
         Anual
       </v-tab>
     </v-tabs>
@@ -84,7 +84,7 @@
           <v-col><h3>20º</h3></v-col>
           <v-col
             ><v-avatar size="80">
-              <img :src="require(`~/assets/avatarTeste.png`)" /> </v-avatar
+              <img :src="require(`~/assets/person.svg`)" /> </v-avatar
           ></v-col>
           <v-col><h3>100 XP</h3></v-col>
         </v-row>
@@ -197,20 +197,12 @@ export default {
         name: '',
       },
       ranking: [],
+      monthRankingUsers: [],
+      yearRankingUsers: [],
     };
   },
   mounted() {
-    http
-      .getAll(`${process.env.endpoints.RANKING}`)
-      .then(ranking => {
-        this.generateTopPlayers(ranking);
-        this.ranking = ranking.data.slice(3);
-
-        this.ranking.forEach(person => {
-          person.user_name = this.splitName(person.userName);
-        });
-      })
-      .catch(error => console.log(error));
+    this.monthRanking();
   },
   methods: {
     change(data) {
@@ -237,6 +229,38 @@ export default {
           break;
       }
       this.dialog = false;
+    },
+    monthRanking() {
+      if (!this.monthRankingUsers.length) {
+        http
+          .getAll(`${process.env.endpoints.RANKING}`)
+          .then(ranking => {
+            this.generateTopPlayers(ranking);
+            this.monthRankingUsers = ranking.data.slice(3);
+
+            // this.ranking.forEach(person => {
+            //   person.user_name = this.splitName(person.userName);
+            // });
+          })
+          .catch(error => console.log(error));
+      }
+      this.ranking = this.monthRankingUsers;
+    },
+    yearRanking() {
+      if (!this.yearRankingUsers.length) {
+        http
+          .getAll(`${process.env.endpoints.RANKING}?timeRange=YEAR`)
+          .then(ranking => {
+            this.generateTopPlayers(ranking);
+            this.yearRankingUsers = ranking.data.slice(3);
+
+            // this.ranking.forEach(person => {
+            //   person.user_name = this.splitName(person.userName);
+            // });
+          })
+          .catch(error => console.log(error));
+      }
+      this.ranking = this.yearRankingUsers;
     },
     splitName(name) {
       return name.split(' ')[0];

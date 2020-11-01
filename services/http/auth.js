@@ -56,29 +56,36 @@ export default {
   forgotPassword: form => {
     return utils.getExternalCredentials().then(res => {
       return http.post(process.env.endpoints.FORGOT_PASSWORD, form, {
-        headers: { Authorization: `Bearer ${res.data.accessToken}` }
+        headers: { Authorization: `Bearer ${res.data.accessToken}` },
       });
     });
   },
 
   changePasswordRequestValidate: token => {
     return utils.getExternalCredentials().then(res => {
-      return http.get(`${process.env.endpoints.FORGOT_PASSWORD}/${token}/validate`, {
-        headers: { Authorization: `Bearer ${res.data.accessToken}` }
-      })
-    })
+      return http.get(
+        `${process.env.endpoints.FORGOT_PASSWORD}/${token}/validate`,
+        {
+          headers: { Authorization: `Bearer ${res.data.accessToken}` },
+        },
+      );
+    });
   },
 
   changePassword: (form, token) => {
     return utils.getExternalCredentials().then(res => {
-      return http.post(`${process.env.endpoints.FORGOT_PASSWORD}/${token}`, form, {
-        headers: { Authorization: `Bearer ${res.data.accessToken}` }
-      })
-    })
+      return http.post(
+        `${process.env.endpoints.FORGOT_PASSWORD}/${token}`,
+        form,
+        {
+          headers: { Authorization: `Bearer ${res.data.accessToken}` },
+        },
+      );
+    });
   },
 
   isTokenValid: () => {
-    const auth = JSON.parse(localStorage.getItem("auth"));
+    const auth = JSON.parse(localStorage.getItem('auth'));
     if (auth) {
       const { refreshToken, expiresIn } = auth;
       const currentTime = Date.now();
@@ -88,17 +95,17 @@ export default {
         return { status: true, token: utils.getToken() };
       }
     } else {
-      return { status: false, token: "" };
+      return { status: false, token: '' };
     }
   },
 
   getInfoAuth: () => {
     try {
-      return JSON.parse(localStorage.getItem("auth"));
+      return JSON.parse(localStorage.getItem('auth'));
     } catch (e) {
       return {
         accessToken: ``,
-        refreshToken: ``
+        refreshToken: ``,
       };
     }
   },
@@ -118,7 +125,7 @@ export default {
       })
       .catch(error => {
         if (error.response.status === 404) {
-          let randomPassword = Math.random()
+          const randomPassword = Math.random()
             .toString(36)
             .slice(-10);
 
@@ -149,7 +156,7 @@ export default {
       })
       .catch(error => {
         if (error.response.status === 404) {
-          let randomPassword = Math.random()
+          const randomPassword = Math.random()
             .toString(36)
             .slice(-10);
 
@@ -167,24 +174,24 @@ export default {
 };
 const getNewAccessToken = refreshToken => {
   const body = utils.toFormData({
-    grant_type: "refresh_token",
-    refresh_token: refreshToken
+    grant_type: 'refresh_token',
+    refresh_token: refreshToken,
   });
 
   const clientCredentials = utils.getPasswordCredentials();
 
   return http
     .post(process.env.endpoints.LOGIN, body, {
-      headers: { Authorization: clientCredentials }
+      headers: { Authorization: clientCredentials },
     })
     .then(res => {
       localStorage.setItem(
-        "auth",
+        'auth',
         JSON.stringify({
           accessToken: `Bearer ${res.data.accessToken}`,
           refreshToken: res.data.refreshToken,
-          expiresIn: Date.now() + ms(res.data.expiresIn)
-        })
+          expiresIn: Date.now() + ms(res.data.expiresIn),
+        }),
       );
       return { status: true, token: utils.getToken() };
     })
@@ -192,6 +199,6 @@ const getNewAccessToken = refreshToken => {
       if (error.response.status === 401) {
         localStorage.clear();
       }
-      return { status: false, token: "" };
+      return { status: false, token: '' };
     });
 };
