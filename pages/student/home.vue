@@ -9,8 +9,9 @@
       />
     </div>
   </div>
-  <div v-else id="page">
-    <v-col id="main-col" justify="center">
+  <div id="page" v-else>
+    <v-col id="main-col">
+
       <v-row justify="end">
         <v-icon id="bell">mdi-bell-ring-outline</v-icon>
       </v-row>

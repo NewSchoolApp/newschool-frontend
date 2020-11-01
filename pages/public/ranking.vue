@@ -1,12 +1,11 @@
 <template>
-  <div>
-    <HeaderBar :title="'Ranking'" :back-page="true"></HeaderBar>
-
-    <template>
-      <v-row class="row-container">
+  <div id="page">
+      <HeaderBar :title="'Ranking'" :back-page="true"></HeaderBar>
+      <!-- Filtros -->
+      <div id="filters">
         <img
-          color="primary"
           class="collapse-button"
+          color="primary"          
           dark
           src="../../assets/more_vert_24px.svg"
           @click.stop="dialog = true"
@@ -65,93 +64,99 @@
             </v-col>
           </v-card>
         </v-dialog>
-      </v-row>
-    </template>
-
-    <v-tabs fixed-tabs height="35px">
-      <v-tab>
-        Mensal
-      </v-tab>
-      <v-tab>
-        Anual
-      </v-tab>
-    </v-tabs>
-
-    <v-col class="background">
-      <!-- self rank -->
-      <v-col>
-        <v-row align="center" style="text-align: center" class="frame">
-          <v-col><h3>20º</h3></v-col>
-          <v-col
-            ><v-avatar size="80">
-              <img :src="require(`~/assets/avatarTeste.png`)" /> </v-avatar
-          ></v-col>
-          <v-col><h3>100 XP</h3></v-col>
-        </v-row>
-      </v-col>
-
-      <v-col>
-        <!-- pondium -->
-        <v-row class="podio">
-          <v-col class="flex top__one">
-            <img class="icon" src="../../assets/silver-medal.svg" alt="" />
-            <img class="icon" src="../../assets/person.svg" alt="" />
-            <p>{{ top2.points }} PTS</p>
-            <h1>{{ top2.name }}</h1>
-          </v-col>
-          <v-col class="flex top__two">
-            <img class="icon" src="../../assets/troph.png" alt="" />
-            <img
-              class="icon middle__image"
-              src="../../assets/person.svg"
-              alt=""
-            />
-            <p>{{ top1.points }} PTS</p>
-            <h1>{{ top1.name }}</h1>
-          </v-col>
-          <v-col class="flex top__three">
-            <img class="icon" src="../../assets/bronze.svg" alt="" />
-            <img class="icon" src="../../assets/person.svg" alt="" />
-            <p>{{ top3.points }} PTS</p>
-            <h1>{{ top3.name }}</h1>
-          </v-col>
-        </v-row>
-
-        <!-- rank lins -->
-        <v-row>
-          <v-simple-table class="rank-list">
-            <template v-slot:default>
-              <thead>
-                <tr class="table">
-                  <th>#</th>
-                  <th class="text-left">Jogadores</th>
-                  <th>XP</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr
-                  v-for="(item, index) in ranking"
-                  :key="item.name"
-                  class="line"
-                >
-                  <td>{{ index + 4 }}</td>
-                  <td>
-                    <div class="img-text">
-                      <img src="../../assets/person.svg" class="img-middle" />
-                      <p class="name_person">{{ item.user_name }}</p>
-                    </div>
-                  </td>
-
-                  <td>{{ item.points }}</td>
-                </tr>
-              </tbody>
-            </template>
-          </v-simple-table>
-        </v-row>
+      </div>
+      <!-- Tabs mensal anual -->
+      <v-tabs fixed-tabs height="35px">
+        <v-tab>
+          Mensal
+        </v-tab>
+        <v-tab>
+          Anual
+        </v-tab>
+      </v-tabs>
+    <v-col id="main-col">
+      <!-- Rank -->
+      <v-col  class="background">
+        <!-- self rank -->
+        <v-col>
+          <v-row class="frame self-rank" align="center" style="text-align: center">
+            <v-col>
+              <h3 class="self-rank-data">20º</h3>
+            </v-col>
+            <v-col>
+              <v-avatar class="self-rank-avatar" size="70">
+                <img :src="require(`@/assets/avatarTeste.png`)" /> 
+              </v-avatar>
+            </v-col>
+            <v-col>
+              <h3 class="self-rank-data">100 XP</h3>
+            </v-col>
+          </v-row>
+        </v-col>
+        <v-col>
+          <!-- pondium -->
+          <v-row class="podio">
+            <v-col class="flex top__one">
+              <img class="icon" src="../../assets/silver-medal.svg" alt="" />
+              <v-avatar size="60">
+                <img :src="require(`@/assets/avatarTeste.png`)" /> 
+              </v-avatar>
+              <p>{{ top2.points }} PTS</p>
+              <h1>{{ top2.name }}</h1>
+            </v-col>
+            <v-col class="flex top__two">
+              <img class="icon" src="../../assets/troph.png" alt="" />
+              <v-avatar size="70">
+                <img :src="require(`@/assets/avatarTeste.png`)" /> 
+              </v-avatar> 
+              <p>{{ top1.points }} PTS</p>
+              <h1>{{ top1.name }}</h1>
+            </v-col>
+            <v-col class="flex top__three">
+              <img class="icon" src="../../assets/bronze.svg" alt="" />
+              <v-avatar size="60">
+                <img :src="require(`@/assets/avatarTeste.png`)" /> 
+              </v-avatar>
+              <p>{{ top3.points }} PTS</p>
+              <h1>{{ top3.name }}</h1>
+            </v-col>
+          </v-row>
+          <!-- rank lins -->
+          <v-row>
+            <v-simple-table class="rank-list">
+              <template v-slot:default>
+                <thead>
+                  <tr class="table">
+                    <th>#</th>
+                    <th class="text-left">Jogadores</th>
+                    <th>XP</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr
+                    v-for="(item, index) in ranking"
+                    :key="item.name"
+                    class="line"
+                  >
+                    <td>{{ index + 4 }}º</td>
+                    <td>
+                      <div class="img-text">
+                        <img src="../../assets/person.svg" class="img-middle" />
+                        <p class="name_person">{{ item.user_name }}</p>
+                      </div>
+                    </td>
+                    <td>{{ item.points }}</td>
+                  </tr>
+                </tbody>
+              </template>
+            </v-simple-table>
+          </v-row>
+        </v-col>
       </v-col>
     </v-col>
-
-    <navigation-bar />
+    <client-only>
+      <navigation-bar />
+    </client-only>
   </div>
 </template>
 
@@ -160,6 +165,7 @@
     path: "/ranking"
 }
 </router>
+
 <script>
 import NavigationBar from '~/components/NavigationBar.vue';
 import HeaderBar from '~/components/Header.vue';
@@ -205,7 +211,6 @@ export default {
       .then(ranking => {
         this.generateTopPlayers(ranking);
         this.ranking = ranking.data.slice(3);
-
         this.ranking.forEach(person => {
           person.user_name = this.splitName(person.userName);
         });
@@ -262,49 +267,70 @@ export default {
 
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap');
-
 * {
   font-family: 'Roboto', sans-serif;
 }
-
+#page {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  align-self: center;
+}
+@media (min-width: 700px) {
+  #page {
+    max-width: 700px;
+  }
+}
+#main-col {
+  background-color: #f8f8f8;
+}
 .rank-list {
   width: 100%;
 }
-
 .line {
   outline: 2px solid #f8f8f8;
 }
-
 ::v-deep .row {
   background-color: white;
 }
-
 ::v-deep .col {
   padding: 12px 16px !important;
 }
-
 .background {
+  height: 100%;
   background-color: #f8f8f8;
+  padding: 0 !important;
 }
-
 ::v-deep .v-tabs-slider-wrapper {
   height: 4px !important;
   color: var(--primary-light);
 }
-
 ::v-deep .v-tab {
-  font-size: 12px !important;
+  font-size: 11px !important;
   line-height: 16px;
   font-weight: 500;
   color: grey;
   text-transform: none;
+  border-bottom: 4px solid #f5f5f5;
 }
-
-::v-deep .v-avatar {
+::v-deep .v-tabs {
+  max-height: 32px;
+}
+.self-rank {
+  height: 119px;
+}
+::v-deep .v-avatar:not(.self-rank-avatar) {
+  margin-bottom: 5px;
+}
+.self-rank-avatar {
   border: 2px solid #ffffff;
   box-shadow: 0px 0px 0px 2px #f0e5fa;
 }
-
+.self-rank-data {
+  font-size: 20px;
+  font-weight: 900;
+}
 .filter-modal {
   position: absolute;
   right: 21px;
@@ -319,7 +345,6 @@ export default {
   font-weight: 500;
   min-height: 38px;
 }
-
 .dialog-modal {
   width: 151px;
   height: 135px;
@@ -328,18 +353,17 @@ export default {
   flex-direction: column;
   align-items: center;
 }
-
 ::v-deep .theme--light.v-data-table thead tr:last-child th {
   border-bottom: none;
   text-align: center;
   font-weight: 500;
 }
-
 .podio {
   /* width: 80%;
   margin: 5% 10%;
   align-items: flex-end; */
   display: flex;
+  align-items: flex-end;
   justify-content: space-around;
 }
 .flex {
@@ -349,7 +373,6 @@ export default {
   flex-direction: column;
   max-width: 50px;
 }
-
 .flex p {
   font-weight: 400;
   font-size: 12px;
@@ -368,14 +391,12 @@ export default {
   width: 55px;
   height: 55px;
 }
-
 .top__one img:not(:fist-child),
 .top__three img:not(:fist-child) {
   width: 55px;
   height: 55px;
   margin-top: 10px;
 }
-
 .middle__image {
   height: 66px !important;
 }
@@ -388,25 +409,24 @@ export default {
   border-radius: 50px;
   margin-right: 15px;
 }
-/**/
-
 .v-data-table {
   max-width: 100%;
   margin: 3% auto 0;
 }
-
+#filters {
+  position: relative;
+  width: 100%;
+}
 .collapse-button {
   position: absolute;
-  top: 24px;
-  right: 24px;
+  top: -40px;
+  right: 20px;
 }
-
 ::v-deep .h1__theme {
   position: relative;
   font-size: 20px;
   font-weight: 700;
 }
-
 .btn-search {
   background: var(--primary) !important;
   border-radius: 0 !important;
@@ -420,7 +440,6 @@ export default {
   margin-top: 5px;
   color: rgb(63, 61, 86);
 }
-
 td {
   text-align: center;
   font-size: 12px;
@@ -432,13 +451,14 @@ td {
 .text-left {
   text-align: left;
 }
-
 .img-text {
   display: flex;
   justify-content: flex-start;
-  align-items: flex-start;
+  align-items: center;
 }
-
+.img-text > p {
+  margin-bottom: 0;
+}
 .table th {
   font-size: 12px;
   font-weight: 400 !important;
