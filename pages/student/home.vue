@@ -11,14 +11,15 @@
   </div>
   <div id="page" v-else>
     <v-col id="main-col">
+
       <v-row justify="end">
         <v-icon id="bell">mdi-bell-ring-outline</v-icon>
       </v-row>
 
-      <!-- Header -->
+      <!-- Header-bar -->
       <v-row id="header" align="center">
         <v-avatar size="55">
-          <img :src="require(`@/assets/avatarTeste.png`)" />
+          <img :src="require(`~/assets/avatarTeste.png`)" />
         </v-avatar>
 
         <v-col>
@@ -34,10 +35,10 @@
       <!-- Search Field -->
       <v-row>
         <v-text-field
+          v-model="filtro"
           label="Encontre Cursos"
           outlined
           prepend-inner-icon="mdi-magnify"
-          v-model="filtro"
           autocomplete="off"
         />
       </v-row>
@@ -47,11 +48,11 @@
         <p id="title">Cursos</p>
       </v-row>
 
-      <!-- Course Cards -->
+      <!-- Course Cards  -->
       <v-row>
         <course-card
-          :key="course.id"
           v-for="course in filteredList"
+          :key="course.id"
           :title="course.title"
           :description="course.description"
           :teacher="course.authorName"
@@ -67,14 +68,19 @@
 </template>
 
 <script>
+import Avatar from 'vue-avatar';
 import CourseCard from '~/components/CourseCard';
 import http from '~/services/http/generic';
-import Avatar from 'vue-avatar';
 
 export default {
   components: {
     CourseCard,
     Avatar,
+  },
+  asyncData({ store, data, params, $axios }) {
+    return http
+      .getAll(`${process.env.endpoints.MY_COURSES}${store.state.user.data.id}`)
+      .then(response => store.commit('courses/set', response.data));
   },
   data: () => ({
     title: 'Bem-vindo',
@@ -82,6 +88,35 @@ export default {
     loading: true,
     filtro: '',
   }),
+  computed: {
+    user() {
+      return this.$store.state.user.data;
+    },
+    filteredList() {
+      if (this.filtro) {
+        const exp = new RegExp(this.filtro.trim(), 'i');
+        return this.list.filter(course => exp.test(course.title));
+      } else {
+        return this.list;
+      }
+    },
+  },
+  watch: {
+    filtro() {
+      console.log(this.filtro);
+    },
+  },
+  mounted() {
+    return http.getAll(process.env.endpoints.COURSE).then(res => {
+      this.list = res.data;
+      this.loading = false;
+    });
+  },
+  methods: {
+    loadUserName() {
+      return this.user.name.split(' ')[0];
+    },
+  },
   head() {
     return {
       title: this.title,
@@ -96,40 +131,6 @@ export default {
         },
       ],
     };
-  },
-  computed: {
-    user() {
-      return this.$store.state.user.data;
-    },
-    filteredList() {
-      if (this.filtro) {
-        let exp = new RegExp(this.filtro.trim(), 'i');
-        return this.list.filter(course => exp.test(course.title));
-      } else {
-        return this.list;
-      }
-    },
-  },
-  watch: {
-    filtro: function() {
-      console.log(this.filtro);
-    },
-  },
-  methods: {
-    loadUserName() {
-      return this.user.name.split(' ')[0];
-    },
-  },
-  mounted() {
-    return http.getAll(process.env.endpoints.COURSE).then(res => {
-      this.list = res.data;
-      this.loading = false;
-    });
-  },
-  asyncData({ store, data, params, $axios }) {
-    return http
-      .getAll(`${process.env.endpoints.MY_COURSES}${store.state.user.data.id}`)
-      .then(response => store.commit('courses/set', response.data));
   },
 };
 </script>
@@ -167,7 +168,7 @@ export default {
 /* especificações gerais da fonte do label e do valor */
 ::v-deep .v-label,
 ::v-deep .v-input input {
-  font-size: .87rem !important;
+  font-size: 0.87rem !important;
   font-weight: 500;
   color: rgba(0, 0, 0, 0.25) !important;
   font-family: 'Montserrat', sans-serif;
@@ -201,17 +202,22 @@ export default {
 }
 
 /* centraliza o label */
-::v-deep .v-input:not(.v-input--is-focused) > .v-input__control > .v-input__slot > .v-text-field__slot > .v-label {
+::v-deep
+  .v-input:not(.v-input--is-focused)
+  > .v-input__control
+  > .v-input__slot
+  > .v-text-field__slot
+  > .v-label {
   /* display: contents; */
   line-height: 12px;
-} 
+}
 
 /* container do icon: tira margin de cima, aplica um distanciamento do label e alinha ao centro do campo */
- ::v-deep .v-text-field--enclosed .v-input__prepend-inner {
+::v-deep .v-text-field--enclosed .v-input__prepend-inner {
   margin-top: 0;
   /* padding-right: 11.5px; */
   align-self: center;
-} 
+}
 
 /* margin lateral do conteudo do campo */
 ::v-deep
@@ -257,14 +263,14 @@ h1 {
 
 .welcome-title {
   color: #1a1a1a;
-  font-size: .87rem;
+  font-size: 0.87rem;
   font-weight: 900;
 }
 
 .welcome-subtitle {
   line-height: 10px;
   color: var(--primary);
-  font-size: .75rem;
+  font-size: 0.75rem;
   font-weight: 500;
   font-family: 'Montserrat', sans-serif;
   text-transform: uppercase;
