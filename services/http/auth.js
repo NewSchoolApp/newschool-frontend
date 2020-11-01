@@ -88,7 +88,7 @@ export default {
     const auth = JSON.parse(localStorage.getItem('auth'));
     if (auth) {
       const { refreshToken, expiresIn } = auth;
-      const currentTime = Date.now();
+      const currentTime = Date.now() / 1000;
       if (currentTime > expiresIn) {
         return getNewAccessToken(refreshToken);
       } else {
