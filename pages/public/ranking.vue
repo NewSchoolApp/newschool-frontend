@@ -248,9 +248,9 @@ export default {
             this.generateTopPlayers(ranking);
             this.monthRankingUsers = ranking.data.slice(3);
 
-            // this.ranking.forEach(person => {
-            //   person.user_name = this.splitName(person.userName);
-            // });
+            this.ranking.forEach(person => {
+              person.user_name = this.splitName(person.userName);
+            });
           })
           .catch(error => console.log(error));
       }
@@ -264,9 +264,9 @@ export default {
             this.generateTopPlayers(ranking);
             this.yearRankingUsers = ranking.data.slice(3);
 
-            // this.ranking.forEach(person => {
-            //   person.user_name = this.splitName(person.userName);
-            // });
+            this.ranking.forEach(person => {
+              person.user_name = this.splitName(person.userName);
+            });
           })
           .catch(error => console.log(error));
       }
