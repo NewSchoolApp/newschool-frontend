@@ -10,7 +10,7 @@
     </div>
   </div>
   <div id="page" v-else>
-    <v-col id="main-col" justify="center">
+    <v-col id="main-col">
       <v-row justify="end">
         <v-icon id="bell">mdi-bell-ring-outline</v-icon>
       </v-row>
@@ -143,7 +143,7 @@ export default {
 
 #page {
   display: flex;
-  justify-content: center;  
+  justify-content: center;
 }
 
 #main-col {
