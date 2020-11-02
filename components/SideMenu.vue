@@ -98,6 +98,12 @@ export default {
         icon: 'mdi-volume-high',
         link: '/construindo',
       },
+      {
+        id: 8,
+        label: 'Ranking',
+        icon: 'mdi-trophy',
+        link: '/aluno/ranking',
+      },
     ],
   }),
   methods: {
@@ -172,6 +178,10 @@ export default {
   margin-top: 5px;
 }
 
+.mdi-close-circle::before {
+  color: var(--primary);
+}
+
 .container-page > main {
   display: flex;
   justify-content: space-between;
@@ -191,8 +201,9 @@ export default {
 }
 
 h1 {
-  font-size: 1.4rem;
-  font-weight: 600;
+  font-size: 1rem;
+  font-weight: 500;
+  color: black;
   text-transform: capitalize;
 }
 

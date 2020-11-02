@@ -6,9 +6,7 @@
         <h1>AEEEE, parabéns por mais esse passo!</h1>
       </div>
       <div id="container__btn">
-        <v-btn
-        class="btn-block btn-primary"
-        @click="finish">
+        <v-btn class="btn-block btn-primary" @click="finish">
           Meu Certificado
         </v-btn>
       </div>
@@ -22,11 +20,6 @@
 </router>
 <script>
 export default {
-  methods: {
-    finish() {
-      $nuxt._router.push(`/pagina-certificado/${this.idUser}/${this.courseId}`);
-    },
-  },
   computed: {
     idUser() {
       return this.$store.state.user.data.id;
@@ -35,10 +28,15 @@ export default {
       return this.$store.state.courses.current.id;
     },
   },
+  methods: {
+    finish() {
+      $nuxt._router.push(`/pagina-certificado/${this.idUser}/${this.courseId}`);
+    },
+  },
 };
 </script>
 
-<style>
+<style scoped>
 .container__screen {
   position: absolute;
   width: 100%;

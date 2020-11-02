@@ -27,9 +27,7 @@
           </div>
           <h4>Youtube</h4>
         </div>
-        <v-btn
-        class="btn-block btn-primary"
-        @click="advanceCourse">
+        <v-btn class="btn-block btn-primary" @click="advanceCourse">
           Próximo
         </v-btn>
       </v-flex>
