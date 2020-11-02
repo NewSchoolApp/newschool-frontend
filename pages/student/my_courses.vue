@@ -188,5 +188,6 @@ h1 {
 }
 #continue__text {
   font-size: smaller;
+  margin-right: 60px;
 }
 </style>
