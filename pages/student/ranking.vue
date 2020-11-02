@@ -166,7 +166,7 @@
 
 <router>
 {
-    path: "/ranking"
+    path: "/aluno/ranking"
 }
 </router>
 
@@ -241,36 +241,41 @@ export default {
       this.dialog = false;
     },
     monthRanking() {
-      if (!this.monthRankingUsers.length) {
-        http
-          .getAll(`${process.env.endpoints.RANKING}`)
-          .then(ranking => {
-            this.generateTopPlayers(ranking);
-            this.monthRankingUsers = ranking.data.slice(3);
+      http
+        .getAll(`${process.env.endpoints.RANKING}`)
+        .then(ranking => {
+          if (!ranking.length) {
+            this.ranking = [];
+            this.top1 = {};
+            this.top2 = {};
+            this.top3 = {};
+          }
+          this.generateTopPlayers(ranking);
+          this.ranking = ranking.data.slice(3);
 
-            this.ranking.forEach(person => {
-              person.user_name = this.splitName(person.userName);
-            });
-          })
-          .catch(error => console.log(error));
-      }
-      this.ranking = this.monthRankingUsers;
+          this.ranking.forEach(person => {
+            person.user_name = this.splitName(person.userName);
+          });
+        })
+        .catch(error => console.log(error));
     },
     yearRanking() {
-      if (!this.yearRankingUsers.length) {
-        http
-          .getAll(`${process.env.endpoints.RANKING}?timeRange=YEAR`)
-          .then(ranking => {
-            this.generateTopPlayers(ranking);
-            this.yearRankingUsers = ranking.data.slice(3);
-
-            this.ranking.forEach(person => {
-              person.user_name = this.splitName(person.userName);
-            });
-          })
-          .catch(error => console.log(error));
-      }
-      this.ranking = this.yearRankingUsers;
+      http
+        .getAll(`${process.env.endpoints.RANKING}?timeRange=YEAR`)
+        .then(ranking => {
+          if (!ranking.length) {
+            this.ranking = [];
+            this.top1 = {};
+            this.top2 = {};
+            this.top3 = {};
+          }
+          this.generateTopPlayers(ranking);
+          this.ranking = ranking.data.slice(3);
+          this.ranking.forEach(person => {
+            person.user_name = this.splitName(person.userName);
+          });
+        })
+        .catch(error => console.log(error));
     },
     splitName(name) {
       return name.split(' ')[0];
