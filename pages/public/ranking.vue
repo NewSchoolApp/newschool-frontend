@@ -1,91 +1,95 @@
 <template>
   <div id="page">
-      <HeaderBar :title="'Ranking'" :back-page="true"></HeaderBar>
-      <!-- Filtros -->
-      <div id="filters">
-        <img
-          class="collapse-button"
-          color="primary"          
-          dark
-          src="../../assets/more_vert_24px.svg"
-          @click.stop="dialog = true"
-        />
-        <v-dialog v-model="dialog" max-width="290">
-          <v-card class="filter-modal">
-            <v-list-item class="item-list" @click="change('city')"
-              >Filtrar por cidade</v-list-item
-            >
-            <v-list-item class="item-list" @click="change('school')"
-              >Filtrar por escola</v-list-item
-            >
-            <v-list-item class="item-list" @click="change('country')"
-              >Filtrar por país
-            </v-list-item>
-          </v-card>
-        </v-dialog>
-        <v-dialog v-model="filter" max-width="290" class="dialog-modal">
-          <v-card>
-            <v-col cols="12">
-              <v-form ref="form" lazy-validation>
-                <v-select
-                  v-if="country"
-                  placeholder="Selecione o seu país!"
-                  :items="countries"
-                  label="País"
-                ></v-select>
-                <v-select
-                  v-if="!country && state"
-                  placeholder="Selecione o seu estado!"
-                  :items="states"
-                  label="Estado"
-                ></v-select>
-                <v-select
-                  v-if="!country && city"
-                  placeholder="Selecione a sua cidade!"
-                  :items="cities"
-                  label="Cidade"
-                ></v-select>
-                <v-select
-                  v-if="!country && school"
-                  placeholder="Selecione a sua escola!"
-                  :items="schools"
-                  label="Escola"
-                ></v-select>
-                <v-card>
-                  <v-btn
-                    class=" btn-block btn-search"
-                    depressed
-                    large
-                    @click="search"
-                    >Buscar</v-btn
-                  >
-                </v-card>
-              </v-form>
-            </v-col>
-          </v-card>
-        </v-dialog>
-      </div>
-      <!-- Tabs mensal anual -->
-      <v-tabs fixed-tabs height="35px">
-        <v-tab>
-          Mensal
-        </v-tab>
-        <v-tab>
-          Anual
-        </v-tab>
-      </v-tabs>
+    <HeaderBar :title="'Ranking'" :back-page="true"></HeaderBar>
+    <!-- Filtros -->
+    <div id="filters">
+      <img
+        class="collapse-button"
+        color="primary"
+        dark
+        src="../../assets/more_vert_24px.svg"
+        @click.stop="dialog = true"
+      />
+      <v-dialog v-model="dialog" max-width="290">
+        <v-card class="filter-modal">
+          <v-list-item class="item-list" @click="change('city')"
+            >Filtrar por cidade</v-list-item
+          >
+          <v-list-item class="item-list" @click="change('school')"
+            >Filtrar por escola</v-list-item
+          >
+          <v-list-item class="item-list" @click="change('country')"
+            >Filtrar por país
+          </v-list-item>
+        </v-card>
+      </v-dialog>
+      <v-dialog v-model="filter" max-width="290" class="dialog-modal">
+        <v-card>
+          <v-col cols="12">
+            <v-form ref="form" lazy-validation>
+              <v-select
+                v-if="country"
+                placeholder="Selecione o seu país!"
+                :items="countries"
+                label="País"
+              ></v-select>
+              <v-select
+                v-if="!country && state"
+                placeholder="Selecione o seu estado!"
+                :items="states"
+                label="Estado"
+              ></v-select>
+              <v-select
+                v-if="!country && city"
+                placeholder="Selecione a sua cidade!"
+                :items="cities"
+                label="Cidade"
+              ></v-select>
+              <v-select
+                v-if="!country && school"
+                placeholder="Selecione a sua escola!"
+                :items="schools"
+                label="Escola"
+              ></v-select>
+              <v-card>
+                <v-btn
+                  class=" btn-block btn-search"
+                  depressed
+                  large
+                  @click="search"
+                  >Buscar</v-btn
+                >
+              </v-card>
+            </v-form>
+          </v-col>
+        </v-card>
+      </v-dialog>
+    </div>
+    <!-- Tabs mensal anual -->
+    <v-tabs fixed-tabs height="35px">
+      <v-tab @click="monthRanking">
+        Mensal
+      </v-tab>
+      <v-tab @click="yearRanking">
+        Anual
+      </v-tab>
+    </v-tabs>
     <v-col id="main-col">
       <!-- Rank -->
-      <v-col  class="background">
+      <v-col class="background">
         <!-- self rank -->
         <v-col>
-          <v-row class="frame self-rank" align="center" style="text-align: center">
+          <v-row
+            class="frame self-rank"
+            align="center"
+            style="text-align: center"
+          >
             <v-col>
               <h3 class="self-rank-data">20º</h3>
             </v-col>
             <v-col>
               <v-avatar class="self-rank-avatar" size="70">
-                <img :src="require(`@/assets/avatarTeste.png`)" /> 
+                <img :src="require(`~/assets/person.svg`)" />
               </v-avatar>
             </v-col>
             <v-col>
@@ -99,7 +103,7 @@
             <v-col class="flex top__one">
               <img class="icon" src="../../assets/silver-medal.svg" alt="" />
               <v-avatar size="60">
-                <img :src="require(`@/assets/avatarTeste.png`)" /> 
+                <img :src="require(`~/assets/person.svg`)" />
               </v-avatar>
               <p>{{ top2.points }} PTS</p>
               <h1>{{ top2.name }}</h1>
@@ -107,15 +111,15 @@
             <v-col class="flex top__two">
               <img class="icon" src="../../assets/troph.png" alt="" />
               <v-avatar size="70">
-                <img :src="require(`@/assets/avatarTeste.png`)" /> 
-              </v-avatar> 
+                <img :src="require(`~/assets/person.svg`)" />
+              </v-avatar>
               <p>{{ top1.points }} PTS</p>
               <h1>{{ top1.name }}</h1>
             </v-col>
             <v-col class="flex top__three">
               <img class="icon" src="../../assets/bronze.svg" alt="" />
               <v-avatar size="60">
-                <img :src="require(`@/assets/avatarTeste.png`)" /> 
+                <img :src="require(`~/assets/person.svg`)" />
               </v-avatar>
               <p>{{ top3.points }} PTS</p>
               <h1>{{ top3.name }}</h1>
@@ -203,19 +207,12 @@ export default {
         name: '',
       },
       ranking: [],
+      monthRankingUsers: [],
+      yearRankingUsers: [],
     };
   },
   mounted() {
-    http
-      .getAll(`${process.env.endpoints.RANKING}`)
-      .then(ranking => {
-        this.generateTopPlayers(ranking);
-        this.ranking = ranking.data.slice(3);
-        this.ranking.forEach(person => {
-          person.user_name = this.splitName(person.userName);
-        });
-      })
-      .catch(error => console.log(error));
+    this.monthRanking();
   },
   methods: {
     change(data) {
@@ -242,6 +239,38 @@ export default {
           break;
       }
       this.dialog = false;
+    },
+    monthRanking() {
+      if (!this.monthRankingUsers.length) {
+        http
+          .getAll(`${process.env.endpoints.RANKING}`)
+          .then(ranking => {
+            this.generateTopPlayers(ranking);
+            this.monthRankingUsers = ranking.data.slice(3);
+
+            this.ranking.forEach(person => {
+              person.user_name = this.splitName(person.userName);
+            });
+          })
+          .catch(error => console.log(error));
+      }
+      this.ranking = this.monthRankingUsers;
+    },
+    yearRanking() {
+      if (!this.yearRankingUsers.length) {
+        http
+          .getAll(`${process.env.endpoints.RANKING}?timeRange=YEAR`)
+          .then(ranking => {
+            this.generateTopPlayers(ranking);
+            this.yearRankingUsers = ranking.data.slice(3);
+
+            this.ranking.forEach(person => {
+              person.user_name = this.splitName(person.userName);
+            });
+          })
+          .catch(error => console.log(error));
+      }
+      this.ranking = this.yearRankingUsers;
     },
     splitName(name) {
       return name.split(' ')[0];

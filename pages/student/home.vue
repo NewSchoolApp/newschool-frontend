@@ -9,9 +9,8 @@
       />
     </div>
   </div>
-  <div id="page" v-else>
+  <div v-else id="page">
     <v-col id="main-col">
-
       <v-row justify="end">
         <v-icon id="bell">mdi-bell-ring-outline</v-icon>
       </v-row>
@@ -19,7 +18,7 @@
       <!-- Header-bar -->
       <v-row id="header" align="center">
         <v-avatar size="55">
-          <img :src="require(`~/assets/avatarTeste.png`)" />
+          <img :src="require(`~/assets/person.svg`)" />
         </v-avatar>
 
         <v-col>
