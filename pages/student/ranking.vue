@@ -85,7 +85,7 @@
             style="text-align: center"
           >
             <v-col>
-              <h3 class="self-rank-data">20º</h3>
+              <h3 class="self-rank-data">{{ userPosition || 0 }}º</h3>
             </v-col>
             <v-col>
               <v-avatar class="self-rank-avatar" size="70">
@@ -93,7 +93,7 @@
               </v-avatar>
             </v-col>
             <v-col>
-              <h3 class="self-rank-data">100 XP</h3>
+              <h3 class="self-rank-data">{{ userPoints || 0 }} XP</h3>
             </v-col>
           </v-row>
         </v-col>
@@ -194,6 +194,8 @@ export default {
       schools: ['Geraldino', 'Colesan'],
       labels: ['Filtrar por Pais', 'Filtrar por Escola', 'Filtrar por Cidade '],
       dialog: false,
+      userPosition: 0,
+      userPoints: 0,
       top1: {
         points: '',
         name: '',
@@ -207,9 +209,12 @@ export default {
         name: '',
       },
       ranking: [],
-      monthRankingUsers: [],
-      yearRankingUsers: [],
     };
+  },
+  computed: {
+    user() {
+      return this.$store.state.user.data;
+    },
   },
   mounted() {
     this.monthRanking();
@@ -258,6 +263,7 @@ export default {
           });
         })
         .catch(error => console.log(error));
+      this.getUserPositionByMonth(this.user.id);
     },
     yearRanking() {
       http
@@ -276,9 +282,35 @@ export default {
           });
         })
         .catch(error => console.log(error));
+      this.getUserPositionByYear(this.user.id);
     },
     splitName(name) {
-      return name.split(' ')[0];
+      if (name.split(' ').length > 1) {
+        return name.split(' ')[0];
+      }
+      return name;
+    },
+    getUserPositionByMonth(userId) {
+      http
+        .getAll(
+          `${process.env.endpoints.RANKING}/user/${userId}?timeRange=MONTH`,
+        )
+        .then(userRanking => {
+          const { rank, points } = userRanking.data;
+          this.userPosition = rank;
+          this.userPoints = points;
+        });
+    },
+    getUserPositionByYear(userId) {
+      http
+        .getAll(
+          `${process.env.endpoints.RANKING}/user/${userId}?timeRange=YEAR`,
+        )
+        .then(userRanking => {
+          const { rank, points } = userRanking.data;
+          this.userPosition = rank;
+          this.userPoints = points;
+        });
     },
     generateTopPlayers(ranking) {
       ranking.data = ranking.data.reverse();
@@ -291,7 +323,7 @@ export default {
         points: ranking.data[1].points,
       };
       this.top3 = {
-        name: this.splitName(ranking.data[0].userName),
+        name: this.splitName(ranking.data[2].userName),
         points: ranking.data[2].points,
       };
     },
