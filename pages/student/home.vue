@@ -9,17 +9,25 @@
       />
     </div>
   </div>
-  <div id="page" v-else>
+  <div v-else id="page">
     <v-col id="main-col">
-
       <v-row justify="end">
-        <v-icon id="bell">mdi-bell-ring-outline</v-icon>
+        <img
+          class="header_img"
+          :src="require(`~/assets/trophy-home.svg`)"
+          @click="goToRanking"
+        />
+        <img
+          id="bell"
+          class="header_img"
+          :src="require(`~/assets/bell-home.svg`)"
+        />
       </v-row>
 
       <!-- Header-bar -->
       <v-row id="header" align="center">
         <v-avatar size="55">
-          <img :src="require(`~/assets/avatarTeste.png`)" />
+          <img :src="require(`~/assets/person.svg`)" />
         </v-avatar>
 
         <v-col>
@@ -116,6 +124,9 @@ export default {
     loadUserName() {
       return this.user.name.split(' ')[0];
     },
+    goToRanking() {
+      $nuxt._router.push('/aluno/ranking');
+    },
   },
   head() {
     return {
@@ -163,6 +174,20 @@ export default {
   font-weight: 900;
   font-size: 0.9rem;
   margin-bottom: 16px;
+}
+
+.header_img {
+  width: 24px;
+  height: 24px;
+  margin-right: 20px;
+}
+
+#bell {
+  color: #737373;
+  width: 20px;
+  height: 20px;
+  margin-right: 5px;
+  margin-top: 5px;
 }
 
 /* especificações gerais da fonte do label e do valor */
@@ -255,9 +280,9 @@ h1 {
 }
 
 .xp {
-  font-weight: 400;
-  font-size: 1.25rem;
-  color: rgba(0, 0, 0, 0.5);
+  font-weight: 900;
+  font-size: 1rem;
+  color: rgba(26, 26, 26, 1);
   flex: center;
 }
 
