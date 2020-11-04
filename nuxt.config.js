@@ -265,6 +265,7 @@ export default {
    */
   plugins: [
     '~/plugins/notifier.js',
+    '~/plugins/pusher.js',
     '~/plugins/cordova.client.js',
     '~/plugins/admin-components.js',
     { src: '~/plugins/ga.js', mode: 'client' },

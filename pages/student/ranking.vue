@@ -89,7 +89,8 @@
             </v-col>
             <v-col>
               <v-avatar class="self-rank-avatar" size="70">
-                <img :src="require(`~/assets/person.svg`)" />
+                <img v-if="user.photo" :src="require(`${user.photo}`)" />
+                <img v-else :src="require(`~/assets/person.svg`)" />
               </v-avatar>
             </v-col>
             <v-col>
@@ -103,7 +104,8 @@
             <v-col class="flex top__one">
               <img class="icon" src="../../assets/silver-medal.svg" alt="" />
               <v-avatar size="60">
-                <img :src="require(`~/assets/person.svg`)" />
+                <img v-if="user.photo" :src="require(top2.photo)" />
+                <img v-else :src="require(`~/assets/person.svg`)" />
               </v-avatar>
               <p>{{ top2.points }} PTS</p>
               <h1>{{ top2.name }}</h1>
@@ -111,7 +113,8 @@
             <v-col class="flex top__two">
               <img class="icon" src="../../assets/troph.png" alt="" />
               <v-avatar size="70">
-                <img :src="require(`~/assets/person.svg`)" />
+                <img v-if="user.photo" :src="require(top1.photo)" />
+                <img v-else :src="require(`~/assets/person.svg`)" />
               </v-avatar>
               <p>{{ top1.points }} PTS</p>
               <h1>{{ top1.name }}</h1>
@@ -119,7 +122,8 @@
             <v-col class="flex top__three">
               <img class="icon" src="../../assets/bronze.svg" alt="" />
               <v-avatar size="60">
-                <img :src="require(`~/assets/person.svg`)" />
+                <img v-if="user.photo" :src="require(top3.photo)" />
+                <img v-else :src="require(`~/assets/person.svg`)" />
               </v-avatar>
               <p>{{ top3.points }} PTS</p>
               <h1>{{ top3.name }}</h1>
@@ -145,7 +149,12 @@
                     <td>{{ index + 4 }}º</td>
                     <td>
                       <div class="img-text">
-                        <img src="../../assets/person.svg" class="img-middle" />
+                        <img
+                          v-if="item.photo"
+                          class="img-rounded"
+                          :src="item.photo"
+                        />
+                        <img v-else :src="require(`~/assets/person.svg`)" />
                         <p class="name_person">{{ item.user_name }}</p>
                       </div>
                     </td>
@@ -199,14 +208,17 @@ export default {
       top1: {
         points: '',
         name: '',
+        photo: '',
       },
       top2: {
         points: '',
         name: '',
+        photo: '',
       },
       top3: {
         points: '',
         name: '',
+        photo: '',
       },
       ranking: [],
     };
@@ -317,14 +329,17 @@ export default {
       this.top1 = {
         name: this.splitName(ranking.data[0].userName),
         points: ranking.data[0].points,
+        photo: ranking.data[0].photo,
       };
       this.top2 = {
         name: this.splitName(ranking.data[1].userName),
         points: ranking.data[1].points,
+        photo: ranking.data[1].photo,
       };
       this.top3 = {
         name: this.splitName(ranking.data[2].userName),
         points: ranking.data[2].points,
+        photo: ranking.data[2].photo,
       };
     },
   },
@@ -368,6 +383,13 @@ export default {
   background-color: #f8f8f8;
   padding: 0 !important;
 }
+
+.img-rounded {
+  width: 32px;
+  height: 32px;
+  border-radius: 50px;
+}
+
 ::v-deep .v-tabs-slider-wrapper {
   height: 4px !important;
   color: var(--primary-light);
@@ -503,7 +525,7 @@ export default {
 .name_person {
   font-size: 14px;
   font-weight: 700;
-  margin-top: 5px;
+  margin: 5px 0 0 10px;
   color: rgb(63, 61, 86);
 }
 td {
