@@ -37,7 +37,7 @@
           <h1 class="welcome-subtitle">Seja bem-vindo</h1>
         </v-col>
 
-        <h1 class="xp">100 XP</h1>
+        <h1 class="xp">{{ userPoints || 0 }} XP</h1>
       </v-row>
 
       <!-- Search Field -->
@@ -95,6 +95,7 @@ export default {
     list: [],
     loading: true,
     filtro: '',
+    userPoints: '',
   }),
   computed: {
     user() {
@@ -118,6 +119,7 @@ export default {
     return http.getAll(process.env.endpoints.COURSE).then(res => {
       this.list = res.data;
       this.loading = false;
+      this.getUserPositionByYear(this.user.id);
     });
   },
   methods: {
@@ -126,6 +128,16 @@ export default {
     },
     goToRanking() {
       $nuxt._router.push('/aluno/ranking');
+    },
+    getUserPositionByYear(userId) {
+      http
+        .getAll(
+          `${process.env.endpoints.RANKING}/user/${userId}?timeRange=YEAR`,
+        )
+        .then(userRanking => {
+          const { points } = userRanking.data;
+          this.userPoints = points;
+        });
     },
   },
   head() {

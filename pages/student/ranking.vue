@@ -85,15 +85,16 @@
             style="text-align: center"
           >
             <v-col>
-              <h3 class="self-rank-data">20º</h3>
+              <h3 class="self-rank-data">{{ userPosition || 0 }}º</h3>
             </v-col>
             <v-col>
               <v-avatar class="self-rank-avatar" size="70">
-                <img :src="require(`~/assets/person.svg`)" />
+                <img v-if="user.photo" :src="require(`${user.photo}`)" />
+                <img v-else :src="require(`~/assets/person.svg`)" />
               </v-avatar>
             </v-col>
             <v-col>
-              <h3 class="self-rank-data">100 XP</h3>
+              <h3 class="self-rank-data">{{ userPoints || 0 }} XP</h3>
             </v-col>
           </v-row>
         </v-col>
@@ -103,7 +104,8 @@
             <v-col class="flex top__one">
               <img class="icon" src="../../assets/silver-medal.svg" alt="" />
               <v-avatar size="60">
-                <img :src="require(`~/assets/person.svg`)" />
+                <img v-if="user.photo" :src="require(top2.photo)" />
+                <img v-else :src="require(`~/assets/person.svg`)" />
               </v-avatar>
               <p>{{ top2.points }} PTS</p>
               <h1>{{ top2.name }}</h1>
@@ -111,7 +113,8 @@
             <v-col class="flex top__two">
               <img class="icon" src="../../assets/troph.png" alt="" />
               <v-avatar size="70">
-                <img :src="require(`~/assets/person.svg`)" />
+                <img v-if="user.photo" :src="require(top1.photo)" />
+                <img v-else :src="require(`~/assets/person.svg`)" />
               </v-avatar>
               <p>{{ top1.points }} PTS</p>
               <h1>{{ top1.name }}</h1>
@@ -119,7 +122,8 @@
             <v-col class="flex top__three">
               <img class="icon" src="../../assets/bronze.svg" alt="" />
               <v-avatar size="60">
-                <img :src="require(`~/assets/person.svg`)" />
+                <img v-if="user.photo" :src="require(top3.photo)" />
+                <img v-else :src="require(`~/assets/person.svg`)" />
               </v-avatar>
               <p>{{ top3.points }} PTS</p>
               <h1>{{ top3.name }}</h1>
@@ -145,7 +149,12 @@
                     <td>{{ index + 4 }}º</td>
                     <td>
                       <div class="img-text">
-                        <img src="../../assets/person.svg" class="img-middle" />
+                        <img
+                          v-if="item.photo"
+                          class="img-rounded"
+                          :src="item.photo"
+                        />
+                        <img v-else :src="require(`~/assets/person.svg`)" />
                         <p class="name_person">{{ item.user_name }}</p>
                       </div>
                     </td>
@@ -194,22 +203,30 @@ export default {
       schools: ['Geraldino', 'Colesan'],
       labels: ['Filtrar por Pais', 'Filtrar por Escola', 'Filtrar por Cidade '],
       dialog: false,
+      userPosition: 0,
+      userPoints: 0,
       top1: {
         points: '',
         name: '',
+        photo: '',
       },
       top2: {
         points: '',
         name: '',
+        photo: '',
       },
       top3: {
         points: '',
         name: '',
+        photo: '',
       },
       ranking: [],
-      monthRankingUsers: [],
-      yearRankingUsers: [],
     };
+  },
+  computed: {
+    user() {
+      return this.$store.state.user.data;
+    },
   },
   mounted() {
     this.monthRanking();
@@ -258,6 +275,7 @@ export default {
           });
         })
         .catch(error => console.log(error));
+      this.getUserPositionByMonth(this.user.id);
     },
     yearRanking() {
       http
@@ -276,23 +294,52 @@ export default {
           });
         })
         .catch(error => console.log(error));
+      this.getUserPositionByYear(this.user.id);
     },
     splitName(name) {
-      return name.split(' ')[0];
+      if (name.split(' ').length > 1) {
+        return name.split(' ')[0];
+      }
+      return name;
+    },
+    getUserPositionByMonth(userId) {
+      http
+        .getAll(
+          `${process.env.endpoints.RANKING}/user/${userId}?timeRange=MONTH`,
+        )
+        .then(userRanking => {
+          const { rank, points } = userRanking.data;
+          this.userPosition = rank;
+          this.userPoints = points;
+        });
+    },
+    getUserPositionByYear(userId) {
+      http
+        .getAll(
+          `${process.env.endpoints.RANKING}/user/${userId}?timeRange=YEAR`,
+        )
+        .then(userRanking => {
+          const { rank, points } = userRanking.data;
+          this.userPosition = rank;
+          this.userPoints = points;
+        });
     },
     generateTopPlayers(ranking) {
       ranking.data = ranking.data.reverse();
       this.top1 = {
         name: this.splitName(ranking.data[0].userName),
         points: ranking.data[0].points,
+        photo: ranking.data[0].photo,
       };
       this.top2 = {
         name: this.splitName(ranking.data[1].userName),
         points: ranking.data[1].points,
+        photo: ranking.data[1].photo,
       };
       this.top3 = {
-        name: this.splitName(ranking.data[0].userName),
+        name: this.splitName(ranking.data[2].userName),
         points: ranking.data[2].points,
+        photo: ranking.data[2].photo,
       };
     },
   },
@@ -336,6 +383,13 @@ export default {
   background-color: #f8f8f8;
   padding: 0 !important;
 }
+
+.img-rounded {
+  width: 32px;
+  height: 32px;
+  border-radius: 50px;
+}
+
 ::v-deep .v-tabs-slider-wrapper {
   height: 4px !important;
   color: var(--primary-light);
@@ -471,7 +525,7 @@ export default {
 .name_person {
   font-size: 14px;
   font-weight: 700;
-  margin-top: 5px;
+  margin: 5px 0 0 10px;
   color: rgb(63, 61, 86);
 }
 td {
