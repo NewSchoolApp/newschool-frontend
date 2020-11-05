@@ -65,21 +65,23 @@
           <div class="share__achievement">
             <p>Compartilhe com seus amigos</p>
             <div>
-              <social-sharing
+              <!-- <social-sharing
                 url="http://newschool-ui-dev.eba-fdz8zprg.us-east-2.elasticbeanstalk.com/cadastro"
                 :title="'Acertei uma questão na New School'"
                 :description="textNotification"
                 :hashtags="tryMessage"
                 :twitter-user="'NewSchoolApp'"
                 inline-template
-              >
-                <div class="icons">
-                  <network class="icon" network="whatsapp">
-                    <img
-                      src="../../../assets/whats-notify.svg"
-                      alt="Whatsapp"
-                    />
-                  </network>
+              > -->
+              <div class="icons">
+                <!-- <network class="icon" network="whatsapp"> -->
+                <img
+                  v-if="webShareApiSupported"
+                  src="../../../assets/whats-notify.svg"
+                  alt="Whatsapp"
+                  @click="share"
+                />
+                <!-- </network>
                   <network class="icon" network="facebook">
                     <img src="../../../assets/face-notify.svg" alt="Facebook" />
                   </network>
@@ -94,9 +96,9 @@
                       src="../../../assets/linkedin-notify.svg"
                       alt="Linkedin"
                     />
-                  </network>
-                </div>
-              </social-sharing>
+                  </network> -->
+              </div>
+              <!-- </social-sharing> -->
             </div>
           </div>
         </div>
@@ -212,6 +214,9 @@ export default {
     courseId() {
       return this.$store.state.courses.current.id;
     },
+    webShareApiSupported() {
+      return navigator.share;
+    },
 
     // Vamos alterar o getter e setter do selected para poder alterar os valores do checkbox como se fosse um radio group
     selected: {
@@ -242,6 +247,13 @@ export default {
       this.snackbarText = text;
       this.snackbarStatus = status;
       this.snackbar = true;
+    },
+    share() {
+      navigator.share({
+        title: 'Title to be shared',
+        text: 'Text to be shared',
+        url: 'URL to be shared',
+      });
     },
     resetBadgeAndContinue() {
       this.badgePoints = 0;
