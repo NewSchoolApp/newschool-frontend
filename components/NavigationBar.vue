@@ -41,8 +41,13 @@ export default {
     viewMenu: false,
     auth: false,
     menu: [
-      { id: 1, name: 'Início', icon: 'mdi-home', link: '/aluno/home' },
-      { id: 2, name: 'Perfil', icon: 'mdi-account', link: '/aluno/perfil' },
+      { id: 1, name: 'Início', icon: 'mdi-home-outline', link: '/aluno/home' },
+      {
+        id: 2,
+        name: 'Perfil',
+        icon: 'mdi-account-outline',
+        link: '/aluno/perfil',
+      },
       {
         id: 3,
         name: 'Meus Cursos',
@@ -52,13 +57,16 @@ export default {
       {
         id: 4,
         name: 'Certificados',
-        icon: 'mdi-school',
+        icon: 'mdi-school-outline',
         link: '/aluno/certificados',
         class: '',
       },
     ],
   }),
   mounted() {
+    // this.menu[1].addEventLiestener('click', () => {
+    //   alert('oi');
+    // });
     const { status } = auth.isTokenValid();
     if (status) {
       this.auth = true;
@@ -87,6 +95,7 @@ export default {
 }
 .v-icon {
   margin-right: 0 !important;
+  padding-top: 5px;
 }
 #page {
   margin-bottom: 5rem !important;
@@ -99,6 +108,30 @@ export default {
   animation-duration: 0.2s;
 }
 >>> .v-item-group.v-bottom-navigation .v-btn.v-btn--active .v-btn__content {
+  color: var(--primary);
+}
+.mdi-library::before {
+  content: url('https://api.iconify.design/ic:outline-local-library.svg?color=rgb(112%2C112%2C112)&height=24');
+  vertical-align: -0.125em;
+}
+>>> .v-item-group.v-bottom-navigation
+  .v-btn.v-btn--active
+  .v-btn__content
+  .mdi-library::before {
+  content: url('https://api.iconify.design/ic:outline-local-library.svg?color=rgb(102%2C0%2C204)&height=24');
+  vertical-align: -0.125em;
+}
+
+span {
+  font-size: 8px;
+  font-weight: 400;
+  color: rgb(115, 115, 115);
+  margin-top: 5px;
+}
+>>> .v-item-group.v-bottom-navigation
+  .v-btn.v-btn--active
+  .v-btn__content
+  span {
   color: var(--primary);
 }
 

@@ -439,7 +439,7 @@ h4 {
   color: var(--primary);
   width: 20px;
   height: 20px;
-  z-index: 5;
+  z-index: 9999999;
 }
 
 #close-btn {
@@ -483,7 +483,9 @@ h4 {
 .notification__content {
   background-image: url('../../../assets/background-fire.png');
   background-repeat: no-repeat;
-  background-size: 100% 100%;
+  background-size: cover;
+  max-width: 480px;
+  margin: 0 auto;
 }
 
 ::v-deep .main-container {
@@ -512,6 +514,7 @@ h4 {
   left: 0;
   z-index: 999;
   width: 100%;
+  max-height: 280px;
 }
 
 ::v-deep .theme--light.v-label {
@@ -537,5 +540,25 @@ h4 {
 ::v-deep .fourth-alternative > div > div > label:before {
   content: 'D:';
   @include inner-text-checkbox;
+}
+.icons:hover {
+  cursor: pointer;
+}
+
+@media (min-width: 480px) {
+  .notification__content {
+    top: 0;
+    height: 100vh;
+  }
+  .messages {
+    margin-top: -12%;
+  }
+  .notification__image {
+    top: 10%;
+  }
+  #page {
+    height: 100vh;
+    overflow: hidden;
+  }
 }
 </style>
