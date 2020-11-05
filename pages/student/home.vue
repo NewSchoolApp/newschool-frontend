@@ -109,12 +109,7 @@ export default {
         return this.list;
       }
     },
-  },
-  watch: {
-    filtro() {
-      console.log(this.filtro);
-    },
-  },
+  },  
   mounted() {
     return http.getAll(process.env.endpoints.COURSE).then(res => {
       this.list = res.data;

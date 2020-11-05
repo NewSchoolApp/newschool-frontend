@@ -1,7 +1,18 @@
 <template>
   <div>
     <div v-show="!loading" id="page">
-      <HeaderBar :title="'Meus Cursos'" :back-page="true"></HeaderBar>
+      <HeaderBar :title="'Meus Cursos'" :back-page="true" />
+      <v-tabs 
+        fixed-tabs 
+        height="35px" 
+        v-model="selectedTab">
+        <v-tab>
+          Em andamento
+        </v-tab>
+        <v-tab>
+          Finalizados
+        </v-tab>
+      </v-tabs>
       <div v-if="courses.length">
         <div v-for="course of courses" :key="course.course.id">
           <course-progress :course="course" />
@@ -49,15 +60,24 @@ export default {
   },
   data: () => ({
     loading: true,
+    selectedTab: 0, //(0 == Em andamento, 1 == Finalizados)
   }),
   computed: {
     courses() {
-      return this.$store.state.courses.list;
+      return this.$store.state.courses.list.filter(course => {
+        if (this.selectedTab == "1") {
+          return course.completion == 100
+        }
+        else{
+          return course.completion < 100
+        }
+        
+      });
     },
     user() {
       return this.$store.state.user.data;
     },
-  },
+  },    
   mounted() {
     setTimeout(() => {
       this.loading = false;
@@ -68,10 +88,26 @@ export default {
 
 <style scoped lang="scss">
 * {
+  font-family: 'Roboto', sans-serif;
   transition: 0.2 ease-in;
 }
 #page {
   height: 100%;
   margin-bottom: 60px;
+}
+::v-deep .v-tabs-slider-wrapper {
+  height: 4px !important;
+  color: var(--primary-light);
+}
+::v-deep .v-tab {
+  font-size: 11px !important;
+  line-height: 16px;
+  font-weight: 500;
+  color: grey;
+  text-transform: none;
+  border-bottom: 4px solid #f5f5f5;
+}
+::v-deep .v-tabs {
+  max-height: 32px;
 }
 </style>

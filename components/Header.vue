@@ -29,8 +29,11 @@ export default {
 </script>
 
 <style scoped>
+* {
+  font-family: 'Roboto', sans-serif;
+}
 .h1__theme {
-  font-size: 1.4rem;
+  font-size: 1rem;
   line-height: 1.2;
   font-weight: 900;
   text-align: center;
