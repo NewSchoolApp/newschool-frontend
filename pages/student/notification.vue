@@ -1,8 +1,7 @@
 <template>
   <div>
+    <HeaderBar :title="'Notificação'" :back-page="true" />
     <div v-show="!loading" id="page">
-      <HeaderBar :title="'Notificação'" :back-page="true" />
-
       <div v-if="notifications.length">
         <div
           v-infinite-scroll="getUserList"
@@ -60,7 +59,7 @@ export default {
 
   data: () => ({
     loading: true,
-    limit: 20,
+    limit: 100,
     busy: false,
     slicedNotifications: [],
     notifications: [],
