@@ -179,7 +179,7 @@ export default {
     endpoints: {
       CERTIFICATES_ME: 'api/v1/course-taken/certificates/user/',
       RANKING: '/api/v1/gamefication/ranking',
-      NOTIFICATIONS: 'api/v1/user/user',
+      NOTIFICATIONS: 'api/v1/notification/user',
       USER_ME: 'api/v1/user/me',
       LOGIN: 'oauth/token',
       SIGN_UP: 'api/v1/user/student',

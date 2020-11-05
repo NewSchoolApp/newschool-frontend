@@ -454,13 +454,7 @@ h4 {
   height: 193px;
   margin: 40% auto 10%;
 }
-.btn-block,
-.btn-white {
-  border-radius: 25px !important;
-  max-width: 116px;
-  max-height: 43px;
-  font-weight: 900 !important;
-}
+
 .messages {
   padding: 0 2em;
 }

@@ -1,9 +1,9 @@
 <template>
-  <div class="card" @click="goTo()">
+  <div class="card">
     <div class="header__info">
       <img src="~/assets/gabs-small.svg" />
       <h1>{{ notification.content.badge.badgeDescription }}</h1>
-      <p id="continue__text">{{ notification.createdAt.slice(11, 16) }}</p>
+      <p id="continue__text">{{ notificationDate }}</p>
     </div>
   </div>
 </template>
@@ -12,7 +12,33 @@
 export default {
   name: 'NotificationCard',
   props: ['notification'],
-  methods: {},
+
+  data: () => ({
+    notificationDate: '',
+  }),
+  mounted() {
+    this.checkDate();
+  },
+  methods: {
+    checkDate() {
+      const notificationDateHourAndMinute = this.notification.createdAt.slice(
+        11,
+        16,
+      );
+      const notificationMonthAndDay = this.notification.createdAt.slice(5, 10);
+      const today = new Date().getDay() + 1;
+      const month = new Date().getMonth() + 1;
+      const dateSplited = notificationMonthAndDay.split('-');
+      if (dateSplited[1] < today || dateSplited[0] < month) {
+        this.notificationDate =
+          today - dateSplited[1] === 1
+            ? `Ontem - ${notificationDateHourAndMinute}`
+            : `${dateSplited[1]}/${dateSplited[0]} - ${notificationDateHourAndMinute}`;
+      } else {
+        this.notificationDate = notificationDateHourAndMinute;
+      }
+    },
+  },
 };
 </script>
 
@@ -30,6 +56,7 @@ h1 {
   line-height: 12px;
   letter-spacing: 0em;
   text-align: left;
+  min-width: 185px;
   color: rgb(26, 26, 26);
   max-width: 70%;
 }
@@ -74,6 +101,7 @@ h1 {
 #continue__text {
   font-size: 8px;
   font-weight: 300;
+  min-width: 55px;
   line-height: 9px;
   text-align: right;
   color: rgb(63, 61, 86);
