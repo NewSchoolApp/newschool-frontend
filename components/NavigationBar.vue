@@ -64,6 +64,9 @@ export default {
     ],
   }),
   mounted() {
+    // this.menu[1].addEventLiestener('click', () => {
+    //   alert('oi');
+    // });
     const { status } = auth.isTokenValid();
     if (status) {
       this.auth = true;
