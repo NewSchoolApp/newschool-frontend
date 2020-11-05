@@ -65,23 +65,21 @@
           <div class="share__achievement">
             <p>Compartilhe com seus amigos</p>
             <div>
-              <!-- <social-sharing
+              <social-sharing
                 url="http://newschool-ui-dev.eba-fdz8zprg.us-east-2.elasticbeanstalk.com/cadastro"
                 :title="'Acertei uma questão na New School'"
                 :description="textNotification"
-                :hashtags="tryMessage"
+                :hashtags="hasthtag"
                 :twitter-user="'NewSchoolApp'"
                 inline-template
-              > -->
-              <div class="icons">
-                <!-- <network class="icon" network="whatsapp"> -->
-                <img
-                  v-if="webShareApiSupported"
-                  src="../../../assets/whats-notify.svg"
-                  alt="Whatsapp"
-                  @click="share"
-                />
-                <!-- </network>
+              >
+                <div class="icons">
+                  <network class="icon" network="whatsapp">
+                    <img
+                      src="../../../assets/whats-notify.svg"
+                      alt="Whatsapp"
+                    />
+                  </network>
                   <network class="icon" network="facebook">
                     <img src="../../../assets/face-notify.svg" alt="Facebook" />
                   </network>
@@ -96,9 +94,9 @@
                       src="../../../assets/linkedin-notify.svg"
                       alt="Linkedin"
                     />
-                  </network> -->
-              </div>
-              <!-- </social-sharing> -->
+                  </network>
+                </div>
+              </social-sharing>
             </div>
           </div>
         </div>
@@ -196,6 +194,7 @@ export default {
     correct: false,
     loading: true,
     try: 1,
+    hasthtag: '',
     badgePoints: 0,
     tryMessage: '',
     headerNotification: '',
@@ -213,9 +212,6 @@ export default {
     },
     courseId() {
       return this.$store.state.courses.current.id;
-    },
-    webShareApiSupported() {
-      return navigator.share;
     },
 
     // Vamos alterar o getter e setter do selected para poder alterar os valores do checkbox como se fosse um radio group
@@ -247,13 +243,6 @@ export default {
       this.snackbarText = text;
       this.snackbarStatus = status;
       this.snackbar = true;
-    },
-    share() {
-      navigator.share({
-        title: 'Deu tudo certo',
-        text: 'Um teste para testar',
-        url: 'www.newschoolapp.com.br',
-      });
     },
     resetBadgeAndContinue() {
       this.badgePoints = 0;
@@ -311,6 +300,7 @@ export default {
 
       this.badgePoints = points[this.try];
       this.tryMessage = trymessage[this.try];
+      this.hasthtag = this.tryMessage.split('\n').join('');
       this.headerNotification = headerMessage[this.try];
       this.textNotification = bodyMessage[this.try];
       console.log(this.badgePoints);
