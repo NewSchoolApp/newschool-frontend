@@ -253,16 +253,16 @@ export default {
         .then(() => {
           alert('Obrigado por compartilhar!');
         });
-      if (navigator.share) {
-        navigator
-          .share({
-            title: window.document.title,
-            url: window.document.location.href,
-          })
-          .then(() => {
-            alert('Obrigado por compartilhar!');
-          });
-      }
+      // if (navigator.share) {
+      //   navigator
+      //     .share({
+      //       title: window.document.title,
+      //       url: window.document.location.href,
+      //     })
+      //     .then(() => {
+      //       alert('Obrigado por compartilhar!');
+      //     });
+      // }
     },
     resetBadgeAndContinue() {
       this.badgePoints = 0;
