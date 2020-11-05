@@ -179,6 +179,7 @@ export default {
     endpoints: {
       CERTIFICATES_ME: 'api/v1/course-taken/certificates/user/',
       RANKING: '/api/v1/gamefication/ranking',
+      NOTIFICATIONS: 'api/v1/user/user',
       USER_ME: 'api/v1/user/me',
       LOGIN: 'oauth/token',
       SIGN_UP: 'api/v1/user/student',
@@ -268,6 +269,7 @@ export default {
     '~/plugins/pusher.js',
     '~/plugins/cordova.client.js',
     '~/plugins/admin-components.js',
+    { src: '~/plugins/infinite-scroll.js', mode: 'client' },
     { src: '~/plugins/ga.js', mode: 'client' },
     { src: '~/plugins/redirect', mode: 'client' },
   ],

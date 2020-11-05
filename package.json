@@ -50,6 +50,7 @@
     "pusher-js": "^7.0.1",
     "vue-avatar": "^2.1.8",
     "vue-chartjs": "^3.5.1",
+    "vue-infinite-scroll": "^2.0.2",
     "vue-social-sharing": "^2.4.7",
     "vue-the-mask": "^0.11.1"
   },

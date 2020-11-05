@@ -21,6 +21,7 @@
           id="bell"
           class="header_img"
           :src="require(`~/assets/bell-home.svg`)"
+          @click="goToNotifications"
         />
       </v-row>
 
@@ -109,7 +110,7 @@ export default {
         return this.list;
       }
     },
-  },  
+  },
   mounted() {
     return http.getAll(process.env.endpoints.COURSE).then(res => {
       this.list = res.data;
@@ -123,6 +124,9 @@ export default {
     },
     goToRanking() {
       $nuxt._router.push('/aluno/ranking');
+    },
+    goToNotifications() {
+      $nuxt._router.push('/aluno/notificacao');
     },
     getUserPositionByYear(userId) {
       http

@@ -2,10 +2,7 @@
   <div>
     <div v-show="!loading" id="page">
       <HeaderBar :title="'Meus Cursos'" :back-page="true" />
-      <v-tabs 
-        fixed-tabs 
-        height="35px" 
-        v-model="selectedTab">
+      <v-tabs v-model="selectedTab" fixed-tabs height="35px">
         <v-tab>
           Em andamento
         </v-tab>
@@ -60,24 +57,22 @@ export default {
   },
   data: () => ({
     loading: true,
-    selectedTab: 0, //(0 == Em andamento, 1 == Finalizados)
+    selectedTab: 0, // (0 == Em andamento, 1 == Finalizados)
   }),
   computed: {
     courses() {
       return this.$store.state.courses.list.filter(course => {
-        if (this.selectedTab == "1") {
-          return course.completion == 100
+        if (this.selectedTab == '1') {
+          return course.completion == 100;
+        } else {
+          return course.completion < 100;
         }
-        else{
-          return course.completion < 100
-        }
-        
       });
     },
     user() {
       return this.$store.state.user.data;
     },
-  },    
+  },
   mounted() {
     setTimeout(() => {
       this.loading = false;
