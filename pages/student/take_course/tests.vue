@@ -250,9 +250,9 @@ export default {
     },
     share() {
       navigator.share({
-        title: 'Title to be shared',
-        text: 'Text to be shared',
-        url: 'URL to be shared',
+        title: 'Deu tudo certo',
+        text: 'Um teste para testar',
+        url: 'www.newschoolapp.com.br',
       });
     },
     resetBadgeAndContinue() {
