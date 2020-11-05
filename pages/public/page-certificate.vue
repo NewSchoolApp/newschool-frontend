@@ -1,9 +1,6 @@
 <template>
   <div class="background">
-    <HeaderBar 
-      :title="'CERTIFICADO'" 
-      :back-page="true"
-    />
+    <HeaderBar :title="'CERTIFICADO'" :back-page="true" />
     <v-container>
       <div v-if="loading">
         <div class="container-spinner">
@@ -112,6 +109,7 @@ export default {
       if (this.$route.params.print == 1) {
         setTimeout(() => {
           this.print();
+          this.$router.back();
         }, 500);
       }
     });
@@ -151,6 +149,10 @@ export default {
   padding: 0;
   outline: 0;
   box-sizing: border-box;
+}
+h4,
+h3 {
+  color: black !important;
 }
 
 .background {

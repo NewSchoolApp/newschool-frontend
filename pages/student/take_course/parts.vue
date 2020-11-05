@@ -19,7 +19,9 @@
 
           <div class="video-iframe-container">
             <iframe
-              :src="part.videoUrl"
+              width="300"
+              height="250"
+              :src="part.videoUrl.replace('watch?v=', 'embed/')"
               frameborder="0"
               allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"
               allowfullscreen

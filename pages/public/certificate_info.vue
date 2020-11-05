@@ -11,16 +11,17 @@
   </div>
   <v-container v-else>
     <p class="certificate-title">{{ certificate.course.title }}</p>
-    <p>{{ certificate.user.name }}</p>
+    <p>{{ certificate.course.authorName }}</p>
 
     <div class="thumb">
       <div class="content-image" @click="gotoCertificate()">
         <button>
-          <img v-if="showThumb"
+          <img
+            v-if="showThumb"
             class="background-img"
             :src="certificate.course.thumbUrl"
-            @error="imageLoadError"
             alt="Imagem do curso"
+            @error="imageLoadError"
           />
         </button>
         <img
@@ -71,9 +72,9 @@
 </template>
 
 <script>
+import SocialSharing from 'vue-social-sharing';
 import http from '../../services/http/public';
 import CertificateCard from '~/components/CertificateCard';
-import SocialSharing from 'vue-social-sharing';
 import NavigationBar from '~/components/NavigationBar.vue';
 
 export default {
@@ -112,6 +113,12 @@ export default {
       return this.$route.params;
     },
   },
+  mounted() {
+    http.pageCertificate(this.params.idUser, this.params.idCourse).then(res => {
+      this.certificate = res.data;
+      this.loading = false;
+    });
+  },
 
   methods: {
     gotoCertificate(forcePrint) {
@@ -122,12 +129,6 @@ export default {
     imageLoadError() {
       this.showThumb = false;
     },
-  },
-  mounted() {
-    http.pageCertificate(this.params.idUser, this.params.idCourse).then(res => {
-      this.certificate = res.data;
-      this.loading = false;
-    });
   },
 };
 </script>
