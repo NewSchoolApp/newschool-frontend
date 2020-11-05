@@ -64,11 +64,39 @@
           </div>
           <div class="share__achievement">
             <p>Compartilhe com seus amigos</p>
-            <div class="icons">
-              <img src="../../../assets/whats-notify.svg" alt="Whatsapp" />
-              <img src="../../../assets/face-notify.svg" alt="Facebook" />
-              <img src="../../../assets/twitter-notify.svg" alt="Twitter" />
-              <img src="../../../assets/linkedin-notify.svg" alt="Linkedin" />
+            <div>
+              <social-sharing
+                url="http://newschool-ui-dev.eba-fdz8zprg.us-east-2.elasticbeanstalk.com/cadastro"
+                :title="'Acertei uma questão na New School'"
+                :description="textNotification"
+                :hashtags="tryMessage"
+                :twitter-user="'NewSchoolApp'"
+                inline-template
+              >
+                <div class="icons">
+                  <network class="icon" network="whatsapp">
+                    <img
+                      src="../../../assets/whats-notify.svg"
+                      alt="Whatsapp"
+                    />
+                  </network>
+                  <network class="icon" network="facebook">
+                    <img src="../../../assets/face-notify.svg" alt="Facebook" />
+                  </network>
+                  <network class="icon" network="twitter">
+                    <img
+                      src="../../../assets/twitter-notify.svg"
+                      alt="Twitter"
+                    />
+                  </network>
+                  <network class="icon" network="linkedin">
+                    <img
+                      src="../../../assets/linkedin-notify.svg"
+                      alt="Linkedin"
+                    />
+                  </network>
+                </div>
+              </social-sharing>
             </div>
           </div>
         </div>
@@ -145,6 +173,7 @@
 </router>
 
 <script>
+import SocialSharing from 'vue-social-sharing';
 import NavigationBar from '~/components/NavigationBar';
 import tests from '~/services/http/generic';
 import http from '~/services/http/generic';
@@ -154,6 +183,7 @@ export default {
   components: {
     NavigationBar,
     HeaderBar,
+    SocialSharing,
   },
   data: () => ({
     snackbar: false,
@@ -230,11 +260,7 @@ export default {
             if (res.data) {
               // Como a resposta está certa a gente limpa a validação e escolha para o próximo teste
               this.$refs.form.reset();
-
-              // Apenas para tornar mais vísivel o acerto, depois mudar para um componente melhor
-              this.confirmSnackbar('Acertou!!!', 'success');
               this.getPointsAndNotificate();
-              // Camando método para avançar
               // Se a resposta está certa a gente avança no curso
             } else {
               if (this.try < 4) {
@@ -255,7 +281,7 @@ export default {
       const trymessage = {
         1: 'De \n primeira!!',
         2: 'Na \n segunda!',
-        3: 'Na \n terceria!',
+        3: 'Na \n terceira!',
         4: 'Na \n última!',
       };
       const headerMessage = {
@@ -475,7 +501,7 @@ h4 {
 
 .icons {
   margin: 5% auto;
-  width: 70%;
+  width: 60%;
   display: flex;
   align-items: center;
   justify-content: space-around;
