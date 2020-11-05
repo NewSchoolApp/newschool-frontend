@@ -73,14 +73,15 @@
                 :twitter-user="'NewSchoolApp'"
                 inline-template
               > -->
-              <!-- <div class="icons">
-                  <network class="icon" network="whatsapp"> -->
-              <img
-                src="../../../assets/whats-notify.svg"
-                alt="Whatsapp"
-                @click="share"
-              />
-              <!-- </network>
+              <div class="icons">
+                <!-- <network class="icon" network="whatsapp"> -->
+                <img
+                  v-if="webShareApiSupported"
+                  src="../../../assets/whats-notify.svg"
+                  alt="Whatsapp"
+                  @click="share"
+                />
+                <!-- </network>
                   <network class="icon" network="facebook">
                     <img src="../../../assets/face-notify.svg" alt="Facebook" />
                   </network>
@@ -95,9 +96,9 @@
                       src="../../../assets/linkedin-notify.svg"
                       alt="Linkedin"
                     />
-                  </network>
-                </div>
-              </social-sharing> -->
+                  </network> -->
+              </div>
+              <!-- </social-sharing> -->
             </div>
           </div>
         </div>
@@ -213,6 +214,9 @@ export default {
     courseId() {
       return this.$store.state.courses.current.id;
     },
+    webShareApiSupported() {
+      return navigator.share;
+    },
 
     // Vamos alterar o getter e setter do selected para poder alterar os valores do checkbox como se fosse um radio group
     selected: {
@@ -245,24 +249,11 @@ export default {
       this.snackbar = true;
     },
     share() {
-      navigator
-        .share({
-          title: window.document.title,
-          url: window.document.location.href,
-        })
-        .then(() => {
-          alert('Obrigado por compartilhar!');
-        });
-      // if (navigator.share) {
-      //   navigator
-      //     .share({
-      //       title: window.document.title,
-      //       url: window.document.location.href,
-      //     })
-      //     .then(() => {
-      //       alert('Obrigado por compartilhar!');
-      //     });
-      // }
+      navigator.share({
+        title: 'Deu tudo certo',
+        text: 'Um teste para testar',
+        url: 'www.newschoolapp.com.br',
+      });
     },
     resetBadgeAndContinue() {
       this.badgePoints = 0;
