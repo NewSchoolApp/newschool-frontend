@@ -1,14 +1,64 @@
 <template>
   <div id="page">
     
-     <v-col id="main-col">
-      <v-spacer />
-      <img src="~/assets/winner.svg" alt="vencedor" />
-      <h1>AEEEE, parabéns por mais esse passo!</h1>
-      <v-spacer />
-      <v-btn class="btn-block btn-primary" @click="finish">
-        Meu Certificado
-      </v-btn>
+    <v-col id="main-col">
+      <v-row align="start" justify="end">
+      <v-icon
+        style="justify-content: flex-end; padding-bottom: 10px"
+        color="white"
+        dark
+        @click="gotoCourse()"    
+        >
+          mdi-close-circle
+      </v-icon>
+      </v-row>
+      <v-col align="center">
+        <v-col>
+          <img src="~/assets/congrats.svg" alt="vencedor" />
+          <div class="score"> <strong>+ 30 XP</strong> </div>
+        </v-col>
+        <v-col class="pad0">
+          <h1 class="white-info">Parabéns {{nameUser}}!!</h1>
+          <p class="white-info low-wheight">O seu curso foi concluído com sucesso!</p>
+        </v-col>
+      </v-col>        
+    </v-col>
+
+    <v-col align="center" align-self="baseline">      
+      <p class="share-info">Compartilhe seu certificado, para cada rede social compartilhada. (+ 1 XP)</p>  
+      <social-sharing
+      url="http://newschool-ui-dev.eba-fdz8zprg.us-east-2.elasticbeanstalk.com/cadastro"
+      :title="'Acabei de completar o curso ' + courseTitle + ' na New School!!'"
+      :description="textNotification"
+      :hashtags="tryMessage"
+      :twitter-user="'NewSchoolApp'"
+      inline-template
+      >
+        <div class="icons">
+          <network class="icon" network="whatsapp">
+            <img
+              src="../../../assets/whats-notify.svg"
+              alt="Whatsapp"
+            />
+          </network>
+          <network class="icon" network="facebook">
+            <img src="../../../assets/face-notify.svg" alt="Facebook" />
+          </network>
+          <network class="icon" network="twitter">
+            <img
+              src="../../../assets/twitter-notify.svg"
+              alt="Twitter"
+            />
+          </network>
+          <network class="icon" network="linkedin">
+            <img
+              src="../../../assets/linkedin-notify.svg"
+              alt="Linkedin"
+            />
+          </network>
+        </div>
+      </social-sharing>
+      <small class="view-certificate" @click="gotoCertificate()">Visualizar o certificado</small>
     </v-col>
 
     <!-- dialog start -->
@@ -193,14 +243,18 @@
   </div>
 </template>
 <router>
-    {
-        path : '/aluno/curso/:courseSlug/fim'
-    }
+  {
+    path : '/aluno/curso/:courseSlug/fim'
+  }
 </router>
 <script>
+import SocialSharing from 'vue-social-sharing';
 import http from '~/services/http/generic';
 
 export default {
+  components: {
+    SocialSharing,
+  },
   data() {
     return {
       activeDialog: 'start', //(start, good, bad, end)
@@ -215,14 +269,26 @@ export default {
     idUser() {
       return this.$store.state.user.data.id;
     },
+    nameUser() {
+      return this.$store.state.user.data.name.split(' ')[0];
+    },
     courseId() {
       return this.$store.state.courses.current.id;
     },
+    courseTitle() {
+      return this.$store.state.courses.current.title;
+    },
+    courseSlug() {
+      return this.$route.params.courseSlug
+    }
   },
-  methods: {    
-    finish() {
+  methods: {
+    gotoCertificate() {
       $nuxt._router.push(`/pagina-certificado/${this.idUser}/${this.courseId}`);
-    },    
+    },
+    gotoCourse() {
+      $nuxt._router.push(`/aluno/curso/${this.convertToSlug(this.courseTitle)}`);
+    },
     submitRating(){
       if(!this.postBody.rating){        
         this.bindedClass = "error-form";
@@ -244,7 +310,23 @@ export default {
           this.postBody
          );
       }
-    }
+    },
+    convertToSlug(str) {
+      str = str.replace(/^\s+|\s+$/g, ''); // trim
+      str = str.toLowerCase();
+
+      const from = 'ãàáäâẽèéëêìíïîõòóöôùúüûñç·/_,:;';
+      const to = 'aaaaaeeeeeiiiiooooouuuunc------';
+
+      for (let i = 0, l = from.length; i < l; i++) {
+        str = str.replace(new RegExp(from.charAt(i), 'g'), to.charAt(i));
+      }
+      str = str
+        .replace(/[^a-z0-9 -]/g, '') // remove invalid chars
+        .replace(/\s+/g, '-') // collapse whitespace and replace by -
+        .replace(/-+/g, '-'); // collapse dashes
+      return str;
+    },    
   },
 };
 </script>
@@ -263,7 +345,7 @@ h1 {
   font-weight: 600;
   font-size: 1.4rem;
   text-align: center;
-  padding: 1rem;
+  padding: .7rem;
 }
 strong {
   font-size: 20px;
@@ -271,7 +353,7 @@ strong {
 }
 #page {
   position: relative;
-  padding: 0 16px 30px !important;
+  padding-bottom: 0px !important;
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -279,11 +361,12 @@ strong {
   align-self: center;
 }
 #main-col {
+  padding: 20px 20px;
   display: flex;
   flex-direction: column;
   height: 100%;
   width: 100%;
-  padding: 0;
+  background-color: var(--primary);
 }
 .dialogCol {
   position: absolute;
@@ -316,7 +399,10 @@ strong {
 ::v-deep .row {
   justify-content: center;
   padding-bottom: 10px;
-  margin: 0;
+  margin: 0;  
+}
+::v-deep .col {
+  flex-basis: initial !important;
 }
 @media (min-width: 700px) {
   #page {
@@ -353,5 +439,50 @@ strong {
 }
 ::v-deep .v-input--selection-controls__input {
   margin-right: 0 !important;
+}
+.white-info {
+  color: #ffffff !important;
+}
+.score {
+  margin-top: 8px;
+  height: 34.8px;
+  width: 96px;
+  border-radius: 20px;
+  background-color: #ededed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.pad0 {
+  padding: 0;
+}
+.low-wheight {
+  font-weight: 400;
+}
+.icons {
+  width: 65%;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+::v-deep .icon,
+::v-deep .v-icon
+ {
+  border: none !important;
+  outline:none !important;
+}
+.share-info {
+  margin-top: 32px;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16px;
+  letter-spacing: 0em;
+}
+.view-certificate {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16px;
+  letter-spacing: 0em;
+  color: #A3A3A3;
 }
 </style>
