@@ -1,29 +1,40 @@
 <template>
-  <div class="card" @click="goTo()">
-    <div class="header__info">
-      <h1>{{ course.course.title }}</h1>
-      <v-btn
+  <v-card class="card">
+    <v-col @click="goto()">
+      <v-row justify="space-between">
+        <h1>{{ course.course.title }}</h1>
+        <p 
         v-if="course.status === 'TAKEN'"
-        class="btn-back"
-        text
-        icon        
-      >
-        <p id="continue__text">
+        id="continue__text"
+        >
           Continuar          
         </p>
-      </v-btn>
-      <p v-else id="continue__text">Concluído</p>
-    </div>
-    <div class="progress">
-      <p id="value__progress">{{ course.completion }} % Concluído</p>
-      <v-progress-linear
-        :value="course.completion"
-        height="8"
-        rounded="true"
-        color="#aa56ff"
-      />
-    </div>
-  </div>
+        <!-- <p 
+        v-else
+        id="continue__text"
+        >
+          Concluido          
+        </p> -->
+      </v-row>
+      
+      <v-col>
+        <p id="value__progress">{{ course.completion }} % Concluído</p>
+        <v-progress-linear
+          :value="course.completion"
+          height="8"
+          rounded="true"
+          color="#aa56ff"
+        />
+      </v-col>      
+    </v-col>
+
+    <v-btn
+    id="rating-btn"
+    text
+    v-if="!course.rating && course.status === 'COMPLETED'"     
+    @click="gotoCourseRating"
+    >Avaliar Curso</v-btn>
+  </v-card>
 </template>
 
 <script>
@@ -31,7 +42,7 @@ import http from '~/services/http/generic';
 
 export default {
   name: 'CourseProgress',
-  props: ['course'],
+  props: ['course'],  
   methods: {
     continueCourse(course) {
       this.loading = true;
@@ -64,7 +75,7 @@ export default {
             });
         });
     },      
-    goTo(){
+    goto(){
       if (this.course.status === "TAKEN") {
         const url = this.course.course.slug
           ? this.course.course.slug
@@ -94,6 +105,10 @@ export default {
         .replace(/-+/g, '-'); // collapse dashes
       return str;
     },
+    gotoCourseRating() {
+      this.$store.commit('courses/setCurrent', this.course.course);      
+      $nuxt._router.push(`/aluno/curso/${this.course.course.slug}/fim`);      
+    }
   },
 };
 </script>
@@ -105,6 +120,9 @@ export default {
 }
 #page {
   height: 100%;
+}
+p {
+  margin-bottom: 0;
 }
 h1 {
   font-size: .8rem;
@@ -164,12 +182,25 @@ text-align: left;
 margin: 18px 0 4px;
 }
 #continue__text {
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 700;
   line-height: 12px;
   text-align: right;
   color: #737373;
   text-transform: none;
   letter-spacing: 0em;
+}
+#rating-btn {
+justify-content: flex-end;
+font-size: 5px;
+text-transform: none;
+height: 20px;
+padding: 0;
+}
+.col {
+  padding: 0;
+}
+.row {
+  padding: 0 14px;
 }
 </style>
