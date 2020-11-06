@@ -19,7 +19,7 @@
             >Filtrar por escola</v-list-item
           >
           <v-list-item class="item-list" @click="change('country')"
-            >Filtrar por país
+            >Filtrar por estado
           </v-list-item>
         </v-card>
       </v-dialog>
@@ -27,36 +27,27 @@
         <v-card>
           <v-col cols="12">
             <v-form ref="form" lazy-validation>
-              <v-select
-                v-if="country"
-                placeholder="Selecione o seu país!"
-                :items="countries"
-                label="País"
-              ></v-select>
-              <v-select
-                v-if="!country && state"
+              <v-autocomplete
+                v-if="(!country && state) || country"
                 placeholder="Selecione o seu estado!"
                 :items="states"
                 label="Estado"
-              ></v-select>
-              <v-select
+                @input="loadCountries($event)"
+              ></v-autocomplete>
+              <v-autocomplete
                 v-if="!country && city"
                 placeholder="Selecione a sua cidade!"
                 :items="cities"
                 label="Cidade"
-              ></v-select>
-              <v-select
+              ></v-autocomplete>
+              <v-autocomplete
                 v-if="!country && school"
                 placeholder="Selecione a sua escola!"
                 :items="schools"
                 label="Escola"
-              ></v-select>
+              ></v-autocomplete>
               <v-card>
-                <v-btn
-                  class=" btn-block btn-search"
-                  depressed
-                  large
-                  @click="search"
+                <v-btn class=" btn-block btn-search" depressed large
                   >Buscar</v-btn
                 >
               </v-card>
@@ -197,11 +188,16 @@ export default {
       city: '',
       state: '',
       filter: false,
-      countries: ['São Paulo', 'Rio de Janeiro'],
-      cities: ['São Paulo', 'Rio de Janeiro'],
-      states: ['São Paulo', 'Rio de Janeiro'],
-      schools: ['Geraldino', 'Colesan'],
-      labels: ['Filtrar por Pais', 'Filtrar por Escola', 'Filtrar por Cidade '],
+      countries: [],
+      statesCode: [],
+      cities: [],
+      states: [],
+      schools: [],
+      labels: [
+        'Filtrar por Estado',
+        'Filtrar por Escola',
+        'Filtrar por Cidade ',
+      ],
       dialog: false,
       userPosition: 0,
       userPoints: 0,
@@ -228,8 +224,10 @@ export default {
       return this.$store.state.user.data;
     },
   },
+
   mounted() {
     this.monthRanking();
+    this.getAddressElements();
   },
   methods: {
     change(data) {
@@ -257,6 +255,32 @@ export default {
       }
       this.dialog = false;
     },
+    loadCountries(city) {
+      this.cities = [];
+      const cityObject = this.statesCode.find(item => item.nome === city);
+      http
+        .getAll(
+          `https://servicodados.ibge.gov.br/api/v1/localidades/estados/${cityObject.id}/municipios`,
+        )
+        .then(response => {
+          response.data.forEach(item => {
+            this.cities.push(item.nome);
+          });
+          this.cities.sort();
+        });
+    },
+    getAddressElements() {
+      http
+        .getAll('https://servicodados.ibge.gov.br/api/v1/localidades/estados')
+        .then(response => {
+          response.data.forEach(state => {
+            this.states.push(state.nome);
+            this.states.sort();
+            this.statesCode.push(state);
+          });
+        });
+    },
+
     monthRanking() {
       http
         .getAll(`${process.env.endpoints.RANKING}`)
