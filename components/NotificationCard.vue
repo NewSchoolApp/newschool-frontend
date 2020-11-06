@@ -2,13 +2,23 @@
   <div class="card">
     <div class="header__info">
       <img src="~/assets/gabs-small.svg" />
+      <img
+        class="cross__button"
+        src="~/assets/cross-button.svg"
+        alt=""
+        @click="removeNotification(notification.id)"
+      />
+
       <h1>{{ notification.content.badge.badgeDescription }}</h1>
-      <p id="continue__text">{{ notificationDate }}</p>
+      <div>
+        <p id="continue__text">{{ notificationDate }}</p>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import http from '~/services/http/generic';
 export default {
   name: 'NotificationCard',
   props: ['notification'],
@@ -17,6 +27,7 @@ export default {
     notificationDate: '',
   }),
   mounted() {
+    console.log(this.notification);
     this.checkDate();
   },
   methods: {
@@ -37,6 +48,10 @@ export default {
       } else {
         this.notificationDate = notificationDateHourAndMinute;
       }
+    },
+    removeNotification(id) {
+      alert(id);
+      http.putByURL(`${process.env.endpoints.NOTIFICATION}/${id}/see`);
     },
   },
 };
@@ -64,7 +79,8 @@ h1 {
   margin-bottom: 5rem;
 }
 .card {
-  margin: 1.3rem;
+  margin: 0.3rem 0.9rem;
+  position: relative;
   padding: 0.9rem;
   background: #fff;
   box-shadow: 0px 12px 20px 0px #00000026;
@@ -89,6 +105,11 @@ h1 {
   height: unset;
   color: var(--primary);
 }
+.cross__button {
+  position: absolute;
+  right: 20px;
+  top: 10px;
+}
 
 ::v-deep .v-progress-linear {
   margin-bottom: 35px;
@@ -107,6 +128,7 @@ h1 {
   color: rgb(63, 61, 86);
   text-transform: none;
   letter-spacing: 0em;
-  margin-top: -23px;
+  position: relative;
+  top: 26px;
 }
 </style>

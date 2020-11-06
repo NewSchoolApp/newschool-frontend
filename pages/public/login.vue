@@ -42,18 +42,13 @@
               ></v-text-field>
             </v-col>
             <v-col cols="12">
-              <v-btn
-              class="btn-block btn-primary btn-white"
-              @click="submit"
-              >
+              <v-btn class="btn-block btn-primary btn-white" @click="submit">
                 Entrar
               </v-btn>
             </v-col>
           </v-form>
           <v-col cols="12">
-            <v-btn              
-            to="/cadastro"
-            class="btn-block btn-transparent">
+            <v-btn to="/cadastro" class="btn-block btn-transparent">
               Cadastrar
             </v-btn>
           </v-col>
@@ -312,19 +307,19 @@ export default {
 }
 
 ::v-deep .v-input input {
-  color: #FFFFFF !important;
+  color: #ffffff !important;
 }
 
 ::v-deep .v-label {
   font-weight: 500 !important;
-  color:rgba(255, 255, 255, 0.7) !important;
+  color: rgba(255, 255, 255, 0.7) !important;
 }
 
 .v-text-field {
   border-color: rgba(255, 255, 255, 0.7) !important;
 }
 
-::v-deep input:-webkit-autofill{
+::v-deep input:-webkit-autofill {
   transition: background-color 9999s ease-in-out 0s;
   -webkit-text-fill-color: #fff !important;
 }
