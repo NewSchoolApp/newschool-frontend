@@ -103,7 +103,9 @@
         <div v-if="!loading && !correct" class="inner-container">
           <v-form ref="form" lazy-validation>
             <h3>{{ test.title || 'Título do Teste' }}</h3>
-            <h4>{{ test.question || 'Enunciado do teste' }}</h4>
+            <h4>
+              {{ test.question || 'Enunciado do teste' }}
+            </h4>
             <div class="alternatives-container">
               <v-checkbox
                 v-model="selected"
@@ -422,14 +424,16 @@ h4 {
   margin-bottom: 5rem;
 }
 
-.inner-container,
-.alternatives-container {
-  margin-top: 1.5em;
+.inner-container {
+  margin: 1em 6px 0;
   padding: 0 0.5em !important;
 }
 
 ::v-deep .btn-primary {
   margin-top: 25px;
+}
+label {
+  text-align: justify;
 }
 
 @mixin inner-text-checkbox {
@@ -541,6 +545,16 @@ h4 {
   cursor: pointer;
 }
 
+::v-deep .mdi-checkbox-blank-outline::before {
+  content: url('https://api.iconify.design/bi:circle.svg?height=16');
+  vertical-align: -0.125em;
+}
+
+::v-deep .mdi-checkbox-marked::before {
+  content: url('https://api.iconify.design/bi:check-circle-fill.svg?color=rgb(104%2C0%2C201)&height=16');
+  vertical-align: -0.125em;
+}
+
 @media (min-width: 480px) {
   .notification__content {
     top: 0;
@@ -552,6 +566,11 @@ h4 {
   .notification__image {
     top: 10%;
   }
+  .btn-block {
+    width: 96%;
+    padding: 5px auto;
+  }
+
   #page {
     height: 100vh;
     overflow: hidden;

@@ -85,7 +85,7 @@
               </v-avatar>
             </v-col>
             <v-col>
-              <h3 class="self-rank-data">{{ userPoints || 0 }} XP</h3>
+              <h3 class="self-rank-data">{{ userPoints || 0 }} NC</h3>
             </v-col>
           </v-row>
         </v-col>
@@ -128,7 +128,7 @@
                   <tr class="table">
                     <th>#</th>
                     <th class="text-left">Jogadores</th>
-                    <th>XP</th>
+                    <th>NC</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -183,6 +183,7 @@ export default {
 
   data() {
     return {
+      page: 1,
       country: '',
       school: '',
       city: '',
@@ -259,9 +260,7 @@ export default {
       this.cities = [];
       const cityObject = this.statesCode.find(item => item.nome === city);
       http
-        .getAll(
-          `https://servicodados.ibge.gov.br/api/v1/localidades/estados/${cityObject.id}/municipios`,
-        )
+        .getAll(`${process.env.endpoints.CITY}/${cityObject.sigla}`)
         .then(response => {
           response.data.forEach(item => {
             this.cities.push(item.nome);
@@ -270,18 +269,17 @@ export default {
         });
     },
     getAddressElements() {
-      http
-        .getAll('https://servicodados.ibge.gov.br/api/v1/localidades/estados')
-        .then(response => {
-          response.data.forEach(state => {
-            this.states.push(state.nome);
-            this.states.sort();
-            this.statesCode.push(state);
-          });
+      http.getAll(`${process.env.endpoints.STATE}`).then(response => {
+        response.data.forEach(state => {
+          this.states.push(state.nome);
+          this.states.sort();
+          this.statesCode.push(state);
         });
+      });
     },
-
     monthRanking() {
+      // const pages = [1, 2, 3];
+      // for (const page of pages) {
       http
         .getAll(`${process.env.endpoints.RANKING}`)
         .then(ranking => {
@@ -291,8 +289,9 @@ export default {
             this.top2 = {};
             this.top3 = {};
           }
+
           this.generateTopPlayers(ranking);
-          this.ranking = ranking.data.slice(3);
+          this.ranking = ranking.data.content.slice(3);
 
           this.ranking.forEach(person => {
             person.user_name = this.splitName(person.userName);
@@ -300,8 +299,11 @@ export default {
         })
         .catch(error => console.log(error));
       this.getUserPositionByMonth(this.user.id);
+      // }
     },
     yearRanking() {
+      // const pages = [1, 2, 3];
+      // for (const page of pages) {
       http
         .getAll(`${process.env.endpoints.RANKING}?timeRange=YEAR`)
         .then(ranking => {
@@ -311,14 +313,17 @@ export default {
             this.top2 = {};
             this.top3 = {};
           }
+
           this.generateTopPlayers(ranking);
-          this.ranking = ranking.data.slice(3);
+          this.ranking = ranking.data.content.slice(3);
+
           this.ranking.forEach(person => {
             person.user_name = this.splitName(person.userName);
           });
         })
         .catch(error => console.log(error));
       this.getUserPositionByYear(this.user.id);
+      // }
     },
     splitName(name) {
       if (name.split(' ').length > 1) {
@@ -349,21 +354,21 @@ export default {
         });
     },
     generateTopPlayers(ranking) {
-      ranking.data = ranking.data.reverse();
+      ranking.data.content = ranking.data.content.reverse();
       this.top1 = {
-        name: this.splitName(ranking.data[0].userName),
-        points: ranking.data[0].points,
-        photo: ranking.data[0].photo,
+        name: this.splitName(ranking.data.content[0].userName),
+        points: ranking.data.content[0].points,
+        photo: ranking.data.content[0].photo,
       };
       this.top2 = {
-        name: this.splitName(ranking.data[1].userName),
-        points: ranking.data[1].points,
-        photo: ranking.data[1].photo,
+        name: this.splitName(ranking.data.content[1].userName),
+        points: ranking.data.content[1].points,
+        photo: ranking.data.content[1].photo,
       };
       this.top3 = {
-        name: this.splitName(ranking.data[2].userName),
-        points: ranking.data[2].points,
-        photo: ranking.data[2].photo,
+        name: this.splitName(ranking.data.content[2].userName),
+        points: ranking.data.content[2].points,
+        photo: ranking.data.content[2].photo,
       };
     },
   },

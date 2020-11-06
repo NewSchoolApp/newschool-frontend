@@ -18,6 +18,14 @@
           @click="goToRanking"
         />
         <img
+          v-if="notifications.length"
+          id="bell"
+          class="header_img"
+          :src="require(`~/assets/bell-home-active.svg`)"
+          @click="goToNotifications"
+        />
+        <img
+          v-else
           id="bell"
           class="header_img"
           :src="require(`~/assets/bell-home.svg`)"
@@ -38,7 +46,7 @@
           <h1 class="welcome-subtitle">Seja bem-vindo</h1>
         </v-col>
 
-        <h1 class="xp">{{ userPoints || 0 }} XP</h1>
+        <h1 class="xp">{{ userPoints || 0 }} NC</h1>
       </v-row>
 
       <!-- Search Field -->
@@ -96,6 +104,7 @@ export default {
     list: [],
     loading: true,
     filtro: '',
+    notifications: '',
     userPoints: '',
   }),
   computed: {
@@ -113,6 +122,7 @@ export default {
   },
   mounted() {
     return http.getAll(process.env.endpoints.COURSE).then(res => {
+      this.getNotifications();
       this.list = res.data;
       this.loading = false;
       this.getUserPositionByYear(this.user.id);
@@ -127,6 +137,15 @@ export default {
     },
     goToNotifications() {
       $nuxt._router.push('/aluno/notificacao');
+    },
+    getNotifications() {
+      http
+        .getAll(`${process.env.endpoints.NOTIFICATIONS}/user/${this.user.id}`)
+        .then(response => {
+          this.notifications = response.data;
+          console.log(response.data);
+        });
+      console.log(this.notifications);
     },
     getUserPositionByYear(userId) {
       http
@@ -195,8 +214,8 @@ export default {
 
 #bell {
   color: #737373;
-  width: 20px;
-  height: 20px;
+  width: 22px;
+  height: 22px;
   margin-right: 5px;
   margin-top: 5px;
 }
