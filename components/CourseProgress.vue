@@ -3,11 +3,8 @@
     <v-col @click="goto()">
       <v-row justify="space-between">
         <h1>{{ course.course.title }}</h1>
-        <p 
-        v-if="course.status === 'TAKEN'"
-        id="continue__text"
-        >
-          Continuar          
+        <p v-if="course.status === 'TAKEN'" id="continue__text">
+          Continuar
         </p>
         <!-- <p 
         v-else
@@ -16,24 +13,24 @@
           Concluido          
         </p> -->
       </v-row>
-      
+
       <v-col>
         <p id="value__progress">{{ course.completion }} % Concluído</p>
         <v-progress-linear
           :value="course.completion"
           height="8"
-          rounded="true"
           color="#aa56ff"
         />
-      </v-col>      
+      </v-col>
     </v-col>
 
     <v-btn
-    id="rating-btn"
-    text
-    v-if="!course.rating && course.status === 'COMPLETED'"     
-    @click="gotoCourseRating"
-    >Avaliar Curso</v-btn>
+      v-if="!course.rating && course.status === 'COMPLETED'"
+      id="rating-btn"
+      text
+      @click="gotoCourseRating"
+      >Avaliar Curso</v-btn
+    >
   </v-card>
 </template>
 
@@ -42,7 +39,7 @@ import http from '~/services/http/generic';
 
 export default {
   name: 'CourseProgress',
-  props: ['course'],  
+  props: ['course'],
   methods: {
     continueCourse(course) {
       this.loading = true;
@@ -74,18 +71,17 @@ export default {
               }
             });
         });
-    },      
-    goto(){
-      if (this.course.status === "TAKEN") {
+    },
+    goto() {
+      if (this.course.status === 'TAKEN') {
         const url = this.course.course.slug
           ? this.course.course.slug
           : this.convertToSlug(this.course.course.title);
         // eslint-disable-next-line no-undef
         $nuxt._router.push(`/aluno/curso/${url}`);
-      }
-      else {
+      } else {
         $nuxt._router.push(
-        `/pagina-certificado/${this.$store.state.user.data.id}/${this.course.course.id}/false`,
+          `/pagina-certificado/${this.$store.state.user.data.id}/${this.course.course.id}/false`,
         );
       }
     },
@@ -106,9 +102,9 @@ export default {
       return str;
     },
     gotoCourseRating() {
-      this.$store.commit('courses/setCurrent', this.course.course);      
-      $nuxt._router.push(`/aluno/curso/${this.course.course.slug}/fim`);      
-    }
+      this.$store.commit('courses/setCurrent', this.course.course);
+      $nuxt._router.push(`/aluno/curso/${this.course.course.slug}/fim`);
+    },
   },
 };
 </script>
@@ -125,7 +121,7 @@ p {
   margin-bottom: 0;
 }
 h1 {
-  font-size: .8rem;
+  font-size: 0.8rem;
   font-weight: 700;
   line-height: 16px;
   letter-spacing: 0em;
@@ -175,11 +171,11 @@ h1 {
   background-color: #cecece !important;
 }
 #value__progress {
-font-size: 10px;
-font-weight: 400;
-letter-spacing: 0em;
-text-align: left;
-margin: 18px 0 4px;
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0em;
+  text-align: left;
+  margin: 18px 0 4px;
 }
 #continue__text {
   font-size: 11px;
@@ -191,11 +187,11 @@ margin: 18px 0 4px;
   letter-spacing: 0em;
 }
 #rating-btn {
-justify-content: flex-end;
-font-size: 5px;
-text-transform: none;
-height: 20px;
-padding: 0;
+  justify-content: flex-end;
+  font-size: 5px;
+  text-transform: none;
+  height: 20px;
+  padding: 0;
 }
 .col {
   padding: 0;

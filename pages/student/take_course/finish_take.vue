@@ -1,81 +1,80 @@
 <template>
   <div id="page">
-    
     <v-col id="main-col">
       <v-row align="start" justify="end">
-      <v-icon
-        style="justify-content: flex-end; padding-bottom: 10px"
-        color="white"
-        dark
-        @click="gotoCourse()"    
+        <v-icon
+          style="justify-content: flex-end; padding-bottom: 10px"
+          color="white"
+          dark
+          @click="gotoCourse()"
         >
           mdi-close-circle
-      </v-icon>
+        </v-icon>
       </v-row>
       <v-col align="center">
         <v-col>
           <img src="~/assets/congrats.svg" alt="vencedor" />
-          <div class="score"> <strong>+ 30 XP</strong> </div>
+          <div class="score"><strong>+ 30 XP</strong></div>
         </v-col>
         <v-col class="pad0">
-          <h1 class="white-info">Parabéns {{nameUser}}!!</h1>
-          <p class="white-info low-wheight">O seu curso foi concluído com sucesso!</p>
+          <h1 class="white-info">Parabéns {{ nameUser }}!!</h1>
+          <p class="white-info low-wheight">
+            O seu curso foi concluído com sucesso!
+          </p>
         </v-col>
-      </v-col>        
+      </v-col>
     </v-col>
 
-    <v-col align="center" align-self="baseline">      
-      <p class="share-info">Compartilhe seu certificado, para cada rede social compartilhada. (+ 1 XP)</p>  
+    <v-col align="center" align-self="baseline">
+      <p class="share-info">
+        Compartilhe seu certificado, para cada rede social compartilhada. (+ 1
+        XP)
+      </p>
       <social-sharing
-      url="http://newschool-ui-dev.eba-fdz8zprg.us-east-2.elasticbeanstalk.com/cadastro"
-      :title="'Acabei de completar o curso ' + courseTitle + ' na New School!!'"
-      :description="textNotification"
-      :hashtags="tryMessage"
-      :twitter-user="'NewSchoolApp'"
-      inline-template
+        url="http://newschool-ui-dev.eba-fdz8zprg.us-east-2.elasticbeanstalk.com/cadastro"
+        :title="
+          'Acabei de completar o curso ' + courseTitle + ' na New School!!'
+        "
+        description="Olha esse curso que eu fiz na New School"
+        hashtags="#NewSchool"
+        :twitter-user="'NewSchoolApp'"
+        inline-template
       >
         <div class="icons">
           <network class="icon" network="whatsapp">
-            <img
-              src="../../../assets/whats-notify.svg"
-              alt="Whatsapp"
-            />
+            <img src="../../../assets/whats-notify.svg" alt="Whatsapp" />
           </network>
           <network class="icon" network="facebook">
             <img src="../../../assets/face-notify.svg" alt="Facebook" />
           </network>
           <network class="icon" network="twitter">
-            <img
-              src="../../../assets/twitter-notify.svg"
-              alt="Twitter"
-            />
+            <img src="../../../assets/twitter-notify.svg" alt="Twitter" />
           </network>
           <network class="icon" network="linkedin">
-            <img
-              src="../../../assets/linkedin-notify.svg"
-              alt="Linkedin"
-            />
+            <img src="../../../assets/linkedin-notify.svg" alt="Linkedin" />
           </network>
         </div>
       </social-sharing>
-      <small class="view-certificate" @click="gotoCertificate()">Visualizar o certificado</small>
+      <small class="view-certificate" @click="gotoCertificate()"
+        >Visualizar o certificado</small
+      >
     </v-col>
 
     <!-- dialog start -->
-    <v-col
-    class="dialogCol"
-    v-if="activeDialog == 'start'"
-    >
+    <v-col v-if="activeDialog == 'start'" class="dialogCol">
       <!-- dialog header -->
       <v-icon
-      style="justify-content: flex-end; padding-bottom: 10px"
-      color="#6600cc"
-      dark
-      @click="activeDialog = 'none'; postFeedback()"    
+        style="justify-content: flex-end; padding-bottom: 10px"
+        color="#6600cc"
+        dark
+        @click="
+          activeDialog = 'none';
+          postFeedback();
+        "
       >
         mdi-close-circle
       </v-icon>
-      
+
       <p align="end">
         1 de 2
       </p>
@@ -89,48 +88,40 @@
         <strong>Diz aí!</strong>
         <p>De 0 a 10, quanto você indicaria este curso para um amigo?</p>
       </v-col>
-      <v-radio-group
-      :class="bindedClass"
-      row      
-      >      
-        <v-radio 
-        v-for="n in 10" 
-        :key="n.id" 
-        :label="n.toString()" 
-        :value="n" 
-        @mousedown="postBody.rating = n"
-      />
+      <v-radio-group :class="bindedClass" row>
+        <v-radio
+          v-for="n in 10"
+          :key="n.id"
+          :label="n.toString()"
+          :value="n"
+          @mousedown="postBody.rating = n"
+        />
       </v-radio-group>
       <v-spacer />
 
       <!-- dialog footer -->
-      <v-row 
-      align="end"
-      style="padding-bottom: 0"
-      >
-        <v-btn        
-        class="btn-block btn-primary baseline"        
-        @click="submitRating">
+      <v-row align="end" style="padding-bottom: 0">
+        <v-btn class="btn-block btn-primary baseline" @click="submitRating">
           Próximo
         </v-btn>
       </v-row>
     </v-col>
 
     <!-- dialog good -->
-    <v-col
-    class="dialogCol"
-    v-if="activeDialog == 'good'"
-    >
+    <v-col v-if="activeDialog == 'good'" class="dialogCol">
       <!-- dialog header -->
       <v-icon
-      style="justify-content: flex-end; padding-bottom: 10px"
-      color="#6600cc"
-      dark
-      @click="activeDialog = 'none'; postFeedback()"    
+        style="justify-content: flex-end; padding-bottom: 10px"
+        color="#6600cc"
+        dark
+        @click="
+          activeDialog = 'none';
+          postFeedback();
+        "
       >
         mdi-close-circle
       </v-icon>
-      
+
       <p align="end">
         2 de 2
       </p>
@@ -139,44 +130,45 @@
       <v-col align="center">
         <p class="giant">Oba!!</p>
       </v-col>
-      <v-col align="center">      
+      <v-col align="center">
         <p>Caso queira, fale um pouco mais sobre sua nota!</p>
       </v-col>
       <v-textarea
-      outlined
-      placeholder="Seu comentário"
-      v-model="postBody.feedback"
+        v-model="postBody.feedback"
+        outlined
+        placeholder="Seu comentário"
       />
       <v-spacer />
 
       <!-- dialog footer -->
-      <v-row 
-      align="end"
-      style="padding-bottom: 0"
-      >
-        <v-btn        
-        class="btn-block btn-primary baseline"        
-        @click="activeDialog = 'end'; postFeedback()">
+      <v-row align="end" style="padding-bottom: 0">
+        <v-btn
+          class="btn-block btn-primary baseline"
+          @click="
+            activeDialog = 'end';
+            postFeedback();
+          "
+        >
           Próximo
         </v-btn>
       </v-row>
     </v-col>
 
     <!-- dialog bad -->
-    <v-col
-    class="dialogCol"
-    v-if="activeDialog == 'bad'"
-    >
+    <v-col v-if="activeDialog == 'bad'" class="dialogCol">
       <!-- dialog header -->
       <v-icon
-      style="justify-content: flex-end; padding-bottom: 10px"
-      color="#6600cc"
-      dark
-      @click="activeDialog = 'none'; postFeedback()"    
+        style="justify-content: flex-end; padding-bottom: 10px"
+        color="#6600cc"
+        dark
+        @click="
+          activeDialog = 'none';
+          postFeedback();
+        "
       >
         mdi-close-circle
       </v-icon>
-      
+
       <p align="end">
         2 de 2
       </p>
@@ -189,53 +181,44 @@
         <p>O que faria você aumentar a nota escolhida?</p>
       </v-col>
       <v-textarea
-      outlined
-      placeholder="Seu comentário"
-      v-model="postBody.feedback"
+        v-model="postBody.feedback"
+        outlined
+        placeholder="Seu comentário"
       />
       <v-spacer />
 
       <!-- dialog footer -->
-      <v-row 
-      align="end"
-      style="padding-bottom: 0"
-      >
-        <v-btn        
-        class="btn-block btn-primary baseline"        
-        @click="activeDialog = 'end'; postFeedback()">
+      <v-row align="end" style="padding-bottom: 0">
+        <v-btn
+          class="btn-block btn-primary baseline"
+          @click="
+            activeDialog = 'end';
+            postFeedback();
+          "
+        >
           Próximo
         </v-btn>
       </v-row>
     </v-col>
 
     <!-- dialog end -->
-    <v-col
-    class="dialogCol"
-    v-if="activeDialog == 'end'"
-    >
+    <v-col v-if="activeDialog == 'end'" class="dialogCol">
       <!-- dialog header -->
-      <v-img         
-        :src="require(`~/assets/tyThumb.png`)"
-      />
+      <v-img :src="require(`~/assets/tyThumb.png`)" />
 
       <!-- dialog body -->
-      <v-col align="center">    
-        <strong
-        style="font-size: 24px;"
-        >
-        Obrigado!!!</strong>
+      <v-col align="center">
+        <strong style="font-size: 24px;"> Obrigado!!!</strong>
         <p>Sua avaliação é muito importante!</p>
-      </v-col>      
+      </v-col>
       <v-spacer />
 
       <!-- dialog footer -->
-      <v-row 
-      align="end"
-      style="padding-bottom: 0"
-      >
-        <v-btn        
-        class="btn-block btn-primary baseline"        
-        @click="activeDialog = 'none'">
+      <v-row align="end" style="padding-bottom: 0">
+        <v-btn
+          class="btn-block btn-primary baseline"
+          @click="activeDialog = 'none'"
+        >
           Finalizar
         </v-btn>
       </v-row>
@@ -257,14 +240,14 @@ export default {
   },
   data() {
     return {
-      activeDialog: 'start', //(start, good, bad, end)
+      activeDialog: 'start', // (start, good, bad, end)
       bindedClass: 'none',
       postBody: {
-        'rating': '',
-        'feedback': ''
+        rating: '',
+        feedback: '',
       },
     };
-  },  
+  },
   computed: {
     idUser() {
       return this.$store.state.user.data.id;
@@ -279,36 +262,36 @@ export default {
       return this.$store.state.courses.current.title;
     },
     courseSlug() {
-      return this.$route.params.courseSlug
-    }
+      return this.$route.params.courseSlug;
+    },
   },
   methods: {
     gotoCertificate() {
       $nuxt._router.push(`/pagina-certificado/${this.idUser}/${this.courseId}`);
     },
     gotoCourse() {
-      $nuxt._router.push(`/aluno/curso/${this.convertToSlug(this.courseTitle)}`);
+      $nuxt._router.push(
+        `/aluno/curso/${this.convertToSlug(this.courseTitle)}`,
+      );
     },
-    submitRating(){
-      if(!this.postBody.rating){        
-        this.bindedClass = "error-form";
+    submitRating() {
+      if (!this.postBody.rating) {
+        this.bindedClass = 'error-form';
         setTimeout(() => {
-          this.bindedClass = "";
+          this.bindedClass = '';
         }, 500);
-      }
-      else if(this.postBody.rating > 7){
-        this.activeDialog = "good";
-      }
-      else {
-        this.activeDialog = "bad";
+      } else if (this.postBody.rating > 7) {
+        this.activeDialog = 'good';
+      } else {
+        this.activeDialog = 'bad';
       }
     },
-    postFeedback(){
-      if (this.postBody.rating){
+    postFeedback() {
+      if (this.postBody.rating) {
         http.post(
           `/api/v1/course-taken/nps/user/${this.idUser}/course/${this.courseId}`,
-          this.postBody
-         );
+          this.postBody,
+        );
       }
     },
     convertToSlug(str) {
@@ -326,7 +309,7 @@ export default {
         .replace(/\s+/g, '-') // collapse whitespace and replace by -
         .replace(/-+/g, '-'); // collapse dashes
       return str;
-    },    
+    },
   },
 };
 </script>
@@ -345,7 +328,7 @@ h1 {
   font-weight: 600;
   font-size: 1.4rem;
   text-align: center;
-  padding: .7rem;
+  padding: 0.7rem;
 }
 strong {
   font-size: 20px;
@@ -399,7 +382,7 @@ strong {
 ::v-deep .row {
   justify-content: center;
   padding-bottom: 10px;
-  margin: 0;  
+  margin: 0;
 }
 ::v-deep .col {
   flex-basis: initial !important;
@@ -410,20 +393,19 @@ strong {
   }
   #main-col {
     max-width: 700px !important;
-  }  
+  }
 }
 /* style textarea */
 ::v-deep fieldset {
   border-color: rgba(0, 0, 0, 0.1);
   border-radius: 0;
 }
-::v-deep .v-input textarea
-{
+::v-deep .v-input textarea {
   color: #000000 !important;
 }
 ::v-deep ::placeholder {
   font-size: 12px;
-  color: rgba(0, 0, 0, .5) !important;
+  color: rgba(0, 0, 0, 0.5) !important;
 }
 /* style rating radios */
 ::v-deep .v-radio {
@@ -466,10 +448,9 @@ strong {
   justify-content: space-around;
 }
 ::v-deep .icon,
-::v-deep .v-icon
- {
+::v-deep .v-icon {
   border: none !important;
-  outline:none !important;
+  outline: none !important;
 }
 .share-info {
   margin-top: 32px;
@@ -483,6 +464,6 @@ strong {
   font-weight: 400;
   line-height: 16px;
   letter-spacing: 0em;
-  color: #A3A3A3;
+  color: #a3a3a3;
 }
 </style>
