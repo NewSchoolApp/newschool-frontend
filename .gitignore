@@ -20,6 +20,7 @@ lib-cov
 coverage
 # Cordova build
 cordova/www
+cordova/platforms/android/app/src/main/assets/www/
 
 # nyc test coverage
 .nyc_output
