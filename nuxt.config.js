@@ -3,7 +3,7 @@ import colors from 'vuetify/es5/util/colors';
 export default {
   router: {
     // uncomment for cordova release on android/ios
-    mode: 'hash',
+    // mode: 'hash',
     middleware: 'auth.guard',
 
     extendRoutes(routes, resolve) {
@@ -204,8 +204,8 @@ export default {
     GATOKEN: process.env.GA_TOKEN,
   },
   // uncomment for cordova release on android/ios
-  mode: 'spa',
-  // mode: 'universal',
+  // mode: 'spa',
+  mode: 'universal',
   /*
    ** Headers of the page
    */
