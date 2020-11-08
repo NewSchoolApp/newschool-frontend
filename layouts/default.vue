@@ -14,11 +14,16 @@ import {
 import Alert from '~/components/Alert.vue';
 
 export default {
+  components: { Alert },
   data: () => ({
     showError: false,
     message: '',
   }),
-  components: { Alert },
+  computed: {
+    user() {
+      return this.$store.state.user.data;
+    },
+  },
   mounted() {
     setCaptureError(error => {
       this.message = getErrorMessage(error);

@@ -1,15 +1,25 @@
 <template>
   <div>
     <HeaderBar :title="'Curso'" :back-page="true"></HeaderBar>
-    
-    <v-snackbar v-model="snackbar" :top="true" :right="true" color="snackbarStatus">
-      <span>Este curso já foi finalizado</span>      
+
+    <v-snackbar
+      v-model="snackbar"
+      :top="true"
+      :right="true"
+      color="snackbarStatus"
+    >
+      <span>Este curso já foi finalizado</span>
     </v-snackbar>
     <not-found v-if="notFound" />
     <div v-else>
       <div v-if="loading">
         <div class="container-spinner">
-          <v-progress-circular :size="70" :width="5" indeterminate color="#6600cc" />
+          <v-progress-circular
+            :size="70"
+            :width="5"
+            indeterminate
+            color="#6600cc"
+          />
         </div>
       </div>
       <div v-else>
@@ -17,7 +27,13 @@
           <main>
             <h1 id="title__course" class="h1__theme">{{ course.title }}</h1>
             <div class="mask__img">
-              <img :src="course.thumbUrl" alt="imagem-curso" title="imagem curso" />
+              <img
+                v-if="showThumb"
+                :src="course.thumbUrl"
+                @error="imageLoadError"
+                alt="imagem-curso"
+                title="imagem curso"
+              />
             </div>
             <div class="info__box">
               <section>
@@ -27,41 +43,32 @@
               <p id="description">{{ course.description }}</p>
             </div>
             <v-btn
-              v-if="flagButtonTaken"
-              class="btn__primary"
-              color="#60c"
-              :loading="loadingInit"
-              :disabled="loadingInit"
-              dark
-              block
-              depressed
-              large
-              @click="continueCourse(course)"
-            >Continuar</v-btn>
+            v-if="flagButtonTaken"
+            class="btn-block btn-primary"
+            :loading="loadingInit"
+            :disabled="loadingInit"
+            @click="continueCourse(course)"
+            >
+              Continuar
+            </v-btn>
             <v-btn
-              v-else-if="flagButtonCompleted"
-              class="btn__primary"
-              color="#60c"
-              :loading="loadingInit"
-              :disabled="loadingInit"
-              dark
-              block
-              depressed
-              large
-              @click="goToCertificate(course.id)"
-            >Certificado</v-btn>
+            v-else-if="flagButtonCompleted"
+            class="btn-block btn-primary"
+            :loading="loadingInit"
+            :disabled="loadingInit"              
+            @click="goToCertificate(course.id)"
+            >
+              Certificado
+            </v-btn>
             <v-btn
-              v-else
-              class="btn__primary"
-              color="#60c"
-              :loading="loadingInit"
-              :disabled="loadingInit"
-              dark
-              block
-              depressed
-              large
-              @click="initCourse(course.id)"
-            >Iniciar</v-btn>
+            v-else
+            class="btn-block btn-primary"
+            :loading="loadingInit"
+            :disabled="loadingInit"              
+            @click="initCourse(course.id)"
+            >
+              Iniciar
+            </v-btn>
           </main>
         </div>
         <modal
@@ -97,7 +104,7 @@ export default {
     return {
       idUser: 0,
       slug: '',
-
+      showThumb: true,
       dialogMessage: '',
       dialogOptions: {
         ok: false,
@@ -132,18 +139,21 @@ export default {
       });
   },
   methods: {
+    imageLoadError() {
+      this.showThumb = false;
+    },
     initCourse(id) {
       var isComplete = false;
-      this.list.forEach(item => {        
-        if(item.course.id === id && item.status === 'COMPLETED'){
-          isComplete = true;          
+      this.list.forEach(item => {
+        if (item.course.id === id && item.status === 'COMPLETED') {
+          isComplete = true;
         }
       });
-      if(isComplete){
-        this.snackbar = true
-       setTimeout(() => $nuxt._router.push(`/aluno/certificados`), 2000);
+      if (isComplete) {
+        this.snackbar = true;
+        setTimeout(() => $nuxt._router.push(`/aluno/certificados`), 2000);
       }
-      else{
+      else {
         this.loadingInit = true;
         if (utils.getToken() && this.idUser) {
           http
@@ -167,7 +177,10 @@ export default {
                       `${process.env.endpoints.CURRENT_STEP}/user/${this.idUser}/course/${id}`,
                     )
                     .then(res => {
-                      this.$store.commit('courses/setCurrentPart', res.data.data);
+                      this.$store.commit(
+                        'courses/setCurrentPart',
+                        res.data.data,
+                      );
                     });
 
                   setTimeout(() => {
@@ -249,7 +262,7 @@ export default {
     goToCertificate(id) {
       // eslint-disable-next-line no-undef
       $nuxt._router.push(
-        `/pagina-certificado/${this.$store.state.user.data.id}/${id}`,
+        `/certificado-info/${this.$store.state.user.data.id}/${id}`,
       );
     },
   },
@@ -262,82 +275,53 @@ export default {
 </script>
 
 <style scoped lang="scss">
-h1 {
-  font-size: 1rem;
-}
-main {
-  padding: 0rem 1.6rem;
-}
-.mask__img {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  overflow: hidden;
-  height: 15rem;
-  margin-top: 0.5rem;
-
-  img {
-    width: 100%;
+  h1 {
+    font-size: 1rem;
   }
-}
-#head__bar {
-  display: flex;
-  justify-content: center;
-  padding: 1.6rem;
-  position: relative;
-}
-.info__box {
-  display: flex;
-  margin-top: 0.6rem;
-  flex-direction: column;
-}
-.info__box section {
-  width: 100%;
-  display: flex;
-  align-items: center;
-}
+  main {
+    padding: 0rem 1.6rem;
+  }
+  .mask__img {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    overflow: hidden;
+    height: 15rem;
+    margin-top: 0.5rem;
 
-#author__name {
-  font-size: 0.8555rem;
-  font-weight: 600;
-  margin-bottom: 0;
-}
-
-#description {
-  margin-top: 0.5rem;
-  color: gray;
-  font-size: smaller;
-  text-align: justify;
-}
-::v-deep .btn-back {
-  position: absolute;
-  left: 1rem;
-}
-::v-deep .btn-back .theme--light.v-icon {
-  color: #60c;
-  font-size: 35px;
-}
-.btn__primary {
-  width: 100%;
-  margin-top: 1rem;
-  font-weight: 700;
-  box-shadow: 0px 4px 4px #21212154 !important;
-}
-.v-progress-circular {
-  color: #b2b2b2;
-}
-.v-btn__loader {
-  background-color: #e9e9e9;
-}
-.theme--dark.v-btn.v-btn--disabled:not(.v-btn--flat):not(.v-btn--text):not(.v-btn--outlined) {
-  background-color: #6600cc !important;
-}
-.theme--light.v-icon {
-  color: #ffffff;
-  font-size: 3rem;
-}
-#page {
-  margin-bottom: 5rem !important;
-}
+    img {
+      width: 100%;
+    }
+  }
+  .info__box {
+    display: flex;
+    margin-top: 0.6rem;
+    flex-direction: column;
+  }
+  .info__box section {
+    width: 100%;
+    display: flex;
+    align-items: center;
+  }
+  #author__name {
+    font-size: 0.8555rem;
+    font-weight: 600;
+    margin-bottom: 0;
+  }
+  #description {
+    margin-top: 0.5rem;
+    color: gray;
+    font-size: smaller;
+    text-align: justify;
+  }
+  .v-progress-circular {
+    color: #b2b2b2;
+  }
+  .v-btn__loader {
+    background-color: #e9e9e9;
+  }
+  #page {
+    margin-bottom: 5rem !important;
+  }
 </style>

@@ -1,30 +1,40 @@
 <template>
-  <div class="card" @click="goToCourse(course)">
-    <div class="header__info">
-      <h1>{{ course.course.title }}</h1>
-      <v-btn
+  <v-card class="card">
+    <v-col @click="goto()">
+      <v-row justify="space-between">
+        <h1>{{ course.course.title }}</h1>
+        <p 
         v-if="course.status === 'TAKEN'"
-        class="btn-back"
-        text
-        icon
-        @click="continueCourse(course.course)"
-      >
-        <p id="continue__text">
-          CONTINUAR
-          <v-icon>mdi-arrow-right</v-icon>
+        id="continue__text"
+        >
+          Continuar          
         </p>
-      </v-btn>
-      <p v-else class="text__success">CONCLUÍDO</p>
-    </div>
-    <div class="progress">
-      <p id="value__progress">{{ course.completion }}%</p>
-      <v-progress-linear
-        :value="course.completion"
-        height="7"
-        rounded="true"
-      ></v-progress-linear>
-    </div>
-  </div>
+        <!-- <p 
+        v-else
+        id="continue__text"
+        >
+          Concluido          
+        </p> -->
+      </v-row>
+      
+      <v-col>
+        <p id="value__progress">{{ course.completion }} % Concluído</p>
+        <v-progress-linear
+          :value="course.completion"
+          height="8"
+          rounded="true"
+          color="#aa56ff"
+        />
+      </v-col>      
+    </v-col>
+
+    <v-btn
+    id="rating-btn"
+    text
+    v-if="!course.rating && course.status === 'COMPLETED'"     
+    @click="gotoCourseRating"
+    >Avaliar Curso</v-btn>
+  </v-card>
 </template>
 
 <script>
@@ -32,13 +42,13 @@ import http from '~/services/http/generic';
 
 export default {
   name: 'CourseProgress',
-  props: ['course'],
+  props: ['course'],  
   methods: {
     continueCourse(course) {
       this.loading = true;
       http
         .getAll(
-          `${process.env.endpoints.STATE_COURSE}/user/${this.user.id}/course/${course.id}`,
+          `${process.env.endpoints.STATE_COURSE}/user/${this.$store.state.user.data.id}/course/${course.id}`,
         )
         .then(res => {
           // salvando o estado atual
@@ -50,7 +60,7 @@ export default {
           // Verificando qual o próximo passo
           http
             .getAll(
-              `${process.env.endpoints.CURRENT_STEP}/user/${this.user.id}/course/${course.id}`,
+              `${process.env.endpoints.CURRENT_STEP}/user/${this.$store.state.user.data.id}/course/${course.id}`,
             )
             .then(res => {
               if (res.data.type === 'NEW_TEST') {
@@ -64,19 +74,21 @@ export default {
               }
             });
         });
-    },
-    goToCourse(courseAndState) {
-      if (courseAndState.status === 'COMPLETED') {
-        const url = courseAndState.course.slug
-          ? courseAndState.course.slug
-          : this.convertToSlug(courseAndState.course.title);
+    },      
+    goto(){
+      if (this.course.status === "TAKEN") {
+        const url = this.course.course.slug
+          ? this.course.course.slug
+          : this.convertToSlug(this.course.course.title);
         // eslint-disable-next-line no-undef
         $nuxt._router.push(`/aluno/curso/${url}`);
-      } else {
-        this.continueCourse(courseAndState.course);
+      }
+      else {
+        $nuxt._router.push(
+        `/pagina-certificado/${this.$store.state.user.data.id}/${this.course.course.id}/false`,
+        );
       }
     },
-
     convertToSlug(str) {
       str = str.replace(/^\s+|\s+$/g, ''); // trim
       str = str.toLowerCase();
@@ -93,27 +105,38 @@ export default {
         .replace(/-+/g, '-'); // collapse dashes
       return str;
     },
+    gotoCourseRating() {
+      this.$store.commit('courses/setCurrent', this.course.course);      
+      $nuxt._router.push(`/aluno/curso/${this.course.course.slug}/fim`);      
+    }
   },
 };
 </script>
 
 <style lang="scss" scoped>
 * {
+  font-family: Roboto;
   transition: 0.2 ease-in;
 }
 #page {
   height: 100%;
 }
+p {
+  margin-bottom: 0;
+}
 h1 {
-  font-size: 0.8rem;
-  font-weight: 600;
-  width: 55%;
+  font-size: .8rem;
+  font-weight: 700;
+  line-height: 16px;
+  letter-spacing: 0em;
+  text-align: left;
+  color: black;
+  max-width: 70%;
 }
 .container__list {
   margin-bottom: 5rem;
 }
 .card {
-  height: 8rem;
   margin: 1.3rem;
   padding: 0.9rem;
   background: #fff;
@@ -137,22 +160,47 @@ h1 {
 }
 ::v-deep .v-btn--icon.v-size--default {
   height: unset;
-  color: #6600cc;
+  color: var(--primary);
 }
 .text__success {
   font-weight: 400;
   color: #35de63;
   font-size: 13px;
 }
-.progress-linear {
-  height: 6px;
-  border-radius: 50px;
+::v-deep .v-progress-linear {
+  margin-bottom: 35px;
+}
+::v-deep .v-progress-linear__background {
+  opacity: 100%;
+  background-color: #cecece !important;
 }
 #value__progress {
-  color: darkgray;
-  padding-bottom: 5px;
+font-size: 10px;
+font-weight: 400;
+letter-spacing: 0em;
+text-align: left;
+margin: 18px 0 4px;
 }
 #continue__text {
-  font-size: smaller;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 12px;
+  text-align: right;
+  color: #737373;
+  text-transform: none;
+  letter-spacing: 0em;
+}
+#rating-btn {
+justify-content: flex-end;
+font-size: 5px;
+text-transform: none;
+height: 20px;
+padding: 0;
+}
+.col {
+  padding: 0;
+}
+.row {
+  padding: 0 14px;
 }
 </style>

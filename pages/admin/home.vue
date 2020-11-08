@@ -101,7 +101,7 @@ export default {
   font-weight: 900;
   font-size: 16px;
   line-height: 20px;
-  color: #6600cc;
+  color: var(--primary);
 }
 
 @media screen and (orientation: portrait) {
@@ -168,7 +168,7 @@ export default {
 .title-section {
   font-weight: 900;
   line-height: 17px;
-  color: #6600cc;
+  color: var(--primary);
   padding: 1.25em 0 0.5em 1.5em;
   text-transform: uppercase;
 }

@@ -82,7 +82,7 @@ export default {
       {
         id: 5,
         label: 'O que é a new school?',
-        icon: 'mdi-book-multiple',
+        icon: 'mdi-library-books',
         link: '/sobre',
       },
       // { id: 6, label: "Ajuda", icon: "mdi-hand-right", link: "/ajuda" },
@@ -97,6 +97,12 @@ export default {
         label: 'Apoie a new school',
         icon: 'mdi-volume-high',
         link: '/construindo',
+      },
+      {
+        id: 8,
+        label: 'Ranking',
+        icon: 'mdi-trophy',
+        link: '/aluno/ranking',
       },
     ],
   }),
@@ -172,6 +178,10 @@ export default {
   margin-top: 5px;
 }
 
+.mdi-close-circle::before {
+  color: var(--primary);
+}
+
 .container-page > main {
   display: flex;
   justify-content: space-between;
@@ -190,9 +200,15 @@ export default {
   text-transform: uppercase;
 }
 
+.mdi-library-books::before {
+  content: url('https://api.iconify.design/mdi-library-books.svg?color=rgb(105%2C0%2C204)&height=24');
+  vertical-align: -0.125em;
+}
+
 h1 {
-  font-size: 1.4rem;
-  font-weight: 600;
+  font-size: 1rem;
+  font-weight: 500;
+  color: black;
   text-transform: capitalize;
 }
 
@@ -249,7 +265,7 @@ h1 {
   border-bottom: solid 1px #e8e8e8;
   -webkit-box-align: center;
   align-items: center;
-  color: #6600cc !important;
+  color: var(--primary) !important;
   cursor: pointer;
   div {
     width: 50px;

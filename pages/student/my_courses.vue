@@ -1,7 +1,15 @@
 <template>
   <div>
     <div v-show="!loading" id="page">
-      <HeaderBar :title="'Meus Cursos'" :back-page="true"></HeaderBar>
+      <HeaderBar :title="'Meus Cursos'" :back-page="true" />
+      <v-tabs v-model="selectedTab" fixed-tabs height="35px">
+        <v-tab>
+          Em andamento
+        </v-tab>
+        <v-tab>
+          Finalizados
+        </v-tab>
+      </v-tabs>
       <div v-if="courses.length">
         <div v-for="course of courses" :key="course.course.id">
           <course-progress :course="course" />
@@ -49,10 +57,17 @@ export default {
   },
   data: () => ({
     loading: true,
+    selectedTab: 0, // (0 == Em andamento, 1 == Finalizados)
   }),
   computed: {
     courses() {
-      return this.$store.state.courses.list;
+      return this.$store.state.courses.list.filter(course => {
+        if (this.selectedTab == '1') {
+          return course.completion == 100;
+        } else {
+          return course.completion < 100;
+        }
+      });
     },
     user() {
       return this.$store.state.user.data;
@@ -68,60 +83,26 @@ export default {
 
 <style scoped lang="scss">
 * {
+  font-family: 'Roboto', sans-serif;
   transition: 0.2 ease-in;
 }
 #page {
   height: 100%;
+  margin-bottom: 60px;
 }
-h1 {
-  font-size: 0.8rem;
-  font-weight: 600;
-  width: 55%;
+::v-deep .v-tabs-slider-wrapper {
+  height: 4px !important;
+  color: var(--primary-light);
 }
-.container__list {
-  margin-bottom: 5rem;
+::v-deep .v-tab {
+  font-size: 11px !important;
+  line-height: 16px;
+  font-weight: 500;
+  color: grey;
+  text-transform: none;
+  border-bottom: 4px solid #f5f5f5;
 }
-.card {
-  height: 8rem;
-  margin: 1.3rem;
-  padding: 0.9rem;
-  background: #fff;
-  box-shadow: 0px 12px 20px 0px #00000026;
-  border-radius: 5px;
-  display: -webkit-box;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-  flex-direction: column;
-  -webkit-box-pack: justify;
-  justify-content: space-between;
-}
-.btn-back {
-  width: unset !important;
-}
-.header__info {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-}
-::v-deep .v-btn--icon.v-size--default {
-  height: unset;
-  color: #6600cc;
-}
-.text__success {
-  font-weight: 400;
-  color: #35de63;
-  font-size: 13px;
-}
-.progress-linear {
-  height: 6px;
-  border-radius: 50px;
-}
-#value__progress {
-  color: darkgray;
-  padding-bottom: 5px;
-}
-#continue__text {
-  font-size: smaller;
+::v-deep .v-tabs {
+  max-height: 32px;
 }
 </style>

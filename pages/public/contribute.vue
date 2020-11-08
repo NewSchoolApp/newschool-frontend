@@ -12,31 +12,28 @@
 
         <v-container fluid max-width="700">
           <v-row>
-            <v-col
-              v-for="stack in stacks"
-              :key="stack.id"
-              :class="stack.class"
-              cols="xs12 sm6"
-            >
+            <div class="horizontal-scroll">
               <v-card
-                class="mx-auto"
-                max-width="344"
-                min-width="200"
-                min-height="400"
+                v-for="stack in stacks"
+                :key="stack.id"
+                style="box-shadow: none;"
+                min-width="115"
+                class="content-padding"
               >
-                <v-img :src="stack.cover" margin-top="0"></v-img>
+                <div class="card-alignment">
+                  <v-img
+                    class="img-size"
+                    :src="stack.cover"
+                    margin-top="0"
+                    contain
+                  ></v-img>
 
-                <v-card-title>{{ stack.title }}</v-card-title>
+                  <v-card-title>{{ stack.title }}</v-card-title>
 
-                <v-card-subtitle>{{ stack.description }}</v-card-subtitle>
-
-                <v-card-actions>
-                  <v-btn text :href="stack.linkUrl" target="_blank">{{
-                    stack.linkText
-                  }}</v-btn>
-                </v-card-actions>
+                  <v-card-subtitle>{{ stack.deion }}</v-card-subtitle>
+                </div>
               </v-card>
-            </v-col>
+            </div>
           </v-row>
         </v-container>
 
@@ -50,31 +47,25 @@
 
           <v-container fluid>
             <v-row>
-              <v-col
-                v-for="tool in tools"
-                :key="tool.id"
-                :class="tool.class"
-                cols="xs12 sm6"
-              >
+              <div class="horizontal-scroll">
                 <v-card
-                  class="mx-auto"
-                  max-width="344"
-                  min-width="200"
-                  min-height="450"
+                  v-for="tool in tools"
+                  :key="tool.id"
+                  style="box-shadow: none;"
+                  class="content-padding"
+                  max-width="168"
+                  min-width="115"
+                  @click="select(tool.linkUrl)"
                 >
-                  <v-img :src="tool.cover" contain></v-img>
+                  <div class="card-alignment bottom-padding">
+                    <v-img class="img-size " :src="tool.cover"></v-img>
 
-                  <v-card-title>{{ tool.title }}</v-card-title>
+                    <v-card-title>{{ tool.title }}</v-card-title>
 
-                  <v-card-subtitle>{{ tool.description }}</v-card-subtitle>
-
-                  <v-card-actions>
-                    <v-btn text :href="tool.linkUrl" target="_blank">{{
-                      tool.linkText
-                    }}</v-btn>
-                  </v-card-actions>
+                    <v-card-subtitle>{{ tool.deion }}</v-card-subtitle>
+                  </div>
                 </v-card>
-              </v-col>
+              </div>
             </v-row>
           </v-container>
         </article>
@@ -106,31 +97,28 @@ export default {
         {
           id: 1,
           cover:
-            'https://www.opus-software.com.br/wp-content/uploads/2018/09/nodejs.jpg',
+            'https://d33wubrfki0l68.cloudfront.net/e937e774cbbe23635999615ad5d7732decad182a/26072/logo-small.ede75a6b.svg',
           title: 'Backend',
-          description: 'NodeJs, NestJs, TypeScript, Swagger, MySQL',
+          deion: 'NodeJs, NestJs, Type, Swagger, MySQL',
           linkUrl: 'https://github.com/NewSchoolBR/newschool-backend',
           linkText: 'Github',
         },
         {
           id: 2,
-          cover:
-            'https://miro.medium.com/max/900/1*vYKA-nnA_hvBZil2TTq37g.jpeg',
+          cover: 'https://openbox.pt/wp-content/uploads/2018/04/vue-1.png',
           title: 'Frontend',
-          description: 'Vue, Nuxt, Vuetify - Material Design',
+          deion: 'Vue, Nuxt, Vuetify - Material Design',
           linkUrl: 'https://github.com/NewSchoolBR/newschool-frontend',
           linkText: 'Github',
         },
         {
           id: 3,
           cover:
-            'https://sharebook.com.br/assets/img/contribute-project/ui-ux.jpg',
-          title: 'UI/UX Design',
-          description: 'Personas, User Stories, Figma, Material Design Icons',
-          linkUrl:
-            'https://www.figma.com/file/whTp4hE6ZQR3V8LBxSZnjv/NewSchool?node-id=0%3A1',
+            'https://shazronatadobe.files.wordpress.com/2012/09/cordova_bot.png',
+          title: 'Mobile',
+          deion: 'Cordova',
+          linkUrl: 'https://cordova.apache.org/',
           linkText: 'Figma',
-          class: 'figma',
         },
       ],
       tools: [
@@ -139,8 +127,7 @@ export default {
           cover:
             'https://sharebook.com.br/assets/img/contribute-project/slack.jpg',
           title: 'Slack',
-          description:
-            'Comunicação, colaboração e integração. Uma das ferramentas favoritas dos devs.',
+          deion: 'Comunicação, colaboração e integração.',
           linkUrl:
             'https://join.slack.com/t/newschoolbr/shared_invite/enQtODYwMTI2MTgwODY5LTJkYzcwYWVlYWUyNWI1NDg3OTRjMjUyYjE5ZjZhMDMxZWFjMTJlMDA3NDJlYzQ0ZDEzZmIxOTQ1MzIzNjIzZjI',
           linkText: 'Slack',
@@ -150,8 +137,7 @@ export default {
           cover:
             'https://sharebook.com.br/assets/img/contribute-project/trello.jpg',
           title: 'Trello',
-          description:
-            'Chegou a hora de contribuir! Peque uma tarefa, coloque no seu nome e mova pra DOING.',
+          deion: 'Pegue uma tarefa, coloque no seu nome e mova pra DOING.',
           linkUrl:
             'https://trello.com/invite/b/2MHuWn0C/b1a15b7112ea11b856cfa78174a6f72d/projeto-new-school-app',
           linkText: 'Trello',
@@ -161,50 +147,72 @@ export default {
           cover:
             'https://sharebook.com.br/assets/img/contribute-project/github.jpg',
           title: 'Github',
-          description:
-            'Aqui nós temos o cuidado de ter um histórico educativo, onde cada commit conta uma estória.',
+          deion: 'Aqui nós temos o cuidado de ter um histórico educativo.',
           linkUrl: 'https://github.com/newschoolbr',
           linkText: 'Github',
         },
-        {
-          id: 4,
-          cover:
-            'https://sharebook.com.br/assets/img/contribute-project/appveyor.jpg',
-          title: 'AppVeyor',
-          description:
-            'Solução fácil e amigável para integração e deploy contínuo. Integrado com Slack.',
-          linkUrl: 'https://www.appveyor.com',
-          linkText: 'Website',
-          class: 'appveyor',
-        },
-        {
-          id: 5,
-          cover: 'https://cdn.worldvectorlogo.com/logos/rollbar.svg',
-          title: 'Rollbar',
-          description:
-            'Monitoramento e notificação de erros integrado com nossas demais ferramentas.',
-          linkUrl: 'https://rollbar.com/',
-          linkText: 'Website',
-          class: 'rollbar',
-        },
-        {
-          id: 6,
-          cover: 'https://cdn.worldvectorlogo.com/logos/heroku.svg',
-          title: 'Heroku',
-          description: 'Hospedagem gratuita para os ambientes DEV e STG.',
-          linkUrl: 'https://www.heroku.com/',
-          linkText: 'Website',
-          class: 'heroku',
-        },
       ],
     };
+  },
+  methods: {
+    select(location) {
+      window.open(location, '_blank');
+    },
   },
 };
 </script>
 
 <style scoped>
+.card-alignment {
+  margin: 1% auto;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 115px;
+}
+
+.img-size {
+  width: 110px;
+  height: 110px;
+  padding: 5px;
+}
+.bottom-padding {
+  margin-bottom: 30%;
+}
+
+.horizontal-scroll {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  overflow-y: auto;
+}
+.content-padding {
+  margin: 0 20px 0 0;
+  padding: 0 10px 0 0;
+}
+
+::v-deep .v-card__subtitle {
+  font-size: 10px;
+  padding: 0px 30px;
+  line-height: 12px;
+}
+::v-deep .v-card__title {
+  text-align: center !important;
+  display: block;
+  font-size: 12px;
+}
+::v-deep .v-card__subtitle,
+.v-card__text,
+.v-card__title {
+  padding: 10px;
+}
+::v-deeo .v-card {
+  box-shadow: white white white;
+}
+
 ::v-deep .title {
-  color: #6600cc;
+  color: var(--primary);
   font-family: 'Montserrat';
   font-style: normal;
   font-weight: 900;
@@ -223,25 +231,16 @@ export default {
 ::v-deep .v-title__title {
   margin-top: -57px;
 }
-::v-deep .figma .v-image__image {
-  margin-top: -10px;
-}
-::v-deep .figma .v-card__title {
-  margin-top: -33px;
-}
-::v-deep .heroku .v-image__image {
-  height: 40%;
-  margin-top: 10%;
-}
-::v-deep .heroku .v-card__title {
-  margin-top: -80%;
-}
-::v-deep .rollbar .v-image__image {
-  width: 80%;
-  height: 70%;
-  margin: 15% 10%;
-}
 ::v-deep #page {
   max-height: 100vh;
+}
+
+@media (min-width: 700px) {
+  .horizontal-scroll {
+    justify-content: space-evenly;
+  }
+  .container {
+    max-width: 700px;
+  }
 }
 </style>

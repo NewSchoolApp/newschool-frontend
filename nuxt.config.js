@@ -3,7 +3,7 @@ import colors from 'vuetify/es5/util/colors';
 export default {
   router: {
     // uncomment for cordova release on android/ios
-    // mode: 'hash',
+    mode: 'hash',
     middleware: 'auth.guard',
 
     extendRoutes(routes, resolve) {
@@ -28,6 +28,11 @@ export default {
             path: 'home',
             name: 'aluno-home',
             component: resolve(__dirname, 'pages/student/home.vue'),
+          },
+          {
+            path: '/certificado-info/:idUser/:idCourse',
+            name: 'certificado-info',
+            component: resolve(__dirname, 'pages/public/certificate_info.vue'),
           },
           {
             path: 'perfil',
@@ -163,7 +168,12 @@ export default {
 
     endpoints: {
       CERTIFICATES_ME: 'api/v1/course-taken/certificates/user/',
+      RANKING: '/api/v1/gamefication/ranking',
+      NOTIFICATIONS: 'api/v1/notification',
       USER_ME: 'api/v1/user/me',
+      SCHOOL: 'api/v1/school',
+      CITY: 'api/v1/city',
+      STATE: 'api/v1/state',
       LOGIN: 'oauth/token',
       SIGN_UP: 'api/v1/user/student',
       FORGOT_PASSWORD: 'api/v1/user/forgot-password',
@@ -194,8 +204,8 @@ export default {
     GATOKEN: process.env.GA_TOKEN,
   },
   // uncomment for cordova release on android/ios
-  // mode: 'spa',
-  mode: 'universal',
+  mode: 'spa',
+  // mode: 'universal',
   /*
    ** Headers of the page
    */
@@ -258,16 +268,12 @@ export default {
    */
   plugins: [
     '~/plugins/notifier.js',
+    '~/plugins/pusher.js',
     '~/plugins/cordova.client.js',
     '~/plugins/admin-components.js',
-    {
-      src: '~/plugins/ga.js',
-      mode: 'client'
-    },
-    {
-      src: '~/plugins/redirect',
-      mode: 'client'
-    },
+    { src: '~/plugins/infinite-scroll.js', mode: 'client' },
+    { src: '~/plugins/ga.js', mode: 'client' },
+    { src: '~/plugins/redirect', mode: 'client' },
   ],
   /*
    ** Nuxt.js dev-modules
@@ -355,7 +361,7 @@ export default {
      ** You can extend webpack config here
      */
     publicPath: '/nuxtfiles/',
-    extend(config, ctx) {},
+    extend(config, ctx) { },
   },
 
   auth: {

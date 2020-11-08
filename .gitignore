@@ -18,6 +18,8 @@ lib-cov
 
 # Coverage directory used by tools like istanbul
 coverage
+# Cordova build
+cordova/www
 
 # nyc test coverage
 .nyc_output

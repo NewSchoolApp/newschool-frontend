@@ -59,7 +59,7 @@ export default {
   justify-content: center;
 
   p {
-    color: #6600cc;
+    color: var(--primary);
     font-weight: 500;
     font-size: medium;
   }

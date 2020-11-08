@@ -1,10 +1,6 @@
 <template>
   <div class="background">
-    <HeaderBar
-      :title="'CERTIFICADO'"
-      :back-page="true"
-      :route="'/login'"
-    ></HeaderBar>
+    <HeaderBar :title="'CERTIFICADO'" :back-page="true" />
     <v-container>
       <div v-if="loading">
         <div class="container-spinner">
@@ -18,7 +14,7 @@
       </div>
       <div v-else class="card-box">
         <header class="certificate__title">
-          <h3 class="medium__text conclusion">CERTIFICADO DE CONCLUSÃO</h3>
+          <h3 class="medium__text">CERTIFICADO DE CONCLUSÃO</h3>
           <h1 class="new_school__bold">NEW SCHOOL</h1>
         </header>
         <div class="container">
@@ -60,14 +56,6 @@
                 <h6 class="medium__text">DIRETORIA</h6>
               </div>
             </div>
-            <div class="download-container">
-              <button class="download" type="button" @click="print">
-                BAIXAR
-                <v-icon color="#6600CC" size="20"
-                  >mdi-format-vertical-align-bottom</v-icon
-                >
-              </button>
-            </div>
             <img
               class="new__logo"
               src="../../assets/NS-Logo-vertical.svg"
@@ -84,13 +72,11 @@
 import moment from 'moment';
 import http from '../../services/http/public';
 import NavigationBar from '~/components/NavigationBar.vue';
-import shareBtnPageCertificate from '~/components/ShareBtnPageCertificate.vue';
 import HeaderBar from '~/components/Header.vue';
 import ogImage from '~/assets/backgroundCertificates.svg';
 
 export default {
   components: {
-    shareBtnPageCertificate,
     HeaderBar,
     NavigationBar,
   },
@@ -120,6 +106,12 @@ export default {
         this.certificate.courseCompleteDate,
       ).format('DD/MM/YYYY');
       this.loading = false;
+      if (this.$route.params.print == 1) {
+        setTimeout(() => {
+          this.print();
+          this.$router.back();
+        }, 500);
+      }
     });
   },
   methods: {
@@ -149,7 +141,7 @@ export default {
 </script>
 
 <router>
-    path: "/pagina-certificado/:idUser/:idCourse"
+    path: "/pagina-certificado/:idUser/:idCourse/:print"
 </router>
 
 <style lang="scss" scoped>
@@ -157,6 +149,10 @@ export default {
   padding: 0;
   outline: 0;
   box-sizing: border-box;
+}
+h4,
+h3 {
+  color: black !important;
 }
 
 .background {
@@ -178,12 +174,9 @@ export default {
   text-align: left;
 }
 .certificate__title {
-  .conclusion {
-    width: 35%;
-  }
   .new_school__bold {
     font-weight: 700;
-    color: #6600cc;
+    color: var(--primary);
   }
 }
 .main {
@@ -200,16 +193,6 @@ export default {
 .new__logo {
   display: none;
 }
-.download {
-  margin: 10% auto;
-  color: #6600cc;
-}
-
-.download-container {
-  width: 90%;
-  text-align: center;
-}
-
 .assignature {
   margin-top: -55px;
   display: flex;
@@ -238,11 +221,6 @@ h6 {
   font-size: 12px !important;
   margin-top: 2%;
 }
-
-button {
-  cursor: pointer !important;
-}
-
 @media print {
   @page {
     margin: 0;
@@ -252,10 +230,6 @@ button {
   }
   .certificate__title {
     margin-top: 3%;
-  }
-  .certificate__title .conclusion {
-    font-size: 27px;
-    line-height: 37px;
   }
   .certificate__title .new_school__bold {
     font-size: 75px;
@@ -289,10 +263,6 @@ button {
     right: 35px;
     bottom: 0;
   }
-  .download-container {
-    display: none;
-  }
-
   ::v-deep .v-item-group.v-bottom-navigation--fixed,
   #head__bar {
     display: none;

@@ -19,7 +19,9 @@
 
           <div class="video-iframe-container">
             <iframe
-              :src="part.videoUrl"
+              width="300"
+              height="250"
+              :src="part.videoUrl.replace('watch?v=', 'embed/')"
               frameborder="0"
               allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"
               allowfullscreen
@@ -27,10 +29,9 @@
           </div>
           <h4>Youtube</h4>
         </div>
-
-        <v-btn color="primary" class="save-button" @click="advanceCourse"
-          >Próximo</v-btn
-        >
+        <v-btn class="btn-block btn-primary" @click="advanceCourse">
+          Próximo
+        </v-btn>
       </v-flex>
       <client-only>
         <navigation-bar />
@@ -159,7 +160,7 @@ h1 {
   font-weight: 900;
   font-size: 1em;
   line-height: 36px;
-  color: #6600cc;
+  color: var(--primary);
 }
 
 @media screen and (max-width: 20.625em) {
@@ -174,12 +175,13 @@ h3 {
   line-height: normal;
   line-height: initial;
   text-align: left;
-  color: #6600cc;
+  color: var(--primary);
 }
 
 h4 {
   font-weight: 500;
   padding-top: 0.25em;
+  padding-bottom: 12px;
   color: #656565;
   font-size: 14px;
 }
@@ -210,33 +212,5 @@ h4 {
     height: 100%;
     border: none;
   }
-
-  h4 {
-    padding-top: 0;
-    margin-top: -0.5em;
-  }
-}
-
-.save-button {
-  height: 45px !important;
-  width: 100%;
-  font-weight: 900;
-  font-size: 12px !important;
-  margin-top: auto;
-  display: flex;
-  align-items: center;
-  text-align: center;
-  color: #ffffff;
-}
-
-.v-button__content {
-  font-weight: 900;
-  font-size: 12px;
-  line-height: 14px;
-}
-
-.back-button {
-  min-width: 0 !important;
-  float: left;
 }
 </style>
