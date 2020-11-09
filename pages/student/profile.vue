@@ -19,17 +19,22 @@
               <h1>{{ user.name }}</h1>
               <p>Aluno</p>
             </v-col>
-            <v-col cols="12">
-              <v-btn class="btn-block btn-white" @click="goToChangePassword">
+            <v-col class="padding__card" cols="12">
+              <v-btn class="btn-block btn-white " @click="goToChangePassword">
                 Alterar Senha<v-icon right>mdi-key</v-icon></v-btn
               >
             </v-col>
-            <v-col cols="12">
-              <v-btn class="btn-block btn-white" @click="goToChangeData">
+            <v-col class="padding__card" cols="12">
+              <v-btn class="btn-block btn-white " @click="goToChangeData">
                 Alterar Dados<v-icon right>mdi-pencil</v-icon></v-btn
               >
             </v-col>
-            <v-col cols="12">
+            <v-col class="padding__card" cols="12">
+              <v-btn class="btn-block btn-white " @click="goToShareUrl">
+                Indicar APP<v-icon right>mdi-share</v-icon></v-btn
+              >
+            </v-col>
+            <v-col class="padding__card" cols="12">
               <v-btn class="btn-block btn-white btn-alert" @click="goToExit">
                 Sair<v-icon right>mdi-exit-to-app</v-icon></v-btn
               >
@@ -72,6 +77,9 @@ export default {
     goToChangePassword() {
       $nuxt._router.push('/aluno/alterar-senha');
     },
+    goToShareUrl() {
+      $nuxt._router.push('/aluno/indicar-app');
+    },
     goToChangeData() {
       $nuxt._router.push('/aluno/alterar');
     },
@@ -101,5 +109,8 @@ export default {
 ::v-deep .btn-alert {
   color: #f44336 !important;
   border-color: #f44336;
+}
+.padding__card {
+  padding-top: 0;
 }
 </style>

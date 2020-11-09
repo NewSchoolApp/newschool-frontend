@@ -47,6 +47,7 @@
     "fs": "0.0.1-security",
     "moment": "^2.24.0",
     "ms": "^2.1.2",
+    "node-properties-parser": "0.0.2",
     "nuxt": "^2.11.0",
     "nuxt-i18n": "^6.4.1",
     "pusher-js": "^7.0.1",
