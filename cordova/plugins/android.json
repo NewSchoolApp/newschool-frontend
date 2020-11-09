@@ -19,7 +19,14 @@
     },
     "cordova-plugin-whitelist": {
       "PACKAGE_NAME": "com.newschool.app"
+    },
+    "cordova-plugin-x-socialsharing": {
+      "PACKAGE_NAME": "com.newschool.app"
     }
   },
-  "dependent_plugins": {}
+  "dependent_plugins": {
+    "es6-promise-plugin": {
+      "PACKAGE_NAME": "com.newschool.app"
+    }
+  }
 }

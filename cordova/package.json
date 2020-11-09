@@ -11,7 +11,8 @@
         "APP_NAME": "NewSchool",
         "FACEBOOK_HYBRID_APP_EVENTS": "false",
         "FACEBOOK_ANDROID_SDK_VERSION": "5.13.0"
-      }
+      },
+      "cordova-plugin-x-socialsharing": {}
     },
     "platforms": [
       "android"
