@@ -9,26 +9,28 @@
           infinite-scroll-disabled="busy"
           infinite-scroll-distance="limit"
         >
-          <div
-            v-for="notification of notifications"
-            :key="notification.id"
-            class="card"
-          >
-            <div class="header__info">
-              <img src="~/assets/gabs-small.svg" />
-              <img
-                class="cross__button"
-                src="~/assets/cross-button.svg"
-                alt=""
-                @click="removeNotification(notification.id)"
-              />
+          <transition-group name="fade">
+            <div
+              v-for="notification of notifications"
+              :key="notification.id"
+              class="card"
+            >
+              <div class="header__info">
+                <img src="~/assets/gabs-small.svg" />
+                <img
+                  class="cross__button"
+                  src="~/assets/cross-button.svg"
+                  alt=""
+                  @click="removeNotification(notification)"
+                />
 
-              <h1>{{ notification.content.badge.badgeDescription }}</h1>
-              <div>
-                <p id="continue__text">{{ checkDate(notification) }}</p>
+                <h1>{{ notification.content.badge.badgeDescription }}</h1>
+                <div>
+                  <p id="continue__text">{{ checkDate(notification) }}</p>
+                </div>
               </div>
             </div>
-          </div>
+          </transition-group>
         </div>
       </div>
       <NothingToShow
@@ -104,15 +106,24 @@ export default {
         return notificationDateHourAndMinute;
       }
     },
-    removeNotification(id) {
+    removeNotification(notification) {
       this.loading = true;
-      http.putByURL(`${process.env.endpoints.NOTIFICATIONS}/${id}/see`);
-      setTimeout(async () => {
-        await this.getNotifications();
-      }, 500);
-      setTimeout(() => {
-        this.loading = false;
-      }, 700);
+      http
+        .putByURL(
+          `${process.env.endpoints.NOTIFICATIONS}/${notification.id}/see`,
+        )
+        .then(() => {
+          const index = this.notifications.indexOf(notification);
+          this.notifications.splice(index, 1);
+        });
+      this.loading = false;
+
+      // setTimeout(async () => {
+      //   await this.getNotifications();
+      // }, 500);
+      // setTimeout(() => {
+      //   this.loading = false;
+      // }, 700);
     },
     getNotifications() {
       this.notifications = [];
@@ -168,6 +179,13 @@ h1 {
 }
 .container__list {
   margin-bottom: 5rem;
+}
+.fade-leave-active {
+  transition: all 0.4s;
+}
+
+.fade-leave-to {
+  opacity: 0;
 }
 .card {
   margin: 0.3rem 0.9rem;
