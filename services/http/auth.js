@@ -15,7 +15,9 @@ const login = (username, password) => {
 
   return http
     .post(process.env.endpoints.LOGIN, body, {
-      headers: { Authorization: clientCredentials },
+      headers: {
+        Authorization: clientCredentials,
+      },
     })
     .then(res => {
       localStorage.setItem(
@@ -31,7 +33,9 @@ const login = (username, password) => {
 
 const signUp = (form, token) => {
   return http.post(process.env.endpoints.SIGN_UP, form, {
-    headers: { Authorization: `Bearer ${token}` },
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
   });
 };
 
@@ -42,6 +46,7 @@ const registerUserSocialLogin = socialCredentials => {
     .then(() => login(socialCredentials.email, socialCredentials.password))
     .catch(err => {
       console.error(err);
+      return err;
     });
 };
 /**
@@ -92,7 +97,10 @@ export default {
       if (currentTime > expiresIn) {
         return getNewAccessToken(refreshToken);
       } else {
-        return { status: true, token: utils.getToken() };
+        return {
+          status: true,
+          token: utils.getToken(),
+        };
       }
     } else {
       return { status: false, token: '' };
@@ -110,9 +118,14 @@ export default {
     }
   },
 
-  loginFacebook: facebookCredentials => {
+  loginFacebook: async facebookCredentials => {
+    const res = utils.getPasswordCredentials();
     return http
-      .post(process.env.endpoints.FACEBOOK_LOGIN, facebookCredentials)
+      .post(process.env.endpoints.FACEBOOK_LOGIN, facebookCredentials, {
+        headers: {
+          Authorization: res,
+        },
+      })
       .then(res => {
         localStorage.setItem(
           'auth',
@@ -123,7 +136,7 @@ export default {
           }),
         );
       })
-      .catch(error => {
+      .catch(async error => {
         if (error.response.status === 404) {
           const randomPassword = Math.random()
             .toString(36)
@@ -133,17 +146,24 @@ export default {
             name: facebookCredentials.name,
             email: facebookCredentials.email,
             password: randomPassword,
+            profile: 'STUDENT',
             urlFaceebook: '',
             urlInstagram: '',
           };
           return registerUserSocialLogin(facebookCredentialsRegister);
         }
+        return error;
       });
   },
 
   loginGoogle: googleCredentials => {
+    const res = utils.getPasswordCredentials();
     return http
-      .post(process.env.endpoints.GOOGLE_LOGIN, googleCredentials)
+      .post(process.env.endpoints.GOOGLE_LOGIN, googleCredentials, {
+        headers: {
+          Authorization: res,
+        },
+      })
       .then(res => {
         localStorage.setItem(
           'auth',
@@ -164,12 +184,24 @@ export default {
             name: googleCredentials.name,
             email: googleCredentials.email,
             password: randomPassword,
+            profile: 'STUDENT',
             urlFaceebook: '',
             urlInstagram: '',
           };
           return registerUserSocialLogin(googleCredentialsRegister);
         }
       });
+  },
+  async nativeFacebookLogin() {
+    const promisify = (func) => (...params) => new Promise((resolve, reject) => func(...params, function (data) { resolve(data) }, function (error) { reject(error) }));
+    const login = promisify(facebookConnectPlugin.login);
+    const getData = promisify(facebookConnectPlugin.api);
+    const loginStatus = promisify(facebookConnectPlugin.getLoginStatus);
+    await login(['public_profile', 'email']);
+    const status = await loginStatus();
+    const { userID } = status.authResponse;
+    const data = await getData(`${userID}/?fields=id,email,name,birthday`, ["public_profile", "email",])
+    return data;
   },
 };
 const getNewAccessToken = refreshToken => {
@@ -193,7 +225,10 @@ const getNewAccessToken = refreshToken => {
           expiresIn: Date.now() + ms(res.data.expiresIn),
         }),
       );
-      return { status: true, token: utils.getToken() };
+      return {
+        status: true,
+        token: utils.getToken(),
+      };
     })
     .catch(error => {
       if (error.response.status === 401) {

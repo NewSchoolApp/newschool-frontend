@@ -73,7 +73,7 @@
 		<true/>
 	</dict>
 	<key>FacebookAppID</key>
-	<string>1584605795055838</string>
+	<string>384298599359690</string>
 	<key>FacebookDisplayName</key>
 	<string>NewSchool</string>
 	<key>FacebookHybridAppEvents</key>
@@ -83,7 +83,7 @@
 		<dict>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>fb1584605795055838</string>
+				<string>fb384298599359690</string>
 			</array>
 		</dict>
 	</array>
@@ -94,5 +94,9 @@
 		<string>fbauth2</string>
 		<string>fbshareextension</string>
 	</array>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>This app requires photo library access to function properly.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>This app requires photo library access to function properly.</string>
 </dict>
 </plist>

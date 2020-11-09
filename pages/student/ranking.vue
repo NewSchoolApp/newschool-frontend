@@ -19,7 +19,7 @@
             >Filtrar por escola</v-list-item
           >
           <v-list-item class="item-list" @click="change('country')"
-            >Filtrar por país
+            >Filtrar por estado
           </v-list-item>
         </v-card>
       </v-dialog>
@@ -27,36 +27,27 @@
         <v-card>
           <v-col cols="12">
             <v-form ref="form" lazy-validation>
-              <v-select
-                v-if="country"
-                placeholder="Selecione o seu país!"
-                :items="countries"
-                label="País"
-              ></v-select>
-              <v-select
-                v-if="!country && state"
+              <v-autocomplete
+                v-if="(!country && state) || country"
                 placeholder="Selecione o seu estado!"
                 :items="states"
                 label="Estado"
-              ></v-select>
-              <v-select
+                @input="loadCountries($event)"
+              ></v-autocomplete>
+              <v-autocomplete
                 v-if="!country && city"
                 placeholder="Selecione a sua cidade!"
                 :items="cities"
                 label="Cidade"
-              ></v-select>
-              <v-select
+              ></v-autocomplete>
+              <v-autocomplete
                 v-if="!country && school"
                 placeholder="Selecione a sua escola!"
                 :items="schools"
                 label="Escola"
-              ></v-select>
+              ></v-autocomplete>
               <v-card>
-                <v-btn
-                  class=" btn-block btn-search"
-                  depressed
-                  large
-                  @click="search"
+                <v-btn class=" btn-block btn-search" depressed large
                   >Buscar</v-btn
                 >
               </v-card>
@@ -94,7 +85,7 @@
               </v-avatar>
             </v-col>
             <v-col>
-              <h3 class="self-rank-data">{{ userPoints || 0 }} XP</h3>
+              <h3 class="self-rank-data">{{ userPoints || 0 }} NC</h3>
             </v-col>
           </v-row>
         </v-col>
@@ -137,7 +128,7 @@
                   <tr class="table">
                     <th>#</th>
                     <th class="text-left">Jogadores</th>
-                    <th>XP</th>
+                    <th>NC</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -192,16 +183,22 @@ export default {
 
   data() {
     return {
+      page: 1,
       country: '',
       school: '',
       city: '',
       state: '',
       filter: false,
-      countries: ['São Paulo', 'Rio de Janeiro'],
-      cities: ['São Paulo', 'Rio de Janeiro'],
-      states: ['São Paulo', 'Rio de Janeiro'],
-      schools: ['Geraldino', 'Colesan'],
-      labels: ['Filtrar por Pais', 'Filtrar por Escola', 'Filtrar por Cidade '],
+      countries: [],
+      statesCode: [],
+      cities: [],
+      states: [],
+      schools: [],
+      labels: [
+        'Filtrar por Estado',
+        'Filtrar por Escola',
+        'Filtrar por Cidade ',
+      ],
       dialog: false,
       userPosition: 0,
       userPoints: 0,
@@ -228,8 +225,10 @@ export default {
       return this.$store.state.user.data;
     },
   },
+
   mounted() {
     this.monthRanking();
+    this.getAddressElements();
   },
   methods: {
     change(data) {
@@ -257,7 +256,30 @@ export default {
       }
       this.dialog = false;
     },
+    loadCountries(city) {
+      this.cities = [];
+      const cityObject = this.statesCode.find(item => item.nome === city);
+      http
+        .getAll(`${process.env.endpoints.CITY}/${cityObject.sigla}`)
+        .then(response => {
+          response.data.forEach(item => {
+            this.cities.push(item.nome);
+          });
+          this.cities.sort();
+        });
+    },
+    getAddressElements() {
+      http.getAll(`${process.env.endpoints.STATE}`).then(response => {
+        response.data.forEach(state => {
+          this.states.push(state.nome);
+          this.states.sort();
+          this.statesCode.push(state);
+        });
+      });
+    },
     monthRanking() {
+      // const pages = [1, 2, 3];
+      // for (const page of pages) {
       http
         .getAll(`${process.env.endpoints.RANKING}`)
         .then(ranking => {
@@ -267,8 +289,9 @@ export default {
             this.top2 = {};
             this.top3 = {};
           }
+
           this.generateTopPlayers(ranking);
-          this.ranking = ranking.data.slice(3);
+          this.ranking = ranking.data.content.slice(3);
 
           this.ranking.forEach(person => {
             person.user_name = this.splitName(person.userName);
@@ -276,8 +299,11 @@ export default {
         })
         .catch(error => console.log(error));
       this.getUserPositionByMonth(this.user.id);
+      // }
     },
     yearRanking() {
+      // const pages = [1, 2, 3];
+      // for (const page of pages) {
       http
         .getAll(`${process.env.endpoints.RANKING}?timeRange=YEAR`)
         .then(ranking => {
@@ -287,14 +313,17 @@ export default {
             this.top2 = {};
             this.top3 = {};
           }
+
           this.generateTopPlayers(ranking);
-          this.ranking = ranking.data.slice(3);
+          this.ranking = ranking.data.content.slice(3);
+
           this.ranking.forEach(person => {
             person.user_name = this.splitName(person.userName);
           });
         })
         .catch(error => console.log(error));
       this.getUserPositionByYear(this.user.id);
+      // }
     },
     splitName(name) {
       if (name.split(' ').length > 1) {
@@ -325,21 +354,21 @@ export default {
         });
     },
     generateTopPlayers(ranking) {
-      ranking.data = ranking.data.reverse();
+      ranking.data.content = ranking.data.content.reverse();
       this.top1 = {
-        name: this.splitName(ranking.data[0].userName),
-        points: ranking.data[0].points,
-        photo: ranking.data[0].photo,
+        name: this.splitName(ranking.data.content[0].userName),
+        points: ranking.data.content[0].points,
+        photo: ranking.data.content[0].photo,
       };
       this.top2 = {
-        name: this.splitName(ranking.data[1].userName),
-        points: ranking.data[1].points,
-        photo: ranking.data[1].photo,
+        name: this.splitName(ranking.data.content[1].userName),
+        points: ranking.data.content[1].points,
+        photo: ranking.data.content[1].photo,
       };
       this.top3 = {
-        name: this.splitName(ranking.data[2].userName),
-        points: ranking.data[2].points,
-        photo: ranking.data[2].photo,
+        name: this.splitName(ranking.data.content[2].userName),
+        points: ranking.data.content[2].points,
+        photo: ranking.data.content[2].photo,
       };
     },
   },

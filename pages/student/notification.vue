@@ -1,8 +1,7 @@
 <template>
   <div>
+    <HeaderBar :title="'Notificação'" :back-page="true" />
     <div v-show="!loading" id="page">
-      <HeaderBar :title="'Notificação'" :back-page="true" />
-
       <div v-if="notifications.length">
         <div
           v-infinite-scroll="getUserList"
@@ -10,13 +9,28 @@
           infinite-scroll-disabled="busy"
           infinite-scroll-distance="limit"
         >
-          <client-only>
-            <notification-card
-              v-for="notification of slicedNotifications"
+          <transition-group name="fade">
+            <div
+              v-for="notification of notifications"
               :key="notification.id"
-              :notification="notification"
-            />
-          </client-only>
+              class="card"
+            >
+              <div class="header__info">
+                <img src="~/assets/gabs-small.svg" />
+                <img
+                  class="cross__button"
+                  src="~/assets/cross-button.svg"
+                  alt=""
+                  @click="removeNotification(notification)"
+                />
+
+                <h1>{{ notification.content.badge.badgeDescription }}</h1>
+                <div>
+                  <p id="continue__text">{{ checkDate(notification) }}</p>
+                </div>
+              </div>
+            </div>
+          </transition-group>
         </div>
       </div>
       <NothingToShow
@@ -47,7 +61,6 @@ import NavigationBar from '~/components/NavigationBar.vue';
 import HeaderBar from '~/components/Header.vue';
 import http from '~/services/http/generic';
 import NothingToShow from '~/components/NothingToShow';
-import NotificationCard from '~/components/NotificationCard';
 
 export default {
   transition: 'bounce',
@@ -55,14 +68,10 @@ export default {
     NavigationBar,
     HeaderBar,
     NothingToShow,
-    NotificationCard,
   },
 
   data: () => ({
     loading: true,
-    limit: 20,
-    busy: false,
-    slicedNotifications: [],
     notifications: [],
   }),
   computed: {
@@ -77,32 +86,52 @@ export default {
     }, 400);
   },
   methods: {
-    getNotifications() {
+    checkDate(notification) {
+      const notificationDateHourAndMinute = notification.createdAt.slice(
+        11,
+        16,
+      );
+      const notificationMonthAndDay = notification.createdAt.slice(5, 10);
+      const today = new Date().getDay() + 1;
+      const month = new Date().getMonth() + 1;
+      const dateSplited = notificationMonthAndDay.split('-');
+
+      if (dateSplited[1] < today || dateSplited[0] < month) {
+        if (today - dateSplited[1] === 1) {
+          return `Ontem - ${notificationDateHourAndMinute}`;
+        } else {
+          return `${dateSplited[1]}/${dateSplited[0]} - ${notificationDateHourAndMinute}`;
+        }
+      } else {
+        return notificationDateHourAndMinute;
+      }
+    },
+    removeNotification(notification) {
+      this.loading = true;
       http
-        .getAll(`${process.env.endpoints.NOTIFICATIONS}/${this.user.id}`)
+        .putByURL(
+          `${process.env.endpoints.NOTIFICATIONS}/${notification.id}/see`,
+        )
+        .then(() => {
+          const index = this.notifications.indexOf(notification);
+          this.notifications.splice(index, 1);
+        });
+      this.loading = false;
+
+      // setTimeout(async () => {
+      //   await this.getNotifications();
+      // }, 500);
+      // setTimeout(() => {
+      //   this.loading = false;
+      // }, 700);
+    },
+    getNotifications() {
+      this.notifications = [];
+      http
+        .getAll(`${process.env.endpoints.NOTIFICATIONS}/user/${this.user.id}`)
         .then(response => {
           this.notifications = response.data;
-          this.getUserList();
         });
-    },
-    getUserList() {
-      this.busy = true;
-      this.loading = true;
-
-      setTimeout(() => {
-        const append = this.notifications.slice(
-          this.slicedNotifications.length,
-          this.slicedNotifications.length + this.limit,
-        );
-        console.log(append);
-        if (!append.length) {
-          return (this.loading = false);
-        }
-        this.slicedNotifications = this.slicedNotifications.concat(append);
-        console.log(this.slicedNotifications);
-        this.busy = false;
-        this.loading = false;
-      }, 400);
     },
   },
 };
@@ -134,13 +163,81 @@ export default {
   justify-content: space-between;
   align-items: flex-start;
 }
-#continue__text {
-  font-size: 10px;
-  font-weight: 700;
+
+#page {
+  height: 100%;
+}
+h1 {
+  font-size: 0.8rem;
+  font-weight: 400;
   line-height: 12px;
+  letter-spacing: 0em;
+  text-align: left;
+  min-width: 185px;
+  color: rgb(26, 26, 26);
+  max-width: 70%;
+}
+.container__list {
+  margin-bottom: 5rem;
+}
+.fade-leave-active {
+  transition: all 0.4s;
+}
+
+.fade-leave-to {
+  opacity: 0;
+}
+.card {
+  margin: 0.3rem 0.9rem;
+  position: relative;
+  padding: 0.9rem;
+  background: #fff;
+  box-shadow: 0px 12px 20px 0px #00000026;
+  border-radius: 2px;
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  flex-direction: column;
+  -webkit-box-pack: justify;
+  justify-content: space-between;
+}
+.btn-back {
+  width: unset !important;
+}
+.header__info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+::v-deep .v-btn--icon.v-size--default {
+  height: unset;
+  color: var(--primary);
+}
+.cross__button {
+  position: absolute;
+  right: 20px;
+  top: 10px;
+}
+
+::v-deep .v-progress-linear {
+  margin-bottom: 35px;
+}
+::v-deep .v-progress-linear__background {
+  opacity: 100%;
+  background-color: #cecece !important;
+}
+
+#continue__text {
+  font-size: 8px;
+  font-weight: 300;
+  min-width: 55px;
+  line-height: 9px;
   text-align: right;
-  color: #737373;
+  color: rgb(63, 61, 86);
   text-transform: none;
   letter-spacing: 0em;
+  position: relative;
+  top: 26px;
 }
 </style>
