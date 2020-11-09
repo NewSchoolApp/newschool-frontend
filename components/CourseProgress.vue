@@ -81,7 +81,7 @@ export default {
         $nuxt._router.push(`/aluno/curso/${url}`);
       } else {
         $nuxt._router.push(
-          `/pagina-certificado/${this.$store.state.user.data.id}/${this.course.course.id}/false`,
+          `/certificado-info/${this.$store.state.user.data.id}/${this.course.course.id}`,
         );
       }
     },
