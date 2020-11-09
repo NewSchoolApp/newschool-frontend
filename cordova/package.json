@@ -1,5 +1,6 @@
 {
   "devDependencies": {
+    "cordova-browser": "^6.0.0",
     "cordova-plugin-whitelist": "1"
   },
   "cordova": {
@@ -15,7 +16,8 @@
       "cordova-plugin-x-socialsharing": {}
     },
     "platforms": [
-      "android"
+      "android",
+      "browser"
     ]
   },
   "dependencies": {
