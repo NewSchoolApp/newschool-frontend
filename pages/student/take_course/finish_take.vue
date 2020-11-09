@@ -67,10 +67,7 @@
         style="justify-content: flex-end; padding-bottom: 10px"
         color="#6600cc"
         dark
-        @click="
-          activeDialog = 'none';
-          postFeedback();
-        "
+        @click="activeDialog = 'none'"
       >
         mdi-close-circle
       </v-icon>
@@ -114,10 +111,7 @@
         style="justify-content: flex-end; padding-bottom: 10px"
         color="#6600cc"
         dark
-        @click="
-          activeDialog = 'none';
-          postFeedback();
-        "
+        @click="activeDialog = 'none'"
       >
         mdi-close-circle
       </v-icon>
@@ -145,8 +139,8 @@
         <v-btn
           class="btn-block btn-primary baseline"
           @click="
-            activeDialog = 'end';
             postFeedback();
+            activeDialog = 'end';
           "
         >
           Próximo
@@ -161,10 +155,7 @@
         style="justify-content: flex-end; padding-bottom: 10px"
         color="#6600cc"
         dark
-        @click="
-          activeDialog = 'none';
-          postFeedback();
-        "
+        @click="activeDialog = 'none'"
       >
         mdi-close-circle
       </v-icon>
@@ -192,8 +183,8 @@
         <v-btn
           class="btn-block btn-primary baseline"
           @click="
-            activeDialog = 'end';
             postFeedback();
+            activeDialog = 'end';
           "
         >
           Próximo
@@ -227,7 +218,7 @@
 </template>
 <router>
   {
-    path : '/aluno/curso/:courseSlug/fim'
+    path : '/aluno/curso/:courseSlug/fim/:lateFeedback?'
   }
 </router>
 <script>
@@ -240,7 +231,7 @@ export default {
   },
   data() {
     return {
-      activeDialog: 'start', // (start, good, bad, end)
+      dialog: 'start',
       bindedClass: 'none',
       postBody: {
         rating: '',
@@ -249,6 +240,18 @@ export default {
     };
   },
   computed: {
+    activeDialog: {
+      get() {
+        return this.dialog;
+      },
+      set(newValue) {
+        if (this.$route.params.lateFeedback == 1 && newValue === 'none') {
+          $nuxt._router.replace('/aluno/meus-cursos');
+        } else {
+          this.dialog = newValue;
+        }
+      },
+    },
     idUser() {
       return this.$store.state.user.data.id;
     },
@@ -265,6 +268,16 @@ export default {
       return this.$route.params.courseSlug;
     },
   },
+  // watch: {
+  //   activeDialog() {
+  //     if (
+  //       this.$route.params.lateFeedback === 1 &&
+  //       this.activeDialog === 'none'
+  //     ) {
+  //       $nuxt._router.push('/meus-cursos');
+  //     }
+  //   },
+  // },
   methods: {
     gotoCertificate() {
       $nuxt._router.push(`/pagina-certificado/${this.idUser}/${this.courseId}`);

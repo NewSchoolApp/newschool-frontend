@@ -103,7 +103,7 @@ export default {
     },
     gotoCourseRating() {
       this.$store.commit('courses/setCurrent', this.course.course);
-      $nuxt._router.push(`/aluno/curso/${this.course.course.slug}/fim`);
+      $nuxt._router.push(`/aluno/curso/${this.course.course.slug}/fim/1`);
     },
   },
 };
