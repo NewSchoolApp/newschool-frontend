@@ -3,7 +3,7 @@ import colors from 'vuetify/es5/util/colors';
 export default {
   router: {
     // uncomment for cordova release on android/ios
-    mode: 'hash',
+    // mode: 'hash',
     middleware: 'auth.guard',
 
     extendRoutes(routes, resolve) {
@@ -20,8 +20,7 @@ export default {
       routes.push({
         path: '/aluno',
         component: resolve(__dirname, 'pages/student/~student.module.vue'),
-        children: [
-          {
+        children: [{
             path: '404',
             component: resolve(__dirname, 'pages/public/404.vue'),
           },
@@ -65,17 +64,15 @@ export default {
               __dirname,
               'pages/student/take_course/~take_course.module.vue',
             ),
-            children: [
-              {
-                path: ':slug',
-                name: 'aluno-curso',
-                props: true,
-                component: resolve(
-                  __dirname,
-                  'pages/student/take_course/course.vue',
-                ),
-              },
-            ],
+            children: [{
+              path: ':slug',
+              name: 'aluno-curso',
+              props: true,
+              component: resolve(
+                __dirname,
+                'pages/student/take_course/course.vue',
+              ),
+            }, ],
           },
           {
             path: 'curso/aulas/:id',
@@ -95,8 +92,7 @@ export default {
       routes.push({
         path: '/admin',
         component: resolve(__dirname, 'pages/student/~student.module.vue'),
-        children: [
-          {
+        children: [{
             path: '404',
             component: resolve(__dirname, 'pages/public/404.vue'),
           },
@@ -121,17 +117,15 @@ export default {
               __dirname,
               'pages/student/take_course/~take_course.module.vue',
             ),
-            children: [
-              {
-                path: ':slug',
-                name: 'aluno-curso',
-                props: true,
-                component: resolve(
-                  __dirname,
-                  'pages/student/take_course/course.vue',
-                ),
-              },
-            ],
+            children: [{
+              path: ':slug',
+              name: 'aluno-curso',
+              props: true,
+              component: resolve(
+                __dirname,
+                'pages/student/take_course/course.vue',
+              ),
+            }, ],
           },
           {
             path: 'admin/aulas/:id',
@@ -157,20 +151,16 @@ export default {
 
   env: {
     domain: process.env.DOMAIN_URL || 'https://newschoolapp.com.br',
-    baseUrl:
-      process.env.VUE_APP_BASE_URL ||
+    baseUrl: process.env.VUE_APP_BASE_URL ||
       'http://newschool-api-dev2.eba-gxtzwa9m.us-east-2.elasticbeanstalk.com/',
     // http://develop.dev-newschool.tk/
     credentials: {
       name: process.env.VUE_APP_CLIENT_CREDENTIAL_NAME || 'NEWSCHOOL@FRONT',
-      secret:
-        process.env.VUE_APP_CLIENT_CREDENTIAL_SECRET || 'NEWSCHOOL@FRONTSECRET',
+      secret: process.env.VUE_APP_CLIENT_CREDENTIAL_SECRET || 'NEWSCHOOL@FRONTSECRET',
       external: {
-        name:
-          process.env.VUE_APP_CLIENT_EXTERNAL_CREDENTIAL_NAME ||
+        name: process.env.VUE_APP_CLIENT_EXTERNAL_CREDENTIAL_NAME ||
           'NEWSCHOOL@EXTERNAL',
-        secret:
-          process.env.VUE_APP_CLIENT_EXTERNAL_CREDENTIAL_SECRET ||
+        secret: process.env.VUE_APP_CLIENT_EXTERNAL_CREDENTIAL_SECRET ||
           'NEWSCHOOL@EXTERNALSECRET',
       },
     },
@@ -214,8 +204,8 @@ export default {
     GATOKEN: process.env.GA_TOKEN,
   },
   // uncomment for cordova release on android/ios
-  mode: 'spa',
-  // mode: 'universal',
+  // mode: 'spa',
+  mode: 'universal',
   /*
    ** Headers of the page
    */
@@ -224,11 +214,14 @@ export default {
       lang: 'en',
       style: 'overflow-y: auto',
     },
-    titleTemplate:
-      '%s | ' + 'New School | Formando os protagonistas da quebrada',
-    meta: [
-      { charset: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+    titleTemplate: '%s | ' + 'New School | Formando os protagonistas da quebrada',
+    meta: [{
+        charset: 'utf-8'
+      },
+      {
+        name: 'viewport',
+        content: 'width=device-width, initial-scale=1'
+      },
       {
         hid: 'title',
         name: 'title',
@@ -237,29 +230,35 @@ export default {
       {
         hid: 'description',
         name: 'description',
-        content:
-          'Levamos educação de qualidade na linguagem da quebrada para as periferias do Brasil, através da tecnologia e da curadoria de conteúdos baseados nas habilidades do futuro.',
+        content: 'Levamos educação de qualidade na linguagem da quebrada para as periferias do Brasil, através da tecnologia e da curadoria de conteúdos baseados nas habilidades do futuro.',
       },
       {
         hid: 'keywords',
         name: 'keywords',
-        content:
-          'pública, startup, escola, cursos, cursos online, educação, estudo, periferia, comunidade, edtech, quebrada, ensino',
+        content: 'pública, startup, escola, cursos, cursos online, educação, estudo, periferia, comunidade, edtech, quebrada, ensino',
       },
     ],
-    link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+    link: [{
+        rel: 'icon',
+        type: 'image/x-icon',
+        href: '/favicon.ico'
+      },
       {
         rel: 'stylesheet',
-        href:
-          'https://fonts.googleapis.com/css?family=Montserrat:400,600,900&display=swap',
+        href: 'https://fonts.googleapis.com/css?family=Montserrat:400,600,900&display=swap',
       },
     ],
+    script: [{
+      type: 'text/javascript',
+      src: 'cordova.js'
+    }]
   },
   /*
    ** Customize the progress-bar color
    */
-  loading: { color: '#fff' },
+  loading: {
+    color: '#fff'
+  },
   /*
    ** Global CSS
    */
@@ -306,8 +305,7 @@ export default {
     '@nuxtjs/auth',
   ],
   i18n: {
-    locales: [
-      {
+    locales: [{
         code: 'en',
         file: 'en-US.js',
       },
@@ -369,15 +367,13 @@ export default {
   auth: {
     strategies: {
       facebook: {
-        client_id: process.env.FACEBOOK_ID || '1584605795055838',
-        userinfo_endpoint:
-          'https://graph.facebook.com/v2.12/me?fields=about,name,picture{url},email,birthday',
+        client_id: process.env.FACEBOOK_ID || '384298599359690',
+        userinfo_endpoint: 'https://graph.facebook.com/v2.12/me?fields=about,name,picture{url},email,birthday',
         scope: ['public_profile', 'email'],
       },
       google: {
-        client_id:
-          process.env.GOOGLE_ID ||
-          '889053794643-qu89df6ei5u2sncnfmedi39m2ascih3k.apps.googleusercontent.com',
+        client_id: process.env.GOOGLE_ID ||
+          '603764452531-cbbqg8im5p4hr0et4vqurcs4lbce9jrk.apps.googleusercontent.com',
       },
     },
   },

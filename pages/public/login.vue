@@ -188,7 +188,21 @@ export default {
         console.error(error);
       }
     },
-    loginSocial(provider) {
+    async loginSocial(provider) {
+      // mobile device
+      if(window.hasOwnProperty("cordova")) {
+        console.log("You're on a mobile device");
+        try {
+          const credentials = await auth.nativeFacebookLogin()
+          await auth.loginFacebook(credentials);
+          $nuxt._router.push('/loading/login');
+        } catch (error) {
+          this.dialog = true;
+          this.dialogMessage = JSON.stringify(error);
+        }
+        return;
+      };
+      // web application
       this.loading = true;
       this.$auth.loginWith(provider);
     },

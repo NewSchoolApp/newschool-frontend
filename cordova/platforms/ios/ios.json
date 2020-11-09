@@ -55,7 +55,7 @@
         "parents": {
           "FacebookAppID": [
             {
-              "xml": "<string>1584605795055838</string>",
+              "xml": "<string>384298599359690</string>",
               "count": 1
             }
           ],
@@ -73,7 +73,7 @@
           ],
           "CFBundleURLTypes": [
             {
-              "xml": "<array><dict><key>CFBundleURLSchemes</key><array><string>fb1584605795055838</string></array></dict></array>",
+              "xml": "<array><dict><key>CFBundleURLSchemes</key><array><string>fb384298599359690</string></array></dict></array>",
               "count": 1
             }
           ],
@@ -95,7 +95,7 @@
   },
   "installed_plugins": {
     "cordova-plugin-facebook4": {
-      "APP_ID": "1584605795055838",
+      "APP_ID": "384298599359690",
       "APP_NAME": "NewSchool",
       "FACEBOOK_HYBRID_APP_EVENTS": "false",
       "FACEBOOK_ANDROID_SDK_VERSION": "5.5.2",
