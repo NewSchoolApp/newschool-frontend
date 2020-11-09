@@ -47,6 +47,10 @@
             {
               "xml": "<feature name=\"WKInAppBrowser\"><param name=\"ios-package\" value=\"CDVWKInAppBrowser\" /><param name=\"onload\" value=\"true\" /></feature>",
               "count": 1
+            },
+            {
+              "xml": "<feature name=\"SocialSharing\"><param name=\"ios-package\" value=\"SocialSharing\" /><param name=\"onload\" value=\"true\" /></feature>",
+              "count": 1
             }
           ]
         }
@@ -88,6 +92,18 @@
               "xml": "<array><string>fbapi</string><string>fb-messenger-api</string><string>fbauth2</string><string>fbshareextension</string></array>",
               "count": 1
             }
+          ],
+          "NSPhotoLibraryAddUsageDescription": [
+            {
+              "xml": "<string>This app requires photo library access to function properly.</string>",
+              "count": 1
+            }
+          ],
+          "NSPhotoLibraryUsageDescription": [
+            {
+              "xml": "<string>This app requires photo library access to function properly.</string>",
+              "count": 1
+            }
           ]
         }
       }
@@ -102,6 +118,14 @@
       "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
     },
     "cordova-plugin-inappbrowser": {
+      "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
+    },
+    "es6-promise-plugin": {
+      "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
+    },
+    "cordova-plugin-x-socialsharing": {
+      "PHOTO_LIBRARY_ADD_USAGE_DESCRIPTION": "This app requires photo library access to function properly.",
+      "PHOTO_LIBRARY_USAGE_DESCRIPTION": "This app requires photo library access to function properly.",
       "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
     }
   },
@@ -123,10 +147,26 @@
         "cordova.InAppBrowser.open",
         "window.open"
       ]
+    },
+    {
+      "id": "es6-promise-plugin.Promise",
+      "file": "plugins/es6-promise-plugin/www/promise.js",
+      "pluginId": "es6-promise-plugin",
+      "runs": true
+    },
+    {
+      "id": "cordova-plugin-x-socialsharing.SocialSharing",
+      "file": "plugins/cordova-plugin-x-socialsharing/www/SocialSharing.js",
+      "pluginId": "cordova-plugin-x-socialsharing",
+      "clobbers": [
+        "window.plugins.socialsharing"
+      ]
     }
   ],
   "plugin_metadata": {
     "cordova-plugin-facebook4": "6.2.0",
-    "cordova-plugin-inappbrowser": "3.2.0"
+    "cordova-plugin-inappbrowser": "3.2.0",
+    "es6-promise-plugin": "4.2.2",
+    "cordova-plugin-x-socialsharing": "6.0.2"
   }
 }

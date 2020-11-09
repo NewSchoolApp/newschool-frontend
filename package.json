@@ -42,6 +42,7 @@
     "@nuxtjs/vuetify": "^1.0.0",
     "chart.js": "^2.9.3",
     "cordova-plugin-facebook4": "^6.2.0",
+    "cordova-plugin-x-socialsharing": "^6.0.2",
     "firebase": "^8.0.1",
     "fs": "0.0.1-security",
     "moment": "^2.24.0",

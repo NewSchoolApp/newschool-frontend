@@ -38,6 +38,12 @@ allprojects {
         jcenter()
     }
 
+    gradle.projectsEvaluated {
+        tasks.withType(JavaCompile) {
+            options.compilerArgs << "-Xlint:unchecked"
+        }
+    }
+
     //This replaces project.properties w.r.t. build settings
     project.ext {
       defaultBuildToolsVersion="30.0.4" //String
