@@ -99,7 +99,7 @@ export default {
         link: '/construindo',
       },
       {
-        id: 8,
+        id: 9,
         label: 'Ranking',
         icon: 'mdi-trophy',
         link: '/aluno/ranking',

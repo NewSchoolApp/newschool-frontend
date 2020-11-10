@@ -25,7 +25,7 @@ const login = (username, password) => {
         JSON.stringify({
           accessToken: `Bearer ${res.data.accessToken}`,
           refreshToken: res.data.refreshToken,
-          expiresIn: Date.now() + ms(res.data.expiresIn),
+          expiresIn: Date.now() + res.data.expiresIn * 60 * 10,
         }),
       );
     });
@@ -93,7 +93,8 @@ export default {
     const auth = JSON.parse(localStorage.getItem('auth'));
     if (auth) {
       const { refreshToken, expiresIn } = auth;
-      const currentTime = Date.now() / 1000;
+      const currentTime = Date.now();
+
       if (currentTime > expiresIn) {
         return getNewAccessToken(refreshToken);
       } else {
@@ -132,7 +133,7 @@ export default {
           JSON.stringify({
             accessToken: `Bearer ${res.data.accessToken}`,
             refreshToken: res.data.refreshToken,
-            expiresIn: Date.now() + ms(res.data.expiresIn),
+            expiresIn: Date.now() + res.data.expiresIn * 60 * 10,
           }),
         );
       })
@@ -170,7 +171,7 @@ export default {
           JSON.stringify({
             accessToken: `Bearer ${res.data.accessToken}`,
             refreshToken: res.data.refreshToken,
-            expiresIn: Date.now() + ms(res.data.expiresIn),
+            expiresIn: Date.now() + res.data.expiresIn * 60 * 10,
           }),
         );
       })
@@ -222,7 +223,7 @@ const getNewAccessToken = refreshToken => {
         JSON.stringify({
           accessToken: `Bearer ${res.data.accessToken}`,
           refreshToken: res.data.refreshToken,
-          expiresIn: Date.now() + ms(res.data.expiresIn),
+          expiresIn: Date.now() + res.data.expiresIn * 60 * 10,
         }),
       );
       return {
