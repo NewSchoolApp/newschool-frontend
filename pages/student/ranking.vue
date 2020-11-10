@@ -285,11 +285,9 @@ export default {
       const cityObject = this.statesCode.find(
         item => item.nome.toUpperCase() === state,
       );
-      console.log(cityObject);
       http
         .getAll(`${process.env.endpoints.CITY}/${cityObject.sigla}`)
         .then(response => {
-          console.log(response);
           response.data.forEach(item => {
             this.cityId = item.id;
             this.cities.push(item.name);
@@ -431,15 +429,11 @@ export default {
       const city = this.city ? `&city=${this.city}` : '';
       const state = this.state ? `&state=${this.state}` : '';
       const school = this.school ? `&institutionName=${this.school}` : '';
-      console.log(city);
-      console.log(state);
-      console.log(school);
       http
         .getAll(
           `${process.env.endpoints.RANKING}?timeRange=MONTH${city}${state}${school}`,
         )
         .then(ranking => {
-          console.log(ranking);
           if (!ranking.length) {
             this.ranking = [];
             this.top1 = {};
