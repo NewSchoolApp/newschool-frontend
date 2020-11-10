@@ -88,11 +88,13 @@
 import Avatar from 'vue-avatar';
 import CourseCard from '~/components/CourseCard';
 import http from '~/services/http/generic';
+import NavigatorBar from '~/components/NavigationBar';
 
 export default {
   components: {
     CourseCard,
     Avatar,
+    NavigatorBar,
   },
   asyncData({ store, data, params, $axios }) {
     return http

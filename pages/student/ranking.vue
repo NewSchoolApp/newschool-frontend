@@ -1,6 +1,16 @@
 <template>
   <div id="page">
     <HeaderBar :title="'Ranking'" :back-page="true"></HeaderBar>
+    <div v-if="loading">
+      <div class="container-spinner">
+        <v-progress-circular
+          :size="70"
+          :width="5"
+          indeterminate
+          color="#6600cc"
+        />
+      </div>
+    </div>
     <!-- Filtros -->
     <div id="filters">
       <img
@@ -38,16 +48,22 @@
                 v-if="!country && city"
                 placeholder="Selecione a sua cidade!"
                 :items="cities"
+                @input="loadSchools($event)"
                 label="Cidade"
               ></v-autocomplete>
               <v-autocomplete
                 v-if="!country && school"
                 placeholder="Selecione a sua escola!"
                 :items="schools"
+                @input="school = $event"
                 label="Escola"
               ></v-autocomplete>
               <v-card>
-                <v-btn class=" btn-block btn-search" depressed large
+                <v-btn
+                  @click="searchByMonthFiltered"
+                  class=" btn-block btn-search"
+                  depressed
+                  large
                   >Buscar</v-btn
                 >
               </v-card>
@@ -58,10 +74,10 @@
     </div>
     <!-- Tabs mensal anual -->
     <v-tabs fixed-tabs height="35px">
-      <v-tab @click="monthRanking">
+      <v-tab @click="monthRanking({ isInitial: true })">
         Mensal
       </v-tab>
-      <v-tab @click="yearRanking">
+      <v-tab @click="yearRanking({ isInitial: true })">
         Anual
       </v-tab>
     </v-tabs>
@@ -187,8 +203,15 @@ export default {
       country: '',
       school: '',
       city: '',
+      cityId: '',
       state: '',
       filter: false,
+      usersByMonth: [],
+      usersByYear: [],
+      userPositionByMonth: 0,
+      userPositionByYear: 0,
+      userPointsByMonth: 0,
+      userPointsByYear: 0,
       countries: [],
       statesCode: [],
       cities: [],
@@ -227,7 +250,7 @@ export default {
   },
 
   mounted() {
-    this.monthRanking();
+    this.monthRanking({ isInitial: true });
     this.getAddressElements();
   },
   methods: {
@@ -256,14 +279,20 @@ export default {
       }
       this.dialog = false;
     },
-    loadCountries(city) {
+    loadCountries(state) {
+      this.state = state;
       this.cities = [];
-      const cityObject = this.statesCode.find(item => item.nome === city);
+      const cityObject = this.statesCode.find(
+        item => item.nome.toUpperCase() === state,
+      );
+      console.log(cityObject);
       http
         .getAll(`${process.env.endpoints.CITY}/${cityObject.sigla}`)
         .then(response => {
+          console.log(response);
           response.data.forEach(item => {
-            this.cities.push(item.nome);
+            this.cityId = item.id;
+            this.cities.push(item.name);
           });
           this.cities.sort();
         });
@@ -271,13 +300,22 @@ export default {
     getAddressElements() {
       http.getAll(`${process.env.endpoints.STATE}`).then(response => {
         response.data.forEach(state => {
-          this.states.push(state.nome);
+          this.states.push(state.nome.toUpperCase());
           this.states.sort();
           this.statesCode.push(state);
         });
       });
     },
-    monthRanking() {
+    monthRanking({ isInitial }) {
+      if (isInitial && this.usersByMonth.length) {
+        this.ranking = this.usersByMonth;
+        this.userPosition = this.userPositionByMonth;
+        this.userPoints = this.userPointsByMonth;
+        return;
+      }
+      if (this.city || this.school || this.state) {
+        return this.searchByMonthFiltered();
+      }
       // const pages = [1, 2, 3];
       // for (const page of pages) {
       http
@@ -288,10 +326,12 @@ export default {
             this.top1 = {};
             this.top2 = {};
             this.top3 = {};
+            this.userPosition = 0;
           }
 
           this.generateTopPlayers(ranking);
-          this.ranking = ranking.data.content.slice(3);
+          this.usersByMonth = ranking.data.content.slice(3);
+          this.ranking = this.usersByMonth;
 
           this.ranking.forEach(person => {
             person.user_name = this.splitName(person.userName);
@@ -301,7 +341,16 @@ export default {
       this.getUserPositionByMonth(this.user.id);
       // }
     },
-    yearRanking() {
+    yearRanking({ isInitial }) {
+      if (isInitial && this.usersByYear.length) {
+        this.ranking = this.usersByYear;
+        this.userPosition = this.userPositionByYear;
+        this.userPoints = this.userPointsByYear;
+        return;
+      }
+      if (this.city || this.school || this.state) {
+        return this.searchByYearFiltered();
+      }
       // const pages = [1, 2, 3];
       // for (const page of pages) {
       http
@@ -312,10 +361,12 @@ export default {
             this.top1 = {};
             this.top2 = {};
             this.top3 = {};
+            this.userPosition = 0;
           }
 
           this.generateTopPlayers(ranking);
-          this.ranking = ranking.data.content.slice(3);
+          this.usersByYear = ranking.data.content.slice(3);
+          this.ranking = this.usersByYear;
 
           this.ranking.forEach(person => {
             person.user_name = this.splitName(person.userName);
@@ -338,8 +389,10 @@ export default {
         )
         .then(userRanking => {
           const { rank, points } = userRanking.data;
-          this.userPosition = rank;
-          this.userPoints = points;
+          this.userPositionByMonth = rank;
+          this.userPosition = this.userPositionByMonth;
+          this.userPointsByMonth = points;
+          this.userPoints = this.userPointsByMonth;
         });
     },
     getUserPositionByYear(userId) {
@@ -349,8 +402,10 @@ export default {
         )
         .then(userRanking => {
           const { rank, points } = userRanking.data;
-          this.userPosition = rank;
-          this.userPoints = points;
+          this.userPositionByYear = rank;
+          this.userPosition = this.userPositionByYear;
+          this.userPointsByYear = points;
+          this.userPoints = this.userPointsByYear;
         });
     },
     generateTopPlayers(ranking) {
@@ -370,6 +425,78 @@ export default {
         points: ranking.data.content[2].points,
         photo: ranking.data.content[2].photo,
       };
+    },
+    searchByMonthFiltered() {
+      this.filter = false;
+      const city = this.city ? `&city=${this.city}` : '';
+      const state = this.state ? `&state=${this.state}` : '';
+      const school = this.school ? `&institutionName=${this.school}` : '';
+      console.log(city);
+      console.log(state);
+      console.log(school);
+      http
+        .getAll(
+          `${process.env.endpoints.RANKING}?timeRange=MONTH${city}${state}${school}`,
+        )
+        .then(ranking => {
+          console.log(ranking);
+          if (!ranking.length) {
+            this.ranking = [];
+            this.top1 = {};
+            this.top2 = {};
+            this.top3 = {};
+            this.userPosition = 0;
+          }
+
+          this.generateTopPlayers(ranking);
+          this.ranking = ranking.data.content.slice(3);
+
+          this.ranking.forEach(person => {
+            person.user_name = this.splitName(person.userName);
+          });
+        })
+        .catch(error => console.log(error));
+      this.getUserPositionByMonth(this.user.id);
+    },
+    searchByYearFiltered() {
+      this.dialog = false;
+      const city = this.city ? `&city=${this.city}` : '';
+      const state = this.state ? `&state=${this.state}` : '';
+      const school = this.school ? `&institutionName=${this.school}` : '';
+
+      http
+        .getAll(
+          `process.env.endpoints.RANKING}?timeRange=YEAR${city}${state}${school}`,
+        )
+        .then(ranking => {
+          if (!ranking.length) {
+            this.ranking = [];
+            this.top1 = {};
+            this.top2 = {};
+            this.top3 = {};
+            this.userPosition = 0;
+          }
+
+          this.generateTopPlayers(ranking);
+          this.ranking = ranking.data.content.slice(3);
+
+          this.ranking.forEach(person => {
+            person.user_name = this.splitName(person.userName);
+          });
+        })
+        .catch(error => console.log(error));
+      this.getUserPositionByYear(this.user.id);
+    },
+    loadSchools(city) {
+      this.city = city;
+      http
+        .getAll(`${process.env.endpoints.SCHOOL}?cityId=${this.cityId}`)
+        .then(response => {
+          response.data.forEach(school => {
+            this.schools.push(school.nome);
+            this.schools.sort();
+          });
+        });
     },
   },
 };
