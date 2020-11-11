@@ -17,9 +17,9 @@
     </div>
     <div class="footer">
       <div class="title-and-socialMedias">
-        <button type="button" @click="goToCertificate(certificate.course.id)">
+        <button  type="button" @click="goToCertificate(certificate.course.id)" >
           <p class="certificate-title">{{ certificate.course.title }}</p>
-          <p>{{ certificate.user.name }}</p>
+          <p>{{certificate.course.authorName }}</p>
         </button>
       </div>
     </div>
