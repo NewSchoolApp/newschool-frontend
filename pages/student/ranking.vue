@@ -212,8 +212,6 @@ export default {
       loading: false,
       isLoading: false,
       filter: false,
-      userPhoto:
-        'https://newschool-dev.s3.us-east-2.amazonaws.com/b406aee7-065f-4ea4-a46b-34fe34d70b8f/leo.jpeg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAV56KXRILVMG6BB2Q%2F20201112%2Fus-east-2%2Fs3%2Faws4_request&X-Amz-Date=20201112T222140Z&X-Amz-Expires=900&X-Amz-Signature=c742a829748f988d638ec7baaa50e47e171ff826ebc028b6a30522b4d365e8d6&X-Amz-SignedHeaders=host',
       usersByMonth: [],
       usersByYear: [],
       userPositionByMonth: 0,
