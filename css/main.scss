@@ -88,6 +88,31 @@
   border: solid 1px #fff;
 }
 
+/*     _____ Botões novos do fluxo de cadastro _____       */
+.btn-new-primary,
+.btn-new-white {
+  height: 48px !important;
+  border-radius: 6px !important;
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  box-shadow: none !important;
+}
+
+.btn-new-primary {    
+  color: #fff !important;
+  background-color: var(--primary) !important;  
+}
+
+.btn-new-white {
+  background-color: #ffffff !important;
+  color: var(--primary) !important;
+  border: solid 2px var(--primary);
+}
+
+.btn-shadow {
+  box-shadow: 0px 3px 5px rgba(128, 128, 128, 0.7) !important;
+}
+
 /*#endregion Buttons*/
 
 .text-watermark {
