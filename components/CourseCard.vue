@@ -8,7 +8,6 @@
         <v-card-title :to="'/curso/' + slug">{{title}}</v-card-title>
         <div class="footer-card">
           <v-card-subtitle class="mt-0" :to="'/curso/' + slug">{{teacher}}</v-card-subtitle>
-          <img src="~/assets/share.svg" width="24px" height="24px" v-on:click.stop.prevent="shareInSocialMedia($event, title, image)"/>
         </div>
       </n-link>
     </div>
@@ -19,33 +18,6 @@
 export default {
   name: 'courseCard',
   props: ['title', 'description', 'image', 'teacher', 'slug'],
-  methods: {
-    onSuccess (result) {
-      console.log("Share completed? " + result.completed); // On Android apps mostly return false even while it's true
-      console.log("Shared to app: " + result.app); // On Android result.app since plugin version 5.4.0 this is no longer empty. On iOS it's empty when sharing is cancelled (result.completed=false)
-    },
-    onError (msg) {
-      console.log("Sharing failed with message: " + msg);
-    },
-    shareInSocialMedia(event, title, image) {
-      console.log(event)
-      event.stopPropagation();
-      event.preventDefault();
-      console.log(title);
-      // const options = {
-      //   message: 'share this', // not supported on some apps (Facebook, Instagram)
-      //   subject: 'the subject', // fi. for email
-      //   files: ['', ''], // an array of filenames either locally or remotely
-      //   url: 'https://www.website.com/foo/#bar?a=b',
-      //   chooserTitle: 'Pick an app', // Android only, you can override the default share sheet title
-      //   appPackageName: 'com.apple.social.facebook', // Android only, you can provide id of the App you want to share with
-      //   iPadCoordinates: '0,0,0,0' //IOS only iPadCoordinates for where the popover should be point.  Format with x,y,width,height
-      // };
-      console.log(window.plugins.socialsharing.share('Hello World.'));
-      // console.log(socialsharing)
-      console.log(window.socialsharing)
-    }
-  }
 };
 </script>
 

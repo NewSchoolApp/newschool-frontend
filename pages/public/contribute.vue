@@ -19,6 +19,7 @@
                 style="box-shadow: none;"
                 min-width="115"
                 class="content-padding"
+                @click="select(stack.linkUrl)"
               >
                 <div class="card-alignment">
                   <v-img
@@ -99,7 +100,7 @@ export default {
           cover:
             'https://d33wubrfki0l68.cloudfront.net/e937e774cbbe23635999615ad5d7732decad182a/26072/logo-small.ede75a6b.svg',
           title: 'Backend',
-          deion: 'NodeJs, NestJs, Type, Swagger, MySQL',
+          deion: 'NodeJs, NestJs, Typescript, Swagger, MySQL',
           linkUrl: 'https://github.com/NewSchoolBR/newschool-backend',
           linkText: 'Github',
         },
@@ -148,7 +149,7 @@ export default {
             'https://sharebook.com.br/assets/img/contribute-project/github.jpg',
           title: 'Github',
           deion: 'Aqui nós temos o cuidado de ter um histórico educativo.',
-          linkUrl: 'https://github.com/newschoolbr',
+          linkUrl: 'https://github.com/NewSchoolApp',
           linkText: 'Github',
         },
       ],
@@ -207,7 +208,7 @@ export default {
 .v-card__title {
   padding: 10px;
 }
-::v-deeo .v-card {
+::v-deep .v-card {
   box-shadow: white white white;
 }
 

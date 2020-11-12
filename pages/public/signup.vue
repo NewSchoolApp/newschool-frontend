@@ -28,14 +28,14 @@
               <v-text-field
                 v-model="form.name"
                 :rules="nameRules"
-                placeholder="Digite seu nome"       
+                placeholder="Digite seu nome"
                 label="Qual é o seu nome?"
                 name="name"
                 required
               ></v-text-field>
               <v-text-field
                 v-model="form.email"
-                placeholder="Digite seu e-mail"    
+                placeholder="Digite seu e-mail"
                 :rules="emailRules"
                 label="E o seu e-mail?"
                 name="email"
@@ -48,13 +48,24 @@
                 label="Qual é o seu perfil?"
                 required
               ></v-select>
-              <v-text-field
+              <!-- <v-text-field
                 v-if="this.form.profile === 'Aluno'"
                 v-model="form.institutionName"
                 :items="schools"
                 placeholder="Digite o nome da sua escola"
                 label="Onde estuda?"
-              ></v-text-field>
+              ></v-text-field> -->
+              <v-autocomplete
+                v-if="this.form.profile === 'Aluno'"
+                v-model="form.institutionName"
+                :items="schools"
+                hide-no-data
+                hide-selected
+                :loading="isLoading"
+                placeholder="Digite o nome da sua escola"
+                label="Onde estuda?"
+                @keyup="searchTimeOut($event.target.value)"
+              ></v-autocomplete>
               <v-text-field
                 v-model="form.password"
                 placeholder="Digite sua senha"
@@ -75,9 +86,7 @@
                 required
                 @click:append="() => (showConfirmPass = !showConfirmPass)"
               ></v-text-field>
-              <v-btn
-              class="btn-block btn-primary"                
-              @click="submit">
+              <v-btn class="btn-block btn-primary" @click="submit">
                 Cadastrar
               </v-btn>
             </v-form>
@@ -111,6 +120,7 @@
 <script scoped>
 import auth from '../../services/http/auth';
 import utils from '~/utils/index';
+import { http } from '~/services/http/config';
 
 export default {
   data() {
@@ -210,34 +220,48 @@ export default {
         this.animateForm(false);
       }
     },
-    // searchTimeOut(school) {
-    //   if (this.timer) {
-    //     clearTimeout(this.timer);
-    //     this.timer = null;
-    //   }
-    //   this.timer = setTimeout(() => {
-    //     this.getSchool(school);
-    //   }, 800);
-    // },
+    searchTimeOut(school) {
+      if (!school) {
+        this.schools = [];
+        return;
+      }
+      if (this.timer) {
+        clearTimeout(this.timer);
+        this.timer = null;
+      }
+      this.timer = setTimeout(() => {
+        this.getSchool(school);
+      }, 800);
+    },
 
-    // async getSchool(school) {
-    //   if (this.isLoading) return;
+    async getSchool(school) {
+      if (!school) {
+        this.schools = [];
+        return;
+      }
+      if (this.isLoading) return;
 
-    //   this.isLoading = true;
-
-    //   const response = await fetch(
-    //     `https://api-newschool.herokuapp.com/school?nome=${school}`,
-    //   )
-    //     .then(res => res.text())
-    //     .then(res => res)
-    //     .catch(err => {
-    //       console.log(err);
-    //     })
-    //     .finally(() => (this.isLoading = false));
-    //   // this.schools.push(response)
-    //   JSON.parse(response)[1].forEach(item => this.schools.push(item.nome));
-    //   this.schools.unshift(school.toUpperCase());
-    // },
+      this.isLoading = true;
+      this.loadClientCredentials().then(res => {
+        const token = res.data.accessToken;
+        const response = http
+          .get(`${process.env.endpoints.SCHOOL}?name=${school}`, {
+            headers: { Authorization: `Bearer ${token}` },
+          })
+          .then(res => {
+            if (!res.data.length) {
+              this.isLoading = false;
+              this.schools.unshift(school.toUpperCase());
+            }
+            res.data.forEach(school => this.schools.push(school.nome));
+            this.isLoading = false;
+          })
+          .catch(err => {
+            console.log(err);
+            this.isLoading = false;
+          });
+      });
+    },
 
     animateForm(status) {
       if (status) {

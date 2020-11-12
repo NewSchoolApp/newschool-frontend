@@ -98,6 +98,9 @@ export default {
     goToChangePassword() {
       $nuxt._router.push('/aluno/alterar-senha');
     },
+    goToShareUrl() {
+      $nuxt._router.push('/aluno/indicar-app');
+    },
     goToChangeData() {
       $nuxt._router.push('/aluno/alterar');
     },
@@ -155,5 +158,8 @@ export default {
   font-weight: 700;
   line-height: 19px;
   color: var(--primary);
+}
+.padding__card {
+  padding-top: 0;
 }
 </style>
