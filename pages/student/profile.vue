@@ -30,11 +30,6 @@
         <div class="btn-name">Alterar Senha</div>
       </v-row>
       <v-divider />
-      <v-row class="py-3" @click="goToChangeData">
-        <v-icon class="px-6" color="primary">mdi-pencil-outline</v-icon>
-        <div class="btn-name">Alterar Dados</div>
-      </v-row>
-      <v-divider />
       <v-row class="py-3" @click="goToShareUrl">
         <v-icon class="px-6" color="primary">mdi-share-outline</v-icon>
         <div class="btn-name">Indicar App</div>
@@ -100,9 +95,6 @@ export default {
     },
     goToShareUrl() {
       $nuxt._router.push('/aluno/indicar-app');
-    },
-    goToChangeData() {
-      $nuxt._router.push('/aluno/alterar');
     },
     goToExit() {
       localStorage.clear();

@@ -39,14 +39,15 @@
                 v-if="!country && city"
                 placeholder="Selecione a sua cidade!"
                 :items="cities"
-                @input="loadSchools($event)"
+                @input="setCity($event)"
                 label="Cidade"
               ></v-autocomplete>
               <v-autocomplete
                 v-if="!country && school"
-                placeholder="Selecione a sua escola!"
+                placeholder="Digite o nome da sua escola!"
+                :loading="isLoading"
                 :items="schools"
-                @input="school = $event"
+                @keyup="searchTimeOut($event.target.value)"
                 label="Escola"
               ></v-autocomplete>
               <v-card>
@@ -97,7 +98,7 @@
             </v-col>
             <v-col>
               <v-avatar class="self-rank-avatar" size="70">
-                <img v-if="user.photo" :src="require(`${user.photo}`)" />
+                <img v-if="user.photo" :src="user.photo" />
                 <img v-else :src="require(`~/assets/person.svg`)" />
               </v-avatar>
             </v-col>
@@ -112,7 +113,7 @@
             <v-col class="flex top__one">
               <img class="icon" src="../../assets/silver-medal.svg" alt="" />
               <v-avatar size="60">
-                <img v-if="user.photo" :src="require(top2.photo)" />
+                <img v-if="top2.photo" :src="top2.photo" />
                 <img v-else :src="require(`~/assets/person.svg`)" />
               </v-avatar>
               <p>{{ top2.points }} PTS</p>
@@ -121,7 +122,7 @@
             <v-col class="flex top__two">
               <img class="icon" src="../../assets/troph.png" alt="" />
               <v-avatar size="70">
-                <img v-if="user.photo" :src="require(top1.photo)" />
+                <img v-if="user.photo" :src="top1.photo" />
                 <img v-else :src="require(`~/assets/person.svg`)" />
               </v-avatar>
               <p>{{ top1.points }} PTS</p>
@@ -130,7 +131,7 @@
             <v-col class="flex top__three">
               <img class="icon" src="../../assets/bronze.svg" alt="" />
               <v-avatar size="60">
-                <img v-if="user.photo" :src="require(top3.photo)" />
+                <img v-if="top3.photo" :src="top3.photo" />
                 <img v-else :src="require(`~/assets/person.svg`)" />
               </v-avatar>
               <p>{{ top3.points }} PTS</p>
@@ -190,7 +191,9 @@
 <script>
 import NavigationBar from '~/components/NavigationBar.vue';
 import HeaderBar from '~/components/Header.vue';
-import http from '~/services/http/generic';
+import utils from '~/utils/index';
+import httpHelper from '~/services/http/generic';
+import { http } from '~/services/http/config';
 
 export default {
   components: {
@@ -206,7 +209,11 @@ export default {
       city: '',
       cityId: '',
       state: '',
+      loading: false,
+      isLoading: false,
       filter: false,
+      userPhoto:
+        'https://newschool-dev.s3.us-east-2.amazonaws.com/b406aee7-065f-4ea4-a46b-34fe34d70b8f/leo.jpeg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAV56KXRILVMG6BB2Q%2F20201112%2Fus-east-2%2Fs3%2Faws4_request&X-Amz-Date=20201112T222140Z&X-Amz-Expires=900&X-Amz-Signature=c742a829748f988d638ec7baaa50e47e171ff826ebc028b6a30522b4d365e8d6&X-Amz-SignedHeaders=host',
       usersByMonth: [],
       usersByYear: [],
       userPositionByMonth: 0,
@@ -215,9 +222,9 @@ export default {
       userPointsByYear: 0,
       countries: [],
       statesCode: [],
-      cities: [],
-      states: [],
-      schools: [],
+      cities: ['- Limpar'],
+      states: ['- Limpar'],
+      schools: ['- Limpar'],
       labels: [
         'Filtrar por Estado',
         'Filtrar por Escola',
@@ -257,6 +264,9 @@ export default {
     this.loading = false;
   },
   methods: {
+    loadClientCredentials() {
+      return utils.getToken();
+    },
     change(data) {
       switch (data) {
         case 'city':
@@ -283,12 +293,15 @@ export default {
       this.dialog = false;
     },
     loadCountries(state) {
+      if (state === '- Limpar') {
+        return (this.state = '');
+      }
       this.state = state;
       this.cities = [];
       const cityObject = this.statesCode.find(
         item => item.nome.toUpperCase() === state,
       );
-      http
+      httpHelper
         .getAll(`${process.env.endpoints.CITY}/${cityObject.sigla}`)
         .then(response => {
           response.data.forEach(item => {
@@ -299,7 +312,7 @@ export default {
         });
     },
     getAddressElements() {
-      http.getAll(`${process.env.endpoints.STATE}`).then(response => {
+      httpHelper.getAll(`${process.env.endpoints.STATE}`).then(response => {
         response.data.forEach(state => {
           this.states.push(state.nome.toUpperCase());
           this.states.sort();
@@ -308,18 +321,18 @@ export default {
       });
     },
     monthRanking({ isInitial }) {
+      if (this.city || this.school || this.state) {
+        return this.searchByMonthFiltered();
+      }
       if (isInitial && this.usersByMonth.length) {
         this.ranking = this.usersByMonth;
         this.userPosition = this.userPositionByMonth;
         this.userPoints = this.userPointsByMonth;
         return;
       }
-      if (this.city || this.school || this.state) {
-        return this.searchByMonthFiltered();
-      }
       // const pages = [1, 2, 3];
       // for (const page of pages) {
-      http
+      httpHelper
         .getAll(`${process.env.endpoints.RANKING}`)
         .then(ranking => {
           if (!ranking.length) {
@@ -343,19 +356,18 @@ export default {
       // }
     },
     yearRanking({ isInitial }) {
-      this.loading = true;
+      if (this.city || this.school || this.state) {
+        return this.searchByYearFiltered();
+      }
       if (isInitial && this.usersByYear.length) {
         this.ranking = this.usersByYear;
         this.userPosition = this.userPositionByYear;
         this.userPoints = this.userPointsByYear;
         return;
       }
-      if (this.city || this.school || this.state) {
-        return this.searchByYearFiltered();
-      }
       // const pages = [1, 2, 3];
       // for (const page of pages) {
-      http
+      httpHelper
         .getAll(`${process.env.endpoints.RANKING}?timeRange=YEAR`)
         .then(ranking => {
           if (!ranking.length) {
@@ -386,7 +398,7 @@ export default {
       return name;
     },
     getUserPositionByMonth(userId) {
-      http
+      httpHelper
         .getAll(
           `${process.env.endpoints.RANKING}/user/${userId}?timeRange=MONTH`,
         )
@@ -399,7 +411,7 @@ export default {
         });
     },
     getUserPositionByYear(userId) {
-      http
+      httpHelper
         .getAll(
           `${process.env.endpoints.RANKING}/user/${userId}?timeRange=YEAR`,
         )
@@ -434,7 +446,7 @@ export default {
       const city = this.city ? `&city=${this.city}` : '';
       const state = this.state ? `&state=${this.state}` : '';
       const school = this.school ? `&institutionName=${this.school}` : '';
-      http
+      httpHelper
         .getAll(
           `${process.env.endpoints.RANKING}?timeRange=MONTH${city}${state}${school}`,
         )
@@ -463,9 +475,9 @@ export default {
       const state = this.state ? `&state=${this.state}` : '';
       const school = this.school ? `&institutionName=${this.school}` : '';
 
-      http
+      httpHelper
         .getAll(
-          `process.env.endpoints.RANKING}?timeRange=YEAR${city}${state}${school}`,
+          `${process.env.endpoints.RANKING}?timeRange=YEAR${city}${state}${school}`,
         )
         .then(ranking => {
           if (!ranking.length) {
@@ -486,15 +498,52 @@ export default {
         .catch(error => console.log(error));
       this.getUserPositionByYear(this.user.id);
     },
-    loadSchools(city) {
+    setCity(city) {
+      if (city === '- Limpar') {
+        return (this.city = '');
+      }
       this.city = city;
-      http
-        .getAll(`${process.env.endpoints.SCHOOL}?cityId=${this.cityId}`)
-        .then(response => {
-          response.data.forEach(school => {
-            this.schools.push(school.nome);
-            this.schools.sort();
-          });
+    },
+    searchTimeOut(school) {
+      if (!school) {
+        this.schools = [];
+        return;
+      }
+      if (this.timer) {
+        clearTimeout(this.timer);
+        this.timer = null;
+      }
+      this.timer = setTimeout(() => {
+        this.getSchool(school);
+      }, 1200);
+    },
+
+    async getSchool(school) {
+      if (school === '- Limpar') {
+        return (this.school = '');
+      }
+      if (!school) {
+        this.schools = [];
+        return;
+      }
+      if (this.isLoading) return;
+
+      this.isLoading = true;
+      const response = http
+        .get(`${process.env.endpoints.SCHOOL}?name=${school}`, {
+          headers: { Authorization: this.loadClientCredentials() },
+        })
+        .then(res => {
+          if (!res.data.length) {
+            this.isLoading = false;
+            this.schools.unshift(school.toUpperCase());
+          }
+          res.data.forEach(school => this.schools.push(school.nome));
+          this.isLoading = false;
+        })
+        .catch(err => {
+          console.log(err);
+          this.isLoading = false;
         });
     },
   },

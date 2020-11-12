@@ -20,6 +20,16 @@
       style="display:none"
       @change="onFileChange($event.target.name, $event.target.files)"
     />
+    <div v-if="loading">
+      <div class="container-spinner">
+        <v-progress-circular
+          :size="70"
+          :width="5"
+          indeterminate
+          color="#6600cc"
+        />
+      </div>
+    </div>
     <!-- error dialog displays any potential errors -->
     <v-dialog v-model="errorDialog" max-width="300">
       <v-card>
@@ -47,6 +57,7 @@ export default {
     imgSrc: '',
     avatar: null,
     saving: false,
+    loading: false,
     saved: false,
     errorDialog: null,
     errorText: '',
@@ -63,6 +74,9 @@ export default {
     idUser() {
       return this.$store.state.user.data.id;
     },
+    user() {
+      return this.$store.state.user.data;
+    },
   },
   watch: {
     avatar: {
@@ -71,6 +85,9 @@ export default {
       },
       deep: true,
     },
+  },
+  mounted() {
+    this.imgSrc = this.user.photo;
   },
   methods: {
     savedAvatar() {
@@ -101,15 +118,25 @@ export default {
           const imageURL = URL.createObjectURL(imageFile);
           this.imgSrc = imageURL;
 
+          this.loading = true;
           // para o post
           const formDataNew = new FormData();
-          formDataNew.append('image', file);
-          http.post(`api/v1/user/${this.idUser}/photo`, formDataNew, {
-            headers: {
-              Authorization: utils.getToken(),
-              'Content-Type': 'multipart/form-data',
-            },
-          });
+          formDataNew.append('file', imageFile);
+          http
+            .post(`api/v1/user/${this.idUser}/photo`, formDataNew, {
+              headers: {
+                Authorization: utils.getToken(),
+                'Content-Type': 'multipart/form-data',
+              },
+            })
+            .then(() => {
+              this.$notifier.showMessage({
+                type: 'success',
+                message: 'Boa! deu certo',
+              });
+            })
+            .catch(() => this.$notifier.showMessage({ type: 'error' }));
+          this.loading = false;
         }
       }
     },
