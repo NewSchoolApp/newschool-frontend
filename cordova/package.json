@@ -1,15 +1,9 @@
 {
   "devDependencies": {
     "cordova-browser": "^6.0.0",
-    "cordova-plugin-file": "^6.0.2",
-    "cordova-plugin-file-downloader": "^0.4.0",
-    "cordova-plugin-file-md5": "^0.3.3",
-    "cordova-plugin-file-transfer": "^1.7.1",
     "cordova-plugin-imagedownloader": "git+https://github.com/Santino-Wu/cordova-plugin-imagedownloader.git",
-    "cordova-plugin-network-information": "^2.0.2",
     "cordova-plugin-printer": "^0.7.3",
-    "cordova-plugin-whitelist": "1",
-    "cordova-plugin-zip": "^3.1.0"
+    "cordova-plugin-whitelist": "1"
   },
   "cordova": {
     "plugins": {
@@ -23,8 +17,6 @@
       },
       "cordova-plugin-x-socialsharing": {},
       "cordova-plugin-printer": {},
-      "cordova-plugin-file-downloader": {},
-      "cordova-plugin-file-transfer": {},
       "com.santinowu.cordova.imagedownloader": {
         "PHOTOLIBRARY_USAGE_DESCRIPTION": "Requires permission for saving image into Photos"
       }

@@ -26,30 +26,12 @@
     "cordova-plugin-printer": {
       "PACKAGE_NAME": "com.newschool.app"
     },
-    "cordova-plugin-file-downloader": {
-      "PACKAGE_NAME": "com.newschool.app"
-    },
-    "cordova-plugin-file-transfer": {
-      "PACKAGE_NAME": "com.newschool.app"
-    },
     "com.santinowu.cordova.imagedownloader": {
       "PACKAGE_NAME": "com.newschool.app"
     }
   },
   "dependent_plugins": {
     "es6-promise-plugin": {
-      "PACKAGE_NAME": "com.newschool.app"
-    },
-    "cordova-plugin-file": {
-      "PACKAGE_NAME": "com.newschool.app"
-    },
-    "cordova-plugin-network-information": {
-      "PACKAGE_NAME": "com.newschool.app"
-    },
-    "cordova-plugin-zip": {
-      "PACKAGE_NAME": "com.newschool.app"
-    },
-    "cordova-plugin-file-md5": {
       "PACKAGE_NAME": "com.newschool.app"
     }
   }
