@@ -53,6 +53,10 @@ export default {
     return http.put(`${path}/${id}`, payload);
   },
 
+  putByURL: path => {
+    return http.put(path);
+  },
+
   delete: (path, id) => {
     return http.delete(`${path}/${id}`);
   },

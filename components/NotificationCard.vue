@@ -1,18 +1,59 @@
 <template>
-  <div class="card" @click="goTo()">
+  <div class="card">
     <div class="header__info">
       <img src="~/assets/gabs-small.svg" />
+      <img
+        class="cross__button"
+        src="~/assets/cross-button.svg"
+        alt=""
+        @click="removeNotification(notification.id)"
+      />
+
       <h1>{{ notification.content.badge.badgeDescription }}</h1>
-      <p id="continue__text">{{ notification.createdAt.slice(11, 16) }}</p>
+      <div>
+        <p id="continue__text">{{ notificationDate }}</p>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import http from '~/services/http/generic';
 export default {
   name: 'NotificationCard',
   props: ['notification'],
-  methods: {},
+
+  data: () => ({
+    notificationDate: '',
+  }),
+  mounted() {
+    console.log(this.notification);
+    this.checkDate();
+  },
+  methods: {
+    checkDate() {
+      const notificationDateHourAndMinute = this.notification.createdAt.slice(
+        11,
+        16,
+      );
+      const notificationMonthAndDay = this.notification.createdAt.slice(5, 10);
+      const today = new Date().getDay() + 1;
+      const month = new Date().getMonth() + 1;
+      const dateSplited = notificationMonthAndDay.split('-');
+      if (dateSplited[1] < today || dateSplited[0] < month) {
+        this.notificationDate =
+          today - dateSplited[1] === 1
+            ? `Ontem - ${notificationDateHourAndMinute}`
+            : `${dateSplited[1]}/${dateSplited[0]} - ${notificationDateHourAndMinute}`;
+      } else {
+        this.notificationDate = notificationDateHourAndMinute;
+      }
+    },
+    removeNotification(id) {
+      alert(id);
+      http.putByURL(`${process.env.endpoints.NOTIFICATION}/${id}/see`);
+    },
+  },
 };
 </script>
 
@@ -30,6 +71,7 @@ h1 {
   line-height: 12px;
   letter-spacing: 0em;
   text-align: left;
+  min-width: 185px;
   color: rgb(26, 26, 26);
   max-width: 70%;
 }
@@ -37,7 +79,8 @@ h1 {
   margin-bottom: 5rem;
 }
 .card {
-  margin: 1.3rem;
+  margin: 0.3rem 0.9rem;
+  position: relative;
   padding: 0.9rem;
   background: #fff;
   box-shadow: 0px 12px 20px 0px #00000026;
@@ -62,6 +105,11 @@ h1 {
   height: unset;
   color: var(--primary);
 }
+.cross__button {
+  position: absolute;
+  right: 20px;
+  top: 10px;
+}
 
 ::v-deep .v-progress-linear {
   margin-bottom: 35px;
@@ -74,11 +122,13 @@ h1 {
 #continue__text {
   font-size: 8px;
   font-weight: 300;
+  min-width: 55px;
   line-height: 9px;
   text-align: right;
   color: rgb(63, 61, 86);
   text-transform: none;
   letter-spacing: 0em;
-  margin-top: -23px;
+  position: relative;
+  top: 26px;
 }
 </style>

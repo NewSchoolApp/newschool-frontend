@@ -71,4 +71,11 @@
         <param name="ios-package" value="CDVWKInAppBrowser" />
         <param name="onload" value="true" />
     </feature>
+    <feature name="SocialSharing">
+        <param name="ios-package" value="SocialSharing" />
+    </feature>
+    <feature name="SocialSharing">
+        <param name="ios-package" value="SocialSharing" />
+        <param name="onload" value="true" />
+    </feature>
 </widget>

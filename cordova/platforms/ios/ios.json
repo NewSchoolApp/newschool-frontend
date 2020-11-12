@@ -47,6 +47,10 @@
             {
               "xml": "<feature name=\"WKInAppBrowser\"><param name=\"ios-package\" value=\"CDVWKInAppBrowser\" /><param name=\"onload\" value=\"true\" /></feature>",
               "count": 1
+            },
+            {
+              "xml": "<feature name=\"SocialSharing\"><param name=\"ios-package\" value=\"SocialSharing\" /><param name=\"onload\" value=\"true\" /></feature>",
+              "count": 1
             }
           ]
         }
@@ -55,7 +59,7 @@
         "parents": {
           "FacebookAppID": [
             {
-              "xml": "<string>1584605795055838</string>",
+              "xml": "<string>384298599359690</string>",
               "count": 1
             }
           ],
@@ -73,7 +77,7 @@
           ],
           "CFBundleURLTypes": [
             {
-              "xml": "<array><dict><key>CFBundleURLSchemes</key><array><string>fb1584605795055838</string></array></dict></array>",
+              "xml": "<array><dict><key>CFBundleURLSchemes</key><array><string>fb384298599359690</string></array></dict></array>",
               "count": 1
             }
           ],
@@ -88,6 +92,18 @@
               "xml": "<array><string>fbapi</string><string>fb-messenger-api</string><string>fbauth2</string><string>fbshareextension</string></array>",
               "count": 1
             }
+          ],
+          "NSPhotoLibraryAddUsageDescription": [
+            {
+              "xml": "<string>This app requires photo library access to function properly.</string>",
+              "count": 1
+            }
+          ],
+          "NSPhotoLibraryUsageDescription": [
+            {
+              "xml": "<string>This app requires photo library access to function properly.</string>",
+              "count": 1
+            }
           ]
         }
       }
@@ -95,13 +111,21 @@
   },
   "installed_plugins": {
     "cordova-plugin-facebook4": {
-      "APP_ID": "1584605795055838",
+      "APP_ID": "384298599359690",
       "APP_NAME": "NewSchool",
       "FACEBOOK_HYBRID_APP_EVENTS": "false",
       "FACEBOOK_ANDROID_SDK_VERSION": "5.5.2",
       "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
     },
     "cordova-plugin-inappbrowser": {
+      "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
+    },
+    "es6-promise-plugin": {
+      "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
+    },
+    "cordova-plugin-x-socialsharing": {
+      "PHOTO_LIBRARY_ADD_USAGE_DESCRIPTION": "This app requires photo library access to function properly.",
+      "PHOTO_LIBRARY_USAGE_DESCRIPTION": "This app requires photo library access to function properly.",
       "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
     }
   },
@@ -123,10 +147,26 @@
         "cordova.InAppBrowser.open",
         "window.open"
       ]
+    },
+    {
+      "id": "es6-promise-plugin.Promise",
+      "file": "plugins/es6-promise-plugin/www/promise.js",
+      "pluginId": "es6-promise-plugin",
+      "runs": true
+    },
+    {
+      "id": "cordova-plugin-x-socialsharing.SocialSharing",
+      "file": "plugins/cordova-plugin-x-socialsharing/www/SocialSharing.js",
+      "pluginId": "cordova-plugin-x-socialsharing",
+      "clobbers": [
+        "window.plugins.socialsharing"
+      ]
     }
   ],
   "plugin_metadata": {
     "cordova-plugin-facebook4": "6.2.0",
-    "cordova-plugin-inappbrowser": "3.2.0"
+    "cordova-plugin-inappbrowser": "3.2.0",
+    "es6-promise-plugin": "4.2.2",
+    "cordova-plugin-x-socialsharing": "6.0.2"
   }
 }

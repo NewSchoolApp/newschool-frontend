@@ -82,7 +82,7 @@ export default {
       {
         id: 5,
         label: 'O que é a new school?',
-        icon: 'mdi-book-multiple',
+        icon: 'mdi-library-books',
         link: '/sobre',
       },
       // { id: 6, label: "Ajuda", icon: "mdi-hand-right", link: "/ajuda" },
@@ -198,6 +198,11 @@ export default {
 }
 .text-menu {
   text-transform: uppercase;
+}
+
+.mdi-library-books::before {
+  content: url('https://api.iconify.design/mdi-library-books.svg?color=rgb(105%2C0%2C204)&height=24');
+  vertical-align: -0.125em;
 }
 
 h1 {

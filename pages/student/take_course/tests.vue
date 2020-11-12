@@ -69,7 +69,7 @@
                 url="http://newschool-ui-dev.eba-fdz8zprg.us-east-2.elasticbeanstalk.com/cadastro"
                 :title="'Acertei uma questão na New School'"
                 :description="textNotification"
-                :hashtags="tryMessage"
+                :hashtags="hasthtag"
                 :twitter-user="'NewSchoolApp'"
                 inline-template
               >
@@ -103,7 +103,9 @@
         <div v-if="!loading && !correct" class="inner-container">
           <v-form ref="form" lazy-validation>
             <h3>{{ test.title || 'Título do Teste' }}</h3>
-            <h4>{{ test.question || 'Enunciado do teste' }}</h4>
+            <h4>
+              {{ test.question || 'Enunciado do teste' }}
+            </h4>
             <div class="alternatives-container">
               <v-checkbox
                 v-model="selected"
@@ -194,6 +196,7 @@ export default {
     correct: false,
     loading: true,
     try: 1,
+    hasthtag: '',
     badgePoints: 0,
     tryMessage: '',
     headerNotification: '',
@@ -299,6 +302,7 @@ export default {
 
       this.badgePoints = points[this.try];
       this.tryMessage = trymessage[this.try];
+      this.hasthtag = this.tryMessage.split('\n').join('');
       this.headerNotification = headerMessage[this.try];
       this.textNotification = bodyMessage[this.try];
       console.log(this.badgePoints);
@@ -420,14 +424,16 @@ h4 {
   margin-bottom: 5rem;
 }
 
-.inner-container,
-.alternatives-container {
-  margin-top: 1.5em;
+.inner-container {
+  margin: 1em 6px 0;
   padding: 0 0.5em !important;
 }
 
 ::v-deep .btn-primary {
   margin-top: 25px;
+}
+label {
+  text-align: justify;
 }
 
 @mixin inner-text-checkbox {
@@ -439,7 +445,7 @@ h4 {
   color: var(--primary);
   width: 20px;
   height: 20px;
-  z-index: 5;
+  z-index: 9999999;
 }
 
 #close-btn {
@@ -454,13 +460,7 @@ h4 {
   height: 193px;
   margin: 40% auto 10%;
 }
-.btn-block,
-.btn-white {
-  border-radius: 25px !important;
-  max-width: 116px;
-  max-height: 43px;
-  font-weight: 900 !important;
-}
+
 .messages {
   padding: 0 2em;
 }
@@ -483,7 +483,9 @@ h4 {
 .notification__content {
   background-image: url('../../../assets/background-fire.png');
   background-repeat: no-repeat;
-  background-size: 100% 100%;
+  background-size: cover;
+  max-width: 480px;
+  margin: 0 auto;
 }
 
 ::v-deep .main-container {
@@ -512,6 +514,7 @@ h4 {
   left: 0;
   z-index: 999;
   width: 100%;
+  max-height: 280px;
 }
 
 ::v-deep .theme--light.v-label {
@@ -537,5 +540,40 @@ h4 {
 ::v-deep .fourth-alternative > div > div > label:before {
   content: 'D:';
   @include inner-text-checkbox;
+}
+.icons:hover {
+  cursor: pointer;
+}
+
+::v-deep .mdi-checkbox-blank-outline::before {
+  content: url('https://api.iconify.design/bi:circle.svg?height=16');
+  vertical-align: -0.125em;
+}
+
+::v-deep .mdi-checkbox-marked::before {
+  content: url('https://api.iconify.design/bi:check-circle-fill.svg?color=rgb(104%2C0%2C201)&height=16');
+  vertical-align: -0.125em;
+}
+
+@media (min-width: 480px) {
+  .notification__content {
+    top: 0;
+    height: 100vh;
+  }
+  .messages {
+    margin-top: -12%;
+  }
+  .notification__image {
+    top: 10%;
+  }
+  .btn-block {
+    width: 96%;
+    padding: 5px auto;
+  }
+
+  #page {
+    height: 100vh;
+    overflow: hidden;
+  }
 }
 </style>
