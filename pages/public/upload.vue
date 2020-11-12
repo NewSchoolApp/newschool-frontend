@@ -16,8 +16,9 @@
         <v-flex ref="flex">
           <v-container flat>
             <v-row>
-              <v-file-input show-size @change="selectFile"></v-file-input>
-              <p style="word-wrap: break-word;">{{ base }}</p>
+              <button @click="print" class="btn-block btn-primary">
+                Baixar
+              </button>
               <navigation-bar />
             </v-row>
           </v-container>
@@ -56,35 +57,54 @@ export default {
   },
   mounted() {},
   methods: {
-    upload(file, onUploadProgress) {
-      const formData = new FormData();
+    print() {
+      const fileTransfer = new FileTransfer();
+      const uri = encodeURI(
+        'https://www.galvaoesilva.com/wp-content/uploads/2019/06/Os-3-passos-para-Retirar-o-Nome-do-Google.png',
+      );
 
-      formData.append('file', file);
-      console.log(formData);
+      fileTransfer.download(
+        uri,
+        '/storage/emulated/0/path/to/file',
+        function(entry) {
+          console.log('download complete: ' + entry.toURL());
+        },
+        function(error) {
+          console.log('download error source ' + error.source);
+          console.log('download error target ' + error.target);
+          console.log('download error code' + error.code);
+        },
+      );
+    },
+    // upload(file, onUploadProgress) {
+    //   const formData = new FormData(cdvfile://localhost/persistent/path/to/downloads/);
 
-      // return http.post('/upload', formData, {
-      //   headers: {
-      //     'Content-Type': 'multipart/form-data',
-      //   },
-      //   onUploadProgress,
-      // });
-    },
-    async selectFile(file) {
-      const base64image = await this.getBase64(file);
-      this.base = base64image;
-      // http.post(
-      //   `${process.env.endpoints.TOTAL_USERS}/${this.user.id}/photo`,
-      //   {},
-      // );
-    },
-    getBase64(file) {
-      return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = () => resolve(reader.result);
-        reader.onerror = error => reject(error);
-      });
-    },
+    //   formData.append('file', file);
+    //   console.log(formData);
+
+    //   // return http.post('/upload', formData, {
+    //   //   headers: {
+    //   //     'Content-Type': 'multipart/form-data',
+    //   //   },
+    //   //   onUploadProgress,
+    //   // });
+    // },
+    // async selectFile(file) {
+    //   const base64image = await this.getBase64(file);
+    //   this.base = base64image;
+    //   // http.post(
+    //   //   `${process.env.endpoints.TOTAL_USERS}/${this.user.id}/photo`,
+    //   //   {},
+    //   // );
+    // },
+    // getBase64(file) {
+    //   return new Promise((resolve, reject) => {
+    //     const reader = new FileReader();
+    //     reader.readAsDataURL(file);
+    //     reader.onload = () => resolve(reader.result);
+    //     reader.onerror = error => reject(error);
+    //   });
+    // },
   },
 };
 </script>

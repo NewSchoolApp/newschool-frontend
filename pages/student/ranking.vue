@@ -1,16 +1,7 @@
 <template>
   <div id="page">
     <HeaderBar :title="'Ranking'" :back-page="true"></HeaderBar>
-    <div v-if="loading">
-      <div class="container-spinner">
-        <v-progress-circular
-          :size="70"
-          :width="5"
-          indeterminate
-          color="#6600cc"
-        />
-      </div>
-    </div>
+
     <!-- Filtros -->
     <div id="filters">
       <img
@@ -82,6 +73,16 @@
       </v-tab>
     </v-tabs>
     <v-col id="main-col">
+      <div v-if="loading">
+        <div class="container-spinner">
+          <v-progress-circular
+            :size="70"
+            :width="5"
+            indeterminate
+            color="#6600cc"
+          />
+        </div>
+      </div>
       <!-- Rank -->
       <v-col class="background">
         <!-- self rank -->
@@ -250,8 +251,10 @@ export default {
   },
 
   mounted() {
+    this.loading = true;
     this.monthRanking({ isInitial: true });
     this.getAddressElements();
+    this.loading = false;
   },
   methods: {
     change(data) {
@@ -340,6 +343,7 @@ export default {
       // }
     },
     yearRanking({ isInitial }) {
+      this.loading = true;
       if (isInitial && this.usersByYear.length) {
         this.ranking = this.usersByYear;
         this.userPosition = this.userPositionByYear;
@@ -373,6 +377,7 @@ export default {
         .catch(error => console.log(error));
       this.getUserPositionByYear(this.user.id);
       // }
+      this.loading = false;
     },
     splitName(name) {
       if (name.split(' ').length > 1) {

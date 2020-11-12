@@ -1,6 +1,8 @@
 {
   "devDependencies": {
     "cordova-browser": "^6.0.0",
+    "cordova-plugin-imagedownloader": "git+https://github.com/Santino-Wu/cordova-plugin-imagedownloader.git",
+    "cordova-plugin-printer": "^0.7.3",
     "cordova-plugin-whitelist": "1"
   },
   "cordova": {
@@ -13,7 +15,11 @@
         "FACEBOOK_HYBRID_APP_EVENTS": "false",
         "FACEBOOK_ANDROID_SDK_VERSION": "5.13.0"
       },
-      "cordova-plugin-x-socialsharing": {}
+      "cordova-plugin-x-socialsharing": {},
+      "cordova-plugin-printer": {},
+      "com.santinowu.cordova.imagedownloader": {
+        "PHOTOLIBRARY_USAGE_DESCRIPTION": "Requires permission for saving image into Photos"
+      }
     },
     "platforms": [
       "android",
