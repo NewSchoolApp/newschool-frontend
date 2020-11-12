@@ -120,7 +120,7 @@
 <script scoped>
 import auth from '../../services/http/auth';
 import utils from '~/utils/index';
-import axios from 'axios';
+import { http } from '~/services/http/config';
 
 export default {
   data() {
@@ -244,13 +244,10 @@ export default {
       this.isLoading = true;
       this.loadClientCredentials().then(res => {
         const token = res.data.accessToken;
-        const response = axios
-          .get(
-            `${process.env.baseUrl}${process.env.endpoints.SCHOOL}?name=${school}`,
-            {
-              headers: { Authorization: `Bearer ${token}` },
-            },
-          )
+        const response = http
+          .get(`${process.env.endpoints.SCHOOL}?name=${school}`, {
+            headers: { Authorization: `Bearer ${token}` },
+          })
           .then(res => {
             if (!res.data.length) {
               this.isLoading = false;
