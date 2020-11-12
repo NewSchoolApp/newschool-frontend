@@ -1,0 +1,83 @@
+{
+  "_from": "cordova-plugin-network-information@>=1.3.3",
+  "_id": "cordova-plugin-network-information@2.0.2",
+  "_inBundle": false,
+  "_integrity": "sha512-NwO3qDBNL/vJxUxBTPNOA1HvkDf9eTeGH8JSZiwy1jq2W2mJKQEDBwqWkaEQS19Yd/MQTiw0cykxg5D7u4J6cQ==",
+  "_location": "/cordova-plugin-network-information",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "range",
+    "registry": true,
+    "raw": "cordova-plugin-network-information@>=1.3.3",
+    "name": "cordova-plugin-network-information",
+    "escapedName": "cordova-plugin-network-information",
+    "rawSpec": ">=1.3.3",
+    "saveSpec": null,
+    "fetchSpec": ">=1.3.3"
+  },
+  "_requiredBy": [
+    "#DEV:/",
+    "#USER"
+  ],
+  "_resolved": "https://registry.npmjs.org/cordova-plugin-network-information/-/cordova-plugin-network-information-2.0.2.tgz",
+  "_shasum": "f48a92cbd7cccb63cb0a5e5a00030001b8ac4fea",
+  "_spec": "cordova-plugin-network-information@>=1.3.3",
+  "_where": "/home/leonardo/Documents/Leonardo/Newschool/newschool-frontend/cordova",
+  "author": {
+    "name": "Apache Software Foundation"
+  },
+  "bugs": {
+    "url": "https://github.com/apache/cordova-plugin-network-information/issues"
+  },
+  "bundleDependencies": false,
+  "cordova": {
+    "id": "cordova-plugin-network-information",
+    "platforms": [
+      "android",
+      "ios",
+      "windows",
+      "browser"
+    ]
+  },
+  "deprecated": false,
+  "description": "Cordova Network Information Plugin",
+  "devDependencies": {
+    "eslint": "^4.0.0",
+    "eslint-config-semistandard": "^11.0.0",
+    "eslint-config-standard": "^10.2.1",
+    "eslint-plugin-import": "^2.3.0",
+    "eslint-plugin-node": "^5.0.0",
+    "eslint-plugin-promise": "^3.5.0",
+    "eslint-plugin-standard": "^3.0.1"
+  },
+  "engines": {
+    "cordovaDependencies": {
+      "3.0.0": {
+        "cordova": ">100"
+      }
+    }
+  },
+  "homepage": "https://github.com/apache/cordova-plugin-network-information#readme",
+  "keywords": [
+    "cordova",
+    "network",
+    "information",
+    "ecosystem:cordova",
+    "cordova-android",
+    "cordova-ios",
+    "cordova-windows",
+    "cordova-browser"
+  ],
+  "license": "Apache-2.0",
+  "name": "cordova-plugin-network-information",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/apache/cordova-plugin-network-information.git"
+  },
+  "scripts": {
+    "eslint": "eslint www && eslint src && eslint tests",
+    "test": "npm run eslint"
+  },
+  "types": "./types/index.d.ts",
+  "version": "2.0.2"
+}

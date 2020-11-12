@@ -1,0 +1,60 @@
+{
+  "_from": "cordova-plugin-file-md5@~0.3.3",
+  "_id": "cordova-plugin-file-md5@0.3.3",
+  "_inBundle": false,
+  "_integrity": "sha512-ENKe3yaRanTPc2uQv57FLiyypjOv/nuPupuRoDz0T/qiuTvs0u8I3iWJvh39N44hvsQ2tAXOIey1BvlSefU0ww==",
+  "_location": "/cordova-plugin-file-md5",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "range",
+    "registry": true,
+    "raw": "cordova-plugin-file-md5@~0.3.3",
+    "name": "cordova-plugin-file-md5",
+    "escapedName": "cordova-plugin-file-md5",
+    "rawSpec": "~0.3.3",
+    "saveSpec": null,
+    "fetchSpec": "~0.3.3"
+  },
+  "_requiredBy": [
+    "#DEV:/",
+    "#USER"
+  ],
+  "_resolved": "https://registry.npmjs.org/cordova-plugin-file-md5/-/cordova-plugin-file-md5-0.3.3.tgz",
+  "_shasum": "bff81be92b252a66b278dde7502d23972a8f146d",
+  "_spec": "cordova-plugin-file-md5@~0.3.3",
+  "_where": "/home/leonardo/Documents/Leonardo/Newschool/newschool-frontend/cordova",
+  "author": {
+    "name": "Fabian Strachanski, Manuel Ramon Lopez Torres"
+  },
+  "bugs": {
+    "url": "https://github.com/mramonlopez/cordova-plugin-file-md5/issues"
+  },
+  "bundleDependencies": false,
+  "cordova": {
+    "id": "cordova-plugin-file-md5",
+    "platforms": [
+      "android",
+      "ios"
+    ]
+  },
+  "deprecated": false,
+  "description": "Cordova MD5 checksum plugin for Android and iOS. The plugin reads large files in chunks and build the md5sum incrementally. It can process much larger files then read the complete content in memory and process it in place.",
+  "homepage": "https://github.com/mramonlopez/cordova-plugin-file-md5#readme",
+  "keywords": [
+    "cordova",
+    "ecosystem:cordova",
+    "cordova-android",
+    "cordova-ios",
+    "file",
+    "download",
+    "multiple",
+    "md5"
+  ],
+  "license": "MIT",
+  "name": "cordova-plugin-file-md5",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mramonlopez/cordova-plugin-file-md5.git"
+  },
+  "version": "0.3.3"
+}

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0" id="cordova-plugin-file-downloader" version="0.4.0">
+	<name>Downloader</name>
+	<author>Fabian Strachanski</author>
+	<author>Manuel Ramon Lopez Torres</author>
+	<description>Downloads files to persistant Storage on your Phone, checks md5sum if you want, unzips packed files if necassary (For Android and iOS)</description>
+	<license>MIT</license>
+	<keywords>file,download,checksum,md5,unzip</keywords>
+	<repo>https://github.com/mramonlopez/cordova-plugin-file-downloader.git</repo>
+	<issue>https://github.com/mramonlopez/cordova-plugin-file-downloader/issues</issue>
+	<dependency id="cordova-plugin-file" version=">=4.3.0" />
+	<dependency id="cordova-plugin-file-transfer" version=">=1.6.3" />
+	<dependency id="cordova-plugin-network-information" version=">=1.3.3" />
+	<dependency id="cordova-plugin-zip" version=">=3.1.0" />
+	<dependency id="cordova-plugin-file-md5" version="~0.3.3" />
+
+	<js-module src="www/downloader.min.js" name="downloader">
+		<clobbers target="downloader" />
+	</js-module>
+</plugin>
