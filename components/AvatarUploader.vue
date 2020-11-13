@@ -129,13 +129,35 @@ export default {
                 'Content-Type': 'multipart/form-data',
               },
             })
-            .then(() => {
+            .then(res => {
               this.$notifier.showMessage({
                 type: 'success',
                 message: 'Boa! deu certo',
               });
+              http
+                .get(process.env.endpoints.USER_ME, {
+                  headers: { Authorization: utils.getToken() },
+                })
+                .then(res => {
+                  const types = {
+                    ADMIN: 'Administrador',
+                    STUDENT: 'Aluno',
+                  };
+                  this.$store.commit('user/SET_USER', {
+                    name: res.data.name || 'Anônimo',
+                    type: types[res.data.role.name] || 'Visitante',
+                    id: res.data.id || '',
+                    role: res.data.role.name || '',
+                    photo: res.data.photo || '',
+                  });
+                });
             })
-            .catch(() => this.$notifier.showMessage({ type: 'error' }));
+            .catch(err => {
+              console.log(err);
+              this.$notifier.showMessage({
+                type: 'error',
+              });
+            });
           this.loading = false;
         }
       }
