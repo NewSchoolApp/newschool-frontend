@@ -119,7 +119,12 @@
             </v-col>
             <v-col class="px-0 pb-5">
               <div class="input-label">Estado</div>
-              <v-autocomplete :items="states" v-model="form.state" filled @change="getCities(form.state)"/>
+              <v-autocomplete
+                :items="states"
+                v-model="form.state"
+                filled
+                @change="getCities(form.state)"
+              />
             </v-col>
             <v-col class="px-0 pb-5">
               <div class="input-label">Cidade</div>
@@ -390,14 +395,12 @@ export default {
     if (this.$route.params.tab) {
       this.tab = parseInt(this.$route.params.tab);
     }
-        
+
     this.populateProfile();
   },
   methods: {
     populateProfile() {
-      http
-      .getAll(`/api/v1/user/${this.idUser}`)
-      .then(res => {
+      http.getAll(`/api/v1/user/${this.idUser}`).then(res => {
         console.log(res);
         this.form.birthday = this.resolveDate(res.data.birthday);
         this.form.nickname = res.data.nickname;
@@ -407,7 +410,7 @@ export default {
         this.form.profile = this.resolveProfile({
           profile: res.data.profile,
           api: true,
-          });
+        });
         this.form.profession = res.data.profession;
         res.data.profession === null
           ? (this.form.employed = 0)
@@ -423,9 +426,12 @@ export default {
         this.form.urlInstagram = res.data.urlInstagram;
 
         //populating address fields
-        this.form.country = 'Brasil'
+        this.form.country = 'Brasil';
         this.form.address = res.data.address;
-        const resolvedAddress = this.resolveAddress({api: true, address: this.form.address});
+        const resolvedAddress = this.resolveAddress({
+          api: true,
+          address: this.form.address,
+        });
         this.getStates();
         this.form.state = resolvedAddress.state;
 
@@ -435,32 +441,36 @@ export default {
           this.form.city = resolvedAddress.city;
           this.form.district = resolvedAddress.district;
         }, 500);
-        
       });
     },
     getStates() {
       http
-      .getAll('https://servicodados.ibge.gov.br/api/v1/localidades/estados')
-      .then(res => {
-        res.data.forEach(element => {
-          this.states.push(element.nome)
-          this.stateAbbreviations[element.nome] = element.sigla;
+        .getAll('https://servicodados.ibge.gov.br/api/v1/localidades/estados')
+        .then(res => {
+          res.data.forEach(element => {
+            this.states.push(element.nome);
+            this.stateAbbreviations[element.nome] = element.sigla;
+          });
         });
-      })
     },
-    getCities(stateName){
-      console.log("RODOU")
-      console.log("Recebeu estado:", stateName)
-      console.log("Tentou pegar abreviação:", this.stateAbbreviations[stateName])
-      console.log("Lista de abreviações:", this.stateAbbreviations)
+    getCities(stateName) {
+      console.log('RODOU');
+      console.log('Recebeu estado:', stateName);
+      console.log(
+        'Tentou pegar abreviação:',
+        this.stateAbbreviations[stateName],
+      );
+      console.log('Lista de abreviações:', this.stateAbbreviations);
       http
-      .getAll(`https://servicodados.ibge.gov.br/api/v1/localidades/estados/${this.stateAbbreviations[stateName]}/municipios`)
-      .then(res => {
-        this.cities = [];
-        res.data.forEach(element => {
-          this.cities.push(element.nome)
+        .getAll(
+          `https://servicodados.ibge.gov.br/api/v1/localidades/estados/${this.stateAbbreviations[stateName]}/municipios`,
+        )
+        .then(res => {
+          this.cities = [];
+          res.data.forEach(element => {
+            this.cities.push(element.nome);
+          });
         });
-      })
     },
     gotoProfile() {
       $nuxt._router.replace('/aluno/perfil');
@@ -524,12 +534,12 @@ export default {
         postBody.profile = this.resolveProfile({
           profile: postBody.profile,
           api: false,
-          });
+        });
         postBody.gender = this.resolveGender(postBody.gender);
         postBody.schooling = this.resolveSchooling({
           schooling: postBody.schooling,
           api: false,
-        });        
+        });
         if (postBody.employed == 0) {
           postBody.profession = null;
         }
@@ -541,7 +551,7 @@ export default {
           state: postBody.state,
           city: postBody.city,
           district: postBody.district,
-        })
+        });
 
         // deleting some not implemented variables
         delete postBody.employed;
@@ -555,6 +565,7 @@ export default {
               type: 'success',
               message: 'Aee, deu bom!',
             });
+            $nuxt._router.push('/aluno/perfil');
           })
           .catch(() =>
             this.$notifier.showMessage({
@@ -591,12 +602,10 @@ export default {
         Universitário: 'UNIVERSITY',
         Pai: 'FATHER',
         Investidor: 'INVESTOR',
-        Outros: 'OTHERS',        
+        Outros: 'OTHERS',
       };
       if (api) {
-        return Object.keys(profiles).find(
-          key => profiles[key] === profile,
-        );
+        return Object.keys(profiles).find(key => profiles[key] === profile);
       }
       return profiles[profile];
     },
@@ -620,22 +629,21 @@ export default {
       return schoolingTypes[schooling];
     },
     resolveAddress({ address, country, state, city, district, api }) {
-      if(api) {
+      if (api) {
         const splited = address.split(/[,-]/).map(function(item) {
           return item.trim();
-        })
+        });
         return {
           country: splited[3],
           state: splited[2],
           city: splited[1],
-          district: splited[0]
-        }
-      }
-      else {
+          district: splited[0],
+        };
+      } else {
         //address model used on backend: "centro, Rio Claro - São Paulo, Brasil"
-        return district + ', ' + city + ' - ' + state + ', ' + country
+        return district + ', ' + city + ' - ' + state + ', ' + country;
       }
-    }
+    },
   },
 };
 </script>
@@ -649,7 +657,7 @@ export default {
   letter-spacing: 0em;
 }
 #main-col {
-  padding-top: 36px;
+  padding-top: 16px;
   height: 100%;
 }
 
@@ -728,7 +736,11 @@ export default {
 
 /* buttons style */
 .base {
-  padding: 104px 24px;
+  position: absolute;
+  text-align: center;
+  width: 100%;
+  bottom: 15px;
+  padding: 0 24px;
 }
 .btn-connect {
   width: 111px !important;
