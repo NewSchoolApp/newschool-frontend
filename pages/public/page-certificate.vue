@@ -64,6 +64,7 @@
           </footer>
         </div>
       </div>
+      <button @click="download" class="btn-block btn-primary">BAIXAR</button>
     </v-container>
     <navigation-bar />
   </div>
@@ -126,8 +127,9 @@ export default {
         ],
       };
     },
-    print() {
+    download() {
       window.print();
+      window.close();
     },
     convertName(name) {
       name = name.split(' ');
@@ -141,7 +143,7 @@ export default {
 </script>
 
 <router>
-    path: "/pagina-certificado/:idUser/:idCourse/:print"
+    path: "/pagina-certificado/:idUser/:idCourse"
 </router>
 
 <style lang="scss" scoped>
@@ -227,6 +229,10 @@ h6 {
   }
   body {
     margin: 1.6cm;
+  }
+  .btn-block,
+  .btn-primary {
+    display: none;
   }
   .certificate__title {
     margin-top: 3%;
