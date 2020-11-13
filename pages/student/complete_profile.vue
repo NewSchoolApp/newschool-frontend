@@ -119,15 +119,15 @@
             </v-col>
             <v-col class="px-0 pb-5">
               <div class="input-label">Estado</div>
-              <v-autocomplete v-model="form.state" filled />
+              <v-autocomplete :items="states" v-model="form.state" filled @change="getCities(form.state)"/>
             </v-col>
             <v-col class="px-0 pb-5">
               <div class="input-label">Cidade</div>
-              <v-autocomplete v-model="form.city" filled />
+              <v-autocomplete :items="cities" v-model="form.city" filled />
             </v-col>
             <v-col class="px-0 pb-5">
               <div class="input-label">Bairro</div>
-              <v-autocomplete v-model="form.district" filled />
+              <v-text-field v-model="form.district" filled />
             </v-col>
           </v-col>
         </v-tab-item>
@@ -369,6 +369,10 @@ export default {
       },
       schools: [],
       countries: ['Brasil'],
+      states: [],
+      stateAbbreviations: {},
+      cities: [],
+      districts: [],
     };
   },
   computed: {
@@ -383,35 +387,81 @@ export default {
     },
   },
   mounted() {
-    http.getAll(`/api/v1/user/${this.idUser}`).then(res => {
-      console.log(res);
-      this.form.birthday = this.resolveDate(res.data.birthday);
-      this.form.nickname = res.data.nickname;
-      this.form.email = res.data.email;
-      this.form.name = res.data.name;
-      this.form.gender = this.resolveGender(res.data.gender);
-      this.form.profile = this.resolveProfile(res.data.profile);
-      this.form.country = 'Brasil';
-      this.form.profession = res.data.profession;
-      res.data.profession === null
-        ? (this.form.employed = 0)
-        : (this.form.employed = 1);
-      this.form.schooling = this.resolveSchooling({
-        schooling: res.data.schooling,
-        api: true,
-      });
-      this.form.id = res.data.id;
-      this.form.institutionName = res.data.institutionName;
-      this.schools.push(res.data.institutionName);
-      this.form.address = res.data.address;
-      this.form.urlFacebook = res.data.urlFacebook;
-      this.form.urlInstagram = res.data.urlInstagram;
-    });
     if (this.$route.params.tab) {
       this.tab = parseInt(this.$route.params.tab);
     }
+        
+    this.populateProfile();
   },
   methods: {
+    populateProfile() {
+      http
+      .getAll(`/api/v1/user/${this.idUser}`)
+      .then(res => {
+        console.log(res);
+        this.form.birthday = this.resolveDate(res.data.birthday);
+        this.form.nickname = res.data.nickname;
+        this.form.email = res.data.email;
+        this.form.name = res.data.name;
+        this.form.gender = this.resolveGender(res.data.gender);
+        this.form.profile = this.resolveProfile({
+          profile: res.data.profile,
+          api: true,
+          });
+        this.form.profession = res.data.profession;
+        res.data.profession === null
+          ? (this.form.employed = 0)
+          : (this.form.employed = 1);
+        this.form.schooling = this.resolveSchooling({
+          schooling: res.data.schooling,
+          api: true,
+        });
+        this.form.id = res.data.id;
+        this.form.institutionName = res.data.institutionName;
+        this.schools.push(res.data.institutionName);
+        this.form.urlFacebook = res.data.urlFacebook;
+        this.form.urlInstagram = res.data.urlInstagram;
+
+        //populating address fields
+        this.form.country = 'Brasil'
+        this.form.address = res.data.address;
+        const resolvedAddress = this.resolveAddress({api: true, address: this.form.address});
+        this.getStates();
+        this.form.state = resolvedAddress.state;
+
+        //timeout needed for state input validation
+        setTimeout(() => {
+          this.getCities(this.form.state);
+          this.form.city = resolvedAddress.city;
+          this.form.district = resolvedAddress.district;
+        }, 500);
+        
+      });
+    },
+    getStates() {
+      http
+      .getAll('https://servicodados.ibge.gov.br/api/v1/localidades/estados')
+      .then(res => {
+        res.data.forEach(element => {
+          this.states.push(element.nome)
+          this.stateAbbreviations[element.nome] = element.sigla;
+        });
+      })
+    },
+    getCities(stateName){
+      console.log("RODOU")
+      console.log("Recebeu estado:", stateName)
+      console.log("Tentou pegar abreviação:", this.stateAbbreviations[stateName])
+      console.log("Lista de abreviações:", this.stateAbbreviations)
+      http
+      .getAll(`https://servicodados.ibge.gov.br/api/v1/localidades/estados/${this.stateAbbreviations[stateName]}/municipios`)
+      .then(res => {
+        this.cities = [];
+        res.data.forEach(element => {
+          this.cities.push(element.nome)
+        });
+      })
+    },
     gotoProfile() {
       $nuxt._router.replace('/aluno/perfil');
     },
@@ -425,7 +475,7 @@ export default {
       }
       this.timer = setTimeout(() => {
         this.getSchool(school);
-      }, 800);
+      }, 1200);
     },
     getSchool(school) {
       if (!school) {
@@ -457,7 +507,6 @@ export default {
           });
       });
     },
-
     changeTab(operation) {
       if (operation == 'increment' && this.tab < 4) {
         this.tab++;
@@ -472,19 +521,30 @@ export default {
         const postBody = { ...this.form };
         const date = this.formatedDate.split('/');
         postBody.birthday = new Date(date[2], date[1], date[0]).toISOString();
-        postBody.profile = this.resolveProfile(postBody.profile);
+        postBody.profile = this.resolveProfile({
+          profile: postBody.profile,
+          api: false,
+          });
         postBody.gender = this.resolveGender(postBody.gender);
         postBody.schooling = this.resolveSchooling({
           schooling: postBody.schooling,
           api: false,
-        });
+        });        
         if (postBody.employed == 0) {
           postBody.profession = null;
         }
 
+        //resolving address
+        postBody.address = this.resolveAddress({
+          api: false,
+          country: postBody.country,
+          state: postBody.state,
+          city: postBody.city,
+          district: postBody.district,
+        })
+
         // deleting some not implemented variables
         delete postBody.employed;
-        delete postBody.country;
         delete postBody.district;
         delete postBody.socialLinks;
 
@@ -524,21 +584,20 @@ export default {
       };
       return genders[gender];
     },
-    resolveProfile(profile) {
+    resolveProfile({ profile, api }) {
       const profiles = {
         Aluno: 'STUDENT',
         'Ex-Aluno': 'EX_STUDENT',
         Universitário: 'UNIVERSITY',
         Pai: 'FATHER',
         Investidor: 'INVESTOR',
-        Outros: 'OTHERS',
-        STUDENT: 'Aluno',
-        EX_STUDENT: 'Ex-Aluno',
-        UNIVERSITY: 'Universitário',
-        FATHER: 'Pai',
-        INVESTOR: 'Investidor',
-        OTHERS: 'Outros',
+        Outros: 'OTHERS',        
       };
+      if (api) {
+        return Object.keys(profiles).find(
+          key => profiles[key] === profile,
+        );
+      }
       return profiles[profile];
     },
     resolveSchooling({ schooling, api }) {
@@ -560,6 +619,23 @@ export default {
       }
       return schoolingTypes[schooling];
     },
+    resolveAddress({ address, country, state, city, district, api }) {
+      if(api) {
+        const splited = address.split(/[,-]/).map(function(item) {
+          return item.trim();
+        })
+        return {
+          country: splited[3],
+          state: splited[2],
+          city: splited[1],
+          district: splited[0]
+        }
+      }
+      else {
+        //address model used on backend: "centro, Rio Claro - São Paulo, Brasil"
+        return district + ', ' + city + ' - ' + state + ', ' + country
+      }
+    }
   },
 };
 </script>
