@@ -5,7 +5,12 @@
         <div id="avatar">
           <div class="flex-center border-profile-photo">
             <div class="flex-center profile-container">
-              <avatar :username="user.name | simplifyName" :size="90"></avatar>
+              <img v-if="user.photo" :src="user.photo" />
+              <avatar
+                v-else
+                :username="user.name | simplifyName"
+                :size="90"
+              ></avatar>
             </div>
           </div>
         </div>

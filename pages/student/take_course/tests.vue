@@ -215,7 +215,6 @@ export default {
     courseId() {
       return this.$store.state.courses.current.id;
     },
-
     // Vamos alterar o getter e setter do selected para poder alterar os valores do checkbox como se fosse um radio group
     selected: {
       get() {
@@ -305,7 +304,6 @@ export default {
       this.hasthtag = this.tryMessage.split('\n').join('');
       this.headerNotification = headerMessage[this.try];
       this.textNotification = bodyMessage[this.try];
-      console.log(this.badgePoints);
       this.correct = true;
     },
 
