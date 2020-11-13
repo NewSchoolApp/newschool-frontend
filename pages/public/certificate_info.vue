@@ -123,7 +123,8 @@ export default {
   methods: {
     gotoCertificate() {
       window.open(
-        `http://newschool-ui-dev.eba-fdz8zprg.us-east-2.elasticbeanstalk.com/#/pagina-certificado/${this.params.idUser}/${this.params.idCourse}/undefined`,
+        `http://localhost:3000/#/pagina-certificado/${this.params.idUser}/${this.params.idCourse}`,
+        // `${process.env.domain}/${this.params.idUser}/${this.params.idCourse}`,
         '_blank',
       );
     },

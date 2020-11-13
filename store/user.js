@@ -40,14 +40,15 @@ const actions = {
       })
       .then(res => {
         const types = {
-          ADMIN: "Administrador",
-          STUDENT: "Aluno"
+          ADMIN: 'Administrador',
+          STUDENT: 'Aluno',
         };
-        commit("SET_USER", {
-          name: res.data.name || "Anônimo",
-          type: types[res.data.role.name] || "Visitante",
-          id: res.data.id || "",
-          role: res.data.role.name || ""
+        commit('SET_USER', {
+          name: res.data.name || 'Anônimo',
+          type: types[res.data.role.name] || 'Visitante',
+          id: res.data.id || '',
+          role: res.data.role.name || '',
+          photo: res.data.photo || '',
         });
         dispatch('initSessionUser');
 

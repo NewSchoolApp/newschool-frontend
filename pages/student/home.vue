@@ -36,7 +36,8 @@
       <!-- Header-bar -->
       <v-row id="header" align="center">
         <v-avatar size="55">
-          <img :src="require(`~/assets/person.svg`)" />
+          <img v-if="user.photo" :src="user.photo" />
+          <img v-else :src="require(`~/assets/person.svg`)" />
         </v-avatar>
 
         <v-col>

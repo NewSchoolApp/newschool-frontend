@@ -111,19 +111,23 @@
           <v-col>
             <v-col class="px-0 pb-5">
               <div class="input-label">País</div>
-              <v-select v-model="form.country" filled />
+              <v-autocomplete
+                :items="countries"
+                v-model="form.country"
+                filled
+              />
             </v-col>
             <v-col class="px-0 pb-5">
               <div class="input-label">Estado</div>
-              <v-select v-model="form.state" filled />
+              <v-autocomplete v-model="form.state" filled />
             </v-col>
             <v-col class="px-0 pb-5">
               <div class="input-label">Cidade</div>
-              <v-select v-model="form.city" filled />
+              <v-autocomplete v-model="form.city" filled />
             </v-col>
             <v-col class="px-0 pb-5">
               <div class="input-label">Bairro</div>
-              <v-select v-model="form.district" filled />
+              <v-autocomplete v-model="form.district" filled />
             </v-col>
           </v-col>
         </v-tab-item>
@@ -329,13 +333,16 @@ export default {
       ],
       schoolingItems: [
         'Ensino Fundamental Incompleto',
+        'Ensino Fundamental Cursando',
         'Ensino Fundamental Completo',
         'Ensino Médio Incompleto',
+        'Ensino Médio Cursando',
         'Ensino Médio Completo',
         'Ensino Superior Incompleto',
+        'Ensino Superior Cursando',
         'Ensino Superior Completo',
-        'Pós Graduação',
-        'Mestrado',
+        // 'Pós Graduação',
+        // 'Mestrado',
       ],
       genderItems: ['Masculino', 'Feminino'],
       profileItems: [
@@ -361,6 +368,7 @@ export default {
         status: '',
       },
       schools: [],
+      countries: ['Brasil'],
     };
   },
   computed: {
@@ -376,35 +384,32 @@ export default {
   },
   mounted() {
     http.getAll(`/api/v1/user/${this.idUser}`).then(res => {
-      console.log(res.data);
+      console.log(res);
       this.form.birthday = this.resolveDate(res.data.birthday);
       this.form.nickname = res.data.nickname;
       this.form.email = res.data.email;
       this.form.name = res.data.name;
       this.form.gender = this.resolveGender(res.data.gender);
       this.form.profile = this.resolveProfile(res.data.profile);
+      this.form.country = 'Brasil';
       this.form.profession = res.data.profession;
       res.data.profession === null
         ? (this.form.employed = 0)
         : (this.form.employed = 1);
-      this.form.schooling = this.resolveSchooling(res.data.schooling);
+      this.form.schooling = this.resolveSchooling({
+        schooling: res.data.schooling,
+        api: true,
+      });
       this.form.id = res.data.id;
       this.form.institutionName = res.data.institutionName;
       this.schools.push(res.data.institutionName);
       this.form.address = res.data.address;
       this.form.urlFacebook = res.data.urlFacebook;
       this.form.urlInstagram = res.data.urlInstagram;
-      console.log('ESCOLA RES :', res.data.institutionName);
-      console.log('ESCOLA:', this.form.institutionName);
     });
     if (this.$route.params.tab) {
       this.tab = parseInt(this.$route.params.tab);
     }
-
-    setTimeout(() => {
-      console.log('ESCOLA:', this.form.institutionName);
-    }, 3000);
-    // this.form.institutionName = 'krai';
   },
   methods: {
     gotoProfile() {
@@ -462,13 +467,17 @@ export default {
     },
     submit() {
       if (this.$refs.form.validate()) {
+        this.loading = true;
         // post resolving
         const postBody = { ...this.form };
         const date = this.formatedDate.split('/');
         postBody.birthday = new Date(date[2], date[1], date[0]).toISOString();
         postBody.profile = this.resolveProfile(postBody.profile);
         postBody.gender = this.resolveGender(postBody.gender);
-        postBody.schooling = this.resolveSchooling(postBody.schooling);
+        postBody.schooling = this.resolveSchooling({
+          schooling: postBody.schooling,
+          api: false,
+        });
         if (postBody.employed == 0) {
           postBody.profession = null;
         }
@@ -479,9 +488,19 @@ export default {
         delete postBody.district;
         delete postBody.socialLinks;
 
-        http.put(`/api/v1/user`, this.idUser, postBody).then(res => {
-          this.showSnackbar('Tudo Certo!', 'success');
-        });
+        http
+          .put(`/api/v1/user`, this.idUser, postBody)
+          .then(res => {
+            this.$notifier.showMessage({
+              type: 'success',
+              message: 'Aee, deu bom!',
+            });
+          })
+          .catch(() =>
+            this.$notifier.showMessage({
+              type: 'error',
+            }),
+          );
       } else {
         // mostrar snackbar de confirmação
         this.showSnackbar('Algo deu Errado!', 'red');
@@ -522,19 +541,24 @@ export default {
       };
       return profiles[profile];
     },
-    resolveSchooling(schooling) {
-      console.log(schooling);
-      if (schooling === schooling.toUpperCase()) {
-        return schooling
-          .toLowerCase()
-          .split('_')
-          .map(word => {
-            return word.charAt(0).toUpperCase() + word.slice(1);
-          })
-          .join(' ');
-      } else {
-        return schooling.toUpperCase().replaceAll(' ', '_');
+    resolveSchooling({ schooling, api }) {
+      const schoolingTypes = {
+        'Ensino Fundamental Incompleto': 'ENSINO_FUNDAMENTAL_INCOMPLETO',
+        'Ensino Fundamental Cursando': '',
+        'Ensino Fundamental Completo': 'ENSINO_FUNDAMENTAL_COMPLETO',
+        'Ensino Médio Incompleto': 'ENSINO_MEDIO_INCOMPLETO',
+        'Ensino Médio Cursando': 'ENSINO_MEDIO_CURSANDO',
+        'Ensino Médio Completo': 'ENSINO_MEDIO_COMPLETO',
+        'Ensino Superior Incompleto': 'FACULDADE_INCOMPLETO',
+        'Ensino Superior Cursando': 'FACULDADE_CURSANDO',
+        'Ensino Superior Completo': 'FACULDADE_COMPLETO',
+      };
+      if (api) {
+        return Object.keys(schoolingTypes).find(
+          key => schoolingTypes[key] === schooling,
+        );
       }
+      return schoolingTypes[schooling];
     },
   },
 };
@@ -603,6 +627,7 @@ export default {
   margin: 0 0 3px;
 }
 ::v-deep .v-input input,
+::v-deep .v-select__selection--comma,
 ::v-deep ::placeholder {
   color: #767676 !important;
 }
