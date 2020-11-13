@@ -64,7 +64,12 @@
           </footer>
         </div>
       </div>
-      <button @click="download" class="btn-block btn-primary">BAIXAR</button>
+      <div class="icon" style="background-color: transparent">
+        <v-icon color="purple darken-2" @click="download">
+          mdi-download
+        </v-icon>
+        Baixar
+      </div>
     </v-container>
     <navigation-bar />
   </div>
@@ -129,7 +134,6 @@ export default {
     },
     download() {
       window.print();
-      window.close();
     },
     convertName(name) {
       name = name.split(' ');
@@ -181,6 +185,10 @@ h3 {
     color: var(--primary);
   }
 }
+.btn-block,
+.btn-white {
+  margin: 5% 10%;
+}
 .main {
   width: 85%;
   margin: 4% 0 5% 0;
@@ -191,6 +199,22 @@ h3 {
 }
 .user {
   font-size: 16px;
+}
+.icon {
+  height: 35px;
+  width: 35px;
+  margin-left: 20px;
+  margin-top: 10px;
+  background-color: rgba(112, 16, 207, 0.1);
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  text-transform: uppercase;
+  font-size: 8px;
+  color: var(--primary);
+  line-height: 10px;
+  align-items: center;
+  justify-content: center;
 }
 .new__logo {
   display: none;
@@ -230,8 +254,7 @@ h6 {
   body {
     margin: 1.6cm;
   }
-  .btn-block,
-  .btn-primary {
+  .icon {
     display: none;
   }
   .certificate__title {

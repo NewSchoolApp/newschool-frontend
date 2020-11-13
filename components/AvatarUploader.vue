@@ -36,7 +36,7 @@
         <v-card-text class="subheading">{{ errorText }}</v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn flat @click="errorDialog = false">Got it!</v-btn>
+          <v-btn flat @click="errorDialog = false">Entendi!</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -67,7 +67,7 @@ export default {
       value =>
         !value ||
         value.size < 2000000 ||
-        'Avatar size should be less than 2 MB!',
+        'O tamanho da foto deve ser menor que 2mb!',
     ],
   }),
   computed: {
@@ -98,6 +98,7 @@ export default {
       this.$refs.file.click();
     },
     onFileChange(fieldName, file) {
+      this.loading = true;
       const { maxSize } = this;
       const imageFile = file[0];
 
@@ -117,8 +118,6 @@ export default {
           // para exibir web
           const imageURL = URL.createObjectURL(imageFile);
           this.imgSrc = imageURL;
-
-          this.loading = true;
           // para o post
           const formDataNew = new FormData();
           formDataNew.append('file', imageFile);
@@ -150,6 +149,7 @@ export default {
                     role: res.data.role.name || '',
                     photo: res.data.photo || '',
                   });
+                  this.loading = false;
                 });
             })
             .catch(err => {
@@ -158,7 +158,6 @@ export default {
                 type: 'error',
               });
             });
-          this.loading = false;
         }
       }
     },
