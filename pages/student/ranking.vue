@@ -300,15 +300,20 @@ export default {
             this.stateAbbreviations[element.nome] = element.sigla;
           });
         });
-    },    
-    openFilterDialog(filterName) {
-      //clear city items
+    },
+    clearFilters(){
+      //clear filters
       this.city = '';
+      this.state = '';
+      this.schools = '';
 
       //disable every dialog filters
       this.dialogFilters.state = false;
       this.dialogFilters.city = false;
       this.dialogFilters.school = false;
+    },
+    openFilterDialog(filterName) {
+      this.clearFilters();
 
       //enable the desired dialog filter
       this.dialogFilters[filterName] = true;
