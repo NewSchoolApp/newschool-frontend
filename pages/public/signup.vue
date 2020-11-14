@@ -114,7 +114,6 @@
 {
   path : '/cadastro'
 }
-
 </router>
 
 <script scoped>
@@ -165,7 +164,6 @@ export default {
       ],
     };
   },
-
   computed: {
     confirmPasswordRules() {
       return [
@@ -191,14 +189,16 @@ export default {
         };
         const { profile } = postObject;
         postObject.profile = profileEnum[profile];
-
+        const inviteKey = this.$route.params.inviteKey
+          ? this.$route.params.inviteKey
+          : null;
         delete postObject.confirmPassword;
         this.animateForm(true);
         this.loadClientCredentials()
           .then(res => {
             const token = res.data.accessToken;
             auth
-              .signUp(postObject, token)
+              .signUp(postObject, token, inviteKey)
               .then(res => {
                 this.loading = false;
                 this.confirmSnackbar('Cadastro efetuado! ;)', 'success');

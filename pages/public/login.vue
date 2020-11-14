@@ -190,10 +190,10 @@ export default {
     },
     async loginSocial(provider) {
       // mobile device
-      if(window.hasOwnProperty("cordova")) {
+      if (window.hasOwnProperty('cordova')) {
         console.log("You're on a mobile device");
         try {
-          const credentials = await auth.nativeFacebookLogin()
+          const credentials = await auth.nativeFacebookLogin();
           await auth.loginFacebook(credentials);
           $nuxt._router.push('/loading/login');
         } catch (error) {
@@ -201,7 +201,7 @@ export default {
           this.dialogMessage = JSON.stringify(error);
         }
         return;
-      };
+      }
       // web application
       this.loading = true;
       this.$auth.loginWith(provider);

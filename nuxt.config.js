@@ -36,6 +36,11 @@ export default {
             component: resolve(__dirname, 'pages/public/certificate_info.vue'),
           },
           {
+            path: '/cadastro/:inviteKey',
+            name: 'cadastro',
+            component: resolve(__dirname, 'pages/public/signup.vue'),
+          },
+          {
             path: 'perfil',
             name: 'meu-perfil',
             component: resolve(__dirname, 'pages/student/profile.vue'),
@@ -180,6 +185,7 @@ export default {
     endpoints: {
       CERTIFICATES_ME: 'api/v1/course-taken/certificates/user/',
       RANKING: '/api/v1/gamefication/ranking',
+      EVENT: '/api/v1/gamefication/start-event',
       NOTIFICATIONS: 'api/v1/notification',
       USER_ME: 'api/v1/user/me',
       SCHOOL: '/api/v1/school',
