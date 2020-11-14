@@ -13,13 +13,13 @@
       />
       <v-dialog v-model="dialog" max-width="290">
         <v-card class="filter-modal">
-          <v-list-item class="item-list" @click="change('city')"
+          <v-list-item class="item-list" @click="openFilterDialog('city')"
             >Filtrar por cidade</v-list-item
           >
-          <v-list-item class="item-list" @click="change('school')"
+          <v-list-item class="item-list" @click="openFilterDialog('school');"
             >Filtrar por escola</v-list-item
           >
-          <v-list-item class="item-list" @click="change('country')"
+          <v-list-item class="item-list" @click="openFilterDialog('state')"
             >Filtrar por estado
           </v-list-item>
         </v-card>
@@ -29,30 +29,32 @@
           <v-col cols="12">
             <v-form ref="form" lazy-validation>
               <v-autocomplete
-                v-if="(!country && state) || country"
+                v-if="dialogFilters.state || dialogFilters.city"
                 placeholder="Selecione o seu estado!"
                 :items="states"
                 label="Estado"
-                @input="loadCountries($event)"
+                @change="getCities($event)"
+                v-model="state"                
               ></v-autocomplete>
               <v-autocomplete
-                v-if="!country && city"
+                v-if="dialogFilters.city"
                 placeholder="Selecione a sua cidade!"
                 :items="cities"
-                @input="setCity($event)"
                 label="Cidade"
+                v-model="city"
               ></v-autocomplete>
               <v-autocomplete
-                v-if="!country && school"
+                v-if="dialogFilters.school"
                 placeholder="Digite o nome da sua escola!"
-                :loading="isLoading"
+                :loading="isLoadingSchool"
                 :items="schools"
                 @keyup="searchTimeOut($event.target.value)"
                 label="Escola"
+                v-model="school"
               ></v-autocomplete>
               <v-card>
                 <v-btn
-                  @click="searchByMonthFiltered"
+                  @click="getRanking(); filter = false"
                   class=" btn-block btn-search"
                   depressed
                   large
@@ -66,10 +68,10 @@
     </div>
     <!-- Tabs mensal anual -->
     <v-tabs fixed-tabs height="35px">
-      <v-tab @click="monthRanking({ isInitial: true })">
+      <v-tab @click="timeRange = 'MONTH'; getRanking()">
         Mensal
       </v-tab>
-      <v-tab @click="yearRanking({ isInitial: true })">
+      <v-tab @click="timeRange = 'YEAR'; getRanking()">
         Anual
       </v-tab>
     </v-tabs>
@@ -94,51 +96,34 @@
             style="text-align: center"
           >
             <v-col>
-              <h3 class="self-rank-data">{{ userPosition || 0 }}º</h3>
+              <h3 class="self-rank-data">{{ selfRank.rank || 0 }}º</h3>
             </v-col>
             <v-col>
               <v-avatar class="self-rank-avatar" size="70">
-                <img v-if="user.photo" :src="user.photo" />
+                <img v-if="selfRank.photo" :src="selfRank.photo" />
                 <img v-else :src="require(`~/assets/person.svg`)" />
               </v-avatar>
             </v-col>
             <v-col>
-              <h3 class="self-rank-data">{{ userPoints || 0 }} NC</h3>
+              <h3 class="self-rank-data">{{ selfRank.points || 0 }} NC</h3>
             </v-col>
           </v-row>
         </v-col>
         <v-col>
           <!-- pondium -->
-          <v-row class="podio">
-            <v-col class="flex top__one">
-              <img class="icon" src="../../assets/silver-medal.svg" alt="" />
-              <v-avatar size="60">
-                <img v-if="top2.photo" :src="top2.photo" />
-                <img v-else :src="require(`~/assets/person.svg`)" />
-              </v-avatar>
-              <p>{{ top2.points }} PTS</p>
-              <h1>{{ top2.name }}</h1>
-            </v-col>
-            <v-col class="flex top__two">
-              <img class="icon" src="../../assets/troph.png" alt="" />
-              <v-avatar size="70">
-                <img v-if="user.photo" :src="top1.photo" />
-                <img v-else :src="require(`~/assets/person.svg`)" />
-              </v-avatar>
-              <p>{{ top1.points }} PTS</p>
-              <h1>{{ top1.name }}</h1>
-            </v-col>
-            <v-col class="flex top__three">
-              <img class="icon" src="../../assets/bronze.svg" alt="" />
-              <v-avatar size="60">
-                <img v-if="top3.photo" :src="top3.photo" />
-                <img v-else :src="require(`~/assets/person.svg`)" />
-              </v-avatar>
-              <p>{{ top3.points }} PTS</p>
-              <h1>{{ top3.name }}</h1>
-            </v-col>
+          <v-row class="podium">
+              <v-col :id="'pod' + index" v-for="(pod, index) in podium" :key="pod" class="flex pod">                
+                  <img class="medal-icon" :src="require(`~/assets/medal` + index + `.png`)" alt="medalha" />
+                  <v-avatar size="60">
+                    <img v-if="pod.photo" :src="pod.photo" />
+                    <img v-else :src="require(`~/assets/person.svg`)" />
+                  </v-avatar>
+                  <p>{{ pod.points }} PTS</p>
+                  <h1>{{ pod.userName.split(' ')[0] }}</h1>
+                          
+              </v-col>  
           </v-row>
-          <!-- rank lins -->
+          <!-- general ranking -->
           <v-row>
             <v-simple-table class="rank-list">
               <template v-slot:default>
@@ -151,7 +136,7 @@
                 </thead>
                 <tbody>
                   <tr
-                    v-for="(item, index) in ranking"
+                    v-for="(item, index) in generalRanking"
                     :key="item.name"
                     class="line"
                   >
@@ -164,7 +149,7 @@
                           :src="item.photo"
                         />
                         <img v-else :src="require(`~/assets/person.svg`)" />
-                        <p class="name_person">{{ item.user_name }}</p>
+                        <p class="name_person">{{ item.userName }}</p>
                       </div>
                     </td>
                     <td>{{ item.points }}</td>
@@ -209,8 +194,10 @@ export default {
       city: '',
       cityId: '',
       state: '',
+      timeRange: '',
       loading: false,
-      isLoading: false,
+      pageLoading: true,   
+      isLoadingSchool: false,
       filter: false,
       usersByMonth: [],
       usersByYear: [],
@@ -220,293 +207,123 @@ export default {
       userPointsByYear: 0,
       countries: [],
       statesCode: [],
-      cities: ['- Limpar'],
-      states: ['- Limpar'],
-      schools: ['- Limpar'],
-      labels: [
-        'Filtrar por Estado',
-        'Filtrar por Escola',
-        'Filtrar por Cidade ',
-      ],
+      cities: [],
+      states: [],
+      schools: [],
       dialog: false,
-      userPosition: 0,
-      userPoints: 0,
-      top1: {
-        points: '',
-        name: '',
-        photo: '',
-      },
-      top2: {
-        points: '',
-        name: '',
-        photo: '',
-      },
-      top3: {
-        points: '',
-        name: '',
-        photo: '',
-      },
       ranking: [],
+      dialogFilters: {
+        state: false,
+        city: false,
+        school: false,
+      },
+      stateAbbreviations: [],
     };
   },
   computed: {
-    user() {
-      return this.$store.state.user.data;
+    idUser() {
+      return this.$store.state.user.data.id;
     },
+    podium() {      
+      if(this.ranking.slice(0, 3).length == 3){
+        return this.ranking.slice(0, 3);        
+      }
+      else {        
+        for(var i = 0; this.ranking.length < 4; i++) {          
+          this.ranking.push(
+            i= {
+              photo: '',
+              points: '0',
+              rank: '0',
+              userId: '',
+              userName: '---'
+            })
+        }        
+        return this.ranking.slice(0, 3);
+      }
+    },
+    generalRanking() {
+      return this.ranking.slice(3);
+    },
+    selfRank() {
+      const selfRank = this.ranking.find(user => user.userId == this.idUser);
+      if(selfRank){
+        return selfRank;
+      }
+      else {
+        return {
+          rank: '',
+          photo: '',
+          points: '',
+        }
+      }    
+    }
   },
-
   mounted() {
-    this.loading = true;
-    this.monthRanking({ isInitial: true });
-    this.getAddressElements();
-    this.loading = false;
+    this.getStates();
+    this.getRanking();
   },
   methods: {
-    loadClientCredentials() {
-      return utils.getToken();
-    },
-    change(data) {
-      switch (data) {
-        case 'city':
-          this.city = data;
-          this.state = data;
-          this.school = false;
-          this.country = false;
-          this.filter = true;
-          break;
-        case 'school':
-          this.city = data;
-          this.state = data;
-          this.school = data;
-          this.country = false;
-          this.filter = true;
-          break;
-        case 'country':
-          this.country = data;
-          this.city = false;
-          this.state = false;
-          this.filter = true;
-          break;
-      }
-      this.dialog = false;
-    },
-    loadCountries(state) {
-      if (state === '- Limpar') {
-        return (this.state = '');
-      }
-      this.state = state;
-      this.cities = [];
-      const cityObject = this.statesCode.find(
-        item => item.nome.toUpperCase() === state,
-      );
+    getRanking() {      
       httpHelper
-        .getAll(`${process.env.endpoints.CITY}/${cityObject.sigla}`)
-        .then(response => {
-          response.data.forEach(item => {
-            this.cityId = item.id;
-            this.cities.push(item.name);
-          });
-          this.cities.sort();
-        });
-    },
-    getAddressElements() {
-      httpHelper.getAll(`${process.env.endpoints.STATE}`).then(response => {
-        response.data.forEach(state => {
-          this.states.push(state.nome.toUpperCase());
-          this.states.sort();
-          this.statesCode.push(state);
-        });
+      .getAll(`${
+        process.env.endpoints.RANKING + '?' +
+        //concat every active filter for the request
+        (this.city ? '&city=' + this.city : '') +
+        (this.state ? '&state=' + this.state : '') +
+        (this.school ? '&institutionName=' + this.school : '') +
+        (this.timeRange ? '&timeRange=' + this.timeRange : '')
+      }`)
+      .then(ranking => {
+        this.ranking = ranking.data.content.reverse() //<--- The api is returning the list in ascending order;
       });
+      this.pageLoading = false;
     },
-    monthRanking({ isInitial }) {
-      if (this.city || this.school || this.state) {
-        return this.searchByMonthFiltered();
-      }
-      if (isInitial && this.usersByMonth.length) {
-        this.ranking = this.usersByMonth;
-        this.userPosition = this.userPositionByMonth;
-        this.userPoints = this.userPointsByMonth;
-        return;
-      }
-      // const pages = [1, 2, 3];
-      // for (const page of pages) {
-      httpHelper
-        .getAll(`${process.env.endpoints.RANKING}`)
-        .then(ranking => {
-          if (!ranking.length) {
-            this.ranking = [];
-            this.top1 = {};
-            this.top2 = {};
-            this.top3 = {};
-            this.userPosition = 0;
-          }
-
-          this.generateTopPlayers(ranking);
-          this.usersByMonth = ranking.data.content.slice(3);
-          this.ranking = this.usersByMonth;
-
-          this.ranking.forEach(person => {
-            person.user_name = this.splitName(person.userName);
-          });
-        })
-        .catch(error => console.log(error));
-      this.getUserPositionByMonth(this.user.id);
-      // }
-    },
-    yearRanking({ isInitial }) {
-      if (this.city || this.school || this.state) {
-        return this.searchByYearFiltered();
-      }
-      if (isInitial && this.usersByYear.length) {
-        this.ranking = this.usersByYear;
-        this.userPosition = this.userPositionByYear;
-        this.userPoints = this.userPointsByYear;
-        return;
-      }
-      // const pages = [1, 2, 3];
-      // for (const page of pages) {
-      httpHelper
-        .getAll(`${process.env.endpoints.RANKING}?timeRange=YEAR`)
-        .then(ranking => {
-          if (!ranking.length) {
-            this.ranking = [];
-            this.top1 = {};
-            this.top2 = {};
-            this.top3 = {};
-            this.userPosition = 0;
-          }
-
-          this.generateTopPlayers(ranking);
-          this.usersByYear = ranking.data.content.slice(3);
-          this.ranking = this.usersByYear;
-
-          this.ranking.forEach(person => {
-            person.user_name = this.splitName(person.userName);
-          });
-        })
-        .catch(error => console.log(error));
-      this.getUserPositionByYear(this.user.id);
-      // }
-      this.loading = false;
-    },
-    splitName(name) {
-      if (name.split(' ').length > 1) {
-        return name.split(' ')[0];
-      }
-      return name;
-    },
-    getUserPositionByMonth(userId) {
+    getCities(stateName) {
       httpHelper
         .getAll(
-          `${process.env.endpoints.RANKING}/user/${userId}?timeRange=MONTH`,
+          `https://servicodados.ibge.gov.br/api/v1/localidades/estados/${this.stateAbbreviations[stateName]}/municipios`,
         )
-        .then(userRanking => {
-          const { rank, points } = userRanking.data;
-          this.userPositionByMonth = rank;
-          this.userPosition = this.userPositionByMonth;
-          this.userPointsByMonth = points;
-          this.userPoints = this.userPointsByMonth;
+        .then(res => {
+          this.cities = [];
+          res.data.forEach(element => {
+            this.cities.push(element.nome);
+          });
         });
     },
-    getUserPositionByYear(userId) {
+    getStates() {
       httpHelper
-        .getAll(
-          `${process.env.endpoints.RANKING}/user/${userId}?timeRange=YEAR`,
-        )
-        .then(userRanking => {
-          const { rank, points } = userRanking.data;
-          this.userPositionByYear = rank;
-          this.userPosition = this.userPositionByYear;
-          this.userPointsByYear = points;
-          this.userPoints = this.userPointsByYear;
+        .getAll('https://servicodados.ibge.gov.br/api/v1/localidades/estados')
+        .then(res => {
+          res.data.forEach(element => {
+            this.states.push(element.nome);
+            this.stateAbbreviations[element.nome] = element.sigla;
+          });
         });
     },
-    generateTopPlayers(ranking) {
-      ranking.data.content = ranking.data.content.reverse();
-      this.top1 = {
-        name: this.splitName(ranking.data.content[0].userName),
-        points: ranking.data.content[0].points,
-        photo: ranking.data.content[0].photo,
-      };
-      this.top2 = {
-        name: this.splitName(ranking.data.content[1].userName),
-        points: ranking.data.content[1].points,
-        photo: ranking.data.content[1].photo,
-      };
-      this.top3 = {
-        name: this.splitName(ranking.data.content[2].userName),
-        points: ranking.data.content[2].points,
-        photo: ranking.data.content[2].photo,
-      };
-    },
-    searchByMonthFiltered() {
-      this.filter = false;
-      const city = this.city ? `&city=${this.city}` : '';
-      const state = this.state ? `&state=${this.state}` : '';
-      const school = this.school ? `&institutionName=${this.school}` : '';
-      httpHelper
-        .getAll(
-          `${process.env.endpoints.RANKING}?timeRange=MONTH${city}${state}${school}`,
-        )
-        .then(ranking => {
-          if (!ranking.length) {
-            this.ranking = [];
-            this.top1 = {};
-            this.top2 = {};
-            this.top3 = {};
-            this.userPosition = 0;
-          }
+    clearFilters(){
+      //clear filters
+      this.city = '';
+      this.state = '';
+      this.schools = '';
 
-          this.generateTopPlayers(ranking);
-          this.ranking = ranking.data.content.slice(3);
-
-          this.ranking.forEach(person => {
-            person.user_name = this.splitName(person.userName);
-          });
-        })
-        .catch(error => console.log(error));
-      this.getUserPositionByMonth(this.user.id);
+      //disable every dialog filters
+      this.dialogFilters.state = false;
+      this.dialogFilters.city = false;
+      this.dialogFilters.school = false;
     },
-    searchByYearFiltered() {
+    openFilterDialog(filterName) {
+      this.clearFilters();
+
+      //enable the desired dialog filter
+      this.dialogFilters[filterName] = true;
+      this.filter = true;
       this.dialog = false;
-      const city = this.city ? `&city=${this.city}` : '';
-      const state = this.state ? `&state=${this.state}` : '';
-      const school = this.school ? `&institutionName=${this.school}` : '';
-
-      httpHelper
-        .getAll(
-          `${process.env.endpoints.RANKING}?timeRange=YEAR${city}${state}${school}`,
-        )
-        .then(ranking => {
-          if (!ranking.length) {
-            this.ranking = [];
-            this.top1 = {};
-            this.top2 = {};
-            this.top3 = {};
-            this.userPosition = 0;
-          }
-
-          this.generateTopPlayers(ranking);
-          this.ranking = ranking.data.content.slice(3);
-
-          this.ranking.forEach(person => {
-            person.user_name = this.splitName(person.userName);
-          });
-        })
-        .catch(error => console.log(error));
-      this.getUserPositionByYear(this.user.id);
-    },
-    setCity(city) {
-      if (city === '- Limpar') {
-        return (this.city = '');
-      }
-      this.city = city;
+    },    
+    loadClientCredentials() {
+      return utils.getExternalCredentials();
     },
     searchTimeOut(school) {
-      if (!school) {
-        this.schools = [];
-        return;
-      }
       if (this.timer) {
         clearTimeout(this.timer);
         this.timer = null;
@@ -515,34 +332,35 @@ export default {
         this.getSchool(school);
       }, 1200);
     },
-
-    async getSchool(school) {
-      if (school === '- Limpar') {
-        return (this.school = '');
-      }
+    getSchool(school) {
       if (!school) {
         this.schools = [];
         return;
       }
       if (this.isLoading) return;
-
       this.isLoading = true;
-      const response = http
-        .get(`${process.env.endpoints.SCHOOL}?name=${school}`, {
-          headers: { Authorization: this.loadClientCredentials() },
-        })
-        .then(res => {
-          if (!res.data.length) {
+      this.loadClientCredentials().then(res => {
+        const token = res.data.accessToken;
+        const response = httpHelper
+          .getAll(
+            `${process.env.baseUrl}${process.env.endpoints.SCHOOL}?name=${school}`,
+            {
+              headers: { Authorization: `Bearer ${token}` },
+            },
+          )
+          .then(res => {
+            if (!res.data.length) {
+              this.isLoading = false;
+              this.schools.unshift(school.toUpperCase());
+            }
+            res.data.forEach(school => this.schools.push(school.nome));
             this.isLoading = false;
-            this.schools.unshift(school.toUpperCase());
-          }
-          res.data.forEach(school => this.schools.push(school.nome));
-          this.isLoading = false;
-        })
-        .catch(err => {
-          console.log(err);
-          this.isLoading = false;
-        });
+          })
+          .catch(err => {
+            console.log(err);
+            this.isLoading = false;
+          });
+      });
     },
   },
 };
@@ -550,6 +368,8 @@ export default {
 
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap');
+
+/* main styles */
 * {
   font-family: 'Roboto', sans-serif;
 }
@@ -568,93 +388,11 @@ export default {
 #main-col {
   background-color: #f8f8f8;
 }
-.rank-list {
-  width: 100%;
-}
-.line {
-  outline: 2px solid #f8f8f8;
-}
 ::v-deep .row {
   background-color: white;
 }
 ::v-deep .col {
   padding: 12px 16px !important;
-}
-.background {
-  height: 100%;
-  background-color: #f8f8f8;
-  padding: 0 !important;
-}
-
-.img-rounded {
-  width: 32px;
-  height: 32px;
-  border-radius: 50px;
-}
-
-::v-deep .v-tabs-slider-wrapper {
-  height: 4px !important;
-  color: var(--primary-light);
-}
-::v-deep .v-tab {
-  font-size: 11px !important;
-  line-height: 16px;
-  font-weight: 500;
-  color: grey;
-  text-transform: none;
-  border-bottom: 4px solid #f5f5f5;
-}
-::v-deep .v-tabs {
-  max-height: 32px;
-}
-.self-rank {
-  height: 119px;
-}
-::v-deep .v-avatar:not(.self-rank-avatar) {
-  margin-bottom: 5px;
-}
-.self-rank-avatar {
-  border: 2px solid #ffffff;
-  box-shadow: 0px 0px 0px 2px #f0e5fa;
-}
-.self-rank-data {
-  font-size: 20px;
-  font-weight: 900;
-}
-.filter-modal {
-  position: absolute;
-  right: 21px;
-  top: 45px;
-  width: 151px;
-  height: 135px;
-}
-.item-list {
-  font-size: 12px;
-  padding: 0 0 0 15px;
-  margin-top: 5px;
-  font-weight: 500;
-  min-height: 38px;
-}
-.dialog-modal {
-  width: 151px;
-  height: 135px;
-  position: absolute;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-::v-deep .theme--light.v-data-table thead tr:last-child th {
-  border-bottom: none;
-  text-align: center;
-  font-weight: 500;
-}
-.podio {
-  /* width: 80%;
-  margin: 5% 10%;
-  align-items: flex-end; */
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-around;
 }
 .flex {
   display: flex;
@@ -676,67 +414,103 @@ export default {
   color: #3f3d56;
   margin-top: -18px;
 }
-.flex img:not(:first-child) {
-  border-radius: 50px;
-  width: 55px;
-  height: 55px;
+.background {
+  height: 100%;
+  background-color: #f8f8f8;
+  padding: 0 !important;
 }
-.top__one img:not(:fist-child),
-.top__three img:not(:fist-child) {
-  width: 55px;
-  height: 55px;
-  margin-top: 10px;
-}
-.middle__image {
-  height: 66px !important;
-}
-.icon {
-  margin-bottom: 12px;
-}
-.img-middle {
-  width: 30px;
-  height: 30px;
-  border-radius: 50px;
-  margin-right: 15px;
-}
-.v-data-table {
-  max-width: 100%;
-  margin: 3% auto 0;
-}
-#filters {
-  position: relative;
-  width: 100%;
-}
-.collapse-button {
-  position: absolute;
-  top: -40px;
-  right: 20px;
-}
+
+/* header */
 ::v-deep .h1__theme {
   position: relative;
   font-size: 20px;
   font-weight: 700;
 }
-.btn-search {
-  background: var(--primary) !important;
-  border-radius: 0 !important;
-  color: #fff;
-  font-weight: 600;
+
+/* tabs */
+::v-deep .v-tabs-slider-wrapper {
+  height: 4px !important;
+  color: var(--primary-light);
+}
+::v-deep .v-tab {
+  font-size: 11px !important;
+  line-height: 16px;
+  font-weight: 500;
+  color: grey;
+  text-transform: none;
+  border-bottom: 4px solid #f5f5f5;
+}
+::v-deep .v-tabs {
+  max-height: 32px;
+}
+
+/* self rank */
+.self-rank {
+  height: 119px;
+}
+.self-rank-avatar {
+  border: 2px solid #ffffff;
+  box-shadow: 0px 0px 0px 2px #f0e5fa;
+}
+.self-rank-data {
+  font-size: 20px;
+  font-weight: 900;
+}
+
+/* podium */
+.podium {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-around;
+}
+::v-deep .v-avatar:not(.self-rank-avatar) {
+  margin-bottom: 5px;
+}
+.pod:not(:fist-child) {
+  width: 55px;
+  height: 55px;
+  margin-top: 10px;
+}
+#pod0 {
+  order: 2 !important;
+}
+#pod1 {
+  order: 1 !important;
+}
+#pod2 {
+  order: 3 !important;
+}
+::v-deep #pod0 > .v-avatar {
+  height: 70px !important;
+  width: 70px !important;
+}
+.medal-icon {
+  margin-bottom: 12px;
+}
+
+/* general ranking list */
+.rank-list {
   width: 100%;
 }
-.name_person {
-  font-size: 14px;
-  font-weight: 700;
-  margin: 5px 0 0 10px;
-  color: rgb(63, 61, 86);
+.table th {
+  font-size: 12px;
+  font-weight: 400 !important;
+  color: black !important;
 }
 td {
   text-align: center;
   font-size: 12px;
   font-weight: 400;
 }
-:v-deep .table-hover tbody tr:hover td {
-  background: aqua;
+.v-data-table {
+  max-width: 100%;
+  margin: 3% auto 0;
+}
+.name_person {
+  font-size: 14px;
+  font-weight: 700;
+  margin: 5px 0 0 10px;
+  color: rgb(63, 61, 86);
 }
 .text-left {
   text-align: left;
@@ -746,12 +520,57 @@ td {
   justify-content: flex-start;
   align-items: center;
 }
-.img-text > p {
-  margin-bottom: 0;
+.line {
+  outline: 2px solid #f8f8f8;
 }
-.table th {
+.img-rounded {
+  width: 32px;
+  height: 32px;
+  border-radius: 50px;
+}
+::v-deep .theme--light.v-data-table thead tr:last-child th {
+  border-bottom: none;
+  text-align: center;
+  font-weight: 500;
+}
+
+/* dialogs */
+#filters {
+  position: relative;
+  width: 100%;
+}
+.filter-modal {
+  position: absolute;
+  right: 21px;
+  top: 45px;
+  width: 151px;
+  height: 135px;
+}
+.collapse-button {
+  position: absolute;
+  top: -40px;
+  right: 20px;
+}
+.btn-search {
+  background: var(--primary) !important;
+  border-radius: 0 !important;
+  color: #fff;
+  font-weight: 600;
+  width: 100%;
+}
+.item-list {
   font-size: 12px;
-  font-weight: 400 !important;
-  color: black !important;
+  padding: 0 0 0 15px;
+  margin-top: 5px;
+  font-weight: 500;
+  min-height: 38px;
+}
+.dialog-modal {
+  width: 151px;
+  height: 135px;
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 </style>
