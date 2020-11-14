@@ -4,7 +4,7 @@
       :style="snackbarStyle"
       v-model="snackbar"
       :color="snackbarColor"
-      :timeout="40000000000"
+      :timeout="4000"
       :top="true"
       :right="true"
       style="z-index: 99999;"
