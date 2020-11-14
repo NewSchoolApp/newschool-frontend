@@ -35,9 +35,13 @@
 
       <!-- Header-bar -->
       <v-row id="header" align="center">
-        <v-avatar size="55">
-          <img v-if="user.photo" :src="user.photo" />
-          <img v-else :src="require(`~/assets/person.svg`)" />
+        <v-avatar class="user__image" size="55">
+          <img @click="goToProfile" v-if="user.photo" :src="user.photo" />
+          <img
+            @click="goToProfile"
+            v-else
+            :src="require(`~/assets/person.svg`)"
+          />
         </v-avatar>
 
         <v-col>
@@ -141,6 +145,9 @@ export default {
     goToNotifications() {
       $nuxt._router.push('/aluno/notificacao');
     },
+    goToProfile() {
+      $nuxt._router.push('/aluno/perfil');
+    },
     getNotifications() {
       http
         .getAll(`${process.env.endpoints.NOTIFICATIONS}/user/${this.user.id}`)
@@ -199,6 +206,9 @@ export default {
 ::v-deep .row {
   width: 100%;
   margin: 0;
+}
+.user__image {
+  cursor: pointer;
 }
 
 #title {

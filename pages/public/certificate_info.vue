@@ -44,13 +44,13 @@
       >
         <div class="box-icons">
           <network class="icon" network="facebook">
-            <img src="~/assets/facebook-purple.png" alt />
+            <img src="~/assets/face-notify.svg" alt />
           </network>
           <network class="icon" network="twitter">
-            <img src="~/assets/twitter-purple.png" alt />
+            <img src="~/assets/twitter-notify.svg" alt />
           </network>
           <network class="icon" network="linkedin">
-            <img src="~/assets/linkedin-purple.png" alt />
+            <img src="~/assets/linkedin-notify.svg" alt />
           </network>
         </div>
       </social-sharing>

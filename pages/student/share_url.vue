@@ -1,7 +1,9 @@
 <template>
   <div class="notification__content">
     <div id="close">
-      <v-icon @click="goBack" id="close-btn" color="primary">mdi-close-circle</v-icon>
+      <v-icon @click="goBack" id="close-btn" color="primary"
+        >mdi-close-circle</v-icon
+      >
     </div>
     <div class="bg__fire" />
 
@@ -62,18 +64,18 @@ export default {
       const options = {
         message: 'Vem colar com nois, aqui na New School!', // not supported on some apps (Facebook, Instagram)
         subject: 'Faça seu cadastro e vem aprender com a gente', // fi. for email
-        url: `newschool-ui-dev.eba-fdz8zprg.us-east-2.elasticbeanstalk.com/cadastro?inviteKey=${this.user.inviteKey}`,
+        url: `newschool-ui-dev.eba-fdz8zprg.us-east-2.elasticbeanstalk.com/#/cadastro/${this.user.inviteKey}`,
         chooserTitle: 'Compartilhe seu URL de convite', // Android only, you can override the default share sheet title
       };
-        window.plugins.socialsharing.shareWithOptions(
-          options,
-          this.onSuccess,
-          this.onError,
+      window.plugins.socialsharing.shareWithOptions(
+        options,
+        this.onSuccess,
+        this.onError,
       );
     },
-    goBack(){
-       this.$router.back();
-    }
+    goBack() {
+      this.$router.back();
+    },
   },
 };
 </script>
@@ -173,5 +175,5 @@ h4 {
     height: 100vh;
     overflow: hidden;
   }
-}
-</style>>
+}</style
+>>

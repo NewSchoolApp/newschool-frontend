@@ -31,8 +31,14 @@ const login = (username, password) => {
     });
 };
 
-const signUp = (form, token) => {
-  return http.post(process.env.endpoints.SIGN_UP, form, {
+const signUp = (form, token, inviteKey) => {
+  let url;
+  if (inviteKey) {
+    url = `${process.env.endpoints.SIGN_UP}?inviteKey=${inviteKey}`;
+  } else {
+    url = process.env.endpoints.SIGN_UP;
+  }
+  return http.post(url, form, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -194,14 +200,28 @@ export default {
       });
   },
   async nativeFacebookLogin() {
-    const promisify = (func) => (...params) => new Promise((resolve, reject) => func(...params, function (data) { resolve(data) }, function (error) { reject(error) }));
+    const promisify = func => (...params) =>
+      new Promise((resolve, reject) =>
+        func(
+          ...params,
+          function(data) {
+            resolve(data);
+          },
+          function(error) {
+            reject(error);
+          },
+        ),
+      );
     const login = promisify(facebookConnectPlugin.login);
     const getData = promisify(facebookConnectPlugin.api);
     const loginStatus = promisify(facebookConnectPlugin.getLoginStatus);
     await login(['public_profile', 'email']);
     const status = await loginStatus();
     const { userID } = status.authResponse;
-    const data = await getData(`${userID}/?fields=id,email,name,birthday`, ["public_profile", "email",])
+    const data = await getData(`${userID}/?fields=id,email,name,birthday`, [
+      'public_profile',
+      'email',
+    ]);
     return data;
   },
 };

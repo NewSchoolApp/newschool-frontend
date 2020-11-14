@@ -65,38 +65,14 @@
           <div class="share__achievement">
             <p>Compartilhe com seus amigos</p>
             <div>
-              <social-sharing
-                url="http://newschool-ui-dev.eba-fdz8zprg.us-east-2.elasticbeanstalk.com/cadastro"
-                :title="'Acertei uma questão na New School'"
-                :description="textNotification"
-                :hashtags="hasthtag"
-                :twitter-user="'NewSchoolApp'"
-                inline-template
-              >
-                <div class="icons">
-                  <network class="icon" network="whatsapp">
-                    <img
-                      src="../../../assets/whats-notify.svg"
-                      alt="Whatsapp"
-                    />
-                  </network>
-                  <network class="icon" network="facebook">
-                    <img src="../../../assets/face-notify.svg" alt="Facebook" />
-                  </network>
-                  <network class="icon" network="twitter">
-                    <img
-                      src="../../../assets/twitter-notify.svg"
-                      alt="Twitter"
-                    />
-                  </network>
-                  <network class="icon" network="linkedin">
-                    <img
-                      src="../../../assets/linkedin-notify.svg"
-                      alt="Linkedin"
-                    />
-                  </network>
-                </div>
-              </social-sharing>
+              <div class="icons">
+                <button
+                  @click="share($event, title, image)"
+                  class="btn-block btn-primary"
+                >
+                  COMPARTILHAR
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -306,6 +282,30 @@ export default {
       this.textNotification = bodyMessage[this.try];
       this.correct = true;
     },
+    onSuccess(result) {
+      console.log('Share completed? ' + result.completed);
+      console.log(result); // On Android apps mostly return false even while it's true
+      console.log('Shared to app: ' + result.app); // On Android result.app since plugin version 5.4.0 this is no longer empty. On iOS it's empty when sharing is cancelled (result.completed=false)
+      console.log(result); // On Android apps mostly return false even while it's true
+    },
+    onError(msg) {
+      console.log('Sharing failed with message: ' + msg);
+    },
+    share(event, title, image) {
+      event.stopPropagation();
+      event.preventDefault();
+      const options = {
+        message: 'Se liga nessa questão que eu acertei!', // not supported on some apps (Facebook, Instagram)
+        subject: this.tryMessage, // fi. for email
+        url: `newschool-ui-dev.eba-fdz8zprg.us-east-2.elasticbeanstalk.com/cadastro/#/${this.user.inviteKey}`,
+        chooserTitle: 'Vem colar com nois!', // Android only, you can override the default share sheet title
+      };
+      window.plugins.socialsharing.shareWithOptions(
+        options,
+        this.onSuccess,
+        this.onError,
+      );
+    },
 
     advanceCourse() {
       this.loading = true;
@@ -419,7 +419,6 @@ h4 {
   display: flex;
   flex-direction: column;
   padding: 0em 2rem 0rem;
-  margin-bottom: 5rem;
 }
 
 .inner-container {
