@@ -401,24 +401,29 @@ export default {
   methods: {
     populateProfile() {
       http.getAll(`/api/v1/user/${this.idUser}`).then(res => {
-        console.log(res);
-        this.form.birthday = this.resolveDate(res.data.birthday);
-        this.form.nickname = res.data.nickname;
-        this.form.email = res.data.email;
-        this.form.name = res.data.name;
-        this.form.gender = this.resolveGender(res.data.gender);
+        res.data.birthday ? 
+        this.form.birthday = this.resolveDate(res.data.birthday) : {}
+        res.data.gender ? 
+        this.form.gender = this.resolveGender(res.data.gender) : {}
+        res.data.profile ? 
         this.form.profile = this.resolveProfile({
           profile: res.data.profile,
           api: true,
-        });
+        }) :  {}
+        res.data.schooling ? 
+        this.form.schooling = this.resolveSchooling({
+          schooling: res.data.schooling,
+          api: true,
+        }) : {}
+        
+        
+        this.form.nickname = res.data.nickname;
+        this.form.email = res.data.email;
+        this.form.name = res.data.name;
         this.form.profession = res.data.profession;
         res.data.profession === null
           ? (this.form.employed = 0)
           : (this.form.employed = 1);
-        this.form.schooling = this.resolveSchooling({
-          schooling: res.data.schooling,
-          api: true,
-        });
         this.form.id = res.data.id;
         this.form.institutionName = res.data.institutionName;
         this.schools.push(res.data.institutionName);
@@ -427,20 +432,23 @@ export default {
 
         //populating address fields
         this.form.country = 'Brasil';
-        this.form.address = res.data.address;
-        const resolvedAddress = this.resolveAddress({
-          api: true,
-          address: this.form.address,
-        });
         this.getStates();
-        this.form.state = resolvedAddress.state;
+        
+        if (res.data.address) {
+          this.form.address = res.data.address;
+          const resolvedAddress = this.resolveAddress({
+            api: true,
+            address: this.form.address,
+          });  
+          this.form.state = resolvedAddress.state;
+          //timeout needed for state input validation
+          setTimeout(() => {
+            this.getCities(this.form.state);
+            this.form.city = resolvedAddress.city;
+            this.form.district = resolvedAddress.district;
+          }, 500);
+        }
 
-        //timeout needed for state input validation
-        setTimeout(() => {
-          this.getCities(this.form.state);
-          this.form.city = resolvedAddress.city;
-          this.form.district = resolvedAddress.district;
-        }, 500);
       });
     },
     getStates() {
@@ -454,13 +462,6 @@ export default {
         });
     },
     getCities(stateName) {
-      console.log('RODOU');
-      console.log('Recebeu estado:', stateName);
-      console.log(
-        'Tentou pegar abreviação:',
-        this.stateAbbreviations[stateName],
-      );
-      console.log('Lista de abreviações:', this.stateAbbreviations);
       http
         .getAll(
           `https://servicodados.ibge.gov.br/api/v1/localidades/estados/${this.stateAbbreviations[stateName]}/municipios`,
@@ -583,7 +584,6 @@ export default {
       this.snackbar.show = true;
     },
     resolveDate(date) {
-      console.log('resolveDate()', date);
       return date.split('T')[0];
     },
     resolveGender(gender) {
@@ -736,11 +736,7 @@ export default {
 
 /* buttons style */
 .base {
-  position: absolute;
-  text-align: center;
-  width: 100%;
-  bottom: 15px;
-  padding: 0 24px;
+  padding: 104px 24px;
 }
 .btn-connect {
   width: 111px !important;

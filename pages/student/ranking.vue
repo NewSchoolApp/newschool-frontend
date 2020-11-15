@@ -340,7 +340,7 @@ export default {
       //clear filters
       this.city = '';
       this.state = '';
-      this.schools = '';
+      this.school = '';
 
       //disable every dialog filters
       this.dialogFilters.state = false;
