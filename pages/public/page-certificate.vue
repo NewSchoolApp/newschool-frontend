@@ -64,16 +64,13 @@
           </footer>
         </div>
       </div>
-      <div class="icon" style="background-color: transparent">
-        <v-icon color="purple darken-2" @click="download">
-          mdi-download
-        </v-icon>
-        Baixar
-      </div>
     </v-container>
     <navigation-bar />
   </div>
 </template>
+<router>
+    path: "/pagina-certificado/:idUser/:idCourse/:print"
+</router>
 <script>
 import moment from 'moment';
 import http from '../../services/http/public';
@@ -114,9 +111,9 @@ export default {
       this.loading = false;
       if (this.$route.params.print == 1) {
         setTimeout(() => {
-          this.print();
-          this.$router.back();
-        }, 500);
+          this.download();
+          window.close();
+        }, 650);
       }
     });
   },

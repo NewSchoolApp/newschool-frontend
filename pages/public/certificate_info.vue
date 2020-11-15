@@ -60,7 +60,7 @@
       <div class="box-title">Exportar</div>
       <div class="box-icons">
         <div class="icon" style="background-color: transparent">
-          <v-icon color="purple darken-2" @click="gotoCertificate">
+          <v-icon color="purple darken-2" @click="gotoCertificate(1)">
             mdi-download
           </v-icon>
           Baixar
@@ -121,10 +121,10 @@ export default {
   },
 
   methods: {
-    gotoCertificate() {
+    gotoCertificate(print) {
       window.open(
-        `http://localhost:3000/#/pagina-certificado/${this.params.idUser}/${this.params.idCourse}`,
-        // `${process.env.domain}/${this.params.idUser}/${this.params.idCourse}`,
+        `http://newschool-ui-dev.eba-fdz8zprg.us-east-2.elasticbeanstalk.com/#/pagina-certificado/${this.params.idUser}/${this.params.idCourse}/${print}`,
+        // `${process.env.domain}/${this.params.idUser}/${this.params.idCourse}`, http://newschool-ui-dev.eba-fdz8zprg.us-east-2.elasticbeanstalk.com/
         '_blank',
       );
     },

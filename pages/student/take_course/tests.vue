@@ -188,6 +188,9 @@ export default {
     idUser() {
       return this.$store.state.user.data.id;
     },
+    user() {
+      return this.$store.state.user.data;
+    },
     courseId() {
       return this.$store.state.courses.current.id;
     },
