@@ -250,9 +250,9 @@ h6 {
 @media print {
   @page {
     margin: 0;
+    size: landscape;
   }
   body {
-    margin: 1.6cm;
   }
   .icon {
     display: none;
