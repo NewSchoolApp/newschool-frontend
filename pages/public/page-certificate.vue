@@ -65,7 +65,7 @@
         </div>
       </div>
     </v-container>
-    <navigation-bar />
+    <navigation-bar id="navigator" />
   </div>
 </template>
 <router>
@@ -112,7 +112,11 @@ export default {
       if (this.$route.params.print == 1) {
         setTimeout(() => {
           this.download();
-        }, 700);
+        }, 850);
+      }
+      if (this.$route.params.print == 0) {
+        document.getElementById('head__bar').style.visibility = 'hidden';
+        document.getElementById('navigator').style.display = 'none';
       }
     });
   },
