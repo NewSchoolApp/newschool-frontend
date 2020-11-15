@@ -287,12 +287,12 @@ export default {
   },
   methods: {
     getRanking() {
-      if (this.timeRange === 'MONTH' && this.monthRanking.length) {
-        return (this.ranking = this.monthRanking);
-      }
-      if (this.timeRange === 'YEAR' && this.yearRanking.length) {
-        return (this.ranking = this.yearRanking);
-      }
+      // if (this.timeRange === 'MONTH' && this.monthRanking.length) {
+      //   return (this.ranking = this.monthRanking);
+      // }
+      // if (this.timeRange === 'YEAR' && this.yearRanking.length) {
+      //   return (this.ranking = this.yearRanking);
+      // }
       httpHelper
         .getAll(
           `${process.env.endpoints.RANKING +
@@ -305,12 +305,12 @@ export default {
         )
         .then(ranking => {
           this.ranking = ranking.data.content.reverse(); //<--- The api is returning the list in ascending order;
-          if (this.timeRange === 'MONTH') {
-            this.monthRanking = this.ranking;
-          }
-          if (this.timeRange === 'YEAR') {
-            this.yearRanking = this.ranking;
-          }
+          // if (this.timeRange === 'MONTH') {
+          //   this.monthRanking = this.ranking;
+          // }
+          // if (this.timeRange === 'YEAR') {
+          //   this.yearRanking = this.ranking;
+          // }
         });
       this.pageLoading = false;
     },

@@ -112,8 +112,7 @@ export default {
       if (this.$route.params.print == 1) {
         setTimeout(() => {
           this.download();
-          window.close();
-        }, 650);
+        }, 700);
       }
     });
   },

@@ -33,39 +33,19 @@
     </div>
 
     <div class="info-box">
-      <div class="box-title">Compartilhar</div>
-      <social-sharing
-        :url="urlCertificate"
-        :title="'Certificado de conclusão de curso New School'"
-        :description="certificate.course.title"
-        :hashtags="'MissaoNewSchoolApp'"
-        :twitter-user="'NewSchoolApp'"
-        inline-template
+      <button
+        @click="share($event, title, image)"
+        class="btn-block btn-white box-container"
       >
-        <div class="box-icons">
-          <network class="icon" network="facebook">
-            <img src="~/assets/face-notify.svg" alt />
-          </network>
-          <network class="icon" network="twitter">
-            <img src="~/assets/twitter-notify.svg" alt />
-          </network>
-          <network class="icon" network="linkedin">
-            <img src="~/assets/linkedin-notify.svg" alt />
-          </network>
-        </div>
-      </social-sharing>
-    </div>
-
-    <div class="info-box">
-      <div class="box-title">Exportar</div>
-      <div class="box-icons">
-        <div class="icon" style="background-color: transparent">
-          <v-icon color="purple darken-2" @click="gotoCertificate(1)">
-            mdi-download
-          </v-icon>
-          Baixar
-        </div>
-      </div>
+        Compartilhar
+      </button>
+      <span></span>
+      <button
+        @click="goToCertificate(1)"
+        class="btn-block btn-white box-container"
+      >
+        Exportar
+      </button>
     </div>
     <navigation-bar />
   </v-container>
@@ -114,6 +94,7 @@ export default {
     },
   },
   mounted() {
+    console.log(window);
     http.pageCertificate(this.params.idUser, this.params.idCourse).then(res => {
       this.certificate = res.data;
       this.loading = false;
@@ -121,15 +102,40 @@ export default {
   },
 
   methods: {
-    gotoCertificate(print) {
-      window.open(
-        `http://newschool-ui-dev.eba-fdz8zprg.us-east-2.elasticbeanstalk.com/#/pagina-certificado/${this.params.idUser}/${this.params.idCourse}/${print}`,
-        // `${process.env.domain}/${this.params.idUser}/${this.params.idCourse}`, http://newschool-ui-dev.eba-fdz8zprg.us-east-2.elasticbeanstalk.com/
-        '_blank',
-      );
+    goToCertificate(print) {
+      window.location = `http://newschool-ui-dev.eba-fdz8zprg.us-east-2.elasticbeanstalk.com/#/pagina-certificado/${this.params.idUser}/${this.params.idCourse}/${print}`;
+      //   encodeURI(
+      //     // `http://newschool-ui-dev.eba-fdz8zprg.us-east-2.elasticbeanstalk.com/#/pagina-certificado/${this.params.idUser}/${this.params.idCourse}/${print}/undefined`,
     },
     imageLoadError() {
       this.showThumb = false;
+    },
+    onSuccess(result) {
+      console.log('Share completed? ' + result.completed);
+      console.log(result); // On Android apps mostly return false even while it's true
+      console.log('Shared to app: ' + result.app); // On Android result.app since plugin version 5.4.0 this is no longer empty. On iOS it's empty when sharing is cancelled (result.completed=false)
+      console.log(result); // On Android apps mostly return false even while it's true
+    },
+    onError(msg) {
+      console.log('Sharing failed with message: ' + msg);
+    },
+    share(event, title, image) {
+      event.stopPropagation();
+      event.preventDefault();
+      const options = {
+        message: 'Se liga no certificado que eu ganhei, SELOKO!', // not supported on some apps (Facebook, Instagram)
+        subject: this.tryMessage, // fi. for email
+        // files: [
+        //   'https://newschool-dev.s3.us-east-2.amazonaws.com/17954a42-8132-481e-bc38-508aefe7a996/profile.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAV56KXRILVMG6BB2Q%2F20201115%2Fus-east-2%2Fs3%2Faws4_request&X-Amz-Date=20201115T042331Z&X-Amz-Expires=900&X-Amz-Signature=b7e68e7db1194b74e266f211d56adab75d35f75dd3eceb4982b0c6aad8bb5c60&X-Amz-SignedHeaders=host',
+        // ],
+        url: `http://newschool-ui-dev.eba-fdz8zprg.us-east-2.elasticbeanstalk.com/#/pagina-certificado/${this.params.idUser}/${this.params.idCourse}`,
+        chooserTitle: 'Vem colar com nois!', // Android only, you can override the default share sheet title
+      };
+      window.plugins.socialsharing.shareWithOptions(
+        options,
+        this.onSuccess,
+        this.onError,
+      );
     },
   },
 };
@@ -175,6 +181,9 @@ p {
   background-color: var(--primary);
   box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.5);
 }
+span {
+  width: 10px;
+}
 
 .background-img {
   position: absolute;
@@ -189,6 +198,16 @@ p {
   position: absolute;
   width: 18%;
   height: auto;
+}
+
+.info-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 87%;
+}
+.box-container {
+  width: 180px;
 }
 
 .box-title {
