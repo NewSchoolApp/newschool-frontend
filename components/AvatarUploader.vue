@@ -108,12 +108,19 @@ export default {
         if (!imageFile.type.match('image.*')) {
           // check whether the upload is an image
           this.errorDialog = true;
-          this.errorText = 'Please choose an image file';
+          this.errorText = 'Selecione uma imagem';
+          setTimeout(() => {
+            this.errorDialog = false;
+            this.loading = false;
+          }, 1000);
         } else if (size > 1) {
           // check whether the size is greater than the size limit
           this.errorDialog = true;
-          this.errorText =
-            'Your file is too big! Please select an image under 1MB';
+          this.errorText = 'Escolha uma imagem menor que 1MB';
+          setTimeout(() => {
+            this.errorDialog = false;
+            this.loading = false;
+          }, 1000);
         } else {
           // para exibir web
           const imageURL = URL.createObjectURL(imageFile);

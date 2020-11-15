@@ -16,7 +16,7 @@
           <v-list-item class="item-list" @click="openFilterDialog('city')"
             >Filtrar por cidade</v-list-item
           >
-          <v-list-item class="item-list" @click="openFilterDialog('school');"
+          <v-list-item class="item-list" @click="openFilterDialog('school')"
             >Filtrar por escola</v-list-item
           >
           <v-list-item class="item-list" @click="openFilterDialog('state')"
@@ -34,7 +34,7 @@
                 :items="states"
                 label="Estado"
                 @change="getCities($event)"
-                v-model="state"                
+                v-model="state"
               ></v-autocomplete>
               <v-autocomplete
                 v-if="dialogFilters.city"
@@ -54,7 +54,10 @@
               ></v-autocomplete>
               <v-card>
                 <v-btn
-                  @click="getRanking(); filter = false"
+                  @click="
+                    getRanking();
+                    filter = false;
+                  "
                   class=" btn-block btn-search"
                   depressed
                   large
@@ -68,10 +71,20 @@
     </div>
     <!-- Tabs mensal anual -->
     <v-tabs fixed-tabs height="35px">
-      <v-tab @click="timeRange = 'MONTH'; getRanking()">
+      <v-tab
+        @click="
+          timeRange = 'MONTH';
+          getRanking();
+        "
+      >
         Mensal
       </v-tab>
-      <v-tab @click="timeRange = 'YEAR'; getRanking()">
+      <v-tab
+        @click="
+          timeRange = 'YEAR';
+          getRanking();
+        "
+      >
         Anual
       </v-tab>
     </v-tabs>
@@ -112,16 +125,24 @@
         <v-col>
           <!-- pondium -->
           <v-row class="podium">
-              <v-col :id="'pod' + index" v-for="(pod, index) in podium" :key="pod" class="flex pod">                
-                  <img class="medal-icon" :src="require(`~/assets/medal` + index + `.png`)" alt="medalha" />
-                  <v-avatar size="60">
-                    <img v-if="pod.photo" :src="pod.photo" />
-                    <img v-else :src="require(`~/assets/person.svg`)" />
-                  </v-avatar>
-                  <p>{{ pod.points }} PTS</p>
-                  <h1>{{ pod.userName.split(' ')[0] }}</h1>
-                          
-              </v-col>  
+            <v-col
+              :id="'pod' + index"
+              v-for="(pod, index) in podium"
+              :key="pod"
+              class="flex pod"
+            >
+              <img
+                class="medal-icon"
+                :src="require(`~/assets/medal` + index + `.png`)"
+                alt="medalha"
+              />
+              <v-avatar size="60">
+                <img v-if="pod.photo" :src="pod.photo" />
+                <img v-else :src="require(`~/assets/person.svg`)" />
+              </v-avatar>
+              <p>{{ pod.points }} PTS</p>
+              <h1>{{ pod.userName.split(' ')[0] }}</h1>
+            </v-col>
           </v-row>
           <!-- general ranking -->
           <v-row>
@@ -196,7 +217,7 @@ export default {
       state: '',
       timeRange: '',
       loading: false,
-      pageLoading: true,   
+      pageLoading: true,
       isLoadingSchool: false,
       filter: false,
       usersByMonth: [],
@@ -212,6 +233,8 @@ export default {
       schools: [],
       dialog: false,
       ranking: [],
+      yearRanking: [],
+      monthRanking: [],
       dialogFilters: {
         state: false,
         city: false,
@@ -224,21 +247,21 @@ export default {
     idUser() {
       return this.$store.state.user.data.id;
     },
-    podium() {      
-      if(this.ranking.slice(0, 3).length == 3){
-        return this.ranking.slice(0, 3);        
-      }
-      else {        
-        for(var i = 0; this.ranking.length < 4; i++) {          
+    podium() {
+      if (this.ranking.slice(0, 3).length == 3) {
+        return this.ranking.slice(0, 3);
+      } else {
+        for (var i = 0; this.ranking.length < 4; i++) {
           this.ranking.push(
-            i= {
+            (i = {
               photo: '',
               points: '0',
               rank: '0',
               userId: '',
-              userName: '---'
-            })
-        }        
+              userName: '---',
+            }),
+          );
+        }
         return this.ranking.slice(0, 3);
       }
     },
@@ -247,36 +270,48 @@ export default {
     },
     selfRank() {
       const selfRank = this.ranking.find(user => user.userId == this.idUser);
-      if(selfRank){
+      if (selfRank) {
         return selfRank;
-      }
-      else {
+      } else {
         return {
           rank: '',
           photo: '',
           points: '',
-        }
-      }    
-    }
+        };
+      }
+    },
   },
   mounted() {
     this.getStates();
     this.getRanking();
   },
   methods: {
-    getRanking() {      
+    getRanking() {
+      if (this.timeRange === 'MONTH' && this.monthRanking.length) {
+        return (this.ranking = this.monthRanking);
+      }
+      if (this.timeRange === 'YEAR' && this.yearRanking.length) {
+        return (this.ranking = this.yearRanking);
+      }
       httpHelper
-      .getAll(`${
-        process.env.endpoints.RANKING + '?' +
-        //concat every active filter for the request
-        (this.city ? '&city=' + this.city : '') +
-        (this.state ? '&state=' + this.state : '') +
-        (this.school ? '&institutionName=' + this.school : '') +
-        (this.timeRange ? '&timeRange=' + this.timeRange : '')
-      }`)
-      .then(ranking => {
-        this.ranking = ranking.data.content.reverse() //<--- The api is returning the list in ascending order;
-      });
+        .getAll(
+          `${process.env.endpoints.RANKING +
+            '?' +
+            //concat every active filter for the request
+            (this.city ? '&city=' + this.city : '') +
+            (this.state ? '&state=' + this.state : '') +
+            (this.school ? '&institutionName=' + this.school : '') +
+            (this.timeRange ? '&timeRange=' + this.timeRange : '')}`,
+        )
+        .then(ranking => {
+          this.ranking = ranking.data.content.reverse(); //<--- The api is returning the list in ascending order;
+          if (this.timeRange === 'MONTH') {
+            this.monthRanking = this.ranking;
+          }
+          if (this.timeRange === 'YEAR') {
+            this.yearRanking = this.ranking;
+          }
+        });
       this.pageLoading = false;
     },
     getCities(stateName) {
@@ -301,7 +336,7 @@ export default {
           });
         });
     },
-    clearFilters(){
+    clearFilters() {
       //clear filters
       this.city = '';
       this.state = '';
@@ -319,7 +354,7 @@ export default {
       this.dialogFilters[filterName] = true;
       this.filter = true;
       this.dialog = false;
-    },    
+    },
     loadClientCredentials() {
       return utils.getExternalCredentials();
     },
