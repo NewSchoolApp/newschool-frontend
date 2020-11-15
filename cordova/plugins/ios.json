@@ -21,6 +21,9 @@
     "com.santinowu.cordova.imagedownloader": {
       "PHOTOLIBRARY_USAGE_DESCRIPTION": "Requires permission for saving image into Photos",
       "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
+    },
+    "com.darktalker.cordova.screenshot": {
+      "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
     }
   },
   "dependent_plugins": {

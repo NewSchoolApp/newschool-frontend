@@ -41,6 +41,7 @@
     "@nuxtjs/router-extras": "^1.0.0",
     "@nuxtjs/vuetify": "^1.0.0",
     "chart.js": "^2.9.3",
+    "com.darktalker.cordova.screenshot": "^0.1.6",
     "cordova-plugin-facebook4": "^6.2.0",
     "cordova-plugin-file-downloader": "^0.4.0",
     "cordova-plugin-printer": "^0.8.0",

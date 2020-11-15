@@ -28,6 +28,9 @@
     },
     "com.santinowu.cordova.imagedownloader": {
       "PACKAGE_NAME": "com.newschool.app"
+    },
+    "com.darktalker.cordova.screenshot": {
+      "PACKAGE_NAME": "com.newschool.app"
     }
   },
   "dependent_plugins": {

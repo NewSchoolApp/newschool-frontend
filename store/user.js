@@ -49,6 +49,7 @@ const actions = {
           id: res.data.id || '',
           role: res.data.role.name || '',
           photo: res.data.photo || '',
+          inviteKey: res.data.inviteKey || '',
         });
         dispatch('initSessionUser');
 

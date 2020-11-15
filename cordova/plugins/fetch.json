@@ -89,5 +89,13 @@
     },
     "is_top_level": true,
     "variables": {}
+  },
+  "com.darktalker.cordova.screenshot": {
+    "source": {
+      "type": "registry",
+      "id": "https://github.com/gitawego/cordova-screenshot.git"
+    },
+    "is_top_level": true,
+    "variables": {}
   }
 }
