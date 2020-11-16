@@ -54,6 +54,7 @@
 <script>
 import SocialSharing from 'vue-social-sharing';
 import http from '../../services/http/public';
+import httpHelper from '~/services/http/generic';
 import CertificateCard from '~/components/CertificateCard';
 import NavigationBar from '~/components/NavigationBar.vue';
 
@@ -92,6 +93,9 @@ export default {
     params() {
       return this.$route.params;
     },
+    idUser() {
+      return this.$store.state.user.data.id;
+    },
   },
   mounted() {
     console.log(window);
@@ -114,7 +118,27 @@ export default {
       console.log('Share completed? ' + result.completed);
       console.log(result); // On Android apps mostly return false even while it's true
       console.log('Shared to app: ' + result.app); // On Android result.app since plugin version 5.4.0 this is no longer empty. On iOS it's empty when sharing is cancelled (result.completed=false)
-      console.log(result); // On Android apps mostly return false even while it's true
+      httpHelper
+        .post(process.env.endpoints.EVENT, {
+          event: 'SHARE_COURSE',
+          rule: {
+            courseId: this.params.idCourse,
+            userId: this.idUser,
+            platform: result.app,
+          },
+        })
+        .then(res => {
+          this.$notifier.showMessage({
+            type: 'success',
+            message: 'Aee, deu bom!',
+          });
+          $nuxt._router.push('/aluno/home');
+        })
+        .catch(() =>
+          this.$notifier.showMessage({
+            type: 'error',
+          }),
+        );
     },
     onError(msg) {
       console.log('Sharing failed with message: ' + msg);
