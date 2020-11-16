@@ -45,7 +45,6 @@
               <v-text-field
                 filled
                 readonly
-                :rules="requiredRules"
                 :value="formatedDate"
                 @click="datePick = true"
               ></v-text-field>
@@ -55,7 +54,6 @@
               <v-text-field
                 v-model="form.nickname"
                 filled
-                :rules="requiredRules"
               ></v-text-field>
             </v-col>
             <v-col class="px-0 pb-5">
@@ -96,12 +94,15 @@
                 v-model="form.gender"
                 filled
                 :items="genderItems"
-                :rules="requiredRules"
               />
             </v-col>
             <v-col class="px-0 pb-5">
               <div class="input-label">Perfil</div>
-              <v-select v-model="form.profile" filled :items="profileItems" />
+              <v-select 
+                v-model="form.profile" 
+                filled 
+                :items="profileItems" 
+              />
             </v-col>
           </v-col>
         </v-tab-item>
@@ -123,16 +124,24 @@
                 :items="states"
                 v-model="form.state"
                 filled
-                @change="getCities(form.state)"
+                @change="getCities(form.state), form.city = ''"
               />
             </v-col>
             <v-col class="px-0 pb-5">
               <div class="input-label">Cidade</div>
-              <v-autocomplete :items="cities" v-model="form.city" filled />
+              <v-autocomplete
+              required
+              :items="cities"
+              v-model="form.city"
+              filled
+            />
             </v-col>
             <v-col class="px-0 pb-5">
               <div class="input-label">Bairro</div>
-              <v-text-field v-model="form.district" filled />
+              <v-text-field
+              v-model="form.district" 
+              filled
+            />
             </v-col>
           </v-col>
         </v-tab-item>
@@ -143,17 +152,16 @@
             <v-col class="px-0 pb-5">
               <div class="input-label">Empregado</div>
               <v-radio-group v-model="form.employed" row>
-                <v-radio label="Sim" :value="1"></v-radio>
-                <v-radio label="Não" :value="0"></v-radio>
+                <v-radio label="Sim" :value="true"></v-radio>
+                <v-radio label="Não" :value="false"></v-radio>
               </v-radio-group>
             </v-col>
 
-            <v-col v-if="form.employed == 1" class="px-0 pb-5">
+            <v-col v-if="form.employed" class="px-0 pb-5">
               <div class="input-label">Profissão</div>
               <v-text-field
                 v-model="form.profession"
                 filled
-                :rules="requiredRules"
               ></v-text-field>
             </v-col>
 
@@ -163,7 +171,6 @@
                 v-model="form.schooling"
                 filled
                 :items="schoolingItems"
-                :rules="requiredRules"
               />
             </v-col>
             <v-col class="px-0 pb-5">
@@ -307,7 +314,7 @@ export default {
         urlFacebook: '',
         urlInstagram: '',
         // variáveis ainda não utilizadas no back
-        employed: 0,
+        employed: false,
         country: '',
         district: '',
         socialLinks: {
@@ -358,11 +365,9 @@ export default {
         'Investidor',
         'Outros',
       ],
-      requiredRules: [v => !!v || 'O campo não pode estar em branco'],
-      passwordRules: [
-        v => !!v || 'Digite a senha',
-        v => (v && v.length >= 6) || 'A senha deve ter no mínimo 6 caractéres',
-      ],
+      requiredRules: [
+        v => !!v || 'O campo não pode estar em branco',
+      ],      
       emailRules: [
         v => !!v || 'Digite o e-mail',
         v => /.+@.+\..+/.test(v) || 'E-mail inválido',
@@ -389,13 +394,12 @@ export default {
         .split('-')
         .reverse()
         .join('/');
-    },
+    },    
   },
   mounted() {
     if (this.$route.params.tab) {
       this.tab = parseInt(this.$route.params.tab);
     }
-
     this.populateProfile();
   },
   methods: {
@@ -415,15 +419,13 @@ export default {
           schooling: res.data.schooling,
           api: true,
         }) : {}
-        
-        
         this.form.nickname = res.data.nickname;
         this.form.email = res.data.email;
         this.form.name = res.data.name;
         this.form.profession = res.data.profession;
         res.data.profession === null
-          ? (this.form.employed = 0)
-          : (this.form.employed = 1);
+          ? (this.form.employed = false)
+          : (this.form.employed = true);
         this.form.id = res.data.id;
         this.form.institutionName = res.data.institutionName;
         this.schools.push(res.data.institutionName);
@@ -433,7 +435,6 @@ export default {
         //populating address fields
         this.form.country = 'Brasil';
         this.getStates();
-        
         if (res.data.address) {
           this.form.address = res.data.address;
           const resolvedAddress = this.resolveAddress({
@@ -443,10 +444,13 @@ export default {
           this.form.state = resolvedAddress.state;
           //timeout needed for state input validation
           setTimeout(() => {
-            this.getCities(this.form.state);
-            this.form.city = resolvedAddress.city;
-            this.form.district = resolvedAddress.district;
-          }, 500);
+            this.getCities(this.form.state)
+            //timeout needed for city itens to be populated
+            setTimeout(() => {
+              this.cities.includes(resolvedAddress.city) ? this.form.city = resolvedAddress.city : this.form.city = '';
+              this.form.district = resolvedAddress.district;
+            },500);
+          }, 1000);
         }
 
       });
@@ -461,7 +465,7 @@ export default {
           });
         });
     },
-    getCities(stateName) {
+    async getCities(stateName) {
       http
         .getAll(
           `https://servicodados.ibge.gov.br/api/v1/localidades/estados/${this.stateAbbreviations[stateName]}/municipios`,
@@ -525,54 +529,54 @@ export default {
         this.tab--;
       }
     },
-    submit() {
+    submit() {     
       if (this.$refs.form.validate()) {
-        this.loading = true;
-        // post resolving
-        const postBody = { ...this.form };
-        const date = this.formatedDate.split('/');
-        postBody.birthday = new Date(date[2], date[1], date[0]).toISOString();
-        postBody.profile = this.resolveProfile({
-          profile: postBody.profile,
-          api: false,
-        });
-        postBody.gender = this.resolveGender(postBody.gender);
-        postBody.schooling = this.resolveSchooling({
-          schooling: postBody.schooling,
-          api: false,
-        });
-        if (postBody.employed == 0) {
-          postBody.profession = null;
-        }
+      this.loading = true;
+      // post resolving
+      const postBody = { ...this.form };
+      const date = this.formatedDate.split('/');
+      postBody.birthday = new Date(`${date[2]}-${date[1]}-${date[0]}T03:00`).toISOString();
+      postBody.profile = this.resolveProfile({
+        profile: postBody.profile,
+        api: false,
+      });
+      postBody.gender = this.resolveGender(postBody.gender);
+      postBody.schooling = this.resolveSchooling({
+        schooling: postBody.schooling,
+        api: false,
+      });
+      if (!postBody.employed) {
+        postBody.profession = null;
+      }
 
-        //resolving address
-        postBody.address = this.resolveAddress({
-          api: false,
-          country: postBody.country,
-          state: postBody.state,
-          city: postBody.city,
-          district: postBody.district,
-        });
+      //resolving address
+      postBody.address = this.resolveAddress({
+        api: false,
+        country: postBody.country,
+        state: postBody.state,
+        city: postBody.city,
+        district: postBody.district,
+      });
 
-        // deleting some not implemented variables
-        delete postBody.employed;
-        delete postBody.district;
-        delete postBody.socialLinks;
+      // deleting some not implemented variables
+      delete postBody.employed;
+      delete postBody.district;
+      delete postBody.socialLinks;
 
-        http
-          .put(`/api/v1/user`, this.idUser, postBody)
-          .then(res => {
-            this.$notifier.showMessage({
-              type: 'success',
-              message: 'Aee, deu bom!',
-            });
-            $nuxt._router.push('/aluno/perfil');
-          })
-          .catch(() =>
-            this.$notifier.showMessage({
-              type: 'error',
-            }),
-          );
+      http
+        .put(`/api/v1/user`, this.idUser, postBody)
+        .then(res => {
+          this.$notifier.showMessage({
+            type: 'success',
+            message: 'Aee, deu bom!',
+          });
+          $nuxt._router.push('/aluno/perfil');
+        })
+        .catch(() =>
+          this.$notifier.showMessage({
+            type: 'error',
+          }),
+        );
       } else {
         // mostrar snackbar de confirmação
         this.showSnackbar('Algo deu Errado!', 'red');
