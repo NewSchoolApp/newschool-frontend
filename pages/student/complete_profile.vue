@@ -408,20 +408,24 @@ export default {
   methods: {
     populateProfile() {
       http.getAll(`/api/v1/user/${this.idUser}`).then(res => {
-        res.data.birthday ? 
-        this.form.birthday = this.resolveDate(res.data.birthday) : {}
-        res.data.gender ? 
-        this.form.gender = this.resolveGender(res.data.gender) : {}
-        res.data.profile ? 
-        this.form.profile = this.resolveProfile({
-          profile: res.data.profile,
-          api: true,
-        }) :  {}
-        res.data.schooling ? 
-        this.form.schooling = this.resolveSchooling({
-          schooling: res.data.schooling,
-          api: true,
-        }) : {}
+        res.data.birthday
+          ? (this.form.birthday = this.resolveDate(res.data.birthday))
+          : {};
+        res.data.gender
+          ? (this.form.gender = this.resolveGender(res.data.gender))
+          : {};
+        res.data.profile
+          ? (this.form.profile = this.resolveProfile({
+              profile: res.data.profile,
+              api: true,
+            }))
+          : {};
+        res.data.schooling
+          ? (this.form.schooling = this.resolveSchooling({
+              schooling: res.data.schooling,
+              api: true,
+            }))
+          : {};
         this.form.nickname = res.data.nickname;
         this.form.email = res.data.email;
         this.form.name = res.data.name;
@@ -443,7 +447,7 @@ export default {
           const resolvedAddress = this.resolveAddress({
             api: true,
             address: this.form.address,
-          });  
+          });
           this.form.state = resolvedAddress.state;
           //timeout needed for state input validation
           setTimeout(() => {
@@ -455,7 +459,6 @@ export default {
             },500);
           }, 1000);
         }
-
       });
     },
     getStates() {
@@ -662,6 +665,9 @@ export default {
 * {
   font-family: Roboto;
   letter-spacing: 0em;
+}
+body {
+  position: relative;
 }
 #main-col {
   padding-top: 16px;

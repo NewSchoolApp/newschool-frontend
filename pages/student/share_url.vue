@@ -39,10 +39,14 @@
 </router>
 
 <script>
+import http from '~/services/http/generic';
 export default {
   computed: {
     user() {
       return this.$store.state.user.data;
+    },
+    idUser() {
+      return this.$store.state.user.data.id;
     },
   },
   mounted() {
@@ -53,7 +57,26 @@ export default {
       console.log('Share completed? ' + result.completed);
       console.log(result); // On Android apps mostly return false even while it's true
       console.log('Shared to app: ' + result.app); // On Android result.app since plugin version 5.4.0 this is no longer empty. On iOS it's empty when sharing is cancelled (result.completed=false)
-      console.log(result); // On Android apps mostly return false even while it's true
+      http
+        .post(process.env.endpoints.EVENT, {
+          event: 'SHARE_APP',
+          rule: {
+            userId: this.idUser,
+            platform: result.app,
+          },
+        })
+        .then(res => {
+          this.$notifier.showMessage({
+            type: 'success',
+            message: 'Aee, deu bom!',
+          });
+          $nuxt._router.push('/aluno/home');
+        })
+        .catch(() =>
+          this.$notifier.showMessage({
+            type: 'error',
+          }),
+        );
     },
     onError(msg) {
       console.log('Sharing failed with message: ' + msg);
