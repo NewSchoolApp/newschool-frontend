@@ -173,7 +173,7 @@ h1 {
   line-height: 12px;
   letter-spacing: 0em;
   text-align: left;
-  min-width: 185px;
+  min-width: 238px;
   color: rgb(26, 26, 26);
   max-width: 70%;
 }
