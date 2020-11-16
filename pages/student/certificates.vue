@@ -16,6 +16,7 @@
       title="Vixe :/"
       message="Você ainda não tem nenhum certificado. :("
     />
+    <navigation-bar />
   </div>
 </template>
 

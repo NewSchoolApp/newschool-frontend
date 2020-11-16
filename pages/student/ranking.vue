@@ -372,8 +372,8 @@ export default {
         this.schools = [];
         return;
       }
-      if (this.isLoading) return;
-      this.isLoading = true;
+      if (this.isLoadingSchool) return;
+      this.isLoadingSchool = true;
       this.loadClientCredentials().then(res => {
         const token = res.data.accessToken;
         const response = httpHelper
@@ -385,15 +385,15 @@ export default {
           )
           .then(res => {
             if (!res.data.length) {
-              this.isLoading = false;
+              this.isLoadingSchool = false;
               this.schools.unshift(school.toUpperCase());
             }
             res.data.forEach(school => this.schools.push(school.nome));
-            this.isLoading = false;
+            this.isLoadingSchool = false;
           })
           .catch(err => {
             console.log(err);
-            this.isLoading = false;
+            this.isLoadingSchool = false;
           });
       });
     },
