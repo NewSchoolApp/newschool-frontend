@@ -31,7 +31,6 @@
         />
       </div>
     </div>
-    <navigation-bar />
   </div>
 </template>
 

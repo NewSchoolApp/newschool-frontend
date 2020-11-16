@@ -10,44 +10,46 @@
     </div>
   </div>
   <v-container v-else>
-    <p class="certificate-title">{{ certificate.course.title }}</p>
-    <p>{{ certificate.course.authorName }}</p>
+    <v-col class="align-center">
+      <p class="certificate-title">{{ certificate.course.title }}</p>
+      <p>{{ certificate.course.authorName }}</p>
 
-    <div class="thumb">
-      <div class="content-image" @click="goToCertificate(3)">
-        <button>
+      <div class="thumb">
+        <div class="content-image" @click="goToCertificate(3)">
+          <button>
+            <img
+              v-if="showThumb"
+              class="background-img"
+              :src="certificate.course.thumbUrl"
+              alt="Imagem do curso"
+              @error="imageLoadError"
+            />
+          </button>
           <img
-            v-if="showThumb"
-            class="background-img"
-            :src="certificate.course.thumbUrl"
-            alt="Imagem do curso"
-            @error="imageLoadError"
+            class="medal"
+            src="~/assets/medalha-imagem.svg"
+            alt="Imagem de uma medalha"
           />
-        </button>
-        <img
-          class="medal"
-          src="~/assets/medalha-imagem.svg"
-          alt="Imagem de uma medalha"
-        />
+        </div>
       </div>
-    </div>
 
-    <div class="info-box">
-      <button
-        @click="share($event, title, image)"
-        class="btn-block btn-white box-container"
-      >
-        Compartilhar
-      </button>
-      <span></span>
-      <button
-        @click="goToCertificate(1)"
-        class="btn-block btn-white box-container"
-      >
-        Exportar
-      </button>
-    </div>
-    <navigation-bar />
+      <div class="info-box">
+        <button
+          @click="share($event, title, image)"
+          class="btn-block btn-white box-container"
+        >
+          Compartilhar
+        </button>
+        <span></span>
+        <button
+          @click="goToCertificate(1)"
+          class="btn-block btn-white box-container"
+        >
+          Exportar
+        </button>
+      </div>
+      <navigation-bar />
+    </v-col>
   </v-container>
 </template>
 
@@ -107,10 +109,7 @@ export default {
 
   methods: {
     goToCertificate(print) {
-      // window.location = `http://newschool-ui-dev.eba-fdz8zprg.us-east-2.elasticbeanstalk.com/#/pagina-certificado/${this.params.idUser}/${this.params.idCourse}/${print}`;
       window.location = `http://newschool-ui-dev.eba-fdz8zprg.us-east-2.elasticbeanstalk.com/#/pagina-certificado/${this.params.idUser}/${this.params.idCourse}/${print}`;
-      //   encodeURI(
-      //     // `http://newschool-ui-dev.eba-fdz8zprg.us-east-2.elasticbeanstalk.com/#/pagina-certificado/${this.params.idUser}/${this.params.idCourse}/${print}/undefined`,
     },
     imageLoadError() {
       this.showThumb = false;
@@ -192,6 +191,7 @@ p {
 .thumb {
   display: flex;
   flex-direction: column;
+
   padding-bottom: 30px;
 }
 
@@ -229,7 +229,7 @@ span {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 87%;
+  width: 300px;
 }
 .box-container {
   width: 180px;
@@ -262,5 +262,17 @@ span {
   line-height: 10px;
   align-items: center;
   justify-content: center;
+}
+
+@media (min-width: 600px) {
+  .thumb {
+    align-items: center;
+  }
+  .info-box {
+    margin: 0 auto;
+  }
+  .align-center {
+    text-align: center;
+  }
 }
 </style>

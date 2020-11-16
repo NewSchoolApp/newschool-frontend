@@ -95,6 +95,9 @@ p ::v-deep .subtext p {
   width: 80%;
   text-align: center;
 }
+#header_bar {
+  z-index: 9999;
+}
 
 @media (max-width: 80px) {
   /* .top {
