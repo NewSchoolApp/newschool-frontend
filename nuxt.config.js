@@ -188,7 +188,7 @@ export default {
       EVENT: '/api/v1/gamefication/start-event',
       NOTIFICATIONS: 'api/v1/notification',
       USER_ME: 'api/v1/user/me',
-      SCHOOL: '/api/v1/school',
+      SCHOOL: 'api/v1/school',
       CITY: 'api/v1/city',
       STATE: 'api/v1/state',
       LOGIN: 'oauth/token',
