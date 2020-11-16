@@ -168,6 +168,7 @@ h3 {
   position: fixed;
   height: 100%;
   width: 100%;
+  margin: 0 auto;
 }
 
 .card-box {
@@ -247,13 +248,66 @@ h6 {
   font-size: 12px !important;
   margin-top: 2%;
 }
+
+@media (min-width: 700px) {
+  .icon {
+    display: none;
+  }
+  .certificate__title {
+    margin-top: 3%;
+  }
+  .certificate__title .new_school__bold {
+    font-size: 75px;
+  }
+  .main,
+  .medium__text {
+    font-size: 25px;
+  }
+
+  .main .middle__text {
+    font-size: 20px;
+  }
+  .user {
+    font-size: 25px;
+  }
+  .assignature {
+    justify-content: flex-start;
+  }
+  .asn_img {
+    width: 150px;
+    height: 250px;
+    margin-left: 20px;
+    margin-bottom: -110px;
+  }
+
+  .new__logo {
+    width: 200px;
+    height: 200px;
+    display: block;
+    position: absolute;
+    right: 35px;
+    bottom: 0;
+  }
+  ::v-deep .v-item-group.v-bottom-navigation--fixed,
+  #head__bar {
+    display: none;
+  }
+  .assignature .professor,
+  .assignature .director {
+    width: 30%;
+  }
+
+  .background {
+    border: 20px solid #6600cc;
+  }
+}
+
 @media print {
   @page {
     margin: 0;
     size: landscape;
   }
-  body {
-  }
+
   .icon {
     display: none;
   }

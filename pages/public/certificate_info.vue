@@ -14,7 +14,7 @@
     <p>{{ certificate.course.authorName }}</p>
 
     <div class="thumb">
-      <div class="content-image" @click="gotoCertificate()">
+      <div class="content-image" @click="goToCertificate(3)">
         <button>
           <img
             v-if="showThumb"
@@ -107,6 +107,7 @@ export default {
 
   methods: {
     goToCertificate(print) {
+      // window.location = `http://newschool-ui-dev.eba-fdz8zprg.us-east-2.elasticbeanstalk.com/#/pagina-certificado/${this.params.idUser}/${this.params.idCourse}/${print}`;
       window.location = `http://newschool-ui-dev.eba-fdz8zprg.us-east-2.elasticbeanstalk.com/#/pagina-certificado/${this.params.idUser}/${this.params.idCourse}/${print}`;
       //   encodeURI(
       //     // `http://newschool-ui-dev.eba-fdz8zprg.us-east-2.elasticbeanstalk.com/#/pagina-certificado/${this.params.idUser}/${this.params.idCourse}/${print}/undefined`,
