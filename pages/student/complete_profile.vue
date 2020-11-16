@@ -740,7 +740,7 @@ export default {
 
 /* buttons style */
 .base {
-  padding: 104px 24px;
+  padding: 5px 24px;
 }
 .btn-connect {
   width: 111px !important;
