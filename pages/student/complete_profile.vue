@@ -260,7 +260,10 @@
 
       <!-- footer -->
       <v-row class="base">
-        <v-btn class="btn-block btn-new-primary btn-shadow" @click="submit">
+        <v-btn class="btn-block btn-new-primary btn-shadow"
+        @click="submit"
+        :loading="loading"
+        >
           Confirmar Alterações
         </v-btn>
       </v-row>
