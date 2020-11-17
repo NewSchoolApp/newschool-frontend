@@ -7,6 +7,9 @@
     "files": {}
   },
   "installed_plugins": {
+    "com.santinowu.cordova.imagedownloader": {
+      "PACKAGE_NAME": "com.newschool.app"
+    },
     "cordova-plugin-facebook4": {
       "APP_ID": "384298599359690",
       "APP_NAME": "NewSchool",
@@ -17,10 +20,16 @@
     "cordova-plugin-inappbrowser": {
       "PACKAGE_NAME": "com.newschool.app"
     },
+    "cordova-plugin-printer": {
+      "PACKAGE_NAME": "com.newschool.app"
+    },
     "cordova-plugin-whitelist": {
       "PACKAGE_NAME": "com.newschool.app"
     },
     "cordova-plugin-x-socialsharing": {
+      "PACKAGE_NAME": "com.newschool.app"
+    },
+    "com.darktalker.cordova.screenshot": {
       "PACKAGE_NAME": "com.newschool.app"
     }
   },

@@ -10,70 +10,53 @@
     </div>
   </div>
   <v-container v-else>
-    <p class="certificate-title">{{ certificate.course.title }}</p>
-    <p>{{ certificate.course.authorName }}</p>
+    <v-col class="align-center">
+      <p class="certificate-title">{{ certificate.course.title }}</p>
+      <p>{{ certificate.course.authorName }}</p>
 
-    <div class="thumb">
-      <div class="content-image" @click="gotoCertificate()">
-        <button>
+      <div class="thumb">
+        <div class="content-image" @click="goToCertificate(3)">
+          <button>
+            <img
+              v-if="showThumb"
+              class="background-img"
+              :src="certificate.course.thumbUrl"
+              alt="Imagem do curso"
+              @error="imageLoadError"
+            />
+          </button>
           <img
-            v-if="showThumb"
-            class="background-img"
-            :src="certificate.course.thumbUrl"
-            alt="Imagem do curso"
-            @error="imageLoadError"
+            class="medal"
+            src="~/assets/medalha-imagem.svg"
+            alt="Imagem de uma medalha"
           />
+        </div>
+      </div>
+
+      <div class="info-box">
+        <button
+          @click="share($event, title, image)"
+          class="btn-block btn-white box-container"
+        >
+          Compartilhar
         </button>
-        <img
-          class="medal"
-          src="~/assets/medalha-imagem.svg"
-          alt="Imagem de uma medalha"
-        />
+        <span></span>
+        <button
+          @click="goToCertificate(1)"
+          class="btn-block btn-white box-container"
+        >
+          Exportar
+        </button>
       </div>
-    </div>
-
-    <div class="info-box">
-      <div class="box-title">Compartilhar</div>
-      <social-sharing
-        :url="urlCertificate"
-        :title="'Certificado de conclusão de curso New School'"
-        :description="certificate.course.title"
-        :hashtags="'MissaoNewSchoolApp'"
-        :twitter-user="'NewSchoolApp'"
-        inline-template
-      >
-        <div class="box-icons">
-          <network class="icon" network="facebook">
-            <img src="~/assets/facebook-purple.png" alt />
-          </network>
-          <network class="icon" network="twitter">
-            <img src="~/assets/twitter-purple.png" alt />
-          </network>
-          <network class="icon" network="linkedin">
-            <img src="~/assets/linkedin-purple.png" alt />
-          </network>
-        </div>
-      </social-sharing>
-    </div>
-
-    <div class="info-box">
-      <div class="box-title">Exportar</div>
-      <div class="box-icons">
-        <div class="icon" style="background-color: transparent">
-          <v-icon color="purple darken-2" @click="gotoCertificate(1)">
-            mdi-download
-          </v-icon>
-          Baixar
-        </div>
-      </div>
-    </div>
-    <navigation-bar />
+      <navigation-bar />
+    </v-col>
   </v-container>
 </template>
 
 <script>
 import SocialSharing from 'vue-social-sharing';
 import http from '../../services/http/public';
+import httpHelper from '~/services/http/generic';
 import CertificateCard from '~/components/CertificateCard';
 import NavigationBar from '~/components/NavigationBar.vue';
 
@@ -112,8 +95,12 @@ export default {
     params() {
       return this.$route.params;
     },
+    idUser() {
+      return this.$store.state.user.data.id;
+    },
   },
   mounted() {
+    console.log(window);
     http.pageCertificate(this.params.idUser, this.params.idCourse).then(res => {
       this.certificate = res.data;
       this.loading = false;
@@ -121,13 +108,58 @@ export default {
   },
 
   methods: {
-    gotoCertificate(forcePrint) {
-      $nuxt._router.push(
-        `/pagina-certificado/${this.params.idUser}/${this.params.idCourse}/${forcePrint}`,
-      );
+    goToCertificate(print) {
+      window.location = `http://newschool-ui-dev.eba-fdz8zprg.us-east-2.elasticbeanstalk.com/#/pagina-certificado/${this.params.idUser}/${this.params.idCourse}/${print}`;
     },
     imageLoadError() {
       this.showThumb = false;
+    },
+    onSuccess(result) {
+      console.log('Share completed? ' + result.completed);
+      console.log(result); // On Android apps mostly return false even while it's true
+      console.log('Shared to app: ' + result.app); // On Android result.app since plugin version 5.4.0 this is no longer empty. On iOS it's empty when sharing is cancelled (result.completed=false)
+      httpHelper
+        .post(process.env.endpoints.EVENT, {
+          event: 'SHARE_COURSE',
+          rule: {
+            courseId: this.params.idCourse,
+            userId: this.idUser,
+            platform: result.app,
+          },
+        })
+        .then(res => {
+          this.$notifier.showMessage({
+            type: 'success',
+            message: 'Aee, deu bom!',
+          });
+          $nuxt._router.push('/aluno/home');
+        })
+        .catch(() =>
+          this.$notifier.showMessage({
+            type: 'error',
+          }),
+        );
+    },
+    onError(msg) {
+      console.log('Sharing failed with message: ' + msg);
+    },
+    share(event, title, image) {
+      event.stopPropagation();
+      event.preventDefault();
+      const options = {
+        message: 'Se liga no certificado que eu ganhei, SELOKO!', // not supported on some apps (Facebook, Instagram)
+        subject: this.tryMessage, // fi. for email
+        // files: [
+        //   'https://newschool-dev.s3.us-east-2.amazonaws.com/17954a42-8132-481e-bc38-508aefe7a996/profile.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAV56KXRILVMG6BB2Q%2F20201115%2Fus-east-2%2Fs3%2Faws4_request&X-Amz-Date=20201115T042331Z&X-Amz-Expires=900&X-Amz-Signature=b7e68e7db1194b74e266f211d56adab75d35f75dd3eceb4982b0c6aad8bb5c60&X-Amz-SignedHeaders=host',
+        // ],
+        url: `http://newschool-ui-dev.eba-fdz8zprg.us-east-2.elasticbeanstalk.com/#/pagina-certificado/${this.params.idUser}/${this.params.idCourse}/0`,
+        chooserTitle: 'Vem colar com nois!', // Android only, you can override the default share sheet title
+      };
+      window.plugins.socialsharing.shareWithOptions(
+        options,
+        this.onSuccess,
+        this.onError,
+      );
     },
   },
 };
@@ -159,6 +191,7 @@ p {
 .thumb {
   display: flex;
   flex-direction: column;
+
   padding-bottom: 30px;
 }
 
@@ -172,6 +205,9 @@ p {
   overflow: hidden;
   background-color: var(--primary);
   box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.5);
+}
+span {
+  width: 10px;
 }
 
 .background-img {
@@ -187,6 +223,16 @@ p {
   position: absolute;
   width: 18%;
   height: auto;
+}
+
+.info-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 300px;
+}
+.box-container {
+  width: 180px;
 }
 
 .box-title {
@@ -216,5 +262,17 @@ p {
   line-height: 10px;
   align-items: center;
   justify-content: center;
+}
+
+@media (min-width: 600px) {
+  .thumb {
+    align-items: center;
+  }
+  .info-box {
+    margin: 0 auto;
+  }
+  .align-center {
+    text-align: center;
+  }
 }
 </style>

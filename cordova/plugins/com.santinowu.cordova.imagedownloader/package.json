@@ -1,0 +1,50 @@
+{
+  "_from": "git+https://github.com/Santino-Wu/cordova-plugin-imagedownloader.git",
+  "_id": "cordova-plugin-imagedownloader@1.0.3",
+  "_inBundle": false,
+  "_integrity": "",
+  "_location": "/cordova-plugin-imagedownloader",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "git",
+    "raw": "https://github.com/Santino-Wu/cordova-plugin-imagedownloader.git",
+    "rawSpec": "https://github.com/Santino-Wu/cordova-plugin-imagedownloader.git",
+    "saveSpec": "git+https://github.com/Santino-Wu/cordova-plugin-imagedownloader.git",
+    "fetchSpec": "https://github.com/Santino-Wu/cordova-plugin-imagedownloader.git",
+    "gitCommittish": null
+  },
+  "_requiredBy": [
+    "#DEV:/",
+    "#USER"
+  ],
+  "_resolved": "git+https://github.com/Santino-Wu/cordova-plugin-imagedownloader.git#efd96872fc5fa12d73e651b9b8c0d4996f708129",
+  "_spec": "https://github.com/Santino-Wu/cordova-plugin-imagedownloader.git",
+  "_where": "/home/leonardo/Documents/Leonardo/Newschool/newschool-frontend/cordova",
+  "author": {
+    "name": "Santino-Wu"
+  },
+  "bugs": {
+    "url": "https://github.com/Santino-Wu/cordova-plugin-imagedownloader/issues"
+  },
+  "bundleDependencies": false,
+  "deprecated": false,
+  "description": "The cordova plugin for downloading image into gallery.",
+  "homepage": "https://github.com/Santino-Wu/cordova-plugin-imagedownloader#readme",
+  "keywords": [
+    "Cordova",
+    "Image",
+    "Downloader",
+    "Gallery"
+  ],
+  "license": "MIT",
+  "main": "index.js",
+  "name": "cordova-plugin-imagedownloader",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Santino-Wu/cordova-plugin-imagedownloader.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "version": "1.0.3"
+}

@@ -31,7 +31,6 @@
         />
       </div>
     </div>
-    <navigation-bar />
   </div>
 </template>
 
@@ -101,6 +100,10 @@ export default {
   color: grey;
   text-transform: none;
   border-bottom: 4px solid #f5f5f5;
+}
+// force initial active tab to be selected
+::v-deep .v-tab--active {
+  border-bottom: 4px solid var(--primary-light);
 }
 ::v-deep .v-tabs {
   max-height: 32px;

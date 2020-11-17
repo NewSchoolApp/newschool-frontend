@@ -22,6 +22,15 @@
     },
     "cordova-plugin-x-socialsharing": {
       "PACKAGE_NAME": "com.newschool.app"
+    },
+    "cordova-plugin-printer": {
+      "PACKAGE_NAME": "com.newschool.app"
+    },
+    "com.santinowu.cordova.imagedownloader": {
+      "PACKAGE_NAME": "com.newschool.app"
+    },
+    "com.darktalker.cordova.screenshot": {
+      "PACKAGE_NAME": "com.newschool.app"
     }
   },
   "dependent_plugins": {

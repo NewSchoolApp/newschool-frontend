@@ -20,7 +20,8 @@ export default {
       routes.push({
         path: '/aluno',
         component: resolve(__dirname, 'pages/student/~student.module.vue'),
-        children: [{
+        children: [
+          {
             path: '404',
             component: resolve(__dirname, 'pages/public/404.vue'),
           },
@@ -33,6 +34,11 @@ export default {
             path: '/certificado-info/:idUser/:idCourse',
             name: 'certificado-info',
             component: resolve(__dirname, 'pages/public/certificate_info.vue'),
+          },
+          {
+            path: '/cadastro/:inviteKey',
+            name: 'cadastro',
+            component: resolve(__dirname, 'pages/public/signup.vue'),
           },
           {
             path: 'perfil',
@@ -64,15 +70,17 @@ export default {
               __dirname,
               'pages/student/take_course/~take_course.module.vue',
             ),
-            children: [{
-              path: ':slug',
-              name: 'aluno-curso',
-              props: true,
-              component: resolve(
-                __dirname,
-                'pages/student/take_course/course.vue',
-              ),
-            }, ],
+            children: [
+              {
+                path: ':slug',
+                name: 'aluno-curso',
+                props: true,
+                component: resolve(
+                  __dirname,
+                  'pages/student/take_course/course.vue',
+                ),
+              },
+            ],
           },
           {
             path: 'curso/aulas/:id',
@@ -92,7 +100,8 @@ export default {
       routes.push({
         path: '/admin',
         component: resolve(__dirname, 'pages/student/~student.module.vue'),
-        children: [{
+        children: [
+          {
             path: '404',
             component: resolve(__dirname, 'pages/public/404.vue'),
           },
@@ -117,15 +126,17 @@ export default {
               __dirname,
               'pages/student/take_course/~take_course.module.vue',
             ),
-            children: [{
-              path: ':slug',
-              name: 'aluno-curso',
-              props: true,
-              component: resolve(
-                __dirname,
-                'pages/student/take_course/course.vue',
-              ),
-            }, ],
+            children: [
+              {
+                path: ':slug',
+                name: 'aluno-curso',
+                props: true,
+                component: resolve(
+                  __dirname,
+                  'pages/student/take_course/course.vue',
+                ),
+              },
+            ],
           },
           {
             path: 'admin/aulas/:id',
@@ -151,16 +162,21 @@ export default {
 
   env: {
     domain: process.env.DOMAIN_URL || 'https://newschoolapp.com.br',
-    baseUrl: process.env.VUE_APP_BASE_URL ||
+    baseUrl:
+      process.env.VUE_APP_BASE_URL ||
       'http://newschool-api-dev2.eba-gxtzwa9m.us-east-2.elasticbeanstalk.com/',
+    //https://9ddlz0bte4.execute-api.us-east-2.amazonaws.com/dev
     // http://develop.dev-newschool.tk/
     credentials: {
       name: process.env.VUE_APP_CLIENT_CREDENTIAL_NAME || 'NEWSCHOOL@FRONT',
-      secret: process.env.VUE_APP_CLIENT_CREDENTIAL_SECRET || 'NEWSCHOOL@FRONTSECRET',
+      secret:
+        process.env.VUE_APP_CLIENT_CREDENTIAL_SECRET || 'NEWSCHOOL@FRONTSECRET',
       external: {
-        name: process.env.VUE_APP_CLIENT_EXTERNAL_CREDENTIAL_NAME ||
+        name:
+          process.env.VUE_APP_CLIENT_EXTERNAL_CREDENTIAL_NAME ||
           'NEWSCHOOL@EXTERNAL',
-        secret: process.env.VUE_APP_CLIENT_EXTERNAL_CREDENTIAL_SECRET ||
+        secret:
+          process.env.VUE_APP_CLIENT_EXTERNAL_CREDENTIAL_SECRET ||
           'NEWSCHOOL@EXTERNALSECRET',
       },
     },
@@ -169,6 +185,7 @@ export default {
     endpoints: {
       CERTIFICATES_ME: 'api/v1/course-taken/certificates/user/',
       RANKING: '/api/v1/gamefication/ranking',
+      EVENT: '/api/v1/gamefication/start-event',
       NOTIFICATIONS: 'api/v1/notification',
       USER_ME: 'api/v1/user/me',
       SCHOOL: 'api/v1/school',
@@ -214,13 +231,15 @@ export default {
       lang: 'en',
       style: 'overflow-y: auto',
     },
-    titleTemplate: '%s | ' + 'New School | Formando os protagonistas da quebrada',
-    meta: [{
-        charset: 'utf-8'
+    titleTemplate:
+      '%s | ' + 'New School | Formando os protagonistas da quebrada',
+    meta: [
+      {
+        charset: 'utf-8',
       },
       {
         name: 'viewport',
-        content: 'width=device-width, initial-scale=1'
+        content: 'width=device-width, initial-scale=1',
       },
       {
         hid: 'title',
@@ -230,34 +249,40 @@ export default {
       {
         hid: 'description',
         name: 'description',
-        content: 'Levamos educação de qualidade na linguagem da quebrada para as periferias do Brasil, através da tecnologia e da curadoria de conteúdos baseados nas habilidades do futuro.',
+        content:
+          'Levamos educação de qualidade na linguagem da quebrada para as periferias do Brasil, através da tecnologia e da curadoria de conteúdos baseados nas habilidades do futuro.',
       },
       {
         hid: 'keywords',
         name: 'keywords',
-        content: 'pública, startup, escola, cursos, cursos online, educação, estudo, periferia, comunidade, edtech, quebrada, ensino',
+        content:
+          'pública, startup, escola, cursos, cursos online, educação, estudo, periferia, comunidade, edtech, quebrada, ensino',
       },
     ],
-    link: [{
+    link: [
+      {
         rel: 'icon',
         type: 'image/x-icon',
-        href: '/favicon.ico'
+        href: '/favicon.ico',
       },
       {
         rel: 'stylesheet',
-        href: 'https://fonts.googleapis.com/css?family=Montserrat:400,600,900&display=swap',
+        href:
+          'https://fonts.googleapis.com/css?family=Montserrat:400,600,900&display=swap',
       },
     ],
-    script: [{
-      type: 'text/javascript',
-      src: 'cordova.js'
-    }]
+    script: [
+      {
+        type: 'text/javascript',
+        src: 'cordova.js',
+      },
+    ],
   },
   /*
    ** Customize the progress-bar color
    */
   loading: {
-    color: '#fff'
+    color: '#fff',
   },
   /*
    ** Global CSS
@@ -305,7 +330,8 @@ export default {
     '@nuxtjs/auth',
   ],
   i18n: {
-    locales: [{
+    locales: [
+      {
         code: 'en',
         file: 'en-US.js',
       },
@@ -361,18 +387,20 @@ export default {
      ** You can extend webpack config here
      */
     publicPath: '/nuxtfiles/',
-    extend(config, ctx) { },
+    extend(config, ctx) {},
   },
 
   auth: {
     strategies: {
       facebook: {
         client_id: process.env.FACEBOOK_ID || '384298599359690',
-        userinfo_endpoint: 'https://graph.facebook.com/v2.12/me?fields=about,name,picture{url},email,birthday',
+        userinfo_endpoint:
+          'https://graph.facebook.com/v2.12/me?fields=about,name,picture{url},email,birthday',
         scope: ['public_profile', 'email'],
       },
       google: {
-        client_id: process.env.GOOGLE_ID ||
+        client_id:
+          process.env.GOOGLE_ID ||
           '603764452531-cbbqg8im5p4hr0et4vqurcs4lbce9jrk.apps.googleusercontent.com',
       },
     },

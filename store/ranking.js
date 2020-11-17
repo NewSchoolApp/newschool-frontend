@@ -1,17 +1,13 @@
 export const state = () => ({
-  monthRanking:[],
-  yearRanking:[],
-  userPosition: {}
+  monthRanking: [],
+  yearRanking: [],
 });
 
 export const mutations = {
   setMonth(state, month) {
-    state.monthRanking = month
+    state.monthRanking = month;
   },
   setYear(state, year) {
-    state.yearRanking = year
-  },
-  setPosition(state, position) {
-    state.userPosition = position
+    state.yearRanking = year;
   },
 };
