@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <div v-show="!loading" id="page">
+  <div id="page-window" >
+    <div v-show="!loading" id="page" >
       <HeaderBar :title="'Meus Cursos'" :back-page="true" />
       <v-tabs v-model="selectedTab" fixed-tabs height="35px">
         <v-tab>
@@ -85,6 +85,7 @@ export default {
   font-family: 'Roboto', sans-serif;
   transition: 0.2 ease-in;
 }
+
 #page {
   height: 100%;
   margin-bottom: 60px;
@@ -107,5 +108,20 @@ export default {
 }
 ::v-deep .v-tabs {
   max-height: 32px;
+}
+/*Large devices (desktops, 992px and up)*/
+@media (min-width: 992px) { 
+#page-window {
+    display: flex;
+  justify-content: center;
+}
+#page{
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  margin-bottom: 60px;
+  width: 700px;
+  max-width: 700px;
+}
 }
 </style>

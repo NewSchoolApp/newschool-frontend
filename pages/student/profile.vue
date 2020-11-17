@@ -1,4 +1,5 @@
 <template>
+ <div id = "page">
   <v-layout column>
     <HeaderBar class="mb-7" :title="'Perfil'" :back-page="true"></HeaderBar>
 
@@ -6,7 +7,7 @@
       <avatar-uploader v-model="avatar" />
     </v-col>
 
-    <v-col>
+    <v-col id="menu">
       <v-divider />
       <div v-for="btn in menu" :key="btn.id">
         <v-row class="py-3" @click="goToTab(btn.link)">
@@ -46,6 +47,7 @@
       <v-icon></v-icon>
     </v-row>
   </v-layout>
+  </div>
 </template>
 
 <script>
@@ -123,6 +125,7 @@ export default {
 }
 .layout {
   padding-bottom: 100px;
+
 }
 .col {
   padding: 0;
@@ -154,4 +157,21 @@ export default {
 .padding__card {
   padding-top: 0;
 }
+
+/*Large devices (desktops, 992px and up)*/
+@media (min-width: 992px) { 
+#page {
+    display: flex;
+  justify-content: center;
+}
+#menu{
+  display: flex;
+  flex-direction: column;
+}
+.layout{
+  max-width: 700px;
+  padding: 20px 24px 50px 24px;
+}
+}
+
 </style>

@@ -193,10 +193,7 @@ export default {
   font-family: 'Roboto', sans-serif;
 }
 
-#page {
-  display: flex;
-  justify-content: center;
-}
+
 
 #main-col {
   padding: 20px 24px 50px 24px;
@@ -365,4 +362,12 @@ h1 {
   padding: 1.25em 0 0.5em 1.6em;
   text-transform: uppercase;
 }
+/*Large devices (desktops, 992px and up)*/
+@media (min-width: 992px) { 
+#page{
+  display: flex;
+  justify-content: center;
+}
+}
+
 </style>

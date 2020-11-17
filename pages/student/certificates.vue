@@ -1,5 +1,6 @@
 <template>
-  <div>
+  <div id="page">
+    <div  id="layout-certificates">
     <HeaderBar :title="'Certificados'" :back-page="true"></HeaderBar>
     <v-container class="container" v-if="certificates.length">
       <div
@@ -17,6 +18,7 @@
       message="Você ainda não tem nenhum certificado. :("
     />
     <navigation-bar />
+    </div>
   </div>
 </template>
 
@@ -59,12 +61,27 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-  max-width: 500px;
+  max-width: 700px;
   width: 100%;
   margin-bottom: 25px;
 }
 
 .container {
   margin-bottom: 25px;
+}
+/*Large devices (desktops, 992px and up)*/
+@media (min-width: 992px) { 
+
+#page{
+  display: flex;
+  justify-content: center;
+}
+#layout-certificates{
+  display: flex;
+  flex-direction: column;
+  max-width: 700px;
+  width: 700px;
+  padding: 20px 24px 50px 24px;
+}
 }
 </style>

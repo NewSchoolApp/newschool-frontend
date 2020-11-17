@@ -1,5 +1,6 @@
 <template>
-  <div class="container-page">
+  <div class="container-page" id="page">
+    <div id="window-width">
     <main>
       <section id="info">
         <div id="avatar">
@@ -17,7 +18,7 @@
         <div id="flex-info-user" class="flex-center">
           <h1>{{ user.name }}</h1>
           <p>{{ user.type }}</p>
-          <v-btn
+          <v-btn 
             id="btnLogout"
             small
             outlined
@@ -29,7 +30,7 @@
         </div>
       </section>
       <div id="close">
-        <v-icon id="close-btn" color="primary" @click="closeMenu()"
+        <v-icon id="close-btn"  color="primary" @click="closeMenu()"
           >mdi-close-circle</v-icon
         >
       </div>
@@ -49,6 +50,7 @@
         <p class="text-menu">{{ item.label }}</p>
       </router-link>
     </section>
+    </div>
   </div>
 </template>
 
@@ -179,6 +181,7 @@ export default {
 .container-page {
   z-index: 2;
 }
+
 #btnLogout {
   margin-top: 5px;
 }
@@ -302,5 +305,29 @@ h4 {
   .item-menu {
     height: 42px;
   }
+}
+
+@media (max-width: 991px) {
+  #close {
+  display: flex;
+  flex-direction: row-reverse;
+  }
+} 
+
+/*Large devices (desktops, 992px and up)*/
+@media (min-width: 992px) { 
+#page {
+    display: flex;
+  justify-content: center;
+}
+#window-width {
+  width: 700px;
+  max-width: 700px;
+}
+#close {
+  display: flex;
+  flex-direction: row-reverse;
+  width: 700px;
+}
 }
 </style>
