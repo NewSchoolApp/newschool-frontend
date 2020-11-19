@@ -173,7 +173,7 @@ h1 {
   line-height: 12px;
   letter-spacing: 0em;
   text-align: left;
-  min-width: 238px;
+  min-width: 208px;
   color: rgb(26, 26, 26);
   max-width: 70%;
 }
@@ -239,5 +239,6 @@ h1 {
   letter-spacing: 0em;
   position: relative;
   top: 26px;
+  right: 5px;
 }
 </style>

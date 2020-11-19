@@ -14,9 +14,6 @@
       </div>
       <v-flex v-else ref="flex" class="main-container">
         <div class="inner-container">
-          <h3>{{ part.lessonTitle }}</h3>
-          <h4>{{ description }}</h4>
-
           <div class="video-iframe-container">
             <iframe
               width="300"
@@ -27,11 +24,64 @@
               allowfullscreen
             ></iframe>
           </div>
-          <h4>Youtube</h4>
+          <v-tabs v-model="selectedTab" height="35px">
+            <v-tab>
+              Informação
+            </v-tab>
+            <v-tab>
+              Dúvidas e Comentários
+            </v-tab>
+          </v-tabs>
+          <div v-if="selectedTab === 0" class="text__information">
+            <h3>{{ part.lessonTitle }}</h3>
+            <h4>{{ description }}</h4>
+            <v-btn class="btn-block btn-primary" @click="advanceCourse">
+              FAZER TESTE
+            </v-btn>
+          </div>
+          <div v-else class="comments">
+            <h3 class="comments__number">
+              10 Comentários
+            </h3>
+            <v-row justify="center mt-2">
+              <v-avatar size="44">
+                <img v-if="user.photo" :src="user.photo" />
+                <img v-else :src="require(`~/assets/person.svg`)" />
+              </v-avatar>
+              <v-text-field
+                class="input__data mt-2 ml-2"
+                placeholder="Escreva seu comentario"
+                outlined
+              ></v-text-field>
+            </v-row>
+            <div class="text-center">
+              <v-menu offset-y>
+                <template v-slot:activator="{ on, attrs }">
+                  <p
+                    v-bind="attrs"
+                    v-on="on"
+                    class="
+              filter__coments"
+                  >
+                    Mais recentes <img src="~/assets/arrow_down.svg" alt="" />
+                  </p>
+                </template>
+                <v-list>
+                  <v-list-item v-for="(item, index) in items" :key="index">
+                    <v-list-item-title>{{ item.title }}</v-list-item-title>
+                  </v-list-item>
+                </v-list>
+              </v-menu>
+            </div>
+            <comment-card
+              commentText="Qual melhor time de Tech do Brasil?"
+              :user="user"
+              likes="5"
+              commentDate="06/10/2020"
+              :responses="responses"
+            ></comment-card>
+          </div>
         </div>
-        <v-btn class="btn-block btn-primary" @click="advanceCourse">
-          Próximo
-        </v-btn>
       </v-flex>
       <client-only>
         <navigation-bar />
@@ -49,18 +99,66 @@
 <script>
 import NavigationBar from '~/components/NavigationBar';
 import HeaderBar from '~/components/Header.vue';
+import CommentCard from '~/components/Comments';
 import utils from '~/utils/index';
 import http from '~/services/http/generic';
+import CertificateCard from '~/components/CertificateCard.vue';
 
 export default {
   components: {
     NavigationBar,
     HeaderBar,
+    CommentCard,
+    CertificateCard,
   },
   data: () => ({
     urlVideo: '',
     description: '',
+    selectedTab: 0,
     loading: true,
+    items: [
+      { title: 'Mais recentes' },
+      { title: 'Mais atigos' },
+      { title: 'Mais aotados' },
+      { title: 'Meus Comentarios' },
+    ],
+    responseUser: {
+      photo:
+        'https://newschool-dev.s3.us-east-2.amazonaws.com/17954a42-8132-481e-bc38-508aefe7a996/profile.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAV56KXRILVMG6BB2Q%2F20201119%2Fus-east-2%2Fs3%2Faws4_request&X-Amz-Date=20201119T035211Z&X-Amz-Expires=900&X-Amz-Signature=a879de0ff9f0a4f7eda52940f7f9261aec9e242f38650a1e4e680982dbacd065&X-Amz-SignedHeaders=host',
+      points: '132',
+      rank: '2',
+      userId: '17954a42-8132-481e-bc38-508aefe7a996',
+      userName: 'Henrry',
+    },
+    responses: [
+      {
+        photo:
+          'https://newschool-dev.s3.us-east-2.amazonaws.com/b406aee7-065f-4ea4-a46b-34fe34d70b8f/leo.jpeg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAV56KXRILVMG6BB2Q%2F20201119%2Fus-east-2%2Fs3%2Faws4_request&X-Amz-Date=20201119T140637Z&X-Amz-Expires=900&X-Amz-Signature=772e30996f3ed979e2437ac04352b49c75b3e2c251cdc67a03178a204c2584b8&X-Amz-SignedHeaders=host',
+        points: '132',
+        rank: '2',
+        userId: '17954a42-8132-481e-bc38-508aefe7a996',
+        userName: 'Leonardo',
+        comment: 'Microsoft',
+      },
+      {
+        photo:
+          'https://newschool-dev.s3.us-east-2.amazonaws.com/b406aee7-065f-4ea4-a46b-34fe34d70b8f/leo.jpeg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAV56KXRILVMG6BB2Q%2F20201119%2Fus-east-2%2Fs3%2Faws4_request&X-Amz-Date=20201119T140637Z&X-Amz-Expires=900&X-Amz-Signature=772e30996f3ed979e2437ac04352b49c75b3e2c251cdc67a03178a204c2584b8&X-Amz-SignedHeaders=host',
+        points: '132',
+        rank: '2',
+        userId: '17954a42-8132-481e-bc38-508aefe7a996',
+        userName: 'Henrry',
+        comment: 'Corinthians',
+      },
+      {
+        photo:
+          'https://newschool-dev.s3.us-east-2.amazonaws.com/b406aee7-065f-4ea4-a46b-34fe34d70b8f/leo.jpeg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAV56KXRILVMG6BB2Q%2F20201119%2Fus-east-2%2Fs3%2Faws4_request&X-Amz-Date=20201119T140637Z&X-Amz-Expires=900&X-Amz-Signature=772e30996f3ed979e2437ac04352b49c75b3e2c251cdc67a03178a204c2584b8&X-Amz-SignedHeaders=host',
+        points: '132',
+        rank: '2',
+        userId: '17954a42-8132-481e-bc38-508aefe7a996',
+        userName: 'Mayara',
+        comment: 'New School, claro',
+      },
+    ],
   }),
   computed: {
     part() {
@@ -71,6 +169,9 @@ export default {
     },
     courseId() {
       return this.$store.state.courses.current.id;
+    },
+    user() {
+      return this.$store.state.user.data;
     },
   },
   created() {
@@ -156,6 +257,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+* {
+  font-family: 'Roboto', sans-serif;
+  transition: 0.2 ease-in;
+}
 h1 {
   font-weight: 900;
   font-size: 1em;
@@ -169,9 +274,23 @@ h1 {
   }
 }
 
+.comments__number {
+  color: black;
+  margin-top: 24px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #1a1a1a;
+}
+.filter__coments {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 10px;
+  font-weight: 500;
+  color: #3f3d56;
+}
+
 h3 {
-  font-weight: 600;
-  font-size: 1em;
+  font-weight: 900;
+  font-size: 14px;
   line-height: normal;
   line-height: initial;
   text-align: left;
@@ -179,11 +298,15 @@ h3 {
 }
 
 h4 {
-  font-weight: 500;
+  font-weight: 400;
   padding-top: 0.25em;
   padding-bottom: 12px;
-  color: #656565;
-  font-size: 14px;
+  color: #1a1a1a;
+  font-size: 12px;
+}
+
+.text__information {
+  margin-top: 24px;
 }
 
 .main-container {
@@ -192,9 +315,53 @@ h4 {
   padding: 0em 2em 78px;
 }
 
+::v-deep .v-input {
+  width: 75%;
+}
+
 .inner-container {
   margin-top: 0.5rem;
 }
+::v-deep ::placeholder {
+  color: rgba(26, 26, 26, 0.24) !important;
+}
+
+::v-deep.v-text-field.v-text-field--enclosed:not(.v-text-field--rounded)
+  > .v-input__control
+  > .v-input__slot,
+.v-text-field.v-text-field--enclosed .v-text-field__details {
+  min-height: 0 !important;
+}
+::v-deep .v-tabs-slider-wrapper {
+  height: 4px !important;
+  color: var(--primary-light);
+}
+::v-deep .v-tab {
+  margin-top: 5px;
+  font-size: 11px !important;
+  line-height: 16px;
+  font-weight: 400;
+  color: black;
+  text-transform: none;
+  border-bottom: 4px solid #f5f5f5;
+}
+// force initial active tab to be selected
+::v-deep .v-tab--active {
+  border-bottom: 4px solid var(--primary-light);
+}
+::v-deep .v-tabs {
+  max-height: 32px;
+}
+/* ::v-deep .v-input__control {
+  height: 0 !important;
+}
+::v-deep .v-input__slot {
+  min-height: 32px !important;
+}
+::v-deep #input-236 {
+  top: -9px;
+  position: relative;
+} */
 
 .video-iframe-container {
   background-color: black;
