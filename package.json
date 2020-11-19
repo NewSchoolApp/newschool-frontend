@@ -9,7 +9,7 @@
     "npm": "6.x"
   },
   "scripts": {
-    "dev": "nuxt",
+    "dev": "nuxt --open",
     "build": "nuxt build",
     "start": "nuxt start",
     "heroku-postbuild": "npm run build --prod",
