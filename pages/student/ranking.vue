@@ -155,7 +155,10 @@
                     <th>NC</th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody
+                  v-infinite-scroll="getRanking"
+                  infinite-scroll-disabled="busy"
+                >
                   <tr
                     v-for="(item, index) in generalRanking"
                     :key="item.name"
@@ -198,6 +201,7 @@
 import NavigationBar from '~/components/NavigationBar.vue';
 import HeaderBar from '~/components/Header.vue';
 import utils from '~/utils/index';
+import infiniteScroll from 'vue-infinite-scroll';
 import httpHelper from '~/services/http/generic';
 import { http } from '~/services/http/config';
 
@@ -210,6 +214,8 @@ export default {
   data() {
     return {
       page: 1,
+      limit: 10,
+      busy: false,
       country: '',
       school: '',
       city: '',
@@ -218,6 +224,7 @@ export default {
       timeRange: '',
       loading: false,
       pageLoading: true,
+      stop: false,
       isLoadingSchool: false,
       filter: false,
       usersByMonth: [],
@@ -243,6 +250,7 @@ export default {
       stateAbbreviations: [],
     };
   },
+  directives: { infiniteScroll },
   computed: {
     idUser() {
       return this.$store.state.user.data.id;
@@ -287,16 +295,16 @@ export default {
   },
   methods: {
     getRanking() {
-      // if (this.timeRange === 'MONTH' && this.monthRanking.length) {
-      //   return (this.ranking = this.monthRanking);
-      // }
-      // if (this.timeRange === 'YEAR' && this.yearRanking.length) {
-      //   return (this.ranking = this.yearRanking);
-      // }
+      if (this.stop) {
+        return;
+      }
+      this.busy = true;
+      this.loading = true;
+
       httpHelper
         .getAll(
           `${process.env.endpoints.RANKING +
-            '?' +
+            `?page=${this.page}` +
             //concat every active filter for the request
             (this.city ? '&city=' + this.city : '') +
             (this.state ? '&state=' + this.state : '') +
@@ -304,14 +312,22 @@ export default {
             (this.timeRange ? '&timeRange=' + this.timeRange : '')}`,
         )
         .then(ranking => {
-          this.ranking = ranking.data.content.reverse(); //<--- The api is returning the list in ascending order;
-          // if (this.timeRange === 'MONTH') {
-          //   this.monthRanking = this.ranking;
-          // }
-          // if (this.timeRange === 'YEAR') {
-          //   this.yearRanking = this.ranking;
-          // }
+          if (!ranking.data.content.length) {
+            this.stop = true;
+            this.loading = false;
+            this.busy = false;
+            return;
+          }
+          // const append = ranking.data.content
+          //   .reverse()
+          //   .slice(this.ranking.length, this.ranking.length + this.limit);
+          this.ranking = ranking.data.content.reverse();
+          // this.ranking = this.ranking.concat(append);
+          this.page++;
+          //<--- The api is returning the list in ascending order;
         });
+      this.busy = false;
+      this.loading = false;
       this.pageLoading = false;
     },
     getCities(stateName) {
