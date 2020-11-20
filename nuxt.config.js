@@ -196,6 +196,8 @@ export default {
       FORGOT_PASSWORD: 'api/v1/user/forgot-password',
       COURSE: '/api/v1/course',
       LESSON: '/api/v1/lesson',
+      PART_BY_LESSON: '/api/v1/part/lesson',
+      COMMENT: '/api/v1/comment/part',
       COURSE_BY_SLUG: '/api/v1/course/slug/',
       INIT_COURSE: 'api/v1/course-taken/start-course',
       LESSONS_BY_COURSE: '/api/v1/lesson/course/',
