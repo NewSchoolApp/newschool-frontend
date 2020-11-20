@@ -115,6 +115,7 @@ export default {
     urlVideo: '',
     description: '',
     selectedTab: 0,
+    partId: '',
     loading: true,
     items: [
       { title: 'Mais recentes' },
@@ -182,13 +183,30 @@ export default {
   },
   methods: {
     async getCourse() {
+      const parts = await http.getAll(
+        `${process.env.endpoints.PART_BY_LESSON}/${this.part.id}`,
+      );
+
       const lessons = await http.getAll(
         `${process.env.endpoints.LESSONS_BY_COURSE}${this.courseId}`,
       );
       const currentLessonData = await lessons.data.filter(
         data => data.title === this.part.lessonTitle,
       );
+      const responsePart = parts.data.filter(part => part.videoUrl === this.part.youtubeUrl)
+      console.log(responsePart)
+      this.partId = responsePart[0].id
+
+      console.log(this.partId)
       this.description = currentLessonData[0].description;
+      this.getComments();
+
+    },
+    async getComments() {
+      const comments = await http.getAll(
+        `${process.env.endpoints.COMMENT}/${this.partId}`,
+      );
+      console.log(comments)
     },
     advanceCourse() {
       this.loading = true;
