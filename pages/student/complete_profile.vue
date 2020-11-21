@@ -51,10 +51,7 @@
             </v-col>
             <v-col class="px-0 pb-5">
               <div class="input-label">Apelido</div>
-              <v-text-field
-                v-model="form.nickname"
-                filled
-              ></v-text-field>
+              <v-text-field v-model="form.nickname" filled></v-text-field>
             </v-col>
             <v-col class="px-0 pb-5">
               <div class="input-label">Email</div>
@@ -90,19 +87,11 @@
             </v-col>
             <v-col class="px-0 pb-5">
               <div class="input-label">Gênero</div>
-              <v-select
-                v-model="form.gender"
-                filled
-                :items="genderItems"
-              />
+              <v-select v-model="form.gender" filled :items="genderItems" />
             </v-col>
             <v-col class="px-0 pb-5">
               <div class="input-label">Perfil</div>
-              <v-select 
-                v-model="form.profile" 
-                filled 
-                :items="profileItems" 
-              />
+              <v-select v-model="form.profile" filled :items="profileItems" />
             </v-col>
           </v-col>
         </v-tab-item>
@@ -124,24 +113,21 @@
                 :items="states"
                 v-model="form.state"
                 filled
-                @change="getCities(form.state), form.city = ''"
+                @change="getCities(form.state), (form.city = '')"
               />
             </v-col>
             <v-col class="px-0 pb-5">
               <div class="input-label">Cidade</div>
               <v-autocomplete
-              required
-              :items="cities"
-              v-model="form.city"
-              filled
-            />
+                required
+                :items="cities"
+                v-model="form.city"
+                filled
+              />
             </v-col>
             <v-col class="px-0 pb-5">
               <div class="input-label">Bairro</div>
-              <v-text-field
-              v-model="form.district" 
-              filled
-            />
+              <v-text-field v-model="form.district" filled />
             </v-col>
           </v-col>
         </v-tab-item>
@@ -159,10 +145,7 @@
 
             <v-col v-if="form.employed" class="px-0 pb-5">
               <div class="input-label">Profissão</div>
-              <v-text-field
-                v-model="form.profession"
-                filled
-              ></v-text-field>
+              <v-text-field v-model="form.profession" filled></v-text-field>
             </v-col>
 
             <v-col class="px-0 pb-5">
@@ -260,7 +243,11 @@
 
       <!-- footer -->
       <v-row class="base">
-        <v-btn class="btn-block btn-new-primary btn-shadow" @click="submit">
+        <v-btn
+          class="btn-block btn-new-primary btn-shadow"
+          @click="submit"
+          :loading="loading"
+        >
           Confirmar Alterações
         </v-btn>
       </v-row>
@@ -297,6 +284,7 @@ export default {
       isLoading: false,
       tab: 0,
       datePick: false,
+      completeProfile: false,
       form: {
         id: '',
         name: '',
@@ -365,9 +353,7 @@ export default {
         'Investidor',
         'Outros',
       ],
-      requiredRules: [
-        v => !!v || 'O campo não pode estar em branco',
-      ],      
+      requiredRules: [v => !!v || 'O campo não pode estar em branco'],
       emailRules: [
         v => !!v || 'Digite o e-mail',
         v => /.+@.+\..+/.test(v) || 'E-mail inválido',
@@ -394,7 +380,7 @@ export default {
         .split('-')
         .reverse()
         .join('/');
-    },    
+    },
   },
   mounted() {
     if (this.$route.params.tab) {
@@ -405,6 +391,27 @@ export default {
   methods: {
     populateProfile() {
       http.getAll(`/api/v1/user/${this.idUser}`).then(res => {
+        const signupFields = [
+          'name',
+          'profile',
+          'email',
+          'nickname',
+          'birthday', // "2020-11-11T20:42:01.435Z"
+          'gender',
+          'schooling',
+          'institutionName',
+          'profession',
+          'address',
+        ];
+
+        const emptySignupFields = signupFields.filter(
+          field => !res.data[field],
+        );
+        console.log(emptySignupFields)
+        if (!emptySignupFields.length) {
+          this.completeProfile = true;
+        }
+
         res.data.birthday
           ? (this.form.birthday = this.resolveDate(res.data.birthday))
           : {};
@@ -448,12 +455,14 @@ export default {
           this.form.state = resolvedAddress.state;
           //timeout needed for state input validation
           setTimeout(() => {
-            this.getCities(this.form.state)
+            this.getCities(this.form.state);
             //timeout needed for city itens to be populated
             setTimeout(() => {
-              this.cities.includes(resolvedAddress.city) ? this.form.city = resolvedAddress.city : this.form.city = '';
+              this.cities.includes(resolvedAddress.city)
+                ? (this.form.city = resolvedAddress.city)
+                : (this.form.city = '');
               this.form.district = resolvedAddress.district;
-            },500);
+            }, 500);
           }, 1000);
         }
       });
@@ -532,54 +541,82 @@ export default {
         this.tab--;
       }
     },
-    submit() {     
+    submit() {
       if (this.$refs.form.validate()) {
-      this.loading = true;
-      // post resolving
-      const postBody = { ...this.form };
-      const date = this.formatedDate.split('/');
-      postBody.birthday = new Date(`${date[2]}-${date[1]}-${date[0]}T03:00`).toISOString();
-      postBody.profile = this.resolveProfile({
-        profile: postBody.profile,
-        api: false,
-      });
-      postBody.gender = this.resolveGender(postBody.gender);
-      postBody.schooling = this.resolveSchooling({
-        schooling: postBody.schooling,
-        api: false,
-      });
-      if (!postBody.employed) {
-        postBody.profession = null;
-      }
+        this.loading = true;
+        // post resolving
+        const postBody = { ...this.form };
+        if(this.formatedDate) {
+        const date = this.formatedDate.split('/');
+        postBody.birthday = new Date(
+          `${date[2]}-${date[1]}-${date[0]}T03:00`,
+        ).toISOString();
+        } else {
+          delete postBody.birthday
+        }
 
-      //resolving address
-      postBody.address = this.resolveAddress({
-        api: false,
-        country: postBody.country,
-        state: postBody.state,
-        city: postBody.city,
-        district: postBody.district,
-      });
+        postBody.profile = this.resolveProfile({
+          profile: postBody.profile,
+          api: false,
+        });
+        postBody.gender = this.resolveGender(postBody.gender);
+        postBody.schooling = this.resolveSchooling({
+          schooling: postBody.schooling,
+          api: false,
+        });
+        if (!postBody.employed) {
+          postBody.profession = null;
+        }
 
-      // deleting some not implemented variables
-      delete postBody.employed;
-      delete postBody.district;
-      delete postBody.socialLinks;
+        //resolving address
+        postBody.address = this.resolveAddress({
+          api: false,
+          country: postBody.country,
+          state: postBody.state,
+          city: postBody.city,
+          district: postBody.district,
+        });
 
-      http
-        .put(`/api/v1/user`, this.idUser, postBody)
-        .then(res => {
-          this.$notifier.showMessage({
-            type: 'success',
-            message: 'Aee, deu bom!',
-          });
-          $nuxt._router.push('/aluno/perfil');
-        })
-        .catch(() =>
-          this.$notifier.showMessage({
-            type: 'error',
-          }),
-        );
+        // deleting some not implemented variables
+        delete postBody.employed;
+        delete postBody.district;
+        delete postBody.socialLinks;
+
+        http
+          .put(`/api/v1/user`, this.idUser, postBody)
+          .then(res => {
+            this.loading = false;
+            this.$notifier.showMessage({
+              type: 'success',
+              message: 'Aee, deu bom!',
+            });
+
+            const signupFields = [
+              'name',
+              'profile',
+              'email',
+              'nickname',
+              'birthday', // "2020-11-11T20:42:01.435Z"
+              'gender',
+              'schooling',
+              'institutionName',
+              'profession',
+              'address',
+            ];
+
+            const emptySignupFields = signupFields.filter(
+              field => !postBody[field],
+            );
+            console.log(emptySignupFields)
+            if (!emptySignupFields.length && !this.completeProfile) {
+              $nuxt._router.replace('/aluno/finalizar-cadastro');0
+            }
+          })
+          .catch(() =>
+            this.$notifier.showMessage({
+              type: 'error',
+            }),
+          );
       } else {
         // mostrar snackbar de confirmação
         this.showSnackbar('Algo deu Errado!', 'red');

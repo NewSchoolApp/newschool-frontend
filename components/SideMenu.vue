@@ -1,6 +1,5 @@
 <template>
   <div class="container-page" id="page">
-    <div id="window-width">
     <main>
       <section id="info">
         <div id="avatar">
@@ -18,7 +17,7 @@
         <div id="flex-info-user" class="flex-center">
           <h1>{{ user.name }}</h1>
           <p>{{ user.type }}</p>
-          <v-btn 
+          <v-btn
             id="btnLogout"
             small
             outlined
@@ -51,7 +50,6 @@
       </router-link>
     </section>
     </div>
-  </div>
 </template>
 
 <script>
@@ -187,7 +185,10 @@ export default {
 }
 
 .mdi-close-circle::before {
-  color: var(--primary);
+      color: var(--primary);
+    position: absolute;
+    right: 22px;
+    top: 33px;
 }
 
 .container-page > main {
@@ -218,6 +219,10 @@ h1 {
   font-weight: 500;
   color: black;
   text-transform: capitalize;
+}
+
+.menu-list {
+  max-width: 500px;
 }
 
 .container-page {
@@ -302,71 +307,14 @@ h4 {
   font-weight: 600;
 }
 
-/* Mobile small devices ( 320px)*/
-
-@media (max-width: 320px) {
-  .item-menu {
-    height: 42px;
+@media(min-width: 600px) {
+  #info {
+    margin: 0 auto;
   }
-  #close {
-  position: relative;
-  left:0%
-  } 
-  #page {
-  padding: 15px 3px;
-  }  
-}
-
-/*Mobile medium devices ( 321px and up)*/
-
-@media (min-width: 321px) {
-  #page {
-  padding: 15px 3px;
-  }
-  #close {
-  position: relative;
-  left:10%;
-  } 
-}
-
-/* Mobile large devices ( 376px and up)*/
-
-@media (min-width: 376px) {     
- #close {
-  position: relative;
-  left:20%
-  }
-} 
-
-/*Medium devices ( 426px and up)*/
-
-@media (min-width: 426px) { 
-  #page {
-  padding: 15px 3px;
-  }      
- #close {
-  position: relative;
-  left:40%
-  }
-} 
-
-/*Large devices ( 768px and up)*/
-@media (min-width: 768px) { 
-#page {
-  display: flex;
-  justify-content: center;
-  padding: 30px 24px 50px 24px;
-
-}
-#window-width {
-  display: flex;
-  flex-direction: column;
-  width: 700px;
-  max-width: 700px;
-}
-#close {
-position: relative;
-left:54%
+  .menu-list {
+    margin: 0 auto;
   }
 }
+
+
 </style>
