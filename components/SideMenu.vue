@@ -28,12 +28,12 @@
             >Sair</v-btn
           >
         </div>
-      </section>
-      <div id="close">
+        <div id="close">
         <v-icon id="close-btn"  color="primary" @click="closeMenu()"
-          >mdi-close-circle</v-icon
-        >
+          >mdi-close-circle</v-icon>
       </div>
+      </section>
+
     </main>
     <section class="menu-list">
       <router-link
@@ -301,33 +301,72 @@ p {
 h4 {
   font-weight: 600;
 }
+
+/* Mobile small devices ( 320px)*/
+
 @media (max-width: 320px) {
   .item-menu {
     height: 42px;
   }
+  #close {
+  position: relative;
+  left:0%
+  } 
+  #page {
+  padding: 15px 3px;
+  }  
 }
 
-@media (max-width: 991px) {
+/*Mobile medium devices ( 321px and up)*/
+
+@media (min-width: 321px) {
+  #page {
+  padding: 15px 3px;
+  }
   #close {
-  display: flex;
-  flex-direction: row-reverse;
+  position: relative;
+  left:10%;
+  } 
+}
+
+/* Mobile large devices ( 376px and up)*/
+
+@media (min-width: 376px) {     
+ #close {
+  position: relative;
+  left:20%
   }
 } 
 
-/*Large devices (desktops, 992px and up)*/
-@media (min-width: 992px) { 
+/*Medium devices ( 426px and up)*/
+
+@media (min-width: 426px) { 
+  #page {
+  padding: 15px 3px;
+  }      
+ #close {
+  position: relative;
+  left:40%
+  }
+} 
+
+/*Large devices ( 768px and up)*/
+@media (min-width: 768px) { 
 #page {
-    display: flex;
+  display: flex;
   justify-content: center;
+  padding: 30px 24px 50px 24px;
+
 }
 #window-width {
+  display: flex;
+  flex-direction: column;
   width: 700px;
   max-width: 700px;
 }
 #close {
-  display: flex;
-  flex-direction: row-reverse;
-  width: 700px;
-}
+position: relative;
+left:54%
+  }
 }
 </style>
