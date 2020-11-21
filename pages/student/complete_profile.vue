@@ -552,7 +552,7 @@ export default {
           `${date[2]}-${date[1]}-${date[0]}T03:00`,
         ).toISOString();
         } else {
-          postBody.birthday = new Date().toISOString();
+          delete postBody.birthday
         }
 
         postBody.profile = this.resolveProfile({
