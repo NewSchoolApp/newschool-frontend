@@ -95,8 +95,6 @@ export default {
       const today = new Date().getDate()
       const month = new Date().getMonth() + 1;
       const dateSplited = notificationMonthAndDay.split('-');
-      console.log(month)
-
       if (dateSplited[1] < today || dateSplited[0] < month) {
         if (today - dateSplited[1] === 1) {
           return `Ontem - ${notificationDateHourAndMinute}`;
