@@ -156,8 +156,7 @@
                   </tr>
                 </thead>
                 <tbody
-                  v-infinite-scroll="getRanking"
-                  infinite-scroll-disabled="busy"
+
                 >
                   <tr
                     v-for="(item, index) in generalRanking"
@@ -326,7 +325,9 @@ export default {
           this.page++;
           //<--- The api is returning the list in ascending order;
         });
-      this.busy = false;
+      // this.busy = false;
+      //                   v-infinite-scroll="getRanking" // Colocar no tbody para infinity scroll
+      //             infinite-scroll-disabled="busy"
       this.loading = false;
       this.pageLoading = false;
     },
