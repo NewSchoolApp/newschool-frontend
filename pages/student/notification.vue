@@ -92,9 +92,10 @@ export default {
         16,
       );
       const notificationMonthAndDay = notification.createdAt.slice(5, 10);
-      const today = new Date().getDay() + 1;
+      const today = new Date().getDate()
       const month = new Date().getMonth() + 1;
       const dateSplited = notificationMonthAndDay.split('-');
+      console.log(month)
 
       if (dateSplited[1] < today || dateSplited[0] < month) {
         if (today - dateSplited[1] === 1) {
