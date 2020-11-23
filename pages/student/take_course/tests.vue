@@ -296,106 +296,38 @@ export default {
         this.onSuccess,
         this.onError,
       );
-    },
-    advanceCourse() {
-      console.log('advanceCourse() do Tests')
-      this.loading = true;
-      // avançando no curso
-      http
-        .post(
-          `${process.env.endpoints.ADVANCE_COURSE}/user/${this.idUser}/course/${this.courseId}`,
-        )
-        .then(() => {
-          // Atualizando o estado do curso
-          http
-            .getAll(
-              `${process.env.endpoints.STATE_COURSE}/user/${this.idUser}/course/${this.courseId}`,
-            )
-            .then(res => {
-              // Verificando se já concluiu
-              if (res.data.status === 'COMPLETED') {
-                delete res.data.user;
-                delete res.data.course;
-                delete res.data.currentLesson;
-                delete res.data.currentPart;
-                delete res.data.currentTest;
-                this.$store.commit('courses/setCurrentState', res.data);
-                $nuxt._router.push(`/aluno/curso/${this.slug}/fim`);
-              } else {
-                // caso não houver concluído, salva o estado atual
-                this.$store.commit('courses/setCurrent', res.data.course);
-                delete res.data.user;
-                delete res.data.course;
-                this.$store.commit('courses/setCurrentState', res.data);
-
-                // Verificando qual o próximo passo
-                http
-                  .getAll(
-                    `${process.env.endpoints.CURRENT_STEP}/user/${this.idUser}/course/${this.courseId}`,
-                  )
-                  .then(res => {
-                    if (res.data.type === 'NEW_TEST') {
-                      console.log("CurrentStep = Test")
-                      
-                      this.$store.commit(
-                        'courses/setCurrentTest',
-                        res.data.data,
-                      );
-
-                      this.loading = false;
-                    }
-                    else if(res.data.type === 'NEW_LESSON') {
-                      console.log("CurrentStep = Lesson, id:", res.data.data.id)
-                      
-                      //get parts of this lesson
-                      var parts = [];
-                      http.getAll(`${process.env.endpoints.PARTS_BY_LESSON}/${res.data.data.id}`)
-                      .then(res => {
-                        parts = res.data;
-                        console.log(parts);
-
-                        //get data of the first part
-                        http.getAll(`${process.env.endpoints.PART_BY_ID}/${parts[0].id}`)
-                        .then(res => {
-                          this.$store.commit('courses/setCurrentPart', res.data);
-                          $nuxt._router.push(`/aluno/curso/${this.slug}/aula/parte/play`);
-                        })
-                      })                
-                    } 
-                    else {
-                      console.log("CurrentStep = Part")
-                      
-                      //get part data
-                      http.getAll(`${process.env.endpoints.PART_BY_ID}/${res.data.data.id}`)
-                      .then(res => {
-                        this.$store.commit('courses/setCurrentPart', res.data);
-                        $nuxt._router.push(`/aluno/curso/${this.slug}/aula/parte/play`);
-                      })
-                    }
-                  });
-              }
-            });
-        });
-    },
+    },    
     setCorrect(condition) {
       this.correct = condition;
     },
-  },
-  head() {
-    return {
-      title: this.test.title,
-      meta: [
-        {
-          hid: 'description',
-          name: 'description',
-          content:
-            'Prove se o conhecimento que adquiriu com as vídeo-aulas foi satisfatório ou se precisa revê-las - Levamos educação de qualidade ' +
-            'na linguagem da quebrada para as periferias do Brasil, através da tecnologia e da ' +
-            'curadoria de conteúdos baseados nas habilidades do futuro.',
-        },
-      ],
-    };
-  },
+    async advanceCourse() {
+      this.loading = true;
+      // advancing course step
+      await http.post(
+        `${process.env.endpoints.ADVANCE_COURSE}/user/${this.idUser}/course/${this.courseId}`,
+      )
+
+      // cheking if this was the last step of the course
+      const currentState = await this.$store.dispatch('courses/refreshState');      
+      
+      if (currentState.status === 'COMPLETED') {        
+        $nuxt._router.push(`/aluno/curso/${this.slug}/fim`);
+      }
+      else{
+        //case this course is not finished, go to next step
+        const currentStep = await this.$store.dispatch('courses/refreshCurrentStep');
+
+        if (currentStep.type === 'test'){
+          //case current step still a test, continue tests on this page
+          this.loading = false;
+        }
+        else{
+          //else, go to step url
+          $nuxt._router.push(currentStep.stepUrl);
+        }
+      }
+    },
+  },  
 };
 </script>
 

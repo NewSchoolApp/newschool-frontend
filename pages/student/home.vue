@@ -73,6 +73,7 @@
 import Avatar from 'vue-avatar';
 import CourseCard from '~/components/CourseCard';
 import http from '~/services/http/generic';
+import courses from '~/services/http/courses';
 
 export default {
   components: {
@@ -109,7 +110,7 @@ export default {
     this.getAllCourses();
     this.getNotifications();
     this.getUserScore();
-    this.getMyCourses();
+    this.getMyCourses();    
   },
   methods: {
     getAllCourses() {

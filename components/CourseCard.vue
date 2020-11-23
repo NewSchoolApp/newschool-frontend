@@ -26,9 +26,9 @@ export default {
     },
   },
   methods: {
-    openCourse() {
+    async openCourse() {
       //store this course on VueX
-      this.$store.commit('courses/setCurrent', this.course);
+      await this.$store.commit('courses/setCurrent', this.course);
       //go tho course page
       $nuxt._router.push(`/aluno/curso/${this.course.slug}`);
     },

@@ -32,7 +32,7 @@
             <p id="description">{{ course.description }}</p>
           </div>
           <v-btn
-          v-if="courseState == 'TAKEN'"
+          v-if="courseState.status == 'TAKEN'"
           class="btn-block btn-primary"
           :loading="loadingInit"
           :disabled="loadingInit"
@@ -41,7 +41,7 @@
             Continuar
           </v-btn>
           <v-btn
-          v-else-if="courseState == 'COMPLETED'"
+          v-else-if="courseState.status == 'COMPLETED'"
           class="btn-block btn-primary"
           :loading="loadingInit"           
           @click="goToCertificate()"
@@ -86,66 +86,42 @@ export default {
       showThumb: true,
       loading: true,
       loadingInit: false,
-      courseState: '',
     };
   },
   computed: {
     course() {
       return this.$store.state.courses.current;
     },
+    courseState() {
+      return this.$store.state.courses.currentState;
+    },
     idUser() {
       return this.$store.state.user.data.id;
     }
   },
-  methods: {
-    checkCurrentState() {
-      this.$store.state.courses.my.forEach(myCourse => {
-        if (myCourse.course.id === this.course.id) {
-          this.courseState = myCourse.status;
-        }        
-      });
-      this.loading = false;  
-    },
+  async mounted() {
+    await this.$store.dispatch('courses/refreshState');
+    this.loading = false;
+  },
+  methods: {    
     imageLoadError() {
       this.showThumb = false;
     },
-    startCourse() {
+    goToCertificate() {
+      // eslint-disable-next-line no-undef
+      $nuxt._router.push(
+        `/certificado-info/${this.$store.state.user.data.id}/${this.course.id}`,
+      );
+    },
+    async startCourse() {
       this.loadingInit = true;
 
-      http
-        .post(process.env.endpoints.INIT_COURSE, {
+      //send to backend that this cours will 
+      await http.post(process.env.endpoints.INIT_COURSE, {
           userId: this.idUser,
-          courseId: id,
-        })
-        .then(() => {
-          http
-            .getAll(
-              `${process.env.endpoints.STATE_COURSE}/user/${this.idUser}/course/${id}`,
-            )
-            .then(res => {
-              this.$store.commit('courses/setCurrent', res.data.course);
-              delete res.data.user;
-              delete res.data.course;
-              this.$store.commit('courses/setCurrentState', res.data);
-
-              http
-                .getAll(
-                  `${process.env.endpoints.CURRENT_STEP}/user/${this.idUser}/course/${id}`,
-                )
-                .then(res => {
-                  this.$store.commit(
-                    'courses/setCurrentPart',
-                    res.data.data,
-                  );
-                });
-
-              setTimeout(() => {
-                console.log("%%%  INIT Course %%%")
-                $nuxt._router.push(`/aluno/curso/${id}/aula/parte`);
-              }, 400);
-            });
-            })
-        .catch(error => {
+          courseId: this.course.id,
+        })        
+      .catch(error => {
           this.$notifier
           .showMessage({
             type: 'error',
@@ -155,77 +131,23 @@ export default {
             $nuxt._router.push('/aluno/home');
           }, 2000);          
         });        
-    },
-    continueCourse() {
-      this.loadingInit = true;
-      http
-        .getAll(
-          `${process.env.endpoints.STATE_COURSE}/user/${this.idUser}/course/${this.course.id}`,
-        )
-        .then(res => {
-          console.log("continueCourse()", res)
-          console.log("res.data", res.data)
-          console.log("res.data.course", res.data.course)
-          // salvando o estado atual
-          this.$store.commit('courses/setCurrent', res.data.course);
-          delete res.data.user;
-          delete res.data.course;
-          this.$store.commit('courses/setCurrentState', res.data);
+      
+      const currentStep = await this.$store.dispatch('courses/refreshCurrentStep');
 
-          // Verificando qual o próximo passo
-          http
-            .getAll(
-              `${process.env.endpoints.CURRENT_STEP}/user/${this.idUser}/course/${this.course.id}`,
-            )
-            .then(res => {
-              console.log("Current_Step", res.data)
-              if (res.data.type === 'NEW_TEST') {
-                console.log("CurrentStep = Test")
-                this.$store.commit('courses/setCurrentTest', res.data.data);
-                $nuxt._router.push(
-                  `/aluno/curso/${this.slug}/aula/teste`,
-                );
-              }
-              else if(res.data.type === 'NEW_LESSON') {
-                console.log("CurrentStep = Lesson, id:", res.data.data.id)
-                
-                //get parts of this lesson
-                var parts = [];
-                http.getAll(`${process.env.endpoints.PARTS_BY_LESSON}/${res.data.data.id}`)
-                .then(res => {
-                  parts = res.data;
-                  console.log(parts);
-
-                  //get data of the first part
-                  http.getAll(`${process.env.endpoints.PART_BY_ID}/${parts[0].id}`)
-                  .then(res => {
-                    this.$store.commit('courses/setCurrentPart', res.data);
-                    $nuxt._router.push(`/aluno/curso/${this.slug}/aula/parte`);
-                  })
-                })                
-              } 
-              else {
-                console.log("CurrentStep = Part")
-                //get part data
-                http.getAll(`${process.env.endpoints.PART_BY_ID}/${res.data.data.id}`)
-                .then(res => {
-                  this.$store.commit('courses/setCurrentPart', res.data);
-                  $nuxt._router.push(`/aluno/curso/${this.slug}/aula/parte`);
-                })
-              }
-            });
-        });
+      //the course will be start by now, so for sure that the first step will be a part of a lesson.
+      //go to step url
+      $nuxt._router.push(currentStep.stepUrl);
     },
-    goToCertificate() {
-      // eslint-disable-next-line no-undef
-      $nuxt._router.push(
-        `/certificado-info/${this.$store.state.user.data.id}/${this.course.id}`,
-      );
+    async continueCourse() {
+      this.loadingInit = true;     
+
+      // check for current step
+      const currentStep = await this.$store.dispatch('courses/refreshCurrentStep');
+
+      //go to step url
+      $nuxt._router.push(currentStep.stepUrl);    
     },
   },
-  mounted() {
-    this.checkCurrentState();
-  }  
 };
 </script>
 
