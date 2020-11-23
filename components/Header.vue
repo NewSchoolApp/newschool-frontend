@@ -29,20 +29,27 @@ export default {
 </script>
 
 <style scoped>
+* {
+  font-family: 'Roboto', sans-serif;
+}
 .h1__theme {
-  font-size: 1.4444rem;
+  font-size: 1rem;
+  line-height: 1.2;
+  font-weight: 900;
+  text-align: center;
+  padding: 0 2.5rem !important;
 }
 #head__bar {
   display: flex;
   justify-content: center;
-  padding: 1.2rem;
+  padding: 1.2rem 0;
   position: relative;
   align-items: center;
   background: transparent;
 }
 
 ::v-deep .btn-back .theme--light.v-icon {
-  color: #60c;
+  color: var(--primary);
   font-size: 35px;
 }
 ::v-deep .btn-back {

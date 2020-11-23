@@ -1,10 +1,32 @@
 # STORE
 
-**This directory is not required, you can delete it if you don't want to use it.**
+## store/snackbar
 
-This directory contains your Vuex Store files.
-Vuex Store option is implemented in the Nuxt.js framework.
+**Store para armazenar temporareamente as informações de snackbar
 
-Creating a file in this directory automatically activates the option in the framework.
+#### Estado
 
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/guide/vuex-store).
+```
+    state {
+        type: '',  // Tipo da mensagem
+        message: '' // Mensagem
+    }
+
+```
+
+#### Mutações
+
+```
+    mutations = {
+        // Muatation para alterar os dados do alert, quando essa mutation é invocada o alert é exebido.
+        showMessage(state, payload) {
+            state.type = payload.type
+            state.message = payload.message
+        }
+    }
+
+```
+
+
+
+

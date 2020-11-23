@@ -92,3 +92,4 @@ CONFIRA OS LAYOUTS NO FIGMA:
 https://www.figma.com/file/whTp4hE6ZQR3V8LBxSZnjv/NewSchool?node-id=0%3A1
 
 ## Código de conduta
+.

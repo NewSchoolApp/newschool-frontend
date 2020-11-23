@@ -1,81 +1,75 @@
 <template>
-  <v-layout id="page">
-    <v-flex ref="flex" class="main-container">
-
-      <h1>
-        <n-link to="../../edit">
-          <v-btn class="back-button" text icon color="primary">
-            <v-icon>mdi-arrow-left</v-icon>
+  <div id="page">
+    <HeaderBar :title="'Gerenciar Meus Cursos'" :back-page="true"></HeaderBar>
+    <v-layout align-center justify-center>
+      <v-flex xs10 sm8 md4 style="text-align: -webkit-left;">      
+        <v-container>
+          <v-row>
+            <v-col>
+              <h3>Teste</h3>
+              <v-form class="test-form" ref="test" v-model="status" lazy-validation>
+                <v-text-field
+                  v-model="test.title"
+                  :rules="titleRules"                  
+                  label="Título"
+                  required
+                />
+                <v-text-field
+                  v-model="test.correctAlternative"
+                  :rules="answerRules"                  
+                  label="Alternativa Correta"
+                  required
+                />
+                <v-text-field
+                  v-model="test.firstAlternative"
+                  :rules="alternativeRules"
+                  prepend-inner-icon="A:"                  
+                  required
+                />
+                <v-text-field
+                  v-model="test.secondAlternative"
+                  :rules="alternativeRules"                  
+                  prepend-inner-icon="B:"
+                  required
+                />
+                <v-text-field
+                  v-model="test.thirdAlternative"
+                  :rules="alternativeRules"                  
+                  prepend-inner-icon="C:"
+                  required
+                />
+                <v-text-field
+                  v-model="test.fourthAlternative"
+                  :rules="alternativeRules"                  
+                  prepend-inner-icon="D:"
+                  required
+                />
+              </v-form>
+              <v-btn 
+              class="btn-block btn-primary" @click="submit">
+                Salvar
+              </v-btn>
+            </v-col> 
+          </v-row>
+        </v-container>
+      </v-flex>
+      <v-snackbar
+        v-model="snackbar"
+        :color="snackbarStatus"
+        :timeout="5000"
+        :top="true"
+        :right="true"
+      >
+      {{ snackbarText }}
+          <v-btn color="#FFF" text @click="snackbar = false">
+              Fechar
           </v-btn>
-        </n-link>
-        Gerenciar meus cursos
-      </h1>
-
-      <v-form class="test-form" ref="test" v-model="status" lazy-validation>
-        <h3>Teste</h3>
-        <v-text-field
-          v-model="test.title"
-          :rules="titleRules"
-          color="#60c"
-          label="Título"
-          required
-        />
-        <v-text-field
-          v-model="test.correctAlternative"
-          :rules="answerRules"
-          color="#60c"
-          label="Alternativa Correta"
-          required
-        />
-        <v-text-field
-          v-model="test.firstAlternative"
-          :rules="alternativeRules"
-          prepend-inner-icon="A:"
-          color="#60c"
-          required
-        />
-        <v-text-field
-          v-model="test.secondAlternative"
-          :rules="alternativeRules"
-          color="#60c"
-          prepend-inner-icon="B:"
-          required
-        />
-        <v-text-field
-          v-model="test.thirdAlternative"
-          :rules="alternativeRules"
-          color="#60c"
-          prepend-inner-icon="C:"
-          required
-        />
-        <v-text-field
-          v-model="test.fourthAlternative"
-          :rules="alternativeRules"
-          color="#60c"
-          prepend-inner-icon="D:"
-          required
-        />
-      </v-form>
-
-      <v-btn color="primary" class="save-button" @click="submit">Salvar</v-btn>
-    </v-flex>
-
-    <v-snackbar
-      v-model="snackbar"
-      :color="snackbarStatus"
-      :timeout="5000"
-      :top="true"
-      :right="true"
-    >
-    {{ snackbarText }}
-        <v-btn color="#FFF" text @click="snackbar = false">
-            Fechar
-        </v-btn>
-    </v-snackbar>
-    <client-only>
-      <navigation-bar />
-    </client-only>
-  </v-layout>
+      </v-snackbar>
+      <client-only>
+        <navigation-bar />
+      </client-only>
+    </v-layout>
+  </div>
 </template>
 
 <router>
@@ -86,11 +80,13 @@
 
 <script>
 import NavigationBar from '~/components/NavigationBar'
+import HeaderBar from '~/components/Header.vue';
 import tests from '~/services/http/generic'
 
 export default {
     components: {
-      NavigationBar
+      NavigationBar,
+      HeaderBar,
     },
     data: () => ({
         title: 'Editar Teste',
@@ -173,107 +169,23 @@ export default {
 }
 </script>
 
-
 <style lang="scss" scoped>
 ::v-deep .v-input__icon--prepend-inner {
     justify-content: flex-start;
     i {
-        color: #60c;
+        color: var(--primary);
         font-size: 16px;
         font-weight: 600;
         font-style: normal !important;
     }
 }
-
-h1 {
-    font-weight: 600;
-    font-size: 16px;
-    line-height: 36px;
-    text-transform: uppercase;
-    text-align: center;
-    color: #6600CC;
-}
-
-@media screen and (max-width: 20.625em) {
-    h1 {
-        font-size: 14px;
-    }
-}
-
-h3 {
-    font-weight: 900;
-    font-size: 1em;
-    line-height: 24px;
-    text-transform: uppercase;
-    text-align: left;
-    color: #6600CC;
-}
-
-.main-container {
-    display: flex;
-    flex-direction: column;
-    padding: 2em 3em 1.5em 2em;
-}
-
 .v-input {
     width: 90%;
-    height: 50px;
+    height: 50px;    
 }
-
-.save-button {
-    height: 2.75em;
-    width: 100%;
-    font-weight: 600;
-    margin-top: auto;
-    display: flex;
-    align-items: center;
-    text-align: center;
-    color: #FFFFFF;
+.v-input input {
+    color: none;
 }
-
-.v-button__content {
-    font-weight: 900;
-    font-size: 12px;
-    line-height: 14px;
-}
-
-.back-button {
-    min-width: 0 !important;
-    float: left;
-}
-
-.v-label {
-    color: #60c;
-}
-
-.test-form {
-    margin-top: 1.5em;
-}
-
-::v-deep .v-text-field:not(.v-input--has-state)
-  > .v-input__control
-  > .v-input__slot:hover:before {
-    border-color: #60c;
-}
-
-::v-deep .v-label {
-    font-weight: 600;
-    font-size: 14px;
-    color: #aa56ff;
-}
-
-::v-deep .theme--light.v-text-field
-  > .v-input__control
-  > .v-input__slot::before {
-    border-color: #aa56ff;
-}
-
-::v-deep .v-text-field.v-input--has-state
-  > .v-input__control
-  > .v-input__slot:before {
-    border-color: #ff5252;
-}
-
 ::v-deep .v-messages__message {
     text-align: right;
     margin-top: -0.3em;

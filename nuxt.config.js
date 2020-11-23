@@ -3,7 +3,7 @@ import colors from 'vuetify/es5/util/colors';
 export default {
   router: {
     // uncomment for cordova release on android/ios
-    // mode: 'hash',
+    mode: 'hash',
     middleware: 'auth.guard',
 
     extendRoutes(routes, resolve) {
@@ -29,6 +29,16 @@ export default {
             path: 'home',
             name: 'aluno-home',
             component: resolve(__dirname, 'pages/student/home.vue'),
+          },
+          {
+            path: '/certificado-info/:idUser/:idCourse',
+            name: 'certificado-info',
+            component: resolve(__dirname, 'pages/public/certificate_info.vue'),
+          },
+          {
+            path: '/cadastro/:inviteKey',
+            name: 'cadastro',
+            component: resolve(__dirname, 'pages/public/signup.vue'),
           },
           {
             path: 'perfil',
@@ -101,6 +111,11 @@ export default {
             component: resolve(__dirname, 'pages/admin/home.vue'),
           },
           {
+            path: 'dashboard',
+            name: 'admin-dashboard',
+            component: resolve(__dirname, 'pages/admin/dashboard.vue'),
+          },
+          {
             path: 'perfil',
             name: 'meu-perfil',
             component: resolve(__dirname, 'pages/admin/profile.vue'),
@@ -149,8 +164,9 @@ export default {
     domain: process.env.DOMAIN_URL || 'https://newschoolapp.com.br',
     baseUrl:
       process.env.VUE_APP_BASE_URL ||
-     'https://newschoolbrapi-dev.herokuapp.com/',
-
+      'http://newschool-api-dev2.eba-gxtzwa9m.us-east-2.elasticbeanstalk.com/',
+    //https://9ddlz0bte4.execute-api.us-east-2.amazonaws.com/dev
+    // http://develop.dev-newschool.tk/
     credentials: {
       name: process.env.VUE_APP_CLIENT_CREDENTIAL_NAME || 'NEWSCHOOL@FRONT',
       secret:
@@ -168,12 +184,20 @@ export default {
 
     endpoints: {
       CERTIFICATES_ME: 'api/v1/course-taken/certificates/user/',
+      RANKING: '/api/v1/gamefication/ranking',
+      EVENT: '/api/v1/gamefication/start-event',
+      NOTIFICATIONS: 'api/v1/notification',
       USER_ME: 'api/v1/user/me',
+      SCHOOL: 'api/v1/school',
+      CITY: 'api/v1/city',
+      STATE: 'api/v1/state',
       LOGIN: 'oauth/token',
       SIGN_UP: 'api/v1/user/student',
       FORGOT_PASSWORD: 'api/v1/user/forgot-password',
       COURSE: '/api/v1/course',
       LESSON: '/api/v1/lesson',
+      PART_BY_LESSON: '/api/v1/part/lesson',
+      COMMENT: '/api/v1/comment/part',
       COURSE_BY_SLUG: '/api/v1/course/slug/',
       INIT_COURSE: 'api/v1/course-taken/start-course',
       LESSONS_BY_COURSE: '/api/v1/lesson/course/',
@@ -183,8 +207,14 @@ export default {
       CURRENT_STEP: '/api/v1/course-taken/current-step',
 
       MY_COURSES: 'api/v1/course-taken/user/',
-      FACEBOOK_LOGIN: "oauth/facebook/token",
-      GOOGLE_LOGIN: "oauth/google/token"
+      FACEBOOK_LOGIN: 'oauth/facebook/token',
+      GOOGLE_LOGIN: 'oauth/google/token',
+
+      TOTAL_USERS: '/api/v1/user',
+      ACTIVE_USERS: '/api/v1/dashboard/user/quantity',
+      COURSE_VIEWS: '/api/v1/dashboard/course/views',
+      NS_CERTIFICATED_QUANTITY: '/api/v1/dashboard/course-taken/user/quantity',
+      CERTIFICATE_QUANTITY: '/api/v1/dashboard/certificate/quantity',
     },
     endpointCertificateCourseTaken: {
       CERTIFICATES_COURSE_TAKEN_ME: 'api/v1/course-taken/certificate/user/',
@@ -193,8 +223,8 @@ export default {
     GATOKEN: process.env.GA_TOKEN,
   },
   // uncomment for cordova release on android/ios
-  // mode: 'spa',
-  mode: 'universal',
+  mode: 'spa',
+  // mode: 'universal',
   /*
    ** Headers of the page
    */
@@ -206,8 +236,13 @@ export default {
     titleTemplate:
       '%s | ' + 'New School | Formando os protagonistas da quebrada',
     meta: [
-      { charset: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+      {
+        charset: 'utf-8',
+      },
+      {
+        name: 'viewport',
+        content: 'width=device-width, initial-scale=1',
+      },
       {
         hid: 'title',
         name: 'title',
@@ -227,18 +262,30 @@ export default {
       },
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      {
+        rel: 'icon',
+        type: 'image/x-icon',
+        href: '/favicon.ico',
+      },
       {
         rel: 'stylesheet',
         href:
           'https://fonts.googleapis.com/css?family=Montserrat:400,600,900&display=swap',
       },
     ],
+    script: [
+      {
+        type: 'text/javascript',
+        src: 'cordova.js',
+      },
+    ],
   },
   /*
    ** Customize the progress-bar color
    */
-  loading: { color: '#fff' },
+  loading: {
+    color: '#fff',
+  },
   /*
    ** Global CSS
    */
@@ -247,8 +294,11 @@ export default {
    ** Plugins to load before mounting the App
    */
   plugins: [
+    '~/plugins/notifier.js',
+    '~/plugins/pusher.js',
     '~/plugins/cordova.client.js',
     '~/plugins/admin-components.js',
+    { src: '~/plugins/infinite-scroll.js', mode: 'client' },
     { src: '~/plugins/ga.js', mode: 'client' },
     { src: '~/plugins/redirect', mode: 'client' },
   ],
@@ -338,21 +388,23 @@ export default {
     /*
      ** You can extend webpack config here
      */
-    // publicPath: '/nuxtfiles/',
-    extend(config, ctx) { },
+    publicPath: '/nuxtfiles/',
+    extend(config, ctx) {},
   },
 
   auth: {
     strategies: {
       facebook: {
-        client_id: process.env.FACEBOOK_ID || '1584605795055838',
+        client_id: process.env.FACEBOOK_ID || '384298599359690',
         userinfo_endpoint:
           'https://graph.facebook.com/v2.12/me?fields=about,name,picture{url},email,birthday',
         scope: ['public_profile', 'email'],
       },
       google: {
-        client_id: process.env.GOOGLE_ID || '889053794643-qu89df6ei5u2sncnfmedi39m2ascih3k.apps.googleusercontent.com'
+        client_id:
+          process.env.GOOGLE_ID ||
+          '603764452531-cbbqg8im5p4hr0et4vqurcs4lbce9jrk.apps.googleusercontent.com',
       },
     },
   },
-}
+};

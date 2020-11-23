@@ -67,7 +67,7 @@ a {
   line-height: 24px;
   text-transform: uppercase;
 
-  color: #6600CC;
+  color: var(--primary);
   margin-bottom: 10px;
 }
 

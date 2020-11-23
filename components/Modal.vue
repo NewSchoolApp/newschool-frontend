@@ -9,8 +9,12 @@
         {{ dialogMessage }}
       </v-card-text>
       <div class="btn-group">
-        <v-btn v-if="toRoute" color="primary" text :to="toRoute.path">{{toRoute.name}}</v-btn>
-        <v-btn v-if="cancel" color="primary" text @click="dialogRun">Cancelar</v-btn>
+        <v-btn v-if="toRoute" color="primary" text :to="toRoute.path">{{
+          toRoute.name
+        }}</v-btn>
+        <v-btn v-if="cancel" color="primary" text @click="dialogRun"
+          >Cancelar</v-btn
+        >
         <v-btn v-if="ok" color="primary" text @click="dialogRun">Ok</v-btn>
       </div>
     </v-dialog>
@@ -29,15 +33,15 @@
  */
 
 export default {
+  props: ['dialogMessage', 'toRoute', 'cancel', 'ok'],
   data: () => ({
-    dialog: false
+    dialog: false,
   }),
-  props: ["dialogMessage", "toRoute", "cancel", "ok"],
   methods: {
     dialogRun() {
       this.dialog = !this.dialog;
-    }
-  }
+    },
+  },
 };
 </script>
 

@@ -1,6 +1,6 @@
 <template>
   <div v-if="auth">
-    <side-menu class="intro-transition" v-show="viewMenu"></side-menu>
+    <side-menu v-show="viewMenu" class="intro-transition"></side-menu>
 
     <v-bottom-navigation
       scroll-target="#page"
@@ -10,9 +10,9 @@
       horizontal
     >
       <v-btn
-        class="btn-fixed menu__bottom"
         v-for="item in menu"
-        v-bind:key="item.id"
+        :key="item.id"
+        class="btn-fixed menu__bottom"
         :to="item.link"
         :class="item.class"
         @click="viewMenu = false"
@@ -21,7 +21,7 @@
         <v-icon>{{ item.icon }}</v-icon>
       </v-btn>
 
-      <v-btn class="btn-fixed" @click="setViewMenu" id="menu-btn">
+      <v-btn id="menu-btn" class="btn-fixed" @click="setViewMenu">
         <span>Outros</span>
         <v-icon>mdi-apps</v-icon>
       </v-btn>
@@ -34,12 +34,20 @@ import SideMenu from '~/components/SideMenu.vue';
 import auth from '~/services/http/auth';
 
 export default {
+  components: {
+    SideMenu,
+  },
   data: () => ({
     viewMenu: false,
     auth: false,
     menu: [
-      { id: 1, name: 'Home', icon: 'mdi-home', link: '/aluno/home' },
-      { id: 2, name: 'Perfil', icon: 'mdi-account', link: '/aluno/perfil' },
+      { id: 1, name: 'Início', icon: 'mdi-home-outline', link: '/aluno/home' },
+      {
+        id: 2,
+        name: 'Perfil',
+        icon: 'mdi-account-outline',
+        link: '/aluno/perfil',
+      },
       {
         id: 3,
         name: 'Meus Cursos',
@@ -49,15 +57,12 @@ export default {
       {
         id: 4,
         name: 'Certificados',
-        icon: 'mdi-school',
+        icon: 'mdi-school-outline',
         link: '/aluno/certificados',
         class: '',
       },
     ],
   }),
-  components: {
-    SideMenu,
-  },
   mounted() {
     const { status } = auth.isTokenValid();
     if (status) {
@@ -74,7 +79,7 @@ export default {
         this.menu[0].link = '/admin/home';
         this.menu[1].link = '/admin/perfil';
         this.menu[2].link = '/admin/listar-cursos';
-        this.menu[3].class = 'remove-certificates';
+        this.menu[3].link = '/admin/certificados';
       }
     },
   },
@@ -87,6 +92,7 @@ export default {
 }
 .v-icon {
   margin-right: 0 !important;
+  padding-top: 5px;
 }
 #page {
   margin-bottom: 5rem !important;
@@ -99,7 +105,31 @@ export default {
   animation-duration: 0.2s;
 }
 >>> .v-item-group.v-bottom-navigation .v-btn.v-btn--active .v-btn__content {
-  color: #6600cc;
+  color: var(--primary);
+}
+.mdi-library::before {
+  content: url('https://api.iconify.design/ic:outline-local-library.svg?color=rgb(112%2C112%2C112)&height=24');
+  vertical-align: -0.125em;
+}
+>>> .v-item-group.v-bottom-navigation
+  .v-btn.v-btn--active
+  .v-btn__content
+  .mdi-library::before {
+  content: url('https://api.iconify.design/ic:outline-local-library.svg?color=rgb(102%2C0%2C204)&height=24');
+  vertical-align: -0.125em;
+}
+
+span {
+  font-size: 8px;
+  font-weight: 400;
+  color: rgb(115, 115, 115);
+  margin-top: 5px;
+}
+>>> .v-item-group.v-bottom-navigation
+  .v-btn.v-btn--active
+  .v-btn__content
+  span {
+  color: var(--primary);
 }
 
 @media (max-width: 375px) {

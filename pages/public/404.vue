@@ -7,15 +7,10 @@
         <p>Tenta de novo, mano.</p>
         <img src="~/assets/page-404.svg" alt />
         <v-btn
-          class="back"
-          color="#60c"
-          dark
-          block
-          depressed
-          large
-          @click="gotoBack"
-          >Voltar</v-btn
-        >
+        class="btn-block btn-primary"
+        @click="gotoBack">
+          Voltar
+        </v-btn>
       </main>
     </v-container>
     <navigation-bar />
@@ -30,10 +25,10 @@ export default {
   components: {
     HeaderBar,
     NavigationBar,
-  },
+},
   methods: {
     gotoBack() {
-      $nuxt._router.go(-1);
+      $nuxt._router.back();
     },
   },
 };
@@ -48,8 +43,6 @@ export default {
 }
 .middle p {
   color: #656565;
-  font-family: Montserrat;
-  font-style: normal;
   font-weight: bold;
   font-size: 16px;
   line-height: 20px;
@@ -60,15 +53,7 @@ export default {
   justify-content: center;
   align-items: center;
 }
-::v-deep .v-btn__content {
-  color: #fff;
-  font-size: 12px;
-  font-weight: 900;
-  line-height: 15px;
-}
-::v-deep .back {
-  margin-top: 50px;
-  width: 100%;
-  box-shadow: 0 4px 5px gray !important;
+img {
+  padding-bottom: 50px;
 }
 </style>
