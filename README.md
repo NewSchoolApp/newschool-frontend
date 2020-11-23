@@ -3,7 +3,7 @@
 
 > Frontend da New School, desenvolvido em VueJs, Nuxt e Vuetify
 
-> **Ambiente de DEV:** http://newschool-ui-dev.eba-fdz8zprg.us-east-2.elasticbeanstalk.com/
+> **Ambiente de DEV:** http://newschool-ui-dev.eba-fdz8zprg.us-east-2.elasticbeanstalk.com
 
 > **Ambiente de PROD:** https://newschoolapp.com.br/
 
