@@ -214,7 +214,7 @@ export default {
   data() {
     return {
       page: 1,
-      limit: 10,
+      limit: 50,
       busy: false,
       country: '',
       school: '',
@@ -303,8 +303,8 @@ export default {
 
       httpHelper
         .getAll(
-          `${process.env.endpoints.RANKING +
-            `?page=${this.page}` +
+          `${process.env.endpoints.RANKING + `?limit=${this.limit}` +
+            // `?page=${this.page}` +
             //concat every active filter for the request
             (this.city ? '&city=' + this.city : '') +
             (this.state ? '&state=' + this.state : '') +
@@ -313,9 +313,9 @@ export default {
         )
         .then(ranking => {
           if (!ranking.data.content.length) {
-            this.stop = true;
+            // this.stop = true;
             this.loading = false;
-            this.busy = false;
+            // this.busy = false;
             return;
           }
           // const append = ranking.data.content
