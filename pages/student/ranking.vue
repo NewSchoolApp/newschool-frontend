@@ -200,7 +200,7 @@
 import NavigationBar from '~/components/NavigationBar.vue';
 import HeaderBar from '~/components/Header.vue';
 import utils from '~/utils/index';
-import infiniteScroll from 'vue-infinite-scroll';
+// import infiniteScroll from 'vue-infinite-scroll';
 import httpHelper from '~/services/http/generic';
 import { http } from '~/services/http/config';
 
@@ -249,7 +249,7 @@ export default {
       stateAbbreviations: [],
     };
   },
-  directives: { infiniteScroll },
+  // directives: { infiniteScroll },
   computed: {
     idUser() {
       return this.$store.state.user.data.id;
