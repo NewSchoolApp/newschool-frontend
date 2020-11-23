@@ -13,6 +13,8 @@
         </div>
       </div>
       <v-flex v-else ref="flex" class="main-container">
+        <h3>{{ part.lessonTitle }}</h3>
+        <h4>{{ description }}</h4>
         <div class="inner-container">
           <div class="video-iframe-container">
             <iframe
@@ -24,62 +26,10 @@
               allowfullscreen
             ></iframe>
           </div>
-          <v-tabs v-model="selectedTab" height="35px">
-            <v-tab>
-              Informação
-            </v-tab>
-            <v-tab>
-              Dúvidas e Comentários
-            </v-tab>
-          </v-tabs>
-          <div v-if="selectedTab === 0" class="text__information">
-            <h3>{{ part.lessonTitle }}</h3>
-            <h4>{{ description }}</h4>
+          <div class="text__information">
             <v-btn class="btn-block btn-primary" @click="advanceCourse">
-              FAZER TESTE
+              PRÓXIMO
             </v-btn>
-          </div>
-          <div v-else class="comments">
-            <h3 class="comments__number">
-              10 Comentários
-            </h3>
-            <v-row justify="center mt-2">
-              <v-avatar size="44">
-                <img v-if="user.photo" :src="user.photo" />
-                <img v-else :src="require(`~/assets/person.svg`)" />
-              </v-avatar>
-              <v-text-field
-                class="input__data mt-2 ml-2"
-                placeholder="Escreva seu comentario"
-                outlined
-              ></v-text-field>
-            </v-row>
-            <div class="text-center">
-              <v-menu offset-y>
-                <template v-slot:activator="{ on, attrs }">
-                  <p
-                    v-bind="attrs"
-                    v-on="on"
-                    class="
-              filter__coments"
-                  >
-                    Mais recentes <img src="~/assets/arrow_down.svg" alt="" />
-                  </p>
-                </template>
-                <v-list>
-                  <v-list-item v-for="(item, index) in items" :key="index">
-                    <v-list-item-title>{{ item.title }}</v-list-item-title>
-                  </v-list-item>
-                </v-list>
-              </v-menu>
-            </div>
-            <comment-card
-              commentText="Qual melhor time de Tech do Brasil?"
-              :user="user"
-              likes="5"
-              commentDate="06/10/2020"
-              :responses="responses"
-            ></comment-card>
           </div>
         </div>
       </v-flex>
@@ -115,51 +65,7 @@ export default {
     urlVideo: '',
     description: '',
     selectedTab: 0,
-    partId: '',
     loading: true,
-    items: [
-      { title: 'Mais recentes' },
-      { title: 'Mais atigos' },
-      { title: 'Mais aotados' },
-      { title: 'Meus Comentarios' },
-    ],
-    responseUser: {
-      photo:
-        'https://newschool-dev.s3.us-east-2.amazonaws.com/17954a42-8132-481e-bc38-508aefe7a996/profile.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAV56KXRILVMG6BB2Q%2F20201119%2Fus-east-2%2Fs3%2Faws4_request&X-Amz-Date=20201119T035211Z&X-Amz-Expires=900&X-Amz-Signature=a879de0ff9f0a4f7eda52940f7f9261aec9e242f38650a1e4e680982dbacd065&X-Amz-SignedHeaders=host',
-      points: '132',
-      rank: '2',
-      userId: '17954a42-8132-481e-bc38-508aefe7a996',
-      userName: 'Henrry',
-    },
-    responses: [
-      {
-        photo:
-          'https://newschool-dev.s3.us-east-2.amazonaws.com/b406aee7-065f-4ea4-a46b-34fe34d70b8f/leo.jpeg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAV56KXRILVMG6BB2Q%2F20201119%2Fus-east-2%2Fs3%2Faws4_request&X-Amz-Date=20201119T140637Z&X-Amz-Expires=900&X-Amz-Signature=772e30996f3ed979e2437ac04352b49c75b3e2c251cdc67a03178a204c2584b8&X-Amz-SignedHeaders=host',
-        points: '132',
-        rank: '2',
-        userId: '17954a42-8132-481e-bc38-508aefe7a996',
-        userName: 'Leonardo',
-        comment: 'Microsoft',
-      },
-      {
-        photo:
-          'https://newschool-dev.s3.us-east-2.amazonaws.com/b406aee7-065f-4ea4-a46b-34fe34d70b8f/leo.jpeg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAV56KXRILVMG6BB2Q%2F20201119%2Fus-east-2%2Fs3%2Faws4_request&X-Amz-Date=20201119T140637Z&X-Amz-Expires=900&X-Amz-Signature=772e30996f3ed979e2437ac04352b49c75b3e2c251cdc67a03178a204c2584b8&X-Amz-SignedHeaders=host',
-        points: '132',
-        rank: '2',
-        userId: '17954a42-8132-481e-bc38-508aefe7a996',
-        userName: 'Henrry',
-        comment: 'Corinthians',
-      },
-      {
-        photo:
-          'https://newschool-dev.s3.us-east-2.amazonaws.com/b406aee7-065f-4ea4-a46b-34fe34d70b8f/leo.jpeg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAV56KXRILVMG6BB2Q%2F20201119%2Fus-east-2%2Fs3%2Faws4_request&X-Amz-Date=20201119T140637Z&X-Amz-Expires=900&X-Amz-Signature=772e30996f3ed979e2437ac04352b49c75b3e2c251cdc67a03178a204c2584b8&X-Amz-SignedHeaders=host',
-        points: '132',
-        rank: '2',
-        userId: '17954a42-8132-481e-bc38-508aefe7a996',
-        userName: 'Mayara',
-        comment: 'New School, claro',
-      },
-    ],
   }),
   computed: {
     part() {
@@ -193,20 +99,21 @@ export default {
       const currentLessonData = await lessons.data.filter(
         data => data.title === this.part.lessonTitle,
       );
-      const responsePart = parts.data.filter(part => part.videoUrl === this.part.youtubeUrl)
-      console.log(responsePart)
-      this.partId = responsePart[0].id
+      const responsePart = parts.data.filter(
+        part => part.videoUrl === this.part.youtubeUrl,
+      );
+      console.log(responsePart);
+      this.partId = responsePart[0].id;
 
-      console.log(this.partId)
+      console.log(this.partId);
       this.description = currentLessonData[0].description;
       this.getComments();
-
     },
     async getComments() {
       const comments = await http.getAll(
         `${process.env.endpoints.COMMENT}/${this.partId}`,
       );
-      console.log(comments)
+      console.log(comments);
     },
     advanceCourse() {
       this.loading = true;
