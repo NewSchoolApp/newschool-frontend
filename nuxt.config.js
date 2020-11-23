@@ -164,8 +164,8 @@ export default {
     domain: process.env.DOMAIN_URL || 'https://newschoolapp.com.br',
     baseUrl:
       process.env.VUE_APP_BASE_URL ||
-      'http://newschool-api-dev2.eba-gxtzwa9m.us-east-2.elasticbeanstalk.com/',
-    //https://9ddlz0bte4.execute-api.us-east-2.amazonaws.com/dev
+    //'http://newschool-api-dev2.eba-gxtzwa9m.us-east-2.elasticbeanstalk.com/',
+    'https://9ddlz0bte4.execute-api.us-east-2.amazonaws.com/dev',
     // http://develop.dev-newschool.tk/
     credentials: {
       name: process.env.VUE_APP_CLIENT_CREDENTIAL_NAME || 'NEWSCHOOL@FRONT',
@@ -196,7 +196,8 @@ export default {
       FORGOT_PASSWORD: 'api/v1/user/forgot-password',
       COURSE: '/api/v1/course',
       LESSON: '/api/v1/lesson',
-      PART_BY_LESSON: '/api/v1/part/lesson',
+      PARTS_BY_LESSON: '/api/v1/part/lesson',
+      PART_BY_ID: '/api/v1/part',
       COMMENT: '/api/v1/comment/part',
       COURSE_BY_SLUG: '/api/v1/course/slug/',
       INIT_COURSE: 'api/v1/course-taken/start-course',

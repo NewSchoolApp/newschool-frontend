@@ -489,7 +489,7 @@ export default {
   font-weight: 500;
   color: grey;
   text-transform: none;
-  border-bottom: 4px solid #f5f5f5;
+  border-bottom: 4px solid #f7f7f7;
 }
 ::v-deep .v-tabs {
   max-height: 32px;

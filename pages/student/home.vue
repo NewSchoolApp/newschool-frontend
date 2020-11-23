@@ -15,30 +15,22 @@
         <img
           class="header_img"
           :src="require(`~/assets/trophy-home.svg`)"
-          @click="goToRanking"
+          @click="goTo('ranking')"
         />
-        <img
-          v-if="notifications.length"
+        <img          
           id="bell"
           class="header_img"
-          :src="require(`~/assets/bell-home-active.svg`)"
-          @click="goToNotifications"
-        />
-        <img
-          v-else
-          id="bell"
-          class="header_img"
-          :src="require(`~/assets/bell-home.svg`)"
-          @click="goToNotifications"
+          :src="require(`~/assets/bell-home${notifications.length?'-active':''}.svg`)"
+          @click="goTo('notificacao')"
         />
       </v-row>
 
       <!-- Header-bar -->
       <v-row id="header" align="center">
         <v-avatar class="user__image" size="55">
-          <img @click="goToProfile" v-if="user.photo" :src="user.photo" />
+          <img @click="goTo('perfil')" v-if="user.photo" :src="user.photo" />
           <img
-            @click="goToProfile"
+            @click="goTo('perfil')"
             v-else
             :src="require(`~/assets/person.svg`)"
           />
@@ -46,7 +38,7 @@
 
         <v-col>
           <h1 class="welcome-title">
-            {{ 'Salve, ' + loadUserName() + '!' }}
+            {{ 'Salve, ' + userName + '!' }}
           </h1>
           <h1 class="welcome-subtitle">Seja bem-vindo</h1>
         </v-col>
@@ -54,38 +46,26 @@
         <h1 class="xp">{{ userPoints || 0 }} NC</h1>
       </v-row>
 
-      <!-- Search Field -->
-      <v-row>
-        <v-text-field
-          v-model="filtro"
-          label="Encontre Cursos"
-          outlined
-          prepend-inner-icon="mdi-magnify"
-          autocomplete="off"
-        />
-      </v-row>
-
+      <!-- Search Field -->    
+      <v-text-field
+        v-model="filtro"
+        label="Encontre Cursos"
+        outlined
+        prepend-inner-icon="mdi-magnify"
+        autocomplete="off"
+      />
+      
       <!-- Course Title -->
-      <v-row>
-        <p id="title">Cursos</p>
-      </v-row>
+      <p id="title">Cursos</p>
 
       <!-- Course Cards  -->
-      <v-row>
-        <course-card
-          v-for="course in filteredList"
-          :key="course.id"
-          :title="course.title"
-          :description="course.description"
-          :teacher="course.authorName"
-          :image="course.thumbUrl"
-          :slug="course.slug"
-        />
-      </v-row>
+      <course-card
+        v-for="course in filteredList"
+        :key="course.id"
+        :course="course"
+      />  
     </v-col>
-    <client-only>
-      <navigation-bar />
-    </client-only>
+    
   </div>
 </template>
 
@@ -93,95 +73,78 @@
 import Avatar from 'vue-avatar';
 import CourseCard from '~/components/CourseCard';
 import http from '~/services/http/generic';
-import NavigatorBar from '~/components/NavigationBar';
 
 export default {
   components: {
     CourseCard,
     Avatar,
-    NavigatorBar,
-  },
-  asyncData({ store, data, params, $axios }) {
-    return http
-      .getAll(`${process.env.endpoints.MY_COURSES}${store.state.user.data.id}`)
-      .then(response => store.commit('courses/set', response.data));
   },
   data: () => ({
     title: 'Bem-vindo',
-    list: [],
     loading: true,
     filtro: '',
     notifications: '',
     userPoints: '',
   }),
   computed: {
+    courseList() {
+      return this.$store.state.courses.all;
+    },
     user() {
       return this.$store.state.user.data;
+    },
+    userName() {
+      return this.user.name.split(' ')[0];
     },
     filteredList() {
       if (this.filtro) {
         const exp = new RegExp(this.filtro.trim(), 'i');
-        return this.list.filter(course => exp.test(course.title));
+        return this.courseList.filter(course => exp.test(course.title));
       } else {
-        return this.list;
+        return this.courseList;
       }
     },
   },
   mounted() {
-    return http.getAll(process.env.endpoints.COURSE).then(res => {
-      this.getNotifications();
-      this.list = res.data;
-      this.loading = false;
-      this.getUserPositionByYear(this.user.id);
-    });
+    this.getAllCourses();
+    this.getNotifications();
+    this.getUserScore();
+    this.getMyCourses();
   },
   methods: {
-    loadUserName() {
-      return this.user.name.split(' ')[0];
+    getAllCourses() {
+      http.getAll(process.env.endpoints.COURSE)
+      .then(({data}) => {
+        this.$store.commit('courses/setAll', data)
+        this.loading = false;
+      });
     },
-    goToRanking() {
-      $nuxt._router.push('/aluno/ranking');
+    getMyCourses(){
+      http.getAll(`${process.env.endpoints.MY_COURSES}${this.user.id}`)
+      .then(({data}) => {
+        this.$store.commit('courses/setMy', data)
+      });
     },
-    goToNotifications() {
-      $nuxt._router.push('/aluno/notificacao');
-    },
-    goToProfile() {
-      $nuxt._router.push('/aluno/perfil');
+    goTo(path) {
+      $nuxt._router.push(`/aluno/${path}`);
     },
     getNotifications() {
       http
         .getAll(`${process.env.endpoints.NOTIFICATIONS}/user/${this.user.id}`)
         .then(response => {
           this.notifications = response.data;
-          console.log(response.data);
         });
-      console.log(this.notifications);
     },
-    getUserPositionByYear(userId) {
+    getUserScore() {
       http
         .getAll(
-          `${process.env.endpoints.RANKING}/user/${userId}?timeRange=YEAR`,
+          `${process.env.endpoints.RANKING}/user/${this.user.id}?timeRange=YEAR`,
         )
         .then(userRanking => {
           const { points } = userRanking.data;
           this.userPoints = points;
         });
     },
-  },
-  head() {
-    return {
-      title: this.title,
-      meta: [
-        {
-          hid: 'description',
-          name: 'description',
-          content:
-            'Seja bem vindo(a) ao aplicativo da New School - Levamos educação de qualidade ' +
-            'na linguagem da quebrada para as periferias do Brasil, através da tecnologia e da ' +
-            'curadoria de conteúdos baseados nas habilidades do futuro.',
-        },
-      ],
-    };
   },
 };
 </script>
@@ -285,8 +248,7 @@ export default {
 }
 
 /* margin lateral do conteudo do campo */
-::v-deep
-  .v-text-field.v-text-field--enclosed:not(.v-text-field--rounded)
+::v-deep .v-text-field.v-text-field--enclosed:not(.v-text-field--rounded)
   > .v-input__control
   > .v-input__slot {
   padding: 0 19px;

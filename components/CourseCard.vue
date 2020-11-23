@@ -1,24 +1,39 @@
 <template>
-  <v-card class="v-card-body" elevation="0" color="transparent" :tile="true">
-    <n-link :to="`curso/${slug}`">
-      <v-img :src="image" />
-    </n-link>
-    <div class="media-and-footer-container">
-      <n-link :to="`curso/${slug}`" class="footer-container">
-        <v-card-title :to="'/curso/' + slug">{{title}}</v-card-title>
-        <div class="footer-card">
-          <v-card-subtitle class="mt-0" :to="'/curso/' + slug">{{teacher}}</v-card-subtitle>
-        </div>
-      </n-link>
+  <v-card 
+  class="v-card-body" 
+  elevation="0" 
+  color="transparent" 
+  :tile="true" 
+  @click="openCourse()">
+    <v-img :src="course.thumbUrl" />    
+    <div class="media-and-footer-container">      
+      <v-card-title>{{course.title}}</v-card-title>
+      <div class="footer-card">
+        <v-card-subtitle class="mt-0">{{course.authorName}}</v-card-subtitle>
+      </div>
     </div>
   </v-card>
 </template>
 
 <script>
+import { methods } from 'vue-social-sharing'
 export default {
   name: 'courseCard',
-  props: ['title', 'description', 'image', 'teacher', 'slug'],
-};
+  props: {    
+    course: {
+      type: Object,      
+      required: true,
+    },
+  },
+  methods: {
+    openCourse() {
+      //store this course on VueX
+      this.$store.commit('courses/setCurrent', this.course);
+      //go tho course page
+      $nuxt._router.push(`/aluno/curso/${this.course.slug}`);
+    },
+  },
+}
 </script>
 
 <style scoped>
@@ -27,30 +42,11 @@ export default {
 * {
   font-family: 'Roboto', sans-serif;
 }
-
-/* .footer-container {
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-  height: 20px;
-  justify-content: space-between;
-} */
-
-/* .media-container {
-  flex: 0 0 auto;
-} */
-
-/* .media-and-footer-container {
-  display: flex;
-  flex-direction: row;
-} */
-
 .footer-card {
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
 }
-
 .v-responsive.v-image {
   padding-top: 45%;
   height: 150px;
@@ -58,23 +54,9 @@ export default {
   width: 100%;
   border-radius: 5px;
 }
-
-/* .v-responsive__sizer {
-  padding: 0;
-} */
-
-/* .v-image__image {
-  background: url('http://i.imgur.com/SrPdUD4.png') 50% 50% no-repeat;
-  background-color: #000;
-  position: absolute;
-  width: 100%;
-  height: 100%;
-} */
-
 .v-card-body {
   margin-bottom: 20px;
 }
-
 .v-card__title {
   font-weight: 700;
   font-size: .75rem;
@@ -82,7 +64,6 @@ export default {
   line-height: 16px;
   color: #1a1a1a;
 }
-
 .theme--light.v-card .v-card__subtitle {
   padding: 0;
   color: #1a1a1a;

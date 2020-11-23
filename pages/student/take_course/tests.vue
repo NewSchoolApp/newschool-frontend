@@ -3,7 +3,7 @@
     <HeaderBar
       v-if="!correct"
       :title="'Questionário'"
-      :back-page="true"
+      :route="`/aluno/curso/${this.slug}`"
     ></HeaderBar>
     <v-layout id="page" justify-center>
       <v-flex ref="flex" class="main-container">
@@ -125,17 +125,6 @@
             Próximo
           </v-btn>
         </div>
-
-        <v-snackbar
-          v-model="snackbar"
-          :color="snackbarStatus"
-          :timeout="5000"
-          :top="true"
-          :right="true"
-        >
-          {{ snackbarText }}
-          <v-btn color="#FFF" text @click="snackbar = false">Fechar</v-btn>
-        </v-snackbar>
       </v-flex>
       <client-only>
         <navigation-bar v-if="!correct" />
@@ -146,7 +135,7 @@
 
 <router>
   {
-    path: '/aluno/curso/:courseSlug/aula/parte/teste'
+    path: '/aluno/curso/:courseSlug/aula/teste'
   }
 </router>
 
@@ -164,9 +153,6 @@ export default {
     SocialSharing,
   },
   data: () => ({
-    snackbar: false,
-    snackbarText: '',
-    snackbarStatus: '',
     computedSelection: [],
     cmpSelect: [],
     correct: false,
@@ -194,6 +180,9 @@ export default {
     courseId() {
       return this.$store.state.courses.current.id;
     },
+    slug() {
+      return this.$route.params.courseSlug;
+    },
     // Vamos alterar o getter e setter do selected para poder alterar os valores do checkbox como se fosse um radio group
     selected: {
       get() {
@@ -215,7 +204,6 @@ export default {
     },
   },
   mounted() {
-    this.slug = this.$route.params.courseSlug;
     this.loading = false;
   },
   methods: {
@@ -309,8 +297,8 @@ export default {
         this.onError,
       );
     },
-
     advanceCourse() {
+      console.log('advanceCourse() do Tests')
       this.loading = true;
       // avançando no curso
       http
@@ -347,19 +335,42 @@ export default {
                   )
                   .then(res => {
                     if (res.data.type === 'NEW_TEST') {
+                      console.log("CurrentStep = Test")
+                      
                       this.$store.commit(
                         'courses/setCurrentTest',
                         res.data.data,
                       );
+
                       this.loading = false;
-                    } else {
-                      this.$store.commit(
-                        'courses/setCurrentPart',
-                        res.data.data,
-                      );
-                      $nuxt._router.push(
-                        `/aluno/curso/${this.courseId}/aula/parte`,
-                      );
+                    }
+                    else if(res.data.type === 'NEW_LESSON') {
+                      console.log("CurrentStep = Lesson, id:", res.data.data.id)
+                      
+                      //get parts of this lesson
+                      var parts = [];
+                      http.getAll(`${process.env.endpoints.PARTS_BY_LESSON}/${res.data.data.id}`)
+                      .then(res => {
+                        parts = res.data;
+                        console.log(parts);
+
+                        //get data of the first part
+                        http.getAll(`${process.env.endpoints.PART_BY_ID}/${parts[0].id}`)
+                        .then(res => {
+                          this.$store.commit('courses/setCurrentPart', res.data);
+                          $nuxt._router.push(`/aluno/curso/${this.slug}/aula/parte/play`);
+                        })
+                      })                
+                    } 
+                    else {
+                      console.log("CurrentStep = Part")
+                      
+                      //get part data
+                      http.getAll(`${process.env.endpoints.PART_BY_ID}/${res.data.data.id}`)
+                      .then(res => {
+                        this.$store.commit('courses/setCurrentPart', res.data);
+                        $nuxt._router.push(`/aluno/curso/${this.slug}/aula/parte/play`);
+                      })
                     }
                   });
               }

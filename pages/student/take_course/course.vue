@@ -1,240 +1,171 @@
 <template>
   <div>
-    <HeaderBar :title="'Curso'" :back-page="true"></HeaderBar>
-
-    <v-snackbar
-      v-model="snackbar"
-      :top="true"
-      :right="true"
-      color="snackbarStatus"
-    >
-      <span>Este curso já foi finalizado</span>
-    </v-snackbar>
-    <not-found v-if="notFound" />
+    <HeaderBar :title="'Curso'" :back-page="true"></HeaderBar>    
+    <div v-if="loading">
+      <div class="container-spinner">
+        <v-progress-circular
+          :size="70"
+          :width="5"
+          indeterminate
+          color="#6600cc"
+        />
+      </div>
+    </div>
     <div v-else>
-      <div v-if="loading">
-        <div class="container-spinner">
-          <v-progress-circular
-            :size="70"
-            :width="5"
-            indeterminate
-            color="#6600cc"
-          />
-        </div>
-      </div>
-      <div v-else>
-        <div id="page">
-          <main>
-            <h1 id="title__course" class="h1__theme">{{ course.title }}</h1>
-            <div class="mask__img">
-              <img
-                v-if="showThumb"
-                :src="course.thumbUrl"
-                @error="imageLoadError"
-                alt="imagem-curso"
-                title="imagem curso"
-              />
-            </div>
-            <div class="info__box">
-              <section>
-                <h1 class="h1__theme">Professor&nbsp;&nbsp;</h1>
-                <p id="author__name">{{ course.authorName }}</p>
-              </section>
-              <p id="description">{{ course.description }}</p>
-            </div>
-            <v-btn
-            v-if="flagButtonTaken"
-            class="btn-block btn-primary"
-            :loading="loadingInit"
-            :disabled="loadingInit"
-            @click="continueCourse(course)"
-            >
-              Continuar
-            </v-btn>
-            <v-btn
-            v-else-if="flagButtonCompleted"
-            class="btn-block btn-primary"
-            :loading="loadingInit"
-            :disabled="loadingInit"              
-            @click="goToCertificate(course.id)"
-            >
-              Certificado
-            </v-btn>
-            <v-btn
-            v-else
-            class="btn-block btn-primary"
-            :loading="loadingInit"
-            :disabled="loadingInit"              
-            @click="initCourse(course.id)"
-            >
-              Iniciar
-            </v-btn>
-          </main>
-        </div>
-        <modal
-          :dialog-message="dialogMessage"
-          :ok="dialogOptions.ok"
-          :cancel="dialogOptions.cancel"
-          :to-route="dialogOptions.toRoute"
-        ></modal>
-      </div>
+      <div id="page">
+        <main>
+          <h1 id="title__course" class="h1__theme">{{ course.title }}</h1>
+          <div class="mask__img">
+            <img
+              v-if="showThumb"
+              :src="course.thumbUrl"
+              @error="imageLoadError"
+              alt="imagem-curso"
+              title="imagem curso"
+            />
+          </div>
+          <div class="info__box">
+            <section>
+              <h1 class="h1__theme">Professor&nbsp;&nbsp;</h1>
+              <p id="author__name">{{ course.authorName }}</p>
+            </section>
+            <p id="description">{{ course.description }}</p>
+          </div>
+          <v-btn
+          v-if="courseState == 'TAKEN'"
+          class="btn-block btn-primary"
+          :loading="loadingInit"
+          :disabled="loadingInit"
+          @click="continueCourse()"
+          >
+            Continuar
+          </v-btn>
+          <v-btn
+          v-else-if="courseState == 'COMPLETED'"
+          class="btn-block btn-primary"
+          :loading="loadingInit"           
+          @click="goToCertificate()"
+          >
+            Certificado
+          </v-btn>
+          <v-btn
+          v-else
+          class="btn-block btn-primary"
+          :loading="loadingInit"
+          :disabled="loadingInit"              
+          @click="startCourse()"
+          >
+            Iniciar
+          </v-btn>
+        </main>
+      </div>      
     </div>
     <client-only>
       <navigation-bar />
     </client-only>
   </div>
 </template>
-
+<router>
+  {
+    path: '/aluno/curso/:courseSlug'
+  }
+</router>
 <script>
-import NotFound from '~/pages/public/404.vue';
 import NavigationBar from '~/components/NavigationBar.vue';
 import HeaderBar from '~/components/Header.vue';
-import Modal from '~/components/Modal.vue';
 import http from '~/services/http/generic';
 import utils from '~/utils/index';
 
 export default {
   components: {
     NavigationBar,
-    NotFound,
-    Modal,
     HeaderBar,
   },
   data() {
     return {
-      idUser: 0,
-      slug: '',
       showThumb: true,
-      dialogMessage: '',
-      dialogOptions: {
-        ok: false,
-        cancel: false,
-        toRoute: false,
-      },
-      loadingInit: false,
       loading: true,
-      notFound: false,
-      course: {},
-      flagButtonTaken: false,
-      flagButtonCompleted: false,
+      loadingInit: false,
+      courseState: '',
     };
   },
-  mounted() {
-    this.idUser = this.$store.state.user.data.id;
-    this.slug = this.$route.params.slug;
-    http
-      .getAll(`${process.env.endpoints.COURSE_BY_SLUG}${this.slug}`)
-      .then(({ data }) => {
-        this.course = data;
-        this.verifyStore(this.course.id);
-      })
-      .catch(error => {
-        if (error.response && error.response.status === 404) {
-          this.notFound = true;
-          this.loading = false;
-          return;
-        }
-        // eslint-disable-next-line no-console
-        console.error(error);
-      });
+  computed: {
+    course() {
+      return this.$store.state.courses.current;
+    },
+    idUser() {
+      return this.$store.state.user.data.id;
+    }
   },
   methods: {
+    checkCurrentState() {
+      this.$store.state.courses.my.forEach(myCourse => {
+        if (myCourse.course.id === this.course.id) {
+          this.courseState = myCourse.status;
+        }        
+      });
+      this.loading = false;  
+    },
     imageLoadError() {
       this.showThumb = false;
     },
-    initCourse(id) {
-      var isComplete = false;
-      this.list.forEach(item => {
-        if (item.course.id === id && item.status === 'COMPLETED') {
-          isComplete = true;
-        }
-      });
-      if (isComplete) {
-        this.snackbar = true;
-        setTimeout(() => $nuxt._router.push(`/aluno/certificados`), 2000);
-      }
-      else {
-        this.loadingInit = true;
-        if (utils.getToken() && this.idUser) {
+    startCourse() {
+      this.loadingInit = true;
+
+      http
+        .post(process.env.endpoints.INIT_COURSE, {
+          userId: this.idUser,
+          courseId: id,
+        })
+        .then(() => {
           http
-            .post(process.env.endpoints.INIT_COURSE, {
-              userId: this.idUser,
-              courseId: id,
-            })
-            .then(() => {
+            .getAll(
+              `${process.env.endpoints.STATE_COURSE}/user/${this.idUser}/course/${id}`,
+            )
+            .then(res => {
+              this.$store.commit('courses/setCurrent', res.data.course);
+              delete res.data.user;
+              delete res.data.course;
+              this.$store.commit('courses/setCurrentState', res.data);
+
               http
                 .getAll(
-                  `${process.env.endpoints.STATE_COURSE}/user/${this.idUser}/course/${id}`,
+                  `${process.env.endpoints.CURRENT_STEP}/user/${this.idUser}/course/${id}`,
                 )
                 .then(res => {
-                  this.$store.commit('courses/setCurrent', res.data.course);
-                  delete res.data.user;
-                  delete res.data.course;
-                  this.$store.commit('courses/setCurrentState', res.data);
-
-                  http
-                    .getAll(
-                      `${process.env.endpoints.CURRENT_STEP}/user/${this.idUser}/course/${id}`,
-                    )
-                    .then(res => {
-                      this.$store.commit(
-                        'courses/setCurrentPart',
-                        res.data.data,
-                      );
-                    });
-
-                  setTimeout(() => {
-                    $nuxt._router.push(`/aluno/curso/${id}/aula/parte`);
-                  }, 400);
+                  this.$store.commit(
+                    'courses/setCurrentPart',
+                    res.data.data,
+                  );
                 });
-            })
-            .catch(error => {
-              this.dialogOptions.ok = true;
-              this.dialogMessage =
-                error.response.status === 401
-                  ? 'Você precisa estar logado para fazer um curso!'
-                  : 'Erro ao iniciar o curso, tente novamente';
+
               setTimeout(() => {
-                this.loadingInit = false;
-                utils.runModal();
-              }, 1000);
+                console.log("%%%  INIT Course %%%")
+                $nuxt._router.push(`/aluno/curso/${id}/aula/parte`);
+              }, 400);
             });
-        } else {
+            })
+        .catch(error => {
+          this.$notifier
+          .showMessage({
+            type: 'error',
+            message: 'Vish algo deu errado, tenta de novo mano!',
+          });
           setTimeout(() => {
-            this.dialogOptions.toRoute = {
-              path: '/login',
-              name: 'Fazer Login',
-            };
-            this.dialogOptions.ok = true;
-            this.dialogMessage =
-              'Você precisa estar logado para fazer um curso! faça o login e tente novamente';
-            this.loadingInit = false;
-            utils.runModal();
-          }, 1000);
-        }
-      }
+            $nuxt._router.push('/aluno/home');
+          }, 2000);          
+        });        
     },
-    comeBackPage() {
-      window.history.go(-1);
-    },
-    verifyStore(id) {
-      this.list.forEach(item => {
-        if (item.course.id === id && item.status === 'TAKEN') {
-          this.flagButtonTaken = true;
-        }
-        else if (item.course.id === id && item.status === 'COMPLETED') {
-          this.flagButtonCompleted = true;
-        }
-      });
-      this.loading = false;
-    },
-    continueCourse(course) {
+    continueCourse() {
       this.loadingInit = true;
       http
         .getAll(
-          `${process.env.endpoints.STATE_COURSE}/user/${this.idUser}/course/${course.id}`,
+          `${process.env.endpoints.STATE_COURSE}/user/${this.idUser}/course/${this.course.id}`,
         )
         .then(res => {
+          console.log("continueCourse()", res)
+          console.log("res.data", res.data)
+          console.log("res.data.course", res.data.course)
           // salvando o estado atual
           this.$store.commit('courses/setCurrent', res.data.course);
           delete res.data.user;
@@ -244,33 +175,57 @@ export default {
           // Verificando qual o próximo passo
           http
             .getAll(
-              `${process.env.endpoints.CURRENT_STEP}/user/${this.idUser}/course/${course.id}`,
+              `${process.env.endpoints.CURRENT_STEP}/user/${this.idUser}/course/${this.course.id}`,
             )
             .then(res => {
+              console.log("Current_Step", res.data)
               if (res.data.type === 'NEW_TEST') {
+                console.log("CurrentStep = Test")
                 this.$store.commit('courses/setCurrentTest', res.data.data);
                 $nuxt._router.push(
-                  `/aluno/curso/${course.id}/aula/parte/teste`,
+                  `/aluno/curso/${this.slug}/aula/teste`,
                 );
-              } else {
-                this.$store.commit('courses/setCurrentPart', res.data.data);
-                $nuxt._router.push(`/aluno/curso/${course.id}/aula/parte`);
+              }
+              else if(res.data.type === 'NEW_LESSON') {
+                console.log("CurrentStep = Lesson, id:", res.data.data.id)
+                
+                //get parts of this lesson
+                var parts = [];
+                http.getAll(`${process.env.endpoints.PARTS_BY_LESSON}/${res.data.data.id}`)
+                .then(res => {
+                  parts = res.data;
+                  console.log(parts);
+
+                  //get data of the first part
+                  http.getAll(`${process.env.endpoints.PART_BY_ID}/${parts[0].id}`)
+                  .then(res => {
+                    this.$store.commit('courses/setCurrentPart', res.data);
+                    $nuxt._router.push(`/aluno/curso/${this.slug}/aula/parte`);
+                  })
+                })                
+              } 
+              else {
+                console.log("CurrentStep = Part")
+                //get part data
+                http.getAll(`${process.env.endpoints.PART_BY_ID}/${res.data.data.id}`)
+                .then(res => {
+                  this.$store.commit('courses/setCurrentPart', res.data);
+                  $nuxt._router.push(`/aluno/curso/${this.slug}/aula/parte`);
+                })
               }
             });
         });
     },
-    goToCertificate(id) {
+    goToCertificate() {
       // eslint-disable-next-line no-undef
       $nuxt._router.push(
-        `/certificado-info/${this.$store.state.user.data.id}/${id}`,
+        `/certificado-info/${this.$store.state.user.data.id}/${this.course.id}`,
       );
     },
   },
-  computed: {
-    list() {
-      return this.$store.state.courses.list;
-    },
-  },
+  mounted() {
+    this.checkCurrentState();
+  }  
 };
 </script>
 

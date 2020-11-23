@@ -48,19 +48,14 @@ export default {
     HeaderBar,
     NothingToShow,
     CourseProgress,
-  },
-  asyncData({ store, data, params, $axios }) {
-    return http
-      .getAll(`${process.env.endpoints.MY_COURSES}${store.state.user.data.id}`)
-      .then(response => store.commit('courses/set', response.data));
-  },
+  },  
   data: () => ({
     loading: true,
     selectedTab: 0, // (0 == Em andamento, 1 == Finalizados)
   }),
   computed: {
     courses() {
-      return this.$store.state.courses.list.filter(course => {
+      return this.$store.state.courses.my.filter(course => {
         if (this.selectedTab == '1') {
           return course.completion == 100;
         } else {

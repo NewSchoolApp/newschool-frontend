@@ -471,7 +471,7 @@ export default {
           });
         });
     },
-    async getCities(stateName) {
+    getCities(stateName) {
       http
         .getAll(
           `https://servicodados.ibge.gov.br/api/v1/localidades/estados/${this.stateAbbreviations[stateName]}/municipios`,
