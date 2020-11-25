@@ -1,13 +1,18 @@
 <template>
-  <div id="page">
+  <div id="page" ref="flex">
     <HeaderBar :title="'Gerenciar Meus Cursos'" :back-page="true"></HeaderBar>
     <v-layout align-center justify-center>
-      <v-flex xs10 sm8 md4 style="text-align: -webkit-left;">      
+      <v-flex xs10 sm8 md4 style="text-align: -webkit-left;">
         <v-container>
           <v-row>
             <v-col>
               <h3>Parte</h3>
-              <v-form class="part-form" ref="part" v-model="status" lazy-validation>
+              <v-form
+                ref="part"
+                v-model="status"
+                class="part-form"
+                lazy-validation
+              >
                 <v-text-field
                   v-model="part.title"
                   :rules="titleRules"
@@ -15,10 +20,11 @@
                   label="Título"
                   required
                 />
-                <v-textarea v-model="part.description" 
-                  label="Descrição" 
-                  rows="1" 
-                  required 
+                <v-textarea
+                  v-model="part.description"
+                  label="Descrição"
+                  rows="1"
+                  required
                 />
                 <v-text-field
                   v-model="part.youtubeUrl"
@@ -34,10 +40,14 @@
                 />
               </v-form>
 
-              <resources-list name="Teste" :resources="[]" :redirect="submited" path="test" />
+              <resources-list
+                name="Teste"
+                :resources="[]"
+                :redirect="submited"
+                path="test"
+              />
               <span class="new-tests-span">Favor, adicionar um teste</span>
-              <v-btn class="btn-block btn-primary"
-              @click="submit">
+              <v-btn class="btn-block btn-primary" @click="submit">
                 Salvar
               </v-btn>
             </v-col>
@@ -164,7 +174,7 @@ export default {
 <style scoped>
 .v-input {
   width: 90%;
-  height: 50px;    
+  height: 50px;
 }
 .v-input input {
   color: none;

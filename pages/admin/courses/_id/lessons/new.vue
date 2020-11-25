@@ -1,13 +1,18 @@
 <template>
-  <div id="page">
+  <div id="page" ref="flex">
     <HeaderBar :title="'Gerenciar Meus Cursos'" :back-page="true"></HeaderBar>
     <v-layout align-center justify-center>
-      <v-flex xs10 sm8 md4 style="text-align: -webkit-left;">      
+      <v-flex xs10 sm8 md4 style="text-align: -webkit-left;">
         <v-container>
           <v-row>
             <v-col>
               <h3>Aula</h3>
-              <v-form class="lesson-form" ref="lesson" v-model="status" lazy-validation>        
+              <v-form
+                ref="lesson"
+                v-model="status"
+                class="lesson-form"
+                lazy-validation
+              >
                 <v-text-field
                   v-model="lesson.title"
                   :rules="titleRules"
@@ -16,24 +21,27 @@
                   required
                 />
                 <v-textarea
+                  v-model="lesson.description"
                   :rules="descriptionRules"
                   :margin-bottom="!titleRules"
-                  v-model="lesson.description"
                   label="Descrição"
                   rows="1"
                   required
                 />
               </v-form>
 
-              <resources-list name="Parte" :resources="[]" redirect="true" path="part" />
+              <resources-list
+                name="Parte"
+                :resources="[]"
+                redirect="true"
+                path="part"
+              />
               <span>Favor, adicionar uma parte</span>
-              
-              <v-btn 
-              class="btn-block btn-primary" 
-              @click="submit">
+
+              <v-btn class="btn-block btn-primary" @click="submit">
                 Salvar
               </v-btn>
-            </v-col> 
+            </v-col>
           </v-row>
         </v-container>
       </v-flex>
@@ -115,7 +123,9 @@ export default {
             this.showConfirmSnack('Aula criada! ;)', 'success');
             this.submited = true;
             setTimeout(() => {
-              $nuxt._router.push(`/admin/course/${this.lesson.courseId}/lesson/${res.data.id}/part/new`);
+              $nuxt._router.push(
+                `/admin/course/${this.lesson.courseId}/lesson/${res.data.id}/part/new`,
+              );
             }, 2500);
           })
           .catch(err => {
@@ -164,7 +174,7 @@ export default {
 <style scoped>
 .v-input {
   width: 90%;
-  height: 50px;    
+  height: 50px;
 }
 .v-input input {
   color: none;

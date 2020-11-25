@@ -48,7 +48,7 @@ export default {
 
         const url = this.course.course.slug
           ? this.course.course.slug
-          : this.convertToSlug(this.course.course.title);
+          : this.convertToSlug(this.course.title);
         // eslint-disable-next-line no-undef
         $nuxt._router.push(`/aluno/curso/${url}`);
       } else {
