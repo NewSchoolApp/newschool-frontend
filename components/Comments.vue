@@ -1,26 +1,37 @@
 <template>
   <v-container class="d-flex margin__adjustment">
-    <v-col>
+    <v-col id="avatar-col">
       <v-avatar size="44">
-        <img v-if="user.photo" :src="user.photo" />
+        <img v-if="comment.user.photo" :src="comment.user.photo" />
         <img v-else :src="require(`~/assets/person.svg`)" />
       </v-avatar>
     </v-col>
     <v-container class="comment">
-      <v-row class="user__name">{{ user.name }}</v-row>
-      <v-row class="user__comment">{{ commentText }}</v-row>
+      <v-row class="user__name">{{ comment.user.name }}</v-row>
+      <v-row class="user__comment">{{ comment.text }}</v-row>
       <v-row class="d-flex justify-space-between">
-        <p class="user__interaction">Gostei ({{ likes }})</p>
-        <p class="user__interaction">Responder</p>
-        <p class="user__interaction">{{ commentDate }}</p>
+        <v-row>
+          <p
+            v-ripple
+            :class="
+              'user__interaction mr-6 ' +
+                (liked ? 'primary--text font-weight-bold' : {})
+            "
+            @click="like()"
+          >
+            Gostei ({{ comment.likedBy.length }})
+          </p>
+          <p v-ripple class="user__interaction">Responder</p>
+        </v-row>
+        <p class="user__interaction">{{ date }}</p>
       </v-row>
       <div v-for="response of responses" :key="response.rank">
         <response-card
-          :responseUserName="response.userName"
-          :responseCommentText="response.comment"
-          responseLikes="5"
-          responseCommentDate="20/11/2020"
-          :responseUserPhoto="response.photo"
+          :response-user-name="response.userName"
+          :response-comment-text="response.comment"
+          response-likes="5"
+          response-comment-date="20/11/2020"
+          :response-user-photo="response.photo"
         />
       </div>
     </v-container>
@@ -29,12 +40,45 @@
 
 <script>
 import ResponseCard from '~/components/ResponseCard';
+import http from '~/services/http/generic';
+
 export default {
   name: 'CommentCard',
-  props: ['user', 'commentText', 'likes', 'commentDate', 'responses'],
-  data: () => ({}),
   components: {
     ResponseCard,
+  },
+  props: ['comment'],
+  data: () => ({
+    liked: false,
+  }),
+  computed: {
+    idUser() {
+      return this.$store.state.user.data.id;
+    },
+    date() {
+      const date = new Date(this.comment.createdAt);
+      return date.getDay() + '/' + date.getMonth() + '/' + date.getFullYear();
+    },
+  },
+  mounted() {
+    this.checkIfLiked();
+  },
+  methods: {
+    async like() {
+      // check if this user already liked this comment
+      if (!this.liked) {
+        await http.post(`api/v1/comment/${this.comment.id}/like`, {
+          userId: this.idUser,
+        });
+        this.comment.likedBy.push({});
+        this.liked = true;
+      }
+    },
+    checkIfLiked() {
+      if (this.comment.likedBy.find(user => user.id === this.idUser) != null) {
+        this.liked = true;
+      }
+    },
   },
 };
 </script>
@@ -55,14 +99,6 @@ h1 {
   h1 {
     font-size: 14px;
   }
-}
-
-.comments__number {
-  color: black;
-  margin-top: 24px;
-  font-size: 12px;
-  font-weight: 700;
-  color: #1a1a1a;
 }
 .filter__coments {
   font-family: 'Montserrat', sans-serif;
@@ -91,15 +127,12 @@ h1 {
   text-align: center;
   color: #3f3d56;
 }
-.margin__adjustment {
-  margin-top: -30px;
-}
-
 .container {
-  padding: 12px 8px;
+  padding: 12px 0 12px;
 }
 .comment {
   margin-top: 15px;
+  padding: 0px 8px;
 }
 
 h3 {
@@ -159,5 +192,8 @@ h4 {
 }
 ::placeholder {
   color: black;
+}
+#avatar-col {
+  padding-left: 0;
 }
 </style>

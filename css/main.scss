@@ -182,3 +182,25 @@ h3,
 h4 {
   color: var(--primary);
 }
+
+.light-text-field {
+  input,
+  ::placeholder {  
+    font-family: Roboto !important;
+    font-size: 12px !important;
+    font-weight: 400 !important;
+    line-height: 16px !important;
+    letter-spacing: 0em !important;
+    color: rgba(0, 0, 0, 0.4) !important;
+  }
+  input {
+    color: rgba(0, 0, 0, 0.7) !important;
+  }  
+  fieldset {
+    border-color: rgba(0, 0, 0, 0.1) !important;
+    border-radius: 0 !important;
+  }
+  .v-input__slot {
+    min-height: 48px !important;
+  }
+}

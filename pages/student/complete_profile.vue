@@ -102,16 +102,16 @@
             <v-col class="px-0 pb-5">
               <div class="input-label">País</div>
               <v-autocomplete
-                :items="countries"
                 v-model="form.country"
+                :items="countries"
                 filled
               />
             </v-col>
             <v-col class="px-0 pb-5">
               <div class="input-label">Estado</div>
               <v-autocomplete
-                :items="states"
                 v-model="form.state"
+                :items="states"
                 filled
                 @change="getCities(form.state), (form.city = '')"
               />
@@ -443,7 +443,7 @@ export default {
         this.form.urlFacebook = res.data.urlFacebook;
         this.form.urlInstagram = res.data.urlInstagram;
 
-        //populating address fields
+        // populating address fields
         this.form.country = 'Brasil';
         this.getStates();
         if (res.data.address) {
@@ -453,10 +453,10 @@ export default {
             address: this.form.address,
           });
           this.form.state = resolvedAddress.state;
-          //timeout needed for state input validation
+          // timeout needed for state input validation
           setTimeout(() => {
             this.getCities(this.form.state);
-            //timeout needed for city itens to be populated
+            // timeout needed for city itens to be populated
             setTimeout(() => {
               this.cities.includes(resolvedAddress.city)
                 ? (this.form.city = resolvedAddress.city)
@@ -477,7 +477,7 @@ export default {
           });
         });
     },
-    async getCities(stateName) {
+    getCities(stateName) {
       http
         .getAll(
           `https://servicodados.ibge.gov.br/api/v1/localidades/estados/${this.stateAbbreviations[stateName]}/municipios`,
@@ -590,7 +590,6 @@ export default {
               type: 'success',
               message: 'Aee, deu bom!',
             });
-
             const signupFields = [
               'name',
               'profile',
@@ -684,7 +683,7 @@ export default {
           district: splited[0],
         };
       } else {
-        //address model used on backend: "centro, Rio Claro - São Paulo, Brasil"
+        // address model used on backend: "centro, Rio Claro - São Paulo, Brasil"
         return district + ', ' + city + ' - ' + state + ', ' + country;
       }
     },
