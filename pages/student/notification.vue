@@ -2,7 +2,7 @@
   <div>
     <HeaderBar :title="'Notificação'" :back-page="true" />
     <div v-show="!loading" id="page">
-      <div v-if="notifications.length">
+      <div v-if="notifications.length" id="total-cards">
         <div
           v-infinite-scroll="getUserList"
           class="cards"
@@ -92,10 +92,9 @@ export default {
         16,
       );
       const notificationMonthAndDay = notification.createdAt.slice(5, 10);
-      const today = new Date().getDay() + 1;
+      const today = new Date().getDate()
       const month = new Date().getMonth() + 1;
       const dateSplited = notificationMonthAndDay.split('-');
-
       if (dateSplited[1] < today || dateSplited[0] < month) {
         if (today - dateSplited[1] === 1) {
           return `Ontem - ${notificationDateHourAndMinute}`;
@@ -192,8 +191,8 @@ h1 {
   position: relative;
   padding: 0.9rem;
   background: #fff;
-  box-shadow: 0px 12px 20px 0px #00000026;
-  border-radius: 2px;
+  box-shadow: 2px 2px 2px 0px #00000026;
+  border-radius: 4px;
   display: -webkit-box;
   display: flex;
   -webkit-box-orient: vertical;
@@ -237,8 +236,19 @@ h1 {
   color: rgb(63, 61, 86);
   text-transform: none;
   letter-spacing: 0em;
-  position: relative;
-  top: 26px;
-  right: 5px;
+  position: absolute;
+  top: 40px;
+  right: 20px;
+}
+
+@media (min-width: 768px) {
+ #page {
+   display: flex;
+   justify-content: center;
+ }
+ #total-cards{
+   width: 700px;
+   max-width: 700px;
+ }
 }
 </style>

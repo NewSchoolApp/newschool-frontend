@@ -1,6 +1,5 @@
 <template>
   <div class="container-page" id="page">
-    <div id="window-width">
     <main>
       <section id="info">
         <div id="avatar">
@@ -18,7 +17,7 @@
         <div id="flex-info-user" class="flex-center">
           <h1>{{ user.name }}</h1>
           <p>{{ user.type }}</p>
-          <v-btn 
+          <v-btn
             id="btnLogout"
             small
             outlined
@@ -28,12 +27,12 @@
             >Sair</v-btn
           >
         </div>
-      </section>
-      <div id="close">
+        <div id="close">
         <v-icon id="close-btn"  color="primary" @click="closeMenu()"
-          >mdi-close-circle</v-icon
-        >
+          >mdi-close-circle</v-icon>
       </div>
+      </section>
+
     </main>
     <section class="menu-list">
       <router-link
@@ -51,7 +50,6 @@
       </router-link>
     </section>
     </div>
-  </div>
 </template>
 
 <script>
@@ -187,7 +185,10 @@ export default {
 }
 
 .mdi-close-circle::before {
-  color: var(--primary);
+      color: var(--primary);
+    position: absolute;
+    right: 22px;
+    top: 33px;
 }
 
 .container-page > main {
@@ -218,6 +219,10 @@ h1 {
   font-weight: 500;
   color: black;
   text-transform: capitalize;
+}
+
+.menu-list {
+  max-width: 500px;
 }
 
 .container-page {
@@ -301,33 +306,15 @@ p {
 h4 {
   font-weight: 600;
 }
-@media (max-width: 320px) {
-  .item-menu {
-    height: 42px;
+
+@media(min-width: 600px) {
+  #info {
+    margin: 0 auto;
+  }
+  .menu-list {
+    margin: 0 auto;
   }
 }
 
-@media (max-width: 991px) {
-  #close {
-  display: flex;
-  flex-direction: row-reverse;
-  }
-} 
 
-/*Large devices (desktops, 992px and up)*/
-@media (min-width: 992px) { 
-#page {
-    display: flex;
-  justify-content: center;
-}
-#window-width {
-  width: 700px;
-  max-width: 700px;
-}
-#close {
-  display: flex;
-  flex-direction: row-reverse;
-  width: 700px;
-}
-}
 </style>

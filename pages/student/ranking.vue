@@ -156,8 +156,7 @@
                   </tr>
                 </thead>
                 <tbody
-                  v-infinite-scroll="getRanking"
-                  infinite-scroll-disabled="busy"
+
                 >
                   <tr
                     v-for="(item, index) in generalRanking"
@@ -201,7 +200,7 @@
 import NavigationBar from '~/components/NavigationBar.vue';
 import HeaderBar from '~/components/Header.vue';
 import utils from '~/utils/index';
-import infiniteScroll from 'vue-infinite-scroll';
+// import infiniteScroll from 'vue-infinite-scroll';
 import httpHelper from '~/services/http/generic';
 import { http } from '~/services/http/config';
 
@@ -214,7 +213,7 @@ export default {
   data() {
     return {
       page: 1,
-      limit: 10,
+      limit: 50,
       busy: false,
       country: '',
       school: '',
@@ -250,7 +249,7 @@ export default {
       stateAbbreviations: [],
     };
   },
-  directives: { infiniteScroll },
+  // directives: { infiniteScroll },
   computed: {
     idUser() {
       return this.$store.state.user.data.id;
@@ -303,8 +302,8 @@ export default {
 
       httpHelper
         .getAll(
-          `${process.env.endpoints.RANKING +
-            `?page=${this.page}` +
+          `${process.env.endpoints.RANKING + `?limit=${this.limit}` +
+            // `?page=${this.page}` +
             //concat every active filter for the request
             (this.city ? '&city=' + this.city : '') +
             (this.state ? '&state=' + this.state : '') +
@@ -313,9 +312,9 @@ export default {
         )
         .then(ranking => {
           if (!ranking.data.content.length) {
-            this.stop = true;
+            // this.stop = true;
             this.loading = false;
-            this.busy = false;
+            // this.busy = false;
             return;
           }
           // const append = ranking.data.content
@@ -326,7 +325,9 @@ export default {
           this.page++;
           //<--- The api is returning the list in ascending order;
         });
-      this.busy = false;
+      // this.busy = false;
+      //                   v-infinite-scroll="getRanking" // Colocar no tbody para infinity scroll
+      //             infinite-scroll-disabled="busy"
       this.loading = false;
       this.pageLoading = false;
     },
