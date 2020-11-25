@@ -138,7 +138,6 @@ export default {
             .then(res => {
               this.$notifier.showMessage({
                 type: 'success',
-                message: 'Boa! deu certo',
               });
               http
                 .get(process.env.endpoints.USER_ME, {

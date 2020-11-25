@@ -60,8 +60,8 @@
                     required
                     @blur="focusMessage($event.target.value)"
                   ></v-textarea>
-                  <v-btn 
-                  class="btn-block btn-primary" 
+                  <v-btn
+                  class="btn-block btn-primary"
                   @click="submit">
                     Enviar
                   </v-btn>
@@ -138,7 +138,6 @@ export default {
             this.loading = false;
             this.$notifier.showMessage({
               type: 'success',
-              message: 'Você passou a visão!',
             });
             setTimeout(() => {
               this.gotoHome();

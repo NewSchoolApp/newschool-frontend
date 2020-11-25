@@ -252,18 +252,6 @@
         </v-btn>
       </v-row>
     </v-form>
-
-    <!-- snackbar -->
-    <v-snackbar
-      v-model="snackbar.show"
-      :color="snackbar.status"
-      :timeout="2000"
-      :top="true"
-      :right="true"
-    >
-      {{ snackbar.text }}
-      <v-btn color="#FFF" text @click="snackbar.show = false">Fechar</v-btn>
-    </v-snackbar>
   </v-col>
 </template>
 
@@ -587,8 +575,7 @@ export default {
           .then(res => {
             this.loading = false;
             this.$notifier.showMessage({
-              type: 'success',
-              message: 'Aee, deu bom!',
+              type: 'success'
             });
 
             const signupFields = [
