@@ -52,7 +52,7 @@
             <v-col id="comments">
               <v-row justify="space-between">
                 <h3 class="comments__number">
-                  {{ comments.lenth || 0 }} Comentários
+                  {{ sortedComments.length || 0 }} Comentários
                 </h3>
                 <div
                   v-if="!posting"
