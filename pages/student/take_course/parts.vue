@@ -52,12 +52,21 @@
                 <h3 class="comments__number">
                   {{ comments.lenth || 0 }} Comentários
                 </h3>
-                <div 
+                <div
+                v-if="!posting"
                 :class="'publish-btn pt-4 ' + (commentPost ? 'primary--text' : {})"
-                @click="postComment"
+                @click="postComment"                
                 >
                   Publicar
                 </div>
+                <var v-else class="py-4 pr-5">                  
+                  <v-progress-circular
+                    class="publish-btn pt-4"
+                    indeterminate
+                    color="primary"
+                    size="20"
+                  />
+                </var>
                 </v-row>
                 <v-row  justify="center">
                   <v-avatar size="45">
@@ -69,37 +78,24 @@
                     placeholder="Escreva seu comentario"
                     outlined
                     v-model="commentPost"
+                    v-on:keyup.enter="postComment"
                   ></v-text-field>
                 </v-row>
-                <div class="text-center">
-                  <v-menu offset-y>
-                    <template v-slot:activator="{ on, attrs }">
-                      <p
-                        v-bind="attrs"
-                        v-on="on"
-                        class="filter__coments"
-                      >
-                        Mais recentes 
-                        <v-icon>mdi-chevron-down</v-icon>
-                      </p>
-                    </template>
-                    <v-list>
-                      <v-list-item v-for="(item, index) in items" :key="index">
-                        <v-list-item-title>{{ item.title }}</v-list-item-title>
-                      </v-list-item>
-                    </v-list>
-                  </v-menu>
-                </div>
+                <v-row justify="center">
+                  <v-select
+                    height="10"
+                    :items="items"
+                    item-value="Mais recentes"
+                    value="Mais recentes"
+                    @change="sortBy = $event"
+                  ></v-select>
+                </v-row>
                 <hr>
                 <div
-                v-for="comment in comments" :key="comment.id">
-                  <comment-card                    
-                    :commentText="comment.text"
-                    :user="comment.user"
-                    :likes="comment.likedBy"
-                    commentDate="06/10/2020"
-                    
-                  ></comment-card> 
+                v-for="comment in sortedComments" :key="comment.id">
+                  <comment-card
+                    :comment="comment"
+                  ></comment-card>
                   <hr>
                 </div>
                 
@@ -143,12 +139,14 @@ export default {
     comments: [],
     commentPost: '',
     loading: true,
+    posting: false,
     items: [
-      { title: 'Mais recentes' },
-      { title: 'Mais atigos' },
-      { title: 'Mais aotados' },
-      { title: 'Meus Comentarios' },
+      'Mais recentes',
+      'Mais atigos',
+      'Mais gostados',
+      'Meus comentarios',
     ],
+    sortBy: 'Mais recentes',
   }),
   computed: {
     currentPart() {
@@ -171,6 +169,25 @@ export default {
     },
     thumbUrl() {
       return this.$store.state.courses.current.thumbUrl;
+    },
+    sortedComments() {
+      switch(this.sortBy) {
+        case 'Mais recentes':
+          return this.comments.sort(function (a, b) {
+	          return (Date.parse(a.createdAt) < Date.parse(b.createdAt)) ? 1 : -1;
+          });
+        case 'Mais atigos':
+          return this.comments.sort(function (a, b) {
+	          return (Date.parse(a.createdAt) > Date.parse(b.createdAt)) ? 1 : -1;
+          });
+        case 'Mais gostados':
+          return this.comments.sort(function (a, b) {
+	          return (a.likedBy.length < b.likedBy.length ? 1 : a.likedBy.length > b.likedBy.length ? -1 : 0);
+          });
+        case 'Meus comentarios':
+          return this.comments.filter(comment => comment.userId === this.idUser);        
+      }
+      
     }
   },
   mounted() {
@@ -191,21 +208,25 @@ export default {
       })
     },
     postComment() {
-      const postBody = {
-        partId: this.currentPart.id,
-        userId: this.idUser,
-        text: this.commentPost,
-      }      
-      http.post('/api/v1/comment', postBody)
-      .then(res => {
-        //refresh comments
-        this.getComments();
+      if(this.commentPost){
+        this.posting = true;
 
-        //clear comment input
-        this.commentPost = ''; 
-      });
+        const postBody = {
+          partId: this.currentPart.id,
+          userId: this.idUser,
+          text: this.commentPost,
+        }      
+        http.post('/api/v1/comment', postBody)
+        .then(res => {
+          //refresh comments
+          this.getComments();
+  
+          //clear comment input
+          this.commentPost = ''; 
 
-           
+          this.posting = false;
+        });
+      }     
     },
     async advanceCourse() {
       this.loading = true;
@@ -279,15 +300,13 @@ hr {
 }
 ::v-deep .v-input__slot {
     min-height: 32px !important;
-  }
-
+}
 h1 {
   font-weight: 900;
   font-size: 1em;
   line-height: 36px;
   color: var(--primary);
 }
-
 @media screen and (max-width: 20.625em) {
   h1 {
     font-size: 14px;
@@ -314,7 +333,6 @@ color: #737373;
   color: #3f3d56;
   margin: 0 0 2px;
 }
-
 h3 {
   font-weight: 900;
   font-size: 14px;
@@ -323,7 +341,6 @@ h3 {
   text-align: left;
   color: var(--primary);
 }
-
 h4 {
   font-weight: 400;
   padding-top: 0.25em;
@@ -331,35 +348,41 @@ h4 {
   color: #1a1a1a;
   font-size: 12px;
 }
-
-
 .main-container {
   display: flex;
   flex-direction: column;
 }
-
 ::v-deep .v-input {
   width: 75%;
 }
-
 .inner-container {
   margin-top: 0.5rem;
 }
 
-
-
-
-
-/* ::v-deep .v-input__control {
-  height: 0 !important;
+//sortBy select
+::v-deep .v-select {
+  margin: 0 !important;
+  padding: 0 !important;
+  max-width: 155px !important;
+  border: 0 !important;
+  outline: 0 !important;
+  text-align: center !important;
+  margin-bottom: -37px !important;
 }
-::v-deep .v-input__slot {
-  min-height: 32px !important;
+::v-deep .v-select__selections {
+  width: auto !important;
+  display: initial !important;
+  text-align: center !important;
 }
-::v-deep #input-236 {
-  top: -9px;
-  position: relative;
-} */
-
-
+::v-deep .v-select__selection {
+  padding-top: 7px;
+  margin: 0 !important;
+  max-width: initial;
+  margin-right: -40px !important;
+  font-size: 12px !important;
+}
+::v-deep .v-input__slot::before,
+::v-deep .v-input__slot::after {
+  border-width: 0 !important;
+}
 </style>

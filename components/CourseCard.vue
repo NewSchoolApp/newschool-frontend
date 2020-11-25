@@ -2,8 +2,7 @@
   <v-card 
   class="v-card-body" 
   elevation="0" 
-  color="transparent" 
-  :tile="true" 
+  color="transparent"
   @click="openCourse()">
     <v-img :src="course.thumbUrl" />    
     <div class="media-and-footer-container">      

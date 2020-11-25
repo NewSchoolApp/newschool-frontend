@@ -103,7 +103,7 @@ export default {
     await this.$store.dispatch('courses/refreshState');
     this.loading = false;
   },
-  methods: {    
+  methods: {
     imageLoadError() {
       this.showThumb = false;
     },
@@ -116,22 +116,20 @@ export default {
     async startCourse() {
       this.loadingInit = true;
 
-      //send to backend that this cours will 
-      await http.post(process.env.endpoints.INIT_COURSE, {
-          userId: this.idUser,
-          courseId: this.course.id,
-        })        
+      //send to backend that this course will start     
+      await http
+      .post(process.env.endpoints.INIT_COURSE, {
+        userId: this.idUser,
+        courseId: this.course.id,
+      })
       .catch(error => {
-          this.$notifier
-          .showMessage({
-            type: 'error',
-            message: 'Vish algo deu errado, tenta de novo mano!',
-          });
-          setTimeout(() => {
-            $nuxt._router.push('/aluno/home');
-          }, 2000);          
-        });        
-      
+        this.$notifier
+        .showMessage({
+          type: 'error',
+          message: 'Vish algo deu errado, tenta de novo mano!',
+        });      
+      });
+
       const currentStep = await this.$store.dispatch('courses/refreshCurrentStep');
 
       //the course will be start by now, so for sure that the first step will be a part of a lesson.
