@@ -57,6 +57,7 @@ export default {
     NavigationBar,
   },
 };
+
 </script>
 <style scoped>
 ::v-deep .text {
@@ -65,14 +66,17 @@ export default {
   font-family: 'Montserrat';
   text-transform: uppercase;
 }
+
 ::v-deep .container {
   max-width: 500px;
 }
+
 ::v-deep .subtext {
   width: 100%;
   margin: 0 auto;
   font-size: 100%;
 }
+
 ::v-deep .bg {
   width: 100%;
   height: 100%;
@@ -81,9 +85,11 @@ export default {
   background-size: cover;
   background-position: center;
 }
+
 ::v-deep .subtext span {
   font-weight: 700;
 }
+
 p ::v-deep .subtext p {
   width: 70%;
   margin: 0 15%;
@@ -95,6 +101,7 @@ p ::v-deep .subtext p {
   width: 80%;
   text-align: center;
 }
+
 #header_bar {
   z-index: 9999;
 }
