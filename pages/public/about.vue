@@ -96,14 +96,17 @@ export default {
   background-size: cover;
   background-position: center;
 }
+
 ::v-deep .subtext span {
   font-weight: 700;
 }
+
 p ::v-deep .subtext p {
   width: 70%;
   margin: 0 15%;
   margin: 15px;
 }
+
 ::v-deep .h1__theme {
   font-size: 1.3rem;
   width: 80%;
