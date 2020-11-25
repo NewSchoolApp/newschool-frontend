@@ -89,8 +89,8 @@
                 <v-select
                   height="10"
                   :items="items"
-                  item-value="Mais recentes"
-                  value="Mais recentes"
+                  item-value="Mais gostados"
+                  value="Mais gostados"
                   @change="sortBy = $event"
                 ></v-select>
               </v-row>
@@ -141,9 +141,9 @@ export default {
     loading: true,
     posting: false,
     items: [
+      'Mais gostados',
       'Mais recentes',
       'Mais atigos',
-      'Mais gostados',
       'Meus comentarios',
     ],
     sortBy: 'Mais recentes',

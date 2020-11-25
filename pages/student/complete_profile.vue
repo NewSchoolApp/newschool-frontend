@@ -387,7 +387,6 @@ export default {
           'birthday', // "2020-11-11T20:42:01.435Z"
           'gender',
           'schooling',
-          'institutionName',
           'profession',
           'address',
         ];
@@ -503,10 +502,7 @@ export default {
         const token = res.data.accessToken;
         const response = http
           .getAll(
-            `${process.env.baseUrl}${process.env.endpoints.SCHOOL}?name=${school}`,
-            {
-              headers: { Authorization: `Bearer ${token}` },
-            },
+            `${process.env.endpoints.SCHOOL}?name=${school}`,
           )
           .then(res => {
             if (!res.data.length) {
@@ -585,7 +581,6 @@ export default {
               'birthday', // "2020-11-11T20:42:01.435Z"
               'gender',
               'schooling',
-              'institutionName',
               'profession',
               'address',
             ];
@@ -595,7 +590,7 @@ export default {
             );
             console.log(emptySignupFields)
             if (!emptySignupFields.length && !this.completeProfile) {
-              $nuxt._router.replace('/aluno/finalizar-cadastro');0
+              $nuxt._router.replace('/aluno/finalizar-cadastro');
             }
           })
           .catch(() =>
