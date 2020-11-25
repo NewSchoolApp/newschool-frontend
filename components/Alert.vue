@@ -4,7 +4,7 @@
       :style="snackbarStyle"
       v-model="snackbar"
       :color="snackbarColor"
-      :timeout="40000000000"
+      :timeout="4000"
       :top="true"
       :left="true"
       class="v-snackbar__border"
@@ -43,7 +43,6 @@ export default {
     snackbarStyle: '',
     snackbarStatus: '',
     snackbarText: '',
-    snackbarImage: '~/assets/snackbar-success.svg',
     snackbar: false,
   }),
   created() {
