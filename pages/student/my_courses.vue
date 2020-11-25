@@ -53,8 +53,8 @@ export default {
   computed: {
     courses() {
       return this.$store.state.courses.my.filter(course => {
-        if (this.selectedTab === '1') {
-          return course.completion === 100;
+        if (this.selectedTab == '1') {
+          return course.completion == 100;
         } else {
           return course.completion < 100;
         }
