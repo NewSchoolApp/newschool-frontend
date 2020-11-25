@@ -34,6 +34,17 @@
               jovens como você encarem melhor os
               <span>desafios da vida.</span>
             </p>
+
+          </div>
+           <div class="video-iframe-container">
+            <iframe
+              width="350"
+              height="200"
+              :src="urlVideo.replace('watch?v=', 'embed/')"
+              frameborder="0"
+              allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen
+            ></iframe>
           </div>
         </v-flex>
       </v-layout>
@@ -50,14 +61,17 @@
 <script>
 import NavigationBar from '~/components/NavigationBar.vue';
 import HeaderBar from '~/components/Header.vue';
-
+import http from '~/services/http/generic';
 export default {
   components: {
     HeaderBar,
     NavigationBar,
   },
+   data: () => ({
+    urlVideo: 'https://www.youtube.com/watch?v=u4O8wE0gYO0',
+    loading: true,
+   }),
 };
-
 </script>
 <style scoped>
 ::v-deep .text {
@@ -66,17 +80,14 @@ export default {
   font-family: 'Montserrat';
   text-transform: uppercase;
 }
-
 ::v-deep .container {
   max-width: 500px;
 }
-
 ::v-deep .subtext {
   width: 100%;
   margin: 0 auto;
   font-size: 100%;
 }
-
 ::v-deep .bg {
   width: 100%;
   height: 100%;
@@ -85,27 +96,22 @@ export default {
   background-size: cover;
   background-position: center;
 }
-
 ::v-deep .subtext span {
   font-weight: 700;
 }
-
 p ::v-deep .subtext p {
   width: 70%;
   margin: 0 15%;
   margin: 15px;
 }
-
 ::v-deep .h1__theme {
   font-size: 1.3rem;
   width: 80%;
   text-align: center;
 }
-
 #header_bar {
   z-index: 9999;
 }
-
 @media (max-width: 80px) {
   /* .top {
     width: 90%;
@@ -115,6 +121,21 @@ p ::v-deep .subtext p {
   ::v-deep .h1__theme {
     font-size: 1.2rem;
     text-align: center;
+  }
+}
+.video-iframe-container {
+  margin-top: 0.75em;
+  position: relative;
+  padding-bottom: 56.25%; /* 16:9 */
+  padding-top: 25px;
+  height: 0;
+  iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
   }
 }
 </style>
