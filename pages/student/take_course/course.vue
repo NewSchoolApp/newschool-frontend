@@ -1,6 +1,6 @@
 <template>
   <div>
-    <HeaderBar :title="'Curso'" :back-page="true"></HeaderBar>    
+    <HeaderBar :title="'Curso'" :back-page="true"></HeaderBar>
     <div v-if="loading">
       <div class="container-spinner">
         <v-progress-circular
@@ -19,9 +19,9 @@
             <img
               v-if="showThumb"
               :src="course.thumbUrl"
-              @error="imageLoadError"
               alt="imagem-curso"
               title="imagem curso"
+              @error="imageLoadError"
             />
           </div>
           <div class="info__box">
@@ -32,33 +32,33 @@
             <p id="description">{{ course.description }}</p>
           </div>
           <v-btn
-          v-if="courseState.status == 'TAKEN'"
-          class="btn-block btn-primary"
-          :loading="loadingInit"
-          :disabled="loadingInit"
-          @click="continueCourse()"
+            v-if="courseState.status == 'TAKEN'"
+            class="btn-block btn-primary"
+            :loading="loadingInit"
+            :disabled="loadingInit"
+            @click="continueCourse()"
           >
             Continuar
           </v-btn>
           <v-btn
-          v-else-if="courseState.status == 'COMPLETED'"
-          class="btn-block btn-primary"
-          :loading="loadingInit"           
-          @click="goToCertificate()"
+            v-else-if="courseState.status == 'COMPLETED'"
+            class="btn-block btn-primary"
+            :loading="loadingInit"
+            @click="goToCertificate()"
           >
             Certificado
           </v-btn>
           <v-btn
-          v-else
-          class="btn-block btn-primary"
-          :loading="loadingInit"
-          :disabled="loadingInit"              
-          @click="startCourse()"
+            v-else
+            class="btn-block btn-primary"
+            :loading="loadingInit"
+            :disabled="loadingInit"
+            @click="startCourse()"
           >
             Iniciar
           </v-btn>
         </main>
-      </div>      
+      </div>
     </div>
     <client-only>
       <navigation-bar />
@@ -74,7 +74,6 @@
 import NavigationBar from '~/components/NavigationBar.vue';
 import HeaderBar from '~/components/Header.vue';
 import http from '~/services/http/generic';
-import utils from '~/utils/index';
 
 export default {
   components: {
@@ -97,7 +96,7 @@ export default {
     },
     idUser() {
       return this.$store.state.user.data.id;
-    }
+    },
   },
   async mounted() {
     await this.$store.dispatch('courses/refreshState');
@@ -116,87 +115,91 @@ export default {
     async startCourse() {
       this.loadingInit = true;
 
-      //send to backend that this course will start     
+      // send to backend that this course will start
       await http
-      .post(process.env.endpoints.INIT_COURSE, {
-        userId: this.idUser,
-        courseId: this.course.id,
-      })
-      .catch(error => {
-        this.$notifier
-        .showMessage({
-          type: 'error',
-          message: 'Vish algo deu errado, tenta de novo mano!',
-        });      
-      });
+        .post(process.env.endpoints.INIT_COURSE, {
+          userId: this.idUser,
+          courseId: this.course.id,
+        })
+        // eslint-disable-next-line handle-callback-err
+        .catch(error => {
+          this.$notifier.showMessage({
+            type: 'error',
+            message: 'Vish algo deu errado, tenta de novo mano!',
+          });
+        });
 
-      const currentStep = await this.$store.dispatch('courses/refreshCurrentStep');
+      const currentStep = await this.$store.dispatch(
+        'courses/refreshCurrentStep',
+      );
 
-      //the course will be start by now, so for sure that the first step will be a part of a lesson.
-      //go to step url
+      // the course will be start by now, so for sure that the first step will be a part of a lesson.
+      // go to step url
       $nuxt._router.push(currentStep.stepUrl);
     },
     async continueCourse() {
-      this.loadingInit = true;     
+      this.loadingInit = true;
 
       // check for current step
-      const currentStep = await this.$store.dispatch('courses/refreshCurrentStep');
+      const currentStep = await this.$store.dispatch(
+        'courses/refreshCurrentStep',
+      );
 
-      //go to step url
-      $nuxt._router.push(currentStep.stepUrl);    
+      // go to step url
+      $nuxt._router.push(currentStep.stepUrl);
     },
   },
 };
 </script>
 
 <style scoped lang="scss">
-  h1 {
-    font-size: 1rem;
-  }
-  main {
-    padding: 0rem 1.6rem;
-  }
-  .mask__img {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    overflow: hidden;
-    height: 15rem;
-    margin-top: 0.5rem;
+h1 {
+  font-size: 1rem;
+}
+main {
+  padding: 0rem 1.6rem;
+}
+.mask__img {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  overflow: hidden;
+  height: 15rem;
+  margin-top: 0.5rem;
 
-    img {
-      width: 100%;
-    }
-  }
-  .info__box {
-    display: flex;
-    margin-top: 0.6rem;
-    flex-direction: column;
-  }
-  .info__box section {
+  img {
     width: 100%;
-    display: flex;
-    align-items: center;
   }
-  #author__name {
-    font-size: 0.8555rem;
-    font-weight: 600;
-    margin-bottom: 0;
-  }
-  #description {
-    margin-top: 0.5rem;
-    color: gray;
-    font-size: smaller;
-    text-align: justify;
-  }
-  .v-progress-circular {
-    color: #b2b2b2;
-  }
-  .v-btn__loader {
-    background-color: #e9e9e9;
-  }
-  #page {
-    margin-bottom: 5rem !important;
-  }
+}
+.info__box {
+  display: flex;
+  margin-top: 0.6rem;
+  flex-direction: column;
+}
+.info__box section {
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+#author__name {
+  font-size: 0.8555rem;
+  font-weight: 600;
+  margin-bottom: 0;
+}
+#description {
+  margin-top: 0.5rem;
+  color: gray;
+  font-size: smaller;
+  text-align: justify;
+}
+.v-progress-circular {
+  color: #b2b2b2;
+}
+.v-btn__loader {
+  background-color: #e9e9e9;
+}
+#page {
+  margin-bottom: 5rem !important;
+}
 </style>

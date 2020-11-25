@@ -43,7 +43,7 @@ export default {
   methods: {
     goToCourse() {
       if (this.course.status === 'TAKEN') {
-        //store on vuex course data
+        // store on vuex course data
         this.$store.commit('courses/setCurrent', this.course.course);
 
         const url = this.course.course.slug
@@ -74,10 +74,10 @@ export default {
       return str;
     },
     rateCourse() {
-      //store on vuex course data
+      // store on vuex course data
       this.$store.commit('courses/setCurrent', this.course.course);
 
-      //go to the last page of course flow passing 1 to "lateRate" flag
+      // go to the last page of course flow passing 1 to "lateRate" flag
       $nuxt._router.push(`/aluno/curso/${this.course.course.slug}/fim/1`);
     },
   },

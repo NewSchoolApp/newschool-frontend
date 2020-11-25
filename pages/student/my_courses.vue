@@ -1,6 +1,6 @@
 <template>
-  <div id="page-window" >
-    <div v-show="!loading" id="page" >
+  <div id="page-window">
+    <div v-show="!loading" id="page">
       <HeaderBar :title="'Meus Cursos'" :back-page="true" />
       <v-tabs v-model="selectedTab" fixed-tabs height="35px">
         <v-tab>
@@ -35,20 +35,17 @@
 </template>
 
 <script>
-import NavigationBar from '~/components/NavigationBar.vue';
 import HeaderBar from '~/components/Header.vue';
-import http from '~/services/http/generic';
 import NothingToShow from '~/components/NothingToShow';
 import CourseProgress from '~/components/CourseProgress';
 
 export default {
-  transition: 'bounce',
   components: {
-    NavigationBar,
     HeaderBar,
     NothingToShow,
     CourseProgress,
-  },  
+  },
+  transition: 'bounce',
   data: () => ({
     loading: true,
     selectedTab: 0, // (0 == Em andamento, 1 == Finalizados)
@@ -56,8 +53,8 @@ export default {
   computed: {
     courses() {
       return this.$store.state.courses.my.filter(course => {
-        if (this.selectedTab == '1') {
-          return course.completion == 100;
+        if (this.selectedTab === '1') {
+          return course.completion === 100;
         } else {
           return course.completion < 100;
         }
@@ -105,18 +102,18 @@ export default {
   max-height: 32px;
 }
 /*Large devices (desktops, 992px and up)*/
-@media (min-width: 992px) { 
-#page-window {
+@media (min-width: 992px) {
+  #page-window {
     display: flex;
-  justify-content: center;
-}
-#page{
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  margin-bottom: 60px;
-  width: 700px;
-  max-width: 700px;
-}
+    justify-content: center;
+  }
+  #page {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    margin-bottom: 60px;
+    width: 700px;
+    max-width: 700px;
+  }
 }
 </style>

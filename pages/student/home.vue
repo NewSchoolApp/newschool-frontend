@@ -17,10 +17,14 @@
           :src="require(`~/assets/trophy-home.svg`)"
           @click="goTo('ranking')"
         />
-        <img          
+        <img
           id="bell"
           class="header_img"
-          :src="require(`~/assets/bell-home${notifications.length?'-active':''}.svg`)"
+          :src="
+            require(`~/assets/bell-home${
+              notifications.length ? '-active' : ''
+            }.svg`)
+          "
           @click="goTo('notificacao')"
         />
       </v-row>
@@ -28,11 +32,11 @@
       <!-- Header-bar -->
       <v-row id="header" align="center">
         <v-avatar class="user__image" size="55">
-          <img @click="goTo('perfil')" v-if="user.photo" :src="user.photo" />
+          <img v-if="user.photo" :src="user.photo" @click="goTo('perfil')" />
           <img
-            @click="goTo('perfil')"
             v-else
             :src="require(`~/assets/person.svg`)"
+            @click="goTo('perfil')"
           />
         </v-avatar>
 
@@ -46,7 +50,7 @@
         <h1 class="xp">{{ userPoints || 0 }} NC</h1>
       </v-row>
 
-      <!-- Search Field -->    
+      <!-- Search Field -->
       <v-text-field
         v-model="filtro"
         label="Encontre Cursos"
@@ -54,7 +58,7 @@
         prepend-inner-icon="mdi-magnify"
         autocomplete="off"
       />
-      
+
       <!-- Course Title -->
       <p id="title">Cursos</p>
 
@@ -63,22 +67,18 @@
         v-for="course in filteredList"
         :key="course.id"
         :course="course"
-      />  
+      />
     </v-col>
-    
   </div>
 </template>
 
 <script>
-import Avatar from 'vue-avatar';
 import CourseCard from '~/components/CourseCard';
 import http from '~/services/http/generic';
-import courses from '~/services/http/courses';
 
 export default {
   components: {
     CourseCard,
-    Avatar,
   },
   data: () => ({
     title: 'Bem-vindo',
@@ -110,21 +110,21 @@ export default {
     this.getAllCourses();
     this.getNotifications();
     this.getUserScore();
-    this.getMyCourses();    
+    this.getMyCourses();
   },
   methods: {
     getAllCourses() {
-      http.getAll(process.env.endpoints.COURSE)
-      .then(({data}) => {
-        this.$store.commit('courses/setAll', data)
+      http.getAll(process.env.endpoints.COURSE).then(({ data }) => {
+        this.$store.commit('courses/setAll', data);
         this.loading = false;
       });
     },
-    getMyCourses(){
-      http.getAll(`${process.env.endpoints.MY_COURSES}${this.user.id}`)
-      .then(({data}) => {
-        this.$store.commit('courses/setMy', data)
-      });
+    getMyCourses() {
+      http
+        .getAll(`${process.env.endpoints.MY_COURSES}${this.user.id}`)
+        .then(({ data }) => {
+          this.$store.commit('courses/setMy', data);
+        });
     },
     goTo(path) {
       $nuxt._router.push(`/aluno/${path}`);
@@ -156,8 +156,6 @@ export default {
 * {
   font-family: 'Roboto', sans-serif;
 }
-
-
 
 #main-col {
   padding: 20px 24px 50px 24px;
@@ -249,7 +247,8 @@ export default {
 }
 
 /* margin lateral do conteudo do campo */
-::v-deep .v-text-field.v-text-field--enclosed:not(.v-text-field--rounded)
+::v-deep
+  .v-text-field.v-text-field--enclosed:not(.v-text-field--rounded)
   > .v-input__control
   > .v-input__slot {
   padding: 0 19px;
@@ -326,11 +325,10 @@ h1 {
   text-transform: uppercase;
 }
 /*Large devices (desktops, 992px and up)*/
-@media (min-width: 992px) { 
-#page{
-  display: flex;
-  justify-content: center;
+@media (min-width: 992px) {
+  #page {
+    display: flex;
+    justify-content: center;
+  }
 }
-}
-
 </style>

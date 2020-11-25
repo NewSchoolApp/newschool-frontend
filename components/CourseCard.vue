@@ -1,38 +1,39 @@
 <template>
-  <v-card 
-  class="v-card-body" 
-  elevation="0" 
-  color="transparent"
-  @click="openCourse()">
-    <v-img :src="course.thumbUrl" />    
-    <div class="media-and-footer-container">      
-      <v-card-title>{{course.title}}</v-card-title>
+  <v-card
+    class="v-card-body"
+    elevation="0"
+    color="transparent"
+    @click="openCourse()"
+  >
+    <v-img :src="course.thumbUrl" />
+    <div class="media-and-footer-container">
+      <v-card-title>{{ course.title }}</v-card-title>
       <div class="footer-card">
-        <v-card-subtitle class="mt-0">{{course.authorName}}</v-card-subtitle>
+        <v-card-subtitle class="mt-0">{{ course.authorName }}</v-card-subtitle>
       </div>
     </div>
   </v-card>
 </template>
 
 <script>
-import { methods } from 'vue-social-sharing'
+import { methods } from 'vue-social-sharing';
 export default {
-  name: 'courseCard',
-  props: {    
+  name: 'CourseCard',
+  props: {
     course: {
-      type: Object,      
+      type: Object,
       required: true,
     },
   },
   methods: {
     async openCourse() {
-      //store this course on VueX
+      // store this course on VueX
       await this.$store.commit('courses/setCurrent', this.course);
-      //go tho course page
+      // go tho course page
       $nuxt._router.push(`/aluno/curso/${this.course.slug}`);
     },
   },
-}
+};
 </script>
 
 <style scoped>
@@ -58,7 +59,7 @@ export default {
 }
 .v-card__title {
   font-weight: 700;
-  font-size: .75rem;
+  font-size: 0.75rem;
   padding: 8px 0 0;
   line-height: 16px;
   color: #1a1a1a;

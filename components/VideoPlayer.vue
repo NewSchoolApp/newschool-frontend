@@ -1,19 +1,9 @@
 <template class="teste">
   <div>
-    <div 
-    v-if="!playing" 
-    id="course-thumbnail-backgorund" 
-    @click="playVideo()">
-      <img
-        id="course-thumbnail"
-        :src="thumbnail"
-        alt="imagem-curso"       
-      />
-      
-      <v-icon  
-      v-if="!playerLoading"    
-      class="play-btn"
-      >
+    <div v-if="!playing" id="course-thumbnail-backgorund" @click="playVideo()">
+      <img id="course-thumbnail" :src="thumbnail" alt="imagem-curso" />
+
+      <v-icon v-if="!playerLoading" class="play-btn">
         mdi-play-circle-outline
       </v-icon>
 
@@ -21,14 +11,10 @@
         v-else
         indeterminate
         color="white"
-      ></v-progress-circular>      
+      ></v-progress-circular>
     </div>
-  
-    <youtube-vue
-    v-else
-    ref="youtube"
-    :videoid="videoUrl"
-    />
+
+    <youtube-vue v-else ref="youtube" :videoid="videoUrl" />
   </div>
 </template>
 <script>
@@ -40,15 +26,15 @@ export default {
   },
   props: ['youtubeUrl', 'thumbnail'],
   data() {
-    return{
+    return {
       playing: false,
       playerLoading: false,
-    }
+    };
   },
   computed: {
-    videoUrl(){
+    videoUrl() {
       const splited = this.youtubeUrl.split('/');
-      return splited[splited.length -1];
+      return splited[splited.length - 1];
     },
   },
   methods: {
@@ -56,22 +42,14 @@ export default {
       this.playerLoading = true;
 
       setTimeout(() => {
-
-        this.playing = true;        
+        this.playing = true;
         setTimeout(() => {
           this.$refs.youtube.player.playVideo();
-        }, 100)
-
-      }, 500)
-    }
+        }, 100);
+      }, 500);
+    },
   },
-  // mounted()
-  // {
-  //   console.log("URL:", this.youtubeUrl);
-  //   const splited = this.youtubeUrl.split('/');
-  //   console.log("REGEX:", splited[splited.length -1]);
-  // }
-}
+};
 </script>
 <style>
 #course-thumbnail {
@@ -101,5 +79,4 @@ iframe {
   font-size: 45px !important;
   color: white !important;
 }
-
 </style>

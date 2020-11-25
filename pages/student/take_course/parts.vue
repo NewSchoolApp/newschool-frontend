@@ -1,6 +1,9 @@
 <template>
   <div>
-    <header-bar :title="'Aula'" :route="`/aluno/curso/${this.slug}`"></header-bar>
+    <header-bar
+      :title="'Aula'"
+      :route="`/aluno/curso/${this.slug}`"
+    ></header-bar>
     <v-layout id="page" justify-center>
       <div v-if="loading">
         <div class="container-spinner">
@@ -12,14 +15,14 @@
           />
         </div>
       </div>
-      
+
       <v-col id="main">
         <!-- Video Frame -->
-        <div id="video-iframe-container">          
+        <div id="video-iframe-container">
           <video-player
-          ref="player"
-          :youtubeUrl="currentPart.youtubeUrl.replace('watch?v=', 'embed/')"
-          :thumbnail="thumbUrl"
+            ref="player"
+            :youtube-url="currentPart.youtubeUrl.replace('watch?v=', 'embed/')"
+            :thumbnail="thumbUrl"
           />
         </div>
 
@@ -32,10 +35,9 @@
             Dúvidas e Comentários
           </v-tab>
         </v-tabs>
-        
+
         <!-- Info / Comments -->
-        <v-tabs-items v-model="selectedTab" id="part-info">
-          
+        <v-tabs-items id="part-info" v-model="selectedTab">
           <!-- info -->
           <v-tab-item>
             <h3>{{ currentPart.title }}</h3>
@@ -46,20 +48,22 @@
           </v-tab-item>
 
           <!-- comments -->
-            <v-tab-item>
-              <v-col id="comments">
-                <v-row justify='space-between'>
+          <v-tab-item>
+            <v-col id="comments">
+              <v-row justify="space-between">
                 <h3 class="comments__number">
                   {{ comments.lenth || 0 }} Comentários
                 </h3>
                 <div
-                v-if="!posting"
-                :class="'publish-btn pt-4 ' + (commentPost ? 'primary--text' : {})"
-                @click="postComment"                
+                  v-if="!posting"
+                  :class="
+                    'publish-btn pt-4 ' + (commentPost ? 'primary--text' : {})
+                  "
+                  @click="postComment"
                 >
                   Publicar
                 </div>
-                <var v-else class="py-4 pr-5">                  
+                <var v-else class="py-4 pr-5">
                   <v-progress-circular
                     class="publish-btn pt-4"
                     indeterminate
@@ -67,43 +71,39 @@
                     size="20"
                   />
                 </var>
-                </v-row>
-                <v-row  justify="center">
-                  <v-avatar size="45">
-                    <img v-if="user.photo" :src="user.photo" />
-                    <img v-else :src="require(`~/assets/person.svg`)" />
-                  </v-avatar>
-                  <v-text-field
-                    class="light-text-field mt-2 ml-2"
-                    placeholder="Escreva seu comentario"
-                    outlined
-                    v-model="commentPost"
-                    v-on:keyup.enter="postComment"
-                  ></v-text-field>
-                </v-row>
-                <v-row justify="center">
-                  <v-select
-                    height="10"
-                    :items="items"
-                    item-value="Mais recentes"
-                    value="Mais recentes"
-                    @change="sortBy = $event"
-                  ></v-select>
-                </v-row>
-                <hr>
-                <div
-                v-for="comment in sortedComments" :key="comment.id">
-                  <comment-card
-                    :comment="comment"
-                  ></comment-card>
-                  <hr>
-                </div>
-                
-              </v-col>
-            </v-tab-item>
+              </v-row>
+              <v-row justify="center">
+                <v-avatar size="45">
+                  <img v-if="user.photo" :src="user.photo" />
+                  <img v-else :src="require(`~/assets/person.svg`)" />
+                </v-avatar>
+                <v-text-field
+                  v-model="commentPost"
+                  class="light-text-field mt-2 ml-2"
+                  placeholder="Escreva seu comentario"
+                  outlined
+                  @keyup.enter="postComment"
+                ></v-text-field>
+              </v-row>
+              <v-row justify="center">
+                <v-select
+                  height="10"
+                  :items="items"
+                  item-value="Mais recentes"
+                  value="Mais recentes"
+                  @change="sortBy = $event"
+                ></v-select>
+              </v-row>
+              <hr />
+              <div v-for="comment in sortedComments" :key="comment.id">
+                <comment-card :comment="comment"></comment-card>
+                <hr />
+              </div>
+            </v-col>
+          </v-tab-item>
         </v-tabs-items>
       </v-col>
-      
+
       <client-only>
         <navigation-bar />
       </client-only>
@@ -171,84 +171,94 @@ export default {
       return this.$store.state.courses.current.thumbUrl;
     },
     sortedComments() {
-      switch(this.sortBy) {
+      switch (this.sortBy) {
         case 'Mais recentes':
-          return this.comments.sort(function (a, b) {
-	          return (Date.parse(a.createdAt) < Date.parse(b.createdAt)) ? 1 : -1;
+          // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+          return this.comments.sort(function(a, b) {
+            return Date.parse(a.createdAt) < Date.parse(b.createdAt) ? 1 : -1;
           });
         case 'Mais atigos':
-          return this.comments.sort(function (a, b) {
-	          return (Date.parse(a.createdAt) > Date.parse(b.createdAt)) ? 1 : -1;
+          // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+          return this.comments.sort(function(a, b) {
+            return Date.parse(a.createdAt) > Date.parse(b.createdAt) ? 1 : -1;
           });
         case 'Mais gostados':
-          return this.comments.sort(function (a, b) {
-	          return (a.likedBy.length < b.likedBy.length ? 1 : a.likedBy.length > b.likedBy.length ? -1 : 0);
+          // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+          return this.comments.sort(function(a, b) {
+            return a.likedBy.length < b.likedBy.length
+              ? 1
+              : a.likedBy.length > b.likedBy.length
+              ? -1
+              : 0;
           });
         case 'Meus comentarios':
-          return this.comments.filter(comment => comment.userId === this.idUser);        
+          return this.comments.filter(
+            comment => comment.userId === this.idUser,
+          );
+        default:
+          return this.comments;
       }
-      
-    }
+    },
   },
   mounted() {
     this.getComments();
     this.loading = false;
 
-    //play video if there is an ongoing course
-    if(this.$route.params.autoPlay) {
+    // play video if there is an ongoing course
+    if (this.$route.params.autoPlay) {
       this.$refs.player.playVideo();
     }
   },
   methods: {
     async getComments() {
-      await http.getAll(`${process.env.endpoints.COMMENT}/${this.currentPart.id}`)
-      .then(res => {
-        console.log('COMMENTS::::::', res);
-        this.comments = res.data;
-      })
+      await http
+        .getAll(`${process.env.endpoints.COMMENT}/${this.currentPart.id}`)
+        .then(res => {
+          this.comments = res.data;
+        });
     },
     postComment() {
-      if(this.commentPost){
+      if (this.commentPost) {
         this.posting = true;
 
         const postBody = {
           partId: this.currentPart.id,
           userId: this.idUser,
           text: this.commentPost,
-        }      
-        http.post('/api/v1/comment', postBody)
-        .then(res => {
-          //refresh comments
+        };
+        http.post('/api/v1/comment', postBody).then(res => {
+          // refresh comments
           this.getComments();
-  
-          //clear comment input
-          this.commentPost = ''; 
+
+          // clear comment input
+          this.commentPost = '';
 
           this.posting = false;
         });
-      }     
+      }
     },
     async advanceCourse() {
       this.loading = true;
       // advancing course step
       await http.post(
         `${process.env.endpoints.ADVANCE_COURSE}/user/${this.idUser}/course/${this.courseId}`,
-      )
+      );
 
       // cheking if this was the last step of the course
-      const currentState = await this.$store.dispatch('courses/refreshState');      
-      
-      if (currentState.status === 'COMPLETED') {        
+      const currentState = await this.$store.dispatch('courses/refreshState');
+
+      if (currentState.status === 'COMPLETED') {
         $nuxt._router.push(`/aluno/curso/${this.slug}/fim`);
-      }
-      else{
-        //case this course is not finished, go to next step
-        const currentStep = await this.$store.dispatch('courses/refreshCurrentStep');
+      } else {
+        // case this course is not finished, go to next step
+        const currentStep = await this.$store.dispatch(
+          'courses/refreshCurrentStep',
+        );
 
         $nuxt._router.push(currentStep.stepUrl);
       }
     },
-  },  
+  },
 };
 </script>
 
@@ -296,10 +306,10 @@ hr {
   line-height: 16px;
   font-weight: 500;
   color: grey;
-  text-transform: none;  
+  text-transform: none;
 }
 ::v-deep .v-input__slot {
-    min-height: 32px !important;
+  min-height: 32px !important;
 }
 h1 {
   font-weight: 900;
@@ -313,18 +323,18 @@ h1 {
   }
 }
 .comments__number {
-  color: black;  
+  color: black;
   font-size: 12px;
   font-weight: 700;
   color: #1a1a1a;
 }
 .publish-btn {
-margin-bottom: 0;
-font-size: 12px;
-font-weight: 400;
-line-height: 18px;
-letter-spacing: 0em;
-color: #737373;
+  margin-bottom: 0;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 18px;
+  letter-spacing: 0em;
+  color: #737373;
 }
 .filter__coments {
   font-family: 'Montserrat', sans-serif;

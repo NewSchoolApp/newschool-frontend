@@ -51,10 +51,7 @@
             </v-col>
             <v-col class="px-0 pb-5">
               <div class="input-label">Apelido</div>
-              <v-text-field
-                v-model="form.nickname"
-                filled
-              ></v-text-field>
+              <v-text-field v-model="form.nickname" filled></v-text-field>
             </v-col>
             <v-col class="px-0 pb-5">
               <div class="input-label">Email</div>
@@ -90,19 +87,11 @@
             </v-col>
             <v-col class="px-0 pb-5">
               <div class="input-label">Gênero</div>
-              <v-select
-                v-model="form.gender"
-                filled
-                :items="genderItems"
-              />
+              <v-select v-model="form.gender" filled :items="genderItems" />
             </v-col>
             <v-col class="px-0 pb-5">
               <div class="input-label">Perfil</div>
-              <v-select 
-                v-model="form.profile" 
-                filled 
-                :items="profileItems" 
-              />
+              <v-select v-model="form.profile" filled :items="profileItems" />
             </v-col>
           </v-col>
         </v-tab-item>
@@ -113,35 +102,32 @@
             <v-col class="px-0 pb-5">
               <div class="input-label">País</div>
               <v-autocomplete
-                :items="countries"
                 v-model="form.country"
+                :items="countries"
                 filled
               />
             </v-col>
             <v-col class="px-0 pb-5">
               <div class="input-label">Estado</div>
               <v-autocomplete
-                :items="states"
                 v-model="form.state"
+                :items="states"
                 filled
-                @change="getCities(form.state), form.city = ''"
+                @change="getCities(form.state), (form.city = '')"
               />
             </v-col>
             <v-col class="px-0 pb-5">
               <div class="input-label">Cidade</div>
               <v-autocomplete
-              required
-              :items="cities"
-              v-model="form.city"
-              filled
-            />
+                v-model="form.city"
+                required
+                :items="cities"
+                filled
+              />
             </v-col>
             <v-col class="px-0 pb-5">
               <div class="input-label">Bairro</div>
-              <v-text-field
-              v-model="form.district" 
-              filled
-            />
+              <v-text-field v-model="form.district" filled />
             </v-col>
           </v-col>
         </v-tab-item>
@@ -159,10 +145,7 @@
 
             <v-col v-if="form.employed" class="px-0 pb-5">
               <div class="input-label">Profissão</div>
-              <v-text-field
-                v-model="form.profession"
-                filled
-              ></v-text-field>
+              <v-text-field v-model="form.profession" filled></v-text-field>
             </v-col>
 
             <v-col class="px-0 pb-5">
@@ -260,9 +243,10 @@
 
       <!-- footer -->
       <v-row class="base">
-        <v-btn class="btn-block btn-new-primary btn-shadow"
-        @click="submit"
-        :loading="loading"
+        <v-btn
+          class="btn-block btn-new-primary btn-shadow"
+          :loading="loading"
+          @click="submit"
         >
           Confirmar Alterações
         </v-btn>
@@ -368,9 +352,7 @@ export default {
         'Investidor',
         'Outros',
       ],
-      requiredRules: [
-        v => !!v || 'O campo não pode estar em branco',
-      ],      
+      requiredRules: [v => !!v || 'O campo não pode estar em branco'],
       emailRules: [
         v => !!v || 'Digite o e-mail',
         v => /.+@.+\..+/.test(v) || 'E-mail inválido',
@@ -397,7 +379,7 @@ export default {
         .split('-')
         .reverse()
         .join('/');
-    },    
+    },
   },
   mounted() {
     if (this.$route.params.tab) {
@@ -439,7 +421,7 @@ export default {
         this.form.urlFacebook = res.data.urlFacebook;
         this.form.urlInstagram = res.data.urlInstagram;
 
-        //populating address fields
+        // populating address fields
         this.form.country = 'Brasil';
         this.getStates();
         if (res.data.address) {
@@ -449,14 +431,16 @@ export default {
             address: this.form.address,
           });
           this.form.state = resolvedAddress.state;
-          //timeout needed for state input validation
+          // timeout needed for state input validation
           setTimeout(() => {
-            this.getCities(this.form.state)
-            //timeout needed for city itens to be populated
+            this.getCities(this.form.state);
+            // timeout needed for city itens to be populated
             setTimeout(() => {
-              this.cities.includes(resolvedAddress.city) ? this.form.city = resolvedAddress.city : this.form.city = '';
+              this.cities.includes(resolvedAddress.city)
+                ? (this.form.city = resolvedAddress.city)
+                : (this.form.city = '');
               this.form.district = resolvedAddress.district;
-            },500);
+            }, 500);
           }, 1000);
         }
       });
@@ -535,54 +519,56 @@ export default {
         this.tab--;
       }
     },
-    submit() {     
+    submit() {
       if (this.$refs.form.validate()) {
-      this.loading = true;
-      // post resolving
-      const postBody = { ...this.form };
-      const date = this.formatedDate.split('/');
-      postBody.birthday = new Date(`${date[2]}-${date[1]}-${date[0]}T03:00`).toISOString();
-      postBody.profile = this.resolveProfile({
-        profile: postBody.profile,
-        api: false,
-      });
-      postBody.gender = this.resolveGender(postBody.gender);
-      postBody.schooling = this.resolveSchooling({
-        schooling: postBody.schooling,
-        api: false,
-      });
-      if (!postBody.employed) {
-        postBody.profession = null;
-      }
+        this.loading = true;
+        // post resolving
+        const postBody = { ...this.form };
+        const date = this.formatedDate.split('/');
+        postBody.birthday = new Date(
+          `${date[2]}-${date[1]}-${date[0]}T03:00`,
+        ).toISOString();
+        postBody.profile = this.resolveProfile({
+          profile: postBody.profile,
+          api: false,
+        });
+        postBody.gender = this.resolveGender(postBody.gender);
+        postBody.schooling = this.resolveSchooling({
+          schooling: postBody.schooling,
+          api: false,
+        });
+        if (!postBody.employed) {
+          postBody.profession = null;
+        }
 
-      //resolving address
-      postBody.address = this.resolveAddress({
-        api: false,
-        country: postBody.country,
-        state: postBody.state,
-        city: postBody.city,
-        district: postBody.district,
-      });
+        // resolving address
+        postBody.address = this.resolveAddress({
+          api: false,
+          country: postBody.country,
+          state: postBody.state,
+          city: postBody.city,
+          district: postBody.district,
+        });
 
-      // deleting some not implemented variables
-      delete postBody.employed;
-      delete postBody.district;
-      delete postBody.socialLinks;
+        // deleting some not implemented variables
+        delete postBody.employed;
+        delete postBody.district;
+        delete postBody.socialLinks;
 
-      http
-        .put(`/api/v1/user`, this.idUser, postBody)
-        .then(res => {
-          this.$notifier.showMessage({
-            type: 'success',
-            message: 'Aee, deu bom!',
-          });
-          $nuxt._router.push('/aluno/perfil');
-        })
-        .catch(() =>
-          this.$notifier.showMessage({
-            type: 'error',
-          }),
-        );
+        http
+          .put(`/api/v1/user`, this.idUser, postBody)
+          .then(res => {
+            this.$notifier.showMessage({
+              type: 'success',
+              message: 'Aee, deu bom!',
+            });
+            $nuxt._router.push('/aluno/perfil');
+          })
+          .catch(() =>
+            this.$notifier.showMessage({
+              type: 'error',
+            }),
+          );
       } else {
         // mostrar snackbar de confirmação
         this.showSnackbar('Algo deu Errado!', 'red');
@@ -650,7 +636,7 @@ export default {
           district: splited[0],
         };
       } else {
-        //address model used on backend: "centro, Rio Claro - São Paulo, Brasil"
+        // address model used on backend: "centro, Rio Claro - São Paulo, Brasil"
         return district + ', ' + city + ' - ' + state + ', ' + country;
       }
     },

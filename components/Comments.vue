@@ -11,23 +11,27 @@
       <v-row class="user__comment">{{ comment.text }}</v-row>
       <v-row class="d-flex justify-space-between">
         <v-row>
-          <p :class="'user__interaction mr-6 ' + (liked ? 'primary--text font-weight-bold' : {})"
-          @click="like()" 
-          v-ripple
+          <p
+            v-ripple
+            :class="
+              'user__interaction mr-6 ' +
+                (liked ? 'primary--text font-weight-bold' : {})
+            "
+            @click="like()"
           >
             Gostei ({{ comment.likedBy.length }})
           </p>
-          <p class="user__interaction" v-ripple >Responder</p>
+          <p v-ripple class="user__interaction">Responder</p>
         </v-row>
         <p class="user__interaction">{{ date }}</p>
       </v-row>
       <div v-for="response of responses" :key="response.rank">
         <response-card
-          :responseUserName="response.userName"
-          :responseCommentText="response.comment"
-          responseLikes="5"
-          responseCommentDate="20/11/2020"
-          :responseUserPhoto="response.photo"
+          :response-user-name="response.userName"
+          :response-comment-text="response.comment"
+          response-likes="5"
+          response-comment-date="20/11/2020"
+          :response-user-photo="response.photo"
         />
       </div>
     </v-container>
@@ -40,6 +44,9 @@ import http from '~/services/http/generic';
 
 export default {
   name: 'CommentCard',
+  components: {
+    ResponseCard,
+  },
   props: ['comment'],
   data: () => ({
     liked: false,
@@ -49,31 +56,29 @@ export default {
       return this.$store.state.user.data.id;
     },
     date() {
-      const date = new Date(this.comment.createdAt)
+      const date = new Date(this.comment.createdAt);
       return date.getDay() + '/' + date.getMonth() + '/' + date.getFullYear();
-    },  
-  },
-  components: {
-    ResponseCard,
+    },
   },
   mounted() {
     this.checkIfLiked();
   },
   methods: {
     async like() {
-      //check if this user already liked this comment
-      if(!this.liked){
-        await http.post(`api/v1/comment/${this.comment.id}/like`,
-        {"userId": this.idUser});
+      // check if this user already liked this comment
+      if (!this.liked) {
+        await http.post(`api/v1/comment/${this.comment.id}/like`, {
+          userId: this.idUser,
+        });
         this.comment.likedBy.push({});
         this.liked = true;
-      }      
+      }
     },
     checkIfLiked() {
-      if(this.comment.likedBy.find(user => user.id === this.idUser) != null){
-        this.liked = true;;
+      if (this.comment.likedBy.find(user => user.id === this.idUser) != null) {
+        this.liked = true;
       }
-    } 
+    },
   },
 };
 </script>

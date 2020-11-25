@@ -67,8 +67,8 @@
             <div>
               <div class="icons">
                 <button
-                  @click="share($event, title, image)"
                   class="btn-block btn-primary"
+                  @click="share($event, title, image)"
                 >
                   COMPARTILHAR
                 </button>
@@ -140,7 +140,6 @@
 </router>
 
 <script>
-import SocialSharing from 'vue-social-sharing';
 import NavigationBar from '~/components/NavigationBar';
 import tests from '~/services/http/generic';
 import http from '~/services/http/generic';
@@ -150,7 +149,6 @@ export default {
   components: {
     NavigationBar,
     HeaderBar,
-    SocialSharing,
   },
   data: () => ({
     computedSelection: [],
@@ -296,7 +294,7 @@ export default {
         this.onSuccess,
         this.onError,
       );
-    },    
+    },
     setCorrect(condition) {
       this.correct = condition;
     },
@@ -305,29 +303,29 @@ export default {
       // advancing course step
       await http.post(
         `${process.env.endpoints.ADVANCE_COURSE}/user/${this.idUser}/course/${this.courseId}`,
-      )
+      );
 
       // cheking if this was the last step of the course
-      const currentState = await this.$store.dispatch('courses/refreshState');      
-      
-      if (currentState.status === 'COMPLETED') {        
-        $nuxt._router.push(`/aluno/curso/${this.slug}/fim`);
-      }
-      else{
-        //case this course is not finished, go to next step
-        const currentStep = await this.$store.dispatch('courses/refreshCurrentStep');
+      const currentState = await this.$store.dispatch('courses/refreshState');
 
-        if (currentStep.type === 'test'){
-          //case current step still a test, continue tests on this page
+      if (currentState.status === 'COMPLETED') {
+        $nuxt._router.push(`/aluno/curso/${this.slug}/fim`);
+      } else {
+        // case this course is not finished, go to next step
+        const currentStep = await this.$store.dispatch(
+          'courses/refreshCurrentStep',
+        );
+
+        if (currentStep.type === 'test') {
+          // case current step still a test, continue tests on this page
           this.loading = false;
-        }
-        else{
-          //else, go to step url
+        } else {
+          // else, go to step url
           $nuxt._router.push(currentStep.stepUrl);
         }
       }
     },
-  },  
+  },
 };
 </script>
 
