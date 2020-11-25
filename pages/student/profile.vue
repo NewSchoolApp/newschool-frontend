@@ -38,7 +38,7 @@
       <v-divider />
       <v-row class="py-3" @click="goToExit">
         <v-icon class="px-6" color="#C78282">mdi-location-exit</v-icon>
-        <div class="btn-alert">Sair</div>
+        <div class="btn-alert">SAIR</div>
       </v-row>
       <v-divider />
     </v-col>
@@ -159,7 +159,7 @@ export default {
 }
 
 /*Large devices (desktops, 992px and up)*/
-@media (min-width: 992px) { 
+@media (min-width: 992px) {
 #page {
     display: flex;
   justify-content: center;
