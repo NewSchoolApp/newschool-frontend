@@ -119,9 +119,9 @@
             <v-col class="px-0 pb-5">
               <div class="input-label">Cidade</div>
               <v-autocomplete
-                v-model="form.city"
                 required
                 :items="cities"
+                v-model="form.city"
                 filled
               />
             </v-col>
@@ -245,8 +245,8 @@
       <v-row class="base">
         <v-btn
           class="btn-block btn-new-primary btn-shadow"
-          :loading="loading"
           @click="submit"
+          :loading="loading"
         >
           Confirmar Alterações
         </v-btn>
@@ -284,6 +284,7 @@ export default {
       isLoading: false,
       tab: 0,
       datePick: false,
+      completeProfile: false,
       form: {
         id: '',
         name: '',
@@ -390,6 +391,27 @@ export default {
   methods: {
     populateProfile() {
       http.getAll(`/api/v1/user/${this.idUser}`).then(res => {
+        const signupFields = [
+          'name',
+          'profile',
+          'email',
+          'nickname',
+          'birthday', // "2020-11-11T20:42:01.435Z"
+          'gender',
+          'schooling',
+          'institutionName',
+          'profession',
+          'address',
+        ];
+
+        const emptySignupFields = signupFields.filter(
+          field => !res.data[field],
+        );
+        console.log(emptySignupFields)
+        if (!emptySignupFields.length) {
+          this.completeProfile = true;
+        }
+
         res.data.birthday
           ? (this.form.birthday = this.resolveDate(res.data.birthday))
           : {};
@@ -524,10 +546,15 @@ export default {
         this.loading = true;
         // post resolving
         const postBody = { ...this.form };
+        if(this.formatedDate) {
         const date = this.formatedDate.split('/');
         postBody.birthday = new Date(
           `${date[2]}-${date[1]}-${date[0]}T03:00`,
         ).toISOString();
+        } else {
+          delete postBody.birthday
+        }
+
         postBody.profile = this.resolveProfile({
           profile: postBody.profile,
           api: false,
@@ -541,7 +568,7 @@ export default {
           postBody.profession = null;
         }
 
-        // resolving address
+        //resolving address
         postBody.address = this.resolveAddress({
           api: false,
           country: postBody.country,
@@ -558,11 +585,31 @@ export default {
         http
           .put(`/api/v1/user`, this.idUser, postBody)
           .then(res => {
+            this.loading = false;
             this.$notifier.showMessage({
               type: 'success',
               message: 'Aee, deu bom!',
             });
-            $nuxt._router.push('/aluno/perfil');
+            const signupFields = [
+              'name',
+              'profile',
+              'email',
+              'nickname',
+              'birthday', // "2020-11-11T20:42:01.435Z"
+              'gender',
+              'schooling',
+              'institutionName',
+              'profession',
+              'address',
+            ];
+
+            const emptySignupFields = signupFields.filter(
+              field => !postBody[field],
+            );
+            console.log(emptySignupFields)
+            if (!emptySignupFields.length && !this.completeProfile) {
+              $nuxt._router.replace('/aluno/finalizar-cadastro');0
+            }
           })
           .catch(() =>
             this.$notifier.showMessage({
