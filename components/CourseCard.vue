@@ -25,12 +25,21 @@ export default {
       required: true,
     },
   },
+  computed: {
+    user() {
+      return this.$store.state.user;
+    },
+  },
   methods: {
     async openCourse() {
       // store this course on VueX
       await this.$store.commit('courses/setCurrent', this.course);
       // go tho course page
-      $nuxt._router.push(`/aluno/curso/${this.course.slug}`);
+      if (this.user.data.role == 'ADMIN') {
+        $nuxt._router.push(`/admin/curso/${this.course.slug}`);
+      } else {
+        $nuxt._router.push(`/aluno/curso/${this.course.slug}`);
+      }
     },
   },
 };

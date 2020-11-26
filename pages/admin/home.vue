@@ -10,10 +10,7 @@
       <course-card
         v-for="course in courses"
         :key="course.id"
-        :title="course.title"
-        :teacher="course.authorId"
-        :image="course.thumbUrl"
-        :slug="course.slug"
+        :course="course"
       />
     </article>
     <client-only>
@@ -32,40 +29,16 @@
 <script>
 import NavigationBar from '~/components/NavigationBar.vue';
 import CourseCard from '~/components/CourseCard';
-import courses from '~/services/http/courses';
+import http from '~/services/http/generic';
 
 export default {
   components: {
     NavigationBar,
     CourseCard,
   },
-  asyncData({ store, data, params, $axios }) {
-    return courses
-      .getAll()
-      .then(response => store.commit('courses/set', response.data));
-  },
   data: () => ({
     title: 'Bem-vindo',
   }),
-  computed: {
-    courses() {
-      return this.$store.state.courses.list;
-    },
-    user() {
-      return this.$store.state.user.data;
-    },
-  },
-  mounted() {
-    this.loadUserName();
-  },
-  methods: {
-    loadUserName() {
-      const storedUser = JSON.parse(localStorage.getItem('user'));
-      if (storedUser) {
-        this.user.name = storedUser.name.split(' ')[0];
-      }
-    },
-  },
   head() {
     return {
       title: this.title,
@@ -80,6 +53,39 @@ export default {
         },
       ],
     };
+  },
+  computed: {
+    user() {
+      return this.$store.state.user.data;
+    },
+    courses() {
+      return this.$store.state.courses.all;
+    },
+  },
+  mounted() {
+    this.getAllCourses();
+    this.getMyCourses();
+  },
+  methods: {
+    loadUserName() {
+      const storedUser = JSON.parse(localStorage.getItem('user'));
+      if (storedUser) {
+        this.user.name = storedUser.name.split(' ')[0];
+      }
+    },
+    getAllCourses() {
+      http.getAll(process.env.endpoints.COURSE).then(({ data }) => {
+        this.$store.commit('courses/setAll', data);
+        this.loading = false;
+      });
+    },
+    getMyCourses() {
+      http
+        .getAll(`${process.env.endpoints.MY_COURSES}${this.user.id}`)
+        .then(({ data }) => {
+          this.$store.commit('courses/setMy', data);
+        });
+    },
   },
 };
 </script>

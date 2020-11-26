@@ -64,10 +64,11 @@ export const actions = {
       const parts = await http.getAll(
         `${process.env.endpoints.PARTS_BY_LESSON}/${currentStep.data.data.id}`,
       );
-
       // get data of the first part (the last index is the first part)
       const firstPart = await http.getAll(
-        `${process.env.endpoints.PART_BY_ID}/${parts.data[0].id}`,
+        `${process.env.endpoints.PART_BY_ID}/${
+          parts.data.find(part => part.sequenceNumber === 1).id
+        }`,
       );
 
       // store data

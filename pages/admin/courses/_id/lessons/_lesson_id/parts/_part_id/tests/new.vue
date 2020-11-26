@@ -1,13 +1,18 @@
 <template>
-  <div id="page">
+  <div id="page" ref="flex">
     <HeaderBar :title="'Gerenciar Meus Cursos'" :back-page="true"></HeaderBar>
     <v-layout align-center justify-center>
-      <v-flex xs10 sm8 md4 style="text-align: -webkit-left;">      
+      <v-flex xs10 sm8 md4 style="text-align: -webkit-left;">
         <v-container>
           <v-row>
             <v-col>
               <h3>Teste</h3>
-              <v-form class="test-form" ref="test" v-model="status" lazy-validation>        
+              <v-form
+                ref="test"
+                v-model="status"
+                class="test-form"
+                lazy-validation
+              >
                 <v-text-field
                   v-model="test.title"
                   :rules="titleRules"
@@ -52,12 +57,10 @@
                   required
                 />
               </v-form>
-              <v-btn
-              class="btn-block btn-primary" 
-              @click="submit">
-              Adicionar
-              </v-btn>      
-            </v-col> 
+              <v-btn class="btn-block btn-primary" @click="submit">
+                Adicionar
+              </v-btn>
+            </v-col>
           </v-row>
         </v-container>
       </v-flex>
@@ -189,7 +192,6 @@ export default {
   },
 };
 </script>
-
 
 <style lang="scss" scoped>
 ::v-deep .v-input__icon--prepend-inner {
