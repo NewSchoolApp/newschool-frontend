@@ -43,7 +43,7 @@
             <h3>{{ currentPart.title }}</h3>
             <h4>{{ currentPart.description }}</h4>
             <v-btn class="btn-block btn-primary" @click="advanceCourse">
-              FAZER TESTE
+              PRÓXIMO
             </v-btn>
           </v-tab-item>
 
@@ -255,7 +255,13 @@ export default {
           'courses/refreshCurrentStep',
         );
 
-        $nuxt._router.push(currentStep.stepUrl);
+        if (currentStep.type === 'part' || currentStep.type === 'lesson') {
+          // case current step still a test, continue tests on this page
+          this.loading = false;
+        } else {
+          // else, go to step url
+          $nuxt._router.push(currentStep.stepUrl);
+        }
       }
     },
   },

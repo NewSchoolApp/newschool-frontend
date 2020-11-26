@@ -119,9 +119,9 @@
             <v-col class="px-0 pb-5">
               <div class="input-label">Cidade</div>
               <v-autocomplete
+                v-model="form.city"
                 required
                 :items="cities"
-                v-model="form.city"
                 filled
               />
             </v-col>
@@ -137,7 +137,11 @@
           <v-col>
             <v-col class="px-0 pb-5">
               <div class="input-label">Empregado</div>
-              <v-radio-group v-model="form.employed" row>
+              <v-radio-group
+                v-model="form.employed"
+                class="primary-checkbox"
+                row
+              >
                 <v-radio label="Sim" :value="true"></v-radio>
                 <v-radio label="Não" :value="false"></v-radio>
               </v-radio-group>
@@ -245,8 +249,8 @@
       <v-row class="base">
         <v-btn
           class="btn-block btn-new-primary btn-shadow"
-          @click="submit"
           :loading="loading"
+          @click="submit"
         >
           Confirmar Alterações
         </v-btn>
@@ -394,23 +398,27 @@ export default {
         const emptySignupFields = signupFields.filter(
           field => !res.data[field],
         );
-        console.log(emptySignupFields)
+        console.log(emptySignupFields);
         if (!emptySignupFields.length) {
           this.completeProfile = true;
         }
 
+        // eslint-disable-next-line no-unused-expressions
         res.data.birthday
           ? (this.form.birthday = this.resolveDate(res.data.birthday))
           : {};
+        // eslint-disable-next-line no-unused-expressions
         res.data.gender
           ? (this.form.gender = this.resolveGender(res.data.gender))
           : {};
+        // eslint-disable-next-line no-unused-expressions
         res.data.profile
           ? (this.form.profile = this.resolveProfile({
               profile: res.data.profile,
               api: true,
             }))
           : {};
+        // eslint-disable-next-line no-unused-expressions
         res.data.schooling
           ? (this.form.schooling = this.resolveSchooling({
               schooling: res.data.schooling,
@@ -501,9 +509,7 @@ export default {
       this.loadClientCredentials().then(res => {
         const token = res.data.accessToken;
         const response = http
-          .getAll(
-            `${process.env.endpoints.SCHOOL}?name=${school}`,
-          )
+          .getAll(`${process.env.endpoints.SCHOOL}?name=${school}`)
           .then(res => {
             if (!res.data.length) {
               this.isLoading = false;
@@ -530,13 +536,13 @@ export default {
         this.loading = true;
         // post resolving
         const postBody = { ...this.form };
-        if(this.formatedDate) {
-        const date = this.formatedDate.split('/');
-        postBody.birthday = new Date(
-          `${date[2]}-${date[1]}-${date[0]}T03:00`,
-        ).toISOString();
+        if (this.formatedDate) {
+          const date = this.formatedDate.split('/');
+          postBody.birthday = new Date(
+            `${date[2]}-${date[1]}-${date[0]}T03:00`,
+          ).toISOString();
         } else {
-          delete postBody.birthday
+          delete postBody.birthday;
         }
 
         postBody.profile = this.resolveProfile({
@@ -552,7 +558,7 @@ export default {
           postBody.profession = null;
         }
 
-        //resolving address
+        // resolving address
         postBody.address = this.resolveAddress({
           api: false,
           country: postBody.country,
@@ -571,7 +577,7 @@ export default {
           .then(res => {
             this.loading = false;
             this.$notifier.showMessage({
-              type: 'success'
+              type: 'success',
             });
             const signupFields = [
               'name',
@@ -588,7 +594,7 @@ export default {
             const emptySignupFields = signupFields.filter(
               field => !postBody[field],
             );
-            console.log(emptySignupFields)
+            console.log(emptySignupFields);
             if (!emptySignupFields.length && !this.completeProfile) {
               $nuxt._router.replace('/aluno/finalizar-cadastro');
             }
@@ -637,7 +643,7 @@ export default {
     resolveSchooling({ schooling, api }) {
       const schoolingTypes = {
         'Ensino Fundamental Incompleto': 'ENSINO_FUNDAMENTAL_INCOMPLETO',
-        'Ensino Fundamental Cursando': '',
+        'Ensino Fundamental Cursando': 'ENSINO_FUNDAMENTAL_CURSANDO',
         'Ensino Fundamental Completo': 'ENSINO_FUNDAMENTAL_COMPLETO',
         'Ensino Médio Incompleto': 'ENSINO_MEDIO_INCOMPLETO',
         'Ensino Médio Cursando': 'ENSINO_MEDIO_CURSANDO',

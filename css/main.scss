@@ -204,3 +204,17 @@ h4 {
     min-height: 48px !important;
   }
 }
+
+.primary-checkbox {
+  .v-radio .v-input--selection-controls__ripple {
+    color: transparent !important;
+  }
+  .mdi-radiobox-marked {
+    border: 6px solid #6600cc !important;
+    color: red !important;
+    border-radius: 50%;
+  }
+  .v-item--active ::before {
+    display: none !important;
+  }
+}

@@ -11,7 +11,7 @@
         </v-tab>
       </v-tabs>
       <div v-if="courses.length">
-        <div v-for="course of courses" :key="course.course.id">
+        <div v-for="(course, index) of courses" :key="index">
           <course-progress :course="course" />
         </div>
       </div>
@@ -38,6 +38,7 @@
 import HeaderBar from '~/components/Header.vue';
 import NothingToShow from '~/components/NothingToShow';
 import CourseProgress from '~/components/CourseProgress';
+import http from '~/services/http/generic';
 
 export default {
   components: {
@@ -49,25 +50,24 @@ export default {
   data: () => ({
     loading: true,
     selectedTab: 0, // (0 == Em andamento, 1 == Finalizados)
+    courses: [],
   }),
   computed: {
-    courses() {
-      return this.$store.state.courses.my.filter(course => {
-        if (this.selectedTab == '1') {
-          return course.completion == 100;
-        } else {
-          return course.completion < 100;
-        }
-      });
-    },
     user() {
       return this.$store.state.user.data;
     },
   },
-  mounted() {
-    setTimeout(() => {
-      this.loading = false;
-    }, 400);
+  async mounted() {
+    await this.getMyCourses();
+    this.loading = false;
+  },
+  methods: {
+    async getMyCourses() {
+      const res = await http.getAll(
+        `${process.env.endpoints.MY_COURSES}${this.user.id}`,
+      );
+      this.courses = res.data;
+    },
   },
 };
 </script>
