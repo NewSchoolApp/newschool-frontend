@@ -1,6 +1,6 @@
 <template>
   <v-card class="card">
-    <v-col @click="goto()">
+    <v-col @click="goToCourse()">
       <v-row justify="space-between">
         <h1>{{ course.course.title }}</h1>
         <p v-if="course.status === 'TAKEN'" id="continue__text">
@@ -28,7 +28,7 @@
       v-if="!course.rating && course.status === 'COMPLETED'"
       id="rating-btn"
       text
-      @click="gotoCourseRating"
+      @click="rateCourse"
       >Avaliar Curso</v-btn
     >
   </v-card>
@@ -41,39 +41,11 @@ export default {
   name: 'CourseProgress',
   props: ['course'],
   methods: {
-    continueCourse(course) {
-      this.loading = true;
-      http
-        .getAll(
-          `${process.env.endpoints.STATE_COURSE}/user/${this.$store.state.user.data.id}/course/${course.id}`,
-        )
-        .then(res => {
-          // salvando o estado atual
-          this.$store.commit('courses/setCurrent', res.data.course);
-          delete res.data.user;
-          delete res.data.course;
-          this.$store.commit('courses/setCurrentState', res.data);
-
-          // Verificando qual o próximo passo
-          http
-            .getAll(
-              `${process.env.endpoints.CURRENT_STEP}/user/${this.$store.state.user.data.id}/course/${course.id}`,
-            )
-            .then(res => {
-              if (res.data.type === 'NEW_TEST') {
-                this.$store.commit('courses/setCurrentTest', res.data.data);
-                $nuxt._router.push(
-                  `/aluno/curso/${course.id}/aula/parte/teste`,
-                );
-              } else {
-                this.$store.commit('courses/setCurrentPart', res.data.data);
-                $nuxt._router.push(`/aluno/curso/${course.id}/aula/parte`);
-              }
-            });
-        });
-    },
-    goto() {
+    goToCourse() {
       if (this.course.status === 'TAKEN') {
+        // store on vuex course data
+        this.$store.commit('courses/setCurrent', this.course.course);
+
         const url = this.course.course.slug
           ? this.course.course.slug
           : this.convertToSlug(this.course.course.title);
@@ -101,8 +73,11 @@ export default {
         .replace(/-+/g, '-'); // collapse dashes
       return str;
     },
-    gotoCourseRating() {
+    rateCourse() {
+      // store on vuex course data
       this.$store.commit('courses/setCurrent', this.course.course);
+
+      // go to the last page of course flow passing 1 to "lateRate" flag
       $nuxt._router.push(`/aluno/curso/${this.course.course.slug}/fim/1`);
     },
   },

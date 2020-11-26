@@ -1,6 +1,6 @@
 <template>
   <div id="head__bar">
-    <v-btn class="btn-back" text icon @click="comeBackPage" v-if="backPage">
+    <v-btn class="btn-back" text icon @click="comeBackPage">
       <v-icon>mdi-arrow-left</v-icon>
     </v-btn>
     <h1 class="h1__theme">{{ title }}</h1>
@@ -42,7 +42,7 @@ export default {
 #head__bar {
   display: flex;
   justify-content: center;
-  padding: 1.2rem 0;
+  padding: 1.5rem 0;
   position: relative;
   align-items: center;
   background: transparent;

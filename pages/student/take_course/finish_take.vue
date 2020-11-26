@@ -287,7 +287,6 @@ export default {
         .then(res => {
           this.$notifier.showMessage({
             type: 'success',
-            message: 'Aee, deu bom!',
           });
           $nuxt._router.push('/aluno/home');
         })

@@ -1,82 +1,63 @@
 <template>
   <div>
     <HeaderBar :title="'Curso'" :back-page="true"></HeaderBar>
-
-    <v-snackbar
-      v-model="snackbar"
-      :top="true"
-      :right="true"
-      color="snackbarStatus"
-    >
-      <span>Este curso já foi finalizado</span>
-    </v-snackbar>
-    <not-found v-if="notFound" />
-    <div v-else>
-      <div v-if="loading">
-        <div class="container-spinner">
-          <v-progress-circular
-            :size="70"
-            :width="5"
-            indeterminate
-            color="#6600cc"
-          />
-        </div>
+    <div v-if="loading">
+      <div class="container-spinner">
+        <v-progress-circular
+          :size="70"
+          :width="5"
+          indeterminate
+          color="#6600cc"
+        />
       </div>
-      <div v-else>
-        <div id="page">
-          <main>
-            <h1 id="title__course" class="h1__theme">{{ course.title }}</h1>
-            <div class="mask__img">
-              <img
-                v-if="showThumb"
-                :src="course.thumbUrl"
-                @error="imageLoadError"
-                alt="imagem-curso"
-                title="imagem curso"
-              />
-            </div>
-            <div class="info__box">
-              <section>
-                <h1 class="h1__theme">Professor&nbsp;&nbsp;</h1>
-                <p id="author__name">{{ course.authorName }}</p>
-              </section>
-              <p id="description">{{ course.description }}</p>
-            </div>
-            <v-btn
-            v-if="flagButtonTaken"
+    </div>
+    <div v-else>
+      <div id="page">
+        <main>
+          <h1 id="title__course" class="h1__theme">{{ course.title }}</h1>
+          <div class="mask__img">
+            <img
+              v-if="showThumb"
+              :src="course.thumbUrl"
+              alt="imagem-curso"
+              title="imagem curso"
+              @error="imageLoadError"
+            />
+          </div>
+          <div class="info__box">
+            <section>
+              <h1 class="h1__theme">Professor&nbsp;&nbsp;</h1>
+              <p id="author__name">{{ course.authorName }}</p>
+            </section>
+            <p id="description">{{ course.description }}</p>
+          </div>
+          <v-btn
+            v-if="courseState.status == 'TAKEN'"
             class="btn-block btn-primary"
             :loading="loadingInit"
             :disabled="loadingInit"
-            @click="continueCourse(course)"
-            >
-              Continuar
-            </v-btn>
-            <v-btn
-            v-else-if="flagButtonCompleted"
+            @click="continueCourse()"
+          >
+            Continuar
+          </v-btn>
+          <v-btn
+            v-else-if="courseState.status == 'COMPLETED'"
             class="btn-block btn-primary"
             :loading="loadingInit"
-            :disabled="loadingInit"              
-            @click="goToCertificate(course.id)"
-            >
-              Certificado
-            </v-btn>
-            <v-btn
+            @click="goToCertificate()"
+          >
+            Certificado
+          </v-btn>
+          <v-btn
             v-else
             class="btn-block btn-primary"
             :loading="loadingInit"
-            :disabled="loadingInit"              
-            @click="initCourse(course.id)"
-            >
-              Iniciar
-            </v-btn>
-          </main>
-        </div>
-        <modal
-          :dialog-message="dialogMessage"
-          :ok="dialogOptions.ok"
-          :cancel="dialogOptions.cancel"
-          :to-route="dialogOptions.toRoute"
-        ></modal>
+            :disabled="loadingInit"
+            @click="startCourse()"
+          >
+            Iniciar
+          </v-btn>
+        </main>
       </div>
     </div>
     <client-only>
@@ -84,244 +65,141 @@
     </client-only>
   </div>
 </template>
-
+<router>
+  {
+    path: '/aluno/curso/:courseSlug'
+  }
+</router>
 <script>
-import NotFound from '~/pages/public/404.vue';
 import NavigationBar from '~/components/NavigationBar.vue';
 import HeaderBar from '~/components/Header.vue';
-import Modal from '~/components/Modal.vue';
 import http from '~/services/http/generic';
-import utils from '~/utils/index';
 
 export default {
   components: {
     NavigationBar,
-    NotFound,
-    Modal,
     HeaderBar,
   },
   data() {
     return {
-      idUser: 0,
-      slug: '',
       showThumb: true,
-      dialogMessage: '',
-      dialogOptions: {
-        ok: false,
-        cancel: false,
-        toRoute: false,
-      },
-      loadingInit: false,
       loading: true,
-      notFound: false,
-      course: {},
-      flagButtonTaken: false,
-      flagButtonCompleted: false,
+      loadingInit: false,
     };
   },
-  mounted() {
-    this.idUser = this.$store.state.user.data.id;
-    this.slug = this.$route.params.slug;
-    http
-      .getAll(`${process.env.endpoints.COURSE_BY_SLUG}${this.slug}`)
-      .then(({ data }) => {
-        this.course = data;
-        this.verifyStore(this.course.id);
-      })
-      .catch(error => {
-        if (error.response && error.response.status === 404) {
-          this.notFound = true;
-          this.loading = false;
-          return;
-        }
-        // eslint-disable-next-line no-console
-        console.error(error);
-      });
+  computed: {
+    course() {
+      return this.$store.state.courses.current;
+    },
+    courseState() {
+      return this.$store.state.courses.currentState;
+    },
+    idUser() {
+      return this.$store.state.user.data.id;
+    },
+  },
+  async mounted() {
+    await this.$store.dispatch('courses/refreshState');
+    this.loading = false;
   },
   methods: {
     imageLoadError() {
       this.showThumb = false;
     },
-    initCourse(id) {
-      var isComplete = false;
-      this.list.forEach(item => {
-        if (item.course.id === id && item.status === 'COMPLETED') {
-          isComplete = true;
-        }
-      });
-      if (isComplete) {
-        this.snackbar = true;
-        setTimeout(() => $nuxt._router.push(`/aluno/certificados`), 2000);
-      }
-      else {
-        this.loadingInit = true;
-        if (utils.getToken() && this.idUser) {
-          http
-            .post(process.env.endpoints.INIT_COURSE, {
-              userId: this.idUser,
-              courseId: id,
-            })
-            .then(() => {
-              http
-                .getAll(
-                  `${process.env.endpoints.STATE_COURSE}/user/${this.idUser}/course/${id}`,
-                )
-                .then(res => {
-                  this.$store.commit('courses/setCurrent', res.data.course);
-                  delete res.data.user;
-                  delete res.data.course;
-                  this.$store.commit('courses/setCurrentState', res.data);
-
-                  http
-                    .getAll(
-                      `${process.env.endpoints.CURRENT_STEP}/user/${this.idUser}/course/${id}`,
-                    )
-                    .then(res => {
-                      this.$store.commit(
-                        'courses/setCurrentPart',
-                        res.data.data,
-                      );
-                    });
-
-                  setTimeout(() => {
-                    $nuxt._router.push(`/aluno/curso/${id}/aula/parte`);
-                  }, 400);
-                });
-            })
-            .catch(error => {
-              this.dialogOptions.ok = true;
-              this.dialogMessage =
-                error.response.status === 401
-                  ? 'Você precisa estar logado para fazer um curso!'
-                  : 'Erro ao iniciar o curso, tente novamente';
-              setTimeout(() => {
-                this.loadingInit = false;
-                utils.runModal();
-              }, 1000);
-            });
-        } else {
-          setTimeout(() => {
-            this.dialogOptions.toRoute = {
-              path: '/login',
-              name: 'Fazer Login',
-            };
-            this.dialogOptions.ok = true;
-            this.dialogMessage =
-              'Você precisa estar logado para fazer um curso! faça o login e tente novamente';
-            this.loadingInit = false;
-            utils.runModal();
-          }, 1000);
-        }
-      }
-    },
-    comeBackPage() {
-      window.history.go(-1);
-    },
-    verifyStore(id) {
-      this.list.forEach(item => {
-        if (item.course.id === id && item.status === 'TAKEN') {
-          this.flagButtonTaken = true;
-        }
-        else if (item.course.id === id && item.status === 'COMPLETED') {
-          this.flagButtonCompleted = true;
-        }
-      });
-      this.loading = false;
-    },
-    continueCourse(course) {
-      this.loadingInit = true;
-      http
-        .getAll(
-          `${process.env.endpoints.STATE_COURSE}/user/${this.idUser}/course/${course.id}`,
-        )
-        .then(res => {
-          // salvando o estado atual
-          this.$store.commit('courses/setCurrent', res.data.course);
-          delete res.data.user;
-          delete res.data.course;
-          this.$store.commit('courses/setCurrentState', res.data);
-
-          // Verificando qual o próximo passo
-          http
-            .getAll(
-              `${process.env.endpoints.CURRENT_STEP}/user/${this.idUser}/course/${course.id}`,
-            )
-            .then(res => {
-              if (res.data.type === 'NEW_TEST') {
-                this.$store.commit('courses/setCurrentTest', res.data.data);
-                $nuxt._router.push(
-                  `/aluno/curso/${course.id}/aula/parte/teste`,
-                );
-              } else {
-                this.$store.commit('courses/setCurrentPart', res.data.data);
-                $nuxt._router.push(`/aluno/curso/${course.id}/aula/parte`);
-              }
-            });
-        });
-    },
-    goToCertificate(id) {
+    goToCertificate() {
       // eslint-disable-next-line no-undef
       $nuxt._router.push(
-        `/certificado-info/${this.$store.state.user.data.id}/${id}`,
+        `/certificado-info/${this.$store.state.user.data.id}/${this.course.id}`,
       );
     },
-  },
-  computed: {
-    list() {
-      return this.$store.state.courses.list;
+    async startCourse() {
+      this.loadingInit = true;
+
+      // send to backend that this course will start
+      await http
+        .post(process.env.endpoints.INIT_COURSE, {
+          userId: this.idUser,
+          courseId: this.course.id,
+        })
+        // eslint-disable-next-line handle-callback-err
+        .catch(error => {
+          this.$notifier.showMessage({
+            type: 'error',
+            message: 'Vish algo deu errado, tenta de novo mano!',
+          });
+        });
+
+      const currentStep = await this.$store.dispatch(
+        'courses/refreshCurrentStep',
+      );
+
+      // the course will be start by now, so for sure that the first step will be a part of a lesson.
+      // go to step url
+      $nuxt._router.push(currentStep.stepUrl);
+    },
+    async continueCourse() {
+      this.loadingInit = true;
+
+      // check for current step
+      const currentStep = await this.$store.dispatch(
+        'courses/refreshCurrentStep',
+      );
+
+      // go to step url
+      $nuxt._router.push(currentStep.stepUrl);
     },
   },
 };
 </script>
 
 <style scoped lang="scss">
-  h1 {
-    font-size: 1rem;
-  }
-  main {
-    padding: 0rem 1.6rem;
-  }
-  .mask__img {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    overflow: hidden;
-    height: 15rem;
-    margin-top: 0.5rem;
+h1 {
+  font-size: 1rem;
+}
+main {
+  padding: 0rem 1.6rem;
+}
+.mask__img {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  overflow: hidden;
+  height: 15rem;
+  margin-top: 0.5rem;
 
-    img {
-      width: 100%;
-    }
-  }
-  .info__box {
-    display: flex;
-    margin-top: 0.6rem;
-    flex-direction: column;
-  }
-  .info__box section {
+  img {
     width: 100%;
-    display: flex;
-    align-items: center;
   }
-  #author__name {
-    font-size: 0.8555rem;
-    font-weight: 600;
-    margin-bottom: 0;
-  }
-  #description {
-    margin-top: 0.5rem;
-    color: gray;
-    font-size: smaller;
-    text-align: justify;
-  }
-  .v-progress-circular {
-    color: #b2b2b2;
-  }
-  .v-btn__loader {
-    background-color: #e9e9e9;
-  }
-  #page {
-    margin-bottom: 5rem !important;
-  }
+}
+.info__box {
+  display: flex;
+  margin-top: 0.6rem;
+  flex-direction: column;
+}
+.info__box section {
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+#author__name {
+  font-size: 0.8555rem;
+  font-weight: 600;
+  margin-bottom: 0;
+}
+#description {
+  margin-top: 0.5rem;
+  color: gray;
+  font-size: smaller;
+  text-align: justify;
+}
+.v-progress-circular {
+  color: #b2b2b2;
+}
+.v-btn__loader {
+  background-color: #e9e9e9;
+}
+#page {
+  margin-bottom: 5rem !important;
+}
 </style>

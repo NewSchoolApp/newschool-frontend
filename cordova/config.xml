@@ -25,14 +25,14 @@
         <icon src="res/android/96px.png" density="xhdpi" />
         <icon src="res/android/144px.png" density="xxhdpi" />
         <icon src="res/android/192px.png" density="xxxhdpi" /> -->
-        <splash src="res/screen/android/l320.jpg" density="land-hdpi"/>
+        <!-- <splash src="res/screen/android/l320.jpg" density="land-hdpi"/>
         <splash src="res/screen/android/l320.jpg" density="land-ldpi"/>
         <splash src="res/screen/android/l480.jpg" density="land-mdpi"/>
         <splash src="res/screen/android/l1280.jpg" density="land-xhdpi"/>
         <splash src="res/screen/android/l800.jpg" density="port-hdpi"/>
         <splash src="res/screen/android/l320.jpg" density="port-ldpi"/>
         <splash src="res/screen/android/l480.jpg" density="port-mdpi"/>
-        <splash src="res/screen/android/l1280.jpg" density="port-xhdpi"/>
+        <splash src="res/screen/android/l1280.jpg" density="port-xhdpi"/> -->
         <allow-intent href="market:*" />
     </platform>
     <platform name="ios">

@@ -3,7 +3,7 @@
     <HeaderBar
       v-if="!correct"
       :title="'Questionário'"
-      :back-page="true"
+      :route="`/aluno/curso/${this.slug}`"
     ></HeaderBar>
     <v-layout id="page" justify-center>
       <v-flex ref="flex" class="main-container">
@@ -67,8 +67,8 @@
             <div>
               <div class="icons">
                 <button
-                  @click="share($event, title, image)"
                   class="btn-block btn-primary"
+                  @click="share($event, title, image)"
                 >
                   COMPARTILHAR
                 </button>
@@ -125,17 +125,6 @@
             Próximo
           </v-btn>
         </div>
-
-        <v-snackbar
-          v-model="snackbar"
-          :color="snackbarStatus"
-          :timeout="5000"
-          :top="true"
-          :right="true"
-        >
-          {{ snackbarText }}
-          <v-btn color="#FFF" text @click="snackbar = false">Fechar</v-btn>
-        </v-snackbar>
       </v-flex>
       <client-only>
         <navigation-bar v-if="!correct" />
@@ -146,12 +135,11 @@
 
 <router>
   {
-    path: '/aluno/curso/:courseSlug/aula/parte/teste'
+    path: '/aluno/curso/:courseSlug/aula/teste'
   }
 </router>
 
 <script>
-import SocialSharing from 'vue-social-sharing';
 import NavigationBar from '~/components/NavigationBar';
 import tests from '~/services/http/generic';
 import http from '~/services/http/generic';
@@ -161,12 +149,8 @@ export default {
   components: {
     NavigationBar,
     HeaderBar,
-    SocialSharing,
   },
   data: () => ({
-    snackbar: false,
-    snackbarText: '',
-    snackbarStatus: '',
     computedSelection: [],
     cmpSelect: [],
     correct: false,
@@ -194,6 +178,9 @@ export default {
     courseId() {
       return this.$store.state.courses.current.id;
     },
+    slug() {
+      return this.$route.params.courseSlug;
+    },
     // Vamos alterar o getter e setter do selected para poder alterar os valores do checkbox como se fosse um radio group
     selected: {
       get() {
@@ -215,7 +202,6 @@ export default {
     },
   },
   mounted() {
-    this.slug = this.$route.params.courseSlug;
     this.loading = false;
   },
   methods: {
@@ -309,81 +295,36 @@ export default {
         this.onError,
       );
     },
-
-    advanceCourse() {
-      this.loading = true;
-      // avançando no curso
-      http
-        .post(
-          `${process.env.endpoints.ADVANCE_COURSE}/user/${this.idUser}/course/${this.courseId}`,
-        )
-        .then(() => {
-          // Atualizando o estado do curso
-          http
-            .getAll(
-              `${process.env.endpoints.STATE_COURSE}/user/${this.idUser}/course/${this.courseId}`,
-            )
-            .then(res => {
-              // Verificando se já concluiu
-              if (res.data.status === 'COMPLETED') {
-                delete res.data.user;
-                delete res.data.course;
-                delete res.data.currentLesson;
-                delete res.data.currentPart;
-                delete res.data.currentTest;
-                this.$store.commit('courses/setCurrentState', res.data);
-                $nuxt._router.push(`/aluno/curso/${this.slug}/fim`);
-              } else {
-                // caso não houver concluído, salva o estado atual
-                this.$store.commit('courses/setCurrent', res.data.course);
-                delete res.data.user;
-                delete res.data.course;
-                this.$store.commit('courses/setCurrentState', res.data);
-
-                // Verificando qual o próximo passo
-                http
-                  .getAll(
-                    `${process.env.endpoints.CURRENT_STEP}/user/${this.idUser}/course/${this.courseId}`,
-                  )
-                  .then(res => {
-                    if (res.data.type === 'NEW_TEST') {
-                      this.$store.commit(
-                        'courses/setCurrentTest',
-                        res.data.data,
-                      );
-                      this.loading = false;
-                    } else {
-                      this.$store.commit(
-                        'courses/setCurrentPart',
-                        res.data.data,
-                      );
-                      $nuxt._router.push(
-                        `/aluno/curso/${this.courseId}/aula/parte`,
-                      );
-                    }
-                  });
-              }
-            });
-        });
-    },
     setCorrect(condition) {
       this.correct = condition;
     },
-  },
-  head() {
-    return {
-      title: this.test.title,
-      meta: [
-        {
-          hid: 'description',
-          name: 'description',
-          content:
-            'Prove se o conhecimento que adquiriu com as vídeo-aulas foi satisfatório ou se precisa revê-las - Levamos educação de qualidade ' +
-            'na linguagem da quebrada para as periferias do Brasil, através da tecnologia e da ' +
-            'curadoria de conteúdos baseados nas habilidades do futuro.',
-        },
-      ],
-    };
+    async advanceCourse() {
+      this.loading = true;
+      // advancing course step
+      await http.post(
+        `${process.env.endpoints.ADVANCE_COURSE}/user/${this.idUser}/course/${this.courseId}`,
+      );
+
+      // cheking if this was the last step of the course
+      const currentState = await this.$store.dispatch('courses/refreshState');
+
+      if (currentState.status === 'COMPLETED') {
+        $nuxt._router.push(`/aluno/curso/${this.slug}/fim`);
+      } else {
+        // case this course is not finished, go to next step
+        const currentStep = await this.$store.dispatch(
+          'courses/refreshCurrentStep',
+        );
+
+        if (currentStep.type === 'test') {
+          // case current step still a test, continue tests on this page
+          this.loading = false;
+        } else {
+          // else, go to step url
+          $nuxt._router.push(currentStep.stepUrl);
+        }
+      }
+    },
   },
 };
 </script>

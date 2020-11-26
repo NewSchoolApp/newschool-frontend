@@ -59,7 +59,8 @@
     "vue-chartjs": "^3.5.1",
     "vue-infinite-scroll": "^2.0.2",
     "vue-social-sharing": "^2.4.7",
-    "vue-the-mask": "^0.11.1"
+    "vue-the-mask": "^0.11.1",
+    "youtube-vue": "^2.0.8"
   },
   "devDependencies": {
     "@babel/core": "^7.11.1",
