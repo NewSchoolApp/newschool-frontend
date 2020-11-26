@@ -137,7 +137,11 @@
           <v-col>
             <v-col class="px-0 pb-5">
               <div class="input-label">Empregado</div>
-              <v-radio-group v-model="form.employed" row>
+              <v-radio-group
+                v-model="form.employed"
+                class="primary-checkbox"
+                row
+              >
                 <v-radio label="Sim" :value="true"></v-radio>
                 <v-radio label="Não" :value="false"></v-radio>
               </v-radio-group>
