@@ -5,7 +5,7 @@
     color="transparent"
     @click="openCourse()"
   >
-    <v-img :src="course.thumbUrl" />
+    <v-img :src="course.capa.url" />
     <div class="media-and-footer-container">
       <v-card-title>{{ course.title }}</v-card-title>
       <div class="footer-card">

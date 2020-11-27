@@ -35,16 +35,6 @@ export const mutations = {
 };
 
 export const actions = {
-  async refreshState() {
-    return http
-      .getAll(
-        `${process.env.endpoints.STATE_COURSE}/user/${this.state.user.data.id}/course/${this.state.courses.current.id}`,
-      )
-      .then(({ data }) => {
-        this.commit('courses/setCurrentState', data);
-        return data;
-      });
-  },
   async refreshCurrentStep() {
     // look for the current step
     const currentStep = await http.getAll(
