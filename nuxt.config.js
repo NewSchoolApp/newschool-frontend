@@ -163,10 +163,9 @@ export default {
   env: {
     domain: process.env.DOMAIN_URL || 'https://newschoolapp.com.br',
     baseUrl:
-      process.env.VUE_APP_BASE_URL ||
-      // 'http://d7683ae223c6.ngrok.io',
-      'http://newschool-api-dev2.eba-gxtzwa9m.us-east-2.elasticbeanstalk.com/',
-    // 'https://9ddlz0bte4.execute-api.us-east-2.amazonaws.com/dev',
+      process.env.VUE_APP_BASE_URL || // 'https://9460925e6fe4.ngrok.io',
+      // 'http://newschool-api-dev2.eba-gxtzwa9m.us-east-2.elasticbeanstalk.com/',
+      'https://9ddlz0bte4.execute-api.us-east-2.amazonaws.com/dev',
     // http://develop.dev-newschool.tk/
     credentials: {
       name: process.env.VUE_APP_CLIENT_CREDENTIAL_NAME || 'NEWSCHOOL@FRONT',
@@ -184,7 +183,7 @@ export default {
     dateEnd: process.env.OPENING_DATE || '25/01/2020',
 
     endpoints: {
-      CERTIFICATES_ME: 'api/v1/course-taken/certificates/user/',
+      CERTIFICATES_ME: 'api/v2/course-taken/certificates/user/',
       RANKING: '/api/v1/gamefication/ranking',
       EVENT: '/api/v1/gamefication/start-event',
       NOTIFICATIONS: 'api/v1/notification',
@@ -195,20 +194,20 @@ export default {
       LOGIN: 'oauth/token',
       SIGN_UP: 'api/v1/user/student',
       FORGOT_PASSWORD: 'api/v1/user/forgot-password',
-      COURSE: '/api/v1/course',
-      LESSON: '/api/v1/lesson',
-      PARTS_BY_LESSON: '/api/v1/part/lesson',
-      PART_BY_ID: '/api/v1/part',
+      COURSE: '/api/v2/course',
+      LESSON: '/api/v2/lesson',
+      PARTS_BY_LESSON: '/api/v2/part/lesson',
+      PART_BY_ID: '/api/v2/part',
       COMMENT: '/api/v1/comment/part',
-      COURSE_BY_SLUG: '/api/v1/course/slug/',
-      INIT_COURSE: 'api/v1/course-taken/start-course',
-      LESSONS_BY_COURSE: '/api/v1/lesson/course/',
-      ADVANCE_COURSE: '/api/v1/course-taken/advance-on-course',
+      COURSE_BY_SLUG: '/api/v2/course/slug/',
+      INIT_COURSE: 'api/v2/course-taken/start-course',
+      LESSONS_BY_COURSE: '/api/v2/lesson/course/',
+      ADVANCE_COURSE: '/api/v2/course-taken/advance-on-course',
 
-      STATE_COURSE: 'api/v1/course-taken',
-      CURRENT_STEP: '/api/v1/course-taken/current-step',
+      STATE_COURSE: 'api/v2/course-taken',
+      CURRENT_STEP: '/api/v2/course-taken/current-step',
 
-      MY_COURSES: 'api/v1/course-taken/user/',
+      MY_COURSES: 'api/v2/course-taken/user/',
       FACEBOOK_LOGIN: 'oauth/facebook/token',
       GOOGLE_LOGIN: 'oauth/google/token',
 
