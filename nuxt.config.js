@@ -184,7 +184,7 @@ export default {
     dateEnd: process.env.OPENING_DATE || '25/01/2020',
 
     endpoints: {
-      CERTIFICATES_ME: 'api/v1/course-taken/certificates/user/',
+      CERTIFICATES_ME: 'api/v2/course-taken/certificates/user/',
       RANKING: '/api/v1/gamefication/ranking',
       EVENT: '/api/v1/gamefication/start-event',
       NOTIFICATIONS: 'api/v1/notification',
@@ -195,20 +195,20 @@ export default {
       LOGIN: 'oauth/token',
       SIGN_UP: 'api/v1/user/student',
       FORGOT_PASSWORD: 'api/v1/user/forgot-password',
-      COURSE: '/api/v1/course',
-      LESSON: '/api/v1/lesson',
-      PARTS_BY_LESSON: '/api/v1/part/lesson',
-      PART_BY_ID: '/api/v1/part',
+      COURSE: '/api/v2/course',
+      LESSON: '/api/v2/lesson',
+      PARTS_BY_LESSON: '/api/v2/part/lesson',
+      PART_BY_ID: '/api/v2/part',
       COMMENT: '/api/v1/comment/part',
-      COURSE_BY_SLUG: '/api/v1/course/slug/',
-      INIT_COURSE: 'api/v1/course-taken/start-course',
-      LESSONS_BY_COURSE: '/api/v1/lesson/course/',
-      ADVANCE_COURSE: '/api/v1/course-taken/advance-on-course',
+      COURSE_BY_SLUG: '/api/v2/course/slug/',
+      INIT_COURSE: 'api/v2/course-taken/start-course',
+      LESSONS_BY_COURSE: '/api/v2/lesson/course/',
+      ADVANCE_COURSE: '/api/v2/course-taken/advance-on-course',
 
-      STATE_COURSE: 'api/v1/course-taken',
-      CURRENT_STEP: '/api/v1/course-taken/current-step',
+      STATE_COURSE: 'api/v2/course-taken',
+      CURRENT_STEP: '/api/v2/course-taken/current-step',
 
-      MY_COURSES: 'api/v1/course-taken/user/',
+      MY_COURSES: 'api/v2/course-taken/user/',
       FACEBOOK_LOGIN: 'oauth/facebook/token',
       GOOGLE_LOGIN: 'oauth/google/token',
 
@@ -219,7 +219,7 @@ export default {
       CERTIFICATE_QUANTITY: '/api/v1/dashboard/certificate/quantity',
     },
     endpointCertificateCourseTaken: {
-      CERTIFICATES_COURSE_TAKEN_ME: 'api/v1/course-taken/certificate/user/',
+      CERTIFICATES_COURSE_TAKEN_ME: 'api/v2/course-taken/certificate/user/',
       LOGIN: 'oauth/token',
     },
     GATOKEN: process.env.GA_TOKEN,
@@ -332,6 +332,41 @@ export default {
     '@nuxtjs/proxy',
     'nuxt-i18n',
     '@nuxtjs/auth',
+    [
+      '@nuxtjs/firebase',
+      {
+        config: {
+          apiKey: "AIzaSyA501kkBnUIRx2nXQ0mriSBcZGXxQCqtqE",
+          authDomain: "new-school-app-7e24e.firebaseapp.com",
+          databaseURL: "https://new-school-app-7e24e.firebaseio.com",
+          projectId: "new-school-app-7e24e",
+          storageBucket: "new-school-app-7e24e.appspot.com",
+          messagingSenderId: "968483442949",
+          appId: "1:968483442949:web:ed6ac7d51296f9110ce76c",
+          measurementId: "G-3DQ0ZMJ08S"
+        },
+        services: {
+          auth: true,
+          firestore: true,
+          functions: true,
+          storage: true,
+          database: true,
+          messaging: true,
+          performance: true,
+          analytics: true,
+          remoteConfig: true// Just as example. Can be any other service.
+        },
+        remoteConfig: {
+          settings: {
+            fetchTimeoutMillis: 100, // default
+            minimumFetchIntervalMillis: 15000, // default
+          },
+          defaultConfig: {
+            'welcome_message': 'Welcome'
+          }
+        }
+      }
+    ]
   ],
   i18n: {
     locales: [

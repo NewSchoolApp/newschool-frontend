@@ -107,6 +107,8 @@ export default {
     },
   },
   mounted() {
+    this.$fire.analytics.setAnalyticsCollectionEnabled(true)
+    console.log(this.$fire.remoteConfig.getAll())
     this.getAllCourses();
     this.getNotifications();
     this.getUserScore();
