@@ -32,7 +32,7 @@
             <p id="description">{{ course.description }}</p>
           </div>
           <v-btn
-            v-if="thisCourseState == 'TAKEN'"
+            v-if="courseState == 'TAKEN'"
             class="btn-block btn-primary"
             :loading="loadingInit"
             :disabled="loadingInit"
@@ -41,7 +41,7 @@
             Continuar
           </v-btn>
           <v-btn
-            v-else-if="thisCourseState == 'COMPLETED'"
+            v-else-if="courseState == 'COMPLETED'"
             class="btn-block btn-primary"
             :loading="loadingInit"
             @click="goToCertificate()"
@@ -91,19 +91,14 @@ export default {
     course() {
       return this.$store.state.courses.current;
     },
-    thisCourseState() {
-      console.log(this.$store.state.courses.my);
-      console.log(this.course.id);
-      const tryFindCourse = this.$store.state.courses.my.find(
+    courseState() {
+      const tryFind = this.$store.state.courses.my.find(
         course => course.courseId == this.course.id,
       );
-      console.log(tryFindCourse);
-      if (tryFindCourse) {
-        console.log('foi');
-        return tryFindCourse.status;
+      if (tryFind) {
+        return tryFind.status;
       } else {
-        console.log('não');
-        return false;
+        return 'NOT_TAKEN';
       }
     },
     idUser() {
@@ -139,6 +134,8 @@ export default {
             message: 'Vish algo deu errado, tenta de novo mano!',
           });
         });
+
+      await this.$store.dispatch('courses/refreshMyCourses');
 
       const currentStep = await this.$store.dispatch(
         'courses/refreshCurrentStep',

@@ -183,35 +183,54 @@ export default {
     dateEnd: process.env.OPENING_DATE || '25/01/2020',
 
     endpoints: {
-      CERTIFICATES_ME: 'api/v2/course-taken/certificates/user/',
-      RANKING: '/api/v1/gamefication/ranking',
-      EVENT: '/api/v1/gamefication/start-event',
-      NOTIFICATIONS: 'api/v1/notification',
-      USER_ME: 'api/v1/user/me',
-      SCHOOL: 'api/v1/school',
-      CITY: 'api/v1/city',
-      STATE: 'api/v1/state',
+      // app data
+      TOTAL_USERS: '/api/v1/user',
+
+      // user role
       LOGIN: 'oauth/token',
       SIGN_UP: 'api/v1/user/student',
       FORGOT_PASSWORD: 'api/v1/user/forgot-password',
-      COURSE: '/api/v2/course',
-      LESSON: '/api/v2/lesson',
-      PARTS_BY_LESSON: '/api/v2/part/lesson',
-      PART_BY_ID: '/api/v2/part',
+      USER_ME: 'api/v1/user/me',
+
+      // personal data
+      SCHOOL: 'api/v1/school',
+      CITY: 'api/v1/city',
+      STATE: 'api/v1/state',
+
+      // social
       COMMENT: '/api/v1/comment/part',
-      COURSE_BY_SLUG: '/api/v2/course/slug/',
-      INIT_COURSE: 'api/v2/course-taken/start-course',
-      LESSONS_BY_COURSE: '/api/v2/lesson/course/',
-      ADVANCE_COURSE: '/api/v2/course-taken/advance-on-course',
-
-      STATE_COURSE: 'api/v2/course-taken',
-      CURRENT_STEP: '/api/v2/course-taken/current-step',
-
-      MY_COURSES: 'api/v2/course-taken/user/',
+      NOTIFICATIONS: 'api/v1/notification',
       FACEBOOK_LOGIN: 'oauth/facebook/token',
       GOOGLE_LOGIN: 'oauth/google/token',
 
-      TOTAL_USERS: '/api/v1/user',
+      // gamification
+      RANKING: '/api/v1/gamefication/ranking',
+      EVENT: '/api/v1/gamefication/start-event',
+
+      // course
+      COURSE: '/api/v2/course',
+      COURSE_BY_SLUG: '/api/v2/course/slug/',
+
+      // course taken
+      MY_COURSES: 'api/v2/course-taken/user/',
+      INIT_COURSE: 'api/v2/course-taken/start-course',
+      ADVANCE_COURSE: '/api/v2/course-taken/advance-on-course',
+      STATE_COURSE: 'api/v2/course-taken',
+      CURRENT_STEP: '/api/v2/course-taken/current-step',
+      CERTIFICATES_ME: 'api/v2/course-taken/certificates/user/',
+
+      // lesson
+      LESSON: '/api/v2/lesson',
+      LESSONS_BY_COURSE: '/api/v2/lesson/course/',
+
+      // part
+      PARTS_BY_LESSON: '/api/v2/part/lesson',
+      PART_BY_ID: '/api/v2/part',
+
+      // test
+      TEST: '/api/v2/test/',
+
+      // admin dashboard
       ACTIVE_USERS: '/api/v1/dashboard/user/quantity',
       COURSE_VIEWS: '/api/v1/dashboard/course/views',
       NS_CERTIFICATED_QUANTITY: '/api/v1/dashboard/course-taken/user/quantity',

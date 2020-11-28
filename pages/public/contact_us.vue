@@ -60,9 +60,7 @@
                     required
                     @blur="focusMessage($event.target.value)"
                   ></v-textarea>
-                  <v-btn
-                  class="btn-block btn-primary"
-                  @click="submit">
+                  <v-btn class="btn-block btn-primary" @click="submit">
                     Enviar
                   </v-btn>
                 </v-col>
@@ -91,12 +89,12 @@ import NavigationBar from '~/components/NavigationBar.vue';
 import utils from '~/utils/index';
 
 export default {
-  transition: 'bounce',
   components: {
     HeaderBar,
     NavigationBar,
   },
   directives: { mask },
+  transition: 'bounce',
   data() {
     return {
       status: true,
@@ -151,7 +149,6 @@ export default {
             console.error(err);
           });
       } else {
-        console.log();
         this.animateForm(false);
       }
     },
