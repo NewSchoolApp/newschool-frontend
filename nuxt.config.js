@@ -163,10 +163,9 @@ export default {
   env: {
     domain: process.env.DOMAIN_URL || 'https://newschoolapp.com.br',
     baseUrl:
-      process.env.VUE_APP_BASE_URL ||
-      // 'http://d7683ae223c6.ngrok.io',
-      'http://newschool-api-dev2.eba-gxtzwa9m.us-east-2.elasticbeanstalk.com/',
-    // 'https://9ddlz0bte4.execute-api.us-east-2.amazonaws.com/dev',
+      process.env.VUE_APP_BASE_URL || // 'https://9460925e6fe4.ngrok.io',
+      // 'http://newschool-api-dev2.eba-gxtzwa9m.us-east-2.elasticbeanstalk.com/',
+      'https://9ddlz0bte4.execute-api.us-east-2.amazonaws.com/dev',
     // http://develop.dev-newschool.tk/
     credentials: {
       name: process.env.VUE_APP_CLIENT_CREDENTIAL_NAME || 'NEWSCHOOL@FRONT',

@@ -125,6 +125,7 @@ export default {
       http
         .getAll(`${process.env.endpoints.MY_COURSES}${this.user.id}`)
         .then(({ data }) => {
+          console.log('MYCOURSES: ', data);
           this.$store.commit('courses/setMy', data);
         });
     },

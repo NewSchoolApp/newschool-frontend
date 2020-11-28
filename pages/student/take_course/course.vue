@@ -18,7 +18,7 @@
           <div class="mask__img">
             <img
               v-if="showThumb"
-              :src="course.thumbUrl"
+              :src="course.capa.url"
               alt="imagem-curso"
               title="imagem curso"
               @error="imageLoadError"
@@ -32,7 +32,7 @@
             <p id="description">{{ course.description }}</p>
           </div>
           <v-btn
-            v-if="courseState.status == 'TAKEN'"
+            v-if="thisCourseState == 'TAKEN'"
             class="btn-block btn-primary"
             :loading="loadingInit"
             :disabled="loadingInit"
@@ -41,7 +41,7 @@
             Continuar
           </v-btn>
           <v-btn
-            v-else-if="courseState.status == 'COMPLETED'"
+            v-else-if="thisCourseState == 'COMPLETED'"
             class="btn-block btn-primary"
             :loading="loadingInit"
             @click="goToCertificate()"
@@ -91,15 +91,26 @@ export default {
     course() {
       return this.$store.state.courses.current;
     },
-    courseState() {
-      return this.$store.state.courses.currentState;
+    thisCourseState() {
+      console.log(this.$store.state.courses.my);
+      console.log(this.course.id);
+      const tryFindCourse = this.$store.state.courses.my.find(
+        course => course.courseId == this.course.id,
+      );
+      console.log(tryFindCourse);
+      if (tryFindCourse) {
+        console.log('foi');
+        return tryFindCourse.status;
+      } else {
+        console.log('não');
+        return false;
+      }
     },
     idUser() {
       return this.$store.state.user.data.id;
     },
   },
-  async mounted() {
-    await this.$store.dispatch('courses/refreshState');
+  mounted() {
     this.loading = false;
   },
   methods: {

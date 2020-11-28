@@ -183,6 +183,57 @@ h4 {
   color: var(--primary);
 }
 
+.primary-text-field {
+  //use "filled" prop to active the grey background (see complete-profile page)  
+  padding-top: 3px !important;
+  .v-text-field {
+    border-color: transparent !important;
+  }
+  .v-input__control {
+    flex-direction: initial;
+  }
+  .v-input__slot {
+    border-color: transparent !important;
+    border-radius: 5px !important;
+    min-height: 48px !important;
+    margin: 0 0 3px;
+  }
+  .v-input input,
+  .v-select__selection--comma,
+  ::placeholder {
+    color: #767676 !important;
+  }
+  ::placeholder {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 24px;
+  }
+  .mdi-menu-down {
+    font-size: 40px;
+    padding-bottom: 8px;
+  }
+  .v-input--radio-group--row {
+    padding-top: 0;
+    margin-top: 0;
+    align-items: flex-start;
+  }
+  .v-radio {
+    padding: 0 70px 0 10px;
+  }
+  .v-list {
+    background-color: #f5f5f5;
+  }
+  .v-text-field__details {
+    padding: 0 !important;
+  }
+
+  //in case of v-autocomplete or v-select
+  .mdi-menu-down {
+    font-size: 40px !important;
+    padding-bottom: 8px !important;
+  }
+}
+
 .light-text-field {
   input,
   ::placeholder {  
@@ -206,15 +257,20 @@ h4 {
 }
 
 .primary-checkbox {
+  padding-top: 10 !important;
+  margin-top: 0 !important;
+
   .v-radio .v-input--selection-controls__ripple {
     color: transparent !important;
   }
   .mdi-radiobox-marked {
     border: 6px solid #6600cc !important;
-    color: red !important;
     border-radius: 50%;
   }
   .v-item--active ::before {
     display: none !important;
+  }
+  label {
+    color: rgba(0, 0, 0, 0.4) !important;
   }
 }
