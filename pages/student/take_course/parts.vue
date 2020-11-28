@@ -1,9 +1,6 @@
 <template>
   <div>
-    <header-bar
-      :title="'Aula'"
-      :route="`/aluno/curso/${this.slug}`"
-    ></header-bar>
+    <header-bar :title="'Aula'" :route="`/aluno/curso/${slug}`"></header-bar>
     <v-layout id="page" justify-center>
       <div v-if="loading">
         <div class="container-spinner">
@@ -18,11 +15,11 @@
 
       <v-col id="main">
         <!-- Video Frame -->
-        <div id="video-iframe-container">
+        <div v-if="currentPart.video" id="video-iframe-container">
           <video-player
             ref="player"
-            :youtube-url="currentPart.youtubeUrl.replace('watch?v=', 'embed/')"
-            :thumbnail="thumbUrl"
+            :youtube-url="currentPart.video.url.replace('watch?v=', 'embed/')"
+            :thumbnail="currentCourse.capa.url"
           />
         </div>
 
@@ -40,8 +37,8 @@
         <v-tabs-items id="part-info" v-model="selectedTab">
           <!-- info -->
           <v-tab-item>
-            <h3>{{ currentPart.title }}</h3>
-            <h4>{{ currentPart.description }}</h4>
+            <h3>{{ currentPart.titulo }}</h3>
+            <h4>{{ currentPart.descricao }}</h4>
             <v-btn class="btn-block btn-primary" @click="advanceCourse">
               PRÓXIMO
             </v-btn>
@@ -149,11 +146,11 @@ export default {
     sortBy: 'Mais recentes',
   }),
   computed: {
+    currentCourse() {
+      return this.$store.state.courses.current;
+    },
     currentPart() {
       return this.$store.state.courses.currentPart;
-    },
-    currentState() {
-      return this.$store.state.courses.currentState;
     },
     idUser() {
       return this.$store.state.user.data.id;
@@ -245,23 +242,19 @@ export default {
       );
 
       // cheking if this was the last step of the course
-      const currentState = await this.$store.dispatch('courses/refreshState');
+      const currentStep = await this.$store.dispatch(
+        'courses/refreshCurrentStep',
+      );
 
-      if (currentState.status === 'COMPLETED') {
-        $nuxt._router.push(`/aluno/curso/${this.slug}/fim`);
-      } else {
-        // case this course is not finished, go to next step
-        const currentStep = await this.$store.dispatch(
-          'courses/refreshCurrentStep',
-        );
-
-        if (currentStep.type === 'part' || currentStep.type === 'lesson') {
-          // case current step still a test, continue tests on this page
-          this.loading = false;
-        } else {
-          // else, go to step url
-          $nuxt._router.push(currentStep.stepUrl);
+      if (currentStep.type === 'PART' || currentStep.type === 'LESSON') {
+        // case current step still a part or a lesson, continue on this page and play the next course video
+        this.loading = false;
+        if (this.$refs.player) {
+          this.$refs.player.playVideo();
         }
+      } else {
+        // else, go to step url
+        $nuxt._router.push(currentStep.stepUrl);
       }
     },
   },

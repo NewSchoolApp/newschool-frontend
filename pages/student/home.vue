@@ -106,46 +106,32 @@ export default {
       }
     },
   },
-  mounted() {
-    this.getAllCourses();
-    this.getNotifications();
-    this.getUserScore();
-    this.getMyCourses();
+  async mounted() {
+    await this.$store.dispatch('courses/refreshAllCourses');
+    await this.$store.dispatch('courses/refreshMyCourses');
+
+    await this.getNotifications();
+    await this.getUserScore();
+
+    this.loading = false;
   },
   methods: {
-    getAllCourses() {
-      http.getAll(process.env.endpoints.COURSE).then(({ data }) => {
-        this.$store.commit('courses/setAll', data);
-        this.loading = false;
-      });
-    },
-    getMyCourses() {
-      http
-        .getAll(`${process.env.endpoints.MY_COURSES}${this.user.id}`)
-        .then(({ data }) => {
-          console.log('MYCOURSES: ', data);
-          this.$store.commit('courses/setMy', data);
-        });
-    },
     goTo(path) {
       $nuxt._router.push(`/aluno/${path}`);
     },
-    getNotifications() {
-      http
-        .getAll(`${process.env.endpoints.NOTIFICATIONS}/user/${this.user.id}`)
-        .then(response => {
-          this.notifications = response.data;
-        });
+    async getNotifications() {
+      this.notifications = (
+        await http.getAll(
+          `${process.env.endpoints.NOTIFICATIONS}/user/${this.user.id}`,
+        )
+      ).data;
     },
-    getUserScore() {
-      http
-        .getAll(
+    async getUserScore() {
+      this.userPoints = (
+        await http.getAll(
           `${process.env.endpoints.RANKING}/user/${this.user.id}?timeRange=YEAR`,
         )
-        .then(userRanking => {
-          const { points } = userRanking.data;
-          this.userPoints = points;
-        });
+      ).data.points;
     },
   },
 };
