@@ -32,7 +32,7 @@
             <p id="description">{{ course.description }}</p>
           </div>
           <v-btn
-            v-if="thisCourseState == 'TAKEN'"
+            v-if="thisCourseState.status == 'TAKEN'"
             class="btn-block btn-primary"
             :loading="loadingInit"
             :disabled="loadingInit"
@@ -41,7 +41,7 @@
             Continuar
           </v-btn>
           <v-btn
-            v-else-if="thisCourseState == 'COMPLETED'"
+            v-else-if="thisCourseState.status == 'COMPLETED'"
             class="btn-block btn-primary"
             :loading="loadingInit"
             @click="goToCertificate()"
@@ -92,19 +92,12 @@ export default {
       return this.$store.state.courses.current;
     },
     thisCourseState() {
-      console.log(this.$store.state.courses.my);
-      console.log(this.course.id);
+      console.log('my courses', this.$store.state.courses.my);
+      console.log('id course', this.course.id);
       const tryFindCourse = this.$store.state.courses.my.find(
         course => course.courseId == this.course.id,
       );
-      console.log(tryFindCourse);
-      if (tryFindCourse) {
-        console.log('foi');
-        return tryFindCourse.status;
-      } else {
-        console.log('não');
-        return false;
-      }
+      return tryFindCourse;
     },
     idUser() {
       return this.$store.state.user.data.id;
@@ -125,6 +118,8 @@ export default {
     },
     async startCourse() {
       this.loadingInit = true;
+      console.log('idUser', this.idUser);
+      console.log('courseId', this.course);
 
       // send to backend that this course will start
       await http
@@ -155,6 +150,7 @@ export default {
       const currentStep = await this.$store.dispatch(
         'courses/refreshCurrentStep',
       );
+      console.log(currentStep)
 
       // go to step url
       $nuxt._router.push(currentStep.stepUrl);
