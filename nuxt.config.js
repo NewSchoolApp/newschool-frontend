@@ -31,11 +31,6 @@ export default {
             component: resolve(__dirname, 'pages/student/home.vue'),
           },
           {
-            path: '/certificado-info/:idUser/:idCourse',
-            name: 'certificado-info',
-            component: resolve(__dirname, 'pages/public/certificate_info.vue'),
-          },
-          {
             path: '/cadastro/:inviteKey',
             name: 'cadastro',
             component: resolve(__dirname, 'pages/public/signup.vue'),
@@ -217,7 +212,7 @@ export default {
       ADVANCE_COURSE: '/api/v2/course-taken/advance-on-course',
       STATE_COURSE: 'api/v2/course-taken',
       CURRENT_STEP: '/api/v2/course-taken/current-step',
-      CERTIFICATES_ME: 'api/v2/course-taken/certificates/user/',
+      CERTIFICATES_ME: 'api/v2/course-taken/certificate/user/',
 
       // lesson
       LESSON: '/api/v2/lesson',
