@@ -1,0 +1,45 @@
+{
+  "_from": "cordova-plugin-androidx",
+  "_id": "cordova-plugin-androidx@3.0.0",
+  "_inBundle": false,
+  "_integrity": "sha512-niMnhcxKsu4/oKTUbL0jRAnh6/cdoIVxRxJqj3uEyv8CVOlAj1sWhX+9b1XiAo9+bejAM9BbA21YK0mChfbVTA==",
+  "_location": "/cordova-plugin-androidx",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "tag",
+    "registry": true,
+    "raw": "cordova-plugin-androidx",
+    "name": "cordova-plugin-androidx",
+    "escapedName": "cordova-plugin-androidx",
+    "rawSpec": "",
+    "saveSpec": null,
+    "fetchSpec": "latest"
+  },
+  "_requiredBy": [
+    "#DEV:/",
+    "#USER"
+  ],
+  "_resolved": "https://registry.npmjs.org/cordova-plugin-androidx/-/cordova-plugin-androidx-3.0.0.tgz",
+  "_shasum": "03785d95d1c0e3ab42a45dd36fd4132e44e162f7",
+  "_spec": "cordova-plugin-androidx",
+  "_where": "/home/leonardo/Documents/Leonardo/Newschool/newschool-frontend/cordova",
+  "author": {
+    "name": "Dave Alden"
+  },
+  "bugs": {
+    "url": "https://github.com/dpa99c/cordova-plugin-androidx/issues"
+  },
+  "bundleDependencies": false,
+  "dependencies": {},
+  "deprecated": false,
+  "description": "Cordova/Phonegap plugin to enable AndroidX",
+  "devDependencies": {},
+  "homepage": "https://github.com/dpa99c/cordova-plugin-androidx#readme",
+  "license": "MIT",
+  "name": "cordova-plugin-androidx",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dpa99c/cordova-plugin-androidx.git"
+  },
+  "version": "3.0.0"
+}
