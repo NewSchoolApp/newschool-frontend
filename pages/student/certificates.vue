@@ -1,23 +1,33 @@
 <template>
-  <div id="page">
-    <div  id="layout-certificates">
-    <HeaderBar :title="'Certificados'" :back-page="true"></HeaderBar>
-    <v-container class="container" v-if="certificates.length">
-      <div
-        v-for="certificate in certificates"
-        :key="certificate.id"
-        class="cards-box"
-      >
-        <certificate-card :certificate="certificate" />
-      </div>
+  <div v-if="loading">
+    <div class="container-spinner">
+      <v-progress-circular
+        :size="70"
+        :width="5"
+        indeterminate
+        color="#6600cc"
+      />
+    </div>
+  </div>
+  <div v-else id="page">
+    <div id="layout-certificates">
+      <HeaderBar :title="'Certificados'" :back-page="true"></HeaderBar>
+      <v-container v-if="certificates.length" class="container">
+        <div
+          v-for="certificate in certificates"
+          :key="certificate.id"
+          class="cards-box"
+        >
+          <certificate-card :certificate="certificate" />
+        </div>
+        <navigation-bar />
+      </v-container>
+      <NothingToShow
+        v-else
+        title="Vixe :/"
+        message="Você ainda não tem nenhum certificado. :("
+      />
       <navigation-bar />
-    </v-container>
-    <NothingToShow
-      v-else
-      title="Vixe :/"
-      message="Você ainda não tem nenhum certificado. :("
-    />
-    <navigation-bar />
     </div>
   </div>
 </template>
@@ -37,17 +47,29 @@ export default {
     CertificateCard,
   },
   data: () => ({
+    loading: true,
     certificates: [],
   }),
-  mounted() {
-    http
-      .getAll(
+  computed: {
+    allCourses() {
+      return this.$store.state.courses.all;
+    },
+  },
+  async mounted() {
+    this.certificates = (
+      await http.getAll(
         `${process.env.endpoints.CERTIFICATES_ME}${this.$store.state.user.data.id}`,
       )
-      .then(certificates => {
-        this.certificates = certificates.data;
-      })
-      .catch(error => console.log(error));
+    ).data;
+
+    this.certificates.forEach(certificate => {
+      const courseOfCertificate = this.allCourses.find(
+        course => course.id == certificate.courseId,
+      );
+      certificate.course = courseOfCertificate;
+    });
+
+    this.loading = false;
   },
 };
 </script>
@@ -70,18 +92,25 @@ export default {
   margin-bottom: 25px;
 }
 /*Large devices (desktops, 992px and up)*/
-@media (min-width: 992px) { 
+@media (min-width: 992px) {
+  #page {
+    display: flex;
+    justify-content: center;
+  }
+  #layout-certificates {
+    display: flex;
+    flex-direction: column;
+    max-width: 700px;
+    width: 700px;
+    padding: 20px 24px 50px 24px;
+  }
+}
 
-#page{
-  display: flex;
-  justify-content: center;
-}
-#layout-certificates{
-  display: flex;
-  flex-direction: column;
-  max-width: 700px;
-  width: 700px;
-  padding: 20px 24px 50px 24px;
-}
+/*Large devices (desktops, 992px and up)*/
+@media (min-width: 992px) {
+  #page {
+    display: flex;
+    justify-content: center;
+  }
 }
 </style>

@@ -53,6 +53,7 @@
       <!-- Search Field -->
       <v-text-field
         v-model="filtro"
+        class="search-field"
         label="Encontre Cursos"
         outlined
         prepend-inner-icon="mdi-magnify"
@@ -179,76 +180,6 @@ export default {
   margin-top: 5px;
 }
 
-/* especificações gerais da fonte do label e do valor */
-::v-deep .v-label,
-::v-deep .v-input input {
-  font-size: 0.87rem !important;
-  font-weight: 500;
-  color: rgba(0, 0, 0, 0.25) !important;
-  font-family: 'Montserrat', sans-serif;
-}
-
-/* cor especifica do valor */
-::v-deep .v-input input {
-  color: rgba(0, 0, 0, 0.5) !important;
-}
-
-/* tirar a margin inferior */
-::v-deep .v-input__slot {
-  margin-bottom: 0;
-  margin-bottom: 10px !important;
-}
-
-/* cor e aspecto da borda */
-::v-deep fieldset {
-  border-color: rgba(0, 0, 0, 0.1);
-  border-radius: 0;
-}
-
-/* margin superior */
-::v-deep .v-text-field.v-text-field--enclosed {
-  margin: 16px 0 0 !important;
-}
-
-/* define a altura do campo de input */
-::v-deep .v-text-field--outlined > .v-input__control > .v-input__slot {
-  min-height: 48px;
-}
-
-/* centraliza o label */
-::v-deep
-  .v-input:not(.v-input--is-focused)
-  > .v-input__control
-  > .v-input__slot
-  > .v-text-field__slot
-  > .v-label {
-  /* display: contents; */
-  line-height: 12px;
-}
-
-/* container do icon: tira margin de cima, aplica um distanciamento do label e alinha ao centro do campo */
-::v-deep .v-text-field--enclosed .v-input__prepend-inner {
-  margin-top: 0;
-  /* padding-right: 11.5px; */
-  align-self: center;
-}
-
-/* margin lateral do conteudo do campo */
-::v-deep
-  .v-text-field.v-text-field--enclosed:not(.v-text-field--rounded)
-  > .v-input__control
-  > .v-input__slot {
-  padding: 0 19px;
-}
-
-::v-deep .theme--light.v-icon {
-  color: rgba(0, 0, 0, 0.9);
-}
-
-/* .theme--light.v-icon {
-  color: none;
-} */
-
 #header {
   height: auto;
   padding-bottom: 20px;
@@ -312,7 +243,7 @@ h1 {
   text-transform: uppercase;
 }
 /*Large devices (desktops, 992px and up)*/
-@media (min-width: 992px) {
+@media (min-width: 700px) {
   #page {
     display: flex;
     justify-content: center;
