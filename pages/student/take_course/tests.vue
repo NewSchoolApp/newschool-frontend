@@ -3,7 +3,7 @@
     <HeaderBar
       v-if="!correct"
       :title="'Questionário'"
-      :route="`/aluno/curso/${this.slug}`"
+      :route="`/aluno/curso/${slug}`"
     ></HeaderBar>
     <v-layout id="page" justify-center>
       <v-flex ref="flex" class="main-container">
@@ -78,9 +78,9 @@
         </div>
         <div v-if="!loading && !correct" class="inner-container">
           <v-form ref="form" lazy-validation>
-            <h3>{{ test.title || 'Título do Teste' }}</h3>
+            <h3>{{ test.titulo || 'Título do Teste' }}</h3>
             <h4>
-              {{ test.question || 'Enunciado do teste' }}
+              {{ test.pergunta || 'Enunciado do teste' }}
             </h4>
             <div class="alternatives-container">
               <v-checkbox
@@ -89,7 +89,7 @@
                 hide-details
                 color="#60c"
                 :rules="alternativeRule"
-                :label="test.firstAlternative"
+                :label="test.primeira_alternativa"
                 value="A"
               />
               <v-checkbox
@@ -98,7 +98,7 @@
                 hide-details
                 color="#60c"
                 :rules="alternativeRule"
-                :label="test.secondAlternative"
+                :label="test.segunda_alternativa"
                 value="B"
               />
               <v-checkbox
@@ -107,7 +107,7 @@
                 hide-details
                 color="#60c"
                 :rules="alternativeRule"
-                :label="test.thirdAlternative"
+                :label="test.terceira_alternativa"
                 value="C"
               />
               <v-checkbox
@@ -116,7 +116,7 @@
                 hide-details
                 color="#60c"
                 :rules="alternativeRule"
-                :label="test.fourthAlternative"
+                :label="test.quarta_alternativa"
                 value="D"
               />
             </div>
@@ -220,16 +220,17 @@ export default {
       if (this.$refs.form.validate()) {
         // Primeiro passo é verificar se a resposta está correta
         tests
-          .getAll(
-            `/api/v1/test/${this.test.id}/checkTest/alternative/${this.computedSelection[0]}`,
-          )
+          .post(`${process.env.endpoints.TEST}${this.test.id}/check-test`, {
+            chosenAlternative: this.computedSelection[0],
+          })
           .then(res => {
-            if (res.data) {
+            if (res.data.isCorrect) {
               // Como a resposta está certa a gente limpa a validação e escolha para o próximo teste
               this.$refs.form.reset();
               this.getPointsAndNotificate();
               // Se a resposta está certa a gente avança no curso
             } else {
+              console.log(res);
               if (this.try < 4) {
                 this.try++;
               }
@@ -305,24 +306,17 @@ export default {
         `${process.env.endpoints.ADVANCE_COURSE}/user/${this.idUser}/course/${this.courseId}`,
       );
 
-      // cheking if this was the last step of the course
-      const currentState = await this.$store.dispatch('courses/refreshState');
+      // case this course is not finished, go to next step
+      const currentStep = await this.$store.dispatch(
+        'courses/refreshCurrentStep',
+      );
 
-      if (currentState.status === 'COMPLETED') {
-        $nuxt._router.push(`/aluno/curso/${this.slug}/fim`);
+      if (currentStep.type === 'TEST') {
+        // case current step still a test, continue tests on this page
+        this.loading = false;
       } else {
-        // case this course is not finished, go to next step
-        const currentStep = await this.$store.dispatch(
-          'courses/refreshCurrentStep',
-        );
-
-        if (currentStep.type === 'test') {
-          // case current step still a test, continue tests on this page
-          this.loading = false;
-        } else {
-          // else, go to step url
-          $nuxt._router.push(currentStep.stepUrl);
-        }
+        // else, go to step url
+        $nuxt._router.push(currentStep.stepUrl);
       }
     },
   },

@@ -10,16 +10,23 @@
           Finalizados
         </v-tab>
       </v-tabs>
-      <div v-if="myCourses">
+      <div v-if="filteredCourses.length > 0">
         <div v-for="(course, index) of filteredCourses" :key="index">
           <course-progress :course="course" />
         </div>
       </div>
-      <NothingToShow
-        v-else
-        title="Vixe :/"
-        message="Você não começou nenhum curso."
-      />
+      <template v-else>
+        <NothingToShow
+          v-if="selectedTab == 0"
+          title="Vixe :/"
+          message="Bora começar um curso mano!."
+        />
+        <NothingToShow
+          v-else
+          title="Vixe :/"
+          message="Você não finalizou nenhum curso ainda."
+        />
+      </template>
     </div>
     <div v-if="loading">
       <div class="container-spinner">
