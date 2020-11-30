@@ -213,6 +213,7 @@ export default {
       STATE_COURSE: 'api/v2/course-taken',
       CURRENT_STEP: '/api/v2/course-taken/current-step',
       CERTIFICATES_ME: 'api/v2/course-taken/certificate/user/',
+      NPS: '/api/v2/course-taken/nps/user/',
 
       // lesson
       LESSON: '/api/v2/lesson',
@@ -233,6 +234,7 @@ export default {
     },
     endpointCertificateCourseTaken: {
       CERTIFICATES_COURSE_TAKEN_ME: 'api/v1/course-taken/certificate/user/',
+      CERTIFICATES_BY_USER_COURSE: '/api/v2/course-taken/certificate/user/',
       LOGIN: 'oauth/token',
     },
     GATOKEN: process.env.GA_TOKEN,
