@@ -7,6 +7,9 @@
     "files": {}
   },
   "installed_plugins": {
+    "com.darktalker.cordova.screenshot": {
+      "PACKAGE_NAME": "com.newschool.app"
+    },
     "com.santinowu.cordova.imagedownloader": {
       "PACKAGE_NAME": "com.newschool.app"
     },
@@ -29,7 +32,7 @@
     "cordova-plugin-x-socialsharing": {
       "PACKAGE_NAME": "com.newschool.app"
     },
-    "com.darktalker.cordova.screenshot": {
+    "cordova-plugin-androidx-adapter": {
       "PACKAGE_NAME": "com.newschool.app"
     }
   },

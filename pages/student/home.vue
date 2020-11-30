@@ -107,6 +107,7 @@ export default {
       }
     },
   },
+
   async mounted() {
     await this.$store.dispatch('courses/refreshAllCourses');
     await this.$store.dispatch('courses/refreshMyCourses');

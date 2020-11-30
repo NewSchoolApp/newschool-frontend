@@ -398,7 +398,6 @@ export default {
         const emptySignupFields = signupFields.filter(
           field => !res.data[field],
         );
-        console.log(emptySignupFields);
         if (!emptySignupFields.length) {
           this.completeProfile = true;
         }
@@ -594,7 +593,6 @@ export default {
             const emptySignupFields = signupFields.filter(
               field => !postBody[field],
             );
-            console.log(emptySignupFields);
             if (!emptySignupFields.length && !this.completeProfile) {
               $nuxt._router.replace('/aluno/finalizar-cadastro');
             }

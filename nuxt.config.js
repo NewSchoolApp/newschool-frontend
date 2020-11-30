@@ -159,8 +159,8 @@ export default {
     domain: process.env.DOMAIN_URL || 'https://newschoolapp.com.br',
     baseUrl:
       process.env.VUE_APP_BASE_URL || // 'https://9460925e6fe4.ngrok.io',
-      // 'http://newschool-api-dev2.eba-gxtzwa9m.us-east-2.elasticbeanstalk.com/',
-      'https://9ddlz0bte4.execute-api.us-east-2.amazonaws.com/dev',
+      'http://newschool-api-dev2.eba-gxtzwa9m.us-east-2.elasticbeanstalk.com/',
+      // 'https://9ddlz0bte4.execute-api.us-east-2.amazonaws.com/dev',
     // http://develop.dev-newschool.tk/
     credentials: {
       name: process.env.VUE_APP_CLIENT_CREDENTIAL_NAME || 'NEWSCHOOL@FRONT',
@@ -232,7 +232,7 @@ export default {
       CERTIFICATE_QUANTITY: '/api/v1/dashboard/certificate/quantity',
     },
     endpointCertificateCourseTaken: {
-      CERTIFICATES_COURSE_TAKEN_ME: 'api/v1/course-taken/certificate/user/',
+      CERTIFICATES_COURSE_TAKEN_ME: 'api/v2/course-taken/certificate/user/',
       LOGIN: 'oauth/token',
     },
     GATOKEN: process.env.GA_TOKEN,
@@ -345,6 +345,41 @@ export default {
     '@nuxtjs/proxy',
     'nuxt-i18n',
     '@nuxtjs/auth',
+    [
+      '@nuxtjs/firebase',
+      {
+        config: {
+          apiKey: "AIzaSyA501kkBnUIRx2nXQ0mriSBcZGXxQCqtqE",
+          authDomain: "new-school-app-7e24e.firebaseapp.com",
+          databaseURL: "https://new-school-app-7e24e.firebaseio.com",
+          projectId: "new-school-app-7e24e",
+          storageBucket: "new-school-app-7e24e.appspot.com",
+          messagingSenderId: "968483442949",
+          appId: "1:968483442949:web:ed6ac7d51296f9110ce76c",
+          measurementId: "G-3DQ0ZMJ08S"
+        },
+        services: {
+          auth: true,
+          firestore: true,
+          functions: true,
+          storage: true,
+          database: true,
+          messaging: true,
+          performance: true,
+          analytics: true,
+          remoteConfig: true// Just as example. Can be any other service.
+        },
+        remoteConfig: {
+          settings: {
+            fetchTimeoutMillis: 100, // default
+            minimumFetchIntervalMillis: 15000, // default
+          },
+          defaultConfig: {
+            'welcome_message': 'Welcome'
+          }
+        }
+      }
+    ]
   ],
   i18n: {
     locales: [

@@ -1,7 +1,11 @@
 {
   "devDependencies": {
     "com.darktalker.cordova.screenshot": "git+https://github.com/gitawego/cordova-screenshot.git",
+    "cordova": "^8.1.2",
+    "cordova-android": "^9.0.0",
     "cordova-browser": "^6.0.0",
+    "cordova-plugin-androidx": "^3.0.0",
+    "cordova-plugin-androidx-adapter": "^1.1.3",
     "cordova-plugin-imagedownloader": "git+https://github.com/Santino-Wu/cordova-plugin-imagedownloader.git",
     "cordova-plugin-printer": "^0.7.3",
     "cordova-plugin-whitelist": "1"
@@ -21,15 +25,17 @@
       "com.santinowu.cordova.imagedownloader": {
         "PHOTOLIBRARY_USAGE_DESCRIPTION": "Requires permission for saving image into Photos"
       },
-      "com.darktalker.cordova.screenshot": {}
+      "com.darktalker.cordova.screenshot": {},
+      "cordova-plugin-androidx": {},
+      "cordova-plugin-androidx-adapter": {}
     },
     "platforms": [
-      "android",
-      "browser"
+      "browser",
+      "ios",
+      "android"
     ]
   },
   "dependencies": {
-    "cordova-android": "^8.1.0",
     "cordova-ios": "^5.1.1",
     "cordova-plugin-facebook4": "6.4.0",
     "cordova-plugin-inappbrowser": "^3.2.0"
