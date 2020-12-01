@@ -195,7 +195,6 @@ export default {
   );
   position: absolute;
   right: 29px;
-  z-index: 9;
   top: 32px;
 }
 
