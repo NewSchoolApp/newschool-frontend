@@ -14,19 +14,29 @@
       <v-row justify="end">
         <img
           class="header_img"
-          :src="require(`~/assets/trophy-home.svg`)"
+          :src="require(`~/assets/trophy-home.png`)"
           @click="goTo('ranking')"
         />
         <img
           id="bell"
-          class="header_img"
           :src="
-            require(`~/assets/bell-home${
-              notifications.length ? '-active' : ''
+            require(`~/assets/${
+              notifications.length ? 'bell' : 'bell-home-colorized'
             }.svg`)
           "
           @click="goTo('notificacao')"
         />
+        <div v-if="notifications.length" class="notification__number">
+          <p
+            :class="
+              notifications.length < 10
+                ? 'notification__low_text'
+                : 'notification__text'
+            "
+          >
+            {{ notifications.length }}
+          </p>
+        </div>
       </v-row>
 
       <!-- Header-bar -->
@@ -172,13 +182,44 @@ export default {
   height: 24px;
   margin-right: 20px;
 }
+.notification__number {
+  height: 11px;
+  width: 11px;
+  border-radius: 50px;
+  background: linear-gradient(
+    157.23deg,
+    #d63305 8.86%,
+    #cf3004 38.81%,
+    #bc2602 82.43%,
+    #b72401 90.69%
+  );
+  position: absolute;
+  right: 29px;
+  z-index: 9;
+  top: 32px;
+}
+
+.notification__text {
+  color: white;
+  font-size: 8px;
+  position: absolute;
+  top: 0.4px;
+  right: 1px;
+}
+
+.notification__low_text {
+  color: white;
+  font-size: 8px;
+  position: absolute;
+  top: 0.4px;
+  right: 3px;
+}
 
 #bell {
   color: #737373;
-  width: 22px;
-  height: 22px;
+  width: 24px;
+  height: 24px;
   margin-right: 5px;
-  margin-top: 5px;
 }
 
 #header {
