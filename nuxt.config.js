@@ -213,6 +213,7 @@ export default {
       STATE_COURSE: 'api/v2/course-taken',
       CURRENT_STEP: '/api/v2/course-taken/current-step',
       CERTIFICATES_ME: 'api/v2/course-taken/certificate/user/',
+      NPS: '/api/v2/course-taken/nps/user/',
 
       // lesson
       LESSON: '/api/v2/lesson',
