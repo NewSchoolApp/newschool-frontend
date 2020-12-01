@@ -1,51 +1,21 @@
 <template>
-  <v-container class="d-flex margin__adjustment">
-    <v-col id="avatar-col">
-      <v-avatar size="44">
-        <img v-if="comment.user.photo" :src="comment.user.photo" />
-        <img v-else :src="require(`~/assets/person.svg`)" />
-      </v-avatar>
-    </v-col>
-    <v-container class="comment">
-      <v-row class="user__name">{{ comment.user.name }}</v-row>
-      <v-row class="user__comment">{{ comment.text }}</v-row>
-      <v-row class="d-flex justify-space-between">
-        <v-row>
-          <p
-            v-ripple
-            :class="
-              'user__interaction mr-6 ' +
-                (liked ? 'primary--text font-weight-bold' : {})
-            "
-            @click="like()"
-          >
-            Gostei ({{ comment.likedBy.length }})
-          </p>
-          <p v-ripple class="user__interaction">Responder</p>
-        </v-row>
-        <p class="user__interaction">{{ date }}</p>
-      </v-row>
-      <div v-for="response of responses" :key="response.rank">
-        <response-card
-          :response-user-name="response.userName"
-          :response-comment-text="response.comment"
-          response-likes="5"
-          response-comment-date="20/11/2020"
-          :response-user-photo="response.photo"
-        />
-      </div>
-    </v-container>
-  </v-container>
+  <v-col class="mt-5">
+    <CommentCell :comment="this.comment" />
+
+    <div v-for="res in comment.responses" :key="res.index" class="ml-12">
+      <CommentCell :comment="res" :response="true" />
+    </div>
+  </v-col>
 </template>
 
 <script>
-import ResponseCard from '~/components/ResponseCard';
+import CommentCell from '~/components/CommentCell';
 import http from '~/services/http/generic';
 
 export default {
   name: 'CommentCard',
   components: {
-    ResponseCard,
+    CommentCell,
   },
   props: ['comment'],
   data: () => ({
@@ -57,7 +27,9 @@ export default {
     },
     date() {
       const date = new Date(this.comment.createdAt);
-      return date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear();
+      return (
+        date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear()
+      );
     },
   },
   mounted() {
@@ -150,15 +122,6 @@ h4 {
   padding-bottom: 12px;
   color: #1a1a1a;
   font-size: 12px;
-}
-.user__interaction {
-  font-size: 10px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 12px;
-  letter-spacing: 0em;
-  text-align: right;
-  color: #737373;
 }
 
 .response__box {

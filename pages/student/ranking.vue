@@ -30,37 +30,37 @@
             <v-form ref="form" lazy-validation>
               <v-autocomplete
                 v-if="dialogFilters.state || dialogFilters.city"
+                v-model="state"
                 placeholder="Selecione o seu estado!"
                 :items="states"
                 label="Estado"
                 @change="getCities($event)"
-                v-model="state"
               ></v-autocomplete>
               <v-autocomplete
                 v-if="dialogFilters.city"
+                v-model="city"
                 placeholder="Selecione a sua cidade!"
                 :items="cities"
                 label="Cidade"
-                v-model="city"
               ></v-autocomplete>
               <v-autocomplete
                 v-if="dialogFilters.school"
+                v-model="school"
                 placeholder="Digite o nome da sua escola!"
                 :loading="isLoadingSchool"
                 :items="schools"
-                @keyup="searchTimeOut($event.target.value)"
                 label="Escola"
-                v-model="school"
+                @keyup="searchTimeOut($event.target.value)"
               ></v-autocomplete>
               <v-card>
                 <v-btn
+                  class=" btn-block btn-search"
+                  depressed
+                  large
                   @click="
                     getRanking();
                     filter = false;
                   "
-                  class=" btn-block btn-search"
-                  depressed
-                  large
                   >Buscar</v-btn
                 >
               </v-card>
@@ -126,8 +126,8 @@
           <!-- pondium -->
           <v-row class="podium">
             <v-col
-              :id="'pod' + index"
               v-for="(pod, index) in podium"
+              :id="'pod' + index"
               :key="pod"
               class="flex pod"
             >
@@ -155,9 +155,7 @@
                     <th>NC</th>
                   </tr>
                 </thead>
-                <tbody
-
-                >
+                <tbody>
                   <tr
                     v-for="(item, index) in generalRanking"
                     :key="item.name"
@@ -258,7 +256,7 @@ export default {
       if (this.ranking.slice(0, 3).length == 3) {
         return this.ranking.slice(0, 3);
       } else {
-        for (var i = 0; this.ranking.length < 4; i++) {
+        for (let i = 0; this.ranking.length < 4; i++) {
           this.ranking.push(
             (i = {
               photo: '',
@@ -302,9 +300,10 @@ export default {
 
       httpHelper
         .getAll(
-          `${process.env.endpoints.RANKING + `?limit=${this.limit}` +
+          `${process.env.endpoints.RANKING +
+            `?limit=${this.limit}` +
             // `?page=${this.page}` +
-            //concat every active filter for the request
+            // concat every active filter for the request
             (this.city ? '&city=' + this.city : '') +
             (this.state ? '&state=' + this.state : '') +
             (this.school ? '&institutionName=' + this.school : '') +
@@ -323,7 +322,7 @@ export default {
           this.ranking = ranking.data.content.reverse();
           // this.ranking = this.ranking.concat(append);
           this.page++;
-          //<--- The api is returning the list in ascending order;
+          // <--- The api is returning the list in ascending order;
         });
       // this.busy = false;
       //                   v-infinite-scroll="getRanking" // Colocar no tbody para infinity scroll
@@ -354,12 +353,12 @@ export default {
         });
     },
     clearFilters() {
-      //clear filters
+      // clear filters
       this.city = '';
       this.state = '';
       this.school = '';
 
-      //disable every dialog filters
+      // disable every dialog filters
       this.dialogFilters.state = false;
       this.dialogFilters.city = false;
       this.dialogFilters.school = false;
@@ -367,7 +366,7 @@ export default {
     openFilterDialog(filterName) {
       this.clearFilters();
 
-      //enable the desired dialog filter
+      // enable the desired dialog filter
       this.dialogFilters[filterName] = true;
       this.filter = true;
       this.dialog = false;
@@ -394,12 +393,9 @@ export default {
       this.loadClientCredentials().then(res => {
         const token = res.data.accessToken;
         const response = httpHelper
-          .getAll(
-            `${process.env.baseUrl}${process.env.endpoints.SCHOOL}?name=${school}`,
-            {
-              headers: { Authorization: `Bearer ${token}` },
-            },
-          )
+          .getAll(`${process.env.endpoints.SCHOOL}?name=${school}`, {
+            headers: { Authorization: `Bearer ${token}` },
+          })
           .then(res => {
             if (!res.data.length) {
               this.isLoadingSchool = false;

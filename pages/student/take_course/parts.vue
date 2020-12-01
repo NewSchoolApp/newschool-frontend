@@ -117,7 +117,7 @@
 <script>
 import NavigationBar from '~/components/NavigationBar';
 import HeaderBar from '~/components/Header.vue';
-import CommentCard from '~/components/Comments';
+import CommentCard from '~/components/CommentsFrame';
 import http from '~/services/http/generic';
 import VideoPlayer from '~/components/VideoPlayer.vue';
 
