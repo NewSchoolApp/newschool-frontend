@@ -1,7 +1,7 @@
 <template>
   <v-col id="main-col">
     <HeaderBar :title="'Instituto Semear'" :route="'/aluno/home'" />
-    <template v-if="start">
+    <!-- <template v-if="start">
       <v-col>
         <v-col class="px-0 pb-0">
           <p class="p-info">
@@ -50,7 +50,6 @@
           </div>
         </v-col>
       </v-col>
-      <!-- footer -->
       <v-row class="base">
         <v-btn
           class="btn-block btn-new-primary btn-shadow"
@@ -60,8 +59,8 @@
           Próximo
         </v-btn>
       </v-row>
-    </template>
-    <template v-else>
+    </template> -->
+    <template>
       <v-col>
         <v-col class="px-0 pb-0" align="center">
           <p class="p-info">
@@ -75,13 +74,30 @@
       </v-col>
       <!-- footer -->
       <v-row class="base">
+        <p class="accept__text mx-auto">
+          Ao navegar para o site você estaá aceitando que seus dados serão
+          compartilhados com o instituto Semear.
+        </p>
+        <!-- <v-radio-group row class=" primary-checkbox" v-model="accept">
+          <v-radio label="Sim" :value="true"></v-radio>
+          <v-radio class="ml-10" label="Não" :value="false"></v-radio>
+        </v-radio-group> -->
         <v-btn
-          class="btn-block btn-new-primary btn-shadow"
+          v-if="accept"
+          class="btn-block btn-new-primary btn-shadow my-10"
           :loading="loading"
           @click="submit"
         >
           Bora lá no site
         </v-btn>
+        <!-- <v-btn
+          v-else
+          class="btn-block btn-new-primary btn-shadow my-10"
+          :loading="loading"
+          @click="goBack"
+        >
+          Voltar
+        </v-btn> -->
       </v-row>
     </template>
   </v-col>
@@ -111,7 +127,16 @@ export default {
         'Engenharia e Produção',
         'Saúde e Bem-estar',
       ],
+      accept: true,
     };
+  },
+  methods: {
+    goBack() {
+      $nuxt._route.push('/aluno/home');
+    },
+    submit() {
+      window.location = 'http://www.isemear.org.br/processo-seletivo/';
+    },
   },
 };
 </script>
@@ -141,7 +166,7 @@ body {
 }
 
 .logo-img {
-  padding-bottom: 104px;
+  padding-bottom: 30px;
 }
 
 /* input styles */
@@ -151,6 +176,12 @@ body {
   font-weight: 400;
   letter-spacing: 0em;
   color: var(--primary);
+}
+
+.accept__text {
+  font-size: 10px;
+  text-decoration: underline;
+  text-align: center;
 }
 
 /* buttons style */
