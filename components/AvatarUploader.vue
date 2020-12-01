@@ -163,6 +163,7 @@ export default {
               this.$notifier.showMessage({
                 type: 'error',
               });
+              this.loading = false;
             });
         }
       }

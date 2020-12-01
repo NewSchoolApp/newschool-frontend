@@ -58,7 +58,7 @@
             </v-btn>
           </v-col>
           <v-col cols="12" class="text-center">
-            <v-btn text color="white" @click="loginSocial('google')">
+            <v-btn text color="white" @click="googleLogin">
               <v-icon dark left>mdi-google</v-icon>Entrar com Google
             </v-btn>
           </v-col>
@@ -92,6 +92,8 @@
 
 <script>
 import auth from '~/services/http/auth';
+import utils from '~/utils/index';
+import { http } from '~/services/http/config';
 
 export default {
   data: () => ({
@@ -120,6 +122,40 @@ export default {
   },
 
   methods: {
+    loadClientCredentials() {
+      return utils.getExternalCredentials();
+    },
+    async googleLogin() {
+      const provider = new this.$fireModule.auth.GoogleAuthProvider();
+      console.log(provider);
+      this.$fireModule
+        .auth()
+        .signInWithPopup(provider)
+        .then(result => {
+          const { profile: user } = result.additionalUserInfo;
+          const inviteKey = null;
+          const postObject = {
+            name: user.name,
+            email: 'a' + user.email,
+            password: user.id,
+            profile: 'OTHERS',
+            schooling: '',
+            institutionName: '',
+            role: 'STUDENT',
+          };
+          this.loadClientCredentials()
+            .then(async (res) => {
+              const token = res.data.accessToken;
+              const response = await auth.signUp(postObject, token, inviteKey);
+                console.log(response)
+                if(!response) {
+                  return console.log('deu mierda')
+                }
+            })
+
+            console.log('aaa')
+        });
+    },
     submit() {
       event.preventDefault();
       if (this.$refs.form.validate()) {
