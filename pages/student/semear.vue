@@ -74,14 +74,6 @@
       </v-col>
       <!-- footer -->
       <v-row class="base">
-        <p class="accept__text mx-auto">
-          Ao navegar para o site você estaá aceitando que seus dados serão
-          compartilhados com o instituto Semear.
-        </p>
-        <!-- <v-radio-group row class=" primary-checkbox" v-model="accept">
-          <v-radio label="Sim" :value="true"></v-radio>
-          <v-radio class="ml-10" label="Não" :value="false"></v-radio>
-        </v-radio-group> -->
         <v-btn
           v-if="accept"
           class="btn-block btn-new-primary btn-shadow my-10"
@@ -90,14 +82,6 @@
         >
           Bora lá no site
         </v-btn>
-        <!-- <v-btn
-          v-else
-          class="btn-block btn-new-primary btn-shadow my-10"
-          :loading="loading"
-          @click="goBack"
-        >
-          Voltar
-        </v-btn> -->
       </v-row>
     </template>
   </v-col>
