@@ -144,4 +144,9 @@ p ::v-deep .subtext p {
   margin: 0.75em 3px 60px;
   position: relative;
 }
+
+iframe {
+  border: 5px solid #6600cc;
+  border-radius: 5px;
+}
 </style>
