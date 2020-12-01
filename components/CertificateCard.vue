@@ -62,8 +62,7 @@ export default {
   },
   methods: {
     goToCertificate(print) {
-      // window.location = `http://newschool-ui-dev.eba-fdz8zprg.us-east-2.elasticbeanstalk.com/#/pagina-certificado/${this.idUser}/${this.certificate.courseId}/${print}`;
-      window.location = `http://localhost:3000/#/pagina-certificado/${this.idUser}/${this.certificate.courseId}/${print}`;
+      window.location = `http://newschool-ui-dev.eba-fdz8zprg.us-east-2.elasticbeanstalk.com/#/pagina-certificado/${this.idUser}/${this.certificate.courseId}/${print}`;
     },
     imageLoadError() {
       this.showThumb = false;
