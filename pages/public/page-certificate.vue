@@ -145,11 +145,6 @@ export default {
   },
 };
 </script>
-
-<router>
-    path: "/pagina-certificado/:idUser/:idCourse"
-</router>
-
 <style lang="scss" scoped>
 * {
   padding: 0;
