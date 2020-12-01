@@ -34,17 +34,30 @@
               jovens como você encarem melhor os
               <span>desafios da vida.</span>
             </p>
-
-          </div>
-           <div class="video-iframe-container">
-            <iframe
-              width="350"
-              height="200"
-              :src="urlVideo.replace('watch?v=', 'embed/')"
-              frameborder="0"
-              allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"
-              allowfullscreen
-            ></iframe>
+            <div style="position:relative;">
+              <iframe
+                width="350"
+                height="200"
+                :src="urlVideo"
+                frameborder="0"
+                allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen
+              ></iframe>
+            </div>
+            <p>
+              Conheça também a história do cara que fundou a New School, o
+              <span>João Paulo Malara</span>, vulgo <span>JP</span>.
+            </p>
+            <div class="video-iframe-container">
+              <iframe
+                width="350"
+                height="200"
+                :src="urlVideo2"
+                frameborder="0"
+                allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen
+              ></iframe>
+            </div>
           </div>
         </v-flex>
       </v-layout>
@@ -67,10 +80,11 @@ export default {
     HeaderBar,
     NavigationBar,
   },
-   data: () => ({
-    urlVideo: 'https://www.youtube.com/watch?v=u4O8wE0gYO0',
+  data: () => ({
+    urlVideo: 'https://www.youtube.com/embed/u4O8wE0gYO0',
+    urlVideo2: 'https://www.youtube.com/embed/OXxSY4PNr-o',
     loading: true,
-   }),
+  }),
 };
 </script>
 <style scoped>
@@ -127,18 +141,12 @@ p ::v-deep .subtext p {
   }
 }
 .video-iframe-container {
-  margin-top: 0.75em;
+  margin: 0.75em 3px 60px;
   position: relative;
-  padding-bottom: 56.25%; /* 16:9 */
-  padding-top: 25px;
-  height: 0;
-  iframe {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    border: none;
-  }
+}
+
+iframe {
+  border: 5px solid #6600cc;
+  border-radius: 5px;
 }
 </style>

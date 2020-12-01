@@ -10,16 +10,23 @@
           Finalizados
         </v-tab>
       </v-tabs>
-      <div v-if="courses.length">
-        <div v-for="(course, index) of courses" :key="index">
+      <div v-if="filteredCourses.length > 0">
+        <div v-for="(course, index) of filteredCourses" :key="index">
           <course-progress :course="course" />
         </div>
       </div>
-      <NothingToShow
-        v-else
-        title="Vixe :/"
-        message="Você não começou nenhum curso."
-      />
+      <template v-else>
+        <NothingToShow
+          v-if="selectedTab == 0"
+          title="Vixe :/"
+          message="Bora começar um curso mano!."
+        />
+        <NothingToShow
+          v-else
+          title="Vixe :/"
+          message="Você não finalizou nenhum curso ainda."
+        />
+      </template>
     </div>
     <div v-if="loading">
       <div class="container-spinner">
@@ -50,11 +57,26 @@ export default {
   data: () => ({
     loading: true,
     selectedTab: 0, // (0 == Em andamento, 1 == Finalizados)
-    courses: [],
+    myCourses: [],
   }),
   computed: {
     user() {
       return this.$store.state.user.data;
+    },
+    courseTaken() {
+      return this.$store.state.courses.my;
+    },
+    allCourses() {
+      return this.$store.state.courses.all;
+    },
+    filteredCourses() {
+      return this.myCourses.filter(course => {
+        if (this.selectedTab == '1') {
+          return course.courseTakenData.completion == 100;
+        } else {
+          return course.courseTakenData.completion < 100;
+        }
+      });
     },
   },
   async mounted() {
@@ -63,10 +85,22 @@ export default {
   },
   methods: {
     async getMyCourses() {
-      const res = await http.getAll(
+      const myCourses = (await http.getAll(
         `${process.env.endpoints.MY_COURSES}${this.user.id}`,
-      );
-      this.courses = res.data;
+      )).data;
+
+      if (myCourses) {
+        myCourses.forEach(myCourse => {
+          const courseWithData = this.allCourses.find(
+            course => course.id == myCourse.courseId,
+          );
+
+          console.log('coursewdata', courseWithData);
+          courseWithData.courseTakenData = myCourse;
+
+          this.myCourses.push(courseWithData);
+        });
+      }
     },
   },
 };

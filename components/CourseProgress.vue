@@ -2,22 +2,18 @@
   <v-card class="card">
     <v-col @click="goToCourse()">
       <v-row justify="space-between">
-        <h1>{{ course.course.title }}</h1>
+        <h1>{{ course.title }}</h1>
         <p v-if="course.status === 'TAKEN'" id="continue__text">
           Continuar
         </p>
-        <!-- <p 
-        v-else
-        id="continue__text"
-        >
-          Concluido          
-        </p> -->
       </v-row>
 
       <v-col>
-        <p id="value__progress">{{ course.completion }} % Concluído</p>
+        <p id="value__progress">
+          {{ course.courseTakenData.completion }} % Concluído
+        </p>
         <v-progress-linear
-          :value="course.completion"
+          :value="course.courseTakenData.completion"
           height="8"
           color="#aa56ff"
         />
@@ -25,7 +21,10 @@
     </v-col>
 
     <v-btn
-      v-if="!course.rating && course.status === 'COMPLETED'"
+      v-if="
+        !course.courseTakenData.rating &&
+          course.courseTakenData.status === 'COMPLETED'
+      "
       id="rating-btn"
       text
       @click="rateCourse"
@@ -40,45 +39,20 @@ import http from '~/services/http/generic';
 export default {
   name: 'CourseProgress',
   props: ['course'],
+  mounted() {
+    console.log(this.course);
+  },
   methods: {
     goToCourse() {
-      if (this.course.status === 'TAKEN') {
-        // store on vuex course data
-        this.$store.commit('courses/setCurrent', this.course.course);
-
-        const url = this.course.course.slug
-          ? this.course.course.slug
-          : this.convertToSlug(this.course.title);
-        // eslint-disable-next-line no-undef
-        $nuxt._router.push(`/aluno/curso/${url}`);
-      } else {
-        $nuxt._router.push(
-          `/certificado-info/${this.$store.state.user.data.id}/${this.course.course.id}`,
-        );
-      }
-    },
-    convertToSlug(str) {
-      str = str.replace(/^\s+|\s+$/g, ''); // trim
-      str = str.toLowerCase();
-
-      const from = 'ãàáäâẽèéëêìíïîõòóöôùúüûñç·/_,:;';
-      const to = 'aaaaaeeeeeiiiiooooouuuunc------';
-
-      for (let i = 0, l = from.length; i < l; i++) {
-        str = str.replace(new RegExp(from.charAt(i), 'g'), to.charAt(i));
-      }
-      str = str
-        .replace(/[^a-z0-9 -]/g, '') // remove invalid chars
-        .replace(/\s+/g, '-') // collapse whitespace and replace by -
-        .replace(/-+/g, '-'); // collapse dashes
-      return str;
+      this.$store.commit('courses/setCurrent', this.course);
+      $nuxt._router.push(`/aluno/curso/${this.course.courseTakenData.slug}`);
     },
     rateCourse() {
       // store on vuex course data
-      this.$store.commit('courses/setCurrent', this.course.course);
+      this.$store.commit('courses/setCurrent', this.course);
 
       // go to the last page of course flow passing 1 to "lateRate" flag
-      $nuxt._router.push(`/aluno/curso/${this.course.course.slug}/fim/1`);
+      $nuxt._router.push(`/aluno/curso/${this.course.slug}/fim/1`);
     },
   },
 };

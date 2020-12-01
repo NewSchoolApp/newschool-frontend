@@ -135,7 +135,7 @@ export default {
   right: 3px;
   margin: 0 auto;
   padding: 0 15px;
-  z-index: 9999;
+  z-index: 999999;
   width: 98%;
   max-width: 430px;
   height: 109px;

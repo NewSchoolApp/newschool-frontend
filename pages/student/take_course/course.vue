@@ -18,7 +18,7 @@
           <div class="mask__img">
             <img
               v-if="showThumb"
-              :src="course.thumbUrl"
+              :src="course.capa.url"
               alt="imagem-curso"
               title="imagem curso"
               @error="imageLoadError"
@@ -32,7 +32,7 @@
             <p id="description">{{ course.description }}</p>
           </div>
           <v-btn
-            v-if="courseState.status == 'TAKEN'"
+            v-if="courseState == 'TAKEN'"
             class="btn-block btn-primary"
             :loading="loadingInit"
             :disabled="loadingInit"
@@ -41,7 +41,7 @@
             Continuar
           </v-btn>
           <v-btn
-            v-else-if="courseState.status == 'COMPLETED'"
+            v-else-if="courseState == 'COMPLETED'"
             class="btn-block btn-primary"
             :loading="loadingInit"
             @click="goToCertificate()"
@@ -92,14 +92,20 @@ export default {
       return this.$store.state.courses.current;
     },
     courseState() {
-      return this.$store.state.courses.currentState;
+      const tryFind = this.$store.state.courses.my.find(
+        course => course.courseId == this.course.id,
+      );
+      if (tryFind) {
+        return tryFind.status;
+      } else {
+        return 'NOT_TAKEN';
+      }
     },
     idUser() {
       return this.$store.state.user.data.id;
     },
   },
-  async mounted() {
-    await this.$store.dispatch('courses/refreshState');
+  mounted() {
     this.loading = false;
   },
   methods: {
@@ -114,6 +120,8 @@ export default {
     },
     async startCourse() {
       this.loadingInit = true;
+      console.log('idUser', this.idUser);
+      console.log('courseId', this.course);
 
       // send to backend that this course will start
       await http
@@ -128,6 +136,8 @@ export default {
             message: 'Vish algo deu errado, tenta de novo mano!',
           });
         });
+
+      await this.$store.dispatch('courses/refreshMyCourses');
 
       const currentStep = await this.$store.dispatch(
         'courses/refreshCurrentStep',
@@ -144,6 +154,7 @@ export default {
       const currentStep = await this.$store.dispatch(
         'courses/refreshCurrentStep',
       );
+      console.log(currentStep)
 
       // go to step url
       $nuxt._router.push(currentStep.stepUrl);

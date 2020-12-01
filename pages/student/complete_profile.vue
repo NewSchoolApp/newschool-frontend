@@ -29,9 +29,9 @@
         <v-tab class="mr-1">
           <v-icon>mdi-monitor</v-icon>
         </v-tab>
-        <v-tab class="mr-1">
+        <!-- <v-tab class="mr-1">
           <v-icon>mdi-account-plus-outline</v-icon>
-        </v-tab>
+        </v-tab> -->
       </v-tabs>
     </v-row>
 
@@ -41,12 +41,11 @@
         <v-tab-item>
           <v-col>
             <v-col class="px-0 pb-5">
-              <div class="input-label">Data de Nascimento</div>
+              <div class="input-label">Nome</div>
               <v-text-field
+                v-model="form.name"
                 filled
-                readonly
-                :value="formatedDate"
-                @click="datePick = true"
+                :rules="requiredRules"
               ></v-text-field>
             </v-col>
             <v-col class="px-0 pb-5">
@@ -54,11 +53,24 @@
               <v-text-field v-model="form.nickname" filled></v-text-field>
             </v-col>
             <v-col class="px-0 pb-5">
+              <div class="input-label">Whatsapp</div>
+              <v-text-field v-model="form.whatsapp" filled></v-text-field>
+            </v-col>
+            <v-col class="px-0 pb-5">
               <div class="input-label">Email</div>
               <v-text-field
                 v-model="form.email"
                 :rules="emailRules"
                 filled
+              ></v-text-field>
+            </v-col>
+            <v-col class="px-0 pb-5">
+              <div class="input-label">Data de Nascimento</div>
+              <v-text-field
+                filled
+                readonly
+                :value="formatedDate"
+                @click="datePick = true"
               ></v-text-field>
             </v-col>
           </v-col>
@@ -78,20 +90,35 @@
         <v-tab-item>
           <v-col>
             <v-col class="px-0 pb-5">
-              <div class="input-label">Nome</div>
-              <v-text-field
-                v-model="form.name"
-                filled
-                :rules="requiredRules"
-              ></v-text-field>
-            </v-col>
-            <v-col class="px-0 pb-5">
               <div class="input-label">Gênero</div>
-              <v-select v-model="form.gender" filled :items="genderItems" />
+              <v-select
+                @input="genderSelect($event)"
+                v-model="form.gender"
+                filled
+                :items="genderItems"
+              />
+              <v-dialog v-model="genderDialog" max-width="300" class="px-5">
+                <v-card class="px-5 py-10">
+                  <div class="input-label">Digite sua orientação sexual</div>
+                  <v-text-field v-model="otherGender" filled class="pb-5" />
+                  <button
+                    class="btn-block btn-new-primary btn-shadow"
+                    @click="setCustomGender"
+                  >
+                    ENVIAR
+                  </button>
+                </v-card>
+              </v-dialog>
             </v-col>
             <v-col class="px-0 pb-5">
-              <div class="input-label">Perfil</div>
-              <v-select v-model="form.profile" filled :items="profileItems" />
+              <div class="input-label">Quem é você fora do app?</div>
+              <v-select
+                v-model="form.profile"
+                filled
+                hide-no-data
+                hide-selected
+                :items="profileItems"
+              />
             </v-col>
           </v-col>
         </v-tab-item>
@@ -129,6 +156,23 @@
               <div class="input-label">Bairro</div>
               <v-text-field v-model="form.district" filled />
             </v-col>
+
+            <v-col class="px-0 pb-5">
+              <div class="input-label">CEP</div>
+              <v-text-field v-model="form.cep" filled />
+            </v-col>
+            <v-col class="px-0 pb-5">
+              <div class="input-label">Endereço completo</div>
+              <v-text-field v-model="form.address" filled />
+            </v-col>
+            <v-col class="px-0 pb-5">
+              <div class="input-label">Complemento</div>
+              <v-text-field v-model="form.complement" filled />
+            </v-col>
+            <v-col class="px-0 pb-5">
+              <div class="input-label">Número</div>
+              <v-text-field v-model="form.number" filled />
+            </v-col>
           </v-col>
         </v-tab-item>
 
@@ -136,7 +180,7 @@
         <v-tab-item>
           <v-col>
             <v-col class="px-0 pb-5">
-              <div class="input-label">Empregado</div>
+              <div class="input-label">Você está trampando?</div>
               <v-radio-group
                 v-model="form.employed"
                 class="primary-checkbox"
@@ -176,7 +220,7 @@
         </v-tab-item>
 
         <!-- Me add Aí -->
-        <v-tab-item>
+        <!-- <v-tab-item>
           <v-col class="px-6">
             <v-row class="pb-8" justify="space-between" align="center">
               <v-img
@@ -242,7 +286,7 @@
               </v-btn>
             </v-row>
           </v-col>
-        </v-tab-item>
+        </v-tab-item> -->
       </v-tabs-items>
 
       <!-- footer -->
@@ -252,7 +296,7 @@
           :loading="loading"
           @click="submit"
         >
-          Confirmar Alterações
+          CONFIRMAR ALTERAÇÕES
         </v-btn>
       </v-row>
     </v-form>
@@ -277,6 +321,9 @@ export default {
       tab: 0,
       datePick: false,
       completeProfile: false,
+      genderDialog: false,
+      customGender: '',
+      otherGender: '',
       form: {
         id: '',
         name: '',
@@ -289,6 +336,10 @@ export default {
         institutionName: '',
         profession: '',
         address: '',
+        cep: '',
+        complement: '',
+        number: '',
+        whatsapp: '',
         city: '',
         state: '',
         urlFacebook: '',
@@ -324,25 +375,30 @@ export default {
         'Me add Aí',
       ],
       schoolingItems: [
-        'Ensino Fundamental Incompleto',
-        'Ensino Fundamental Cursando',
-        'Ensino Fundamental Completo',
-        'Ensino Médio Incompleto',
-        'Ensino Médio Cursando',
-        'Ensino Médio Completo',
-        'Ensino Superior Incompleto',
-        'Ensino Superior Cursando',
-        'Ensino Superior Completo',
+        'Estudo até o 9° ano',
+        'Parei de estudar antes do 9° ano',
+        'Parei de estudar entre o 1° e o 3° ano',
+        'Estou entre o 1º e 2º ano',
+        'Tô no terceirão',
+        'Completei o terceirão',
+        'Tô na facul',
+        'Terminei a facul',
         // 'Pós Graduação',
         // 'Mestrado',
       ],
-      genderItems: ['Masculino', 'Feminino'],
+      genderItems: [
+        'Masculino',
+        'Feminino',
+        'Nao binario',
+        'Outros (Por favor especifique)',
+      ],
       profileItems: [
-        'Aluno',
-        'Ex-Aluno',
-        'Universitário',
-        'Pai',
-        'Investidor',
+        'Aluno de escola',
+        'Pai de aluno',
+        'Professor',
+        'Estudante de faculdade',
+        'Parceiro/Investidor',
+        'Parei de estudar',
         'Outros',
       ],
       requiredRules: [v => !!v || 'O campo não pode estar em branco'],
@@ -398,7 +454,6 @@ export default {
         const emptySignupFields = signupFields.filter(
           field => !res.data[field],
         );
-        console.log(emptySignupFields);
         if (!emptySignupFields.length) {
           this.completeProfile = true;
         }
@@ -594,9 +649,11 @@ export default {
             const emptySignupFields = signupFields.filter(
               field => !postBody[field],
             );
-            console.log(emptySignupFields);
             if (!emptySignupFields.length && !this.completeProfile) {
               $nuxt._router.replace('/aluno/finalizar-cadastro');
+            }
+            if (this.form.schooling === 'Tô no terceirão') {
+              $nuxt._router.push('/aluno/semear');
             }
           })
           .catch(() =>
@@ -628,29 +685,35 @@ export default {
     },
     resolveProfile({ profile, api }) {
       const profiles = {
-        Aluno: 'STUDENT',
-        'Ex-Aluno': 'EX_STUDENT',
-        Universitário: 'UNIVERSITY',
-        Pai: 'FATHER',
-        Investidor: 'INVESTOR',
+        'Aluno de escola': 'STUDENT',
+        'Parei de estudar': 'EX_STUDENT',
+        'Estudante de faculdade': 'UNIVERSITY',
+        'Pai de aluno': 'FATHER',
+        'Parceiro/Investidor': 'INVESTOR',
         Outros: 'OTHERS',
+        Professor: 'OTHERS',
       };
       if (api) {
         return Object.keys(profiles).find(key => profiles[key] === profile);
       }
       return profiles[profile];
     },
+    selectProfile(profile) {
+      if (!this.profileItems.includes(profile)) {
+        this.profileItems = [];
+        this.profileItems.push(profile);
+      }
+    },
     resolveSchooling({ schooling, api }) {
       const schoolingTypes = {
-        'Ensino Fundamental Incompleto': 'ENSINO_FUNDAMENTAL_INCOMPLETO',
-        'Ensino Fundamental Cursando': 'ENSINO_FUNDAMENTAL_CURSANDO',
-        'Ensino Fundamental Completo': 'ENSINO_FUNDAMENTAL_COMPLETO',
-        'Ensino Médio Incompleto': 'ENSINO_MEDIO_INCOMPLETO',
-        'Ensino Médio Cursando': 'ENSINO_MEDIO_CURSANDO',
-        'Ensino Médio Completo': 'ENSINO_MEDIO_COMPLETO',
-        'Ensino Superior Incompleto': 'FACULDADE_INCOMPLETO',
-        'Ensino Superior Cursando': 'FACULDADE_CURSANDO',
-        'Ensino Superior Completo': 'FACULDADE_COMPLETO',
+        'Estudo até o 9° ano': 'ENSINO_FUNDAMENTAL_CURSANDO',
+        'Parei de estudar antes do 9° ano': 'ENSINO_FUNDAMENTAL_IMCOMPLETO',
+        'Parei de estudar entre o 1° e o 3° ano': 'ENSINO_MEDIO_IMCOMPLETO',
+        'Estou entre o 1º e 2º ano': 'ENSINO_MEDIO_CURSANDO',
+        'Tô no terceirão': 'ENSINO_MEDIO_CURSANDO',
+        'Completei o terceirão': 'ENSINO_MEDIO_COMPLETO',
+        'Tô na facul': 'FACULDADE_CURSANDO',
+        'Terminei a facul': 'FACULDADE_COMPLETO',
       };
       if (api) {
         return Object.keys(schoolingTypes).find(
@@ -674,6 +737,17 @@ export default {
         // address model used on backend: "centro, Rio Claro - São Paulo, Brasil"
         return district + ', ' + city + ' - ' + state + ', ' + country;
       }
+    },
+    genderSelect(gender) {
+      if (gender.includes('especifique')) {
+        this.form.gender = '';
+        this.genderDialog = true;
+      }
+    },
+    setCustomGender() {
+      this.genderDialog = false;
+      this.genderItems.unshift(this.otherGender);
+      this.form.gender = this.otherGender;
     },
   },
 };

@@ -14,7 +14,7 @@
       <v-row justify="end">
         <img
           class="header_img"
-          :src="require(`~/assets/trophy-home.svg`)"
+          :src="require(`~/assets/trophy-home.png`)"
           @click="goToRanking"
         />
       </v-row>
@@ -67,7 +67,6 @@
           :image="course.thumbUrl"
           :slug="course.slug"
         />
-  
       </v-row>
     </v-col>
     <client-only>
@@ -102,7 +101,6 @@ export default {
     userPoints: '',
   }),
   computed: {
- 
     user() {
       return this.$store.state.user.data;
     },
@@ -167,8 +165,6 @@ export default {
 * {
   font-family: 'Roboto', sans-serif;
 }
-
-
 
 #main-col {
   padding: 20px 24px 50px 24px;
@@ -338,11 +334,10 @@ h1 {
   text-transform: uppercase;
 }
 /*Large devices (desktops, 992px and up)*/
-@media (min-width: 992px) { 
-#page{
-  display: flex;
-  justify-content: center;
+@media (min-width: 992px) {
+  #page {
+    display: flex;
+    justify-content: center;
+  }
 }
-}
-
 </style>

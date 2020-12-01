@@ -5,12 +5,10 @@
     color="transparent"
     @click="openCourse()"
   >
-    <v-img :src="course.thumbUrl" />
-    <div class="media-and-footer-container">
-      <v-card-title>{{ course.title }}</v-card-title>
-      <div class="footer-card">
-        <v-card-subtitle class="mt-0">{{ course.authorName }}</v-card-subtitle>
-      </div>
+    <v-img :src="course.capa.url" />
+    <v-card-title>{{ course.title }}</v-card-title>
+    <div class="footer-card">
+      <v-card-subtitle class="mt-0">{{ course.authorName }}</v-card-subtitle>
     </div>
   </v-card>
 </template>
@@ -76,7 +74,6 @@ export default {
 .theme--light.v-card .v-card__subtitle {
   padding: 0;
   color: #1a1a1a;
-  font-weight: 400;
   font-size: 10px;
   line-height: 11.72px;
 }

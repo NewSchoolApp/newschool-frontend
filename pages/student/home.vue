@@ -14,19 +14,29 @@
       <v-row justify="end">
         <img
           class="header_img"
-          :src="require(`~/assets/trophy-home.svg`)"
+          :src="require(`~/assets/trophy-home.png`)"
           @click="goTo('ranking')"
         />
         <img
           id="bell"
-          class="header_img"
           :src="
-            require(`~/assets/bell-home${
-              notifications.length ? '-active' : ''
+            require(`~/assets/${
+              notifications.length ? 'bell' : 'bell-home-colorized'
             }.svg`)
           "
           @click="goTo('notificacao')"
         />
+        <div v-if="notifications.length" class="notification__number">
+          <p
+            :class="
+              notifications.length < 10
+                ? 'notification__low_text'
+                : 'notification__text'
+            "
+          >
+            {{ notifications.length }}
+          </p>
+        </div>
       </v-row>
 
       <!-- Header-bar -->
@@ -53,6 +63,7 @@
       <!-- Search Field -->
       <v-text-field
         v-model="filtro"
+        class="search-field"
         label="Encontre Cursos"
         outlined
         prepend-inner-icon="mdi-magnify"
@@ -106,45 +117,33 @@ export default {
       }
     },
   },
-  mounted() {
-    this.getAllCourses();
-    this.getNotifications();
-    this.getUserScore();
-    this.getMyCourses();
+
+  async mounted() {
+    await this.$store.dispatch('courses/refreshAllCourses');
+    await this.$store.dispatch('courses/refreshMyCourses');
+
+    await this.getNotifications();
+    await this.getUserScore();
+
+    this.loading = false;
   },
   methods: {
-    getAllCourses() {
-      http.getAll(process.env.endpoints.COURSE).then(({ data }) => {
-        this.$store.commit('courses/setAll', data);
-        this.loading = false;
-      });
-    },
-    getMyCourses() {
-      http
-        .getAll(`${process.env.endpoints.MY_COURSES}${this.user.id}`)
-        .then(({ data }) => {
-          this.$store.commit('courses/setMy', data);
-        });
-    },
     goTo(path) {
       $nuxt._router.push(`/aluno/${path}`);
     },
-    getNotifications() {
-      http
-        .getAll(`${process.env.endpoints.NOTIFICATIONS}/user/${this.user.id}`)
-        .then(response => {
-          this.notifications = response.data;
-        });
+    async getNotifications() {
+      this.notifications = (
+        await http.getAll(
+          `${process.env.endpoints.NOTIFICATIONS}/user/${this.user.id}`,
+        )
+      ).data;
     },
-    getUserScore() {
-      http
-        .getAll(
+    async getUserScore() {
+      this.userPoints = (
+        await http.getAll(
           `${process.env.endpoints.RANKING}/user/${this.user.id}?timeRange=YEAR`,
         )
-        .then(userRanking => {
-          const { points } = userRanking.data;
-          this.userPoints = points;
-        });
+      ).data.points;
     },
   },
 };
@@ -183,84 +182,44 @@ export default {
   height: 24px;
   margin-right: 20px;
 }
+.notification__number {
+  height: 11px;
+  width: 11px;
+  border-radius: 50px;
+  background: linear-gradient(
+    157.23deg,
+    #d63305 8.86%,
+    #cf3004 38.81%,
+    #bc2602 82.43%,
+    #b72401 90.69%
+  );
+  position: absolute;
+  right: 29px;
+  top: 32px;
+}
+
+.notification__text {
+  color: white;
+  font-size: 8px;
+  position: absolute;
+  top: 0.4px;
+  right: 1px;
+}
+
+.notification__low_text {
+  color: white;
+  font-size: 8px;
+  position: absolute;
+  top: 0.4px;
+  right: 3px;
+}
 
 #bell {
   color: #737373;
-  width: 22px;
-  height: 22px;
+  width: 24px;
+  height: 24px;
   margin-right: 5px;
-  margin-top: 5px;
 }
-
-/* especificações gerais da fonte do label e do valor */
-::v-deep .v-label,
-::v-deep .v-input input {
-  font-size: 0.87rem !important;
-  font-weight: 500;
-  color: rgba(0, 0, 0, 0.25) !important;
-  font-family: 'Montserrat', sans-serif;
-}
-
-/* cor especifica do valor */
-::v-deep .v-input input {
-  color: rgba(0, 0, 0, 0.5) !important;
-}
-
-/* tirar a margin inferior */
-::v-deep .v-input__slot {
-  margin-bottom: 0;
-  margin-bottom: 10px !important;
-}
-
-/* cor e aspecto da borda */
-::v-deep fieldset {
-  border-color: rgba(0, 0, 0, 0.1);
-  border-radius: 0;
-}
-
-/* margin superior */
-::v-deep .v-text-field.v-text-field--enclosed {
-  margin: 16px 0 0 !important;
-}
-
-/* define a altura do campo de input */
-::v-deep .v-text-field--outlined > .v-input__control > .v-input__slot {
-  min-height: 48px;
-}
-
-/* centraliza o label */
-::v-deep
-  .v-input:not(.v-input--is-focused)
-  > .v-input__control
-  > .v-input__slot
-  > .v-text-field__slot
-  > .v-label {
-  /* display: contents; */
-  line-height: 12px;
-}
-
-/* container do icon: tira margin de cima, aplica um distanciamento do label e alinha ao centro do campo */
-::v-deep .v-text-field--enclosed .v-input__prepend-inner {
-  margin-top: 0;
-  /* padding-right: 11.5px; */
-  align-self: center;
-}
-
-/* margin lateral do conteudo do campo */
-::v-deep
-  .v-text-field.v-text-field--enclosed:not(.v-text-field--rounded)
-  > .v-input__control
-  > .v-input__slot {
-  padding: 0 19px;
-}
-
-::v-deep .theme--light.v-icon {
-  color: rgba(0, 0, 0, 0.9);
-}
-
-/* .theme--light.v-icon {
-  color: none;
-} */
 
 #header {
   height: auto;
@@ -325,7 +284,7 @@ h1 {
   text-transform: uppercase;
 }
 /*Large devices (desktops, 992px and up)*/
-@media (min-width: 992px) {
+@media (min-width: 700px) {
   #page {
     display: flex;
     justify-content: center;
