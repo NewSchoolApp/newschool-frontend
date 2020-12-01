@@ -44,36 +44,8 @@ export default {
   },
   methods: {
     goToCourse() {
-      if (this.course.courseTakenData.status === 'TAKEN') {
-        // store on vuex course data
-        this.$store.commit('courses/setCurrent', this.course);
-
-        const url = this.course.slug
-          ? this.course.slug
-          : this.convertToSlug(this.course.title);
-        // eslint-disable-next-line no-undef
-        $nuxt._router.push(`/aluno/curso/${url}`);
-      } else {
-        $nuxt._router.push(
-          `/certificado-info/${this.$store.state.user.data.id}/${this.course.id}`,
-        );
-      }
-    },
-    convertToSlug(str) {
-      str = str.replace(/^\s+|\s+$/g, ''); // trim
-      str = str.toLowerCase();
-
-      const from = 'ãàáäâẽèéëêìíïîõòóöôùúüûñç·/_,:;';
-      const to = 'aaaaaeeeeeiiiiooooouuuunc------';
-
-      for (let i = 0, l = from.length; i < l; i++) {
-        str = str.replace(new RegExp(from.charAt(i), 'g'), to.charAt(i));
-      }
-      str = str
-        .replace(/[^a-z0-9 -]/g, '') // remove invalid chars
-        .replace(/\s+/g, '-') // collapse whitespace and replace by -
-        .replace(/-+/g, '-'); // collapse dashes
-      return str;
+      this.$store.commit('courses/setCurrent', this.course);
+      $nuxt._router.push(`/aluno/curso/${this.course.courseTakenData.slug}`);
     },
     rateCourse() {
       // store on vuex course data

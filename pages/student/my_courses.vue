@@ -84,9 +84,13 @@ export default {
     this.loading = false;
   },
   methods: {
-    getMyCourses() {
-      if (this.courseTaken) {
-        this.courseTaken.forEach(myCourse => {
+    async getMyCourses() {
+      const myCourses = (await http.getAll(
+        `${process.env.endpoints.MY_COURSES}${this.user.id}`,
+      )).data;
+
+      if (myCourses) {
+        myCourses.forEach(myCourse => {
           const courseWithData = this.allCourses.find(
             course => course.id == myCourse.courseId,
           );

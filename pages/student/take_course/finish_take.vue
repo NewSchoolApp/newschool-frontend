@@ -252,16 +252,6 @@ export default {
       return this.$route.params.courseSlug;
     },
   },
-  // watch: {
-  //   activeDialog() {
-  //     if (
-  //       this.$route.params.lateFeedback === 1 &&
-  //       this.activeDialog === 'none'
-  //     ) {
-  //       $nuxt._router.push('/meus-cursos');
-  //     }
-  //   },
-  // },
   methods: {
     gotoCertificate() {
       $nuxt._router.push(`/pagina-certificado/${this.idUser}/${this.courseId}`);
@@ -332,7 +322,7 @@ export default {
     postFeedback() {
       if (this.postBody.rating) {
         http.post(
-          `/api/v2/course-taken/nps/user/${this.idUser}/course/${this.courseId}`,
+          `${process.env.endpoints.NPS}${this.idUser}/course/${this.courseId}`,
           this.postBody,
         );
       }
