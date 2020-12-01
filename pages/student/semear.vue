@@ -1,7 +1,7 @@
 <template>
   <v-col id="main-col">
     <HeaderBar :title="'Instituto Semear'" :route="'/aluno/home'" />
-    <template v-if="start">
+    <!-- <template v-if="start">
       <v-col>
         <v-col class="px-0 pb-0">
           <p class="p-info">
@@ -50,7 +50,6 @@
           </div>
         </v-col>
       </v-col>
-      <!-- footer -->
       <v-row class="base">
         <v-btn
           class="btn-block btn-new-primary btn-shadow"
@@ -60,8 +59,8 @@
           Próximo
         </v-btn>
       </v-row>
-    </template>
-    <template v-else>
+    </template> -->
+    <template>
       <v-col>
         <v-col class="px-0 pb-0" align="center">
           <p class="p-info">
@@ -76,7 +75,8 @@
       <!-- footer -->
       <v-row class="base">
         <v-btn
-          class="btn-block btn-new-primary btn-shadow"
+          v-if="accept"
+          class="btn-block btn-new-primary btn-shadow my-10"
           :loading="loading"
           @click="submit"
         >
@@ -111,7 +111,16 @@ export default {
         'Engenharia e Produção',
         'Saúde e Bem-estar',
       ],
+      accept: true,
     };
+  },
+  methods: {
+    goBack() {
+      $nuxt._route.push('/aluno/home');
+    },
+    submit() {
+      window.location = 'http://www.isemear.org.br/processo-seletivo/';
+    },
   },
 };
 </script>
@@ -141,7 +150,7 @@ body {
 }
 
 .logo-img {
-  padding-bottom: 104px;
+  padding-bottom: 30px;
 }
 
 /* input styles */
@@ -151,6 +160,12 @@ body {
   font-weight: 400;
   letter-spacing: 0em;
   color: var(--primary);
+}
+
+.accept__text {
+  font-size: 10px;
+  text-decoration: underline;
+  text-align: center;
 }
 
 /* buttons style */
