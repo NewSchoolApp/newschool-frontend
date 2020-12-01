@@ -332,7 +332,7 @@ export default {
     postFeedback() {
       if (this.postBody.rating) {
         http.post(
-          `/api/v1/course-taken/nps/user/${this.idUser}/course/${this.courseId}`,
+          `/api/v2/course-taken/nps/user/${this.idUser}/course/${this.courseId}`,
           this.postBody,
         );
       }

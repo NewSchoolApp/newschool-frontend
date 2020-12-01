@@ -4,7 +4,7 @@
     <div class="notification">
       <img
         class="notification__image"
-        :src="require('~/assets/finish_signup.svg')"
+        :src="require('~/assets/background-fire.png')"
         alt=""
       />
       <h1 class="points">+ 30 NC</h1>

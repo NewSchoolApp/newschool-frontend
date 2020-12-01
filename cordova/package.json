@@ -27,7 +27,16 @@
       },
       "com.darktalker.cordova.screenshot": {},
       "cordova-plugin-androidx": {},
-      "cordova-plugin-androidx-adapter": {}
+      "cordova-plugin-androidx-adapter": {},
+      "cordova-plugin-buildinfo": {},
+      "cordova-universal-links-plugin": {},
+      "cordova-plugin-browsertab": {},
+      "cordova-plugin-customurlscheme": {
+        "URL_SCHEME": "com.firebase.cordova",
+        "ANDROID_SCHEME": " ",
+        "ANDROID_HOST": " ",
+        "ANDROID_PATHPREFIX": "/"
+      }
     },
     "platforms": [
       "browser",
@@ -37,7 +46,12 @@
   },
   "dependencies": {
     "cordova-ios": "^5.1.1",
+    "cordova-plugin-browsertab": "0.2.0",
+    "cordova-plugin-buildinfo": "4.0.0",
+    "cordova-plugin-compat": "1.2.0",
+    "cordova-plugin-customurlscheme": "5.0.2",
     "cordova-plugin-facebook4": "6.4.0",
-    "cordova-plugin-inappbrowser": "^3.2.0"
+    "cordova-plugin-inappbrowser": "^3.2.0",
+    "cordova-universal-links-plugin-fix": "1.2.1"
   }
 }

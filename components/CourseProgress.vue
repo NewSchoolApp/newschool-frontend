@@ -39,6 +39,9 @@ import http from '~/services/http/generic';
 export default {
   name: 'CourseProgress',
   props: ['course'],
+  mounted() {
+    console.log(this.course);
+  },
   methods: {
     goToCourse() {
       if (this.course.courseTakenData.status === 'TAKEN') {

@@ -20,7 +20,6 @@ lib-cov
 coverage
 # Cordova build
 cordova/www
-cordova/platforms
 
 # nyc test coverage
 .nyc_output

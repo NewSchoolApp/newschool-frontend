@@ -1,6 +1,10 @@
 <template>
   <div>
     <HeaderBar :title="'Notificação'" :back-page="true" />
+    <button @click="clearNotifications" class="btn-primary clear__button">
+      limpar
+    </button>
+
     <div v-show="!loading" id="page">
       <div v-if="notifications.length" id="total-cards">
         <div
@@ -92,7 +96,7 @@ export default {
         16,
       );
       const notificationMonthAndDay = notification.createdAt.slice(5, 10);
-      const today = new Date().getDate()
+      const today = new Date().getDate();
       const month = new Date().getMonth() + 1;
       const dateSplited = notificationMonthAndDay.split('-');
       if (dateSplited[1] < today || dateSplited[0] < month) {
@@ -104,6 +108,13 @@ export default {
       } else {
         return notificationDateHourAndMinute;
       }
+    },
+    async clearNotifications() {
+      this.loading = true;
+      for (const notification of this.notifications) {
+        await this.removeNotification(notification);
+      }
+      this.loading = false;
     },
     removeNotification(notification) {
       this.loading = true;
@@ -218,6 +229,17 @@ h1 {
   right: 20px;
   top: 10px;
 }
+.clear__button {
+  position: absolute;
+  width: 50px;
+  font-size: 10px;
+  height: 20px;
+  z-index: 999;
+  border-radius: 5px;
+  text-transform: uppercase;
+  top: 25px;
+  right: 15px;
+}
 
 ::v-deep .v-progress-linear {
   margin-bottom: 35px;
@@ -242,13 +264,13 @@ h1 {
 }
 
 @media (min-width: 768px) {
- #page {
-   display: flex;
-   justify-content: center;
- }
- #total-cards{
-   width: 700px;
-   max-width: 700px;
- }
+  #page {
+    display: flex;
+    justify-content: center;
+  }
+  #total-cards {
+    width: 700px;
+    max-width: 700px;
+  }
 }
 </style>

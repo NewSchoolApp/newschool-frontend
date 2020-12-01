@@ -1,7 +1,12 @@
 <template>
-  <v-col class="main-col" align="center" @click="goToCertificate()">
-    <v-card class="v-card-body" elevation="0" color="transparent">
-      <template @click="goToCertificate()">
+  <v-col class="main-col" align="center">
+    <v-card
+      @click="goToCertificate(2)"
+      class="v-card-body"
+      elevation="0"
+      color="transparent"
+    >
+      <template @click="goToCertificate(2)">
         <v-img :src="certificate.course.capa.url" />
         <v-img class="thumb-background" />
         <v-img
@@ -57,7 +62,7 @@ export default {
   },
   methods: {
     goToCertificate(print) {
-      window.location = `http://newschool-ui-dev.eba-fdz8zprg.us-east-2.elasticbeanstalk.com/#/pagina-certificado/${this.params.idUser}/${this.params.idCourse}/${print}`;
+      window.location = `http://newschool-ui-dev.eba-fdz8zprg.us-east-2.elasticbeanstalk.com/#/pagina-certificado/${this.idUser}/${this.certificate.courseId}/${print}`;
     },
     imageLoadError() {
       this.showThumb = false;
@@ -99,7 +104,7 @@ export default {
         // files: [
         //   'https://newschool-dev.s3.us-east-2.amazonaws.com/17954a42-8132-481e-bc38-508aefe7a996/profile.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAV56KXRILVMG6BB2Q%2F20201115%2Fus-east-2%2Fs3%2Faws4_request&X-Amz-Date=20201115T042331Z&X-Amz-Expires=900&X-Amz-Signature=b7e68e7db1194b74e266f211d56adab75d35f75dd3eceb4982b0c6aad8bb5c60&X-Amz-SignedHeaders=host',
         // ],
-        url: `http://newschool-ui-dev.eba-fdz8zprg.us-east-2.elasticbeanstalk.com/#/pagina-certificado/${this.params.idUser}/${this.params.idCourse}/0`,
+        url: `http://newschool-ui-dev.eba-fdz8zprg.us-east-2.elasticbeanstalk.com/#/pagina-certificado/${this.idUser}/${this.certificate.courseId}/0`,
         chooserTitle: 'Vem colar com nois!', // Android only, you can override the default share sheet title
       };
       window.plugins.socialsharing.shareWithOptions(
