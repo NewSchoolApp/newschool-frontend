@@ -1,7 +1,7 @@
 <template>
   <v-col class="main-col" align="center" @click="goToCertificate()">
     <v-card class="v-card-body" elevation="0" color="transparent">
-      <template @click="goToCertificate()">
+      <template @click="goToCertificate(2)">
         <v-img :src="certificate.course.capa.url" />
         <v-img class="thumb-background" />
         <v-img
@@ -57,7 +57,7 @@ export default {
   },
   methods: {
     goToCertificate(print) {
-      window.location = `http://newschool-ui-dev.eba-fdz8zprg.us-east-2.elasticbeanstalk.com/#/pagina-certificado/${this.params.idUser}/${this.params.idCourse}/${print}`;
+      window.location = `http://newschool-ui-dev.eba-fdz8zprg.us-east-2.elasticbeanstalk.com/#/pagina-certificado/${this.idUser}/${this.certificate.courseId}/${print}`;
     },
     imageLoadError() {
       this.showThumb = false;

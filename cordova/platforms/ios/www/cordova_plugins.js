@@ -55,6 +55,38 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
       "clobbers": [
         "window.plugins.socialsharing"
       ]
+    },
+    {
+      "id": "cordova-plugin-buildinfo.BuildInfo",
+      "file": "plugins/cordova-plugin-buildinfo/www/buildinfo.js",
+      "pluginId": "cordova-plugin-buildinfo",
+      "clobbers": [
+        "BuildInfo"
+      ]
+    },
+    {
+      "id": "cordova-universal-links-plugin.universalLinks",
+      "file": "plugins/cordova-universal-links-plugin/www/universal_links.js",
+      "pluginId": "cordova-universal-links-plugin",
+      "clobbers": [
+        "universalLinks"
+      ]
+    },
+    {
+      "id": "cordova-plugin-browsertab.BrowserTab",
+      "file": "plugins/cordova-plugin-browsertab/www/browsertab.js",
+      "pluginId": "cordova-plugin-browsertab",
+      "clobbers": [
+        "cordova.plugins.browsertab"
+      ]
+    },
+    {
+      "id": "cordova-plugin-customurlscheme.LaunchMyApp",
+      "file": "plugins/cordova-plugin-customurlscheme/www/ios/LaunchMyApp.js",
+      "pluginId": "cordova-plugin-customurlscheme",
+      "clobbers": [
+        "window.plugins.launchmyapp"
+      ]
     }
   ];
   module.exports.metadata = {
@@ -67,6 +99,11 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
     "es6-promise-plugin": "4.2.2",
     "cordova-plugin-x-socialsharing": "6.0.2",
     "cordova-plugin-androidx": "3.0.0",
-    "cordova-plugin-androidx-adapter": "1.1.3"
+    "cordova-plugin-androidx-adapter": "1.1.3",
+    "cordova-plugin-buildinfo": "4.0.0",
+    "cordova-universal-links-plugin": "1.2.1",
+    "cordova-plugin-compat": "1.2.0",
+    "cordova-plugin-browsertab": "0.2.0",
+    "cordova-plugin-customurlscheme": "5.0.2"
   };
 });

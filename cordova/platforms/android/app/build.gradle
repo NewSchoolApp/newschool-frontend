@@ -52,7 +52,6 @@ buildscript {
 
     dependencies {
         apply from: '../CordovaLib/cordova.gradle'
-
         classpath 'com.android.tools.build:gradle:4.0.0'
 
         if (cdvHelpers.getConfigPreference('GradlePluginKotlinEnabled', 'false').toBoolean()) {
@@ -147,6 +146,8 @@ ext {
 }
 
 // PLUGIN GRADLE EXTENSIONS START
+apply from: "../cordova-plugin-buildinfo/app-BuildInfo.gradle"
+apply from: "../cordova-plugin-browsertab/app-BrowserTab.gradle"
 // PLUGIN GRADLE EXTENSIONS END
 
 def hasBuildExtras1 = file('build-extras.gradle').exists()
@@ -353,6 +354,7 @@ dependencies {
     implementation(project(path: ":CordovaLib"))
     implementation "com.facebook.android:facebook-android-sdk:5.5.2"
     implementation "androidx.legacy:legacy-support-v4:1.0.0"
+    implementation "androidx.browser:browser:1.2.0"
     // SUB-PROJECT DEPENDENCIES END
 }
 
