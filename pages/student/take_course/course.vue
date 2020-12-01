@@ -120,6 +120,8 @@ export default {
     },
     async startCourse() {
       this.loadingInit = true;
+      console.log('idUser', this.idUser);
+      console.log('courseId', this.course);
 
       // send to backend that this course will start
       await http
@@ -152,6 +154,7 @@ export default {
       const currentStep = await this.$store.dispatch(
         'courses/refreshCurrentStep',
       );
+      console.log(currentStep)
 
       // go to step url
       $nuxt._router.push(currentStep.stepUrl);
