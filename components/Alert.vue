@@ -115,7 +115,7 @@ export default {
         this.snackbar = true;
         setTimeout(() => {
           this.snackbar = false;
-        },3000)
+        }, 3000);
       }
     });
   },
@@ -130,7 +130,7 @@ export default {
 
 <style scoped>
 .snackbar {
-  position: absolute;
+  position: fixed;
   top: 10px;
   right: 3px;
   margin: 0 auto;
@@ -184,7 +184,11 @@ export default {
 }
 
 @keyframes move {
-  from {right: 40px;}
-  to {right: 3px;}
+  from {
+    right: 40px;
+  }
+  to {
+    right: 3px;
+  }
 }
 </style>
