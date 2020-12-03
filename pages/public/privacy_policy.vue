@@ -311,7 +311,7 @@ export default {
 @import url('https://fonts.googleapis.com/css?family=Roboto:500&display=swap');
 
 .policy__title {
-  color: #60c;
+  color: var(--primary);
   font-size: 22px;
   font-weight: bold;
   text-align: center;
@@ -333,13 +333,13 @@ export default {
 
 .policy__text-title {
   font-size: 18px;
-  color: #60c;
+  color: var(--primary);
   margin: 40px 0 10px;
 }
 
 .policy__marked {
   font-weight: 500;
-  color: #60c;
+  color: var(--primary);
 }
 
 .policy__underline {
@@ -347,7 +347,7 @@ export default {
 }
 
 .policy__link {
-  color: #60c;
+  color: var(--primary);
   text-decoration: underline;
   text-decoration-style: dotted;
 }

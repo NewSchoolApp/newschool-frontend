@@ -57,10 +57,10 @@ export default {
   },
 
   data() {
-    let baseUrl = process.env.domain;
+    const baseUrl = process.env.domain;
     return {
       isOpen: false,
-      shareUrl: `${baseUrl}${this.url}`,
+      shareUrl: this.url,
     };
   },
 };

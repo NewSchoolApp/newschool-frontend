@@ -1,61 +1,74 @@
 <template>
-  <v-layout id="page">
-    <v-flex ref="flex" class="main-container">
-      <h1>
-        <n-link to="../edit">
-          <v-btn class="back-button" text icon color="primary">
-            <v-icon>mdi-arrow-left</v-icon>
-          </v-btn>
-        </n-link>Gerenciar meus cursos
-      </h1>
+  <div id="page" ref="flex">
+    <HeaderBar :title="'Gerenciar Meus Cursos'" :back-page="true"></HeaderBar>
+    <v-layout align-center justify-center>
+      <v-flex xs10 sm8 md4 style="text-align: -webkit-left;">
+        <v-container>
+          <v-row>
+            <v-col>
+              <h3>Parte</h3>
+              <v-form
+                ref="part"
+                v-model="status"
+                class="part-form"
+                lazy-validation
+              >
+                <v-text-field
+                  v-model="part.title"
+                  :rules="titleRules"
+                  :margin-bottom="!titleRules"
+                  label="Título"
+                  required
+                />
+                <v-textarea
+                  v-model="part.description"
+                  label="Descrição"
+                  rows="1"
+                  required
+                />
+                <v-text-field
+                  v-model="part.youtubeUrl"
+                  :rules="videoUrlRules"
+                  label="Link do youtube"
+                  required
+                />
+                <v-text-field
+                  v-model="part.vimeoUrl"
+                  :rules="videoUrlRules"
+                  label="Link do vimeo"
+                  required
+                />
+              </v-form>
 
-      <v-form class="part-form" ref="part" v-model="status" lazy-validation>
-        <h3>Parte</h3>
-        <v-text-field
-          v-model="part.title"
-          :rules="titleRules"
-          :margin-bottom="!titleRules"
-          color="#60c"
-          label="Título"
-          required
-        />
-        <v-textarea v-model="part.description" color="#60c" label="Descrição" rows="1" required />
-        <v-text-field
-          v-model="part.youtubeUrl"
-          :rules="videoUrlRules"
-          color="#60c"
-          label="Link do youtube"
-          required
-        />
-        <v-text-field
-          v-model="part.vimeoUrl"
-          :rules="videoUrlRules"
-          color="#60c"
-          label="Link do vimeo"
-          required
-        />
-      </v-form>
-
-      <resources-list name="Teste" :resources="[]" :redirect="submited" path="test" />
-      <span class="new-tests-span">Favor, adicionar um teste</span>
-
-      <v-btn color="primary" class="save-button button-ajust" @click="submit">Salvar</v-btn>
-    </v-flex>
-
-    <v-snackbar
-      v-model="snackbar"
-      :color="snackbarStatus"
-      :timeout="5000"
-      :top="true"
-      :right="true"
-    >
-      {{ snackbarText }}
-      <v-btn color="#FFF" text @click="snackbar = false">Fechar</v-btn>
-    </v-snackbar>
-    <client-only>
-      <navigation-bar />
-    </client-only>
-  </v-layout>
+              <resources-list
+                name="Teste"
+                :resources="[]"
+                :redirect="submited"
+                path="test"
+              />
+              <span class="new-tests-span">Favor, adicionar um teste</span>
+              <v-btn class="btn-block btn-primary" @click="submit">
+                Salvar
+              </v-btn>
+            </v-col>
+          </v-row>
+        </v-container>
+      </v-flex>
+      <v-snackbar
+        v-model="snackbar"
+        :color="snackbarStatus"
+        :timeout="5000"
+        :top="true"
+        :right="true"
+      >
+        {{ snackbarText }}
+        <v-btn color="#FFF" text @click="snackbar = false">Fechar</v-btn>
+      </v-snackbar>
+      <client-only>
+        <navigation-bar />
+      </client-only>
+    </v-layout>
+  </div>
 </template>
 
 <router>
@@ -66,11 +79,13 @@
 
 <script>
 import NavigationBar from '~/components/NavigationBar';
+import HeaderBar from '~/components/Header.vue';
 import parts from '~/services/http/parts';
 
 export default {
   components: {
     NavigationBar,
+    HeaderBar,
   },
   data: () => ({
     title: 'Crie uma Parte',
@@ -156,113 +171,14 @@ export default {
 };
 </script>
 
-
 <style scoped>
-h1 {
-  font-weight: 600;
-  font-size: 16px;
-  line-height: 36px;
-  text-transform: uppercase;
-  text-align: center;
-  color: #6600cc;
-}
-
-@media screen and (max-width: 20.625em) {
-  h1 {
-    font-size: 14px;
-  }
-}
-
-h3 {
-  font-weight: 900;
-  font-size: 1em;
-  line-height: 24px;
-  text-transform: uppercase;
-  text-align: left;
-  color: #6600cc;
-}
-
-.main-container {
-  display: flex;
-  flex-direction: column;
-  padding: 2em 3em 78px 2em;
-}
-
 .v-input {
   width: 90%;
   height: 50px;
 }
-
-.save-button {
-  height: 2.75em;
-  width: 100%;
-  font-weight: 600;
-  margin-top: auto;
-  display: flex;
-  align-items: center;
-  text-align: center;
-  color: #ffffff;
+.v-input input {
+  color: none;
 }
-
-.v-button__content {
-  font-weight: 900;
-  font-size: 12px;
-  line-height: 14px;
-}
-.button-ajust{
-  margin-bottom: 50px;
-}
-
-.new-tests-span {
-  font-weight: 600;
-  font-size: 16px;
-  line-height: 20px;
-  color: #656565;
-  width: 100%;
-  text-align: center;
-  display: inline-block;
-}
-
-.back-button {
-  min-width: 0 !important;
-  float: left;
-}
-
-.v-label {
-  color: #60c;
-}
-
-.part-form {
-  margin-top: 1.5em;
-}
-
-::v-deep
-  .v-text-field:not(.v-input--has-state)
-  > .v-input__control
-  > .v-input__slot:hover:before {
-  border-color: #60c;
-}
-
-::v-deep .v-label {
-  font-weight: 600;
-  font-size: 14px;
-  color: #aa56ff;
-}
-
-::v-deep
-  .theme--light.v-text-field
-  > .v-input__control
-  > .v-input__slot::before {
-  border-color: #aa56ff;
-}
-
-::v-deep
-  .v-text-field.v-input--has-state
-  > .v-input__control
-  > .v-input__slot:before {
-  border-color: #ff5252; /* cor da borda quando der estado de erro */
-}
-
 ::v-deep .v-messages__message {
   text-align: right;
   margin-top: -0.3em;

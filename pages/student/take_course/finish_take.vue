@@ -1,40 +1,407 @@
 <template>
-  <div>
-    <main class="container__screen">
-      <div id="info__winner">
-        <img src="~/assets/winner.svg" alt="vencedor" />
-        <h1>AEEEE, parabéns por mais esse passo!</h1>
+  <div id="page">
+    <v-col id="main-col">
+      <v-row align="start" justify="end">
+        <v-icon
+          style="justify-content: flex-end; padding-bottom: 10px"
+          color="white"
+          dark
+          @click="gotoCourse()"
+        >
+          mdi-close-circle
+        </v-icon>
+      </v-row>
+      <v-col align="center">
+        <v-col>
+          <img src="~/assets/congrats.svg" alt="vencedor" />
+          <div class="score"><strong>+ 30 XP</strong></div>
+        </v-col>
+        <v-col class="pad0">
+          <h1 class="white-info">Parabéns {{ nameUser }}!!</h1>
+          <p class="white-info low-wheight">
+            O seu curso foi concluído com sucesso!
+          </p>
+        </v-col>
+      </v-col>
+    </v-col>
+
+    <v-col align="center" align-self="baseline">
+      <p class="share-info">
+        Compartilhe seu certificado, para cada rede social compartilhada. (+ 1
+        XP)
+      </p>
+      <!-- Share -->
+      <div class="btn__container">
+        <button
+          @click="share($event, title, image)"
+          class="btn-block btn-primary"
+        >
+          COMPARTILHAR
+        </button>
       </div>
-      <div id="container__btn">
-        <v-btn color="#60c" dark block depressed large @click="finish">Meu Certificado</v-btn>
-      </div>
-    </main>
+      <small class="view-certificate" @click="gotoCertificate()"
+        >Visualizar o certificado</small
+      >
+    </v-col>
+
+    <!-- dialog start -->
+    <v-col v-if="activeDialog == 'start'" class="dialogCol">
+      <!-- dialog header -->
+      <v-icon
+        style="justify-content: flex-end; padding-bottom: 10px"
+        color="#6600cc"
+        dark
+        @click="activeDialog = 'none'"
+      >
+        mdi-close-circle
+      </v-icon>
+
+      <p align="end">
+        1 de 2
+      </p>
+
+      <!-- dialog body -->
+      <v-col align="center">
+        <p class="giant">Ganhe</p>
+        <p class="giant">+ 5 XP</p>
+      </v-col>
+      <v-col align="center">
+        <strong>Diz aí!</strong>
+        <p>De 0 a 10, quanto você indicaria este curso para um amigo?</p>
+      </v-col>
+      <v-radio-group :class="bindedClass" row>
+        <v-radio
+          v-for="n in 10"
+          :key="n.id"
+          :label="n.toString()"
+          :value="n"
+          @mousedown="postBody.rating = n"
+        />
+      </v-radio-group>
+      <v-spacer />
+
+      <!-- dialog footer -->
+      <v-row align="end" style="padding-bottom: 0">
+        <v-btn class="btn-block btn-primary baseline" @click="submitRating">
+          Próximo
+        </v-btn>
+      </v-row>
+    </v-col>
+
+    <!-- dialog good -->
+    <v-col v-if="activeDialog == 'good'" class="dialogCol">
+      <!-- dialog header -->
+      <v-icon
+        style="justify-content: flex-end; padding-bottom: 10px"
+        color="#6600cc"
+        dark
+        @click="activeDialog = 'none'"
+      >
+        mdi-close-circle
+      </v-icon>
+
+      <p align="end">
+        2 de 2
+      </p>
+
+      <!-- dialog body -->
+      <v-col align="center">
+        <p class="giant">Oba!!</p>
+      </v-col>
+      <v-col align="center">
+        <p>Caso queira, fale um pouco mais sobre sua nota!</p>
+      </v-col>
+      <v-textarea
+        v-model="postBody.feedback"
+        outlined
+        placeholder="Seu comentário"
+      />
+      <v-spacer />
+
+      <!-- dialog footer -->
+      <v-row align="end" style="padding-bottom: 0">
+        <v-btn
+          class="btn-block btn-primary baseline"
+          @click="
+            postFeedback();
+            activeDialog = 'end';
+          "
+        >
+          Próximo
+        </v-btn>
+      </v-row>
+    </v-col>
+
+    <!-- dialog bad -->
+    <v-col v-if="activeDialog == 'bad'" class="dialogCol">
+      <!-- dialog header -->
+      <v-icon
+        style="justify-content: flex-end; padding-bottom: 10px"
+        color="#6600cc"
+        dark
+        @click="activeDialog = 'none'"
+      >
+        mdi-close-circle
+      </v-icon>
+
+      <p align="end">
+        2 de 2
+      </p>
+
+      <!-- dialog body -->
+      <v-col align="center">
+        <p class="giant">Hum...</p>
+      </v-col>
+      <v-col align="center">
+        <p>O que faria você aumentar a nota escolhida?</p>
+      </v-col>
+      <v-textarea
+        v-model="postBody.feedback"
+        outlined
+        placeholder="Seu comentário"
+      />
+      <v-spacer />
+
+      <!-- dialog footer -->
+      <v-row align="end" style="padding-bottom: 0">
+        <v-btn
+          class="btn-block btn-primary baseline"
+          @click="
+            postFeedback();
+            activeDialog = 'end';
+          "
+        >
+          Próximo
+        </v-btn>
+      </v-row>
+    </v-col>
+
+    <!-- dialog end -->
+    <v-col v-if="activeDialog == 'end'" class="dialogCol">
+      <!-- dialog header -->
+      <v-img :src="require(`~/assets/tyThumb.png`)" />
+
+      <!-- dialog body -->
+      <v-col align="center">
+        <strong style="font-size: 24px;"> Obrigado!!!</strong>
+        <p>Sua avaliação é muito importante!</p>
+      </v-col>
+      <v-spacer />
+
+      <!-- dialog footer -->
+      <v-row align="end" style="padding-bottom: 0">
+        <v-btn
+          class="btn-block btn-primary baseline"
+          @click="activeDialog = 'none'"
+        >
+          Finalizar
+        </v-btn>
+      </v-row>
+    </v-col>
   </div>
 </template>
 <router>
-    {
-        path : '/aluno/curso/:courseSlug/fim'
-    }
+  {
+    path : '/aluno/curso/:courseSlug/fim/:lateFeedback?'
+  }
 </router>
 <script>
+import SocialSharing from 'vue-social-sharing';
+import http from '~/services/http/generic';
+
 export default {
-  methods: {
-    finish() {
-      $nuxt._router.push(`/pagina-certificado/${this.idUser}/${this.courseId}`);
-    },
+  components: {
+    SocialSharing,
+  },
+  data() {
+    return {
+      dialog: 'start',
+      bindedClass: 'none',
+      postBody: {
+        rating: '',
+        feedback: '',
+      },
+    };
   },
   computed: {
+    activeDialog: {
+      get() {
+        return this.dialog;
+      },
+      set(newValue) {
+        if (this.$route.params.lateFeedback == 1 && newValue === 'none') {
+          $nuxt._router.replace('/aluno/meus-cursos');
+        } else {
+          this.dialog = newValue;
+        }
+      },
+    },
     idUser() {
       return this.$store.state.user.data.id;
     },
+    nameUser() {
+      return this.$store.state.user.data.name.split(' ')[0];
+    },
     courseId() {
       return this.$store.state.courses.current.id;
+    },
+    courseTitle() {
+      return this.$store.state.courses.current.title;
+    },
+    courseSlug() {
+      return this.$route.params.courseSlug;
+    },
+  },
+  methods: {
+    gotoCertificate() {
+      $nuxt._router.push(`/pagina-certificado/${this.idUser}/${this.courseId}`);
+    },
+    gotoCourse() {
+      $nuxt._router.push(
+        `/aluno/curso/${this.convertToSlug(this.courseTitle)}`,
+      );
+    },
+    onSuccess(result) {
+      console.log('Share completed? ' + result.completed);
+      console.log(result); // On Android apps mostly return false even while it's true
+      console.log('Shared to app: ' + result.app); // On Android result.app since plugin version 5.4.0 this is no longer empty. On iOS it's empty when sharing is cancelled (result.completed=false)
+      httpHelper
+        .post(process.env.endpoints.EVENT, {
+          event: 'SHARE_COURSE',
+          rule: {
+            courseId: this.params.idCourse,
+            userId: this.idUser,
+            platform: result.app,
+          },
+        })
+        .then(res => {
+          this.$notifier.showMessage({
+            type: 'success',
+          });
+          $nuxt._router.push('/aluno/home');
+        })
+        .catch(() =>
+          this.$notifier.showMessage({
+            type: 'error',
+          }),
+        );
+    },
+    onError(msg) {
+      console.log('Sharing failed with message: ' + msg);
+    },
+    share(event, title, image) {
+      event.stopPropagation();
+      event.preventDefault();
+      const options = {
+        message: 'Se liga no certificado que eu ganhei, SELOKO!', // not supported on some apps (Facebook, Instagram)
+        subject: this.tryMessage, // fi. for email
+        // files: [
+        //   'https://newschool-dev.s3.us-east-2.amazonaws.com/17954a42-8132-481e-bc38-508aefe7a996/profile.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAV56KXRILVMG6BB2Q%2F20201115%2Fus-east-2%2Fs3%2Faws4_request&X-Amz-Date=20201115T042331Z&X-Amz-Expires=900&X-Amz-Signature=b7e68e7db1194b74e266f211d56adab75d35f75dd3eceb4982b0c6aad8bb5c60&X-Amz-SignedHeaders=host',
+        // ],
+        url: `http://newschool-ui-dev.eba-fdz8zprg.us-east-2.elasticbeanstalk.com/#/pagina-certificado/${this.params.idUser}/${this.params.idCourse}/0`,
+        chooserTitle: 'Vem colar com nois!', // Android only, you can override the default share sheet title
+      };
+      window.plugins.socialsharing.shareWithOptions(
+        options,
+        this.onSuccess,
+        this.onError,
+      );
+    },
+    submitRating() {
+      if (!this.postBody.rating) {
+        this.bindedClass = 'error-form';
+        setTimeout(() => {
+          this.bindedClass = '';
+        }, 500);
+      } else if (this.postBody.rating > 7) {
+        this.activeDialog = 'good';
+      } else {
+        this.activeDialog = 'bad';
+      }
+    },
+    postFeedback() {
+      if (this.postBody.rating) {
+        http.post(
+          `${process.env.endpoints.NPS}${this.idUser}/course/${this.courseId}`,
+          this.postBody,
+        );
+      }
+    },
+    convertToSlug(str) {
+      str = str.replace(/^\s+|\s+$/g, ''); // trim
+      str = str.toLowerCase();
+
+      const from = 'ãàáäâẽèéëêìíïîõòóöôùúüûñç·/_,:;';
+      const to = 'aaaaaeeeeeiiiiooooouuuunc------';
+
+      for (let i = 0, l = from.length; i < l; i++) {
+        str = str.replace(new RegExp(from.charAt(i), 'g'), to.charAt(i));
+      }
+      str = str
+        .replace(/[^a-z0-9 -]/g, '') // remove invalid chars
+        .replace(/\s+/g, '-') // collapse whitespace and replace by -
+        .replace(/-+/g, '-'); // collapse dashes
+      return str;
     },
   },
 };
 </script>
 
-<style>
+<style scoped>
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap');
+
+* {
+  font-family: 'Roboto', sans-serif;
+}
+p {
+  font-weight: 500;
+}
+h1 {
+  color: var(--primary);
+  font-weight: 600;
+  font-size: 1.4rem;
+  text-align: center;
+  padding: 0.7rem;
+}
+strong {
+  font-size: 20px;
+  font-weight: 900;
+}
+#page {
+  position: relative;
+  padding-bottom: 0px !important;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  align-self: center;
+}
+#main-col {
+  padding: 20px 20px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  background-color: var(--primary);
+}
+.dialogCol {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 100%;
+  width: 100%;
+  padding: 20px 16px 30px;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+}
+.giant {
+  font-size: 48px;
+  font-weight: 900;
+  color: black;
+  line-height: 45px;
+}
 .container__screen {
   position: absolute;
   width: 100%;
@@ -42,27 +409,97 @@ export default {
   top: 0;
   left: 0;
 }
-main {
-  display: flex;
+.error-form {
+  animation: nono 300ms, intro paused;
+}
+::v-deep .row {
+  justify-content: center;
+  padding-bottom: 10px;
+  margin: 0;
+}
+::v-deep .col {
+  flex-basis: initial !important;
+}
+@media (min-width: 700px) {
+  #page {
+    max-width: 700px !important;
+  }
+  #main-col {
+    max-width: 700px !important;
+  }
+}
+/* style textarea */
+::v-deep fieldset {
+  border-color: rgba(0, 0, 0, 0.1);
+  border-radius: 0;
+}
+::v-deep .v-input textarea {
+  color: #000000 !important;
+}
+::v-deep ::placeholder {
+  font-size: 12px;
+  color: rgba(0, 0, 0, 0.5) !important;
+}
+/* style rating radios */
+::v-deep .v-radio {
+  margin-right: 0 !important;
   flex-direction: column;
-  height: 100%;
-  width: 100%;
-  box-sizing: border-box;
-  padding: 1rem;
+}
+::v-deep .v-input--radio-group__input {
+  justify-content: space-between;
+  padding: 0 15px;
+}
+::v-deep .v-radio .v-label {
+  color: #000000 !important;
+}
+::v-deep .v-input--selection-controls__input {
+  margin-right: 0 !important;
+}
+.white-info {
+  color: #ffffff !important;
+}
+.score {
+  margin-top: 8px;
+  height: 34.8px;
+  width: 96px;
+  border-radius: 20px;
+  background-color: #ededed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.pad0 {
+  padding: 0;
+}
+.low-wheight {
+  font-weight: 400;
+}
+.icons {
+  width: 65%;
+  display: flex;
+  align-items: center;
   justify-content: space-around;
 }
-#info__winner {
-  display: flex;
-  -webkit-box-pack: center;
-  justify-content: center;
-  height: 70%;
-  flex-direction: column;
+::v-deep .icon,
+::v-deep .v-icon {
+  border: none !important;
+  outline: none !important;
 }
-h1 {
-  color: #60c;
-  font-weight: 600;
-  font-size: 1.4rem;
+.share-info {
+  margin-top: 32px;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16px;
+  letter-spacing: 0em;
+}
+.view-certificate {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16px;
+  letter-spacing: 0em;
+  color: #a3a3a3;
+}
+.btn__container {
   text-align: center;
-  padding: 1rem;
 }
 </style>

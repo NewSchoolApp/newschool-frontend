@@ -1,5 +1,120 @@
 @import url("https://fonts.googleapis.com/css?family=Montserrat:400,500,900&display=swap");
 
+:root {
+  --primary: #6600cc;
+  --primary-light: #aa56ff;
+}
+
+/*#region InputsFields*/
+
+/* Cor dos labels */
+.v-label {
+  font-size: 15px !important;
+  font-weight: 500;
+  line-height: 15px;
+}
+
+/* Cor da borda (linha inferior) */
+.v-text-field {
+  border-color: var(--primary-light) !important;
+  padding-top: 0;
+  margin-top: 50px;
+  margin: 3.5% 4.5%;
+}
+
+/* Cor geral dos inputs, valores e labels */
+.v-input input,
+.v-input textarea,
+.theme--light.v-icon--link,
+.v-label,
+::placeholder {
+  color: var(--primary-light) !important;
+}
+
+/* Tamanho do placeholder */
+::placeholder {
+  line-height: 15px;
+  font-size: 15px;
+}
+
+/*#endregion InputsFields*/
+
+
+/*#region Buttons*/
+
+/* Retira borda arredondada default */
+.v-btn {
+  border-radius: unset !important;
+}
+
+/* Define o tamanho da fonte do conteúdo do botão */
+.v-btn__content {
+  font-size: 12px;
+}
+
+/* Define o peso da fonte do conteúdo do botão */
+.btn-primary,
+.btn-white,
+.btn-transparent {
+  font-weight: 900 !important;
+}
+
+/* Botão que preenche o container de um lado ao outro (Padrão) */
+.btn-block {
+  border-radius: 5px;
+  width: 100%;
+  height: 44px !important;
+}
+
+/* Esquema de cores tendo roxo como primário (Padrão) */
+.btn-primary {  
+  color: #fff !important;
+  background-color: var(--primary) !important;
+  box-shadow: 0px 3px 5px rgba(128, 128, 128, 0.7) !important;
+}
+
+/* Esquema de cores tendo branco como primário */
+.btn-white {
+  background-color: #ffffff !important;
+  color: var(--primary) !important;
+  border: solid 1px var(--primary);
+  box-shadow: none !important;
+}
+
+/* Esquema de cores tendo o fundo transparente (Utilizado na tela de login) */
+.btn-transparent {
+  background-color: transparent !important;
+  color: #fff !important;
+  border: solid 1px #fff;
+}
+
+/*     _____ Botões novos do fluxo de cadastro _____       */
+.btn-new-primary,
+.btn-new-white {
+  height: 48px !important;
+  border-radius: 6px !important;
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  box-shadow: none !important;
+}
+
+.btn-new-primary {    
+  color: #fff !important;
+  background-color: var(--primary) !important;  
+}
+
+.btn-new-white {
+  background-color: #ffffff !important;
+  color: var(--primary) !important;
+  border: solid 2px var(--primary);
+}
+
+.btn-shadow {
+  box-shadow: 0px 3px 5px rgba(128, 128, 128, 0.7) !important;
+}
+
+/*#endregion Buttons*/
+
 .text-watermark {
   color: #d6adff !important;
 }
@@ -9,44 +124,12 @@
 }
 
 .p__theme{
-  color: #6600cc;
+  color: var(--primary);
 }
 
-.v-btn {
-  border-radius: unset !important;
-}
-
-.btn-block {
-  border-radius: 5px;
-  width: 100%;
-}
-.btn-primary {
-  font-weight: 900 !important;
-  color: #6600cc !important;
-}
-
-.btn-white {
-  background-color: #ffffff !important;
-}
-
-.v-dialog {
-  border-radius: 15px;
-}
-
-.btn-transparent {
-  font-weight: 900 !important;
-  background-color: transparent !important;
-  color: #fff !important;
-  border: solid 1px #fff;
-}
-
-.btn-secondary {
-  background-color: #f189de00 !important;
-  color: #f189de;
-  border: solid 1px #f189de;
-}
 .v-dialog {
   background: white;
+  border-radius: 15px;
 }
 
 .theme--dark.v-application {
@@ -58,7 +141,7 @@
 }
 
 .bg-blue {
-  background-color: #6600cc !important;
+  background-color: var(--primary) !important;
 }
 
 .bg-danger {
@@ -67,7 +150,7 @@
 
 .h1__theme {
   font-weight: 900;
-  color: #6600cc;
+  color: var(--primary);
 }
 
 .container-spinner {
@@ -80,4 +163,159 @@
   top: 0;
   left: 0;
   background: transparent;
+}
+
+.page-enter-active,
+.page-enter,
+#page {
+  animation: intro 300ms backwards;
+  animation-delay: 200ms;
+}
+
+#page {
+  padding-bottom: 50px;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  color: var(--primary);
+}
+
+//VUETIFY CUSTOM UI COMPONENTS:
+
+.primary-text-field {
+  //use "filled" prop to active the grey background (see complete-profile page)
+  padding-top: 3px !important;
+  .v-text-field {
+    border-color: transparent !important;
+  }
+  .v-input__control {
+    flex-direction: initial;
+  }
+  .v-input__slot {
+    border-color: transparent !important;
+    border-radius: 5px !important;
+    min-height: 48px !important;
+    margin: 0 0 3px;
+  }
+  .v-input input,
+  .v-select__selection--comma,
+  ::placeholder {
+    color: #767676 !important;
+  }
+  ::placeholder {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 24px;
+  }
+  .mdi-menu-down {
+    font-size: 40px;
+    padding-bottom: 8px;
+  }
+  .v-input--radio-group--row {
+    padding-top: 0;
+    margin-top: 0;
+    align-items: flex-start;
+  }
+  .v-radio {
+    padding: 0 70px 0 10px;
+  }
+  .v-list {
+    background-color: #f5f5f5;
+  }
+  .v-text-field__details {
+    padding: 0 !important;
+  }
+
+  //in case of v-autocomplete or v-select
+  .mdi-menu-down {
+    font-size: 40px !important;
+    padding-bottom: 8px !important;
+  }
+}
+
+.light-text-field {
+  input,
+  ::placeholder {  
+    font-family: Roboto !important;
+    font-size: 12px !important;
+    font-weight: 400 !important;
+    line-height: 16px !important;
+    letter-spacing: 0em !important;
+    color: rgba(0, 0, 0, 0.4) !important;
+  }
+  input {
+    color: rgba(0, 0, 0, 0.7) !important;
+  }  
+  fieldset {
+    border-color: rgba(0, 0, 0, 0.1) !important;
+    border-radius: 0 !important;
+  }
+  .v-input__slot {
+    min-height: 48px !important;
+  }
+}
+
+.search-field {
+  //see home for exemple
+
+  margin-top: 16px !important;
+
+  .v-label,
+  .v-input input {
+    font-size: 0.87rem !important;
+    font-weight: 500 !important;
+    color: rgba(0, 0, 0, 0.5) !important;
+    font-family: 'Montserrat', sans-serif !important;
+  }
+
+  /* cor e aspecto da borda */
+  fieldset {
+    border-color: rgba(0, 0, 0, 0.1) !important;
+    border-radius: 0 !important;
+  }
+
+  /* define a altura do campo de input */
+  .v-input__slot {
+    min-height: 48px !important;
+    padding: 0 19px !important;
+    margin-bottom: 10px !important;
+  }
+
+  /* centraliza o label */
+  .v-label {
+    line-height: 12px !important;
+  }
+
+  /* container do icon: tira margin de cima, aplica um distanciamento do label e alinha ao centro do campo */
+  .v-input__prepend-inner {
+    margin-top: 0 !important;
+    align-self: center !important;
+  }
+
+  /* cor do ícone de lupa */
+  .v-icon {
+    color: rgba(0, 0, 0, 0.9) !important;
+  }
+}
+
+.primary-checkbox {
+  padding-top: 10 !important;
+  margin-top: 0 !important;
+
+  .v-radio .v-input--selection-controls__ripple {
+    color: transparent !important;
+  }
+  .mdi-radiobox-marked {
+    border: 6px solid #6600cc !important;
+    border-radius: 50%;
+  }
+  .v-item--active ::before {
+    display: none !important;
+  }
+  label {
+    color: rgba(0, 0, 0, 0.4) !important;
+  }
 }

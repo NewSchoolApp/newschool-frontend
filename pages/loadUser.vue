@@ -22,25 +22,24 @@
 </router>
 
 <script>
-import { mapActions } from "vuex";
-import auth from "~/services/http/auth";
+import { mapActions } from 'vuex';
+import auth from '~/services/http/auth';
 
 export default {
-  mounted() {
-    const { status, token } = auth.isTokenValid();
+  async mounted() {
+    const { status, token } = await auth.isTokenValid();
     if (status) {
       this.loadInfoUser({ token, route: this.route });
     } else {
       localStorage.clear();
       // eslint-disable-next-line no-undef
-      $nuxt._router.push("/login");
+      $nuxt._router.push('/login');
     }
   },
   methods: {
-    ...mapActions("user", ["loadInfoUser"])
+    ...mapActions('user', ['loadInfoUser']),
   },
-  props: ["route"],
-  
+  props: ['route'],
 };
 </script>
 
@@ -59,7 +58,7 @@ export default {
   justify-content: center;
 
   p {
-    color: #6600cc;
+    color: var(--primary);
     font-weight: 500;
     font-size: medium;
   }

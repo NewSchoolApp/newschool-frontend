@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    id="com.santinowu.cordova.imagedownloader"
+    version="1.0.3">
+
+    <name>ImageDownloader</name>
+    <description>The cordova plugin for downloading image into gallery.</description>
+    <license>MIT</license>
+    <keywords>Cordova,Image,Downloader,Gallery</keywords>
+
+    <js-module src="www/imagedownloader.js" name="imagedownloader">
+        <clobbers target="imagedownloader" />
+    </js-module>
+
+    <platform name="android">
+        <config-file target="res/xml/config.xml" parent="/*">
+            <feature name="ImageDownloader">
+                <param name="android-package" value="com.santinowu.cordova.imagedownloader.ImageDownloader" />
+                <param name="onload" value="true" />
+            </feature>
+        </config-file>
+
+        <config-file target="AndroidManifest.xml" parent="/*">
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+        </config-file>
+
+        <source-file src="src/android/ImageDownloader.java" target-dir="src/com/santinowu/cordova/imagedownloader" />
+    </platform>
+
+    <platform name="ios">
+        <config-file target="config.xml" parent="/*">
+            <feature name="ImageDownloader">
+                <param name="ios-package" value="ImageDownloader" />
+                <param name="onload" value="true" />
+            </feature>
+        </config-file>
+
+        <header-file src="src/ios/ImageDownloader.h" />
+        <source-file src="src/ios/ImageDownloader.m" />
+
+        <preference name="PHOTOLIBRARY_USAGE_DESCRIPTION" default="Requires permission for saving image into Photos" />
+        <config-file target="*-Info.plist" parent="NSPhotoLibraryUsageDescription">
+            <string>$PHOTOLIBRARY_USAGE_DESCRIPTION</string>
+        </config-file>
+    </platform>
+</plugin>
