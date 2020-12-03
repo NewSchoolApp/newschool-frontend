@@ -33,7 +33,7 @@ export default {
     },
   },
   mounted() {
-    this.checkIfLiked();
+    // this.checkIfLiked();
   },
   methods: {
     async like() {

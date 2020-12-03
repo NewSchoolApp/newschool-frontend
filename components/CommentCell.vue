@@ -18,7 +18,7 @@
             :class="'bubble ' + bubbleClass"
             @click="popBubbleAnimation()"
           >
-            Salve! {{ salveQnt }}
+            Salve! {{ claps + storedClaps }}
           </p>
         </div>
         <v-row>
@@ -30,7 +30,7 @@
             "
             @click="popBubbleAnimation()"
           >
-            Salve ({{ comment.likedBy.length }})
+            Salve {{ claps ? '(' + claps + ')' : '' }}
           </p>
           <p
             v-if="!response && !answering"
@@ -74,11 +74,14 @@ export default {
   data: () => ({
     dataReady: false,
     liked: false,
+    clapped: false,
     answering: false,
     answerPost: '',
     salveQnt: 1,
     bubbleClass: '',
     pulseClass: '',
+    claps: 0,
+    storedClaps: 0,
   }),
   computed: {
     idUser() {
@@ -92,7 +95,7 @@ export default {
     },
   },
   async mounted() {
-    this.checkIfLiked();
+    this.checkIfClapped();
 
     this.dataReady = true;
   },
@@ -107,9 +110,36 @@ export default {
         this.liked = true;
       }
     },
-    checkIfLiked() {
-      if (this.comment.likedBy.find(user => user.id === this.idUser) != null) {
-        this.liked = true;
+    async sendClaps() {
+      const clapsToPost = this.storedClaps;
+
+      this.claps = this.claps + this.storedClaps;
+      this.storedClaps = 0;
+
+      await http
+        .post(`/api/v1/comment/${this.comment.id}/clap`, {
+          userId: this.idUser,
+          claps: clapsToPost,
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    // checkIfLiked() {
+    //   if (this.comment.likedBy.find(user => user.id === this.idUser) != null) {
+    //     this.liked = true;
+    //   }
+    // },
+    checkIfClapped() {
+      console.log('_________________', this.comment);
+      const myClaps = this.comment.clappedBy.find(
+        clap => clap.user.id == this.idUser,
+      );
+
+      console.log('antes fo ifMyClaps', myClaps);
+      if (myClaps) {
+        console.log('MyClaps', myClaps);
+        this.claps = myClaps.claps;
       }
     },
     postAnswer() {
@@ -121,7 +151,7 @@ export default {
 
       this.comment.responses.push({
         text: this.answerPost,
-        userId: this.idUser,
+        user: this.$store.state.user.data,
         likedBy: [],
         createdAt: new Date(Date.now()).toISOString(),
       });
@@ -139,7 +169,10 @@ export default {
         this.pulseClass = 'pulse-bubble';
       }, 50);
 
-      this.salveQnt++;
+      if (this.claps + this.storedClaps < 50) {
+        this.storedClaps++;
+        console.log('Incrementou', this.storedClaps);
+      }
 
       if (this.timerForHide) {
         clearTimeout(this.timerForHide);
@@ -150,7 +183,9 @@ export default {
         clearTimeout(this.timerForClearClass);
         this.timerForClearClass = null;
       }
+
       this.timerForHide = setTimeout(() => {
+        this.sendClaps();
         this.bubbleClass = 'hide-bubble';
         this.timerForHide = null;
 
@@ -158,12 +193,6 @@ export default {
           this.bubbleClass = '';
         }, 990);
       }, 1000);
-    },
-    clap(claps) {
-      http.post(`/api/v1/comment/${this.comment.id}/clap`, {
-        userId: this.idUser,
-        claps,
-      });
     },
   },
 };
