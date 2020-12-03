@@ -54,7 +54,7 @@
             </v-col>
             <v-col class="px-0 pb-5">
               <div class="input-label">Whatsapp</div>
-              <v-text-field v-model="form.whatsapp" filled></v-text-field>
+              <v-text-field v-model="form.phone" filled></v-text-field>
             </v-col>
             <v-col class="px-0 pb-5">
               <div class="input-label">Email</div>
@@ -171,7 +171,7 @@
             </v-col>
             <v-col class="px-0 pb-5">
               <div class="input-label">Número</div>
-              <v-text-field v-model="form.number" filled />
+              <v-text-field v-model="form.houseNumber" filled />
             </v-col>
           </v-col>
         </v-tab-item>
@@ -338,8 +338,8 @@ export default {
         address: '',
         cep: '',
         complement: '',
-        number: '',
-        whatsapp: '',
+        houseNumber: '',
+        phone: '',
         city: '',
         state: '',
         urlFacebook: '',
@@ -492,6 +492,10 @@ export default {
         this.schools.push(res.data.institutionName);
         this.form.urlFacebook = res.data.urlFacebook;
         this.form.urlInstagram = res.data.urlInstagram;
+        this.form.phone = res.data.phone;
+        this.form.cep = res.data.cep;
+        this.form.houseNumber = res.data.houseNumber;
+        this.form.complement = res.data.complement;
 
         // populating address fields
         this.form.country = 'Brasil';
