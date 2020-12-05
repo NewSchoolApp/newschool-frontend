@@ -96,7 +96,8 @@ export const actions = {
     } else if (currentStep.data.doing === 'FINISHED') {
       return {
         type: 'FINISHED',
-        stepUrl: `/aluno/curso/${this.state.courses.current.slug}/fim`,
+        stepUrl: `/aluno/curso/${this.state.courses.current.slug}/pre-challenge`,
+        // stepUrl: `/aluno/curso/${this.state.courses.current.slug}/fim`,
       };
     } else {
       console.log(
