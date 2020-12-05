@@ -1,6 +1,6 @@
 <template>
   <div class="challenge__content">
-    <HeaderBar :title="'Desafio'" :back-page="true" />
+    <HeaderBar :title="'Desafio'" :route="`/aluno/curso/${slug}`" />
     <h1 class="hello_text">E aí, parça! Blz?</h1>
     <div class="share__achievement">
       <p>
@@ -11,13 +11,14 @@
     </div>
 
     <div class="challenge">
-      <v-textarea outlined placeholder="Seu comentário" />
+      <v-textarea
+        v-model="challengeText"
+        outlined
+        placeholder="Seu comentário"
+      />
     </div>
     <div class="btn__container">
-      <button
-        @click="shareInSocialMedia($event, title, image)"
-        class="btn-block btn-primary"
-      >
+      <button class="btn-block btn-primary" @click="postChallenge()">
         PRÓXIMO
       </button>
     </div>
@@ -25,7 +26,7 @@
 </template>
 <router>
   {
-    path: '/aluno/challenge'
+    path: '/aluno/curso/:courseSlug/challenge'
   }
 </router>
 
@@ -36,16 +37,19 @@ export default {
   components: {
     HeaderBar,
   },
+  data: () => ({
+    challengeText: '',
+  }),
   computed: {
-    user() {
-      return this.$store.state.user.data;
-    },
     idUser() {
       return this.$store.state.user.data.id;
     },
-  },
-  mounted() {
-    console.log(this.user);
+    slug() {
+      return this.$route.params.courseSlug;
+    },
+    currentCourse() {
+      return this.$store.state.courses.current;
+    },
   },
   methods: {
     onSuccess(result) {
@@ -75,20 +79,12 @@ export default {
     onError(msg) {
       console.log('Sharing failed with message: ' + msg);
     },
-    shareInSocialMedia(event, title, image) {
-      event.stopPropagation();
-      event.preventDefault();
-      const options = {
-        message: 'Vem colar com nois, aqui na New School!', // not supported on some apps (Facebook, Instagram)
-        subject: 'Faça seu cadastro e vem aprender com a gente', // fi. for email
-        url: `newschool-ui-dev.eba-fdz8zprg.us-east-2.elasticbeanstalk.com/#/cadastro/${this.user.inviteKey}`,
-        chooserTitle: 'Compartilhe seu URL de convite', // Android only, you can override the default share sheet title
-      };
-      window.plugins.socialsharing.shareWithOptions(
-        options,
-        this.onSuccess,
-        this.onError,
+    async postChallenge() {
+      await http.post(
+        `${process.env.endpoints.CHALLENGE}${this.idUser}/course/${this.currentCourse.id}`,
+        { challenge: this.challengeText },
       );
+      this.$router.push(`/aluno/curso/${this.slug}/fim`);
     },
     goBack() {
       this.$router.back();

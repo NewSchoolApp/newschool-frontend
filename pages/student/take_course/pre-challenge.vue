@@ -1,6 +1,6 @@
 <template>
   <div class="challenge__content">
-    <HeaderBar :back-page="true" />
+    <HeaderBar :route="`/aluno/curso/${slug}`" />
     <h1 class="congratulations__text">Parabéns!!!</h1>
     <div class="share__achievement">
       <p>
@@ -17,7 +17,7 @@
       />
     </div>
     <div class="btn__container">
-      <button @click="goToChallenge" class="btn-block btn-primary">
+      <button class="btn-block btn-primary" @click="goToChallenge">
         SO VAMO!
       </button>
     </div>
@@ -25,31 +25,24 @@
 </template>
 <router>
   {
-    path: '/aluno/pre-challenge'
+    path: '/aluno/curso/:courseSlug/pre-challenge'
   }
 </router>
 
 <script>
 import HeaderBar from '~/components/Header.vue';
-import http from '~/services/http/generic';
 export default {
   components: {
     HeaderBar,
   },
   computed: {
-    user() {
-      return this.$store.state.user.data;
+    slug() {
+      return this.$route.params.courseSlug;
     },
-    idUser() {
-      return this.$store.state.user.data.id;
-    },
-  },
-  mounted() {
-    console.log(this.user);
   },
   methods: {
     goToChallenge() {
-      this.$router.push('/aluno/challenge');
+      this.$router.push(`/aluno/curso/${this.slug}/challenge`);
     },
   },
 };
