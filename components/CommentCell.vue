@@ -8,29 +8,18 @@
       <v-row class="ml-1 user__name">{{ comment.user.name }}</v-row>
       <v-row class="ml-1 user__comment">{{ comment.text }}</v-row>
       <v-row class="ml-4">
-        <div
-          :class="'pb-2 absolute ' + pulseClass"
-          @click="popBubbleAnimation()"
-        >
-          <p
-            ref="bubble"
-            v-ripple
-            :class="'bubble ' + bubbleClass"
-            @click="popBubbleAnimation()"
-          >
-            Salve! {{ claps + storedClaps }}
-          </p>
-        </div>
         <v-row>
           <p
             v-ripple
             :class="
               'user__interaction mr-6 ' +
-                (liked ? 'primary--text font-weight-bold' : {})
+                (claps > 0 || storedClaps > 0
+                  ? 'primary--text font-weight-bold'
+                  : {})
             "
-            @click="popBubbleAnimation()"
+            @click="scheduleClap()"
           >
-            Salve {{ claps ? '(' + claps + ')' : '' }}
+            Salve {{ clapsToShow ? '(' + clapsToShow + ')' : '' }}
           </p>
           <p
             v-if="!response && !answering"
@@ -73,13 +62,8 @@ export default {
   props: ['comment', 'response'],
   data: () => ({
     dataReady: false,
-    liked: false,
-    clapped: false,
     answering: false,
     answerPost: '',
-    salveQnt: 1,
-    bubbleClass: '',
-    pulseClass: '',
     claps: 0,
     storedClaps: 0,
   }),
@@ -93,6 +77,9 @@ export default {
         date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear()
       );
     },
+    clapsToShow() {
+      return this.comment.clappedByTotalCount + this.storedClaps;
+    },
   },
   async mounted() {
     this.checkIfClapped();
@@ -100,20 +87,20 @@ export default {
     this.dataReady = true;
   },
   methods: {
-    async like() {
-      // check if this user already liked this comment
-      if (!this.liked) {
-        await http.post(`api/v1/comment/${this.comment.id}/like`, {
-          userId: this.idUser,
-        });
-        this.comment.likedBy.push({});
-        this.liked = true;
+    checkIfClapped() {
+      const myClaps = this.comment.clappedBy.find(
+        clap => clap.user.id == this.idUser,
+      );
+
+      if (myClaps) {
+        this.claps = myClaps.claps;
       }
     },
     async sendClaps() {
       const clapsToPost = this.storedClaps;
 
-      this.claps = this.claps + this.storedClaps;
+      this.claps += this.storedClaps;
+      this.comment.clappedByTotalCount += this.storedClaps;
       this.storedClaps = 0;
 
       await http
@@ -125,21 +112,20 @@ export default {
           console.log(error);
         });
     },
-    // checkIfLiked() {
-    //   if (this.comment.likedBy.find(user => user.id === this.idUser) != null) {
-    //     this.liked = true;
-    //   }
-    // },
-    checkIfClapped() {
-      console.log('_________________', this.comment);
-      const myClaps = this.comment.clappedBy.find(
-        clap => clap.user.id == this.idUser,
-      );
+    scheduleClap() {
+      if (this.claps + this.storedClaps < 50) {
+        this.storedClaps++;
 
-      console.log('antes fo ifMyClaps', myClaps);
-      if (myClaps) {
-        console.log('MyClaps', myClaps);
-        this.claps = myClaps.claps;
+        if (this.timerForSend) {
+          clearTimeout(this.timerForSend);
+          this.timerForSend = null;
+        }
+
+        this.timerForSend = setTimeout(() => {
+          this.sendClaps();
+          clearTimeout(this.timerForSend);
+          this.timerForSend = null;
+        }, 1000);
       }
     },
     postAnswer() {
@@ -158,41 +144,6 @@ export default {
 
       this.answerPost = '';
       this.answering = false;
-    },
-    log(text) {
-      console.log(text);
-    },
-    popBubbleAnimation() {
-      console.log('popBubbleAnimation');
-      this.pulseClass = 'not-pulse';
-      setTimeout(() => {
-        this.pulseClass = 'pulse-bubble';
-      }, 50);
-
-      if (this.claps + this.storedClaps < 50) {
-        this.storedClaps++;
-        console.log('Incrementou', this.storedClaps);
-      }
-
-      if (this.timerForHide) {
-        clearTimeout(this.timerForHide);
-        this.timerForHide = null;
-      } else {
-        this.bubbleClass = 'show-bubble';
-
-        clearTimeout(this.timerForClearClass);
-        this.timerForClearClass = null;
-      }
-
-      this.timerForHide = setTimeout(() => {
-        this.sendClaps();
-        this.bubbleClass = 'hide-bubble';
-        this.timerForHide = null;
-
-        this.timerForClearClass = setTimeout(() => {
-          this.bubbleClass = '';
-        }, 990);
-      }, 1000);
     },
   },
 };
@@ -321,109 +272,5 @@ h4 {
 }
 .primary-text-field {
   font-size: 14px !important;
-}
-#salve {
-  background-color: red;
-}
-.bubble {
-  position: relative;
-  background: var(--primary);
-  color: #ffffff;
-  font-family: Arial;
-  font-size: 15px;
-  line-height: 200%;
-  text-align: center;
-  width: 80px;
-  height: 30px;
-  border-radius: 5px;
-  padding: 0px;
-  top: -40px;
-  left: 0;
-  opacity: 0;
-}
-.bubble:after {
-  content: '';
-  position: absolute;
-  display: block;
-  width: 0;
-  z-index: 99;
-  border-style: solid;
-  border-width: 10px 10px 0 0;
-  border-color: var(--primary) transparent transparent transparent;
-  bottom: -10px;
-  left: 20%;
-  margin-left: -10px;
-}
-.absolute {
-  position: absolute;
-  pointer-events: none;
-}
-
-/* .pop {
-  animation: pop 0.5s;
-}
-.hide {
-  animation: hide 1s;
-}
-@keyframes pop {
-  0% {
-    display: initial;
-    opacity: 0;
-    transform: scale(1.2);
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-@keyframes hide {
-  0% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0;
-    display: none;
-  }
-}
-.hiden {
-  display: none;
-} */
-
-.show-bubble {
-  animation: showbubble 1s forwards;
-}
-.hide-bubble {
-  animation: hidebubble 1s;
-}
-.pulse-bubble {
-  animation: pulse 0.5s;
-}
-@keyframes showbubble {
-  0% {
-    display: initial;
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-    display: initial;
-  }
-}
-@keyframes hidebubble {
-  0% {
-    display: initial;
-    opacity: 1;
-  }
-  100% {
-    opacity: 0;
-    display: none;
-  }
-}
-@keyframes pulse {
-  50% {
-    transform: scale(1.1);
-  }
-  100% {
-    transform: scale(1);
-  }
 }
 </style>
