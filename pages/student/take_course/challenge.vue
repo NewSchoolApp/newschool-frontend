@@ -13,6 +13,7 @@
     <div class="challenge">
       <v-textarea
         v-model="challengeText"
+        :class="challengeFieldClass"
         outlined
         placeholder="Seu comentário"
       />
@@ -39,6 +40,7 @@ export default {
   },
   data: () => ({
     challengeText: '',
+    challengeFieldClass: '',
   }),
   computed: {
     idUser() {
@@ -52,42 +54,20 @@ export default {
     },
   },
   methods: {
-    onSuccess(result) {
-      console.log('Share completed? ' + result.completed);
-      console.log(result); // On Android apps mostly return false even while it's true
-      console.log('Shared to app: ' + result.app); // On Android result.app since plugin version 5.4.0 this is no longer empty. On iOS it's empty when sharing is cancelled (result.completed=false)
-      http
-        .post(process.env.endpoints.EVENT, {
-          event: 'SHARE_APP',
-          rule: {
-            userId: this.idUser,
-            platform: result.app,
-          },
-        })
-        .then(res => {
-          this.$notifier.showMessage({
-            type: 'success',
-          });
-          $nuxt._router.push('/aluno/home');
-        })
-        .catch(() =>
-          this.$notifier.showMessage({
-            type: 'error',
-          }),
-        );
-    },
-    onError(msg) {
-      console.log('Sharing failed with message: ' + msg);
-    },
     async postChallenge() {
-      await http.post(
-        `${process.env.endpoints.CHALLENGE}${this.idUser}/course/${this.currentCourse.id}`,
-        { challenge: this.challengeText },
-      );
-      this.$router.push(`/aluno/curso/${this.slug}/fim`);
-    },
-    goBack() {
-      this.$router.back();
+      console.log(this.$refs.challengeField);
+      if (this.challengeText) {
+        await http.post(
+          `${process.env.endpoints.CHALLENGE}${this.idUser}/course/${this.currentCourse.id}`,
+          { challenge: this.challengeText },
+        );
+        this.$router.push(`/aluno/curso/${this.slug}/fim`);
+      } else {
+        this.challengeFieldClass = 'error-field';
+        setTimeout(() => {
+          this.challengeFieldClass = '';
+        }, 300);
+      }
     },
   },
 };
@@ -180,5 +160,8 @@ h4 {
     height: 100vh;
     overflow: hidden;
   }
+}
+.error-field {
+  animation: nono 300ms, intro paused;
 }
 </style>
