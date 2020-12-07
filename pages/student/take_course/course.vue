@@ -10,54 +10,44 @@
           color="#6600cc"
         />
       </div>
-    </div>
-    <div v-else>
-      <div id="page">
-        <main>
-          <h1 id="title__course" class="h1__theme">{{ course.title }}</h1>
-          <div class="mask__img">
-            <img
-              v-if="showThumb"
-              :src="course.capa.url"
-              alt="imagem-curso"
-              title="imagem curso"
-              @error="imageLoadError"
-            />
-          </div>
-          <div class="info__box">
-            <section>
-              <h1 class="h1__theme">Professor&nbsp;&nbsp;</h1>
-              <p id="author__name">{{ course.authorName }}</p>
-            </section>
-            <p id="description">{{ course.description }}</p>
-          </div>
-          <v-btn
-            v-if="courseState == 'TAKEN'"
-            class="btn-block btn-primary"
-            :loading="loadingInit"
-            :disabled="loadingInit"
-            @click="continueCourse()"
-          >
-            Continuar
-          </v-btn>
-          <v-btn
-            v-else-if="courseState == 'COMPLETED'"
-            class="btn-block btn-primary"
-            :loading="loadingInit"
-            @click="goToCertificate()"
-          >
-            Certificado
-          </v-btn>
-          <v-btn
-            v-else
-            class="btn-block btn-primary"
-            :loading="loadingInit"
-            :disabled="loadingInit"
-            @click="startCourse()"
-          >
-            Iniciar
-          </v-btn>
-        </main>
+      <div v-else>
+        <div id="page">
+          <main>
+            <h1 id="title__course" class="h1__theme">{{ course.title }}</h1>
+            <div class="mask__img">
+              <img
+                :src="course.thumbUrl"
+                alt="imagem-curso"
+                title="imagem curso"
+              />
+            </div>
+            <div class="info__box">
+              <section>
+                <h1 class="h1__theme">Professor&nbsp;&nbsp;</h1>
+                <p id="author__name">{{ course.authorName }}</p>
+              </section>
+              <p id="description">{{ course.description }}</p>
+            </div>
+            <v-btn
+              class="btn__primary"
+              color="#60c"
+              :loading="loadingInit"
+              :disabled="loadingInit"
+              dark
+              block
+              depressed
+              large
+              @click="initCourse(course.id)"
+              >Iniciar</v-btn
+            >
+          </main>
+        </div>
+        <modal
+          :dialog-message="dialogMessage"
+          :ok="dialogOptions.ok"
+          :cancel="dialogOptions.cancel"
+          :to-route="dialogOptions.toRoute"
+        ></modal>
       </div>
     </div>
     <client-only>
@@ -82,6 +72,7 @@ export default {
   },
   data() {
     return {
+<<<<<<< HEAD
       showThumb: true,
       loading: true,
       loadingInit: false,
@@ -99,11 +90,111 @@ export default {
         return tryFind.status;
       } else {
         return 'NOT_TAKEN';
+=======
+      idUser: 0,
+      slug: '',
+      dialogMessage: '',
+      dialogOptions: {
+        ok: false,
+        cancel: false,
+        toRoute: false,
+      },
+      loadingInit: false,
+      loading: true,
+      notFound: false,
+      course: {},
+    };
+  },
+  mounted() {
+    this.idUser = this.$store.state.user.data.id;
+    this.slug = this.$route.params.slug;
+    http
+      .getAll(`${process.env.endpoints.COURSE_BY_SLUG}${this.slug}`)
+      .then(({ data }) => {
+        this.course = data;
+        this.loading = false;
+      })
+      .catch(error => {
+        if (error.response && error.response.status === 404) {
+          this.notFound = true;
+          this.loading = false;
+          return;
+        }
+        // eslint-disable-next-line no-console
+        console.error(error);
+      });
+  },
+  methods: {
+    initCourse(id) {
+      if (this.verifyStore(id)) {
+        this.dialogOptions.ok = true;
+        this.dialogMessage =
+          'Você já iniciou esse curso, confira ele na aba "meus curso"';
+        this.loadingInit = false;
+        utils.runModal();
+      } else {
+        this.loadingInit = true;
+        if (utils.getToken() && this.idUser) {
+          http
+            .post(process.env.endpoints.INIT_COURSE, {
+              userId: this.idUser,
+              courseId: id,
+            })
+            .then(() => {
+              http
+                .getAll(
+                  `${process.env.endpoints.STATE_COURSE}/user/${this.idUser}/course/${id}`,
+                )
+                .then(res => {
+                  this.$store.commit('courses/setCurrent', res.data.course);
+                  delete res.data.user;
+                  delete res.data.course;
+                  this.$store.commit('courses/setCurrentState', res.data);
+
+                  http
+                    .getAll(
+                      `${process.env.endpoints.CURRENT_STEP}/user/${this.idUser}/course/${id}`,
+                    )
+                    .then(res => {
+                      this.$store.commit('courses/setCurrentPart', res.data.data);
+                    });
+
+                  setTimeout(() => {
+                    $nuxt._router.push(`/aluno/curso/${id}/aula/parte`);
+                  }, 400);
+                });
+            })
+            .catch(error => {
+              this.dialogOptions.ok = true;
+              this.dialogMessage =
+                error.response.status === 401
+                  ? 'Você precisa estar logado para fazer um curso!'
+                  : 'Erro ao iniciar o curso, tente novamente';
+              setTimeout(() => {
+                this.loadingInit = false;
+                utils.runModal();
+              }, 1000);
+            });
+        } else {
+          setTimeout(() => {
+            this.dialogOptions.toRoute = {
+              path: '/login',
+              name: 'Fazer Login',
+            };
+            this.dialogOptions.ok = true;
+            this.dialogMessage =
+              'Você precisa estar logado para fazer um curso! faça o login e tente novamente';
+            this.loadingInit = false;
+            utils.runModal();
+          }, 1000);
+        }
+>>>>>>> origin
       }
     },
     idUser() {
       return this.$store.state.user.data.id;
     },
+<<<<<<< HEAD
   },
   mounted() {
     this.loading = false;
@@ -146,6 +237,15 @@ export default {
       // the course will be start by now, so for sure that the first step will be a part of a lesson.
       // go to step url
       $nuxt._router.push(currentStep.stepUrl);
+=======
+    verifyStore(id) {
+      this.list.forEach(item => {
+        if (item.course.id == id && item.status === 'TAKEN') {
+          return true;
+        }
+      });
+      return false;
+>>>>>>> origin
     },
     async continueCourse() {
       this.loadingInit = true;
@@ -204,7 +304,21 @@ main {
   font-size: smaller;
   text-align: justify;
 }
-.v-progress-circular {
+<<<<<<< head ======= ::v-deep .btn-back {
+  position: absolute;
+  left: 1rem;
+}
+::v-deep .btn-back .theme--light.v-icon {
+  color: #60c;
+  font-size: 35px;
+}
+.btn__primary {
+  width: 100%;
+  margin-top: 2rem;
+  font-weight: 700;
+  box-shadow: 0px 4px 4px #21212154 !important;
+}
+>>>>>>>origin .v-progress-circular {
   color: #b2b2b2;
 }
 .v-btn__loader {
