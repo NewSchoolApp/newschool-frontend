@@ -35,11 +35,11 @@
       </v-tabs>
     </v-row>
 
-    <v-form ref="form" lazy-validation>
+    <v-form id="form" ref="form" lazy-validation>
       <v-tabs-items v-model="tab">
         <!-- Minhas Info -->
         <v-tab-item>
-          <v-col>
+          <v-col class="teste">
             <v-col class="px-0 pb-5">
               <div class="input-label">Nome</div>
               <v-text-field
@@ -88,14 +88,14 @@
 
         <!-- Quem Sou -->
         <v-tab-item>
-          <v-col>
+          <v-col class="teste">
             <v-col class="px-0 pb-5">
               <div class="input-label">Gênero</div>
               <v-select
-                @input="genderSelect($event)"
                 v-model="form.gender"
                 filled
                 :items="genderItems"
+                @input="genderSelect($event)"
               />
               <v-dialog v-model="genderDialog" max-width="300" class="px-5">
                 <v-card class="px-5 py-10">
@@ -288,18 +288,18 @@
           </v-col>
         </v-tab-item> -->
       </v-tabs-items>
-
-      <!-- footer -->
-      <v-row class="base">
-        <v-btn
-          class="btn-block btn-new-primary btn-shadow"
-          :loading="loading"
-          @click="submit"
-        >
-          CONFIRMAR ALTERAÇÕES
-        </v-btn>
-      </v-row>
     </v-form>
+
+    <!-- footer -->
+    <v-row class="base">
+      <v-btn
+        class="btn-block btn-new-primary btn-shadow"
+        :loading="loading"
+        @click="submit"
+      >
+        CONFIRMAR ALTERAÇÕES
+      </v-btn>
+    </v-row>
   </v-col>
 </template>
 
@@ -769,8 +769,12 @@ body {
   position: relative;
 }
 #main-col {
-  padding-top: 16px;
-  height: 100%;
+  position: relative;
+  margin: 10px 0 80px;
+  flex-grow: 1;
+}
+#form {
+  padding-bottom: 152px;
 }
 
 /* header and tabs style */
@@ -848,7 +852,10 @@ body {
 
 /* buttons style */
 .base {
-  padding: 5px 24px;
+  position: absolute;
+  bottom: 0;
+  padding: 0 20px;
+  width: 100%;
 }
 .btn-connect {
   width: 111px !important;
