@@ -91,24 +91,7 @@
           <v-col class="teste">
             <v-col class="px-0 pb-5">
               <div class="input-label">Gênero</div>
-              <v-select
-                v-model="form.gender"
-                filled
-                :items="genderItems"
-                @input="genderSelect($event)"
-              />
-              <v-dialog v-model="genderDialog" max-width="300" class="px-5">
-                <v-card class="px-5 py-10">
-                  <div class="input-label">Digite sua orientação sexual</div>
-                  <v-text-field v-model="otherGender" filled class="pb-5" />
-                  <button
-                    class="btn-block btn-new-primary btn-shadow"
-                    @click="setCustomGender"
-                  >
-                    ENVIAR
-                  </button>
-                </v-card>
-              </v-dialog>
+              <v-select v-model="form.gender" filled :items="genderItems" />
             </v-col>
             <v-col class="px-0 pb-5">
               <div class="input-label">Quem é você fora do app?</div>
@@ -389,8 +372,8 @@ export default {
       genderItems: [
         'Masculino',
         'Feminino',
-        'Nao binario',
-        'Outros (Por favor especifique)',
+        'Não binário',
+        'Prefiro não dizer',
       ],
       profileItems: [
         'Aluno de escola',
@@ -660,11 +643,12 @@ export default {
               $nuxt._router.push('/aluno/semear');
             }
           })
-          .catch(() =>
+          .catch(() => {
             this.$notifier.showMessage({
               type: 'error',
             }),
-          );
+              (this.loading = false);
+          });
       } else {
         // mostrar snackbar de confirmação
         this.showSnackbar('Algo deu Errado!', 'red');
@@ -682,6 +666,10 @@ export default {
       const genders = {
         MALE: 'Masculino',
         FEMALE: 'Feminino',
+        'Prefiro não dizer': 'NOT DEFINED',
+        'NOT DEFINED': 'Prefiro não dizer',
+        'Não binário': 'NOT BINARY',
+        'NOT BINARY': 'Não binário',
         Masculino: 'MALE',
         Feminino: 'FEMALE',
       };
@@ -714,7 +702,7 @@ export default {
         'Parei de estudar antes do 9° ano': 'ENSINO_FUNDAMENTAL_IMCOMPLETO',
         'Parei de estudar entre o 1° e o 3° ano': 'ENSINO_MEDIO_IMCOMPLETO',
         'Estou entre o 1º e 2º ano': 'ENSINO_MEDIO_CURSANDO',
-        'Tô no terceirão': 'ENSINO_MEDIO_CURSANDO',
+        'Tô no terceirão': 'TERCEIRO_ANO',
         'Completei o terceirão': 'ENSINO_MEDIO_COMPLETO',
         'Tô na facul': 'FACULDADE_CURSANDO',
         'Terminei a facul': 'FACULDADE_COMPLETO',
@@ -741,17 +729,6 @@ export default {
         // address model used on backend: "centro, Rio Claro - São Paulo, Brasil"
         return district + ', ' + city + ' - ' + state + ', ' + country;
       }
-    },
-    genderSelect(gender) {
-      if (gender.includes('especifique')) {
-        this.form.gender = '';
-        this.genderDialog = true;
-      }
-    },
-    setCustomGender() {
-      this.genderDialog = false;
-      this.genderItems.unshift(this.otherGender);
-      this.form.gender = this.otherGender;
     },
   },
 };

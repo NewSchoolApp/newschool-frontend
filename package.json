@@ -54,6 +54,7 @@
     "node-properties-parser": "0.0.2",
     "nuxt": "^2.11.0",
     "nuxt-i18n": "^6.4.1",
+    "properties-parser": "^0.3.1",
     "pusher-js": "^7.0.1",
     "replace": "^1.2.0",
     "vue-avatar": "^2.1.8",

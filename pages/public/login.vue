@@ -143,17 +143,16 @@ export default {
             institutionName: '',
             role: 'STUDENT',
           };
-          this.loadClientCredentials()
-            .then(async (res) => {
-              const token = res.data.accessToken;
-              const response = await auth.signUp(postObject, token, inviteKey);
-                console.log(response)
-                if(!response) {
-                  return console.log('deu mierda')
-                }
-            })
+          this.loadClientCredentials().then(async res => {
+            const token = res.data.accessToken;
+            const response = await auth.signUp(postObject, token, inviteKey);
+            console.log(response);
+            if (!response) {
+              return console.log('deu mierda');
+            }
+          });
 
-            console.log('aaa')
+          console.log('aaa');
         });
     },
     submit() {
@@ -287,6 +286,7 @@ export default {
   width: 100%;
   height: 100%;
   position: fixed;
+  top: 0;
   background: url('../../assets/paraisopolis.png');
   background-size: cover;
   background-position: center;

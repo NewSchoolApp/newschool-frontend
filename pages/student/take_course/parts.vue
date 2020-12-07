@@ -83,8 +83,8 @@
                 <v-select
                   height="10"
                   :items="items"
-                  item-value="Mais gostados"
-                  value="Mais gostados"
+                  item-value="Mais salves"
+                  value="Mais salves"
                   @change="sortBy = $event"
                 ></v-select>
               </v-row>
@@ -144,13 +144,8 @@ export default {
     commentPost: '',
     loading: true,
     posting: false,
-    items: [
-      'Mais gostados',
-      'Mais recentes',
-      'Mais atigos',
-      'Meus comentarios',
-    ],
-    sortBy: 'Mais recentes',
+    items: ['Mais salves', 'Mais recentes', 'Mais atigos', 'Meus comentarios'],
+    sortBy: 'Mais salves',
   }),
   computed: {
     currentCourse() {
@@ -186,12 +181,12 @@ export default {
           return this.comments.sort(function(a, b) {
             return Date.parse(a.createdAt) > Date.parse(b.createdAt) ? 1 : -1;
           });
-        case 'Mais gostados':
+        case 'Mais salves':
           // eslint-disable-next-line vue/no-side-effects-in-computed-properties
           return this.comments.sort(function(a, b) {
-            return a.likedBy.length < b.likedBy.length
+            return a.clappedBy.length < b.clappedBy.length
               ? 1
-              : a.likedBy.length > b.likedBy.length
+              : a.clappedBy.length > b.clappedBy.length
               ? -1
               : 0;
           });
