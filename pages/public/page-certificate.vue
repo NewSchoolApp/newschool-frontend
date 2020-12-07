@@ -18,19 +18,24 @@
             <td>Educação de qualidade</td>
             <strong>{{ certificate.course.title }}</strong>
             <tr>
-              Carga horária de {{ certificate.course.workload }} horas
+              Carga horária de
+              {{
+                certificate.course.workload
+              }}
+              horas
             </tr>
             <span>Este certificado é orgulhosamente apresentado para</span>
             <p>{{ certificate.user.name }}</p>
           </div>
+
           <div>
             <p>
               Início:
-              <span class="p__theme">{{this.courseStartDate}}</span>
+              <span class="p__theme">{{ this.courseStartDate }}</span>
             </p>
             <p>
               Término:
-              <span class="p__theme">{{this.courseCompleteDate}}</span>
+              <span class="p__theme">{{ this.courseCompleteDate }}</span>
             </p>
           </div>
         </div>
@@ -46,7 +51,9 @@
           <div class="export-share">
             <div class="icons">
               <button type="button">
-                <v-icon color="#6600CC" size="20">mdi-format-vertical-align-bottom</v-icon>
+                <v-icon color="#6600CC" size="20"
+                  >mdi-format-vertical-align-bottom</v-icon
+                >
               </button>
               <button type="button">
                 <v-icon color="#6600CC" size="20">mdi-printer</v-icon>
@@ -56,14 +63,15 @@
               <shareBtnPageCertificate
                 :url="this.certificateUrl"
                 :title="'Certificado de conclusão de curso New School'"
-                :description="certificate.course.title"/>
+                :description="certificate.course.title"
+              />
             </div>
             <img
               class="new__logo"
               src="../../assets/NS-Logo-vertical.svg"
               alt=""
             />
-          </footer>
+          </div>
         </div>
       </div>
     </v-container>
@@ -83,10 +91,6 @@ import ogImage from '~/assets/backgroundCertificates.svg';
 export default {
   components: {
     HeaderBar,
-<<<<<<< HEAD
-    NavigationBar,
-=======
->>>>>>> origin
   },
   data: () => ({
     certificate: {},
@@ -106,14 +110,9 @@ export default {
     const idUser = this.$route.params.idUser;
     http.pageCertificate(idUser, idCourse).then(res => {
       this.certificate = res.data;
-<<<<<<< HEAD
-      this.author = this.convertName(this.certificate.course.authorName);
       this.courseStartDate = moment(this.certificate.courseStartDate).format(
         'DD/MM/YYYY',
       );
-=======
-      this.courseStartDate = moment(this.certificate.courseStartDate).format('DD/MM/YYYY');
->>>>>>> origin
       this.courseCompleteDate = moment(
         this.certificate.courseCompleteDate,
       ).format('DD/MM/YYYY');
