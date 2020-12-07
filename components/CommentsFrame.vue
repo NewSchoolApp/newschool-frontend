@@ -1,8 +1,8 @@
 <template>
-  <v-col class="mt-5">
+  <v-col class="my-0 pb-0 px-0">
     <CommentCell :comment="this.comment" />
 
-    <div v-for="res in comment.responses" :key="res.index" class="ml-12">
+    <div v-for="res in comment.responses" :key="res.index" class="ml-12 mt-1">
       <CommentCell :comment="res" :response="true" />
     </div>
   </v-col>
@@ -33,7 +33,7 @@ export default {
     },
   },
   mounted() {
-    this.checkIfLiked();
+    // this.checkIfLiked();
   },
   methods: {
     async like() {
