@@ -100,7 +100,6 @@ export default {
     },
   },
   mounted() {
-    console.log(window);
     http.pageCertificate(this.params.idUser, this.params.idCourse).then(res => {
       this.certificate = res.data;
       this.loading = false;
@@ -115,9 +114,6 @@ export default {
       this.showThumb = false;
     },
     onSuccess(result) {
-      console.log('Share completed? ' + result.completed);
-      console.log(result); // On Android apps mostly return false even while it's true
-      console.log('Shared to app: ' + result.app); // On Android result.app since plugin version 5.4.0 this is no longer empty. On iOS it's empty when sharing is cancelled (result.completed=false)
       httpHelper
         .post(process.env.endpoints.EVENT, {
           event: 'SHARE_COURSE',
@@ -140,7 +136,7 @@ export default {
         );
     },
     onError(msg) {
-      console.log('Sharing failed with message: ' + msg);
+      alert('Sharing failed with message: ' + msg);
     },
     share(event, title, image) {
       event.stopPropagation();

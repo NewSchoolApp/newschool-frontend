@@ -72,7 +72,6 @@ export default {
           case 'success':
             this.snackbarStatus = 'success';
             this.snackBackground = '#F2FFFB';
-            console.log(state.snackbar.message);
             this.snackbarBoldText = 'Show!';
             this.snackbarText =
               // state.snackbar.message

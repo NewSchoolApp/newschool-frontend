@@ -2,23 +2,28 @@
   <div id="page">
     <HeaderBar :title="'Gerenciar Meus Cursos'" :back-page="true"></HeaderBar>
     <v-layout align-center justify-center>
-      <v-flex xs10 sm8 md4 style="text-align: -webkit-left;">      
+      <v-flex xs10 sm8 md4 style="text-align: -webkit-left;">
         <v-container>
           <v-row>
             <v-col>
               <h3>Aula</h3>
-              <v-form class="lesson-form" ref="lesson" v-model="status" lazy-validation>        
+              <v-form
+                class="lesson-form"
+                ref="lesson"
+                v-model="status"
+                lazy-validation
+              >
                 <v-text-field
                   v-model="lesson.title"
                   :rules="titleRules"
-                  :margin-bottom="!titleRules"          
+                  :margin-bottom="!titleRules"
                   label="Título"
                   required
                 />
                 <v-textarea
                   :rules="descriptionRules"
                   :margin-bottom="!titleRules"
-                  v-model="lesson.description"          
+                  v-model="lesson.description"
                   label="Descrição"
                   rows="1"
                   required
@@ -33,13 +38,10 @@
               />
               <span v-if="!parts.length">Favor, adicionar uma parte</span>
 
-            
-              <v-btn
-              class="btn-block btn-primary" 
-              @click="submit">
+              <v-btn class="btn-block btn-primary" @click="submit">
                 Salvar
               </v-btn>
-            </v-col> 
+            </v-col>
           </v-row>
         </v-container>
       </v-flex>
@@ -69,9 +71,9 @@
 </router>
 
 <script scoped>
-import NavigationBar from '~/components/NavigationBar.vue'
+import NavigationBar from '~/components/NavigationBar.vue';
 import HeaderBar from '~/components/Header.vue';
-import generic from '~/services/http/generic'
+import generic from '~/services/http/generic';
 
 export default {
   components: {
@@ -101,70 +103,72 @@ export default {
             'curadoria de conteúdos baseados nas habilidades do futuro.',
         },
       ],
-    }
+    };
   },
   methods: {
     submit() {
       if (this.$refs.lesson.validate()) {
-        this.animateForm(true)
-        this.lesson['lesson'] = this.$route.params.lessonId
+        this.animateForm(true);
+        this.lesson['lesson'] = this.$route.params.lessonId;
         generic
           .put('/api/v1/lesson', this.lesson.id, this.lesson)
           .then(res => {
-            this.loading = false
-            this.showConfirmSnack('Aula salva! ;)', 'success')
+            this.loading = false;
+            this.showConfirmSnack('Aula salva! ;)', 'success');
           })
           .catch(err => {
-            this.showConfirmSnack('Ocorreu um erro.', 'error')
+            this.showConfirmSnack('Ocorreu um erro.', 'error');
             setTimeout(() => {
-              this.loading = false
-            }, 500)
-            console.error(err)
-          })
+              this.loading = false;
+            }, 500);
+            console.error(err);
+          });
       } else {
-        this.animateForm(false)
+        this.animateForm(false);
       }
     },
 
     animateForm(status) {
       if (status) {
-        this.$refs.flex.classList.add('hide-form')
-        document.querySelector('html').style.overflow = 'hidden'
+        this.$refs.flex.classList.add('hide-form');
+        document.querySelector('html').style.overflow = 'hidden';
         setTimeout(() => {
-          this.loading = true
-        }, 300)
+          this.loading = true;
+        }, 300);
       } else {
-        this.$refs.flex.classList.add('error-form')
+        this.$refs.flex.classList.add('error-form');
         setTimeout(() => {
-          this.$refs.flex.classList.remove('error-form')
-        }, 500)
+          this.$refs.flex.classList.remove('error-form');
+        }, 500);
       }
-      document.querySelector('html').style.overflow = 'scroll'
+      document.querySelector('html').style.overflow = 'scroll';
     },
 
     showConfirmSnack(text, status) {
-      this.snackbarText = text
-      this.snackbarStatus = status
-      this.snackbar = true
+      this.snackbarText = text;
+      this.snackbarStatus = status;
+      this.snackbar = true;
     },
   },
   async asyncData({ store, data, params }) {
-    console.log(params.id)
-    const _lesson = await generic.getById(`/api/v1/lesson`, params.lessonId)
-    const _parts = await generic.getById(`/api/v1/part/lesson`, params.lessonId)
+    const _lesson = await generic.getById(`/api/v1/lesson`, params.lessonId);
+    const _parts = await generic.getById(
+      `/api/v1/part/lesson`,
+      params.lessonId,
+    );
 
-    return { lesson: _lesson.data, parts: _parts.data }
+    return { lesson: _lesson.data, parts: _parts.data };
   },
   created() {
-    this.lesson.course = this.$route.params.courseId
+    this.lesson.course = this.$route.params.courseId;
   },
-}
+};
 </script>
 
 <style scoped>
 .v-input {
   width: 90%;
-  height: 50px;    
+  height: 50px;
 }
 .v-input input {
   color: none;

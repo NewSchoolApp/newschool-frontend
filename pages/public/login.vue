@@ -127,7 +127,6 @@ export default {
     },
     async googleLogin() {
       const provider = new this.$fireModule.auth.GoogleAuthProvider();
-      console.log(provider);
       this.$fireModule
         .auth()
         .signInWithPopup(provider)
@@ -146,13 +145,7 @@ export default {
           this.loadClientCredentials().then(async res => {
             const token = res.data.accessToken;
             const response = await auth.signUp(postObject, token, inviteKey);
-            console.log(response);
-            if (!response) {
-              return console.log('deu mierda');
-            }
           });
-
-          console.log('aaa');
         });
     },
     submit() {

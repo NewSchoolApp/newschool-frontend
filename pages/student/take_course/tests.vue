@@ -230,7 +230,6 @@ export default {
               this.getPointsAndNotificate();
               // Se a resposta está certa a gente avança no curso
             } else {
-              console.log(res);
               if (this.try < 4) {
                 this.try++;
               }
@@ -273,13 +272,11 @@ export default {
       this.correct = true;
     },
     onSuccess(result) {
-      console.log('Share completed? ' + result.completed);
-      console.log(result); // On Android apps mostly return false even while it's true
       console.log('Shared to app: ' + result.app); // On Android result.app since plugin version 5.4.0 this is no longer empty. On iOS it's empty when sharing is cancelled (result.completed=false)
       console.log(result); // On Android apps mostly return false even while it's true
     },
     onError(msg) {
-      console.log('Sharing failed with message: ' + msg);
+      alert('Sharing failed with message: ' + msg);
     },
     share(event, title, image) {
       event.stopPropagation();
