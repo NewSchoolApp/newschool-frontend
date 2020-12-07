@@ -16,7 +16,7 @@
         </div>
       </div>
       <template v-else>
-        <NothingToShow
+        <!-- <NothingToShow
           v-if="selectedTab == 0"
           title="Vixe :/"
           message="Bora começar um curso mano!."
@@ -25,7 +25,7 @@
           v-else
           title="Vixe :/"
           message="Você não finalizou nenhum curso ainda."
-        />
+        /> -->
       </template>
     </div>
     <div v-if="loading">
@@ -85,9 +85,9 @@ export default {
   },
   methods: {
     async getMyCourses() {
-      const myCourses = (await http.getAll(
-        `${process.env.endpoints.MY_COURSES}${this.user.id}`,
-      )).data;
+      const myCourses = (
+        await http.getAll(`${process.env.endpoints.MY_COURSES}${this.user.id}`)
+      ).data;
 
       if (myCourses) {
         myCourses.forEach(myCourse => {

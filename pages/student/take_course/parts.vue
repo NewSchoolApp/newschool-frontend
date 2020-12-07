@@ -101,8 +101,6 @@
           <v-btn
             v-if="selectedTab == 0"
             class="btn-block btn-primary"
-            :loading="loadingInit"
-            :disabled="loadingInit"
             @click="advanceCourse()"
           >
             Continuar

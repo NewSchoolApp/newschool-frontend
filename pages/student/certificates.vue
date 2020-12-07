@@ -12,7 +12,7 @@
   <div v-else id="page">
     <div id="layout-certificates">
       <HeaderBar :title="'Certificados'" :back-page="true"></HeaderBar>
-      <v-container v-if="certificates.length" class="container">
+      <v-container v-if="certificates.length" class="container px-2">
         <div
           v-for="certificate in certificates"
           :key="certificate.id"
