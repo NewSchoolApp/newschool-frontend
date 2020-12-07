@@ -85,9 +85,9 @@ export default {
   },
   methods: {
     async getMyCourses() {
-      const myCourses = (await http.getAll(
-        `${process.env.endpoints.MY_COURSES}${this.user.id}`,
-      )).data;
+      const myCourses = (
+        await http.getAll(`${process.env.endpoints.MY_COURSES}${this.user.id}`)
+      ).data;
 
       if (myCourses) {
         myCourses.forEach(myCourse => {
@@ -116,9 +116,38 @@ export default {
   height: 100%;
   margin-bottom: 60px;
 }
-::v-deep .v-tabs-slider-wrapper {
-  height: 4px !important;
-  color: var(--primary-light);
+h1 {
+  font-size: 0.8rem;
+  font-weight: 600;
+  width: 55%;
+}
+.container__list {
+  margin-bottom: 5rem;
+}
+.card {
+  height: 8rem;
+  margin: 1.3rem;
+  padding: 0.9rem;
+  background: #fff;
+  box-shadow: 0px 12px 20px 0px #00000026;
+  border-radius: 5px;
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  flex-direction: column;
+  -webkit-box-pack: justify;
+  justify-content: space-between;
+}
+
+.header__info {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+::v-deep .v-btn--icon.v-size--default {
+  height: unset;
+  color: #6600cc;
 }
 ::v-deep .v-tab {
   font-size: 11px !important;

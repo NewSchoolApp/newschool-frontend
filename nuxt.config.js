@@ -440,8 +440,13 @@ export default {
     /*
      ** You can extend webpack config here
      */
+<<<<<<< HEAD
     publicPath: '/nuxtfiles/',
     extend(config, ctx) {},
+=======
+    // publicPath: '/nuxtfiles/',
+    extend(config, ctx) { },
+>>>>>>> origin
   },
 
   auth: {
