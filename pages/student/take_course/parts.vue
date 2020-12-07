@@ -46,7 +46,7 @@
             <v-col id="comments">
               <v-row justify="space-between" class="ma-0">
                 <h3 class="comments__number">
-                  {{ sortedComments.length || 0 }} Comentários
+                  {{ commentsAmount || 0 }} Comentários
                 </h3>
                 <div
                   v-if="!posting"
@@ -202,6 +202,13 @@ export default {
         default:
           return this.comments;
       }
+    },
+    commentsAmount() {
+      let amount = this.sortedComments.length;
+      this.sortedComments.forEach(comment => {
+        amount += comment.responses.length;
+      });
+      return amount;
     },
   },
   mounted() {
