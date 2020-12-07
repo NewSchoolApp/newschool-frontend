@@ -13,7 +13,7 @@
         </div>
       </div>
 
-      <v-col id="main">
+      <v-col v-else class="pa-0">
         <!-- Video Frame -->
         <div v-if="currentPart.video" id="video-iframe-container">
           <video-player
@@ -39,15 +39,12 @@
           <v-tab-item>
             <h3>{{ currentPart.titulo }}</h3>
             <h4>{{ currentPart.descricao }}</h4>
-            <v-btn class="btn-block btn-primary" @click="advanceCourse">
-              PRÓXIMO
-            </v-btn>
           </v-tab-item>
 
           <!-- comments -->
           <v-tab-item>
             <v-col id="comments">
-              <v-row justify="space-between">
+              <v-row justify="space-between" class="ma-0">
                 <h3 class="comments__number">
                   {{ sortedComments.length || 0 }} Comentários
                 </h3>
@@ -69,8 +66,8 @@
                   />
                 </var>
               </v-row>
-              <v-row justify="center">
-                <v-avatar size="45">
+              <v-row justify="center" class="top-row">
+                <v-avatar size="40" class="mt-1">
                   <img v-if="user.photo" :src="user.photo" />
                   <img v-else :src="require(`~/assets/person.svg`)" />
                 </v-avatar>
@@ -99,12 +96,24 @@
             </v-col>
           </v-tab-item>
         </v-tabs-items>
-      </v-col>
 
-      <client-only>
-        <navigation-bar />
-      </client-only>
+        <div class="base">
+          <v-btn
+            v-if="selectedTab == 0"
+            class="btn-block btn-primary"
+            :loading="loadingInit"
+            :disabled="loadingInit"
+            @click="advanceCourse()"
+          >
+            Continuar
+          </v-btn>
+        </div>
+      </v-col>
     </v-layout>
+
+    <client-only>
+      <navigation-bar />
+    </client-only>
   </div>
 </template>
 
@@ -261,7 +270,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 * {
   font-family: 'Roboto', sans-serif;
   transition: 0.2 ease-in;
@@ -270,8 +279,12 @@ hr {
   margin: 0 -36px 0;
   border: 2px solid #f7f7f7;
 }
-#main {
-  padding: 0;
+
+.base {
+  padding: 0 24px 80px !important;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
 }
 #video-iframe-container {
   padding: 0 24px;
@@ -286,10 +299,13 @@ hr {
   padding-bottom: 24px;
 }
 #part-info {
-  padding: 0 24px;
+  padding: 0 24px 200px;
+  display: flex;
+  margin-top: 0.6rem;
+  flex-direction: column;
 }
 #comments {
-  padding-top: 0;
+  padding-bottom: 152px;
 }
 ::v-deep .v-slide-group__content {
   padding: 0 24px;
@@ -368,15 +384,13 @@ h4 {
   margin-top: 0.5rem;
 }
 
-//sortBy select
 ::v-deep .v-select {
-  margin: 0 !important;
+  margin: -3px 0 -42px !important;
   padding: 0 !important;
   max-width: 155px !important;
   border: 0 !important;
   outline: 0 !important;
   text-align: center !important;
-  margin-bottom: -37px !important;
 }
 ::v-deep .v-select__selections {
   width: auto !important;
@@ -393,5 +407,18 @@ h4 {
 ::v-deep .v-input__slot::before,
 ::v-deep .v-input__slot::after {
   border-width: 0 !important;
+}
+.top-row {
+  margin: -5px 0;
+}
+.base {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
+.info__box {
+  display: flex;
+  margin-top: 0.6rem;
+  flex-direction: column;
 }
 </style>

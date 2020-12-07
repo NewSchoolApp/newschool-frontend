@@ -1,18 +1,21 @@
 <template>
-  <v-row v-if="dataReady" class="mt-1">
-    <v-avatar :size="response ? 34 : 44" class="mr-1">
+  <v-row v-if="dataReady" class="mt-1 mx-0">
+    <v-avatar
+      :size="response ? 25 : 40"
+      :class="'mr-1 ' + (response ? 'mt-2 ml-1' : {})"
+    >
       <img v-if="comment.user.photo" :src="comment.user.photo" />
       <img v-else :src="require(`~/assets/person.svg`)" />
     </v-avatar>
-    <v-col class="pb-1">
-      <v-row class="ml-1 user__name">{{ comment.user.name }}</v-row>
-      <v-row class="ml-1 user__comment">{{ comment.text }}</v-row>
-      <v-row class="ml-4">
+    <v-col class="pa-0 mt-3">
+      <v-row class="mx-0 ml-1 user__name pl-1">{{ comment.user.name }}</v-row>
+      <v-row class="ml-1 user__comment pl-1">{{ comment.text }}</v-row>
+      <v-row class="ml-4 mr-1">
         <v-row>
           <p
             v-ripple
             :class="
-              'user__interaction mr-6 ' +
+              'user__interaction mr-6 pa-1 ' +
                 (claps > 0 || storedClaps > 0
                   ? 'primary--text font-weight-bold'
                   : {})
@@ -24,13 +27,13 @@
           <p
             v-if="!response && !answering"
             v-ripple
-            class="user__interaction"
+            class="user__interaction pt-1"
             @click="answering = true"
           >
             Responder
           </p>
         </v-row>
-        <p class="user__interaction">{{ date }}</p>
+        <p class="user__interaction pt-1">{{ date }}</p>
       </v-row>
       <v-col v-if="!response && answering" class="px-0 py-0">
         <v-row align="top">
