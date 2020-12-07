@@ -34,8 +34,6 @@
         <v-btn
           v-if="courseState == 'TAKEN'"
           class="btn-block btn-primary"
-          :loading="loadingInit"
-          :disabled="loadingInit"
           @click="continueCourse()"
         >
           Continuar
@@ -43,18 +41,11 @@
         <v-btn
           v-else-if="courseState == 'COMPLETED'"
           class="btn-block btn-primary"
-          :loading="loadingInit"
           @click="goToCertificate()"
         >
           Certificado
         </v-btn>
-        <v-btn
-          v-else
-          class="btn-block btn-primary"
-          :loading="loadingInit"
-          :disabled="loadingInit"
-          @click="startCourse()"
-        >
+        <v-btn v-else class="btn-block btn-primary" @click="startCourse()">
           Iniciar
         </v-btn>
       </div>
@@ -83,31 +74,34 @@ export default {
     return {
       showThumb: true,
       loading: true,
-      loadingInit: false,
+      courseState: 'NOT_TAKEN',
     };
   },
   computed: {
     course() {
       return this.$store.state.courses.current;
     },
-    courseState() {
-      const tryFind = this.$store.state.courses.my.find(
-        course => course.courseId == this.course.id,
-      );
-      if (tryFind) {
-        return tryFind.status;
-      } else {
-        return 'NOT_TAKEN';
-      }
-    },
     idUser() {
       return this.$store.state.user.data.id;
     },
   },
   mounted() {
+    this.checkCourseState();
     this.loading = false;
   },
   methods: {
+    checkCourseState() {
+      const tryFind = this.$store.state.courses.my.find(
+        course => course.courseId == this.course.id,
+      );
+      if (tryFind) {
+        if (!tryFind.challenge) {
+          this.courseState = 'TAKEN';
+        } else {
+          this.courseState = 'COMPLETED';
+        }
+      }
+    },
     imageLoadError() {
       this.showThumb = false;
     },
@@ -118,10 +112,6 @@ export default {
       );
     },
     async startCourse() {
-      this.loadingInit = true;
-      console.log('idUser', this.idUser);
-      console.log('courseId', this.course);
-
       // send to backend that this course will start
       await http
         .post(process.env.endpoints.INIT_COURSE, {
@@ -147,13 +137,10 @@ export default {
       $nuxt._router.push(currentStep.stepUrl);
     },
     async continueCourse() {
-      this.loadingInit = true;
-
       // check for current step
       const currentStep = await this.$store.dispatch(
         'courses/refreshCurrentStep',
       );
-      console.log(currentStep);
 
       // go to step url
       $nuxt._router.push(currentStep.stepUrl);

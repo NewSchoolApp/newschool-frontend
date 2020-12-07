@@ -16,7 +16,7 @@
         </div>
       </div>
       <template v-else>
-        <NothingToShow
+        <!-- <NothingToShow
           v-if="selectedTab == 0"
           title="Vixe :/"
           message="Bora começar um curso mano!."
@@ -25,7 +25,7 @@
           v-else
           title="Vixe :/"
           message="Você não finalizou nenhum curso ainda."
-        />
+        /> -->
       </template>
     </div>
     <div v-if="loading">
