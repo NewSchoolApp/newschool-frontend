@@ -182,6 +182,9 @@ h1 {
   text-align: left;
   color: #3f3d56;
   margin: 8px 0 8px -12px;
+  overflow-wrap: break-word !important;
+  display: block;
+  max-width: 100%;
 }
 
 .user__name {
@@ -226,35 +229,8 @@ h4 {
   text-align: right;
   color: #737373;
 }
-
-.response__box {
-  width: 100%;
-}
-
-.text__information {
-  margin-top: 24px;
-}
-
-.main-container {
-  display: flex;
-  flex-direction: column;
-  padding: 0em 2em 78px;
-}
-
-.user__comment__box {
-  margin-top: 13px;
-  position: relative;
-}
-::v-deep .v-input {
-  width: 75%;
-}
-
 .response {
   margin-left: -35px;
-}
-
-.inner-container {
-  margin-top: 0.5rem;
 }
 ::placeholder {
   color: black;
