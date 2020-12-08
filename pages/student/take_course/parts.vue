@@ -46,7 +46,7 @@
             <v-col id="comments">
               <v-row justify="space-between" class="ma-0">
                 <h3 class="comments__number">
-                  {{ sortedComments.length || 0 }} Comentários
+                  {{ commentsAmount || 0 }} Comentários
                 </h3>
                 <div
                   v-if="!posting"
@@ -198,6 +198,13 @@ export default {
           return this.comments;
       }
     },
+    commentsAmount() {
+      let amount = this.sortedComments.length;
+      this.sortedComments.forEach(comment => {
+        amount += comment.responses.length;
+      });
+      return amount;
+    },
   },
   mounted() {
     this.getComments();
@@ -296,9 +303,6 @@ hr {
   display: flex;
   margin-top: 0.6rem;
   flex-direction: column;
-}
-#comments {
-  padding-bottom: 152px;
 }
 ::v-deep .v-slide-group__content {
   padding: 0 24px;

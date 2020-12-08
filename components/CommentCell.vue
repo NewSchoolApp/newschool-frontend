@@ -131,19 +131,16 @@ export default {
         }, 1000);
       }
     },
-    postAnswer() {
-      http.post(`/api/v1/comment/${this.comment.id}/response`, {
-        partId: this.comment.partId,
-        userId: this.idUser,
-        text: this.answerPost,
-      });
+    async postAnswer() {
+      const postData = (
+        await http.post(`/api/v1/comment/${this.comment.id}/response`, {
+          partId: this.comment.partId,
+          userId: this.idUser,
+          text: this.answerPost,
+        })
+      ).data;
 
-      this.comment.responses.push({
-        text: this.answerPost,
-        user: this.$store.state.user.data,
-        likedBy: [],
-        createdAt: new Date(Date.now()).toISOString(),
-      });
+      this.comment.responses.push(postData);
 
       this.answerPost = '';
       this.answering = false;
