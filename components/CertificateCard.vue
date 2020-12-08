@@ -49,6 +49,9 @@ export default {
   data: () => ({
     showThumb: true,
   }),
+  mounted() {
+    console.log(this.certificate);
+  },
   computed: {
     params() {
       return this.$route.params;
