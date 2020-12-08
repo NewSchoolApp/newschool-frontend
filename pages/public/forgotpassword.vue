@@ -7,11 +7,9 @@
       indeterminate
     ></v-progress-circular>
 
-  
-
     <v-flex v-else ref="flex" xs10 sm8 md6>
       <HeaderBar :title="'Perdeu a senha?'" :back-page="true" />
-      <v-container>        
+      <v-container>
         <v-row>
           <v-col cols="15">
             <div class="logo-center">
@@ -39,9 +37,7 @@
               ></v-text-field>
             </v-col>
             <v-col cols="12">
-              <v-btn
-              class="btn-block btn-primary"
-              @click="submit">
+              <v-btn class="btn-block btn-primary" @click="submit">
                 Redefinir senha
               </v-btn>
             </v-col>
@@ -72,7 +68,6 @@
 </router>
 
 <script scoped>
-
 import auth from '../../services/http/auth';
 import HeaderBar from '~/components/Header.vue';
 
@@ -154,7 +149,6 @@ export default {
     utils
       .getExternalCredentials()
       .then(res => {
-        console.log(res);
         this.token = res.data.accessToken;
       })
       .catch(() => {

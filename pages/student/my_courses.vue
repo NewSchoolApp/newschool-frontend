@@ -95,7 +95,6 @@ export default {
             course => course.id == myCourse.courseId,
           );
 
-          console.log('coursewdata', courseWithData);
           courseWithData.courseTakenData = myCourse;
 
           this.myCourses.push(courseWithData);

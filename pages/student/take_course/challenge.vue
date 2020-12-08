@@ -55,7 +55,6 @@ export default {
   },
   methods: {
     async postChallenge() {
-      console.log(this.$refs.challengeField);
       if (this.challengeText) {
         await http.post(
           `${process.env.endpoints.CHALLENGE}${this.idUser}/course/${this.currentCourse.id}`,

@@ -13,65 +13,55 @@
         </div>
       </div>
       <div v-else class="card-box">
-        <div class="card">
-          <div class="course">
-            <td>Educação de qualidade</td>
-            <strong>{{ certificate.course.title }}</strong>
-            <tr>
-              Carga horária de
-              {{
-                certificate.course.workload
-              }}
-              horas
-            </tr>
-            <span>Este certificado é orgulhosamente apresentado para</span>
-            <p>{{ certificate.user.name }}</p>
-          </div>
-
-          <div>
-            <p>
-              Início:
-              <span class="p__theme">{{ this.courseStartDate }}</span>
-            </p>
-            <p>
-              Término:
-              <span class="p__theme">{{ this.courseCompleteDate }}</span>
-            </p>
-          </div>
-        </div>
-        <div class="footer">
-          <p>Professor</p>
-          <p>Diretoria</p>
-        </div>
-        <div class="export">
-          <div class="title-export-share">
-            <div class="export-title">Exportar</div>
-            <div class="export-title">Compartilhar</div>
-          </div>
-          <div class="export-share">
-            <div class="icons">
-              <button type="button">
-                <v-icon color="#6600CC" size="20"
-                  >mdi-format-vertical-align-bottom</v-icon
-                >
-              </button>
-              <button type="button">
-                <v-icon color="#6600CC" size="20">mdi-printer</v-icon>
-              </button>
-            </div>
-            <div class="share">
-              <shareBtnPageCertificate
-                :url="this.certificateUrl"
-                :title="'Certificado de conclusão de curso New School'"
-                :description="certificate.course.title"
-              />
+        <header class="certificate__title">
+          <h3 class="medium__text">CERTIFICADO DE CONCLUSÃO</h3>
+          <h1 class="new_school__bold">NEW SCHOOL</h1>
+        </header>
+        <div class="container">
+          <main class="main">
+            <h4>CURSO DE {{ certificate.course.title.toUpperCase() }}</h4>
+            <h4 class="medium__text">
+              FINALIZADO NO DIA {{ courseCompleteDate }} COM CARGA HORÁRIA DE
+              {{ certificate.course.workload }}HRS
+            </h4>
+          </main>
+          <main class="main">
+            <h4 class="medium__text middle__text">
+              ESTE CERTIFICADO É ORGULHOSAMENTE APRESENTADO PARA
+            </h4>
+            <h4 class="user">
+              {{ certificate.user.name.toUpperCase() }}
+            </h4>
+          </main>
+          <footer>
+            <div class="assignature">
+              <div class="professor ">
+                <div class="asn">
+                  <img
+                    class="asn_img"
+                    src="../../assets/assinatura.png"
+                    alt=""
+                  />
+                </div>
+                <h6 class="medium__text">PROFESSOR</h6>
+              </div>
+              <div class="director ">
+                <div class="asn">
+                  <img
+                    class="asn_img"
+                    src="../../assets/assinatura.png"
+                    alt=""
+                  />
+                </div>
+                <h6 class="medium__text">DIRETORIA</h6>
+              </div>
             </div>
             <img
               class="new__logo"
               src="../../assets/NS-Logo-vertical.svg"
               alt=""
             />
-          </div>
+          </footer>
         </div>
       </div>
     </v-container>
@@ -91,6 +81,7 @@ import ogImage from '~/assets/backgroundCertificates.svg';
 export default {
   components: {
     HeaderBar,
+    NavigationBar,
   },
   data: () => ({
     certificate: {},
@@ -110,6 +101,7 @@ export default {
     const idUser = this.$route.params.idUser;
     http.pageCertificate(idUser, idCourse).then(res => {
       this.certificate = res.data;
+      this.author = this.convertName(this.certificate.course.authorName);
       this.courseStartDate = moment(this.certificate.courseStartDate).format(
         'DD/MM/YYYY',
       );
