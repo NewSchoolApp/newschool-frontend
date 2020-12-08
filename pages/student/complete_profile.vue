@@ -54,7 +54,12 @@
             </v-col>
             <v-col class="px-0 pb-5">
               <div class="input-label">Whatsapp</div>
-              <v-text-field v-model="form.phone" filled></v-text-field>
+              <v-text-field
+                v-model="form.phone"
+                v-mask="'(##) #####-####'"
+                type="tel"
+                filled
+              ></v-text-field>
             </v-col>
             <v-col class="px-0 pb-5">
               <div class="input-label">Email</div>
@@ -142,7 +147,12 @@
 
             <v-col class="px-0 pb-5">
               <div class="input-label">CEP</div>
-              <v-text-field v-model="form.cep" filled />
+              <v-text-field
+                v-model="form.cep"
+                type="text"
+                v-mask="'#####-###'"
+                filled
+              />
             </v-col>
             <v-col class="px-0 pb-5">
               <div class="input-label">Endereço completo</div>
@@ -295,6 +305,7 @@
 <script>
 import http from '~/services/http/generic';
 import utils from '~/utils/index';
+import { mask } from 'vue-the-mask';
 
 export default {
   data() {
@@ -402,6 +413,7 @@ export default {
       districts: [],
     };
   },
+  directives: { mask },
   computed: {
     idUser() {
       return this.$store.state.user.data.id;

@@ -2,7 +2,7 @@
   <div id="app">
     <HeaderBar
       v-if="!correct"
-      :title="'Questionário'"
+      :title="this.$store.state.courses.current.title"
       :route="`/aluno/curso/${slug}`"
     ></HeaderBar>
     <v-layout id="page" justify-center>
@@ -79,7 +79,7 @@
         <div v-if="!loading && !correct" class="inner-container">
           <v-form ref="form" lazy-validation>
             <h3>{{ test.titulo || 'Título do Teste' }}</h3>
-            <h4>
+            <h4 class="mt-5">
               {{ test.pergunta || 'Enunciado do teste' }}
             </h4>
             <div class="alternatives-container">
@@ -121,9 +121,11 @@
               />
             </div>
           </v-form>
-          <v-btn class="btn-block btn-primary" @click="nextTest">
-            Próximo
-          </v-btn>
+          <div class="base">
+            <v-btn class="btn-block btn-primary btn-fixed" @click="nextTest">
+              Próximo
+            </v-btn>
+          </div>
         </div>
       </v-flex>
       <client-only>
@@ -336,18 +338,20 @@ h1 {
 }
 
 h3 {
+  font-family: 'Roboto';
   font-weight: 900;
-  font-size: 1em;
-  line-height: initial;
-  text-align: left;
-  color: var(--primary);
+  font-size: 14px;
+  line-height: 16px;
+  color: #1a1a1a;
 }
 
 h4 {
-  font-weight: 500;
-  padding-top: 1em;
-  color: #656565;
-  font-size: 14px;
+  font-family: 'Roboto';
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 400;
+  text-align: justify;
+  color: #1a1a1a;
 }
 
 .main-container {
@@ -369,7 +373,7 @@ label {
 }
 
 @mixin inner-text-checkbox {
-  font-weight: 900;
+  font-weight: 400;
   color: var(--primary);
   margin-right: 0.5em;
 }
@@ -395,6 +399,13 @@ label {
 
 .messages {
   padding: 0 2em;
+}
+
+.base {
+  position: absolute;
+  bottom: 96px;
+  width: 92%;
+  margin: 0 auto;
 }
 
 .message {
@@ -450,8 +461,10 @@ label {
 }
 
 ::v-deep .theme--light.v-label {
-  color: rgba(0, 0, 0, 0.6) !important;
-  font-weight: 500;
+  color: rgb(0, 0, 0) !important;
+  font-weight: 600;
+  font-size: 14px !important;
+  font-family: 'Roboto';
 }
 
 ::v-deep .first-alternative > div > div > label:before {
