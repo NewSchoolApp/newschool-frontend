@@ -35,11 +35,11 @@
       </v-tabs>
     </v-row>
 
-    <v-form ref="form" lazy-validation>
+    <v-form id="form" ref="form" lazy-validation>
       <v-tabs-items v-model="tab">
         <!-- Minhas Info -->
         <v-tab-item>
-          <v-col>
+          <v-col class="teste">
             <v-col class="px-0 pb-5">
               <div class="input-label">Nome</div>
               <v-text-field
@@ -54,7 +54,12 @@
             </v-col>
             <v-col class="px-0 pb-5">
               <div class="input-label">Whatsapp</div>
-              <v-text-field v-model="form.whatsapp" filled></v-text-field>
+              <v-text-field
+                v-model="form.phone"
+                v-mask="'(##) #####-####'"
+                type="tel"
+                filled
+              ></v-text-field>
             </v-col>
             <v-col class="px-0 pb-5">
               <div class="input-label">Email</div>
@@ -88,27 +93,10 @@
 
         <!-- Quem Sou -->
         <v-tab-item>
-          <v-col>
+          <v-col class="teste">
             <v-col class="px-0 pb-5">
               <div class="input-label">Gênero</div>
-              <v-select
-                @input="genderSelect($event)"
-                v-model="form.gender"
-                filled
-                :items="genderItems"
-              />
-              <v-dialog v-model="genderDialog" max-width="300" class="px-5">
-                <v-card class="px-5 py-10">
-                  <div class="input-label">Digite sua orientação sexual</div>
-                  <v-text-field v-model="otherGender" filled class="pb-5" />
-                  <button
-                    class="btn-block btn-new-primary btn-shadow"
-                    @click="setCustomGender"
-                  >
-                    ENVIAR
-                  </button>
-                </v-card>
-              </v-dialog>
+              <v-select v-model="form.gender" filled :items="genderItems" />
             </v-col>
             <v-col class="px-0 pb-5">
               <div class="input-label">Quem é você fora do app?</div>
@@ -159,7 +147,12 @@
 
             <v-col class="px-0 pb-5">
               <div class="input-label">CEP</div>
-              <v-text-field v-model="form.cep" filled />
+              <v-text-field
+                v-model="form.cep"
+                type="text"
+                v-mask="'#####-###'"
+                filled
+              />
             </v-col>
             <v-col class="px-0 pb-5">
               <div class="input-label">Endereço completo</div>
@@ -171,7 +164,7 @@
             </v-col>
             <v-col class="px-0 pb-5">
               <div class="input-label">Número</div>
-              <v-text-field v-model="form.number" filled />
+              <v-text-field v-model="form.houseNumber" filled />
             </v-col>
           </v-col>
         </v-tab-item>
@@ -288,18 +281,18 @@
           </v-col>
         </v-tab-item> -->
       </v-tabs-items>
-
-      <!-- footer -->
-      <v-row class="base">
-        <v-btn
-          class="btn-block btn-new-primary btn-shadow"
-          :loading="loading"
-          @click="submit"
-        >
-          CONFIRMAR ALTERAÇÕES
-        </v-btn>
-      </v-row>
     </v-form>
+
+    <!-- footer -->
+    <v-row class="base">
+      <v-btn
+        class="btn-block btn-new-primary btn-shadow"
+        :loading="loading"
+        @click="submit"
+      >
+        CONFIRMAR ALTERAÇÕES
+      </v-btn>
+    </v-row>
   </v-col>
 </template>
 
@@ -312,6 +305,7 @@
 <script>
 import http from '~/services/http/generic';
 import utils from '~/utils/index';
+import { mask } from 'vue-the-mask';
 
 export default {
   data() {
@@ -338,8 +332,8 @@ export default {
         address: '',
         cep: '',
         complement: '',
-        number: '',
-        whatsapp: '',
+        houseNumber: '',
+        phone: '',
         city: '',
         state: '',
         urlFacebook: '',
@@ -389,8 +383,8 @@ export default {
       genderItems: [
         'Masculino',
         'Feminino',
-        'Nao binario',
-        'Outros (Por favor especifique)',
+        'Não binário',
+        'Prefiro não dizer',
       ],
       profileItems: [
         'Aluno de escola',
@@ -419,6 +413,7 @@ export default {
       districts: [],
     };
   },
+  directives: { mask },
   computed: {
     idUser() {
       return this.$store.state.user.data.id;
@@ -492,6 +487,10 @@ export default {
         this.schools.push(res.data.institutionName);
         this.form.urlFacebook = res.data.urlFacebook;
         this.form.urlInstagram = res.data.urlInstagram;
+        this.form.phone = res.data.phone;
+        this.form.cep = res.data.cep;
+        this.form.houseNumber = res.data.houseNumber;
+        this.form.complement = res.data.complement;
 
         // populating address fields
         this.form.country = 'Brasil';
@@ -656,11 +655,12 @@ export default {
               $nuxt._router.push('/aluno/semear');
             }
           })
-          .catch(() =>
+          .catch(() => {
             this.$notifier.showMessage({
               type: 'error',
             }),
-          );
+              (this.loading = false);
+          });
       } else {
         // mostrar snackbar de confirmação
         this.showSnackbar('Algo deu Errado!', 'red');
@@ -678,6 +678,10 @@ export default {
       const genders = {
         MALE: 'Masculino',
         FEMALE: 'Feminino',
+        'Prefiro não dizer': 'NOT DEFINED',
+        'NOT DEFINED': 'Prefiro não dizer',
+        'Não binário': 'NOT BINARY',
+        'NOT BINARY': 'Não binário',
         Masculino: 'MALE',
         Feminino: 'FEMALE',
       };
@@ -710,7 +714,7 @@ export default {
         'Parei de estudar antes do 9° ano': 'ENSINO_FUNDAMENTAL_IMCOMPLETO',
         'Parei de estudar entre o 1° e o 3° ano': 'ENSINO_MEDIO_IMCOMPLETO',
         'Estou entre o 1º e 2º ano': 'ENSINO_MEDIO_CURSANDO',
-        'Tô no terceirão': 'ENSINO_MEDIO_CURSANDO',
+        'Tô no terceirão': 'TERCEIRO_ANO',
         'Completei o terceirão': 'ENSINO_MEDIO_COMPLETO',
         'Tô na facul': 'FACULDADE_CURSANDO',
         'Terminei a facul': 'FACULDADE_COMPLETO',
@@ -738,17 +742,6 @@ export default {
         return district + ', ' + city + ' - ' + state + ', ' + country;
       }
     },
-    genderSelect(gender) {
-      if (gender.includes('especifique')) {
-        this.form.gender = '';
-        this.genderDialog = true;
-      }
-    },
-    setCustomGender() {
-      this.genderDialog = false;
-      this.genderItems.unshift(this.otherGender);
-      this.form.gender = this.otherGender;
-    },
   },
 };
 </script>
@@ -765,8 +758,12 @@ body {
   position: relative;
 }
 #main-col {
-  padding-top: 16px;
-  height: 100%;
+  position: relative;
+  margin: 10px 0 80px;
+  flex-grow: 1;
+}
+#form {
+  padding-bottom: 152px;
 }
 
 /* header and tabs style */
@@ -844,7 +841,10 @@ body {
 
 /* buttons style */
 .base {
-  padding: 5px 24px;
+  position: absolute;
+  bottom: 0;
+  padding: 0 20px;
+  width: 100%;
 }
 .btn-connect {
   width: 111px !important;

@@ -27,7 +27,6 @@ export default {
     notificationDate: '',
   }),
   mounted() {
-    console.log(this.notification);
     this.checkDate();
   },
   methods: {

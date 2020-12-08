@@ -6,7 +6,7 @@
           style="justify-content: flex-end; padding-bottom: 10px"
           color="white"
           dark
-          @click="gotoCourse()"
+          @click="activeDialog = 'start'"
         >
           mdi-close-circle
         </v-icon>
@@ -33,8 +33,8 @@
       <!-- Share -->
       <div class="btn__container">
         <button
-          @click="share($event, title, image)"
           class="btn-block btn-primary"
+          @click="share($event, title, image)"
         >
           COMPARTILHAR
         </button>
@@ -51,7 +51,7 @@
         style="justify-content: flex-end; padding-bottom: 10px"
         color="#6600cc"
         dark
-        @click="activeDialog = 'none'"
+        @click="gotoCourse()"
       >
         mdi-close-circle
       </v-icon>
@@ -95,7 +95,7 @@
         style="justify-content: flex-end; padding-bottom: 10px"
         color="#6600cc"
         dark
-        @click="activeDialog = 'none'"
+        @click="gotoCourse()"
       >
         mdi-close-circle
       </v-icon>
@@ -139,7 +139,7 @@
         style="justify-content: flex-end; padding-bottom: 10px"
         color="#6600cc"
         dark
-        @click="activeDialog = 'none'"
+        @click="gotoCourse()"
       >
         mdi-close-circle
       </v-icon>
@@ -190,10 +190,7 @@
 
       <!-- dialog footer -->
       <v-row align="end" style="padding-bottom: 0">
-        <v-btn
-          class="btn-block btn-primary baseline"
-          @click="activeDialog = 'none'"
-        >
+        <v-btn class="btn-block btn-primary baseline" @click="gotoCourse()">
           Finalizar
         </v-btn>
       </v-row>
@@ -215,7 +212,7 @@ export default {
   },
   data() {
     return {
-      dialog: 'start',
+      dialog: 'none',
       bindedClass: 'none',
       postBody: {
         rating: '',
@@ -256,15 +253,14 @@ export default {
     gotoCertificate() {
       $nuxt._router.push(`/pagina-certificado/${this.idUser}/${this.courseId}`);
     },
-    gotoCourse() {
+    async gotoCourse() {
+      await this.$store.dispatch('courses/refreshMyCourses');
+
       $nuxt._router.push(
         `/aluno/curso/${this.convertToSlug(this.courseTitle)}`,
       );
     },
     onSuccess(result) {
-      console.log('Share completed? ' + result.completed);
-      console.log(result); // On Android apps mostly return false even while it's true
-      console.log('Shared to app: ' + result.app); // On Android result.app since plugin version 5.4.0 this is no longer empty. On iOS it's empty when sharing is cancelled (result.completed=false)
       httpHelper
         .post(process.env.endpoints.EVENT, {
           event: 'SHARE_COURSE',
@@ -287,7 +283,7 @@ export default {
         );
     },
     onError(msg) {
-      console.log('Sharing failed with message: ' + msg);
+      alert('Sharing failed with message: ' + msg);
     },
     share(event, title, image) {
       event.stopPropagation();

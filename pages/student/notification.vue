@@ -1,7 +1,11 @@
 <template>
   <div>
     <HeaderBar :title="'Notificação'" :back-page="true" />
-    <button @click="clearNotifications" class="btn-primary clear__button">
+    <button
+      v-if="notifications.length"
+      @click="clearNotifications"
+      class="btn-primary clear__button"
+    >
       limpar
     </button>
 
