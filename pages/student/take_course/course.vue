@@ -187,6 +187,7 @@ h1 {
   justify-content: space-between;
   align-items: baseline;
   width: 100%;
+  margin-top: -18px;
 }
 
 .h1__theme {
@@ -223,7 +224,6 @@ h1 {
   margin-bottom: -4px;
 }
 #description {
-  margin-top: 32px;
   font-family: 'Roboto';
   font-size: 12px;
   line-height: 16px;
@@ -246,9 +246,6 @@ h1 {
   min-height: calc(100vh - 160px);
 }
 
-.info__box {
-  padding-bottom: 152px;
-}
 .base {
   position: absolute;
   bottom: 0;
