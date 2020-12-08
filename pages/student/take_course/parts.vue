@@ -309,9 +309,6 @@ hr {
   margin-top: 0.6rem;
   flex-direction: column;
 }
-#comments {
-  padding-bottom: 152px;
-}
 ::v-deep .v-slide-group__content {
   padding: 0 24px;
   border-bottom: 4px solid #f7f7f7 !important;
