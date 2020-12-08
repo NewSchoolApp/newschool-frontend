@@ -175,7 +175,7 @@ h1 {
   align-items: center;
   width: 100%;
   overflow: hidden;
-  height: 15rem;
+  margin-top: 1%;
 
   img {
     width: 100%;
@@ -187,7 +187,7 @@ h1 {
   justify-content: space-between;
   align-items: baseline;
   width: 100%;
-  margin-top: -18px;
+  margin-top: 1%;
 }
 
 .h1__theme {
