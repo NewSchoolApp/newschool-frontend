@@ -39,6 +39,7 @@
         <v-row align="top">
           <v-textarea
             v-model="answerPost"
+            :loading="posting"
             filled
             rows="5"
             class="primary-text-field"
@@ -46,7 +47,9 @@
             prepend-icon-inner="mdi-send"
           />
           <div id="res-icons" class="ml-1 mt-2">
-            <v-icon v-if="answerPost" @click="postAnswer">mdi-send</v-icon>
+            <v-icon v-if="answerPost" :disabled="posting" @click="postAnswer"
+              >mdi-send</v-icon
+            >
             <v-icon v-else color="grey" @click="answering = false"
               >mdi-close-thick</v-icon
             >
@@ -66,6 +69,7 @@ export default {
   data: () => ({
     dataReady: false,
     answering: false,
+    posting: false,
     answerPost: '',
     claps: 0,
     storedClaps: 0,
@@ -132,6 +136,7 @@ export default {
       }
     },
     async postAnswer() {
+      this.posting = true;
       const postData = (
         await http.post(`/api/v1/comment/${this.comment.id}/response`, {
           partId: this.comment.partId,
@@ -144,6 +149,7 @@ export default {
 
       this.answerPost = '';
       this.answering = false;
+      this.posting = false;
     },
   },
 };
@@ -245,6 +251,7 @@ h4 {
 }
 #res-icons .v-icon {
   font-size: 30px;
+  outline: none !important;
 }
 .primary-text-field {
   font-size: 14px !important;

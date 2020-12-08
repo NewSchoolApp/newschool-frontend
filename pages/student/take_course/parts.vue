@@ -1,7 +1,7 @@
 <template>
   <div>
     <header-bar :title="'Aula'" :route="`/aluno/curso/${slug}`"></header-bar>
-    <v-layout id="page" justify-center>
+    <v-layout justify-center>
       <div v-if="loading">
         <div class="container-spinner">
           <v-progress-circular
@@ -45,26 +45,16 @@
           <v-tab-item>
             <v-col id="comments">
               <v-row justify="space-between" class="ma-0">
-                <h3 class="comments__number">
+                <h3 class="comments__number pb-5">
                   {{ commentsAmount || 0 }} Comentários
                 </h3>
                 <div
                   v-if="!posting"
-                  :class="
-                    'publish-btn pt-4 ' + (commentPost ? 'primary--text' : {})
-                  "
+                  :class="'publish-btn ' + (commentPost ? 'primary--text' : {})"
                   @click="postComment"
                 >
                   Publicar
                 </div>
-                <var v-else class="py-4 pr-5">
-                  <v-progress-circular
-                    class="publish-btn pt-4"
-                    indeterminate
-                    color="primary"
-                    size="20"
-                  />
-                </var>
               </v-row>
               <v-row justify="center" class="top-row">
                 <v-avatar size="40" class="mt-1">
@@ -73,6 +63,7 @@
                 </v-avatar>
                 <v-text-field
                   v-model="commentPost"
+                  :loading="posting"
                   class="light-text-field mt-2 ml-2"
                   placeholder="Escreva seu comentario"
                   outlined
