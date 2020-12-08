@@ -24,8 +24,15 @@
       </div>
       <div class="info__box">
         <section>
-          <h1 class="h1__theme">Professor&nbsp;&nbsp;</h1>
-          <p id="author__name">{{ course.authorName }}</p>
+          <div class="course__info">
+            <div class="author__info">
+              <h1 class="h1__theme">Professor&nbsp;&nbsp;&nbsp;&nbsp;</h1>
+              <p id="author__name">{{ course.authorName }}</p>
+            </div>
+            <div class="mural" @click="goToMural">
+              <p>Mural</p>
+            </div>
+          </div>
         </section>
         <p id="description">{{ course.description }}</p>
       </div>
@@ -111,6 +118,9 @@ export default {
         `/certificado-info/${this.$store.state.user.data.id}/${this.course.id}`,
       );
     },
+    goToMural() {
+      this.$router.push(`/mural/${this.course.id}`);
+    },
     async startCourse() {
       // send to backend that this course will start
       await http
@@ -153,6 +163,12 @@ export default {
 h1 {
   font-size: 1rem;
 }
+
+.author__info {
+  display: flex;
+  align-items: center;
+}
+
 .mask__img {
   display: flex;
   justify-content: center;
@@ -160,15 +176,40 @@ h1 {
   width: 100%;
   overflow: hidden;
   height: 15rem;
-  margin-top: 0.5rem;
 
   img {
     width: 100%;
   }
 }
+
+.course__info {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  width: 100%;
+}
+
+.h1__theme {
+  font-family: 'Roboto';
+  font-weight: 900;
+  font-size: 14px;
+  line-height: 16px;
+  color: #6600cc;
+  margin-top: 4px;
+}
+
+.mural p {
+  font-family: 'Roboto';
+  font-weight: bold;
+  font-size: 12px;
+  line-height: 16px;
+  color: #737373;
+  cursor: pointer;
+}
+
 .info__box {
   display: flex;
-  margin-top: 0.6rem;
+  margin-top: -0.4rem;
   flex-direction: column;
 }
 .info__box section {
@@ -179,19 +220,24 @@ h1 {
 #author__name {
   font-size: 0.8555rem;
   font-weight: 600;
-  margin-bottom: 0;
+  margin-bottom: -4px;
 }
 #description {
-  margin-top: 0.5rem;
-  color: gray;
-  font-size: smaller;
-  text-align: justify;
+  margin-top: 32px;
+  font-family: 'Roboto';
+  font-size: 12px;
+  line-height: 16px;
+  color: #1a1a1a;
 }
 .v-progress-circular {
   color: #b2b2b2;
 }
 .v-btn__loader {
   background-color: #e9e9e9;
+}
+
+::v-deep .v-application p {
+  margin-bottom: 0 !important;
 }
 
 #main-col {
