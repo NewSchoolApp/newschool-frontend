@@ -12,29 +12,29 @@
 </template>
 
 <script>
-import { Pie } from 'vue-chartjs'
+import { Pie } from 'vue-chartjs';
 export default {
   extends: Pie,
   props: ['data', 'title', 'total', 'chartColors', 'labels'],
   data: () => ({
     cutout: 70,
-    colors:["#3399ff", "#003399", "#6d9be4", "#c2daff", "#e9f2ff"],
+    colors: ['#3399ff', '#003399', '#6d9be4', '#c2daff', '#e9f2ff'],
   }),
 
-  computed:{
-   totalTitle: function(){
-     return this.data.reduce((a, b) => a + b, 0).toLocaleString();
-   }
+  computed: {
+    totalTitle: function() {
+      return this.data.reduce((a, b) => a + b, 0).toLocaleString();
+    },
   },
 
   mounted() {
     if (!this.title) {
       this.cutout = 0;
-      this.totalTitle = "";
-    };
+      this.totalTitle = '';
+    }
     if (this.chartColors) {
       this.colors = this.chartColors;
-    };
+    }
     new Chart(this.$refs.myChart, {
       type: 'pie',
       data: {
@@ -44,12 +44,12 @@ export default {
             backgroundColor: this.colors,
           },
         ],
-        labels: this.labels
+        labels: this.labels,
       },
       options: {
         cutoutPercentage: this.cutout,
         legend: false,
-      }
+      },
     });
   },
 };
@@ -73,46 +73,46 @@ export default {
   justify-content: center;
 }
 
-.innerTitle{
+.innerTitle {
   flex-wrap: wrap;
   font-weight: 900;
   font-size: 5vw;
   color: #999999;
 }
 
-.total{
+.total {
   font-weight: 900;
   font-size: 5vw;
   color: #000000;
 }
 
-@media screen and (orientation: landscape){
-  .innerTitle{
+@media screen and (orientation: landscape) {
+  .innerTitle {
     font-size: 2.5vw;
   }
 
-  .total{
+  .total {
     font-size: 2.5vw;
   }
 
-  @media (min-width: 1000px){
-    .innerTitle{
+  @media (min-width: 1000px) {
+    .innerTitle {
       font-size: 1.5vw;
     }
 
-    .total{
+    .total {
       font-size: 1.5vw;
     }
   }
 }
 
-@media screen and (orientation: portrait){
-  @media (min-width: 700px){
-    .innerTitle{
+@media screen and (orientation: portrait) {
+  @media (min-width: 700px) {
+    .innerTitle {
       font-size: 2.5vw;
     }
 
-    .total{
+    .total {
       font-size: 2.5vw;
     }
   }

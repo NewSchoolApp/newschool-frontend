@@ -1,5 +1,5 @@
 <template>
-  <div class="card">
+  <div class="card" :class="notification.special ? 'special' : ''">
     <div class="header__info">
       <img src="~/assets/gabs-small.svg" />
       <img
@@ -108,6 +108,10 @@ h1 {
   position: absolute;
   right: 20px;
   top: 10px;
+}
+
+.special {
+  border-left: 5px solid red;
 }
 
 ::v-deep .v-progress-linear {
