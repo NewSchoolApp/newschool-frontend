@@ -23,7 +23,6 @@ http.interceptors.response.use(
       localStorage.clear();
       $nuxt._router.push('/login');
     } else {
-      $nuxt._router.push('/login');
       return Promise.reject(error);
     }
     return config;

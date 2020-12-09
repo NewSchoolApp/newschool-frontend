@@ -93,9 +93,15 @@ export const actions = {
         type: 'PART',
         stepUrl: `/aluno/curso/${this.state.courses.current.slug}/aula/parte`,
       };
-    } else if (currentStep.data.doing === 'FINISHED') {
+    } else if (currentStep.data.doing === 'CHALLENGE') {
       return {
-        type: 'FINISHED',
+        type: 'CHALLENGE',
+        stepUrl: `/aluno/curso/${this.state.courses.current.slug}/pre-challenge`,
+        // stepUrl: `/aluno/curso/${this.state.courses.current.slug}/fim`,
+      };
+    } else if (currentStep.data.doing === 'COMPLETED') {
+      return {
+        type: 'COMPLETED',
         stepUrl: `/aluno/curso/${this.state.courses.current.slug}/fim`,
       };
     } else {

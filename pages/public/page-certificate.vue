@@ -76,7 +76,7 @@ import moment from 'moment';
 import http from '../../services/http/public';
 import NavigationBar from '~/components/NavigationBar.vue';
 import HeaderBar from '~/components/Header.vue';
-import ogImage from '~/assets/backgroundCertificates.svg';
+import ogImage from '~/assets/backgroundCertificate.png';
 
 export default {
   components: {
@@ -127,7 +127,7 @@ export default {
           {
             hid: 'og:image',
             property: 'og:image',
-            content: `${process.env.domain}/assets/backgroundCertificates.svg`,
+            content: `${process.env.domain}/assets/backgroundCertificate.png`,
           },
         ],
       };
@@ -157,7 +157,7 @@ h3 {
 }
 
 .background {
-  background: url('../../assets/backgroundCertificates.svg');
+  background: url('../../assets/backgroundCertificate.png');
   background-repeat: no-repeat;
   background-size: cover;
   position: fixed;

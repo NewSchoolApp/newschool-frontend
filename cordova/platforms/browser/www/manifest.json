@@ -1,0 +1,12 @@
+{
+  "background_color": "#FFF",
+  "display": "standalone",
+  "name": "New School",
+  "short_name": "New School",
+  "version": "com.newschool.app",
+  "description": "New School App",
+  "author": "New School Team",
+  "icons": [],
+  "start_url": "index.html",
+  "theme_color": "#fff"
+}
