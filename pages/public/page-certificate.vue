@@ -69,7 +69,7 @@
   </div>
 </template>
 <router>
-    path: "/pagina-certificado/:idUser/:idCourse/:print"
+    path: "/pagina-certificado/:idUser/:idCourse/:print?"
 </router>
 <script>
 import moment from 'moment';
