@@ -1,18 +1,14 @@
 <template>
   <v-col class="main-col" align="center">
-    <v-card
-      @click="goToCertificate(2)"
-      class="v-card-body"
-      elevation="0"
-      color="transparent"
-    >
-      <template @click="goToCertificate(2)">
+    <v-card class="v-card-body" elevation="0" color="transparent">
+      <template>
         <v-img :src="certificate.course.capa.url" />
-        <v-img class="thumb-background" />
+        <v-img class="thumb-background" @click="goToCertificate(2)" />
         <v-img
           class="medal"
           contain
           :src="require(`@/assets/medalha-imagem.svg`)"
+          @click="goToCertificate(2)"
         />
       </template>
 
@@ -68,9 +64,6 @@ export default {
       this.showThumb = false;
     },
     onSuccess(result) {
-      console.log('Share completed? ' + result.completed);
-      console.log(result); // On Android apps mostly return false even while it's true
-      console.log('Shared to app: ' + result.app); // On Android result.app since plugin version 5.4.0 this is no longer empty. On iOS it's empty when sharing is cancelled (result.completed=false)
       httpHelper
         .post(process.env.endpoints.EVENT, {
           event: 'SHARE_COURSE',
@@ -93,7 +86,7 @@ export default {
         );
     },
     onError(msg) {
-      console.log('Sharing failed with message: ' + msg);
+      alert('Sharing failed with message: ' + msg);
     },
     share(event, title, image) {
       event.stopPropagation();

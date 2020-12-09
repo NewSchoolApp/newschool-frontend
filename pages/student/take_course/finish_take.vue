@@ -6,7 +6,7 @@
           style="justify-content: flex-end; padding-bottom: 10px"
           color="white"
           dark
-          @click="gotoCourse()"
+          @click="activeDialog = 'start'"
         >
           mdi-close-circle
         </v-icon>
@@ -33,8 +33,8 @@
       <!-- Share -->
       <div class="btn__container">
         <button
-          @click="share($event, title, image)"
           class="btn-block btn-primary"
+          @click="share($event, title, image)"
         >
           COMPARTILHAR
         </button>
@@ -51,7 +51,7 @@
         style="justify-content: flex-end; padding-bottom: 10px"
         color="#6600cc"
         dark
-        @click="activeDialog = 'none'"
+        @click="gotoCourse()"
       >
         mdi-close-circle
       </v-icon>
@@ -95,7 +95,7 @@
         style="justify-content: flex-end; padding-bottom: 10px"
         color="#6600cc"
         dark
-        @click="activeDialog = 'none'"
+        @click="gotoCourse()"
       >
         mdi-close-circle
       </v-icon>
@@ -139,7 +139,7 @@
         style="justify-content: flex-end; padding-bottom: 10px"
         color="#6600cc"
         dark
-        @click="activeDialog = 'none'"
+        @click="gotoCourse()"
       >
         mdi-close-circle
       </v-icon>
@@ -190,10 +190,7 @@
 
       <!-- dialog footer -->
       <v-row align="end" style="padding-bottom: 0">
-        <v-btn
-          class="btn-block btn-primary baseline"
-          @click="activeDialog = 'none'"
-        >
+        <v-btn class="btn-block btn-primary baseline" @click="gotoCourse()">
           Finalizar
         </v-btn>
       </v-row>
@@ -215,13 +212,18 @@ export default {
   },
   data() {
     return {
-      dialog: 'start',
+      dialog: 'none',
       bindedClass: 'none',
       postBody: {
         rating: '',
         feedback: '',
       },
     };
+  },
+  mounted() {
+    if (this.$route.params.lateFeedback == 2) {
+      this.activeDialog = 'start';
+    }
   },
   computed: {
     activeDialog: {
@@ -252,24 +254,30 @@ export default {
       return this.$route.params.courseSlug;
     },
   },
+  mounted() {
+    if (this.$route.params.lateFeedback == 1) {
+      this.activeDialog = 'start';
+    }
+  },
   methods: {
     gotoCertificate() {
-      $nuxt._router.push(`/pagina-certificado/${this.idUser}/${this.courseId}`);
+      $nuxt._router.push(
+        `/aluno/certificado-info/${this.idUser}/${this.courseId}`,
+      );
     },
-    gotoCourse() {
+    async gotoCourse() {
+      await this.$store.dispatch('courses/refreshMyCourses');
+
       $nuxt._router.push(
         `/aluno/curso/${this.convertToSlug(this.courseTitle)}`,
       );
     },
     onSuccess(result) {
-      console.log('Share completed? ' + result.completed);
-      console.log(result); // On Android apps mostly return false even while it's true
-      console.log('Shared to app: ' + result.app); // On Android result.app since plugin version 5.4.0 this is no longer empty. On iOS it's empty when sharing is cancelled (result.completed=false)
       httpHelper
         .post(process.env.endpoints.EVENT, {
           event: 'SHARE_COURSE',
           rule: {
-            courseId: this.params.idCourse,
+            courseId: this.courseId,
             userId: this.idUser,
             platform: result.app,
           },
@@ -287,7 +295,7 @@ export default {
         );
     },
     onError(msg) {
-      console.log('Sharing failed with message: ' + msg);
+      alert('Sharing failed with message: ' + msg);
     },
     share(event, title, image) {
       event.stopPropagation();
@@ -295,10 +303,7 @@ export default {
       const options = {
         message: 'Se liga no certificado que eu ganhei, SELOKO!', // not supported on some apps (Facebook, Instagram)
         subject: this.tryMessage, // fi. for email
-        // files: [
-        //   'https://newschool-dev.s3.us-east-2.amazonaws.com/17954a42-8132-481e-bc38-508aefe7a996/profile.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAV56KXRILVMG6BB2Q%2F20201115%2Fus-east-2%2Fs3%2Faws4_request&X-Amz-Date=20201115T042331Z&X-Amz-Expires=900&X-Amz-Signature=b7e68e7db1194b74e266f211d56adab75d35f75dd3eceb4982b0c6aad8bb5c60&X-Amz-SignedHeaders=host',
-        // ],
-        url: `http://newschool-ui-dev.eba-fdz8zprg.us-east-2.elasticbeanstalk.com/#/pagina-certificado/${this.params.idUser}/${this.params.idCourse}/0`,
+        url: `http://newschool-ui-dev.eba-fdz8zprg.us-east-2.elasticbeanstalk.com/#/pagina-certificado/${this.idUser}/${this.courseId}/0`,
         chooserTitle: 'Vem colar com nois!', // Android only, you can override the default share sheet title
       };
       window.plugins.socialsharing.shareWithOptions(

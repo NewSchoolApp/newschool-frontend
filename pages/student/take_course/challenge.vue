@@ -1,6 +1,6 @@
 <template>
   <div class="challenge__content">
-    <HeaderBar :title="'Desafio'" :back-page="true" />
+    <HeaderBar :title="'Desafio'" :route="`/aluno/curso/${slug}`" />
     <h1 class="hello_text">E aí, parça! Blz?</h1>
     <div class="share__achievement">
       <p>
@@ -11,13 +11,15 @@
     </div>
 
     <div class="challenge">
-      <v-textarea outlined placeholder="Seu comentário" />
+      <v-textarea
+        v-model="challengeText"
+        :class="challengeFieldClass"
+        outlined
+        placeholder="Seu comentário"
+      />
     </div>
     <div class="btn__container">
-      <button
-        @click="shareInSocialMedia($event, title, image)"
-        class="btn-block btn-primary"
-      >
+      <button class="btn-block btn-primary" @click="postChallenge()">
         PRÓXIMO
       </button>
     </div>
@@ -25,7 +27,7 @@
 </template>
 <router>
   {
-    path: '/aluno/challenge'
+    path: '/aluno/curso/:courseSlug/challenge'
   }
 </router>
 
@@ -36,62 +38,35 @@ export default {
   components: {
     HeaderBar,
   },
+  data: () => ({
+    challengeText: '',
+    challengeFieldClass: '',
+  }),
   computed: {
-    user() {
-      return this.$store.state.user.data;
-    },
     idUser() {
       return this.$store.state.user.data.id;
     },
-  },
-  mounted() {
-    console.log(this.user);
+    slug() {
+      return this.$route.params.courseSlug;
+    },
+    currentCourse() {
+      return this.$store.state.courses.current;
+    },
   },
   methods: {
-    onSuccess(result) {
-      console.log('Share completed? ' + result.completed);
-      console.log(result); // On Android apps mostly return false even while it's true
-      console.log('Shared to app: ' + result.app); // On Android result.app since plugin version 5.4.0 this is no longer empty. On iOS it's empty when sharing is cancelled (result.completed=false)
-      http
-        .post(process.env.endpoints.EVENT, {
-          event: 'SHARE_APP',
-          rule: {
-            userId: this.idUser,
-            platform: result.app,
-          },
-        })
-        .then(res => {
-          this.$notifier.showMessage({
-            type: 'success',
-          });
-          $nuxt._router.push('/aluno/home');
-        })
-        .catch(() =>
-          this.$notifier.showMessage({
-            type: 'error',
-          }),
+    async postChallenge() {
+      if (this.challengeText) {
+        await http.post(
+          `${process.env.endpoints.CHALLENGE}${this.idUser}/course/${this.currentCourse.id}`,
+          { challenge: this.challengeText },
         );
-    },
-    onError(msg) {
-      console.log('Sharing failed with message: ' + msg);
-    },
-    shareInSocialMedia(event, title, image) {
-      event.stopPropagation();
-      event.preventDefault();
-      const options = {
-        message: 'Vem colar com nois, aqui na New School!', // not supported on some apps (Facebook, Instagram)
-        subject: 'Faça seu cadastro e vem aprender com a gente', // fi. for email
-        url: `newschool-ui-dev.eba-fdz8zprg.us-east-2.elasticbeanstalk.com/#/cadastro/${this.user.inviteKey}`,
-        chooserTitle: 'Compartilhe seu URL de convite', // Android only, you can override the default share sheet title
-      };
-      window.plugins.socialsharing.shareWithOptions(
-        options,
-        this.onSuccess,
-        this.onError,
-      );
-    },
-    goBack() {
-      this.$router.back();
+        this.$router.push(`/aluno/curso/${this.slug}/fim`);
+      } else {
+        this.challengeFieldClass = 'error-field';
+        setTimeout(() => {
+          this.challengeFieldClass = '';
+        }, 300);
+      }
     },
   },
 };
@@ -184,5 +159,8 @@ h4 {
     height: 100vh;
     overflow: hidden;
   }
+}
+.error-field {
+  animation: nono 300ms, intro paused;
 }
 </style>

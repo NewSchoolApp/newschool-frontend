@@ -45,8 +45,10 @@
                 v-model="form.profile"
                 placeholder="Selecione o seu perfil!"
                 :items="profile"
-                label="Qual é o seu perfil?"
+                label="Quem é você fora do app?"
                 required
+                hide-no-data
+                hide-selected
               ></v-select>
               <!-- <v-text-field
                 v-if="this.form.profile === 'Aluno'"
@@ -135,11 +137,12 @@ export default {
       schools: [],
       snackbarStatus: '',
       profile: [
-        'Aluno',
-        'Ex-Aluno',
-        'Universitário',
-        'Pai',
-        'Investidor',
+        'Aluno de escola',
+        'Pai de aluno',
+        'Professor',
+        'Estudante de faculdade',
+        'Parceiro/Investidor',
+        'Parei de estudar',
         'Outros',
       ],
       form: {
@@ -180,12 +183,13 @@ export default {
       if (this.$refs.form.validate()) {
         const postObject = Object.assign({}, this.form);
         const profileEnum = {
-          Aluno: 'STUDENT',
-          'Ex-Aluno': 'EX_STUDENT',
-          Universitário: 'UNIVERSITY',
-          Pai: 'FATHER',
-          Investidor: 'INVESTOR',
+          'Aluno de escola': 'STUDENT',
+          'Parei de estudar': 'EX_STUDENT',
+          'Estudante de faculdade': 'UNIVERSITY',
+          'Pai de aluno': 'FATHER',
+          'Parceiro/Investidor': 'INVESTOR',
           Outros: 'OTHERS',
+          Professor: 'OTHERS',
         };
         const { profile } = postObject;
         postObject.profile = profileEnum[profile];

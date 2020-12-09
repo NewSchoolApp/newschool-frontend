@@ -127,7 +127,6 @@ export default {
     },
     async googleLogin() {
       const provider = new this.$fireModule.auth.GoogleAuthProvider();
-      console.log(provider);
       this.$fireModule
         .auth()
         .signInWithPopup(provider)
@@ -143,17 +142,10 @@ export default {
             institutionName: '',
             role: 'STUDENT',
           };
-          this.loadClientCredentials()
-            .then(async (res) => {
-              const token = res.data.accessToken;
-              const response = await auth.signUp(postObject, token, inviteKey);
-                console.log(response)
-                if(!response) {
-                  return console.log('deu mierda')
-                }
-            })
-
-            console.log('aaa')
+          this.loadClientCredentials().then(async res => {
+            const token = res.data.accessToken;
+            const response = await auth.signUp(postObject, token, inviteKey);
+          });
         });
     },
     submit() {
@@ -287,6 +279,7 @@ export default {
   width: 100%;
   height: 100%;
   position: fixed;
+  top: 0;
   background: url('../../assets/paraisopolis.png');
   background-size: cover;
   background-position: center;

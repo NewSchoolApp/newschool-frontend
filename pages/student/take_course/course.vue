@@ -1,6 +1,6 @@
 <template>
   <div>
-    <HeaderBar :title="'Curso'" :back-page="true"></HeaderBar>
+    <HeaderBar :title="'Curso'" :route="'/aluno/home'"></HeaderBar>
     <div v-if="loading">
       <div class="container-spinner">
         <v-progress-circular
@@ -11,53 +11,50 @@
         />
       </div>
     </div>
-    <div v-else>
-      <div id="page">
-        <main>
-          <h1 id="title__course" class="h1__theme">{{ course.title }}</h1>
-          <div class="mask__img">
-            <img
-              v-if="showThumb"
-              :src="course.capa.url"
-              alt="imagem-curso"
-              title="imagem curso"
-              @error="imageLoadError"
-            />
-          </div>
-          <div class="info__box">
-            <section>
-              <h1 class="h1__theme">Professor&nbsp;&nbsp;</h1>
+    <div v-else id="main-col">
+      <h1 id="title__course" class="h1__theme pb-2">{{ course.title }}</h1>
+      <div class="mask__img">
+        <img
+          v-if="showThumb"
+          :src="course.capa.url"
+          alt="imagem-curso"
+          title="imagem curso"
+          @error="imageLoadError"
+        />
+      </div>
+      <div class="info__box">
+        <section>
+          <div class="course__info pt-3">
+            <div class="author__info">
+              <h1 class="h1__theme">Professor&nbsp;&nbsp;&nbsp;&nbsp;</h1>
               <p id="author__name">{{ course.authorName }}</p>
-            </section>
-            <p id="description">{{ course.description }}</p>
+            </div>
+            <div class="mural" @click="goToMural">
+              <p>Mural</p>
+            </div>
           </div>
-          <v-btn
-            v-if="courseState == 'TAKEN'"
-            class="btn-block btn-primary"
-            :loading="loadingInit"
-            :disabled="loadingInit"
-            @click="continueCourse()"
-          >
-            Continuar
-          </v-btn>
-          <v-btn
-            v-else-if="courseState == 'COMPLETED'"
-            class="btn-block btn-primary"
-            :loading="loadingInit"
-            @click="goToCertificate()"
-          >
-            Certificado
-          </v-btn>
-          <v-btn
-            v-else
-            class="btn-block btn-primary"
-            :loading="loadingInit"
-            :disabled="loadingInit"
-            @click="startCourse()"
-          >
-            Iniciar
-          </v-btn>
-        </main>
+        </section>
+        <p id="description">{{ course.description }}</p>
+      </div>
+
+      <div class="base">
+        <v-btn
+          v-if="courseState == 'TAKEN'"
+          class="btn-block btn-primary"
+          @click="continueCourse()"
+        >
+          Continuar
+        </v-btn>
+        <v-btn
+          v-else-if="courseState == 'COMPLETED'"
+          class="btn-block btn-primary"
+          @click="goToCertificate()"
+        >
+          Certificado
+        </v-btn>
+        <v-btn v-else class="btn-block btn-primary" @click="startCourse()">
+          Iniciar
+        </v-btn>
       </div>
     </div>
     <client-only>
@@ -84,45 +81,47 @@ export default {
     return {
       showThumb: true,
       loading: true,
-      loadingInit: false,
+      courseState: 'NOT_TAKEN',
     };
   },
   computed: {
     course() {
       return this.$store.state.courses.current;
     },
-    courseState() {
-      const tryFind = this.$store.state.courses.my.find(
-        course => course.courseId == this.course.id,
-      );
-      if (tryFind) {
-        return tryFind.status;
-      } else {
-        return 'NOT_TAKEN';
-      }
-    },
     idUser() {
       return this.$store.state.user.data.id;
     },
   },
   mounted() {
+    this.checkCourseState();
     this.loading = false;
   },
   methods: {
+    checkCourseState() {
+      const tryFind = this.$store.state.courses.my.find(
+        course => course.courseId == this.course.id,
+      );
+      if (tryFind) {
+        if (!tryFind.challenge) {
+          this.courseState = 'TAKEN';
+        } else {
+          this.courseState = 'COMPLETED';
+        }
+      }
+    },
     imageLoadError() {
       this.showThumb = false;
     },
     goToCertificate() {
       // eslint-disable-next-line no-undef
       $nuxt._router.push(
-        `/certificado-info/${this.$store.state.user.data.id}/${this.course.id}`,
+        `/aluno/certificado-info/${this.$store.state.user.data.id}/${this.course.id}`,
       );
     },
+    goToMural() {
+      this.$router.push(`/mural/${this.course.id}`);
+    },
     async startCourse() {
-      this.loadingInit = true;
-      console.log('idUser', this.idUser);
-      console.log('courseId', this.course);
-
       // send to backend that this course will start
       await http
         .post(process.env.endpoints.INIT_COURSE, {
@@ -148,13 +147,10 @@ export default {
       $nuxt._router.push(currentStep.stepUrl);
     },
     async continueCourse() {
-      this.loadingInit = true;
-
       // check for current step
       const currentStep = await this.$store.dispatch(
         'courses/refreshCurrentStep',
       );
-      console.log(currentStep)
 
       // go to step url
       $nuxt._router.push(currentStep.stepUrl);
@@ -167,25 +163,54 @@ export default {
 h1 {
   font-size: 1rem;
 }
-main {
-  padding: 0rem 1.6rem;
+
+.author__info {
+  display: flex;
+  align-items: center;
 }
+
 .mask__img {
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
   overflow: hidden;
-  height: 15rem;
-  margin-top: 0.5rem;
+  margin-top: 1%;
 
   img {
     width: 100%;
   }
 }
+
+.course__info {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  width: 100%;
+  margin-top: 1%;
+}
+
+.h1__theme {
+  font-family: 'Roboto';
+  font-weight: 900;
+  font-size: 14px;
+  line-height: 16px;
+  color: #6600cc;
+  margin-top: 4px;
+}
+
+.mural p {
+  font-family: 'Roboto';
+  font-weight: bold;
+  font-size: 12px;
+  line-height: 16px;
+  color: #737373;
+  cursor: pointer;
+}
+
 .info__box {
   display: flex;
-  margin-top: 0.6rem;
+  margin-top: -0.4rem;
   flex-direction: column;
 }
 .info__box section {
@@ -196,13 +221,13 @@ main {
 #author__name {
   font-size: 0.8555rem;
   font-weight: 600;
-  margin-bottom: 0;
+  margin-bottom: -4px;
 }
 #description {
-  margin-top: 0.5rem;
-  color: gray;
-  font-size: smaller;
-  text-align: justify;
+  font-family: 'Roboto';
+  font-size: 12px;
+  line-height: 16px;
+  color: #1a1a1a;
 }
 .v-progress-circular {
   color: #b2b2b2;
@@ -210,7 +235,20 @@ main {
 .v-btn__loader {
   background-color: #e9e9e9;
 }
-#page {
-  margin-bottom: 5rem !important;
+
+::v-deep .v-application p {
+  margin-bottom: 0 !important;
+}
+
+#main-col {
+  position: relative;
+  margin: 10px 24px 80px;
+  min-height: calc(100vh - 160px);
+}
+
+.base {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
 }
 </style>
