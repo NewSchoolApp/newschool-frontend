@@ -4,7 +4,7 @@
     <div class="notification">
       <img
         class="notification__image"
-        :src="require('~/assets/background-fire.png')"
+        :src="require('~/assets/finish_signup.svg')"
         alt=""
       />
       <h1 class="points">+ 30 NC</h1>
@@ -17,7 +17,7 @@
     <div class="share__achievement">
       <p>Você concluiu seu cadastro, aproveite seus pontos!</p>
       <div class="btn__container">
-        <button @click="goToHome" class="btn-block btn-primary">
+        <button class="btn-block btn-primary" @click="goToHome">
           FINALIZAR
         </button>
       </div>

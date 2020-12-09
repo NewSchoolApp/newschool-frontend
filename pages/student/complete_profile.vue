@@ -149,8 +149,8 @@
               <div class="input-label">CEP</div>
               <v-text-field
                 v-model="form.cep"
-                type="text"
                 v-mask="'#####-###'"
+                type="text"
                 filled
               />
             </v-col>
@@ -303,11 +303,12 @@
 </router>
 
 <script>
+import { mask } from 'vue-the-mask';
 import http from '~/services/http/generic';
 import utils from '~/utils/index';
-import { mask } from 'vue-the-mask';
 
 export default {
+  directives: { mask },
   data() {
     return {
       loading: false,
@@ -413,7 +414,6 @@ export default {
       districts: [],
     };
   },
-  directives: { mask },
   computed: {
     idUser() {
       return this.$store.state.user.data.id;
@@ -609,7 +609,7 @@ export default {
           api: false,
         });
         if (!postBody.employed) {
-          postBody.profession = null;
+          postBody.profession = 'Unemployed';
         }
 
         // resolving address
@@ -711,8 +711,8 @@ export default {
     resolveSchooling({ schooling, api }) {
       const schoolingTypes = {
         'Estudo até o 9° ano': 'ENSINO_FUNDAMENTAL_CURSANDO',
-        'Parei de estudar antes do 9° ano': 'ENSINO_FUNDAMENTAL_IMCOMPLETO',
-        'Parei de estudar entre o 1° e o 3° ano': 'ENSINO_MEDIO_IMCOMPLETO',
+        'Parei de estudar antes do 9° ano': 'ENSINO_FUNDAMENTAL_INCOMPLETO',
+        'Parei de estudar entre o 1° e o 3° ano': 'ENSINO_MEDIO_INCOMPLETO',
         'Estou entre o 1º e 2º ano': 'ENSINO_MEDIO_CURSANDO',
         'Tô no terceirão': 'TERCEIRO_ANO',
         'Completei o terceirão': 'ENSINO_MEDIO_COMPLETO',
