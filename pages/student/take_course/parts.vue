@@ -48,12 +48,12 @@
                 <h3 class="comments__number pb-5">
                   {{ commentsAmount || 0 }} Comentários
                 </h3>
-                <div
-                  v-if="!posting"
-                  :class="'publish-btn ' + (commentPost ? 'primary--text' : {})"
-                  @click="postComment"
-                >
-                  Publicar
+                <div v-if="!posting" @click="postComment">
+                  <v-icon
+                    class="icon__send"
+                    :color="commentPost ? '#6600cc' : ''"
+                    >mdi-send</v-icon
+                  >
                 </div>
               </v-row>
               <v-row justify="center" class="top-row">
@@ -174,13 +174,9 @@ export default {
           });
         case 'Mais salves':
           // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-          return this.comments.sort(function(a, b) {
-            return a.clappedBy.length < b.clappedBy.length
-              ? 1
-              : a.clappedBy.length > b.clappedBy.length
-              ? -1
-              : 0;
-          });
+          return (this.comments = this.comments.sort(
+            (a, b) => a.clappedBy.length < b.clappedBy.length,
+          ));
         case 'Meus comentarios':
           return this.comments.filter(
             comment => comment.userId === this.idUser,
@@ -331,6 +327,11 @@ h1 {
   font-weight: 700;
   color: #1a1a1a;
 }
+
+.button-primary {
+  color: #6600cc;
+}
+
 .publish-btn {
   margin-bottom: 0;
   font-size: 12px;
@@ -403,6 +404,10 @@ h4 {
   position: absolute;
   bottom: 0;
   width: 100%;
+}
+
+.icon__send {
+  cursor: pointer;
 }
 .info__box {
   display: flex;

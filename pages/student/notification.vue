@@ -22,6 +22,10 @@
               v-for="notification of notifications"
               :key="notification.id"
               class="card"
+              :class="notification.special ? 'special' : ''"
+              @click="
+                notification.link ? goToNotification(notification.link) : ''
+              "
             >
               <div class="header__info">
                 <img src="~/assets/gabs-small.svg" />
@@ -147,6 +151,9 @@ export default {
           this.notifications = response.data;
         });
     },
+    goToNotification(link) {
+      window.location = link;
+    },
   },
 };
 </script>
@@ -176,6 +183,11 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
+}
+
+.special {
+  border-left: 5px solid red;
+  cursor: pointer;
 }
 
 #page {
