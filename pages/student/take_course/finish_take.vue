@@ -249,9 +249,16 @@ export default {
       return this.$route.params.courseSlug;
     },
   },
+  mounted() {
+    if (this.$route.params.lateFeedback == 1) {
+      this.activeDialog = 'start';
+    }
+  },
   methods: {
     gotoCertificate() {
-      $nuxt._router.push(`/pagina-certificado/${this.idUser}/${this.courseId}`);
+      $nuxt._router.push(
+        `/aluno/certificado-info/${this.idUser}/${this.courseId}`,
+      );
     },
     async gotoCourse() {
       await this.$store.dispatch('courses/refreshMyCourses');

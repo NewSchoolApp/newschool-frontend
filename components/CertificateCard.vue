@@ -8,6 +8,7 @@
           class="medal"
           contain
           :src="require(`@/assets/medalha-imagem.svg`)"
+          @click="goToCertificate(2)"
         />
       </template>
 
