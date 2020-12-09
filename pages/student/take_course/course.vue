@@ -12,7 +12,7 @@
       </div>
     </div>
     <div v-else id="main-col">
-      <h1 id="title__course" class="h1__theme">{{ course.title }}</h1>
+      <h1 id="title__course" class="h1__theme pb-2">{{ course.title }}</h1>
       <div class="mask__img">
         <img
           v-if="showThumb"
@@ -24,7 +24,7 @@
       </div>
       <div class="info__box">
         <section>
-          <div class="course__info">
+          <div class="course__info pt-3">
             <div class="author__info">
               <h1 class="h1__theme">Professor&nbsp;&nbsp;&nbsp;&nbsp;</h1>
               <p id="author__name">{{ course.authorName }}</p>
@@ -115,7 +115,7 @@ export default {
     goToCertificate() {
       // eslint-disable-next-line no-undef
       $nuxt._router.push(
-        `/certificado-info/${this.$store.state.user.data.id}/${this.course.id}`,
+        `/aluno/certificado-info/${this.$store.state.user.data.id}/${this.course.id}`,
       );
     },
     goToMural() {

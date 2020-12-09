@@ -1,18 +1,14 @@
 <template>
   <v-col class="main-col" align="center">
-    <v-card
-      @click="goToCertificate(2)"
-      class="v-card-body"
-      elevation="0"
-      color="transparent"
-    >
-      <template @click="goToCertificate(2)">
+    <v-card class="v-card-body" elevation="0" color="transparent">
+      <template>
         <v-img :src="certificate.course.capa.url" />
-        <v-img class="thumb-background" />
+        <v-img class="thumb-background" @click="goToCertificate(2)" />
         <v-img
           class="medal"
           contain
           :src="require(`@/assets/medalha-imagem.svg`)"
+          @click="goToCertificate(2)"
         />
       </template>
 

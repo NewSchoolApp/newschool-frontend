@@ -113,7 +113,7 @@
             </v-col>
             <v-col>
               <v-avatar class="self-rank-avatar" size="70">
-                <img v-if="selfRank.photo" :src="selfRank.photo" />
+                <img v-if="user.photo" :src="user.photo" alt="" />
                 <img v-else :src="require(`~/assets/person.svg`)" />
               </v-avatar>
             </v-col>
@@ -251,6 +251,9 @@ export default {
   computed: {
     idUser() {
       return this.$store.state.user.data.id;
+    },
+    user() {
+      return this.$store.state.user.data;
     },
     podium() {
       if (this.ranking.slice(0, 3).length == 3) {
@@ -622,3 +625,4 @@ td {
   align-items: center;
 }
 </style>
+
