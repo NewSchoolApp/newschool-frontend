@@ -22,9 +22,11 @@
               v-for="notification of notifications"
               :key="notification.id"
               class="card"
-              :class="notification.special ? 'special' : ''"
+              :class="notification.type === 'OTHER' ? 'special' : ''"
               @click="
-                notification.link ? goToNotification(notification.link) : ''
+                notification.content.semearSiteUrl
+                  ? goToNotification(notification.content.semearSiteUrl)
+                  : ''
               "
             >
               <div class="header__info">
@@ -36,7 +38,13 @@
                   @click="removeNotification(notification)"
                 />
 
-                <h1>{{ notification.content.badge.badgeDescription }}</h1>
+                <h1>
+                  {{
+                    notification.content.badge
+                      ? notification.content.badge.badgeDescription
+                      : 'Clique e acesse o site do parceiro'
+                  }}
+                </h1>
                 <div>
                   <p id="continue__text">{{ checkDate(notification) }}</p>
                 </div>
@@ -125,6 +133,9 @@ export default {
       this.loading = false;
     },
     removeNotification(notification) {
+      if (notification.content.semearSiteUrl) {
+        return;
+      }
       this.loading = true;
       http
         .putByURL(
