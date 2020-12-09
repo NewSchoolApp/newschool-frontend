@@ -113,12 +113,7 @@
             </v-col>
             <v-col>
               <v-avatar class="self-rank-avatar" size="70">
-                <img v-if="selfRank.photo" :src="selfRank.photo" />
-                <img
-                  v-if="!selfRank.photo && user.photo"
-                  :src="user.photo"
-                  alt=""
-                />
+                <img v-if="user.photo" :src="user.photo" alt="" />
                 <img v-else :src="require(`~/assets/person.svg`)" />
               </v-avatar>
             </v-col>
