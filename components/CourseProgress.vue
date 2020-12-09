@@ -49,7 +49,7 @@ export default {
       this.$store.commit('courses/setCurrent', this.course);
 
       // go to the last page of course flow passing 1 to "lateRate" flag
-      $nuxt._router.push(`/aluno/curso/${this.course.slug}/fim/1`);
+      $nuxt._router.push(`/aluno/curso/${this.course.slug}/fim/2`);
     },
   },
 };

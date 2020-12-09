@@ -154,10 +154,10 @@
                 filled
               />
             </v-col>
-            <v-col class="px-0 pb-5">
+            <!-- <v-col class="px-0 pb-5">
               <div class="input-label">Endereço completo</div>
               <v-text-field v-model="form.address" filled />
-            </v-col>
+            </v-col> -->
             <v-col class="px-0 pb-5">
               <div class="input-label">Complemento</div>
               <v-text-field v-model="form.complement" filled />

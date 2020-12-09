@@ -26,16 +26,18 @@
           "
           @click="goTo('notificacao')"
         />
-        <div v-if="notifications.length" class="notification__number">
-          <p
-            :class="
-              notifications.length < 10
-                ? 'notification__low_text'
-                : 'notification__text'
-            "
-          >
-            {{ notifications.length }}
-          </p>
+        <div class="notification__number__container">
+          <div v-if="notifications.length" class="notification__number">
+            <p
+              :class="
+                notifications.length < 10
+                  ? 'notification__low_text'
+                  : 'notification__text'
+              "
+            >
+              {{ notifications.length }}
+            </p>
+          </div>
         </div>
       </v-row>
 
@@ -194,8 +196,8 @@ export default {
     #b72401 90.69%
   );
   position: absolute;
-  right: 29px;
-  top: 32px;
+  right: 5px;
+  top: 13px;
 }
 
 .notification__text {
@@ -245,6 +247,11 @@ h1 {
   font-size: 1rem;
   color: rgba(26, 26, 26, 1);
   flex: center;
+}
+
+.notification__number__container {
+  max-width: 700px;
+  position: relative;
 }
 
 .welcome-title {
