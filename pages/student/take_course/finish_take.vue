@@ -14,7 +14,7 @@
       <v-col align="center">
         <v-col>
           <img src="~/assets/congrats.svg" alt="vencedor" />
-          <div class="score"><strong>+ 30 XP</strong></div>
+          <div class="score"><strong>+ 30 NC</strong></div>
         </v-col>
         <v-col class="pad0">
           <h1 class="white-info">Parabéns {{ nameUser }}!!</h1>
@@ -28,7 +28,7 @@
     <v-col align="center" align-self="baseline">
       <p class="share-info">
         Compartilhe seu certificado, para cada rede social compartilhada. (+ 1
-        XP)
+        NC)
       </p>
       <!-- Share -->
       <div class="btn__container">
@@ -63,7 +63,7 @@
       <!-- dialog body -->
       <v-col align="center">
         <p class="giant">Ganhe</p>
-        <p class="giant">+ 5 XP</p>
+        <p class="giant">+ 5 NC</p>
       </v-col>
       <v-col align="center">
         <strong>Diz aí!</strong>
