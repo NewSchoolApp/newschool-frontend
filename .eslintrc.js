@@ -17,9 +17,7 @@ module.exports = {
   plugins: [
     'prettier'
   ],
-  globals: [
-    'facebookConnectPlugin'
-  ],
+  globals: {},
   // add your custom rules here
   rules: {
   }

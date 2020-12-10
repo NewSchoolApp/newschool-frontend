@@ -220,11 +220,6 @@ export default {
       },
     };
   },
-  mounted() {
-    if (this.$route.params.lateFeedback == 2) {
-      this.activeDialog = 'start';
-    }
-  },
   computed: {
     activeDialog: {
       get() {
@@ -255,7 +250,7 @@ export default {
     },
   },
   mounted() {
-    if (this.$route.params.lateFeedback == 1) {
+    if (this.$route.params.lateFeedback == 2) {
       this.activeDialog = 'start';
     }
   },

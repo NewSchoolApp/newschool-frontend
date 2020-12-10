@@ -609,7 +609,7 @@ export default {
           api: false,
         });
         if (!postBody.employed) {
-          postBody.profession = 'Unemployed';
+          postBody.profession = '';
         }
 
         // resolving address
