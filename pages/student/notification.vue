@@ -42,7 +42,7 @@
                   {{
                     notification.content.badge
                       ? notification.content.badge.badgeDescription
-                      : 'Clique e acesse o site do parceiro'
+                      : 'Clique e acesse o site do Parceiro'
                   }}
                 </h1>
                 <div>
@@ -133,9 +133,6 @@ export default {
       this.loading = false;
     },
     removeNotification(notification) {
-      if (notification.content.semearSiteUrl) {
-        return;
-      }
       this.loading = true;
       http
         .putByURL(
