@@ -1,7 +1,7 @@
 <template>
   <div class="notification__content">
     <div id="close">
-      <v-icon @click="goBack" id="close-btn" color="primary"
+      <v-icon id="close-btn" color="primary" @click="goBack"
         >mdi-close-circle</v-icon
       >
     </div>
@@ -20,11 +20,11 @@
       </h1>
     </div>
     <div class="share__achievement">
-      <p>Ganhe 1 XP cada vez que 3 amigos se cadastrarem na New School.</p>
+      <p>Ganhe 1 NC cada vez que 3 amigos se cadastrarem na New School.</p>
       <div class="btn__container">
         <button
-          @click="shareInSocialMedia($event, title, image)"
           class="btn-block btn-primary"
+          @click="shareInSocialMedia($event, title, image)"
         >
           COMPARTILHAR
         </button>

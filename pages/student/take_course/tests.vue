@@ -18,50 +18,51 @@
           </div>
         </div>
         <div v-if="!loading && correct" class="notification__content">
-          <div id="close">
-            <v-icon
-              id="close-btn"
-              color="primary"
-              @click="resetBadgeAndContinue"
-              >mdi-close-circle</v-icon
-            >
+          <div class="bg__fire">
+            <v-row id="close" class="pr-10 pt-6" justify="end">
+              <v-icon
+                id="close-btn"
+                color="primary"
+                @click="resetBadgeAndContinue"
+                >mdi-close-circle</v-icon
+              >
+            </v-row>
+            <div class="notification">
+              <img
+                v-if="tryMessage === 'De \n primeira!!'"
+                class="notification__image"
+                :src="require('~/assets/badge-first.png')"
+                alt=""
+              />
+              <img
+                v-if="tryMessage === 'Na \n segunda!'"
+                class="notification__image"
+                :src="require('~/assets/badge-second.png')"
+                alt=""
+              />
+              <img
+                v-if="tryMessage === 'Na \n terceira!'"
+                class="notification__image"
+                :src="require('~/assets/badge-third.png')"
+                alt=""
+              />
+              <img
+                v-if="tryMessage === 'Na \n última!'"
+                class="notification__image"
+                :src="require('~/assets/badge-fourth.png')"
+                alt=""
+              />
+            </div>
+            <div class="messages pb-5">
+              <h1 class="message">
+                {{ headerNotification }}
+              </h1>
+              <p class="message__subtext">
+                {{ textNotification }}
+              </p>
+            </div>
           </div>
-          <div class="bg__fire" />
 
-          <div class="notification">
-            <img
-              v-if="tryMessage === 'De \n primeira!!'"
-              class="notification__image"
-              :src="require('~/assets/badge-first-bg.svg')"
-              alt=""
-            />
-            <img
-              v-if="tryMessage === 'Na \n segunda!'"
-              class="notification__image"
-              :src="require('~/assets/badge-second-bg.svg')"
-              alt=""
-            />
-            <img
-              v-if="tryMessage === 'Na \n terceira!'"
-              class="notification__image"
-              :src="require('~/assets/badge-third-bg.svg')"
-              alt=""
-            />
-            <img
-              v-if="tryMessage === 'Na \n última!'"
-              class="notification__image"
-              :src="require('~/assets/badge-fourth-bg.svg')"
-              alt=""
-            />
-          </div>
-          <div class="messages">
-            <h1 class="message">
-              {{ headerNotification }}
-            </h1>
-            <p class="message__subtext">
-              {{ textNotification }}
-            </p>
-          </div>
           <div class="share__achievement">
             <p>Compartilhe com seus amigos</p>
             <div>
@@ -383,20 +384,16 @@ label {
   height: 20px;
   z-index: 9999999;
 }
-
-#close-btn {
-  position: absolute;
-  right: 20px;
-  top: 50px;
-  cursor: pointer;
-  font-size: 30px;
-}
 .notification {
   width: 193px;
   height: 193px;
-  margin: 40% auto 10%;
+  margin-top: 100px;
 }
-
+.bg__fire {
+  background-image: url('../../../assets/background-fire.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+}
 .messages {
   padding: 0 2em;
 }
@@ -424,9 +421,6 @@ label {
 }
 
 .notification__content {
-  background-image: url('../../../assets/background-fire.png');
-  background-repeat: no-repeat;
-  background-size: cover;
   max-width: 480px;
   margin: 0 auto;
 }
@@ -454,10 +448,12 @@ label {
 
 .notification__image {
   position: absolute;
-  left: 0;
   z-index: 999;
-  width: 100%;
+  height: 200px;
+  width: auto;
   max-height: 280px;
+  left: 50%;
+  transform: translate(-50%);
 }
 
 ::v-deep .theme--light.v-label {
@@ -508,9 +504,9 @@ label {
   .messages {
     margin-top: -12%;
   }
-  .notification__image {
-    top: 10%;
-  }
+  // .notification__image {
+  //   top: 10%;
+  // }
   .btn-block {
     width: 96%;
     padding: 5px auto;

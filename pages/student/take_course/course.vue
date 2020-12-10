@@ -24,14 +24,14 @@
       </div>
       <div class="info__box">
         <section>
-          <div class="course__info pt-3">
+          <div class="course__info pt-2 pb-4">
             <div class="author__info">
               <h1 class="h1__theme">Professor&nbsp;&nbsp;&nbsp;&nbsp;</h1>
               <p id="author__name">{{ course.authorName }}</p>
             </div>
-            <div class="mural" @click="goToMural">
+            <!-- <div class="mural" @click="goToMural">
               <p>Mural</p>
-            </div>
+            </div> -->
           </div>
         </section>
         <p id="description">{{ course.description }}</p>
