@@ -2,7 +2,7 @@
   <div id="app">
     <HeaderBar
       v-if="!correct"
-      :title="this.$store.state.courses.current.title"
+      :title="this.$store.state.courses.current.titulo"
       :route="`/aluno/curso/${slug}`"
     ></HeaderBar>
     <v-layout id="page" justify-center>

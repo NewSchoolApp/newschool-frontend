@@ -6,9 +6,9 @@
     @click="openCourse()"
   >
     <v-img :src="course.capa.url" />
-    <v-card-title>{{ course.title }}</v-card-title>
+    <v-card-title>{{ course.titulo }}</v-card-title>
     <div class="footer-card">
-      <v-card-subtitle class="mt-0">{{ course.authorName }}</v-card-subtitle>
+      <v-card-subtitle class="mt-0">{{ course.nomeDoAutor }}</v-card-subtitle>
     </div>
   </v-card>
 </template>
