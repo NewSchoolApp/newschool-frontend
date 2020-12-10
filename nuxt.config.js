@@ -158,7 +158,7 @@ export default {
   env: {
     domain: process.env.DOMAIN_URL || 'https://newschoolapp.com.br',
     baseUrl:
-      process.env.VUE_APP_BASE_URL || // 'http://a61471bf2df9.ngrok.io',
+      process.env.VUE_APP_BASE_URL || //'https://6870dc1db9e8.ngrok.io',
       // 'http://newschool-api-dev2.eba-gxtzwa9m.us-east-2.elasticbeanstalk.com/',
       'https://9ddlz0bte4.execute-api.us-east-2.amazonaws.com/dev',
     // http://develop.dev-newschool.tk/
