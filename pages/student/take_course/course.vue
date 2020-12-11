@@ -142,7 +142,6 @@ export default {
         'courses/refreshCurrentStep',
       );
 
-      // the course will be start by now, so for sure that the first step will be a part of a lesson.
       // go to step url
       $nuxt._router.push(currentStep.stepUrl);
     },

@@ -401,11 +401,6 @@ export default {
         v => !!v || 'Digite o e-mail',
         v => /.+@.+\..+/.test(v) || 'E-mail inválido',
       ],
-      snackbar: {
-        show: false,
-        text: '',
-        status: '',
-      },
       schools: [],
       countries: ['Brasil'],
       states: [],
@@ -662,14 +657,10 @@ export default {
               (this.loading = false);
           });
       } else {
-        // mostrar snackbar de confirmação
-        this.showSnackbar('Algo deu Errado!', 'red');
+        this.$notifier.showMessage({
+          type: 'error',
+        });
       }
-    },
-    showSnackbar(text, status) {
-      this.snackbar.text = text;
-      this.snackbar.status = status;
-      this.snackbar.show = true;
     },
     resolveDate(date) {
       return date.split('T')[0];

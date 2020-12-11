@@ -97,16 +97,6 @@
           <v-col cols="12" class="text-center">
             <a class="login-link" @click="gotoLogin">Ops, já tenho conta</a>
           </v-col>
-          <v-snackbar
-            v-model="snackbar"
-            :color="snackbarStatus"
-            :timeout="5000"
-            :top="true"
-            :right="true"
-          >
-            {{ snackbarText }}
-            <v-btn color="#FFF" text @click="snackbar = false">Fechar</v-btn>
-          </v-snackbar>
         </v-row>
       </v-container>
     </v-flex>
@@ -133,10 +123,7 @@ export default {
       isLoading: false,
       showPass: String,
       showConfirmPass: String,
-      snackbar: false,
-      snackbarText: '',
       schools: [],
-      snackbarStatus: '',
       profile: [
         'Aluno de escola',
         'Pai de aluno',
@@ -311,12 +298,6 @@ export default {
 
     gotoLogin() {
       $nuxt._router.push('/login');
-    },
-
-    confirmSnackbar(text, status) {
-      this.snackbarText = text;
-      this.snackbarStatus = status;
-      this.snackbar = true;
     },
     loadClientCredentials() {
       return utils.getExternalCredentials();

@@ -96,10 +96,6 @@ export default {
               : ' Quer mesmo sair sem confirmar?';
             this.snackBorderColor = '#FFC866';
             break;
-          case 'custom':
-            this.snackBackground = '#6600cc';
-            this.snackbarText = state.snackbar.message;
-            break;
           default:
             this.snackBackground = '#FFF2F5';
             this.snackbarText = 'Poxa! algo deu errado ☹️';

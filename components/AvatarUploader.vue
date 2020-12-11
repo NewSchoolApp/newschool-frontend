@@ -30,16 +30,6 @@
         />
       </div>
     </div>
-    <!-- error dialog displays any potential errors -->
-    <v-dialog v-model="errorDialog" max-width="300">
-      <v-card>
-        <v-card-text class="subheading">{{ errorText }}</v-card-text>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn flat @click="errorDialog = false">Entendi!</v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
   </div>
 </template>
 
@@ -59,7 +49,6 @@ export default {
     saving: false,
     loading: false,
     saved: false,
-    errorDialog: null,
     errorText: '',
     uploadFieldName: 'file',
     maxSize: 1024,
@@ -67,7 +56,7 @@ export default {
       value =>
         !value ||
         value.size < 2000000 ||
-        'O tamanho da foto deve ser menor que 2mb!',
+        'O tamanho da foto deve ser menor que 9mb!',
     ],
   }),
   computed: {
@@ -98,26 +87,24 @@ export default {
       this.$refs.file.click();
     },
     onFileChange(fieldName, file) {
-      const { maxSize } = this;
       const imageFile = file[0];
 
       // check if user actually selected a file
       if (file.length > 0) {
-        const size = imageFile.size / maxSize / maxSize;
+        const size = imageFile.size;
         if (!imageFile.type.match('image.*')) {
           // check whether the upload is an image
-          this.errorDialog = true;
-          this.errorText = 'Selecione uma imagem';
-          setTimeout(() => {
-            this.errorDialog = false;
-          }, 1000);
-        } else if (size > 9) {
+          this.$notifier.showMessage({
+            type: 'error',
+            message: 'Selecione uma imagem',
+          });
+        } else if (size > 9437184) {
+          // size exemple:   1mb = 1048576 bytes
           // check whether the size is greater than the size limit
-          this.errorDialog = true;
-          this.errorText = 'Escolha uma imagem menor que 9MB';
-          setTimeout(() => {
-            this.errorDialog = false;
-          }, 1000);
+          this.$notifier.showMessage({
+            type: 'error',
+            message: 'Escolha uma imagem menor que 9MB',
+          });
         } else {
           // para exibir web
           const imageURL = URL.createObjectURL(imageFile);

@@ -65,9 +65,6 @@
             <div v-else>
               <p class="change-status">Senha alterada com sucesso!</p>
             </div>
-            <v-snackbar>
-              <v-btn color="#FFF" text @click="snackbar = false">Fechar</v-btn>
-            </v-snackbar>
           </v-col>
         </v-row>
       </v-container>
@@ -82,8 +79,8 @@ import HeaderBar from '~/components/Header.vue';
 export default {
   name: 'ChangePassword',
   components: {
-    HeaderBar
-},
+    HeaderBar,
+  },
   data() {
     return {
       status: true,
@@ -91,7 +88,6 @@ export default {
       showNewPass: String,
       showConfirmNewPass: String,
       isChanged: false,
-      snackbar: false,
       token: '',
       form: {
         newPassword: '',
@@ -119,11 +115,14 @@ export default {
     this.token = this.$route.params.token;
 
     auth.changePasswordRequestValidate(this.token).catch(() => {
+      this.$notifier.showMessage({
+        type: 'success',
+        message: 'Senha alterada com sucesso',
+      });
       setTimeout(() => {
         this.loading = false;
-        this.snackbar = true;
+        this.goBack();
       }, 500);
-      this.goBack();
     });
   },
 
@@ -141,9 +140,11 @@ export default {
             }, 1500);
           })
           .catch(err => {
+            this.$notifier.showMessage({
+              type: 'error',
+            });
             setTimeout(() => {
               this.loading = false;
-              this.snackbar = true;
             }, 500);
             console.error(err);
           });
@@ -214,7 +215,6 @@ export default {
   width: 375px;
   max-width: 100%;
 }
-
 
 ::v-deep .v-messages__message {
   color: #ff5252;

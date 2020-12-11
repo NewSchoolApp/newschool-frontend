@@ -75,11 +75,6 @@
         </v-row>
       </v-container>
     </v-flex>
-    <v-dialog v-model="dialog" max-width="290">
-      <v-card-title class="headline">Ops!</v-card-title>
-      <v-card-text>{{ dialogMessage }}</v-card-text>
-      <v-btn color="primary" text @click="dialog = false">Ok</v-btn>
-    </v-dialog>
   </v-layout>
 </template>
 
@@ -100,8 +95,6 @@ export default {
     // flags
     status: true,
     loading: true,
-    dialog: false,
-    dialogMessage: '',
     showPass: false,
 
     title: 'Entrar',
@@ -210,7 +203,7 @@ export default {
         this.loading = false;
         console.log('Social login return err:', err);
         this.$notifier.showMessage({
-          type: 'custom',
+          type: 'error',
           message: 'Falha ao tentar entrar com ' + provider + '.',
         });
       }
@@ -283,34 +276,23 @@ export default {
   background-size: cover;
   background-position: center;
 }
-
-::v-deep .v-dialog {
-  background-color: #fff;
-  text-align: center;
-}
-
 .v-card__title {
   justify-content: center;
 }
-
 .v-form {
   width: 100%;
 }
-
 .container-spinner,
 .flex {
   z-index: 2;
 }
-
 .flex {
   animation: intro 300ms backwards;
   animation-delay: 350ms;
 }
-
 .layout {
   background: #6600cc !important;
 }
-
 .bg-symbol {
   display: flex;
   -webkit-box-pack: center;
@@ -318,49 +300,38 @@ export default {
   -webkit-box-align: center;
   align-items: center;
 }
-
 .bg-symbol img {
   width: 40%;
 }
-
 .hide-form {
   animation: down 300ms forwards;
 }
-
 .error-form {
   animation: nono 300ms, intro paused;
 }
-
 .theme--light.v-text-field > .v-input__control > .v-input__slot:before {
   border-color: #c58aff;
 }
-
 .theme--light.v-label {
   color: #c58aff;
 }
-
 .theme--light.v-input:not(.v-input--is-disabled) input,
 .theme--light.v-input:not(.v-input--is-disabled) textarea {
   color: #c58aff;
 }
-
 ::v-deep .v-card__title + .v-card__text {
   text-align: center;
 }
-
 ::v-deep .v-input input {
   color: #ffffff !important;
 }
-
 ::v-deep .v-label {
   font-weight: 500 !important;
   color: rgba(255, 255, 255, 0.7) !important;
 }
-
 .v-text-field {
   border-color: rgba(255, 255, 255, 0.7) !important;
 }
-
 ::v-deep input:-webkit-autofill {
   transition: background-color 9999s ease-in-out 0s;
   -webkit-text-fill-color: #fff !important;
