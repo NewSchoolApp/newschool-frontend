@@ -158,12 +158,12 @@ export default {
             $nuxt._router.push('/loading/login');
           })
           .catch(err => {
-            setTimeout(() => {
-              this.dialogMessage = 'Usuário ou senha incorretos!';
-              this.dialog = true;
-              this.loading = false;
-            }, 500);
-            console.error(err);
+            console.log('Login err:', err);
+            this.$notifier.showMessage({
+              type: 'error',
+              message: 'Usuário ou senha incorretos!',
+            });
+            this.loading = false;
           });
       } else {
         this.animateForm(false);
@@ -207,13 +207,12 @@ export default {
         }
         $nuxt._router.push('/loading/login');
       } catch (error) {
-        setTimeout(() => {
-          this.dialogMessage =
-            'Falha ao realizar login utilizando ' + provider + '.';
-          this.dialog = true;
-          this.loading = false;
-        }, 500);
-        console.error(error);
+        this.loading = false;
+        console.log('Social login return err:', err);
+        this.$notifier.showMessage({
+          type: 'custom',
+          message: 'Falha ao tentar entrar com ' + provider + '.',
+        });
       }
     },
     async loginSocial(provider) {
@@ -225,8 +224,8 @@ export default {
           await auth.loginFacebook(credentials);
           $nuxt._router.push('/loading/login');
         } catch (error) {
-          this.dialog = true;
-          this.dialogMessage = JSON.stringify(error);
+          console.log('Social login err:', err);
+          this.$notifier.showMessage();
         }
         return;
       }
