@@ -250,7 +250,7 @@ export default {
     },
   },
   mounted() {
-    if (this.$route.params.lateFeedback == 2) {
+    if (this.$route.params.lateFeedback === 2) {
       this.activeDialog = 'start';
     }
   },
@@ -268,7 +268,7 @@ export default {
       );
     },
     onSuccess(result) {
-      httpHelper
+      http
         .post(process.env.endpoints.EVENT, {
           event: 'SHARE_COURSE',
           rule: {
