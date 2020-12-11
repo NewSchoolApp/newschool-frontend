@@ -45,6 +45,7 @@
                 v-model="form.profile"
                 placeholder="Selecione o seu perfil!"
                 :items="profile"
+                :rules="nameRules"
                 label="Quem é você fora do app?"
                 required
                 hide-no-data
@@ -204,17 +205,30 @@ export default {
             auth
               .signUp(postObject, token, inviteKey)
               .then(res => {
-                this.loading = false;
-                this.confirmSnackbar('Cadastro efetuado! ;)', 'success');
+                this.$notifier.showMessage({
+                  type: 'success',
+                  message: 'Cadastro efetuado!',
+                });
                 setTimeout(() => {
                   this.gotoLogin();
                 }, 2500);
               })
               .catch(err => {
+                if (err.response.status == 409) {
+                  this.$notifier.showMessage({
+                    type: 'error',
+                    message: 'Email já cadastrado',
+                  });
+                } else {
+                  this.$notifier.showMessage({
+                    type: 'error',
+                    message: 'Poxa algo deu errado',
+                  });
+                }
+
                 setTimeout(() => {
                   this.loading = false;
                 }, 500);
-                console.error(err);
               });
           })
           .catch(() => {
