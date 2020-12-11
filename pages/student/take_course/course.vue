@@ -12,7 +12,7 @@
       </div>
     </div>
     <div v-else id="main-col">
-      <h1 id="title__course" class="h1__theme pb-2">{{ course.title }}</h1>
+      <h1 id="title__course" class="h1__theme pb-2">{{ course.titulo }}</h1>
       <div class="mask__img">
         <img
           v-if="showThumb"
@@ -24,17 +24,17 @@
       </div>
       <div class="info__box">
         <section>
-          <div class="course__info pt-3">
+          <div class="course__info pt-2 pb-4">
             <div class="author__info">
               <h1 class="h1__theme">Professor&nbsp;&nbsp;&nbsp;&nbsp;</h1>
-              <p id="author__name">{{ course.authorName }}</p>
+              <p id="author__name">{{ course.nomeDoAutor }}</p>
             </div>
-            <div class="mural" @click="goToMural">
+            <!-- <div class="mural" @click="goToMural">
               <p>Mural</p>
-            </div>
+            </div> -->
           </div>
         </section>
-        <p id="description">{{ course.description }}</p>
+        <p id="description">{{ course.descricao }}</p>
       </div>
 
       <div class="base">
