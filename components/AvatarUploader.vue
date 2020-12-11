@@ -183,4 +183,7 @@ export default {
   line-height: 19px;
   color: var(--primary);
 }
+img {
+  object-fit: cover;
+}
 </style>
