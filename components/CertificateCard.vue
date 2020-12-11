@@ -15,9 +15,9 @@
       <div class="footer-card">
         <v-row>
           <v-col align="left" class="pt-0">
-            <v-card-title>{{ certificate.course.title }}</v-card-title>
+            <v-card-title>{{ certificate.course.titulo }}</v-card-title>
             <v-card-subtitle class="mt-0">{{
-              certificate.course.authorName
+              certificate.course.nomeDoAutor
             }}</v-card-subtitle>
           </v-col>
 

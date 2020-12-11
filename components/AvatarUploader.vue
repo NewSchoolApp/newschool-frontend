@@ -98,7 +98,6 @@ export default {
       this.$refs.file.click();
     },
     onFileChange(fieldName, file) {
-      this.loading = true;
       const { maxSize } = this;
       const imageFile = file[0];
 
@@ -111,15 +110,13 @@ export default {
           this.errorText = 'Selecione uma imagem';
           setTimeout(() => {
             this.errorDialog = false;
-            this.loading = false;
           }, 1000);
-        } else if (size > 1) {
+        } else if (size > 9) {
           // check whether the size is greater than the size limit
           this.errorDialog = true;
-          this.errorText = 'Escolha uma imagem menor que 1MB';
+          this.errorText = 'Escolha uma imagem menor que 9MB';
           setTimeout(() => {
             this.errorDialog = false;
-            this.loading = false;
           }, 1000);
         } else {
           // para exibir web
@@ -128,6 +125,7 @@ export default {
           // para o post
           const formDataNew = new FormData();
           formDataNew.append('file', imageFile);
+          this.loading = true;
           http
             .post(`api/v1/user/${this.idUser}/photo`, formDataNew, {
               headers: {
@@ -182,5 +180,8 @@ export default {
   font-weight: 700;
   line-height: 19px;
   color: var(--primary);
+}
+img {
+  object-fit: cover;
 }
 </style>

@@ -2,7 +2,7 @@
   <v-card class="card">
     <v-col @click="goToCourse()">
       <v-row justify="space-between">
-        <h1>{{ course.title }}</h1>
+        <h1>{{ course.titulo }}</h1>
         <p v-if="course.status === 'TAKEN'" id="continue__text">
           Continuar
         </p>
