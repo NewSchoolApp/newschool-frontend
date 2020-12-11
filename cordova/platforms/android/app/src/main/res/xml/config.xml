@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.newschool.app" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget android-versionCode="10003" id="com.newschool.app" version="2.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <feature name="Screenshot">
         <param name="android-package" value="com.darktalker.cordova.screenshot.Screenshot" />
     </feature>
@@ -53,6 +53,12 @@
     <allow-intent href="sms:*" />
     <allow-intent href="mailto:*" />
     <allow-intent href="geo:*" />
+    <icon density="ldpi" src="res/android/36px.png" />
+    <icon density="mdpi" src="res/android/48px.png" />
+    <icon density="hdpi" src="res/android/72px.png" />
+    <icon density="xhdpi" src="res/android/96px.png" />
+    <icon density="xxhdpi" src="res/android/144px.png" />
+    <icon density="xxxhdpi" src="res/android/192px.png" />
     <allow-intent href="market:*" />
     <preference name="loglevel" value="DEBUG" />
     <preference name="android-minSdkVersion" value="22" />
