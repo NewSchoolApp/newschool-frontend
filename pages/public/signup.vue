@@ -45,6 +45,7 @@
                 v-model="form.profile"
                 placeholder="Selecione o seu perfil!"
                 :items="profile"
+                :rules="nameRules"
                 label="Quem é você fora do app?"
                 required
                 hide-no-data
@@ -96,16 +97,6 @@
           <v-col cols="12" class="text-center">
             <a class="login-link" @click="gotoLogin">Ops, já tenho conta</a>
           </v-col>
-          <v-snackbar
-            v-model="snackbar"
-            :color="snackbarStatus"
-            :timeout="5000"
-            :top="true"
-            :right="true"
-          >
-            {{ snackbarText }}
-            <v-btn color="#FFF" text @click="snackbar = false">Fechar</v-btn>
-          </v-snackbar>
         </v-row>
       </v-container>
     </v-flex>
@@ -132,10 +123,7 @@ export default {
       isLoading: false,
       showPass: String,
       showConfirmPass: String,
-      snackbar: false,
-      snackbarText: '',
       schools: [],
-      snackbarStatus: '',
       profile: [
         'Aluno de escola',
         'Pai de aluno',
@@ -204,17 +192,30 @@ export default {
             auth
               .signUp(postObject, token, inviteKey)
               .then(res => {
-                this.loading = false;
-                this.confirmSnackbar('Cadastro efetuado! ;)', 'success');
+                this.$notifier.showMessage({
+                  type: 'success',
+                  message: 'Cadastro efetuado!',
+                });
                 setTimeout(() => {
                   this.gotoLogin();
                 }, 2500);
               })
               .catch(err => {
+                if (err.response.status == 409) {
+                  this.$notifier.showMessage({
+                    type: 'error',
+                    message: 'Email já cadastrado',
+                  });
+                } else {
+                  this.$notifier.showMessage({
+                    type: 'error',
+                    message: 'Poxa algo deu errado',
+                  });
+                }
+
                 setTimeout(() => {
                   this.loading = false;
                 }, 500);
-                console.error(err);
               });
           })
           .catch(() => {
@@ -297,12 +298,6 @@ export default {
 
     gotoLogin() {
       $nuxt._router.push('/login');
-    },
-
-    confirmSnackbar(text, status) {
-      this.snackbarText = text;
-      this.snackbarStatus = status;
-      this.snackbar = true;
     },
     loadClientCredentials() {
       return utils.getExternalCredentials();

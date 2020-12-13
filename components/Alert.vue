@@ -1,8 +1,8 @@
 <template>
   <div>
     <v-row
-      class="snackbar"
       v-if="snackbar"
+      class="snackbar"
       :style="
         `background: ${snackBackground}; border: 1px solid ${snackBorderColor}`
       "
@@ -44,7 +44,7 @@
           <v-icon class="icon">mdi-close-circle</v-icon></v-btn
         >
       </div>
-      <v-row class="confirm__text" v-if="snackbarStatus === 'warning'">
+      <v-row v-if="snackbarStatus === 'warning'" class="confirm__text">
         <span @click="goBack">Sim</span>
         <span @click="snackbar = false">Não</span>
       </v-row>
@@ -72,39 +72,29 @@ export default {
           case 'success':
             this.snackbarStatus = 'success';
             this.snackBackground = '#F2FFFB';
-            this.snackbarBoldText = 'Show!';
-            this.snackbarText =
-              // state.snackbar.message
-              //   ? `${state.snackbar.message} 👍`
-              //   :
-              ' As mudanças foram salvas com sucesso';
+            this.snackbarBoldText = 'Show! ';
+            this.snackbarText = state.snackbar.message
+              ? `${state.snackbar.message} 👍`
+              : ' As mudanças foram salvas com sucesso';
             this.snackBorderColor = '#15CE9A';
             break;
           case 'error':
             this.snackbarStatus = 'error';
             this.snackBackground = '#FFF2F5';
-            this.snackbarBoldText = 'Ops!';
-            this.snackbarText =
-              // state.snackbar.message
-              //   ? `${state.snackbar.message} 👎`
-              //   :
-              ' Alguma coisa nao saiu bem. Dá mais um confere nas infos.';
+            this.snackbarBoldText = 'Ops! ';
+            this.snackbarText = state.snackbar.message
+              ? `${state.snackbar.message} 👎`
+              : ' Alguma coisa nao saiu bem. Dá mais um confere nas infos.';
             this.snackBorderColor = '#E93F66';
             break;
           case 'warning':
             this.snackbarStatus = 'warning';
             this.snackBackground = '#FFFAF2';
             this.snackbarBoldText = 'Calma ae. ';
-            this.snackbarText =
-              // state.snackbar.message
-              //   ? `${state.snackbar.message} ⚠️`
-              //   :
-              ' Quer mesmo sair sem confirmar?';
+            this.snackbarText = state.snackbar.message
+              ? `${state.snackbar.message} ⚠️`
+              : ' Quer mesmo sair sem confirmar?';
             this.snackBorderColor = '#FFC866';
-            break;
-          case 'custom':
-            this.snackBackground = '#6600cc';
-            this.snackbarText = state.snackbar.message;
             break;
           default:
             this.snackBackground = '#FFF2F5';

@@ -113,7 +113,7 @@
             </v-col>
             <v-col>
               <v-avatar class="self-rank-avatar" size="70">
-                <img v-if="user.photo" :src="user.photo" alt="" />
+                <img v-if="user.photo" class="user__image" :src="user.photo" />
                 <img v-else :src="require(`~/assets/person.svg`)" />
               </v-avatar>
             </v-col>
@@ -137,7 +137,7 @@
                 alt="medalha"
               />
               <v-avatar size="60">
-                <img v-if="pod.photo" :src="pod.photo" />
+                <img v-if="pod.photo" class="user__image" :src="pod.photo" />
                 <img v-else :src="require(`~/assets/person.svg`)" />
               </v-avatar>
               <p>{{ pod.points }} PTS</p>
@@ -574,6 +574,10 @@ td {
 .line {
   outline: 2px solid #f8f8f8;
 }
+.user__image,
+.img-rounded {
+  object-fit: cover;
+}
 .img-rounded {
   width: 32px;
   height: 32px;
@@ -625,4 +629,3 @@ td {
   align-items: center;
 }
 </style>
-

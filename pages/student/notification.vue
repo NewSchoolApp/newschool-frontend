@@ -3,8 +3,8 @@
     <HeaderBar :title="'Notificação'" :back-page="true" />
     <button
       v-if="notifications.length"
-      @click="clearNotifications"
       class="btn-primary clear__button"
+      @click="clearNotifications"
     >
       limpar
     </button>
@@ -258,7 +258,6 @@ h1 {
   width: 50px;
   font-size: 10px;
   height: 20px;
-  z-index: 999;
   border-radius: 5px;
   text-transform: uppercase;
   top: 25px;

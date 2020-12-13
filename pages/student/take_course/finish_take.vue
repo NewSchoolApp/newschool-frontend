@@ -51,7 +51,7 @@
         style="justify-content: flex-end; padding-bottom: 10px"
         color="#6600cc"
         dark
-        @click="gotoCourse()"
+        @click="goToMyCertificates()"
       >
         mdi-close-circle
       </v-icon>
@@ -250,7 +250,7 @@ export default {
     },
   },
   mounted() {
-    if (this.$route.params.lateFeedback === 2) {
+    if (Number(this.$route.params.lateFeedback) === 2) {
       this.activeDialog = 'start';
     }
   },
@@ -342,6 +342,9 @@ export default {
         .replace(/\s+/g, '-') // collapse whitespace and replace by -
         .replace(/-+/g, '-'); // collapse dashes
       return str;
+    },
+    goToMyCertificates() {
+      this.$router.replace('/aluno/certificados');
     },
   },
 };

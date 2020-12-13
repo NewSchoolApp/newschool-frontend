@@ -43,8 +43,13 @@
 
       <!-- Header-bar -->
       <v-row id="header" align="center">
-        <v-avatar class="user__image" size="55">
-          <img v-if="user.photo" :src="user.photo" @click="goTo('perfil')" />
+        <v-avatar size="55">
+          <img
+            v-if="user.photo"
+            class="user__image"
+            :src="user.photo"
+            @click="goTo('perfil')"
+          />
           <img
             v-else
             :src="require(`~/assets/person.svg`)"
@@ -168,7 +173,7 @@ export default {
   margin: 0;
 }
 .user__image {
-  cursor: pointer;
+  object-fit: cover;
 }
 
 #title {

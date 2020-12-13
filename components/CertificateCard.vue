@@ -3,21 +3,21 @@
     <v-card class="v-card-body" elevation="0" color="transparent">
       <template>
         <v-img :src="certificate.course.capa.url" />
-        <v-img class="thumb-background" @click="goToCertificate(2)" />
+        <v-img class="thumb-background" @click="openCertificate" />
         <v-img
           class="medal"
           contain
           :src="require(`@/assets/medalha-imagem.svg`)"
-          @click="goToCertificate(2)"
+          @click="openCertificate"
         />
       </template>
 
       <div class="footer-card">
         <v-row>
           <v-col align="left" class="pt-0">
-            <v-card-title>{{ certificate.course.title }}</v-card-title>
+            <v-card-title>{{ certificate.course.titulo }}</v-card-title>
             <v-card-subtitle class="mt-0">{{
-              certificate.course.authorName
+              certificate.course.nomeDoAutor
             }}</v-card-subtitle>
           </v-col>
 
@@ -104,6 +104,11 @@ export default {
         options,
         this.onSuccess,
         this.onError,
+      );
+    },
+    openCertificate() {
+      this.$router.push(
+        `/pagina-certificado/${this.idUser}/${this.certificate.courseId}/2`,
       );
     },
   },

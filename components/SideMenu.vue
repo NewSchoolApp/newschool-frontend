@@ -1,5 +1,5 @@
 <template>
-  <div class="container-page" id="page">
+  <div id="page" class="container-page">
     <main>
       <section id="info">
         <div id="avatar">
@@ -28,11 +28,11 @@
           >
         </div>
         <div id="close">
-        <v-icon id="close-btn"  color="primary" @click="closeMenu()"
-          >mdi-close-circle</v-icon>
-      </div>
+          <v-icon id="close-btn" color="primary" @click="closeMenu()"
+            >mdi-close-circle</v-icon
+          >
+        </div>
       </section>
-
     </main>
     <section class="menu-list">
       <router-link
@@ -49,7 +49,7 @@
         <p class="text-menu">{{ item.label }}</p>
       </router-link>
     </section>
-    </div>
+  </div>
 </template>
 
 <script>
@@ -89,7 +89,7 @@ export default {
         label: 'O que é a new school?',
         icon: 'mdi-library-books',
         link: '/sobre',
-      },      
+      },
       {
         id: 6,
         label: 'Cola com Nóix',
@@ -109,7 +109,7 @@ export default {
         link: '/contato',
       },
     ],
-  }),  
+  }),
   methods: {
     ...mapActions('user', ['clearInfoUser']),
     /**
@@ -184,10 +184,10 @@ export default {
 }
 
 .mdi-close-circle::before {
-      color: var(--primary);
-    position: absolute;
-    right: 22px;
-    top: 33px;
+  color: var(--primary);
+  position: absolute;
+  right: 22px;
+  top: 33px;
 }
 
 .container-page > main {
@@ -306,7 +306,7 @@ h4 {
   font-weight: 600;
 }
 
-@media(min-width: 600px) {
+@media (min-width: 600px) {
   #info {
     margin: 0 auto;
   }
@@ -314,6 +314,4 @@ h4 {
     margin: 0 auto;
   }
 }
-
-
 </style>

@@ -45,16 +45,6 @@
           <v-col cols="12" class="text-center">
             <a class="login-link" @click="gotoLogin">Voltar para o Login</a>
           </v-col>
-          <v-snackbar
-            v-model="snackbar"
-            :color="snackbarStatus"
-            :timeout="5000"
-            :top="true"
-            :right="true"
-          >
-            {{ snackbarText }}
-            <v-btn color="#FFF" text @click="snackbar = false">Fechar</v-btn>
-          </v-snackbar>
         </v-row>
       </v-container>
     </v-flex>
@@ -80,9 +70,6 @@ export default {
     return {
       status: true,
       loading: false,
-      snackbar: false,
-      snackbarText: '',
-      snackbarStatus: '',
       token: '',
       form: {
         email: '',
@@ -102,13 +89,19 @@ export default {
           .forgotPassword(this.form)
           .then(res => {
             this.loading = false;
-            this.confirmSnackbar('O link foi pro seu email! ;)', 'success');
+            this.$notifier.showMessage({
+              type: 'success',
+              message: 'O link foi pro seu email',
+            });
             setTimeout(() => {
               this.gotoLogin();
             }, 2500);
           })
           .catch(err => {
-            this.confirmSnackbar('E-mail inválido.', 'error');
+            this.$notifier.showMessage({
+              type: 'error',
+              message: 'E-mail inválido',
+            });
             setTimeout(() => {
               this.loading = false;
             }, 500);
@@ -137,11 +130,6 @@ export default {
 
     gotoLogin() {
       $nuxt._router.push('/login');
-    },
-    confirmSnackbar(text, status) {
-      this.snackbarText = text;
-      this.snackbarStatus = status;
-      this.snackbar = true;
     },
   },
 
@@ -198,9 +186,5 @@ export default {
   color: #ff5252 !important;
   font-size: 12px !important;
   margin-left: 5px;
-}
-/* Snackbar */
-.v-snack__content {
-  border-radius: 5px;
 }
 </style>

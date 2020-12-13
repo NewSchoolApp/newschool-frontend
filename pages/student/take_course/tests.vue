@@ -208,11 +208,6 @@ export default {
     this.loading = false;
   },
   methods: {
-    confirmSnackbar(text, status) {
-      this.snackbarText = text;
-      this.snackbarStatus = status;
-      this.snackbar = true;
-    },
     resetBadgeAndContinue() {
       this.badgePoints = 0;
       this.try = 1;
