@@ -1,10 +1,10 @@
-# NewSchool-frontend  
+# NewSchool-frontend
+
 [![releases](https://img.shields.io/badge/Changelog-Releases-orange)](https://github.com/NewSchoolBR/newschool-frontend/releases)
 
 > Frontend da New School, desenvolvido em VueJs, Nuxt e Vuetify
 
-
-> **Ambiente de DEV:** http://newschool-ui-dev.eba-fdz8zprg.us-east-2.elasticbeanstalk.com
+> **Ambiente de DEV:** https://newschoolapp.com.br/
 
 > **Ambiente de PROD:** https://newschoolapp.com.br/
 
@@ -12,7 +12,7 @@
 
 https://www.youtube.com/watch?v=4-nc3Ig7jxk&t=3s
 
-``` bash
+```bash
 # install dependencies
 $ npm install
 
@@ -32,6 +32,7 @@ For detailed explanation on how things work, check out [Nuxt.js docs](https://nu
 ## Guidelines
 
 > ### Variáveis de ambiente necessárias para execução do projeto
+
 ```
 GA_TOKEN: Variável com o token do Google Analytics do ambiente
 ```
@@ -81,11 +82,10 @@ Depois de concluir e testar, envie e aguarde o PULL REQUEST ser aprovado.
 
 5 - MISSÃO CUMPRIDA. VC AJUDOU O PROJETO. ❤️
 
-API NO AMBIENTE DEV: 
+API NO AMBIENTE DEV:
 
 http://newschool-api-dev2.eba-gxtzwa9m.us-east-2.elasticbeanstalk.com/swagger/#/
 
-CONFIRA OS LAYOUTS NO FIGMA: 
+CONFIRA OS LAYOUTS NO FIGMA:
 
 https://www.figma.com/file/whTp4hE6ZQR3V8LBxSZnjv/NewSchool?node-id=0%3A1
-
