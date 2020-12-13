@@ -20,20 +20,16 @@
         >
           <certificate-card :certificate="certificate" />
         </div>
-        <navigation-bar />
       </v-container>
       <NothingToShow
         v-else
         title="Vixe :/"
         message="Você ainda não tem nenhum certificado. :("
       />
-      <navigation-bar />
     </div>
   </div>
 </template>
-
 <script>
-import NavigationBar from '~/components/NavigationBar.vue';
 import http from '~/services/http/generic';
 import HeaderBar from '~/components/Header.vue';
 import NothingToShow from '~/components/NothingToShow';
@@ -43,7 +39,6 @@ export default {
   components: {
     HeaderBar,
     NothingToShow,
-    NavigationBar,
     CertificateCard,
   },
   data: () => ({
@@ -73,10 +68,6 @@ export default {
   },
 };
 </script>
-
-<router>
-  path: "/certificados"
-</router>
 
 <style lang="scss" scoped>
 .cards-box {
