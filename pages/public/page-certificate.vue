@@ -19,10 +19,10 @@
         </header>
         <div class="container">
           <main class="main">
-            <h4>CURSO DE {{ certificate.course.title.toUpperCase() }}</h4>
+            <h4>CURSO DE {{ certificate.course.titulo.toUpperCase() }}</h4>
             <h4 class="medium__text">
               FINALIZADO NO DIA {{ courseCompleteDate }} COM CARGA HORÁRIA DE
-              {{ certificate.course.workload }}HRS
+              {{ certificate.course.horas }}HRS
             </h4>
           </main>
           <main class="main">
