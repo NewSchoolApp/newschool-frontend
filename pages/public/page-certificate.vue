@@ -19,10 +19,10 @@
         </header>
         <div class="container">
           <main class="main">
-            <h4>CURSO DE {{ certificate.course.title.toUpperCase() }}</h4>
+            <h4>CURSO DE {{ certificate.course.titulo.toUpperCase() }}</h4>
             <h4 class="medium__text">
               FINALIZADO NO DIA {{ courseCompleteDate }} COM CARGA HORÁRIA DE
-              {{ certificate.course.workload }}HRS
+              {{ certificate.course.horas }}HRS
             </h4>
           </main>
           <main class="main">
@@ -101,8 +101,8 @@ export default {
     const idUser = this.$route.params.idUser;
     http.pageCertificate(idUser, idCourse).then(res => {
       this.certificate = res.data;
-      this.author = this.convertName(this.certificate.course.authorName);
-      this.courseStartDate = moment(this.certificate.courseStartDate).format(
+      this.author = this.convertName(this.certificate.course.nomeDoAutor);
+      this.courseStartDate = moment(this.certificate.created_at).format(
         'DD/MM/YYYY',
       );
       this.courseCompleteDate = moment(
