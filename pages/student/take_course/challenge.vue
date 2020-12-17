@@ -11,12 +11,16 @@
     </div>
 
     <div class="challenge">
-      <v-textarea
-        v-model="challengeText"
-        :class="challengeFieldClass"
-        outlined
-        placeholder="Seu comentário"
-      />
+      <v-form ref="form" v-model="status" lazy-validation>
+        <v-textarea
+          v-model="challengeText"
+          :class="challengeFieldClass"
+          outlined
+          placeholder="Seu comentário"
+          :messages="warnMessage"
+          :error="tooBig"
+        />
+      </v-form>
     </div>
     <div class="btn__container">
       <button class="btn-block btn-primary" @click="postChallenge()">
@@ -41,6 +45,10 @@ export default {
   data: () => ({
     challengeText: '',
     challengeFieldClass: '',
+    challengeRule: [
+      v => !!v || 'Digite a senha',
+      v => (v && v.length >= 6) || 'A senha deve ter no mínimo 6 caractéres',
+    ],
   }),
   computed: {
     idUser() {
@@ -52,12 +60,26 @@ export default {
     currentCourse() {
       return this.$store.state.courses.current;
     },
+    tooBig() {
+      if (this.challengeText.length > 500) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+    warnMessage() {
+      if (this.tooBig) {
+        return 'Resposta muito grande!';
+      } else {
+        return '';
+      }
+    },
   },
   methods: {
     async postChallenge() {
-      if (this.challengeText) {
+      if (this.challengeText && !this.tooBig) {
         await http.post(
-          `${process.env.endpoints.CHALLENGE}${this.idUser}/course/${this.currentCourse.id}`,
+          `${process.env.endpoints.CHALLENGE}user/${this.idUser}/course/${this.currentCourse.id}`,
           { challenge: this.challengeText },
         );
         this.$router.push(`/aluno/curso/${this.slug}/fim`);

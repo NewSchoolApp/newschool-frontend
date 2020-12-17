@@ -12,7 +12,7 @@
       <v-row class="ml-1 user__comment pl-1">{{ comment.text }}</v-row>
       <v-row class="ml-4 mr-1">
         <v-row>
-          <p
+          <div
             v-ripple
             :class="
               'user__interaction mr-6 pa-1 ' +
@@ -23,38 +23,43 @@
             @click="scheduleClap()"
           >
             Salve {{ clapsToShow ? '(' + clapsToShow + ')' : '' }}
-          </p>
-          <p
+          </div>
+          <div
             v-if="!response && !answering"
             v-ripple
             class="user__interaction pt-1"
             @click="answering = true"
           >
             Responder
-          </p>
-        </v-row>
-        <p class="user__interaction pt-1">{{ date }}</p>
-      </v-row>
-      <v-col v-if="!response && answering" class="px-0 py-0">
-        <v-row align="top">
-          <v-textarea
-            v-model="answerPost"
-            :loading="posting"
-            filled
-            rows="5"
-            class="primary-text-field"
-            placeholder="Digite aqui sua resposta."
-            prepend-icon-inner="mdi-send"
-          />
-          <div id="res-icons" class="ml-1 mt-2">
-            <v-icon v-if="answerPost" :disabled="posting" @click="postAnswer"
-              >mdi-send</v-icon
-            >
-            <v-icon v-else color="grey" @click="answering = false"
-              >mdi-close-thick</v-icon
-            >
           </div>
         </v-row>
+        <div class="user__interaction pt-1">{{ date }}</div>
+      </v-row>
+      <v-col v-if="!response && answering" class="pr-0 pl-2 py-0">
+        <v-row class="pl-2 pr-3" justify="space-between">
+          <v-icon color="primary" @click="answering = false"
+            >mdi-close-circle</v-icon
+          >
+          <p
+            :class="
+              'publish pt-4 ' + (answerPost && !tooBig ? 'primary--text' : {})
+            "
+            @click="postAnswer()"
+          >
+            Publicar
+          </p>
+        </v-row>
+        <v-textarea
+          v-model="answerPost"
+          :loading="posting"
+          outlined
+          rows="5"
+          auto-grow
+          class="light-text-area mt-0"
+          placeholder="Escreva seu comentário."
+          :messages="tooBigWarn"
+          :error="tooBig"
+        />
       </v-col>
     </v-col>
   </v-row>
@@ -75,6 +80,20 @@ export default {
     storedClaps: 0,
   }),
   computed: {
+    tooBig() {
+      if (this.answerPost.length > 255) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+    tooBigWarn() {
+      if (this.tooBig) {
+        return 'Comentário muito grande';
+      } else {
+        return '';
+      }
+    },
     idUser() {
       return this.$store.state.user.data.id;
     },
@@ -136,20 +155,22 @@ export default {
       }
     },
     async postAnswer() {
-      this.posting = true;
-      const postData = (
-        await http.post(`/api/v1/comment/${this.comment.id}/response`, {
-          partId: this.comment.partId,
-          userId: this.idUser,
-          text: this.answerPost,
-        })
-      ).data;
+      if (this.answerPost) {
+        this.posting = true;
+        const postData = (
+          await http.post(`/api/v1/comment/${this.comment.id}/response`, {
+            partId: this.comment.partId,
+            userId: this.idUser,
+            text: this.answerPost,
+          })
+        ).data;
 
-      this.comment.responses.push(postData);
+        this.comment.responses.push(postData);
 
-      this.answerPost = '';
-      this.answering = false;
-      this.posting = false;
+        this.answerPost = '';
+        this.answering = false;
+        this.posting = false;
+      }
     },
   },
 };
@@ -178,7 +199,6 @@ h1 {
   font-weight: 500;
   color: #3f3d56;
 }
-
 .user__comment {
   font-size: 12px;
   font-style: normal;
@@ -253,7 +273,12 @@ h4 {
   font-size: 30px;
   outline: none !important;
 }
-.primary-text-field {
-  font-size: 14px !important;
+.publish {
+  margin-bottom: 0;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 18px;
+  letter-spacing: 0em;
+  color: #d8b4ff;
 }
 </style>
