@@ -58,7 +58,7 @@
                   depressed
                   large
                   @click="
-                    getRanking();
+                    getRanking(true);
                     filter = false;
                   "
                   >Buscar</v-btn
@@ -74,7 +74,7 @@
       <v-tab
         @click="
           timeRange = 'MONTH';
-          getRanking();
+          getRanking(true);
         "
       >
         Mensal
@@ -82,7 +82,7 @@
       <v-tab
         @click="
           timeRange = 'YEAR';
-          getRanking();
+          getRanking(true);
         "
       >
         Anual
@@ -128,7 +128,7 @@
             <v-col
               v-for="(pod, index) in podium"
               :id="'pod' + index"
-              :key="pod"
+              :key="index"
               class="flex pod"
             >
               <img
@@ -155,10 +155,13 @@
                     <th>NC</th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody
+                  v-infinite-scroll="getRanking"
+                  infinite-scroll-disabled="busy"
+                >
                   <tr
                     v-for="(item, index) in generalRanking"
-                    :key="item.name"
+                    :key="index"
                     class="line"
                   >
                     <td>{{ index + 4 }}º</td>
@@ -195,10 +198,10 @@
 </router>
 
 <script>
+import infiniteScroll from 'vue-infinite-scroll';
 import NavigationBar from '~/components/NavigationBar.vue';
 import HeaderBar from '~/components/Header.vue';
 import utils from '~/utils/index';
-// import infiniteScroll from 'vue-infinite-scroll';
 import httpHelper from '~/services/http/generic';
 import { http } from '~/services/http/config';
 
@@ -207,11 +210,11 @@ export default {
     NavigationBar,
     HeaderBar,
   },
-
+  directives: { infiniteScroll },
   data() {
     return {
       page: 1,
-      limit: 50,
+      limit: 10,
       busy: false,
       country: '',
       school: '',
@@ -247,7 +250,6 @@ export default {
       stateAbbreviations: [],
     };
   },
-  // directives: { infiniteScroll },
   computed: {
     idUser() {
       return this.$store.state.user.data.id;
@@ -259,22 +261,45 @@ export default {
       if (this.ranking.slice(0, 3).length == 3) {
         return this.ranking.slice(0, 3);
       } else {
-        for (let i = 0; this.ranking.length < 4; i++) {
-          this.ranking.push(
-            (i = {
-              photo: '',
-              points: '0',
-              rank: '0',
-              userId: '',
-              userName: '---',
-            }),
-          );
-        }
-        return this.ranking.slice(0, 3);
+        return [
+          {
+            photo: '',
+            points: '0',
+            rank: '0',
+            userId: '',
+            userName: '---',
+          },
+          {
+            photo: '',
+            points: '0',
+            rank: '0',
+            userId: '',
+            userName: '---',
+          },
+          {
+            photo: '',
+            points: '0',
+            rank: '0',
+            userId: '',
+            userName: '---',
+          },
+        ];
       }
     },
     generalRanking() {
-      return this.ranking.slice(3);
+      if (this.ranking.length > 3) {
+        return this.ranking.slice(3);
+      } else {
+        return [
+          {
+            photo: '',
+            points: '0',
+            rank: '0',
+            userId: '',
+            userName: '---',
+          },
+        ];
+      }
     },
     selfRank() {
       const selfRank = this.ranking.find(user => user.userId == this.idUser);
@@ -291,11 +316,14 @@ export default {
   },
   mounted() {
     this.getStates();
-    this.getRanking();
+    // this.getRanking();
   },
   methods: {
-    getRanking() {
-      if (this.stop) {
+    getRanking(clearNGet) {
+      if (clearNGet) {
+        this.page = 1;
+        this.ranking = [];
+      } else if (this.busy) {
         return;
       }
       this.busy = true;
@@ -305,7 +333,8 @@ export default {
         .getAll(
           `${process.env.endpoints.RANKING +
             `?limit=${this.limit}` +
-            // `?page=${this.page}` +
+            `&page=${this.page}` +
+            `&order=DESC` +
             // concat every active filter for the request
             (this.city ? '&city=' + this.city : '') +
             (this.state ? '&state=' + this.state : '') +
@@ -314,24 +343,15 @@ export default {
         )
         .then(ranking => {
           if (!ranking.data.content.length) {
-            // this.stop = true;
             this.loading = false;
-            // this.busy = false;
             return;
           }
-          // const append = ranking.data.content
-          //   .reverse()
-          //   .slice(this.ranking.length, this.ranking.length + this.limit);
-          this.ranking = ranking.data.content.reverse();
-          // this.ranking = this.ranking.concat(append);
+
+          this.ranking = this.ranking.concat(ranking.data.content);
           this.page++;
-          // <--- The api is returning the list in ascending order;
+          this.loading = false;
+          this.busy = false;
         });
-      // this.busy = false;
-      //                   v-infinite-scroll="getRanking" // Colocar no tbody para infinity scroll
-      //             infinite-scroll-disabled="busy"
-      this.loading = false;
-      this.pageLoading = false;
     },
     getCities(stateName) {
       httpHelper
