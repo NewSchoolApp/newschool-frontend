@@ -98,12 +98,12 @@ export default {
             type: 'error',
             message: 'Selecione uma imagem',
           });
-        } else if (size > 9437184) {
+        } else if (size > 1040000) {
           // size exemple:   1mb = 1048576 bytes
           // check whether the size is greater than the size limit
           this.$notifier.showMessage({
             type: 'error',
-            message: 'Escolha uma imagem menor que 9MB',
+            message: 'Escolha uma imagem menor que 1MB',
           });
         } else {
           // para exibir web

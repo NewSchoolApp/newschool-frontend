@@ -1,13 +1,44 @@
 <template>
   <div>
     <HeaderBar :title="'Notificação'" :back-page="true" />
-    <button
-      v-if="notifications.length"
-      class="btn-primary clear__button"
-      @click="clearNotifications"
-    >
-      limpar
-    </button>
+
+    <div id="filters">
+      <img
+        class="collapse-button clear__button"
+        color="primary"
+        dark
+        src="../../assets/more_vert_24px.svg"
+        @click.stop="dialog = true"
+      />
+      <v-dialog v-model="dialog" max-width="290">
+        <v-card class="filter-modal">
+          <v-list-item
+            class="item-list"
+            @click="
+              clearNotifications();
+              dialog = false;
+            "
+            >Excluir todas</v-list-item
+          >
+          <v-list-item
+            class="item-list"
+            @click="
+              filterImportants = false;
+              dialog = false;
+            "
+            >Ver todas</v-list-item
+          >
+          <v-list-item
+            class="item-list"
+            @click="
+              filterImportants = true;
+              dialog = false;
+            "
+            >Ver importantes
+          </v-list-item>
+        </v-card>
+      </v-dialog>
+    </div>
 
     <div v-show="!loading" id="page">
       <div v-if="notifications.length" id="total-cards">
@@ -19,18 +50,20 @@
         >
           <transition-group name="fade">
             <div
-              v-for="notification of notifications"
+              v-for="notification of notificationsToShow"
               :key="notification.id"
               class="card"
               :class="notification.type === 'OTHER' ? 'special' : ''"
-              @click="
-                notification.content.semearSiteUrl
-                  ? goToNotification(notification.content.semearSiteUrl)
-                  : ''
-              "
             >
               <div class="header__info">
-                <img src="~/assets/gabs-small.svg" />
+                <img
+                  src="~/assets/gabs-small.svg"
+                  @click="
+                    notification.content.semearSiteUrl
+                      ? goToNotification(notification.content.semearSiteUrl)
+                      : ''
+                  "
+                />
                 <img
                   class="cross__button"
                   src="~/assets/cross-button.svg"
@@ -38,7 +71,13 @@
                   @click="removeNotification(notification)"
                 />
 
-                <h1>
+                <h1
+                  @click="
+                    notification.content.semearSiteUrl
+                      ? goToNotification(notification.content.semearSiteUrl)
+                      : ''
+                  "
+                >
                   {{
                     notification.content.badge
                       ? notification.content.badge.badgeDescription
@@ -93,10 +132,21 @@ export default {
   data: () => ({
     loading: true,
     notifications: [],
+    dialog: false,
+    filterImportants: false,
   }),
   computed: {
     user() {
       return this.$store.state.user.data;
+    },
+    notificationsToShow() {
+      if (this.filterImportants) {
+        return this.notifications.filter(notification => {
+          return notification.important;
+        });
+      } else {
+        return this.notifications;
+      }
     },
   },
   async mounted() {
@@ -160,7 +210,9 @@ export default {
         });
     },
     goToNotification(link) {
-      window.location = link;
+      this.loading = true;
+      // window.location = link;  <- uncomment to use notification link
+      $nuxt._router.push(`/aluno/semear`);
     },
   },
 };
@@ -194,7 +246,7 @@ export default {
 }
 
 .special {
-  border-left: 5px solid red;
+  border-left: 5px solid #f24e1e;
   cursor: pointer;
 }
 
@@ -217,7 +269,6 @@ h1 {
 .fade-leave-active {
   transition: all 0.4s;
 }
-
 .fade-leave-to {
   opacity: 0;
 }
@@ -226,7 +277,7 @@ h1 {
   position: relative;
   padding: 0.9rem;
   background: #fff;
-  box-shadow: 2px 2px 2px 0px #00000026;
+  box-shadow: 0px 0px 3px 1px #adadad26;
   border-radius: 4px;
   display: -webkit-box;
   display: flex;
@@ -235,6 +286,7 @@ h1 {
   flex-direction: column;
   -webkit-box-pack: justify;
   justify-content: space-between;
+  height: 62px;
 }
 .btn-back {
   width: unset !important;
@@ -273,17 +325,18 @@ h1 {
 }
 
 #continue__text {
-  font-size: 8px;
-  font-weight: 300;
   min-width: 55px;
-  line-height: 9px;
-  text-align: right;
   color: rgb(63, 61, 86);
-  text-transform: none;
-  letter-spacing: 0em;
   position: absolute;
   top: 40px;
   right: 20px;
+  font-family: Montserrat;
+  font-size: 8px;
+  font-style: normal;
+  font-weight: 300;
+  line-height: 10px;
+  letter-spacing: 0em;
+  text-align: right;
 }
 
 @media (min-width: 768px) {
@@ -295,5 +348,19 @@ h1 {
     width: 700px;
     max-width: 700px;
   }
+}
+.filter-modal {
+  position: absolute;
+  right: 40px;
+  top: 35px;
+  width: 151px;
+  height: 135px;
+}
+.item-list {
+  font-size: 12px;
+  padding: 0 0 0 15px;
+  margin-top: 5px;
+  font-weight: 500;
+  min-height: 38px;
 }
 </style>
