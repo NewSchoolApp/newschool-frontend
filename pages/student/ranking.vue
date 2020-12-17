@@ -59,6 +59,7 @@
                   large
                   @click="
                     getRanking(true);
+                    getSelfRanking();
                     filter = false;
                   "
                   >Buscar</v-btn
@@ -75,6 +76,7 @@
         @click="
           timeRange = 'MONTH';
           getRanking(true);
+          getSelfRanking();
         "
       >
         Mensal
@@ -83,6 +85,7 @@
         @click="
           timeRange = 'YEAR';
           getRanking(true);
+          getSelfRanking();
         "
       >
         Anual
@@ -248,6 +251,7 @@ export default {
         school: false,
       },
       stateAbbreviations: [],
+      selfRank: {},
     };
   },
   computed: {
@@ -261,29 +265,18 @@ export default {
       if (this.ranking.slice(0, 3).length == 3) {
         return this.ranking.slice(0, 3);
       } else {
-        return [
-          {
+        const mockPodium = this.ranking.slice(0, 3);
+
+        while (mockPodium.length < 3) {
+          mockPodium.push({
             photo: '',
             points: '0',
             rank: '0',
             userId: '',
             userName: '---',
-          },
-          {
-            photo: '',
-            points: '0',
-            rank: '0',
-            userId: '',
-            userName: '---',
-          },
-          {
-            photo: '',
-            points: '0',
-            rank: '0',
-            userId: '',
-            userName: '---',
-          },
-        ];
+          });
+        }
+        return mockPodium;
       }
     },
     generalRanking() {
@@ -301,24 +294,25 @@ export default {
         ];
       }
     },
-    selfRank() {
-      const selfRank = this.ranking.find(user => user.userId == this.idUser);
-      if (selfRank) {
-        return selfRank;
-      } else {
-        return {
-          rank: '',
-          photo: '',
-          points: '',
-        };
-      }
-    },
   },
   mounted() {
     this.getStates();
-    // this.getRanking();
+    this.getSelfRanking();
   },
   methods: {
+    getSelfRanking() {
+      httpHelper
+        .getAll(
+          `${process.env.endpoints.RANKING}/user/${this.idUser}?` +
+            (this.city ? '&city=' + this.city : '') +
+            (this.state ? '&state=' + this.state : '') +
+            (this.school ? '&institutionName=' + this.school : '') +
+            (this.timeRange ? '&timeRange=' + this.timeRange : ''),
+        )
+        .then(res => {
+          this.selfRank = res.data;
+        });
+    },
     getRanking(clearNGet) {
       if (clearNGet) {
         this.page = 1;
@@ -582,6 +576,11 @@ td {
   font-weight: 700;
   margin: 5px 0 0 10px;
   color: rgb(63, 61, 86);
+  display: -webkit-box;
+  -webkit-line-clamp: 1 !important;
+  -webkit-box-orient: vertical !important;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .text-left {
   text-align: left;
