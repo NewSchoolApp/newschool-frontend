@@ -51,7 +51,8 @@
                 <div
                   v-if="!posting"
                   :class="
-                    'publish-btn pt-4 ' + (commentPost ? 'primary--text' : {})
+                    'publish-btn pt-4 ' +
+                      (commentPost && !tooBig ? 'primary--text' : {})
                   "
                   @click="postComment"
                 >
@@ -69,10 +70,12 @@
                   class="light-text-field mt-2 ml-2"
                   placeholder="Escreva seu comentario"
                   outlined
+                  :messages="tooBigWarn"
+                  :error="tooBig"
                   @keyup.enter="postComment"
                 ></v-text-field>
               </v-row>
-              <v-row justify="center">
+              <v-row justify="center" class="pt-3">
                 <v-select
                   height="10"
                   :items="items"
@@ -141,6 +144,20 @@ export default {
     sortBy: 'Mais salves',
   }),
   computed: {
+    tooBig() {
+      if (this.commentPost.length > 255) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+    tooBigWarn() {
+      if (this.tooBig) {
+        return 'Comentário muito grande';
+      } else {
+        return '';
+      }
+    },
     currentCourse() {
       return this.$store.state.courses.current;
     },
@@ -213,7 +230,7 @@ export default {
         });
     },
     postComment() {
-      if (this.commentPost) {
+      if (this.commentPost && !this.tooBig) {
         this.posting = true;
 
         const postBody = {
