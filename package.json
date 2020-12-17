@@ -60,6 +60,8 @@
     "vue-avatar": "^2.1.8",
     "vue-chartjs": "^3.5.1",
     "vue-infinite-scroll": "^2.0.2",
+    "vue-masonry": "^0.12.0",
+    "vue-masonry-css": "^1.0.3",
     "vue-social-sharing": "^2.4.7",
     "vue-the-mask": "^0.11.1",
     "youtube-vue": "^2.0.8"

@@ -213,7 +213,7 @@ export default {
       STATE_COURSE: 'api/v2/course-taken',
       CURRENT_STEP: '/api/v2/course-taken/current-step',
       CERTIFICATES_ME: 'api/v2/course-taken/certificate/user/',
-      CHALLENGE: '/api/v2/course-taken/challenge/user/',
+      CHALLENGE: '/api/v2/course-taken/challenge/',
       NPS: '/api/v2/course-taken/nps/user/',
 
       // lesson
@@ -318,6 +318,7 @@ export default {
     { src: '~/plugins/infinite-scroll.js', mode: 'client' },
     { src: '~/plugins/ga.js', mode: 'client' },
     { src: '~/plugins/redirect', mode: 'client' },
+    { src: '~/plugins/vue-masonry.js', mode: 'client' },
   ],
   /*
    ** Nuxt.js dev-modules
