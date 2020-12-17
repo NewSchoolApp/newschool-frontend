@@ -48,12 +48,14 @@
                 <h3 class="comments__number pb-5">
                   {{ commentsAmount || 0 }} Comentários
                 </h3>
-                <div v-if="!posting" @click="postComment">
-                  <v-icon
-                    class="icon__send"
-                    :color="commentPost ? '#6600cc' : ''"
-                    >mdi-send</v-icon
-                  >
+                <div
+                  v-if="!posting"
+                  :class="
+                    'publish-btn pt-4 ' + (commentPost ? 'primary--text' : {})
+                  "
+                  @click="postComment"
+                >
+                  Publicar
                 </div>
               </v-row>
               <v-row justify="center" class="top-row">
@@ -327,18 +329,16 @@ h1 {
   font-weight: 700;
   color: #1a1a1a;
 }
-
 .button-primary {
   color: #6600cc;
 }
-
 .publish-btn {
   margin-bottom: 0;
   font-size: 12px;
   font-weight: 400;
   line-height: 18px;
   letter-spacing: 0em;
-  color: #737373;
+  color: #d8b4ff;
 }
 .filter__coments {
   font-family: 'Montserrat', sans-serif;
@@ -372,7 +372,6 @@ h4 {
 .inner-container {
   margin-top: 0.5rem;
 }
-
 ::v-deep .v-select {
   margin: -3px 0 -42px !important;
   padding: 0 !important;
@@ -404,10 +403,6 @@ h4 {
   position: absolute;
   bottom: 0;
   width: 100%;
-}
-
-.icon__send {
-  cursor: pointer;
 }
 .info__box {
   display: flex;
