@@ -29,9 +29,9 @@
               <h1 class="h1__theme">Professor&nbsp;&nbsp;&nbsp;&nbsp;</h1>
               <p id="author__name">{{ course.nomeDoAutor }}</p>
             </div>
-            <!-- <div class="mural" @click="goToMural">
+            <div class="mural" @click="goToMural">
               <p>Mural</p>
-            </div> -->
+            </div>
           </div>
         </section>
         <p id="description">{{ course.descricao }}</p>
@@ -119,7 +119,7 @@ export default {
       );
     },
     goToMural() {
-      this.$router.push(`/mural/${this.course.id}`);
+      this.$router.push(`/aluno/curso/${this.$route.params.courseSlug}/mural`);
     },
     async startCourse() {
       // send to backend that this course will start
