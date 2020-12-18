@@ -72,7 +72,7 @@ export default {
     filteredCourses() {
       return this.myCourses.filter(course => {
         if (this.selectedTab == '1') {
-          return course.courseTakenData.completion == 100;
+          return course.courseTakenData.completion === 100;
         } else {
           return course.courseTakenData.completion < 100;
         }
@@ -89,11 +89,17 @@ export default {
         await http.getAll(`${process.env.endpoints.MY_COURSES}${this.user.id}`)
       ).data;
 
+      // push some info about course
       if (myCourses) {
         myCourses.forEach(myCourse => {
           const courseWithData = this.allCourses.find(
             course => course.id == myCourse.courseId,
           );
+          // check if the challenge is done
+          if (myCourse.completion === 100 && myCourse.challenge === null) {
+            // force completion 99%
+            myCourse.completion = 99;
+          }
 
           courseWithData.courseTakenData = myCourse;
 
@@ -123,22 +129,6 @@ h1 {
 .container__list {
   margin-bottom: 5rem;
 }
-.card {
-  height: 8rem;
-  margin: 1.3rem;
-  padding: 0.9rem;
-  background: #fff;
-  box-shadow: 0px 12px 20px 0px #00000026;
-  border-radius: 5px;
-  display: -webkit-box;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-  flex-direction: column;
-  -webkit-box-pack: justify;
-  justify-content: space-between;
-}
-
 .header__info {
   display: flex;
   justify-content: space-between;

@@ -50,21 +50,6 @@ export default {
 
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
-#close-btn {
-  position: absolute;
-  right: 20px;
-  top: 50px;
-  cursor: pointer;
-  font-size: 30px;
-}
-
-.mdi-close-circle::before {
-  color: var(--primary);
-  width: 20px;
-  height: 20px;
-  z-index: 9999999;
-}
-
 .congratulations__text {
   font-weight: 900;
   font-size: 32px;
@@ -93,8 +78,6 @@ export default {
 .btn-block {
   width: 90%;
   padding: 10px auto;
-  font-size: 16px;
-  font-weight: 700;
   position: absolute;
   bottom: 40px;
   right: 5%;
