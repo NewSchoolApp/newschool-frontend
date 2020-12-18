@@ -118,7 +118,7 @@ export default {
     filteredList() {
       if (this.filtro) {
         const exp = new RegExp(this.filtro.trim(), 'i');
-        return this.courseList.filter(course => exp.test(course.title));
+        return this.courseList.filter(course => exp.test(course.titulo));
       } else {
         return this.courseList;
       }

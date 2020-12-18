@@ -1,5 +1,5 @@
 <template>
-  <v-col class="my-0 pb-0 px-0">
+  <v-col class="my-0 pb-3 px-0">
     <CommentCell :comment="this.comment" />
 
     <div v-for="res in comment.responses" :key="res.index" class="ml-12 mt-1">
@@ -54,3 +54,4 @@ export default {
   },
 };
 </script>
+<style scoped></style>

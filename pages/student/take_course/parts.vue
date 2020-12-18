@@ -48,12 +48,15 @@
                 <h3 class="comments__number pb-5">
                   {{ commentsAmount || 0 }} Comentários
                 </h3>
-                <div v-if="!posting" @click="postComment">
-                  <v-icon
-                    class="icon__send"
-                    :color="commentPost ? '#6600cc' : ''"
-                    >mdi-send</v-icon
-                  >
+                <div
+                  v-if="!posting"
+                  :class="
+                    'publish-btn pt-4 ' +
+                      (commentPost && !tooBig ? 'primary--text' : {})
+                  "
+                  @click="postComment"
+                >
+                  Publicar
                 </div>
               </v-row>
               <v-row justify="center" class="top-row">
@@ -67,10 +70,12 @@
                   class="light-text-field mt-2 ml-2"
                   placeholder="Escreva seu comentario"
                   outlined
+                  :messages="tooBigWarn"
+                  :error="tooBig"
                   @keyup.enter="postComment"
                 ></v-text-field>
               </v-row>
-              <v-row justify="center">
+              <v-row justify="center" class="pt-3">
                 <v-select
                   height="10"
                   :items="items"
@@ -139,6 +144,20 @@ export default {
     sortBy: 'Mais salves',
   }),
   computed: {
+    tooBig() {
+      if (this.commentPost.length > 255) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+    tooBigWarn() {
+      if (this.tooBig) {
+        return 'Comentário muito grande';
+      } else {
+        return '';
+      }
+    },
     currentCourse() {
       return this.$store.state.courses.current;
     },
@@ -211,7 +230,7 @@ export default {
         });
     },
     postComment() {
-      if (this.commentPost) {
+      if (this.commentPost && !this.tooBig) {
         this.posting = true;
 
         const postBody = {
@@ -327,18 +346,16 @@ h1 {
   font-weight: 700;
   color: #1a1a1a;
 }
-
 .button-primary {
   color: #6600cc;
 }
-
 .publish-btn {
   margin-bottom: 0;
   font-size: 12px;
   font-weight: 400;
   line-height: 18px;
   letter-spacing: 0em;
-  color: #737373;
+  color: #d8b4ff;
 }
 .filter__coments {
   font-family: 'Montserrat', sans-serif;
@@ -372,7 +389,6 @@ h4 {
 .inner-container {
   margin-top: 0.5rem;
 }
-
 ::v-deep .v-select {
   margin: -3px 0 -42px !important;
   padding: 0 !important;
@@ -404,10 +420,6 @@ h4 {
   position: absolute;
   bottom: 0;
   width: 100%;
-}
-
-.icon__send {
-  cursor: pointer;
 }
 .info__box {
   display: flex;
