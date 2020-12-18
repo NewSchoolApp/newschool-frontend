@@ -132,8 +132,6 @@ export default {
 .btn-block {
   width: 90%;
   padding: 10px auto;
-  font-size: 16px;
-  font-weight: 700;
   position: absolute;
   bottom: 40px;
   right: 5%;

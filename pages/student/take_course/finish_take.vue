@@ -6,7 +6,7 @@
           style="justify-content: flex-end; padding-bottom: 10px"
           color="white"
           dark
-          @click="activeDialog = 'start'"
+          @click="gotoCourse()"
         >
           mdi-close-circle
         </v-icon>
@@ -51,7 +51,7 @@
         style="justify-content: flex-end; padding-bottom: 10px"
         color="#6600cc"
         dark
-        @click="gotoCourse()"
+        @click="activeDialog = 'none'"
       >
         mdi-close-circle
       </v-icon>
@@ -71,18 +71,18 @@
       </v-col>
       <v-radio-group :class="bindedClass" row>
         <v-radio
-          v-for="n in 10"
+          v-for="n in 11"
           :key="n.id"
-          :label="n.toString()"
-          :value="n"
-          @mousedown="postBody.rating = n"
+          :label="(n - 1).toString()"
+          :value="n - 1"
+          @mousedown="postBody.rating = n - 1"
         />
       </v-radio-group>
       <v-spacer />
 
       <!-- dialog footer -->
       <v-row align="end" style="padding-bottom: 0">
-        <v-btn class="btn-block btn-primary baseline" @click="submitRating">
+        <v-btn class="btn-block btn-primary" @click="submitRating">
           Próximo
         </v-btn>
       </v-row>
@@ -95,7 +95,7 @@
         style="justify-content: flex-end; padding-bottom: 10px"
         color="#6600cc"
         dark
-        @click="gotoCourse()"
+        @click="activeDialog = 'none'"
       >
         mdi-close-circle
       </v-icon>
@@ -120,13 +120,7 @@
 
       <!-- dialog footer -->
       <v-row align="end" style="padding-bottom: 0">
-        <v-btn
-          class="btn-block btn-primary baseline"
-          @click="
-            postFeedback();
-            activeDialog = 'end';
-          "
-        >
+        <v-btn class="btn-block btn-primary" @click="postFeedback()">
           Próximo
         </v-btn>
       </v-row>
@@ -139,7 +133,7 @@
         style="justify-content: flex-end; padding-bottom: 10px"
         color="#6600cc"
         dark
-        @click="gotoCourse()"
+        @click="activeDialog = 'none'"
       >
         mdi-close-circle
       </v-icon>
@@ -157,6 +151,7 @@
       </v-col>
       <v-textarea
         v-model="postBody.feedback"
+        :class="bindedClass"
         outlined
         placeholder="Seu comentário"
       />
@@ -164,13 +159,7 @@
 
       <!-- dialog footer -->
       <v-row align="end" style="padding-bottom: 0">
-        <v-btn
-          class="btn-block btn-primary baseline"
-          @click="
-            postFeedback();
-            activeDialog = 'end';
-          "
-        >
+        <v-btn class="btn-block btn-primary" @click="postFeedback()">
           Próximo
         </v-btn>
       </v-row>
@@ -190,7 +179,7 @@
 
       <!-- dialog footer -->
       <v-row align="end" style="padding-bottom: 0">
-        <v-btn class="btn-block btn-primary baseline" @click="gotoCourse()">
+        <v-btn class="btn-block btn-primary" @click="activeDialog = 'none'">
           Finalizar
         </v-btn>
       </v-row>
@@ -212,10 +201,10 @@ export default {
   },
   data() {
     return {
-      dialog: 'none',
+      dialog: 'start',
       bindedClass: 'none',
       postBody: {
-        rating: '',
+        rating: null,
         feedback: '',
       },
     };
@@ -250,7 +239,7 @@ export default {
     },
   },
   mounted() {
-    if (this.$route.params.lateFeedback == 2) {
+    if (this.$route.params.lateFeedback == 1) {
       this.activeDialog = 'start';
     }
   },
@@ -308,7 +297,7 @@ export default {
       );
     },
     submitRating() {
-      if (!this.postBody.rating) {
+      if (this.postBody.rating === null) {
         this.bindedClass = 'error-form';
         setTimeout(() => {
           this.bindedClass = '';
@@ -320,11 +309,17 @@ export default {
       }
     },
     postFeedback() {
-      if (this.postBody.rating) {
+      if (this.postBody.feedback !== '') {
         http.post(
           `${process.env.endpoints.NPS}${this.idUser}/course/${this.courseId}`,
           this.postBody,
         );
+        this.activeDialog = 'end';
+      } else {
+        this.bindedClass = 'error-form';
+        setTimeout(() => {
+          this.bindedClass = '';
+        }, 500);
       }
     },
     convertToSlug(str) {
