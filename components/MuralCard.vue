@@ -39,8 +39,6 @@
 </template>
 
 <script>
-import http from '~/services/http/generic';
-
 export default {
   name: 'MuralCard',
   props: {
@@ -60,7 +58,7 @@ export default {
       return this.$refs.cardText.offsetHeight / 16;
     },
   },
-  async mounted() {
+  mounted() {
     setTimeout(() => {
       if (this.cardTextLineCount > 7) {
         this.textOverflow = true;
@@ -97,7 +95,7 @@ export default {
   text-align: center;
   color: #ffffff;
   background-color: var(--primary);
-  justify-content: start;
+  justify-content: flex-start;
   border-radius: 4px;
   border: solid #dadada 1px;
 }

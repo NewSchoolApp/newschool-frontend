@@ -257,7 +257,7 @@ export default {
       );
     },
     onSuccess(result) {
-      httpHelper
+      http
         .post(process.env.endpoints.EVENT, {
           event: 'SHARE_COURSE',
           rule: {
@@ -337,6 +337,9 @@ export default {
         .replace(/\s+/g, '-') // collapse whitespace and replace by -
         .replace(/-+/g, '-'); // collapse dashes
       return str;
+    },
+    goToMyCertificates() {
+      this.$router.replace('/aluno/certificados');
     },
   },
 };
