@@ -12,7 +12,7 @@
       </div>
     </div>
     <div v-else id="main-col">
-      <h1 id="title__course" class="h1__theme pb-2">{{ course.titulo }}</h1>
+      <h1 id="title__course" class="h1__theme pb-3">{{ course.titulo }}</h1>
       <div class="mask__img">
         <img
           v-if="showThumb"
@@ -24,7 +24,7 @@
       </div>
       <div class="info__box">
         <section>
-          <div class="course__info pt-2 pb-4">
+          <div class="course__info pt-4 pb-4">
             <div class="author__info">
               <h1 class="h1__theme">Professor&nbsp;&nbsp;&nbsp;&nbsp;</h1>
               <p id="author__name">{{ course.nomeDoAutor }}</p>
@@ -175,7 +175,7 @@ h1 {
   width: 100%;
   overflow: hidden;
   margin-top: 1%;
-
+  max-height: 167px;
   img {
     width: 100%;
   }
@@ -190,12 +190,13 @@ h1 {
 }
 
 .h1__theme {
-  font-family: 'Roboto';
-  font-weight: 900;
+  font-family: Roboto;
   font-size: 14px;
+  font-style: normal;
+  font-weight: 700;
   line-height: 16px;
-  color: #6600cc;
-  margin-top: 4px;
+  letter-spacing: 0em;
+  text-align: left;
 }
 
 .mural p {
@@ -218,9 +219,14 @@ h1 {
   align-items: center;
 }
 #author__name {
-  font-size: 0.8555rem;
-  font-weight: 600;
-  margin-bottom: -4px;
+  font-family: Roboto;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 16px;
+  letter-spacing: 0em;
+  text-align: left;
+  margin: 0;
 }
 #description {
   font-family: 'Roboto';
