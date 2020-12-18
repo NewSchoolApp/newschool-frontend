@@ -1,9 +1,13 @@
 <template>
   <v-card class="card">
-    <v-col @click="goToCourse()">
+    <v-col>
       <v-row justify="space-between">
         <h1>{{ course.titulo }}</h1>
-        <p v-if="course.status === 'TAKEN'" id="continue__text">
+        <p
+          v-if="course.courseTakenData.completion < 100"
+          id="continue__text"
+          @click="goToCourse()"
+        >
           Continuar
         </p>
       </v-row>
@@ -17,19 +21,19 @@
           height="8"
           color="#aa56ff"
         />
+        <div
+          v-if="
+            !course.courseTakenData.rating &&
+              course.courseTakenData.completion === 100
+          "
+          id="rating-btn"
+          text
+          @click="rateCourse"
+        >
+          Avaliar Curso
+        </div>
       </v-col>
     </v-col>
-
-    <v-btn
-      v-if="
-        !course.courseTakenData.rating &&
-          course.courseTakenData.status === 'COMPLETED'
-      "
-      id="rating-btn"
-      text
-      @click="rateCourse"
-      >Avaliar Curso</v-btn
-    >
   </v-card>
 </template>
 
@@ -110,7 +114,7 @@ h1 {
   font-size: 13px;
 }
 ::v-deep .v-progress-linear {
-  margin-bottom: 35px;
+  margin-bottom: 10px;
 }
 ::v-deep .v-progress-linear__background {
   opacity: 100%;
@@ -133,11 +137,17 @@ h1 {
   letter-spacing: 0em;
 }
 #rating-btn {
+  display: flex;
   justify-content: flex-end;
-  font-size: 5px;
   text-transform: none;
   height: 20px;
-  padding: 0;
+
+  font-family: Roboto;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 12px;
+  letter-spacing: 0em;
+  text-align: right;
 }
 .col {
   padding: 0;
