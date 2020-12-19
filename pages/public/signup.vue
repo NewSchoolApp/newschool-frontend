@@ -239,7 +239,7 @@ export default {
       }, 800);
     },
 
-    async getSchool(school) {
+    getSchool(school) {
       if (!school) {
         this.schools = [];
         return;
@@ -249,7 +249,7 @@ export default {
       this.isLoading = true;
       this.loadClientCredentials().then(res => {
         const token = res.data.accessToken;
-        const response = http
+        http
           .get(`${process.env.endpoints.SCHOOL}?name=${school}`, {
             headers: { Authorization: `Bearer ${token}` },
           })

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-show="!loading" id="page">
+    <div v-show="!loading" id="page" ref="flex">
       <HeaderBar :title="'Cola com Nóix'" :back-page="true" />
       <v-tabs v-model="selectedTab" fixed-tabs height="35px">
         <v-tab>
@@ -16,6 +16,7 @@
             <div class="input-label">Nome</div>
             <v-text-field
               v-model="form.name"
+              name="name"
               :rules="nameRules"
               placeholder="Seu nome"
               type="text"
@@ -26,22 +27,19 @@
             <div class="input-label">Linkedin</div>
             <v-text-field
               v-model="form.linkedin"
-              :rules="nameRules"
+              name="linkedin"
+              :rules="linkedinRules"
               placeholder="Link do seu perfil"
               filled
             />
           </v-col>
-
-          <!-- <v-col class="px-0 pb-5">
-              <div class="input-label">Endereço completo</div>
-              <v-text-field v-model="form.address" filled />
-            </v-col> -->
           <v-col class="px-0 pb-5">
             <div class="input-label">
               Como você acha que pode somar para New School?
             </div>
             <v-textarea
-              v-model="form.text"
+              v-model="form.message"
+              name="message"
               :rules="nameRules"
               placeholder="Escreve aqui o que você acredita que pode agregar para o time da New School"
               filled
@@ -58,6 +56,7 @@
             <div class="input-label">Nome</div>
             <v-text-field
               v-model="form.name"
+              name="name"
               :rules="nameRules"
               placeholder="Seu nome"
               type="text"
@@ -68,6 +67,7 @@
             <div class="input-label">Nome da Empresa/Cargoin</div>
             <v-text-field
               v-model="form.company"
+              name="company"
               :rules="nameRules"
               placeholder="Escreve aqui"
               filled
@@ -83,7 +83,8 @@
               Como você enxerga essa parceria?
             </div>
             <v-textarea
-              v-model="form.text"
+              v-model="form.message"
+              name="message"
               :rules="nameRules"
               placeholder="Escreve aqui o que você acredita que essa parceria pode agregar para o time da New School"
               filled
@@ -115,7 +116,9 @@
 </router>
 
 <script>
+import contactUs from '../../services/http/contact_us';
 import HeaderBar from '~/components/Header.vue';
+import utils from '~/utils/index';
 
 export default {
   components: {
@@ -125,24 +128,95 @@ export default {
   data() {
     return {
       loading: true,
+      token: '',
       selectedTab: 0,
       form: {
         name: '',
         linkedin: '',
-        text: '',
+        message: '',
         company: '',
+        cellphone: '0',
       },
       nameRules: [v => !!v || 'O campo não pode estar em branco'],
+      linkedinRules: [
+        v => !!v || 'O campo não pode estar em branco',
+        v => /.+linkedin\.+/.test(v) || 'URL inválida',
+      ],
     };
   },
   mounted() {
     this.loading = false;
+    utils
+      .getExternalCredentials()
+      .then(res => {
+        const { data } = res;
+        this.token = data.accessToken;
+      })
+      .catch(err => {
+        console.error(err);
+      });
   },
   methods: {
     send() {
-      alert(`Enviar para o back ${JSON.stringify(this.form)}`);
-      this.$notifier.showMessage({ type: 'success', message: 'Deu bom!' });
-      this.$router.replace('/aluno/home');
+      this.loading = true;
+      if (this.form.company && !this.form.linkedin) {
+        this.form.linkedin = 'null';
+      }
+      if (this.form.linkedin && !this.form.company) {
+        this.form.company = 'null';
+      }
+
+      const idValidform = this.checkForm();
+
+      if (idValidform) {
+        this.animateForm(true);
+        contactUs
+          .submit(this.form, this.token)
+          .then(res => {
+            this.loading = false;
+            this.$notifier.showMessage({
+              type: 'success',
+              message: 'Deu bom!',
+            });
+            setTimeout(() => {
+              this.gotoHome();
+            }, 4000);
+          })
+          .catch(err => {
+            this.$notifier.showMessage({ type: 'error' });
+            setTimeout(() => {
+              this.loading = false;
+            }, 800);
+            console.error(err);
+          });
+      } else {
+        this.animateForm(false);
+      }
+    },
+    checkForm() {
+      if (
+        this.form.name &&
+        this.form.linkedin &&
+        this.form.message &&
+        this.form.company
+      ) {
+        return true;
+      }
+    },
+    animateForm(status) {
+      if (status) {
+        this.$refs.flex.classList.add('hide-form');
+        document.querySelector('html').style.overflow = 'hidden';
+        setTimeout(() => {
+          this.loading = true;
+        }, 300);
+      } else {
+        this.$refs.flex.classList.add('error-form');
+        setTimeout(() => {
+          this.$refs.flex.classList.remove('error-form');
+        }, 500);
+      }
+      document.querySelector('html').style.overflow = 'scroll';
     },
   },
 };
