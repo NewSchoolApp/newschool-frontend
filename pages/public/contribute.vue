@@ -36,7 +36,9 @@
         </p>
       </v-row>
       <v-row>
-        <button class="btn-primary btn-block">DOE UM FUTURO</button>
+        <button class="btn-primary btn-block" @click="sendMessage">
+          DOE UM FUTURO
+        </button>
       </v-row>
     </v-container>
   </div>
@@ -49,14 +51,13 @@
 </router>
 
 <script>
-import NavigationBar from '~/components/NavigationBar.vue';
 import HeaderBar from '~/components/Header.vue';
 import VideoPlayer from '~/components/VideoPlayer.vue';
 
 export default {
   components: {
     HeaderBar,
-    NavigationBar,
+
     VideoPlayer,
   },
 
@@ -70,6 +71,10 @@ export default {
   methods: {
     select(location) {
       window.open(location, '_blank');
+    },
+    sendMessage() {
+      window.location =
+        'https://api.whatsapp.com/send?phone=+551195154-4712&text=Olá, Gostaria de saber mais de como posso fazer uma doação para a New School.';
     },
   },
 };
