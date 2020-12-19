@@ -81,7 +81,7 @@
                   {{
                     notification.content.badge
                       ? notification.content.badge.badgeDescription
-                      : 'Clique e acesse o site do parceiro'
+                      : 'Clique e acesse o site do Parceiro'
                   }}
                 </h1>
                 <div>

@@ -13,11 +13,6 @@ export default {
       });
 
       routes.push({
-        path: '/recuperar-senha/:token',
-        component: resolve(__dirname, 'pages/public/reset_password.vue'),
-      });
-
-      routes.push({
         path: '/aluno',
         component: resolve(__dirname, 'pages/student/~student.module.vue'),
         children: [
@@ -148,17 +143,27 @@ export default {
         ],
       });
 
-      routes.push({
-        path: '',
-        redirect: '/login',
-      });
+      routes.push(
+        {
+          path: '',
+          redirect: '/login',
+        },
+        {
+          path: '/recuperar-senha/:token',
+          component: resolve(__dirname, 'pages/public/reset_password.vue'),
+        },
+        {
+          path: '*',
+          component: resolve(__dirname, 'pages/public/404.vue'),
+        },
+      );
     },
   },
 
   env: {
     domain: process.env.DOMAIN_URL || 'https://newschoolapp.com.br',
     baseUrl:
-      process.env.VUE_APP_BASE_URL || //'https://6870dc1db9e8.ngrok.io',
+      process.env.VUE_APP_BASE_URL || // 'https://6870dc1db9e8.ngrok.io',
       // 'http://newschool-api-dev2.eba-gxtzwa9m.us-east-2.elasticbeanstalk.com/',
       'https://9ddlz0bte4.execute-api.us-east-2.amazonaws.com/dev',
     // http://develop.dev-newschool.tk/
