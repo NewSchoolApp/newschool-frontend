@@ -113,15 +113,18 @@ export default {
       this.showThumb = false;
     },
     goToCertificate() {
+      this.loading = true;
       // eslint-disable-next-line no-undef
       $nuxt._router.push(
         `/aluno/certificado-info/${this.$store.state.user.data.id}/${this.course.id}`,
       );
     },
     goToMural() {
+      this.loading = true;
       this.$router.push(`/aluno/curso/${this.$route.params.courseSlug}/mural`);
     },
     async startCourse() {
+      this.loading = true;
       // send to backend that this course will start
       await http
         .post(process.env.endpoints.INIT_COURSE, {
@@ -146,6 +149,7 @@ export default {
       $nuxt._router.push(currentStep.stepUrl);
     },
     async continueCourse() {
+      this.loading = true;
       // check for current step
       const currentStep = await this.$store.dispatch(
         'courses/refreshCurrentStep',
