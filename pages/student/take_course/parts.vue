@@ -15,10 +15,10 @@
 
       <v-col v-else class="pa-0">
         <!-- Video Frame -->
-        <div v-if="currentPart.video" id="video-iframe-container">
+        <div v-if="currentPart.videoUrl" id="video-iframe-container">
           <video-player
             ref="player"
-            :youtube-url="currentPart.video.url.replace('watch?v=', 'embed/')"
+            :youtube-url="currentPart.videoUrl.replace('watch?v=', 'embed/')"
             :thumbnail="currentCourse.capa.url"
           />
         </div>
