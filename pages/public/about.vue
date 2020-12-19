@@ -3,7 +3,7 @@
     <div class="bg"></div>
     <HeaderBar
       class="top"
-      :title="'O QUE É A NEW SCHOOL?'"
+      :title="'O que é a New School?'"
       :back-page="true"
     ></HeaderBar>
     <div class="container">
@@ -35,28 +35,20 @@
               <span>desafios da vida.</span>
             </p>
             <div style="position:relative;">
-              <iframe
-                width="350"
-                height="200"
-                :src="urlVideo"
-                frameborder="0"
-                allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"
-                allowfullscreen
-              ></iframe>
-            </div>
-            <p>
-              Conheça também a história do cara que fundou a New School, o
-              <span>João Paulo Malara</span>, vulgo <span>JP</span>.
-            </p>
-            <div class="video-iframe-container">
-              <iframe
-                width="350"
-                height="200"
-                :src="urlVideo2"
-                frameborder="0"
-                allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"
-                allowfullscreen
-              ></iframe>
+              <video-player
+                ref="player"
+                class="video__size"
+                :youtube-url="urlVideo"
+                :thumbnail="thumbnail"
+              />
+              <br />
+              <br />
+              <video-player
+                ref="player"
+                class="video__size"
+                :youtube-url="urlVideo2"
+                :thumbnail="thumbnail"
+              />
             </div>
           </div>
         </v-flex>
@@ -74,15 +66,18 @@
 <script>
 import NavigationBar from '~/components/NavigationBar.vue';
 import HeaderBar from '~/components/Header.vue';
-import http from '~/services/http/generic';
+import VideoPlayer from '~/components/VideoPlayer.vue';
 export default {
   components: {
     HeaderBar,
     NavigationBar,
+    VideoPlayer,
   },
   data: () => ({
     urlVideo: 'https://www.youtube.com/embed/u4O8wE0gYO0',
     urlVideo2: 'https://www.youtube.com/embed/OXxSY4PNr-o',
+    thumbnail:
+      'https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/35160991368917.5e303bd02c67f.jpg',
     loading: true,
   }),
 };
@@ -96,6 +91,8 @@ export default {
 }
 ::v-deep .container {
   max-width: 500px;
+  margin: 0 auto 18%;
+  padding: 0 24px;
 }
 ::v-deep .subtext {
   width: 100%;
@@ -129,24 +126,12 @@ p ::v-deep .subtext p {
 #header_bar {
   z-index: 9999;
 }
-@media (max-width: 80px) {
-  /* .top {
-    width: 90%;
-    margin: 0 5%;
-    text-align: center;
-  } */
-  ::v-deep .h1__theme {
-    font-size: 1.2rem;
-    text-align: center;
-  }
-}
 .video-iframe-container {
-  margin: 0.75em 3px 60px;
-  position: relative;
+  margin: 0 auto;
+  padding: 0 24px;
 }
 
-iframe {
-  border: 5px solid #6600cc;
-  border-radius: 5px;
+.video__size {
+  height: 200px;
 }
 </style>

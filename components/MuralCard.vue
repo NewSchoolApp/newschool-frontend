@@ -2,10 +2,7 @@
   <div class="mural-card">
     <div class="card-header">
       <v-avatar ref="avatar" class="mr-2" size="25">
-        <img
-          v-if="challengeData.user.photoPath"
-          :src="challengeData.user.photoPath"
-        />
+        <img v-if="challengeData.user.photo" :src="challengeData.user.photo" />
         <img v-else :src="require(`~/assets/person.svg`)" />
       </v-avatar>
       {{ challengeData.user.name }}

@@ -134,6 +134,7 @@ export default {
   margin: 0 2% 0 22px !important;
   max-width: 236px;
   font-size: 12px;
+  width: 236px;
 }
 
 .icon {
@@ -144,6 +145,7 @@ export default {
 .content__container {
   display: flex;
   align-items: center;
+  width: 100%;
 }
 
 .content__container img {
