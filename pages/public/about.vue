@@ -3,7 +3,7 @@
     <div class="bg"></div>
     <HeaderBar
       class="top"
-      :title="'O QUE É A NEW SCHOOL?'"
+      :title="'O que é a New School?'"
       :back-page="true"
     ></HeaderBar>
     <div class="container">

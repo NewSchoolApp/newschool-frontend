@@ -94,13 +94,13 @@ export default {
         id: 6,
         label: 'Cola com Nóix',
         icon: 'mdi-gesture-double-tap',
-        link: '/contribua',
+        link: '/voluntarios',
       },
       {
         id: 7,
         label: 'Apoie a new school',
         icon: 'mdi-volume-high',
-        link: '/construindo',
+        link: '/contribua',
       },
       {
         id: 8,
