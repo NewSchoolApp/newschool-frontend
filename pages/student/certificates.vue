@@ -27,9 +27,11 @@
         message="Você ainda não tem nenhum certificado. :("
       />
     </div>
+    <navigation-bar />
   </div>
 </template>
 <script>
+import NavigationBar from '~/components/NavigationBar.vue';
 import http from '~/services/http/generic';
 import HeaderBar from '~/components/Header.vue';
 import NothingToShow from '~/components/NothingToShow';
@@ -37,6 +39,7 @@ import CertificateCard from '~/components/CertificateCard';
 
 export default {
   components: {
+    NavigationBar,
     HeaderBar,
     NothingToShow,
     CertificateCard,
