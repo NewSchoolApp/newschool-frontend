@@ -35,7 +35,7 @@ BuildInfoProxy = {
 
         try {
             /* <EMBED_CODE> */
-            const json = {"debug":true,"buildDate":"2020-12-07T19:20:53.225Z","packageName":"com.newschool.app","basePackageName":"com.newschool.app","name":"New School","displayName":"New School","version":"1.0.0","versionCode":"1.0.0"};
+            const json = {"debug":true,"buildDate":"2020-12-11T18:39:47.722Z","packageName":"com.newschool.app","basePackageName":"com.newschool.app","name":"New School","displayName":"New School","version":"2.0.1","versionCode":"2.0.1"};
             /* </EMBED_CODE> */
 
             var ret = {
