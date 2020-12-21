@@ -73,8 +73,7 @@ export default {
       window.open(location, '_blank');
     },
     sendMessage() {
-      window.location =
-        'https://api.whatsapp.com/send?phone=+551195154-4712&text=Olá, Gostaria de saber mais de como posso fazer uma doação para a New School.';
+      window.location = 'https://donorbox.org/new-school-doe-um-futuro';
     },
   },
 };
