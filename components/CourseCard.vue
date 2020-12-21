@@ -5,7 +5,7 @@
     color="transparent"
     @click="openCourse()"
   >
-    <v-img :src="course.capa.url" />
+    <v-img :src="capa" />
     <v-card-title>{{ course.titulo }}</v-card-title>
     <div class="footer-card">
       <v-card-subtitle class="mt-0">{{ course.nomeDoAutor }}</v-card-subtitle>
@@ -26,6 +26,12 @@ export default {
   computed: {
     user() {
       return this.$store.state.user;
+    },
+    capa() {
+      if (this.course && this.course.capa && this.course.capa.url) {
+        return this.course.capa.url;
+      }
+      return 'https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/35160991368917.5e303bd02c67f.jpg';
     },
   },
   methods: {
