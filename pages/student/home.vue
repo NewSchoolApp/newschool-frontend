@@ -87,15 +87,18 @@
         :course="course"
       />
     </v-col>
+    <navigation-bar />
   </div>
 </template>
 
 <script>
+import NavigationBar from '~/components/NavigationBar.vue';
 import CourseCard from '~/components/CourseCard';
 import http from '~/services/http/generic';
 
 export default {
   components: {
+    NavigationBar,
     CourseCard,
   },
   data: () => ({

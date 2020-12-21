@@ -129,9 +129,7 @@
           </div>
         </div>
       </v-flex>
-      <client-only>
-        <navigation-bar v-if="!correct" />
-      </client-only>
+      <navigation-bar v-if="!correct" />
     </v-layout>
   </div>
 </template>

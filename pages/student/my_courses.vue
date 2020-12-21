@@ -38,19 +38,20 @@
         />
       </div>
     </div>
+    <navigation-bar />
   </div>
 </template>
 
 <script>
+import NavigationBar from '~/components/NavigationBar.vue';
 import HeaderBar from '~/components/Header.vue';
-import NothingToShow from '~/components/NothingToShow';
 import CourseProgress from '~/components/CourseProgress';
 import http from '~/services/http/generic';
 
 export default {
   components: {
+    NavigationBar,
     HeaderBar,
-    NothingToShow,
     CourseProgress,
   },
   transition: 'bounce',

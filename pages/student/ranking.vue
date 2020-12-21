@@ -188,9 +188,7 @@
         </v-col>
       </v-col>
     </v-col>
-    <client-only>
-      <navigation-bar />
-    </client-only>
+    <navigation-bar />
   </div>
 </template>
 

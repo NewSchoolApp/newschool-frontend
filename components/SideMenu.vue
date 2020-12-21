@@ -41,7 +41,6 @@
         tag="div"
         class="item-menu"
         :to="item.link"
-        @click.native="closeMenu()"
       >
         <div>
           <v-icon color="primary">{{ item.icon }}</v-icon>
