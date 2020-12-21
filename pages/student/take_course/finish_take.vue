@@ -232,7 +232,7 @@ export default {
       return this.$store.state.courses.current.id;
     },
     courseTitle() {
-      return this.$store.state.courses.current.title;
+      return this.$store.state.courses.current.titulo;
     },
     courseSlug() {
       return this.$route.params.courseSlug;

@@ -1,8 +1,44 @@
 <template>
-  <div>
-    <div v-show="!loading" id="page" ref="flex">
+  <div v-if="loading">
+    <div class="container-spinner">
+      <v-progress-circular
+        :size="70"
+        :width="5"
+        indeterminate
+        color="#6600cc"
+      />
+    </div>
+  </div>
+
+  <div v-else-if="contactThanks" class="thanks-modal">
+    <div class="content-wrap">
+      <v-icon
+        class="thanks-close"
+        color="primary"
+        @click="contactThanks = false"
+        >mdi-close-circle</v-icon
+      >
+      <img
+        class="thanks-img"
+        :src="require('~/assets/contact-congrats.jpg')"
+        alt=""
+      />
+      <h3 class="thanks-h3">Obrigado!!!</h3>
+      <div class="thanks-message">
+        Contamos com o seu apoio... Em breve entraremos em contato!!!
+      </div>
+    </div>
+    <v-row class="mx-1 button__position">
+      <button class="btn-primary btn-block" @click="gotoHome()">
+        finalizar
+      </button>
+    </v-row>
+  </div>
+
+  <div v-else id="main-col" :class="bindedClass">
+    <div class="content-wrap">
       <HeaderBar :title="'Cola com Nóix'" :back-page="true" />
-      <v-tabs v-model="selectedTab" fixed-tabs height="35px">
+      <v-tabs v-model="selectedTab" class="pb-10" fixed-tabs height="35px">
         <v-tab>
           Seja um Voluntário
         </v-tab>
@@ -11,8 +47,8 @@
         </v-tab>
       </v-tabs>
       <div v-if="selectedTab === 0">
-        <v-col>
-          <v-col class="px-0 pb-5">
+        <v-col class="px-6 py-0">
+          <v-col class="pa-0 pb-4">
             <div class="input-label">Nome</div>
             <v-text-field
               v-model="form.name"
@@ -23,7 +59,7 @@
               filled
             />
           </v-col>
-          <v-col class="px-0 pb-5">
+          <v-col class="pa-0 pb-4">
             <div class="input-label">Linkedin</div>
             <v-text-field
               v-model="form.linkedin"
@@ -33,26 +69,24 @@
               filled
             />
           </v-col>
-          <v-col class="px-0 pb-5">
+          <v-col class="pa-0">
             <div class="input-label">
               Como você acha que pode somar para New School?
             </div>
             <v-textarea
               v-model="form.message"
               name="message"
+              rows="3"
               :rules="nameRules"
               placeholder="Escreve aqui o que você acredita que pode agregar para o time da New School"
               filled
             />
           </v-col>
-          <v-row class="mx-1 button__position">
-            <button class="btn-primary btn-block" @click="send">SÓ VAMO</button>
-          </v-row>
         </v-col>
       </div>
       <div v-else>
-        <v-col>
-          <v-col class="px-0 pb-5">
+        <v-col class="px-6 py-0">
+          <v-col class="pa-0 pb-4">
             <div class="input-label">Nome</div>
             <v-text-field
               v-model="form.name"
@@ -63,7 +97,7 @@
               filled
             />
           </v-col>
-          <v-col class="px-0 pb-5">
+          <v-col class="pa-0 pb-4">
             <div class="input-label">Nome da Empresa/Cargoin</div>
             <v-text-field
               v-model="form.company"
@@ -73,12 +107,7 @@
               filled
             />
           </v-col>
-
-          <!-- <v-col class="px-0 pb-5">
-              <div class="input-label">Endereço completo</div>
-              <v-text-field v-model="form.address" filled />
-            </v-col> -->
-          <v-col class="px-0 pb-5">
+          <v-col class="pa-0 pb-4">
             <div class="input-label">
               Como você enxerga essa parceria?
             </div>
@@ -86,26 +115,18 @@
               v-model="form.message"
               name="message"
               :rules="nameRules"
+              rows="3"
+              auto-grow
               placeholder="Escreve aqui o que você acredita que essa parceria pode agregar para o time da New School"
               filled
             />
           </v-col>
-          <v-row class="mx-1 button__position">
-            <button class="btn-primary btn-block" @click="send">SÓ VAMO</button>
-          </v-row>
         </v-col>
       </div>
     </div>
-    <div v-if="loading">
-      <div class="container-spinner">
-        <v-progress-circular
-          :size="70"
-          :width="5"
-          indeterminate
-          color="#6600cc"
-        />
-      </div>
-    </div>
+    <v-row class="mx-1 button__position">
+      <button class="btn-primary btn-block" @click="send">SÓ VAMO</button>
+    </v-row>
   </div>
 </template>
 
@@ -128,8 +149,10 @@ export default {
   data() {
     return {
       loading: true,
+      contactThanks: false,
       token: '',
       selectedTab: 0,
+      bindedClass: '',
       form: {
         name: '',
         linkedin: '',
@@ -158,7 +181,6 @@ export default {
   },
   methods: {
     send() {
-      this.loading = true;
       if (this.form.company && !this.form.linkedin) {
         this.form.linkedin = 'null';
       }
@@ -169,15 +191,12 @@ export default {
       const idValidform = this.checkForm();
 
       if (idValidform) {
-        this.animateForm(true);
+        this.loading = true;
         contactUs
           .submit(this.form, this.token)
           .then(res => {
             this.loading = false;
-            this.$notifier.showMessage({
-              type: 'success',
-              message: 'Deu bom!',
-            });
+            this.contactThanks = true;
             setTimeout(() => {
               this.gotoHome();
             }, 4000);
@@ -190,7 +209,10 @@ export default {
             console.error(err);
           });
       } else {
-        this.animateForm(false);
+        this.bindedClass = 'error-form';
+        setTimeout(() => {
+          this.bindedClass = '';
+        }, 300);
       }
     },
     checkForm() {
@@ -203,26 +225,36 @@ export default {
         return true;
       }
     },
-    animateForm(status) {
-      if (status) {
-        this.$refs.flex.classList.add('hide-form');
-        document.querySelector('html').style.overflow = 'hidden';
-        setTimeout(() => {
-          this.loading = true;
-        }, 300);
-      } else {
-        this.$refs.flex.classList.add('error-form');
-        setTimeout(() => {
-          this.$refs.flex.classList.remove('error-form');
-        }, 500);
-      }
-      document.querySelector('html').style.overflow = 'scroll';
+    gotoHome() {
+      $nuxt._router.push('/aluno/home');
     },
   },
 };
 </script>
 
 <style lang="scss" scoped>
+#main-col {
+  position: relative;
+  min-height: 100vh !important;
+}
+.thanks-modal {
+  position: relative;
+  min-height: 100vh !important;
+}
+.content-wrap {
+  padding-bottom: 148px;
+  margin-bottom: 104px;
+}
+.button__position {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  margin: 0 !important;
+  width: 100%;
+  padding: 0 24px;
+  padding-bottom: 90px;
+}
+
 * {
   font-family: 'Roboto', sans-serif;
   transition: 0.2 ease-in;
@@ -255,7 +287,6 @@ export default {
   font-size: 35px;
   outline: none;
 }
-
 .input-label {
   margin-bottom: 2px;
   font-size: 14px;
@@ -266,9 +297,9 @@ export default {
 ::v-deep .v-text-field {
   border-color: transparent !important;
 }
-::v-deep .v-input__control {
-  flex-direction: initial;
-  height: 40px;
+::v-deep .v-messages,
+::v-deep .v-text-field__details {
+  display: none !important;
 }
 ::v-deep .v-input__slot {
   border-radius: 5px !important;
@@ -279,6 +310,10 @@ export default {
 ::v-deep .v-select__selection--comma,
 ::v-deep ::placeholder {
   color: #767676 !important;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 24px;
+  letter-spacing: 0em;
 }
 ::v-deep .mdi-menu-down {
   font-size: 40px;
@@ -295,9 +330,6 @@ export default {
 ::v-deep .v-list {
   background-color: #f5f5f5;
 }
-::v-deep .v-text-field__details {
-  padding: 0 !important;
-}
 
 .base {
   position: absolute;
@@ -313,15 +345,6 @@ export default {
 }
 ::v-deep .btn-connect .v-btn__content {
   font-size: 9px;
-}
-
-.button__position {
-  margin-top: 35%;
-  cursor: pointer;
-}
-
-#page {
-  margin-bottom: 60px;
 }
 h1 {
   font-size: 0.8rem;
@@ -351,15 +374,39 @@ h1 {
 ::v-deep .v-tab--active {
   border-bottom: 4px solid var(--primary-light);
 }
-::v-deep .v-tabs {
-  max-height: 32px;
+.thanks-img {
+  width: 100%;
+  padding-bottom: 16px;
 }
+.thanks-h3 {
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 28px;
+  letter-spacing: 0em;
+  text-align: center;
+  color: #1a1a1a;
+  padding-bottom: 8px;
+}
+.thanks-message {
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 19px;
+  letter-spacing: 0.08em;
+  text-align: center;
+}
+.thanks-close {
+  position: absolute;
+  top: 16px;
+  right: 20px;
+}
+
 @media (min-width: 992px) {
   #page-window {
     display: flex;
     justify-content: center;
   }
-  #page {
+  #main-col {
     display: flex;
     flex-direction: column;
     height: 100%;
@@ -367,5 +414,8 @@ h1 {
     width: 700px;
     max-width: 700px;
   }
+}
+.error-form {
+  animation: nono 300ms, intro paused;
 }
 </style>

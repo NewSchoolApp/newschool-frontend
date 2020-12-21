@@ -104,10 +104,7 @@
         </div>
       </v-col>
     </v-layout>
-
-    <client-only>
-      <navigation-bar />
-    </client-only>
+    <navigation-bar />
   </div>
 </template>
 
