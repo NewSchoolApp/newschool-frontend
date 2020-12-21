@@ -47,16 +47,19 @@
         <v-icon></v-icon>
       </v-row>
     </v-layout>
+    <navigation-bar />
   </div>
 </template>
 
 <script>
 import Avatar from 'vue-avatar';
+import NavigationBar from '~/components/NavigationBar.vue';
 import HeaderBar from '~/components/Header.vue';
 import AvatarUploader from '~/components/AvatarUploader.vue';
 
 export default {
   components: {
+    NavigationBar,
     HeaderBar,
     Avatar,
     AvatarUploader,
