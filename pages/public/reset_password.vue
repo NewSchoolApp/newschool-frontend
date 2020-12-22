@@ -64,6 +64,9 @@
 
             <div v-else>
               <p class="change-status">Senha alterada com sucesso!</p>
+              <br />
+              <br />
+              <p class="change-status">Retorne ao App e faça Login.</p>
             </div>
           </v-col>
         </v-row>
@@ -117,14 +120,8 @@ export default {
     auth
       .changePasswordRequestValidate(this.token)
       .then(() => {
-        this.$notifier.showMessage({
-          type: 'success',
-          message: 'Senha alterada com sucesso',
-        });
         setTimeout(() => {
           this.loading = false;
-          this.goBack();
-          window.close();
         }, 500);
       })
       .catch(() => {
