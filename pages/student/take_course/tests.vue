@@ -280,7 +280,7 @@ export default {
       const options = {
         message: 'Se liga nessa questão que eu acertei!', // not supported on some apps (Facebook, Instagram)
         subject: this.tryMessage, // fi. for email
-        url: `newschool-ui-dev.eba-fdz8zprg.us-east-2.elasticbeanstalk.com/#/cadastro/${this.user.inviteKey}`,
+        url: `https://newschoolapp.com.br/#/cadastro/${this.user.inviteKey}`,
         chooserTitle: 'Vem colar com nois!', // Android only, you can override the default share sheet title
       };
       window.plugins.socialsharing.shareWithOptions(
