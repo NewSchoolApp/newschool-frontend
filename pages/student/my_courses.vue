@@ -15,18 +15,15 @@
           <course-progress :course="course" />
         </div>
       </div>
-      <template v-else>
-        <!-- <NothingToShow
-          v-if="selectedTab == 0"
-          title="Vixe :/"
-          message="Bora começar um curso mano!."
-        />
-        <NothingToShow
-          v-else
-          title="Vixe :/"
-          message="Você não finalizou nenhum curso ainda."
-        /> -->
-      </template>
+      <div v-else class="nothing">
+        <div v-if="selectedTab == 0" class="nothing-message">
+          Eita, Man@... Você ainda não começou nenhum curso.
+        </div>
+        <div v-else class="nothing-message">
+          Eita, Man@... Você ainda não terminou nenhum curso.
+        </div>
+        <v-img :src="require('~/assets/nothing.svg')" />
+      </div>
     </div>
     <div v-if="loading">
       <div class="container-spinner">
@@ -153,6 +150,20 @@ h1 {
 }
 ::v-deep .v-tabs {
   max-height: 32px;
+}
+.nothing {
+  font-family: Roboto;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 19px;
+  letter-spacing: 0px;
+  text-align: center;
+  color: #484848;
+  padding: 124px 44px;
+}
+.nothing-message {
+  padding-bottom: 64px;
 }
 /*Large devices (desktops, 992px and up)*/
 @media (min-width: 992px) {
