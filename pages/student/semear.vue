@@ -94,6 +94,7 @@
 </router>
 <script>
 import HeaderBar from '~/components/Header.vue';
+import http from '~/services/http/generic';
 export default {
   components: {
     HeaderBar,
@@ -119,6 +120,7 @@ export default {
       $nuxt._route.push('/aluno/home');
     },
     submit() {
+      http.post(`/api/v1/user/${this.$store.state.user.data.id}/semear`);
       window.location = 'http://www.isemear.org.br/processo-seletivo/';
     },
   },
