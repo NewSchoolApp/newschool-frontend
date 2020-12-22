@@ -232,7 +232,7 @@ export default {
       return this.$store.state.courses.current.id;
     },
     courseTitle() {
-      return this.$store.state.courses.current.title;
+      return this.$store.state.courses.current.titulo;
     },
     courseSlug() {
       return this.$route.params.courseSlug;
@@ -285,7 +285,7 @@ export default {
       const options = {
         message: 'Se liga no certificado que eu ganhei, SELOKO!', // not supported on some apps (Facebook, Instagram)
         subject: this.tryMessage, // fi. for email
-        url: `http://newschool-ui-dev.eba-fdz8zprg.us-east-2.elasticbeanstalk.com/#/pagina-certificado/${this.idUser}/${this.courseId}/0`,
+        url: `https://http://newschool-api-dev2.eba-gxtzwa9m.us-east-2.elasticbeanstalk.com/#/pagina-certificado/${this.idUser}/${this.courseId}/0`,
         chooserTitle: 'Vem colar com nois!', // Android only, you can override the default share sheet title
       };
       window.plugins.socialsharing.shareWithOptions(
