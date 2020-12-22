@@ -161,7 +161,9 @@ export default {
   },
 
   env: {
-    domain: process.env.DOMAIN_URL || 'https://newschoolapp.com.br',
+    domain:
+      process.env.DOMAIN_URL ||
+      'https://http://newschool-api-dev2.eba-gxtzwa9m.us-east-2.elasticbeanstalk.com',
     baseUrl:
       process.env.VUE_APP_BASE_URL || // 'https://6870dc1db9e8.ngrok.io',
       // 'http://newschool-api-dev2.eba-gxtzwa9m.us-east-2.elasticbeanstalk.com/',

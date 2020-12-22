@@ -80,7 +80,7 @@ export default {
       const options = {
         message: 'Vem colar com nois, aqui na New School!', // not supported on some apps (Facebook, Instagram)
         subject: 'Faça seu cadastro e vem aprender com a gente', // fi. for email
-        url: `newschool-ui-dev.eba-fdz8zprg.us-east-2.elasticbeanstalk.com/#/cadastro/${this.user.inviteKey}`,
+        url: `http://newschool-ui-dev.eba-fdz8zprg.us-east-2.elasticbeanstalk.com/#/cadastro/${this.user.inviteKey}`,
         chooserTitle: 'Compartilhe seu URL de convite', // Android only, you can override the default share sheet title
       };
       window.plugins.socialsharing.shareWithOptions(

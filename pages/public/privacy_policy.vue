@@ -218,7 +218,7 @@
           5. Segurança
         </h2>
         <p>
-          A New School Academy adota medidas de segurança adequadas para proteger-se contra acesso não autorizado, alteração, divulgação ou destruição dos dados pessoais do usuário por nós coletados e armazenados. Essas medidas variam com base no tipo e na confidencialidade dos dados. Infelizmente, no entanto, nenhum sistema pode ser 100% protegido. Por isso, não podemos garantir que as comunicações entre o usuário e a New School Academy, os Serviços ou qualquer informação fornecida à New School Academy em relação aos dados por nós coletados por meio dos Serviços estejam livres de acesso não autorizado por terceiros. A senha do usuário é uma parte importante do nosso sistema de segurança, e é responsabilidade do usuário protegê-la. Não compartilhe a senha com terceiros. Em caso de suspeita de violação da senha ou conta, altere-a imediatamente e entre em contato com <a href="mailto:suporte@newschoolapp.com.br?Subject=Preciso%20de%20ajuda">suporte@newschoolapp.com.br</a> para sanar a situação.
+          A New School Academy adota medidas de segurança adequadas para proteger-se contra acesso não autorizado, alteração, divulgação ou destruição dos dados pessoais do usuário por nós coletados e armazenados. Essas medidas variam com base no tipo e na confidencialidade dos dados. Infelizmente, no entanto, nenhum sistema pode ser 100% protegido. Por isso, não podemos garantir que as comunicações entre o usuário e a New School Academy, os Serviços ou qualquer informação fornecida à New School Academy em relação aos dados por nós coletados por meio dos Serviços estejam livres de acesso não autorizado por terceiros. A senha do usuário é uma parte importante do nosso sistema de segurança, e é responsabilidade do usuário protegê-la. Não compartilhe a senha com terceiros. Em caso de suspeita de violação da senha ou conta, altere-a imediatamente e entre em contato com <a href="mailto:suporte@http://newschool-api-dev2.eba-gxtzwa9m.us-east-2.elasticbeanstalk.com?Subject=Preciso%20de%20ajuda">suporte@http://newschool-api-dev2.eba-gxtzwa9m.us-east-2.elasticbeanstalk.com</a> para sanar a situação.
         </p>
         <h2 class="policy__text-title">
           6. Direitos dos usuários
@@ -240,7 +240,7 @@
           O usuário pode optar por não receber comunicações promocionais. Para isso, pode usar o mecanismo de cancelamento de inscrição, na própria comunicação promocional que receber, ou alterar as preferências de e-mail da conta do usuário. Convém destacar que, independentemente das configurações de <a href="#" class="policy__link">preferência de e-mail do usuário</a>, a New School Academy enviará mensagens sobre transações e de relacionamento relacionadas aos Serviços, inclusive confirmações administrativas, confirmações de pedidos, atualizações importantes sobre os Serviços e avisos sobre nossas políticas.
         </p>
         <p>
-          Caso tenha dúvidas sobre direitos, dados e a forma como a New School Academy utiliza os dados, o usuário deverá entrar em contato conosco em <a href="mailto:contato@newschoolapp.com.br">contato@newschoolapp.com.br</a>.
+          Caso tenha dúvidas sobre direitos, dados e a forma como a New School Academy utiliza os dados, o usuário deverá entrar em contato conosco em <a href="mailto:contato@http://newschool-api-dev2.eba-gxtzwa9m.us-east-2.elasticbeanstalk.com">contato@http://newschool-api-dev2.eba-gxtzwa9m.us-east-2.elasticbeanstalk.com</a>.
         </p>
 
         <h2 class="policy__text-title">
@@ -260,11 +260,11 @@
                 Se for aluno, o usuário deve acessar a página de configurações do perfil e seguir as etapas detalhadas aqui.
               </li>
               <li>
-                Caso haja algum problema para encerrar a conta, o usuário deverá enviar um e-mail para <a href="mailto:suporte@newschoolapp.com.br?Subject=Encerramento%20de%20conta">suporte@newschoolapp.com.br</a> com o assunto “Encerramento de conta” e seus respectivos dados.
+                Caso haja algum problema para encerrar a conta, o usuário deverá enviar um e-mail para <a href="mailto:suporte@http://newschool-api-dev2.eba-gxtzwa9m.us-east-2.elasticbeanstalk.com?Subject=Encerramento%20de%20conta">suporte@http://newschool-api-dev2.eba-gxtzwa9m.us-east-2.elasticbeanstalk.com</a> com o assunto “Encerramento de conta” e seus respectivos dados.
               </li>
               <li>
                 Observação: mesmo depois de encerrada a conta, alguns ou todos os dados do usuário ainda ficarão visíveis para outras pessoas, inclusive, entre outros, dados que tenham sido (a) copiados, armazenados ou disseminados por outros usuários (inclusive no comentário dos cursos); (b) compartilhados ou disseminados pelo próprio usuário ou por outras pessoas (inclusive no conteúdo compartilhado do usuário); ou (c) publicados em uma plataforma de terceiros. Mesmo depois de encerrada a conta, reteremos os dados do usuário enquanto tivermos um propósito legítimo para assim o fazer (e de acordo com a lei aplicável), inclusive para ajudar em obrigações legais, resolver conflitos e fazer cumprir nossos contratos. Poderemos reter e divulgar esses dados de acordo com esta Política de Privacidade depois do encerramento da conta do usuário.
-                Para solicitar acesso, corrigir ou excluir dados pessoais, envie um e-mail para <a href="mailto:suporte@newschoolapp.com.br?Subject=Preciso%20de%20ajuda">suporte@newschoolapp.com.br</a>. Por questão de proteção do usuário, poderemos pedir que a solicitação seja enviada pelo endereço de e-mail associado à conta do usuário. Pode ser necessário confirmar a identidade do usuário antes de implementar a solicitação. Vale ressaltar que retemos certos dados quando temos direito de assim o fazer, inclusive em caso de manutenção obrigatória de registros e para realizar transações.
+                Para solicitar acesso, corrigir ou excluir dados pessoais, envie um e-mail para <a href="mailto:suporte@http://newschool-api-dev2.eba-gxtzwa9m.us-east-2.elasticbeanstalk.com?Subject=Preciso%20de%20ajuda">suporte@http://newschool-api-dev2.eba-gxtzwa9m.us-east-2.elasticbeanstalk.com</a>. Por questão de proteção do usuário, poderemos pedir que a solicitação seja enviada pelo endereço de e-mail associado à conta do usuário. Pode ser necessário confirmar a identidade do usuário antes de implementar a solicitação. Vale ressaltar que retemos certos dados quando temos direito de assim o fazer, inclusive em caso de manutenção obrigatória de registros e para realizar transações.
               </li>
             </ul>
           </li>
@@ -277,7 +277,7 @@
           Reconhecemos os interesses de privacidade das crianças e incentivamos pais e responsáveis a assumir um papel ativo nas atividades on-line e nos interesses dos filhos. Crianças e Adolescentes menores de 18 anos só utilizarão os Serviços mediante autorização dos pais. Se for de nosso conhecimento que coletamos dados pessoais de uma criança abaixo destas idades, tomaremos as medidas necessárias para excluí-los.
         </p>
         <p>
-          Pais que acreditem que a New School Academy possa ter coletados dados pessoais de uma criança abaixo destas idades poderão enviar uma solicitação de remoção dos dados para <a href="mailto:contato@newschoolapp.com.br">contato@newschoolapp.com.br</a>.
+          Pais que acreditem que a New School Academy possa ter coletados dados pessoais de uma criança abaixo destas idades poderão enviar uma solicitação de remoção dos dados para <a href="mailto:contato@http://newschool-api-dev2.eba-gxtzwa9m.us-east-2.elasticbeanstalk.com">contato@http://newschool-api-dev2.eba-gxtzwa9m.us-east-2.elasticbeanstalk.com</a>.
         </p>
       </div>
     </v-container>
