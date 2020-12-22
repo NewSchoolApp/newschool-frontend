@@ -114,16 +114,25 @@ export default {
   mounted() {
     this.token = this.$route.params.token;
 
-    auth.changePasswordRequestValidate(this.token).catch(() => {
-      this.$notifier.showMessage({
-        type: 'success',
-        message: 'Senha alterada com sucesso',
+    auth
+      .changePasswordRequestValidate(this.token)
+      .then(() => {
+        this.$notifier.showMessage({
+          type: 'success',
+          message: 'Senha alterada com sucesso',
+        });
+        setTimeout(() => {
+          this.loading = false;
+          this.goBack();
+          window.close();
+        }, 500);
+      })
+      .catch(() => {
+        this.$notifier.showMessage({
+          type: 'error',
+          message: 'Algo deu errado!',
+        });
       });
-      setTimeout(() => {
-        this.loading = false;
-        this.goBack();
-      }, 500);
-    });
   },
 
   methods: {
