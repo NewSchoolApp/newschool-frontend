@@ -131,4 +131,7 @@ export default {
   left: 50%;
   padding: 5px;
 }
+img {
+  object-fit: cover;
+}
 </style>
