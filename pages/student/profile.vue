@@ -4,7 +4,7 @@
       <HeaderBar class="mb-7" :title="'Perfil'" :back-page="true"></HeaderBar>
 
       <v-col align="center">
-        <avatar-uploader v-model="avatar" />
+        <avatar-uploader />
       </v-col>
 
       <v-col id="menu">
@@ -105,9 +105,6 @@ export default {
       localStorage.clear();
       $nuxt._router.push('/login');
       this.clearInfoUser();
-    },
-    goToShareUrl() {
-      $nuxt._router.push('/aluno/indicar-app');
     },
     goToCertificates() {
       $nuxt._router.push('/aluno/certificados');

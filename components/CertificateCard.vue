@@ -3,34 +3,30 @@
     <v-card class="v-card-body" elevation="0" color="transparent">
       <template>
         <v-img :src="certificate.course.capa.url" />
-        <v-img class="thumb-background" @click="openCertificate" />
+        <v-img class="thumb-background" @click="gotoCertificateInfo" />
+
         <v-img
           class="medal"
           contain
           :src="require(`@/assets/medalha-imagem.svg`)"
-          @click="openCertificate"
+          @click="gotoCertificateInfo"
         />
       </template>
 
-      <div class="footer-card">
-        <v-row>
-          <v-col align="left" class="pt-0">
-            <v-card-title>{{ certificate.course.titulo }}</v-card-title>
-            <v-card-subtitle class="mt-0">{{
-              certificate.course.nomeDoAutor
-            }}</v-card-subtitle>
-          </v-col>
-
-          <v-card-actions class="pt-0">
-            <v-icon class="pr-2" color="grey" @click="goToCertificate(1)"
-              >mdi-download</v-icon
+      <div>
+        <v-col class="card-footer">
+          <v-row justify="space-between">
+            <div class="card-title">
+              {{ certificate.course.titulo }}
+            </div>
+            <v-icon v-ripple color="grey" @click="share($event, title, image)"
+              >mdi-share-variant-outline</v-icon
             >
-
-            <v-icon color="grey" @click="share($event, title, image)"
-              >mdi-share-variant</v-icon
-            >
-          </v-card-actions>
-        </v-row>
+          </v-row>
+          <v-row class="card-teacher">
+            {{ certificate.course.nomeDoAutor }}
+          </v-row>
+        </v-col>
       </div>
     </v-card>
   </v-col>
@@ -57,12 +53,6 @@ export default {
     },
   },
   methods: {
-    goToCertificate(print) {
-      window.location = `https://newschoolapp.com.br/#/pagina-certificado/${this.idUser}/${this.certificate.courseId}/${print}`;
-    },
-    imageLoadError() {
-      this.showThumb = false;
-    },
     onSuccess(result) {
       httpHelper
         .post(process.env.endpoints.EVENT, {
@@ -97,7 +87,7 @@ export default {
         // files: [
         //   'https://newschool-dev.s3.us-east-2.amazonaws.com/17954a42-8132-481e-bc38-508aefe7a996/profile.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAV56KXRILVMG6BB2Q%2F20201115%2Fus-east-2%2Fs3%2Faws4_request&X-Amz-Date=20201115T042331Z&X-Amz-Expires=900&X-Amz-Signature=b7e68e7db1194b74e266f211d56adab75d35f75dd3eceb4982b0c6aad8bb5c60&X-Amz-SignedHeaders=host',
         // ],
-        url: `https://newschoolapp.com.br/#/pagina-certificado/${this.idUser}/${this.certificate.courseId}/0`,
+        url: `https://http://newschool-api-dev2.eba-gxtzwa9m.us-east-2.elasticbeanstalk.com/#/pagina-certificado/${this.idUser}/${this.certificate.courseId}/0`,
         chooserTitle: 'Vem colar com nois!', // Android only, you can override the default share sheet title
       };
       window.plugins.socialsharing.shareWithOptions(
@@ -106,9 +96,9 @@ export default {
         this.onError,
       );
     },
-    openCertificate() {
+    gotoCertificateInfo() {
       this.$router.push(
-        `/pagina-certificado/${this.idUser}/${this.certificate.courseId}/2`,
+        `/aluno/certificado-info/${this.idUser}/${this.certificate.courseId}`,
       );
     },
   },
@@ -121,6 +111,9 @@ export default {
 * {
   font-family: 'Roboto', sans-serif;
 }
+.main-col {
+  padding: 0 58px 0;
+}
 .thumb-background {
   background-color: var(--primary);
   position: absolute;
@@ -128,41 +121,45 @@ export default {
   opacity: 0.4;
 }
 
-.footer-card {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-}
 .v-responsive.v-image {
   padding-top: 45%;
-  height: 150px;
+  height: 115px;
   width: 100%;
-  border-radius: 5px;
+  border-radius: 3px;
 }
 .v-card-body {
-  margin-bottom: 20px;
+  margin-bottom: 30px;
 }
-.v-card__title {
-  font-weight: 700;
-  font-size: 0.75rem;
-  padding: 8px 0 0;
-  line-height: 16px;
-  color: #1a1a1a;
+.card-title {
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 14px;
+  letter-spacing: 0em;
+  text-align: left;
 }
-.theme--light.v-card .v-card__subtitle {
-  padding: 0;
-  color: #1a1a1a;
+.card-teacher {
   font-size: 10px;
-  line-height: 11.72px;
+  font-style: normal;
+  font-weight: 300;
+  line-height: 0px;
+  letter-spacing: 0em;
+  text-align: left;
+  color: #1a1a1a;
 }
 .medal {
-  //max-width: 10%;
-  //max-height: auto;
   position: absolute;
   top: 0;
-  max-width: 4rem;
+  max-width: 36px;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -65%);
+}
+.card-footer {
+  padding-top: 8px;
+}
+.v-icon {
+  font-size: 20px;
+  outline: none;
 }
 </style>

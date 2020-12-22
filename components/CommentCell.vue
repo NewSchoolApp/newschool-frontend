@@ -281,4 +281,7 @@ h4 {
   letter-spacing: 0em;
   color: #d8b4ff;
 }
+img {
+  object-fit: cover;
+}
 </style>

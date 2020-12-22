@@ -95,7 +95,7 @@ export default {
             });
             setTimeout(() => {
               this.gotoLogin();
-            }, 2500);
+            }, 2000);
           })
           .catch(err => {
             this.$notifier.showMessage({
