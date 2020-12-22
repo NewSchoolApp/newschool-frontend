@@ -252,9 +252,7 @@ export default {
     async gotoCourse() {
       await this.$store.dispatch('courses/refreshMyCourses');
 
-      $nuxt._router.push(
-        `/aluno/curso/${this.convertToSlug(this.courseTitle)}`,
-      );
+      $nuxt._router.push(`/aluno/curso/${this.courseSlug}`);
     },
     onSuccess(result) {
       http

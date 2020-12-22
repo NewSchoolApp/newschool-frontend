@@ -10,17 +10,33 @@
     </div>
   </div>
   <div v-else id="page">
-    <div id="layout-certificates">
-      <HeaderBar
-        :title="'Certificados'"
-        :route="`/aluno/curso/${certificate.course.slug}`"
-      ></HeaderBar>
-      <v-container class="container px-2">
-        <certificate-card :certificate="certificate" />
-        <navigation-bar />
-      </v-container>
-      <navigation-bar />
-    </div>
+    <v-col class="pa-0">
+      <h2 id="title">{{ certificate.course.titulo }}</h2>
+      <div id="teacher">{{ certificate.course.nomeDoAutor }}</div>
+    </v-col>
+    <v-img
+      v-ripple
+      class="thumb"
+      :src="certificate.course.capa.url"
+      @click="goToCertificate()"
+    >
+      <v-img class="thumb-background" />
+      <v-img
+        class="medal"
+        contain
+        :src="require(`@/assets/medalha-imagem.svg`)"
+      />
+    </v-img>
+    <v-row justify="end" class="pr-3 pt-4">
+      <v-icon v-ripple class="mr-4" @click="goToCertificate(1)">
+        mdi-arrow-collapse-down
+      </v-icon>
+      <v-icon v-ripple @click="share($event, title, image)"
+        >mdi-share-variant-outline</v-icon
+      >
+    </v-row>
+
+    <navigation-bar />
   </div>
 </template>
 
@@ -31,14 +47,10 @@
 <script>
 import NavigationBar from '~/components/NavigationBar.vue';
 import http from '~/services/http/generic';
-import HeaderBar from '~/components/Header.vue';
-import CertificateCard from '~/components/CertificateCard';
 
 export default {
   components: {
-    HeaderBar,
     NavigationBar,
-    CertificateCard,
   },
   data: () => ({
     loading: true,
@@ -47,6 +59,9 @@ export default {
   computed: {
     allCourses() {
       return this.$store.state.courses.all;
+    },
+    idUser() {
+      return this.$store.state.user.data.id;
     },
   },
   async mounted() {
@@ -62,42 +77,102 @@ export default {
 
     this.loading = false;
   },
+  methods: {
+    goToCertificate(print) {
+      window.location = `http://newschool-ui-dev.eba-fdz8zprg.us-east-2.elasticbeanstalk.com/#/pagina-certificado/${this.idUser}/${this.certificate.courseId}/${print}`;
+    },
+    onSuccess(result) {
+      http
+        .post(process.env.endpoints.EVENT, {
+          event: 'SHARE_COURSE',
+          rule: {
+            courseId: this.params.idCourse,
+            userId: this.idUser,
+            platform: result.app,
+          },
+        })
+        .then(res => {
+          this.$notifier.showMessage({
+            type: 'success',
+          });
+          $nuxt._router.push('/aluno/home');
+        })
+        .catch(() =>
+          this.$notifier.showMessage({
+            type: 'error',
+          }),
+        );
+    },
+    onError(msg) {
+      alert('Sharing failed with message: ' + msg);
+    },
+    share(event, title, image) {
+      event.stopPropagation();
+      event.preventDefault();
+      const options = {
+        message: 'Se liga no certificado que eu ganhei, SELOKO!', // not supported on some apps (Facebook, Instagram)
+        subject: this.tryMessage, // fi. for email
+        // files: [
+        //   'https://newschool-dev.s3.us-east-2.amazonaws.com/17954a42-8132-481e-bc38-508aefe7a996/profile.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAV56KXRILVMG6BB2Q%2F20201115%2Fus-east-2%2Fs3%2Faws4_request&X-Amz-Date=20201115T042331Z&X-Amz-Expires=900&X-Amz-Signature=b7e68e7db1194b74e266f211d56adab75d35f75dd3eceb4982b0c6aad8bb5c60&X-Amz-SignedHeaders=host',
+        // ],
+        url: `http://newschool-ui-dev.eba-fdz8zprg.us-east-2.elasticbeanstalk.com/#/pagina-certificado/${this.idUser}/${this.certificate.courseId}/0`,
+        chooserTitle: 'Vem colar com nois!', // Android only, you can override the default share sheet title
+      };
+      window.plugins.socialsharing.shareWithOptions(
+        options,
+        this.onSuccess,
+        this.onError,
+      );
+    },
+  },
 };
 </script>
 
-<style lang="scss" scoped>
-.cards-box {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  max-width: 700px;
+<style scoped>
+#page {
+  padding: 32px 24px 0;
+}
+#title {
+  font-family: Montserrat;
+  font-size: 16px;
+  font-weight: 900;
+  line-height: 20px;
+  letter-spacing: 0em;
+  padding-bottom: 4px;
+}
+#teacher {
+  font-family: Roboto;
+  font-size: 12px;
+  font-weight: 300;
+  line-height: 14px;
+  letter-spacing: 0em;
+  padding-bottom: 32px;
+}
+.thumb {
+  height: 189px;
   width: 100%;
-  margin-bottom: 25px;
+  box-shadow: 0px 4px 5px 0px rgba(0, 0, 0, 0.2);
 }
 
-.container {
-  margin-bottom: 25px;
-}
-/*Large devices (desktops, 992px and up)*/
-@media (min-width: 992px) {
-  #page {
-    display: flex;
-    justify-content: center;
-  }
-  #layout-certificates {
-    display: flex;
-    flex-direction: column;
-    max-width: 700px;
-    width: 700px;
-    padding: 20px 24px 50px 24px;
-  }
-}
+.thumb-background {
+  background-color: var(--primary);
 
-/*Large devices (desktops, 992px and up)*/
-@media (min-width: 992px) {
-  #page {
-    display: flex;
-    justify-content: center;
-  }
+  top: 0;
+  opacity: 0.4;
+
+  height: 100%;
+  width: 100%;
+}
+.medal {
+  position: absolute;
+  top: 0;
+  width: 55px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.v-icon {
+  font-size: 28px;
+  outline: none;
 }
 </style>

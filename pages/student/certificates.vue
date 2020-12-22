@@ -9,10 +9,10 @@
       />
     </div>
   </div>
-  <div v-else id="page">
+  <div v-else id="page" class="px-7">
     <div id="layout-certificates">
-      <HeaderBar :title="'Certificados'" :back-page="true"></HeaderBar>
-      <v-container v-if="certificates.length" class="container px-2">
+      <h3 class="h3-title py-8">Meus Certificados</h3>
+      <v-container v-if="certificates.length" class="container pa-0">
         <div
           v-for="certificate in certificates"
           :key="certificate.id"
@@ -33,14 +33,12 @@
 <script>
 import NavigationBar from '~/components/NavigationBar.vue';
 import http from '~/services/http/generic';
-import HeaderBar from '~/components/Header.vue';
 import NothingToShow from '~/components/NothingToShow';
 import CertificateCard from '~/components/CertificateCard';
 
 export default {
   components: {
     NavigationBar,
-    HeaderBar,
     NothingToShow,
     CertificateCard,
   },
@@ -106,5 +104,12 @@ export default {
     display: flex;
     justify-content: center;
   }
+}
+.h3-title {
+  font-family: Montserrat;
+  font-size: 16px;
+  font-weight: 900;
+  line-height: 20px;
+  letter-spacing: 0em;
 }
 </style>
