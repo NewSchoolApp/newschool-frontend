@@ -4,9 +4,9 @@
 
 > Frontend da New School, desenvolvido em VueJs, Nuxt e Vuetify
 
-> **Ambiente de DEV:** https://newschoolapp.com.br
+> **Ambiente de DEV:** http://newschool.us-east-2.elasticbeanstalk.com
 
-> **Ambiente de PROD:** https://newschoolapp.com.br
+> **Ambiente de PROD:** http://newschool.us-east-2.elasticbeanstalk.com
 
 ## Como rodar o projeto
 

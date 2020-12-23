@@ -79,7 +79,7 @@ export default {
   },
   methods: {
     goToCertificate(print) {
-      window.location = `https://newschoolapp.com.br/#/pagina-certificado/${this.idUser}/${this.certificate.courseId}/${print}`;
+      window.location = `http://newschool.us-east-2.elasticbeanstalk.com/#/pagina-certificado/${this.idUser}/${this.certificate.courseId}/${print}`;
     },
     onSuccess(result) {
       http

@@ -285,7 +285,7 @@ export default {
       const options = {
         message: 'Se liga no certificado que eu ganhei, SELOKO!', // not supported on some apps (Facebook, Instagram)
         subject: this.tryMessage, // fi. for email
-        url: `https://newschoolapp.com.br/#/pagina-certificado/${this.idUser}/${this.courseId}/0`,
+        url: `http://newschool.us-east-2.elasticbeanstalk.com/#/pagina-certificado/${this.idUser}/${this.courseId}/0`,
         chooserTitle: 'Vem colar com nois!', // Android only, you can override the default share sheet title
       };
       window.plugins.socialsharing.shareWithOptions(
