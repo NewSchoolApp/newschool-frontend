@@ -161,7 +161,9 @@ export default {
   },
 
   env: {
-    domain: process.env.DOMAIN_URL || 'http://newschool.us-east-2.elasticbeanstalk.com',
+    domain:
+      process.env.DOMAIN_URL ||
+      'http://newschool.us-east-2.elasticbeanstalk.com',
     baseUrl:
       process.env.VUE_APP_BASE_URL || // 'https://6870dc1db9e8.ngrok.io',
       // 'http://newschool-api-dev2.eba-gxtzwa9m.us-east-2.elasticbeanstalk.com/',
@@ -275,6 +277,22 @@ export default {
         name: 'description',
         content:
           'Levamos educação de qualidade na linguagem da quebrada para as periferias do Brasil, através da tecnologia e da curadoria de conteúdos baseados nas habilidades do futuro.',
+      },
+      {
+        hid: 'image',
+        name: 'image',
+        content:
+          'https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/35160991368917.5e303bd02c67f.jpg',
+      },
+      {
+        hid: 'url',
+        name: 'url',
+        content: 'http://newschool.us-east-2.elasticbeanstalk.com',
+      },
+      {
+        hid: 'fb:app_id',
+        name: 'fb:app_id',
+        content: '384298599359690',
       },
       {
         hid: 'keywords',

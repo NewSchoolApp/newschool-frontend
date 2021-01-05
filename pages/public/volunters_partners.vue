@@ -98,7 +98,7 @@
             />
           </v-col>
           <v-col class="pa-0 pb-4">
-            <div class="input-label">Nome da Empresa/Cargoin</div>
+            <div class="input-label">Nome da Empresa/Cargo</div>
             <v-text-field
               v-model="form.company"
               name="company"
@@ -205,6 +205,7 @@ export default {
             this.$notifier.showMessage({ type: 'error' });
             setTimeout(() => {
               this.loading = false;
+              this.gotoHome();
             }, 800);
             console.error(err);
           });
