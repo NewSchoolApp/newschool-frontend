@@ -281,12 +281,14 @@ export default {
       {
         hid: 'og:image',
         name: 'og:image',
+        property: 'og:image',
         content:
           'https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/35160991368917.5e303bd02c67f.jpg',
       },
       {
         hid: 'url',
         name: 'url',
+        property: 'og:url',
         content: 'http://newschool.us-east-2.elasticbeanstalk.com',
       },
       {
