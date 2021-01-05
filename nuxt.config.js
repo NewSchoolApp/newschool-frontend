@@ -279,8 +279,8 @@ export default {
           'Levamos educação de qualidade na linguagem da quebrada para as periferias do Brasil, através da tecnologia e da curadoria de conteúdos baseados nas habilidades do futuro.',
       },
       {
-        hid: 'image',
-        name: 'image',
+        hid: 'og:image',
+        name: 'og:image',
         content:
           'https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/35160991368917.5e303bd02c67f.jpg',
       },
