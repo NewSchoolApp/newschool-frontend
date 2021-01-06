@@ -304,13 +304,4 @@ p {
 h4 {
   font-weight: 600;
 }
-
-@media (min-width: 600px) {
-  #info {
-    margin: 0 auto;
-  }
-  .menu-list {
-    margin: 0 auto;
-  }
-}
 </style>
