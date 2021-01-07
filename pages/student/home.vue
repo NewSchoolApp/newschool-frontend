@@ -120,8 +120,12 @@ export default {
     },
     filteredList() {
       if (this.filtro) {
-        const exp = new RegExp(this.filtro.trim(), 'i');
-        return this.courseList.filter(course => exp.test(course.titulo));
+        const exp = new RegExp(this.filtro
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .toLowerCase().replace(" ", "-")
+        .trim(), 'i');
+        return this.courseList.filter(course => exp.test(course.slug));
       } else {
         return this.courseList;
       }
