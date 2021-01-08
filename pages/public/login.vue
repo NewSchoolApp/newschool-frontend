@@ -94,7 +94,7 @@ export default {
   data: () => ({
     // flags
     status: true,
-    loading: true,
+    loading: false,
     showPass: false,
 
     title: 'Entrar',
@@ -141,28 +141,26 @@ export default {
           });
         });
     },
-    submit() {
+    async submit() {
       event.preventDefault();
-      if (this.$refs.form.validate()) {
-        this.animateForm(true);
-        auth
-          .login(this.email, this.password)
-          .then(() => {
-            $nuxt._router.push('/loading/login');
-          })
-          .catch(err => {
-            console.log('Login err:', err);
-            this.$notifier.showMessage({
-              type: 'error',
-              message: 'Usuário ou senha incorretos!',
-            });
-            this.loading = false;
-          });
-      } else {
-        this.animateForm(false);
+      try {
+        if (this.$refs.form.validate()) {
+          this.loading = true;
+          this.animateForm(true);
+          await auth.login(this.email, this.password);
+          this.loading = false;
+          $nuxt._router.push('/loading/login');
+        } else {
+          this.animateForm(false);
+        }
+      } catch (err) {
+        this.$notifier.showMessage({
+          type: 'error',
+          message: 'Usuário ou senha incorretos!',
+        });
+        this.loading = false;
       }
     },
-
     head() {
       return {
         title: this.title,
@@ -174,7 +172,7 @@ export default {
         this.$refs.flex.classList.add('hide-form');
         document.querySelector('html').style.overflow = 'hidden';
         setTimeout(() => {
-          this.loading = true;
+          this.loading = false;
         }, 300);
       } else {
         this.$refs.flex.classList.add('error-form');
@@ -211,13 +209,11 @@ export default {
     async loginSocial(provider) {
       // mobile device
       if (window.hasOwnProperty('cordova')) {
-        console.log("You're on a mobile device");
         try {
           const credentials = await auth.nativeFacebookLogin();
           await auth.loginFacebook(credentials);
           $nuxt._router.push('/loading/login');
         } catch (error) {
-          console.log('Social login err:', err);
           this.$notifier.showMessage();
         }
         return;
