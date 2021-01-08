@@ -488,26 +488,4 @@ label {
   content: url('https://api.iconify.design/bi:check-circle-fill.svg?color=rgb(104%2C0%2C201)&height=16');
   vertical-align: -0.125em;
 }
-
-@media (min-width: 480px) {
-  .notification__content {
-    top: 0;
-    height: 100vh;
-  }
-  .messages {
-    margin-top: -12%;
-  }
-  // .notification__image {
-  //   top: 10%;
-  // }
-  .btn-block {
-    width: 96%;
-    padding: 5px auto;
-  }
-
-  #page {
-    height: 100vh;
-    overflow: hidden;
-  }
-}
 </style>
