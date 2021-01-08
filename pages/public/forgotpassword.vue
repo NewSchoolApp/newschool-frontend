@@ -1,5 +1,5 @@
 <template>
-  <v-layout align-center justify-center>
+  <v-layout justify-center>
     <v-progress-circular
       v-if="loading"
       :size="70"
@@ -26,7 +26,12 @@
           </v-col>
         </v-row>
         <v-row>
-          <v-form ref="form" v-model="status" lazy-validation>
+          <v-form
+            ref="form"
+            v-model="status"
+            lazy-validation
+            @submit.prevent=""
+          >
             <v-col cols="15">
               <v-text-field
                 v-model="form.email"
@@ -131,17 +136,6 @@ export default {
     gotoLogin() {
       $nuxt._router.push('/login');
     },
-  },
-
-  loadClientCredentials() {
-    utils
-      .getExternalCredentials()
-      .then(res => {
-        this.token = res.data.accessToken;
-      })
-      .catch(() => {
-        $$nuxt._router.push('/login');
-      });
   },
 };
 </script>

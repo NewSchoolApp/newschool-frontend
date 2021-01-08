@@ -1,6 +1,12 @@
 <template>
   <div id="head__bar">
-    <v-btn class="btn-back" text icon @click="comeBackPage">
+    <v-btn
+      v-if="backPage != false"
+      class="btn-back"
+      text
+      icon
+      @click="comeBackPage"
+    >
       <v-icon>mdi-arrow-left</v-icon>
     </v-btn>
     <h1 class="h1__theme">{{ title }}</h1>
