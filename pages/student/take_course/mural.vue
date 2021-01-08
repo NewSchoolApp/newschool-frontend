@@ -14,17 +14,25 @@
       :title="'Nosso Mural'"
       :route="`/aluno/curso/${slug}`"
     ></header-bar>
-    <p class="mural-title">Se liga como esse curso pode mudar a tua vida!</p>
+    <div v-if="challenges.length > 0">
+      <p class="mural-title">Se liga como esse curso pode mudar a tua vida!</p>
 
-    <div v-infinite-scroll="getChallenges" infinite-scroll-disabled="busy">
-      <masonry :cols="2" :gutter="16">
-        <MuralCard
-          v-for="challenge in challenges"
-          :key="challenge.index"
-          :challenge-data="challenge"
-        >
-        </MuralCard>
-      </masonry>
+      <div v-infinite-scroll="getChallenges" infinite-scroll-disabled="busy">
+        <masonry :cols="2" :gutter="16">
+          <MuralCard
+            v-for="challenge in challenges"
+            :key="challenge.index"
+            :challenge-data="challenge"
+          >
+          </MuralCard>
+        </masonry>
+      </div>
+    </div>
+    <div v-else class="nothing">
+      <div class="nothing-message">
+        Eita, Man@... Esse mural ainda está vazio. :(
+      </div>
+      <v-img :src="require('~/assets/nothing.svg')" />
     </div>
     <navigation-bar />
   </div>
@@ -107,5 +115,19 @@ export default {
   letter-spacing: 0em;
   text-align: center;
   padding: 0 65px;
+}
+.nothing {
+  font-family: Roboto;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 19px;
+  letter-spacing: 0px;
+  text-align: center;
+  color: #484848;
+  padding: 124px 20px;
+}
+.nothing-message {
+  padding-bottom: 64px;
 }
 </style>

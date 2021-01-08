@@ -21,11 +21,12 @@
           <certificate-card :certificate="certificate" />
         </div>
       </v-container>
-      <NothingToShow
-        v-else
-        title="Vixe :/"
-        message="Você ainda não tem nenhum certificado. :("
-      />
+      <div v-else class="nothing">
+        <div class="nothing-message">
+          Eita, Man@... Você ainda não tem nenhum certificado. :(
+        </div>
+        <v-img :src="require('~/assets/nothing.svg')" />
+      </div>
     </div>
     <navigation-bar />
   </div>
@@ -33,13 +34,11 @@
 <script>
 import NavigationBar from '~/components/NavigationBar.vue';
 import http from '~/services/http/generic';
-import NothingToShow from '~/components/NothingToShow';
 import CertificateCard from '~/components/CertificateCard';
 
 export default {
   components: {
     NavigationBar,
-    NothingToShow,
     CertificateCard,
   },
   data: () => ({
@@ -111,5 +110,19 @@ export default {
   font-weight: 900;
   line-height: 20px;
   letter-spacing: 0em;
+}
+.nothing {
+  font-family: Roboto;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 19px;
+  letter-spacing: 0px;
+  text-align: center;
+  color: #484848;
+  padding: 92px 16px;
+}
+.nothing-message {
+  padding-bottom: 64px;
 }
 </style>
