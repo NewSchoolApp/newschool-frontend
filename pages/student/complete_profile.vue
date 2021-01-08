@@ -550,21 +550,23 @@ export default {
     },
     getSchool(school) {
       if (!school) {
-        this.schools = [];
-        return;
+        return (this.loading = false);
       }
+      this.schools = [];
       if (this.isLoading) return;
       this.isLoading = true;
       this.loadClientCredentials().then(res => {
-        const token = res.data.accessToken;
         const response = http
           .getAll(`${process.env.endpoints.SCHOOL}?name=${school}`)
           .then(res => {
+            console.log(res.data);
             if (!res.data.length) {
               this.isLoading = false;
               this.schools.unshift(school.toUpperCase());
             }
-            res.data.forEach(school => this.schools.push(school.nome));
+            for (const response of res.data) {
+              this.schools.push(response.school);
+            }
             this.isLoading = false;
           })
           .catch(err => {
