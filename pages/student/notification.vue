@@ -92,11 +92,12 @@
           </transition-group>
         </div>
       </div>
-      <NothingToShow
-        v-else
-        title="Vixe :/"
-        message="Você não tem nenhuma notificação."
-      />
+      <div v-else class="nothing">
+        <div class="nothing-message">
+          Eita, Man@... Você ainda não tem nenhuma notificação. :(
+        </div>
+        <v-img :src="require('~/assets/nothing.svg')" />
+      </div>
     </div>
     <div v-if="loading">
       <div class="container-spinner">
@@ -119,15 +120,13 @@
 import NavigationBar from '~/components/NavigationBar.vue';
 import HeaderBar from '~/components/Header.vue';
 import http from '~/services/http/generic';
-import NothingToShow from '~/components/NothingToShow';
 
 export default {
-  transition: 'bounce',
   components: {
     NavigationBar,
     HeaderBar,
-    NothingToShow,
   },
+  transition: 'bounce',
 
   data: () => ({
     loading: true,
@@ -380,5 +379,19 @@ h1 {
   margin-top: 5px;
   font-weight: 500;
   min-height: 38px;
+}
+.nothing {
+  font-family: Roboto;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 19px;
+  letter-spacing: 0px;
+  text-align: center;
+  color: #484848;
+  padding: 124px 44px;
+}
+.nothing-message {
+  padding-bottom: 64px;
 }
 </style>
