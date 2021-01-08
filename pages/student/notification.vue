@@ -157,14 +157,15 @@ export default {
   },
   methods: {
     checkDate(notification) {
-      const notificationDateHourAndMinute = notification.createdAt.slice(
-        11,
-        16,
-      );
+      const hourAndMinute = notification.createdAt.slice(11, 16).split(':');
+      const notificationDateHourAndMinute = `${Number(hourAndMinute[0]) - 3}:${
+        hourAndMinute[1]
+      }`;
       const notificationMonthAndDay = notification.createdAt.slice(5, 10);
       const today = new Date().getDate();
       const month = new Date().getMonth() + 1;
       const dateSplited = notificationMonthAndDay.split('-');
+
       if (dateSplited[1] < today || dateSplited[0] < month) {
         if (today - dateSplited[1] === 1) {
           return `Ontem - ${notificationDateHourAndMinute}`;
