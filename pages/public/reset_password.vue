@@ -12,7 +12,7 @@
       <v-container>
         <v-row>
           <v-col cols="12" class="relative-col">
-            <HeaderBar :title="'Alterar Senha'" :back-page="true"></HeaderBar>
+            <HeaderBar :title="'Alterar Senha'" :back-page="false"></HeaderBar>
           </v-col>
         </v-row>
 
@@ -24,12 +24,15 @@
 
         <v-row>
           <v-col cols="12">
-            <v-form
-              v-if="!isChanged"
-              ref="form"
-              v-model="status"
-              lazy-validation
-            >
+            <div v-if="expiredLink">
+              <p class="change-status">Link expirado.</p>
+            </div>
+
+            <div v-else-if="pswChanged">
+              <p class="change-status">Senha alterada com sucesso!</p>
+            </div>
+
+            <v-form v-else ref="form" v-model="status" lazy-validation>
               <v-text-field
                 v-model="form.newPassword"
                 color="#60c"
@@ -61,10 +64,6 @@
                 >Alterar Senha</v-btn
               >
             </v-form>
-
-            <div v-else>
-              <p class="change-status">Senha alterada com sucesso!</p>
-            </div>
           </v-col>
         </v-row>
       </v-container>
@@ -87,7 +86,6 @@ export default {
       loading: false,
       showNewPass: String,
       showConfirmNewPass: String,
-      isChanged: false,
       token: '',
       form: {
         newPassword: '',
@@ -97,6 +95,8 @@ export default {
         v => !!v || 'Digite a senha',
         v => (v && v.length >= 6) || 'A senha deve ter no mínimo 6 caractéres',
       ],
+      expiredLink: false,
+      pswChanged: false,
     };
   },
 
@@ -114,23 +114,9 @@ export default {
   mounted() {
     this.token = this.$route.params.token;
 
-    auth
-      .changePasswordRequestValidate(this.token)
-      .then(() => {
-        this.$notifier.showMessage({
-          type: 'success',
-          message: 'Senha alterada com sucesso',
-        });
-        setTimeout(() => {
-          this.loading = false;
-        }, 500);
-      })
-      .catch(() => {
-        this.$notifier.showMessage({
-          type: 'error',
-          message: 'Algo deu errado!',
-        });
-      });
+    auth.changePasswordRequestValidate(this.token).catch(() => {
+      this.expiredLink = true;
+    });
   },
 
   methods: {
@@ -141,7 +127,7 @@ export default {
           .changePassword(this.form, this.token)
           .then(res => {
             this.loading = false;
-            this.isChanged = true;
+            this.pswChanged = true;
             setTimeout(() => {
               this.gotoHome();
             }, 1500);
@@ -174,10 +160,6 @@ export default {
         }, 500);
       }
       document.querySelector('html').style.overflow = 'scroll';
-    },
-
-    goBack() {
-      $nuxt._router.push('/login');
     },
   },
 };
