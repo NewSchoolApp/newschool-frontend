@@ -207,7 +207,24 @@ export default {
       http
         .getAll(`${process.env.endpoints.NOTIFICATIONS}/user/${this.user.id}`)
         .then(response => {
-          this.notifications = response.data;
+          const importantNotifications = response.data
+            .filter(item => item.important)
+            .reduce((acc, cur) => {
+              acc.push(cur);
+              acc = acc.map(item => cur);
+              return acc;
+            }, []);
+          const normalNotifications = response.data.filter(
+            item => !item.important,
+          );
+          const filteredImportantNotifications = [
+            ...new Set(importantNotifications),
+          ];
+
+          this.notifications = [
+            ...filteredImportantNotifications,
+            ...normalNotifications,
+          ];
         });
     },
     goToNotification(link) {
