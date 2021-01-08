@@ -302,6 +302,13 @@ h6 {
     margin: 0;
     size: landscape;
   }
+  html,
+  body {
+    height: 100%;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: hidden;
+  }
 
   .icon {
     display: none;
