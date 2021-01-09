@@ -35,18 +35,18 @@
       </section>
     </main>
     <section class="menu-list">
-      <router-link
+      <div
         v-for="item in menu"
         :key="item.id"
         tag="div"
         class="item-menu"
-        :to="item.link"
+        @click="navigateAndCloseMenu(item.link)"
       >
         <div>
           <v-icon color="primary">{{ item.icon }}</v-icon>
         </div>
         <p class="text-menu">{{ item.label }}</p>
-      </router-link>
+      </div>
     </section>
   </div>
 </template>
@@ -123,6 +123,11 @@ export default {
         localStorage.clear();
         this.clearInfoUser();
       });
+    },
+    navigateAndCloseMenu(route) {
+      $nuxt._router.push(route);
+      if($nuxt.$route.path === route)
+        this.closeMenu();
     },
     pushAdminOnlyOptions() {
       if (this.$store.state.user.data.role === 'ADMIN') {
