@@ -52,11 +52,6 @@
               Cadastrar
             </v-btn>
           </v-col>
-          <v-col cols="12" class="text-center">
-            <v-btn text color="white" @click="loginSocial('facebook')">
-              <v-icon dark left>mdi-facebook</v-icon>Entrar com Facebook
-            </v-btn>
-          </v-col>
           <!-- <v-col cols="12" class="text-center">
             <v-btn text color="white" @click="googleLogin">
               <v-icon dark left>mdi-google</v-icon>Entrar com Google
