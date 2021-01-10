@@ -1,136 +1,128 @@
 <template>
-  <div id="app">
+  <div>
     <HeaderBar
       v-if="!correct"
       :title="this.$store.state.courses.current.titulo"
       :route="`/aluno/curso/${slug}`"
     ></HeaderBar>
-    <v-layout id="page" justify-center>
-      <v-flex ref="flex" class="main-container">
-        <div v-if="loading">
-          <div class="container-spinner">
-            <v-progress-circular
-              :size="70"
-              :width="5"
-              indeterminate
-              color="#6600cc"
-            />
-          </div>
-        </div>
-        <div v-if="!loading && correct" class="notification__content">
-          <div class="bg__fire">
-            <v-row id="close" class="pr-10 pt-6" justify="end">
-              <v-icon
-                id="close-btn"
-                color="primary"
-                @click="resetBadgeAndContinue"
-                >mdi-close-circle</v-icon
-              >
-            </v-row>
-            <div class="notification">
-              <img
-                v-if="tryMessage === 'De \n primeira!!'"
-                class="notification__image"
-                :src="require('~/assets/badge-first.png')"
-                alt=""
-              />
-              <img
-                v-if="tryMessage === 'Na \n segunda!'"
-                class="notification__image"
-                :src="require('~/assets/badge-second.png')"
-                alt=""
-              />
-              <img
-                v-if="tryMessage === 'Na \n terceira!'"
-                class="notification__image"
-                :src="require('~/assets/badge-third.png')"
-                alt=""
-              />
-              <img
-                v-if="tryMessage === 'Na \n última!'"
-                class="notification__image"
-                :src="require('~/assets/badge-fourth.png')"
-                alt=""
-              />
-            </div>
-            <div class="messages pb-5">
-              <h1 class="message">
-                {{ headerNotification }}
-              </h1>
-              <p class="message__subtext">
-                {{ textNotification }}
-              </p>
-            </div>
-          </div>
+    <div v-if="loading">
+      <div class="container-spinner">
+        <v-progress-circular
+          :size="70"
+          :width="5"
+          indeterminate
+          color="#6600cc"
+        />
+      </div>
+    </div>
+    <div v-else-if="correct">
+      <div class="bg__fire">
+        <v-icon id="close__btn" color="primary" @click="resetBadgeAndContinue"
+          >mdi-close-circle</v-icon
+        >
 
-          <div class="share__achievement">
-            <p>Compartilhe com seus amigos</p>
-            <div>
-              <div class="icons">
-                <button
-                  class="btn-block btn-primary"
-                  @click="share($event, title, image)"
-                >
-                  COMPARTILHAR
-                </button>
-              </div>
-            </div>
+        <div class="notification">
+          <img
+            v-if="tryMessage === 'De \n primeira!!'"
+            class="notification__image"
+            :src="require('~/assets/badge-first.png')"
+            alt=""
+          />
+          <img
+            v-if="tryMessage === 'Na \n segunda!'"
+            class="notification__image"
+            :src="require('~/assets/badge-second.png')"
+            alt=""
+          />
+          <img
+            v-if="tryMessage === 'Na \n terceira!'"
+            class="notification__image"
+            :src="require('~/assets/badge-third.png')"
+            alt=""
+          />
+          <img
+            v-if="tryMessage === 'Na \n última!'"
+            class="notification__image"
+            :src="require('~/assets/badge-fourth.png')"
+            alt=""
+          />
+        </div>
+        <div class="messages pb-5">
+          <h1 class="message">
+            {{ headerNotification }}
+          </h1>
+          <p class="message__subtext">
+            {{ textNotification }}
+          </p>
+        </div>
+      </div>
+
+      <div class="share__achievement">
+        <p>Compartilhe com seus amigos</p>
+        <div>
+          <div class="icons">
+            <button
+              class="btn-block btn-primary"
+              @click="share($event, title, image)"
+            >
+              COMPARTILHAR
+            </button>
           </div>
         </div>
-        <div v-if="!loading && !correct" class="inner-container">
-          <v-form ref="form" lazy-validation>
-            <h3>{{ test.titulo || 'Título do Teste' }}</h3>
-            <h4 class="mt-5">
-              {{ test.pergunta || 'Enunciado do teste' }}
-            </h4>
-            <div class="alternatives-container">
-              <v-checkbox
-                v-model="selected"
-                class="first-alternative"
-                hide-details
-                color="#60c"
-                :rules="alternativeRule"
-                :label="test.primeira_alternativa"
-                value="A"
-              />
-              <v-checkbox
-                v-model="selected"
-                class="second-alternative"
-                hide-details
-                color="#60c"
-                :rules="alternativeRule"
-                :label="test.segunda_alternativa"
-                value="B"
-              />
-              <v-checkbox
-                v-model="selected"
-                class="third-alternative"
-                hide-details
-                color="#60c"
-                :rules="alternativeRule"
-                :label="test.terceira_alternativa"
-                value="C"
-              />
-              <v-checkbox
-                v-model="selected"
-                class="fourth-alternative"
-                hide-details
-                color="#60c"
-                :rules="alternativeRule"
-                :label="test.quarta_alternativa"
-                value="D"
-              />
-            </div>
-          </v-form>
-          <div class="base">
-            <v-btn class="btn-block btn-primary btn-fixed" @click="nextTest">
-              Próximo
-            </v-btn>
-          </div>
+      </div>
+    </div>
+    <div v-else class="inner-container">
+      <v-form ref="form" lazy-validation>
+        <h3>{{ test.titulo || 'Título do Teste' }}</h3>
+        <h4 class="mt-5">
+          {{ test.pergunta || 'Enunciado do teste' }}
+        </h4>
+        <div class="alternatives-container">
+          <v-checkbox
+            v-model="selected"
+            class="first-alternative"
+            hide-details
+            color="#60c"
+            :rules="alternativeRule"
+            :label="test.primeira_alternativa"
+            value="A"
+          />
+          <v-checkbox
+            v-model="selected"
+            class="second-alternative"
+            hide-details
+            color="#60c"
+            :rules="alternativeRule"
+            :label="test.segunda_alternativa"
+            value="B"
+          />
+          <v-checkbox
+            v-model="selected"
+            class="third-alternative"
+            hide-details
+            color="#60c"
+            :rules="alternativeRule"
+            :label="test.terceira_alternativa"
+            value="C"
+          />
+          <v-checkbox
+            v-model="selected"
+            class="fourth-alternative"
+            hide-details
+            color="#60c"
+            :rules="alternativeRule"
+            :label="test.quarta_alternativa"
+            value="D"
+          />
         </div>
-      </v-flex>
-      <navigation-bar v-if="!correct" />
-    </v-layout>
+      </v-form>
+      <div class="base">
+        <v-btn class="btn-block btn-primary btn-fixed" @click="nextTest">
+          Próximo
+        </v-btn>
+      </div>
+    </div>
+    <navigation-bar v-if="!correct" />
   </div>
 </template>
 
@@ -359,9 +351,6 @@ h4 {
   padding: 0 0.5em !important;
 }
 
-::v-deep .btn-primary {
-  margin-top: 25px;
-}
 label {
   text-align: justify;
 }
@@ -383,39 +372,33 @@ label {
   margin-top: 100px;
 }
 .bg__fire {
+  position: absolute;
+  padding: 0 20px;
+  top: 0;
   background-image: url('../../../assets/background-fire.png');
   background-repeat: no-repeat;
   background-size: cover;
 }
-.messages {
-  padding: 0 2em;
-}
-
 .base {
   position: absolute;
   bottom: 96px;
   width: 92%;
   margin: 0 auto;
 }
-
 .message {
+  font-family: Roboto;
   font-size: 24px;
+  font-weight: 700;
+  line-height: 28px;
+  letter-spacing: 0em;
   color: black;
-  z-index: 9999;
-  margin-top: 5%;
-  font-weight: 600;
 }
-
 .message__subtext {
   margin-top: 2%;
   text-align: center;
   z-index: 9999;
   font-size: 16px;
-}
-
-.notification__content {
-  max-width: 480px;
-  margin: 0 auto;
+  font-family: Roboto;
 }
 
 ::v-deep .main-container {
@@ -423,17 +406,16 @@ label {
 }
 
 .share__achievement {
-  margin-top: 10%;
-}
-
-.share__achievement p {
   font-size: 12px;
   text-align: center;
+  position: absolute;
+  bottom: 50px;
+  width: 100%;
 }
 
 .icons {
-  margin: 5% auto;
-  width: 60%;
+  margin: 0 auto;
+  padding: 0 14px;
   display: flex;
   align-items: center;
   justify-content: space-around;
@@ -441,10 +423,10 @@ label {
 
 .notification__image {
   position: absolute;
+  top: 70px;
   z-index: 999;
-  height: 200px;
+  height: 190px;
   width: auto;
-  max-height: 280px;
   left: 50%;
   transform: translate(-50%);
 }
@@ -475,9 +457,6 @@ label {
   content: 'D:';
   @include inner-text-checkbox;
 }
-.icons:hover {
-  cursor: pointer;
-}
 
 ::v-deep .mdi-checkbox-blank-outline::before {
   content: url('https://api.iconify.design/bi:circle.svg?height=16');
@@ -487,5 +466,11 @@ label {
 ::v-deep .mdi-checkbox-marked::before {
   content: url('https://api.iconify.design/bi:check-circle-fill.svg?color=rgb(104%2C0%2C201)&height=16');
   vertical-align: -0.125em;
+}
+
+#close__btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
 }
 </style>
