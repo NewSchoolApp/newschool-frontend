@@ -117,7 +117,10 @@
         </div>
       </v-form>
       <div class="base">
-        <v-btn class="btn-block btn-primary btn-fixed" @click="nextTest">
+        <v-btn
+          :class="'btn-block btn-primary btn-fixed ' + error"
+          @click="nextTest"
+        >
           Próximo
         </v-btn>
       </div>
@@ -154,6 +157,7 @@ export default {
     tryMessage: '',
     headerNotification: '',
     textNotification: '',
+    error: '',
   }),
   computed: {
     test() {
@@ -222,6 +226,11 @@ export default {
                 this.try++;
               }
               this.computedSelection = [];
+
+              this.error = 'error-form';
+              setTimeout(() => {
+                this.error = '';
+              }, 300);
             }
           });
       }
@@ -316,13 +325,11 @@ h1 {
   text-align: center;
   color: var(--primary);
 }
-
 @media screen and (max-width: 20.625em) {
   h1 {
     font-size: 14px;
   }
 }
-
 h3 {
   font-family: 'Roboto';
   font-weight: 900;
@@ -330,7 +337,6 @@ h3 {
   line-height: 16px;
   color: #1a1a1a;
 }
-
 h4 {
   font-family: 'Roboto';
   font-size: 12px;
@@ -339,22 +345,19 @@ h4 {
   text-align: justify;
   color: #1a1a1a;
 }
-
 .main-container {
   display: flex;
   flex-direction: column;
   padding: 0em 2rem 0rem;
 }
-
 .inner-container {
   margin: 1em 6px 0;
   padding: 0 0.5em !important;
 }
-
-label {
-  text-align: justify;
+::v-deep label {
+  overflow: visible;
+  width: 200px;
 }
-
 @mixin inner-text-checkbox {
   font-weight: 400;
   color: var(--primary);
@@ -400,11 +403,9 @@ label {
   font-size: 16px;
   font-family: Roboto;
 }
-
 ::v-deep .main-container {
   padding: 0 !important;
 }
-
 .share__achievement {
   font-size: 12px;
   text-align: center;
@@ -412,7 +413,6 @@ label {
   bottom: 50px;
   width: 100%;
 }
-
 .icons {
   margin: 0 auto;
   padding: 0 14px;
@@ -420,7 +420,6 @@ label {
   align-items: center;
   justify-content: space-around;
 }
-
 .notification__image {
   position: absolute;
   top: 70px;
@@ -430,47 +429,45 @@ label {
   left: 50%;
   transform: translate(-50%);
 }
-
 ::v-deep .theme--light.v-label {
   color: rgb(0, 0, 0) !important;
   font-weight: 600;
   font-size: 14px !important;
   font-family: 'Roboto';
 }
-
 ::v-deep .first-alternative > div > div > label:before {
   content: 'A:';
   @include inner-text-checkbox;
 }
-
 ::v-deep .second-alternative > div > div > label:before {
   content: 'B:';
   @include inner-text-checkbox;
 }
-
 ::v-deep .third-alternative > div > div > label:before {
   content: 'C:';
   @include inner-text-checkbox;
 }
-
 ::v-deep .fourth-alternative > div > div > label:before {
   content: 'D:';
   @include inner-text-checkbox;
 }
-
 ::v-deep .mdi-checkbox-blank-outline::before {
   content: url('https://api.iconify.design/bi:circle.svg?height=16');
   vertical-align: -0.125em;
 }
-
 ::v-deep .mdi-checkbox-marked::before {
   content: url('https://api.iconify.design/bi:check-circle-fill.svg?color=rgb(104%2C0%2C201)&height=16');
   vertical-align: -0.125em;
 }
-
 #close__btn {
   position: absolute;
   top: 20px;
   right: 20px;
+}
+::v-deep .error--text {
+  animation: none !important;
+}
+.error-form {
+  animation: nono 300ms, intro paused;
 }
 </style>
