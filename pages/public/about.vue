@@ -35,20 +35,24 @@
               <span>desafios da vida.</span>
             </p>
             <div style="position:relative;">
-              <video-player
-                ref="player"
-                class="video__size"
-                :youtube-url="urlVideo"
-                :thumbnail="thumbnail"
-              />
+              <iframe
+                width="350"
+                height="300"
+                :src="urlVideo"
+                frameborder="0"
+                allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen
+              ></iframe>
               <br />
               <br />
-              <video-player
-                ref="player"
-                class="video__size"
-                :youtube-url="urlVideo2"
-                :thumbnail="thumbnail"
-              />
+              <iframe
+                width="350"
+                height="300"
+                :src="urlVideo2"
+                frameborder="0"
+                allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen
+              ></iframe>
             </div>
           </div>
         </v-flex>
@@ -67,6 +71,7 @@
 import NavigationBar from '~/components/NavigationBar.vue';
 import HeaderBar from '~/components/Header.vue';
 import VideoPlayer from '~/components/VideoPlayer.vue';
+
 export default {
   components: {
     HeaderBar,
@@ -76,12 +81,16 @@ export default {
   data: () => ({
     urlVideo: 'https://www.youtube.com/embed/u4O8wE0gYO0',
     urlVideo2: 'https://www.youtube.com/embed/OXxSY4PNr-o',
-    thumbnail:
-      'https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/35160991368917.5e303bd02c67f.jpg',
     loading: true,
   }),
+  methods: {
+    stop() {
+      this.$refs.player.player.stopVideo();
+    },
+  },
 };
 </script>
+
 <style scoped>
 ::v-deep .text {
   width: 100%;
