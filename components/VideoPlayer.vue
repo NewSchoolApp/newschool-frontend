@@ -3,15 +3,9 @@
     <div v-if="!playing" id="course-thumbnail-backgorund" @click="playVideo()">
       <img id="course-thumbnail" :src="thumbnail" alt="imagem-curso" />
 
-      <v-icon v-if="!playerLoading" class="play-btn">
+      <v-icon class="play-btn">
         mdi-play-circle-outline
       </v-icon>
-
-      <v-progress-circular
-        v-else
-        indeterminate
-        color="white"
-      ></v-progress-circular>
     </div>
 
     <youtube-vue v-else ref="youtube" :videoid="videoUrl" />
@@ -28,7 +22,6 @@ export default {
   data() {
     return {
       playing: false,
-      playerLoading: false,
     };
   },
   computed: {
@@ -39,14 +32,10 @@ export default {
   },
   methods: {
     playVideo() {
-      this.playerLoading = true;
-
+      this.playing = true;
       setTimeout(() => {
-        this.playing = true;
-        setTimeout(() => {
-          this.$refs.youtube.player.playVideo();
-        }, 100);
-      }, 500);
+        this.$refs.youtube.player.playVideo();
+      }, 100);
     },
   },
 };
