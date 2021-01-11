@@ -92,11 +92,12 @@
           </transition-group>
         </div>
       </div>
-      <NothingToShow
-        v-else
-        title="Vixe :/"
-        message="Você não tem nenhuma notificação."
-      />
+      <div v-else class="nothing">
+        <div class="nothing-message">
+          Eita, Man@... Você ainda não tem nenhuma notificação. :(
+        </div>
+        <v-img :src="require('~/assets/nothing.svg')" />
+      </div>
     </div>
     <div v-if="loading">
       <div class="container-spinner">
@@ -119,15 +120,13 @@
 import NavigationBar from '~/components/NavigationBar.vue';
 import HeaderBar from '~/components/Header.vue';
 import http from '~/services/http/generic';
-import NothingToShow from '~/components/NothingToShow';
 
 export default {
-  transition: 'bounce',
   components: {
     NavigationBar,
     HeaderBar,
-    NothingToShow,
   },
+  transition: 'bounce',
 
   data: () => ({
     loading: true,
@@ -157,14 +156,15 @@ export default {
   },
   methods: {
     checkDate(notification) {
-      const notificationDateHourAndMinute = notification.createdAt.slice(
-        11,
-        16,
-      );
+      const hourAndMinute = notification.createdAt.slice(11, 16).split(':');
+      const notificationDateHourAndMinute = `${Number(hourAndMinute[0]) - 3}:${
+        hourAndMinute[1]
+      }`;
       const notificationMonthAndDay = notification.createdAt.slice(5, 10);
       const today = new Date().getDate();
       const month = new Date().getMonth() + 1;
       const dateSplited = notificationMonthAndDay.split('-');
+
       if (dateSplited[1] < today || dateSplited[0] < month) {
         if (today - dateSplited[1] === 1) {
           return `Ontem - ${notificationDateHourAndMinute}`;
@@ -206,7 +206,24 @@ export default {
       http
         .getAll(`${process.env.endpoints.NOTIFICATIONS}/user/${this.user.id}`)
         .then(response => {
-          this.notifications = response.data;
+          const importantNotifications = response.data
+            .filter(item => item.important)
+            .reduce((acc, cur) => {
+              acc.push(cur);
+              acc = acc.map(item => cur);
+              return acc;
+            }, []);
+          const normalNotifications = response.data.filter(
+            item => !item.important,
+          );
+          const filteredImportantNotifications = [
+            ...new Set(importantNotifications),
+          ];
+
+          this.notifications = [
+            ...filteredImportantNotifications,
+            ...normalNotifications,
+          ];
         });
     },
     goToNotification(link) {
@@ -362,5 +379,19 @@ h1 {
   margin-top: 5px;
   font-weight: 500;
   min-height: 38px;
+}
+.nothing {
+  font-family: Roboto;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 19px;
+  letter-spacing: 0px;
+  text-align: center;
+  color: #484848;
+  padding: 124px 44px;
+}
+.nothing-message {
+  padding-bottom: 64px;
 }
 </style>

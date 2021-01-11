@@ -39,6 +39,7 @@ export default {
       const today = new Date().getDay() + 1;
       const month = new Date().getMonth() + 1;
       const dateSplited = notificationMonthAndDay.split('-');
+
       if (dateSplited[1] < today || dateSplited[0] < month) {
         this.notificationDate =
           today - dateSplited[1] === 1

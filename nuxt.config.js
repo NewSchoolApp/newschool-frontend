@@ -161,12 +161,13 @@ export default {
   },
 
   env: {
-    domain: process.env.DOMAIN_URL || 'http://newschool.us-east-2.elasticbeanstalk.com',
+    domain:
+      process.env.DOMAIN_URL ||
+      'http://newschool.us-east-2.elasticbeanstalk.com',
     baseUrl:
-      process.env.VUE_APP_BASE_URL || // 'https://6870dc1db9e8.ngrok.io',
-      // 'http://newschool-api-dev2.eba-gxtzwa9m.us-east-2.elasticbeanstalk.com/',
-      'https://9ddlz0bte4.execute-api.us-east-2.amazonaws.com/prod',
-    // http://develop.dev-newschool.tk/
+      process.env.VUE_APP_BASE_URL ||
+      // 'https://9ddlz0bte4.execute-api.us-east-2.amazonaws.com/prod',
+      'https://9ddlz0bte4.execute-api.us-east-2.amazonaws.com/dev',
     credentials: {
       name: process.env.VUE_APP_CLIENT_CREDENTIAL_NAME || 'NEWSCHOOL@FRONT',
       secret:
@@ -266,15 +267,41 @@ export default {
         content: 'width=device-width, initial-scale=1',
       },
       {
-        hid: 'title',
-        name: 'title',
+        hid: 'og:title',
+        property: 'og:title',
         content: 'New School | Formando os protagonistas da quebrada',
       },
       {
-        hid: 'description',
-        name: 'description',
+        hid: 'og:type',
+        property: 'og:type',
+        content: 'website',
+      },
+      {
+        hid: 'og:site_name',
+        property: 'og:site_name',
+        content: 'newschool-frontend',
+      },
+      {
+        hid: 'og:description',
+        property: 'og:description',
         content:
           'Levamos educação de qualidade na linguagem da quebrada para as periferias do Brasil, através da tecnologia e da curadoria de conteúdos baseados nas habilidades do futuro.',
+      },
+      {
+        hid: 'og:image',
+        property: 'og:image',
+        content:
+          'https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/35160991368917.5e303bd02c67f.jpg',
+      },
+      {
+        hid: 'og:url',
+        property: 'og:url',
+        content: 'http://newschool.us-east-2.elasticbeanstalk.com',
+      },
+      {
+        hid: 'fb:app_id',
+        property: 'fb:app_id',
+        content: '384298599359690',
       },
       {
         hid: 'keywords',
