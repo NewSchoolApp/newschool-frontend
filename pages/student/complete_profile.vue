@@ -119,6 +119,7 @@
               <v-autocomplete
                 v-model="form.country"
                 :items="countries"
+                no-data-text="Nenhum país"
                 filled
               />
             </v-col>
@@ -127,18 +128,21 @@
               <v-autocomplete
                 v-model="form.state"
                 :items="states"
+                :filter="customFilterStates"
+                no-data-text="Nenhum estado"
                 filled
-                @change="getCities(form.state), (form.city = '')"
-              />
+                @change="getCities($event)"
+              ></v-autocomplete>
             </v-col>
             <v-col class="px-0 pb-5">
               <div class="input-label">Cidade</div>
               <v-autocomplete
                 v-model="form.city"
-                required
                 :items="cities"
+                :filter="customFilterCities"
+                no-data-text="Nenhuma cidade"
                 filled
-              />
+              ></v-autocomplete>
             </v-col>
             <v-col class="px-0 pb-5">
               <div class="input-label">Bairro</div>
@@ -404,7 +408,6 @@ export default {
       schools: [],
       countries: ['Brasil'],
       states: [],
-      stateAbbreviations: {},
       cities: [],
       districts: [],
     };
@@ -515,16 +518,21 @@ export default {
       http
         .getAll('https://servicodados.ibge.gov.br/api/v1/localidades/estados')
         .then(res => {
-          res.data.forEach(element => {
-            this.states.push(element.nome);
-            this.stateAbbreviations[element.nome] = element.sigla;
+          res.data.forEach((element, index) => {
+            this.states.push({
+              text: element.nome,
+              abbr: element.sigla,
+              id: index,
+            });
           });
         });
     },
     getCities(stateName) {
+      const stateAbbr = this.states.find(state => state.text === stateName)
+        .abbr;
       http
         .getAll(
-          `https://servicodados.ibge.gov.br/api/v1/localidades/estados/${this.stateAbbreviations[stateName]}/municipios`,
+          `https://servicodados.ibge.gov.br/api/v1/localidades/estados/${stateAbbr}/municipios`,
         )
         .then(res => {
           this.cities = [];
@@ -532,6 +540,42 @@ export default {
             this.cities.push(element.nome);
           });
         });
+    },
+    customFilterStates(item, queryText, itemText) {
+      const textOne = item.text.toLowerCase();
+      const textTwo = item.abbr.toLowerCase();
+      const textTree = item.text
+        .toLowerCase()
+        .normalize('NFD')
+        .replace(/[\u0300-\u036F]/g, '')
+        .trim();
+
+      const searchText = queryText
+        .toLowerCase()
+        .normalize('NFD')
+        .replace(/[\u0300-\u036F]/g, '')
+        .trim();
+
+      return (
+        textOne.includes(searchText) ||
+        textTwo.includes(searchText) ||
+        textTree.includes(searchText)
+      );
+    },
+    customFilterCities(item, queryText, itemText) {
+      const textOne = item
+        .toLowerCase()
+        .normalize('NFD')
+        .replace(/[\u0300-\u036F]/g, '')
+        .trim();
+
+      const searchText = queryText
+        .toLowerCase()
+        .normalize('NFD')
+        .replace(/[\u0300-\u036F]/g, '')
+        .trim();
+
+      return textOne.includes(searchText);
     },
     gotoProfile() {
       $nuxt._router.replace('/aluno/perfil');
