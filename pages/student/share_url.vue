@@ -51,7 +51,7 @@ export default {
   },
   methods: {
     onSuccess(result) {
-      http
+      /* http
         .post(process.env.endpoints.EVENT, {
           event: 'SHARE_APP',
           rule: {
@@ -69,7 +69,7 @@ export default {
           this.$notifier.showMessage({
             type: 'error',
           }),
-        );
+        ); */
     },
     onError(msg) {
       alert('Sharing failed with message: ' + msg);
