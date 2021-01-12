@@ -197,7 +197,12 @@ export default {
                   message: 'Cadastro efetuado!',
                 });
                 setTimeout(() => {
-                  this.gotoLogin();
+                  if (inviteKey !== null) {
+                    this.gotoLogin();
+                  }
+                  else {
+                    window.location = 'https://play.google.com/store/apps/details?id=com.newschool.app';
+                  }
                 }, 2500);
               })
               .catch(err => {
