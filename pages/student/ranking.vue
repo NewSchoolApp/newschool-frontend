@@ -361,6 +361,9 @@ export default {
           res.data.forEach(element => {
             this.cities.push(element.nome);
           });
+          this.cities.sort((a, b) => {
+            return a.localeCompare(b);
+          });
         });
     },
     getStates() {
@@ -373,6 +376,9 @@ export default {
               abbr: element.sigla,
               id: index,
             });
+          });
+          this.states.sort((a, b) => {
+            return a.text.localeCompare(b.text);
           });
         });
     },
@@ -451,17 +457,15 @@ export default {
       if (this.isLoadingSchool) return;
       this.isLoadingSchool = true;
       this.loadClientCredentials().then(res => {
-        const token = res.data.accessToken;
-        const response = httpHelper
-          .getAll(`${process.env.endpoints.SCHOOL}?name=${school}`, {
-            headers: { Authorization: `Bearer ${token}` },
-          })
+        httpHelper
+          .getAll(`${process.env.endpoints.SCHOOL}?name=${school}`)
           .then(res => {
-            if (!res.data.length) {
-              this.isLoadingSchool = false;
-              this.schools.unshift(school.toUpperCase());
+            for (const response of res.data) {
+              this.schools.push(response.school.toUpperCase());
             }
-            res.data.forEach(school => this.schools.push(school.nome));
+            this.schools.sort((a, b) => {
+              return a.localeCompare(b);
+            });
             this.isLoadingSchool = false;
           })
           .catch(err => {
@@ -689,5 +693,8 @@ td {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+::v-deep .v-list-item__title {
+  font-size: 13px;
 }
 </style>

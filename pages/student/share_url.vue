@@ -51,7 +51,7 @@ export default {
   },
   methods: {
     onSuccess(result) {
-      http
+      /* http
         .post(process.env.endpoints.EVENT, {
           event: 'SHARE_APP',
           rule: {
@@ -69,7 +69,7 @@ export default {
           this.$notifier.showMessage({
             type: 'error',
           }),
-        );
+        ); */
     },
     onError(msg) {
       alert('Sharing failed with message: ' + msg);
@@ -80,7 +80,7 @@ export default {
       const options = {
         message: 'Vem colar com nois, aqui na New School!', // not supported on some apps (Facebook, Instagram)
         subject: 'Faça seu cadastro e vem aprender com a gente', // fi. for email
-        url: `newschoolapp.com.br/#/cadastro/${this.user.inviteKey}`,
+        url: `http://newschool.us-east-2.elasticbeanstalk.com/#/cadastro/${this.user.inviteKey}`,
         chooserTitle: 'Compartilhe seu URL de convite', // Android only, you can override the default share sheet title
       };
       window.plugins.socialsharing.shareWithOptions(

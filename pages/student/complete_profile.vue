@@ -525,6 +525,9 @@ export default {
               id: index,
             });
           });
+          this.states.sort((a, b) => {
+            return a.text.localeCompare(b.text);
+          });
         });
     },
     getCities(stateName) {
@@ -538,6 +541,9 @@ export default {
           this.cities = [];
           res.data.forEach(element => {
             this.cities.push(element.nome);
+          });
+          this.cities.sort((a, b) => {
+            return a.localeCompare(b);
           });
         });
     },
@@ -600,17 +606,15 @@ export default {
       if (this.isLoading) return;
       this.isLoading = true;
       this.loadClientCredentials().then(res => {
-        const response = http
+        http
           .getAll(`${process.env.endpoints.SCHOOL}?name=${school}`)
           .then(res => {
-            console.log(res.data);
-            if (!res.data.length) {
-              this.isLoading = false;
-              this.schools.unshift(school.toUpperCase());
-            }
             for (const response of res.data) {
-              this.schools.push(response.school);
+              this.schools.push(response.school.toUpperCase());
             }
+            this.schools.sort((a, b) => {
+              return a.localeCompare(b);
+            });
             this.isLoading = false;
           })
           .catch(err => {
@@ -909,5 +913,8 @@ body {
   font-weight: 400;
   line-height: 11px;
   letter-spacing: 0em;
+}
+::v-deep .v-list-item__title {
+  font-size: 13px;
 }
 </style>
