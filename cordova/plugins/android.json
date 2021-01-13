@@ -13,6 +13,22 @@
     "com.santinowu.cordova.imagedownloader": {
       "PACKAGE_NAME": "com.newschool.app"
     },
+    "cordova-plugin-androidx-adapter": {
+      "PACKAGE_NAME": "com.newschool.app"
+    },
+    "cordova-plugin-browsertab": {
+      "PACKAGE_NAME": "com.newschool.app"
+    },
+    "cordova-plugin-buildinfo": {
+      "PACKAGE_NAME": "com.newschool.app"
+    },
+    "cordova-plugin-customurlscheme": {
+      "URL_SCHEME": "com.firebase.cordova",
+      "ANDROID_SCHEME": " ",
+      "ANDROID_HOST": " ",
+      "ANDROID_PATHPREFIX": "/",
+      "PACKAGE_NAME": "com.newschool.app"
+    },
     "cordova-plugin-facebook4": {
       "APP_ID": "384298599359690",
       "APP_NAME": "NewSchool",
@@ -32,23 +48,10 @@
     "cordova-plugin-x-socialsharing": {
       "PACKAGE_NAME": "com.newschool.app"
     },
-    "cordova-plugin-androidx-adapter": {
-      "PACKAGE_NAME": "com.newschool.app"
-    },
-    "cordova-plugin-buildinfo": {
-      "PACKAGE_NAME": "com.newschool.app"
-    },
     "cordova-universal-links-plugin": {
       "PACKAGE_NAME": "com.newschool.app"
     },
-    "cordova-plugin-browsertab": {
-      "PACKAGE_NAME": "com.newschool.app"
-    },
-    "cordova-plugin-customurlscheme": {
-      "URL_SCHEME": "com.firebase.cordova",
-      "ANDROID_SCHEME": " ",
-      "ANDROID_HOST": " ",
-      "ANDROID_PATHPREFIX": "/",
+    "cordova-plugin-insomnia": {
       "PACKAGE_NAME": "com.newschool.app"
     }
   },

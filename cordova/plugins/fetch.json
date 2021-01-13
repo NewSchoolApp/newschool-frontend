@@ -155,5 +155,13 @@
     "variables": {
       "URL_SCHEME": "com.firebase.cordova"
     }
+  },
+  "cordova-plugin-insomnia": {
+    "source": {
+      "type": "registry",
+      "id": "https://github.com/EddyVerbruggen/Insomnia-PhoneGap-Plugin.git"
+    },
+    "is_top_level": true,
+    "variables": {}
   }
 }
