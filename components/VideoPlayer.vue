@@ -30,8 +30,12 @@ export default {
       return splited[splited.length - 1];
     },
   },
+  beforeDestroy() {
+    window.plugins.insomnia.allowSleepAgain()
+  },
   methods: {
     playVideo() {
+      window.plugins.insomnia.keepAwake();
       this.playing = true;
       setTimeout(() => {
         this.$refs.youtube.player.playVideo();
