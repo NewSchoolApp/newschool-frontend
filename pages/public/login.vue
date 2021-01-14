@@ -111,6 +111,7 @@ export default {
     ],
   }),
   mounted() {
+    window.screen.orientation.lock('portrait');
     this.loginSocialReturn();
   },
 
