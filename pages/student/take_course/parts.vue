@@ -210,6 +210,38 @@ export default {
     },
   },
   mounted() {
+    document.addEventListener("fullscreenchange", function() {
+      if (document.fullscreenElement) window.screen.orientation.unlock();
+    }, false);
+
+    document.addEventListener("msfullscreenchange", function() {
+      if (document.msFullscreenElement) window.screen.orientation.unlock();
+    }, false);
+
+    document.addEventListener("mozfullscreenchange", function() {
+      if (document.mozFullScreen) window.screen.orientation.unlock();
+    }, false);
+
+    document.addEventListener("webkitfullscreenchange", function() {
+      if (document.webkitIsFullScreen) window.screen.orientation.unlock();
+    }, false);
+
+    document.addEventListener("fullscreenchange", function() {
+      if (!document.fullscreenElement) window.screen.orientation.lock('portrait');
+    }, false);
+
+    document.addEventListener("msfullscreenchange", function() {
+      if (!document.msFullscreenElement) window.screen.orientation.lock('portrait');
+    }, false);
+
+    document.addEventListener("mozfullscreenchange", function() {
+      if (!document.mozFullScreen) window.screen.orientation.lock('portrait');
+    }, false);
+
+    document.addEventListener("webkitfullscreenchange", function() {
+      if (!document.webkitIsFullScreen) window.screen.orientation.lock('portrait');
+    }, false);
+
     this.getComments();
     this.loading = false;
 

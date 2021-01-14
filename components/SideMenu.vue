@@ -34,7 +34,7 @@
         </div>
       </section>
     </main>
-    <section class="menu-list">
+    <div class="menu-list">
       <div
         v-for="item in menu"
         :key="item.id"
@@ -47,7 +47,7 @@
         </div>
         <p class="text-menu">{{ item.label }}</p>
       </div>
-    </section>
+    </div>
   </div>
 </template>
 
@@ -226,6 +226,31 @@ h1 {
 
 .menu-list {
   max-width: 500px;
+  display: flex;
+  flex-direction: column;
+  height: calc(100% - 250px);
+}
+
+.item-menu {
+  display: -webkit-box;
+  display: flex;
+  width: 100%;
+  padding: 13px;
+  border-bottom: solid 1px #e8e8e8;
+  -webkit-box-align: center;
+  align-items: center;
+  color: var(--primary) !important;
+  cursor: pointer;
+  div {
+    width: 50px;
+    display: -webkit-box;
+    display: flex;
+    -webkit-box-pack: center;
+    justify-content: center;
+    margin-right: 2rem;
+  }
+  flex-grow: 1;
+  min-height: 35px;
 }
 
 .container-page {
@@ -270,26 +295,6 @@ h1 {
 
   img {
     width: 100%;
-  }
-}
-
-.item-menu {
-  display: -webkit-box;
-  display: flex;
-  width: 100%;
-  padding: 13px;
-  border-bottom: solid 1px #e8e8e8;
-  -webkit-box-align: center;
-  align-items: center;
-  color: var(--primary) !important;
-  cursor: pointer;
-  div {
-    width: 50px;
-    display: -webkit-box;
-    display: flex;
-    -webkit-box-pack: center;
-    justify-content: center;
-    margin-right: 2rem;
   }
 }
 

@@ -1,0 +1,66 @@
+{
+  "_from": "git+https://github.com/EddyVerbruggen/Insomnia-PhoneGap-Plugin.git",
+  "_id": "cordova-plugin-insomnia@4.3.0",
+  "_inBundle": false,
+  "_integrity": "",
+  "_location": "/cordova-plugin-insomnia",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "git",
+    "raw": "https://github.com/EddyVerbruggen/Insomnia-PhoneGap-Plugin.git",
+    "rawSpec": "https://github.com/EddyVerbruggen/Insomnia-PhoneGap-Plugin.git",
+    "saveSpec": "git+https://github.com/EddyVerbruggen/Insomnia-PhoneGap-Plugin.git",
+    "fetchSpec": "https://github.com/EddyVerbruggen/Insomnia-PhoneGap-Plugin.git",
+    "gitCommittish": null
+  },
+  "_requiredBy": [
+    "#DEV:/",
+    "#USER"
+  ],
+  "_resolved": "git+https://github.com/EddyVerbruggen/Insomnia-PhoneGap-Plugin.git#f83de3ac8ff1bd9ce48652091e8d183c6dcb9e06",
+  "_spec": "https://github.com/EddyVerbruggen/Insomnia-PhoneGap-Plugin.git",
+  "_where": "/home/henrry/Desktop/ns/newschool-frontend/cordova",
+  "author": {
+    "name": "Eddy Verbruggen",
+    "email": "eddyverbruggen@gmail.com",
+    "url": "https://github.com/EddyVerbruggen"
+  },
+  "bugs": {
+    "url": "https://github.com/EddyVerbruggen/Insomnia-PhoneGap-Plugin/issues"
+  },
+  "bundleDependencies": false,
+  "cordova": {
+    "id": "cordova-plugin-insomnia",
+    "platforms": [
+      "ios",
+      "wp8",
+      "windows",
+      "android",
+      "firefoxos"
+    ]
+  },
+  "deprecated": false,
+  "description": "Prevent the screen of the mobile device from falling asleep.",
+  "engines": [
+    {
+      "name": "cordova",
+      "version": ">=3.0.0"
+    }
+  ],
+  "homepage": "https://github.com/EddyVerbruggen/Insomnia-PhoneGap-Plugin#readme",
+  "keywords": [
+    "ecosystem:cordova",
+    "cordova-ios",
+    "cordova-wp8",
+    "cordova-windows",
+    "cordova-android",
+    "cordova-firefoxos"
+  ],
+  "license": "MIT",
+  "name": "cordova-plugin-insomnia",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EddyVerbruggen/Insomnia-PhoneGap-Plugin.git"
+  },
+  "version": "4.3.0"
+}
