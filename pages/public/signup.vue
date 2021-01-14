@@ -121,6 +121,7 @@ export default {
       status: true,
       loading: false,
       isLoading: false,
+      inviteKey: undefined,
       showPass: String,
       showConfirmPass: String,
       schools: [],
@@ -165,6 +166,9 @@ export default {
       ];
     },
   },
+  mounted() {
+    this.inviteKey = this.$route.params.inviteKey;
+  },
 
   methods: {
     submit() {
@@ -181,27 +185,26 @@ export default {
         };
         const { profile } = postObject;
         postObject.profile = profileEnum[profile];
-        const inviteKey = this.$route.params.inviteKey
-          ? this.$route.params.inviteKey
-          : null;
+
         delete postObject.confirmPassword;
         this.animateForm(true);
         this.loadClientCredentials()
           .then(res => {
             const token = res.data.accessToken;
             auth
-              .signUp(postObject, token, inviteKey)
+              .signUp(postObject, token, this.inviteKey)
               .then(res => {
                 this.$notifier.showMessage({
                   type: 'success',
                   message: 'Cadastro efetuado!',
                 });
                 setTimeout(() => {
-                  if (inviteKey !== null) {
+                  if (!this.inviteKey) {
                     this.gotoLogin();
-                  }
-                  else {
-                    window.location = 'https://play.google.com/store/apps/details?id=com.newschool.app';
+                  } else {
+                    this.loading = false;
+                    window.location =
+                      'https://play.google.com/store/apps/details?id=com.newschool.app';
                   }
                 }, 2500);
               })
