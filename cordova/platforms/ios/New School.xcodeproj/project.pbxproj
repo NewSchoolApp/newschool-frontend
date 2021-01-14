@@ -42,6 +42,7 @@
 		8DFD706D37F24BAEA7EC9E6D /* CBTBrowserTab.m in Sources */ = {isa = PBXBuildFile; fileRef = AF27DC39CC5B4FAC8684BEE3 /* CBTBrowserTab.m */; };
 		9C55F1D1814D4BE4830BDAE6 /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C255756A5C5A46AA91319BCA /* SafariServices.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		B2C2E6C2248A4E9BBE28EC86 /* Insomnia.m in Sources */ = {isa = PBXBuildFile; fileRef = FF27C06227A74B3A82BB6B84 /* Insomnia.m */; };
+		AE245E197D024D24A02FF09F /* CDVOrientation.m in Sources */ = {isa = PBXBuildFile; fileRef = B1DF0A3F0603434D911AA92B /* CDVOrientation.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -142,6 +143,8 @@
 		C255756A5C5A46AA91319BCA /* SafariServices.framework */ = {isa = PBXFileReference; name = "SafariServices.framework"; path = "System/Library/Frameworks/SafariServices.framework"; sourceTree = SDKROOT; fileEncoding = undefined; lastKnownFileType = wrapper.framework; explicitFileType = undefined; includeInIndex = 0; };
 		FF27C06227A74B3A82BB6B84 /* Insomnia.m */ = {isa = PBXFileReference; name = "Insomnia.m"; path = "cordova-plugin-insomnia/Insomnia.m"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; explicitFileType = undefined; includeInIndex = 0; };
 		6312FDFF647B4F9FA79DAF6B /* Insomnia.h */ = {isa = PBXFileReference; name = "Insomnia.h"; path = "cordova-plugin-insomnia/Insomnia.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
+		B1DF0A3F0603434D911AA92B /* CDVOrientation.m */ = {isa = PBXFileReference; name = "CDVOrientation.m"; path = "cordova-plugin-screen-orientation/CDVOrientation.m"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; explicitFileType = undefined; includeInIndex = 0; };
+		657045CE5DF8426EB2A11AF5 /* CDVOrientation.h */ = {isa = PBXFileReference; name = "CDVOrientation.h"; path = "cordova-plugin-screen-orientation/CDVOrientation.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -302,6 +305,8 @@
 				30E146B92FA04A10AF8BF153 /* CBTBrowserTab.h */,
 				FF27C06227A74B3A82BB6B84 /* Insomnia.m */,
 				6312FDFF647B4F9FA79DAF6B /* Insomnia.h */,
+				B1DF0A3F0603434D911AA92B /* CDVOrientation.m */,
+				657045CE5DF8426EB2A11AF5 /* CDVOrientation.h */,
 			);
 			name = Plugins;
 			path = "New School/Plugins";
@@ -451,6 +456,7 @@
 				60E9E1658FD74D178B0B99C8 /* NSBundle+CULPlugin.m in Sources */,
 				8DFD706D37F24BAEA7EC9E6D /* CBTBrowserTab.m in Sources */,
 				B2C2E6C2248A4E9BBE28EC86 /* Insomnia.m in Sources */,
+				AE245E197D024D24A02FF09F /* CDVOrientation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

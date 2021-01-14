@@ -68,6 +68,9 @@
     <feature name="Insomnia">
         <param name="ios-package" value="Insomnia" />
     </feature>
+    <feature name="CDVOrientation">
+        <param name="ios-package" value="CDVOrientation" />
+    </feature>
     <name>New School</name>
     <description> New School App </description>
     <author email="newschool@http://newschool-api-dev2.eba-gxtzwa9m.us-east-2.elasticbeanstalk.com" href="http://cordova.io"> New School Team </author>

@@ -38,7 +38,8 @@
         "ANDROID_HOST": " ",
         "ANDROID_PATHPREFIX": "/"
       },
-      "cordova-plugin-insomnia": {}
+      "cordova-plugin-insomnia": {},
+      "cordova-plugin-screen-orientation": {}
     },
     "platforms": [
       "ios",

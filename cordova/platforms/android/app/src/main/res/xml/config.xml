@@ -45,6 +45,9 @@
     <feature name="Insomnia">
         <param name="android-package" value="nl.xservices.plugins.Insomnia" />
     </feature>
+    <feature name="CDVOrientation">
+        <param name="android-package" value="cordova.plugins.screenorientation.CDVOrientation" />
+    </feature>
     <name>New School</name>
     <description> New School App </description>
     <author email="newschool@http://newschool-api-dev2.eba-gxtzwa9m.us-east-2.elasticbeanstalk.com" href="http://cordova.io"> New School Team </author>
