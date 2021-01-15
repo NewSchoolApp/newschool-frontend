@@ -381,6 +381,7 @@ h4 {
   background-image: url('../../../assets/background-fire.png');
   background-repeat: no-repeat;
   background-size: cover;
+  width: 100%;
 }
 .base {
   position: absolute;
