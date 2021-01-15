@@ -494,8 +494,10 @@ strong {
   line-height: 16px;
   letter-spacing: 0em;
   color: #a3a3a3;
+  padding: 10px;
 }
 .btn__container {
   text-align: center;
+  margin-bottom: 20px;
 }
 </style>
