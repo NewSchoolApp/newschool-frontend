@@ -462,8 +462,9 @@ h4 {
 }
 #close__btn {
   position: absolute;
-  top: 20px;
-  right: 20px;
+  top: 0;
+  right: 0;
+  padding: 20px;
 }
 ::v-deep .error--text {
   animation: none !important;
