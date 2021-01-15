@@ -57,9 +57,7 @@
                     () => (showConfirmNewPass = !showConfirmNewPass)
                   "
                 ></v-text-field>
-                <v-btn
-                class="btn-block btn-primary"                  
-                @click="switchPassword"
+                <v-btn class="btn-block btn-primary" @click="switchPassword"
                   >Alterar Senha
                 </v-btn>
               </v-form>
@@ -139,7 +137,7 @@ export default {
         this.animateForm(true);
 
         users
-          .updatePass(this.form)
+          .updatePass(this.form, this.$store.state.user.data.id)
           .then(res => {
             this.loading = false;
             this.isChanged = true;
