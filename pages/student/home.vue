@@ -147,11 +147,11 @@ export default {
       $nuxt._router.push(`/aluno/${path}`);
     },
     async getNotifications() {
-      this.notifications = utils.filterNotifications(
+      this.notifications = 
         (await http.getAll(
           `${process.env.endpoints.NOTIFICATIONS}/user/${this.user.id}`,
         )
-      ).data);
+      ).data;
     },
     async getUserScore() {
       this.userPoints = (

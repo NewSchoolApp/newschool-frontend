@@ -44,25 +44,4 @@ export default {
   verifyVideo(url) {
     return http.get(url)
   },
-
-  filterNotifications(raw) {
-    const importantNotifications = raw
-      .filter(item => item.important)
-      .reduce((acc, cur) => {
-        acc.push(cur);
-        acc = acc.map(item => cur);
-        return acc;
-      }, []);
-    const normalNotifications = raw.filter(
-      item => !item.important,
-    );
-    const filteredImportantNotifications = [
-      ...new Set(importantNotifications),
-    ];
-  
-    return [
-      ...filteredImportantNotifications,
-      ...normalNotifications,
-    ];
-  }
 };
