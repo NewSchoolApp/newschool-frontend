@@ -120,6 +120,7 @@
 import NavigationBar from '~/components/NavigationBar.vue';
 import HeaderBar from '~/components/Header.vue';
 import http from '~/services/http/generic';
+import utils from "~/utils/index";
 
 export default {
   components: {
@@ -133,6 +134,7 @@ export default {
     notifications: [],
     dialog: false,
     filterImportants: false,
+    rawNotifications: []
   }),
   computed: {
     user() {
@@ -177,7 +179,7 @@ export default {
     },
     async clearNotifications() {
       this.loading = true;
-      for (const notification of this.notifications) {
+      for (const notification of this.rawNotifications) {
         await this.removeNotification(notification);
       }
       this.loading = false;
@@ -206,24 +208,8 @@ export default {
       http
         .getAll(`${process.env.endpoints.NOTIFICATIONS}/user/${this.user.id}`)
         .then(response => {
-          const importantNotifications = response.data
-            .filter(item => item.important)
-            .reduce((acc, cur) => {
-              acc.push(cur);
-              acc = acc.map(item => cur);
-              return acc;
-            }, []);
-          const normalNotifications = response.data.filter(
-            item => !item.important,
-          );
-          const filteredImportantNotifications = [
-            ...new Set(importantNotifications),
-          ];
-
-          this.notifications = [
-            ...filteredImportantNotifications,
-            ...normalNotifications,
-          ];
+          this.rawNotifications = response.data;
+          this.notifications = utils.filterNotifications(response.data);
         });
     },
     goToNotification(link) {
