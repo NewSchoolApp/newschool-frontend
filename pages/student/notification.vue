@@ -324,7 +324,7 @@ h1 {
 }
 .clear__button {
   position: absolute;
-  width: 50px;
+  width: 25px;
   font-size: 10px;
   height: 20px;
   border-radius: 5px;

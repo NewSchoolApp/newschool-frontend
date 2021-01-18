@@ -72,50 +72,37 @@
       </div>
     </div>
     <div v-else class="inner-container">
-      <v-form ref="form" lazy-validation>
-        <h3>{{ test.titulo || 'Título do Teste' }}</h3>
-        <h4 class="mt-5">
-          {{ test.pergunta || 'Enunciado do teste' }}
-        </h4>
-        <div class="alternatives-container">
-          <v-checkbox
-            v-model="selected"
-            class="first-alternative"
-            hide-details
-            color="#60c"
-            :rules="alternativeRule"
-            :label="test.primeira_alternativa"
-            value="A"
-          />
-          <v-checkbox
-            v-model="selected"
-            class="second-alternative"
-            hide-details
-            color="#60c"
-            :rules="alternativeRule"
-            :label="test.segunda_alternativa"
-            value="B"
-          />
-          <v-checkbox
-            v-model="selected"
-            class="third-alternative"
-            hide-details
-            color="#60c"
-            :rules="alternativeRule"
-            :label="test.terceira_alternativa"
-            value="C"
-          />
-          <v-checkbox
-            v-model="selected"
-            class="fourth-alternative"
-            hide-details
-            color="#60c"
-            :rules="alternativeRule"
-            :label="test.quarta_alternativa"
-            value="D"
-          />
-        </div>
-      </v-form>
+      <h3>{{ test.titulo || 'Título do Teste' }}</h3>
+      <h4 class="mt-5">
+        {{ test.pergunta || 'Enunciado do teste' }}
+      </h4>
+
+      <v-radio-group v-model="selected" class="mt-12">
+        <v-radio value="A">
+          <template #label>
+            <div><span>A:</span> {{ test.primeira_alternativa }}</div>
+          </template>
+        </v-radio>
+
+        <v-radio value="B">
+          <template #label>
+            <div><span>B:</span> {{ test.segunda_alternativa }}</div>
+          </template>
+        </v-radio>
+
+        <v-radio value="C">
+          <template #label>
+            <div><span>C:</span> {{ test.terceira_alternativa }}</div>
+          </template>
+        </v-radio>
+
+        <v-radio value="D">
+          <template #label>
+            <div><span>D:</span> {{ test.quarta_alternativa }}</div>
+          </template>
+        </v-radio>
+      </v-radio-group>
+
       <div class="base">
         <v-btn
           :class="'btn-block btn-primary btn-fixed ' + error"
@@ -147,8 +134,7 @@ export default {
     HeaderBar,
   },
   data: () => ({
-    computedSelection: [],
-    cmpSelect: [],
+    selected: '',
     correct: false,
     loading: true,
     try: 1,
@@ -163,9 +149,6 @@ export default {
     test() {
       return this.$store.state.courses.currentTest;
     },
-    alternativeRule() {
-      return [!!this.computedSelection.length || 'Selecione uma alternativa'];
-    },
     idUser() {
       return this.$store.state.user.data.id;
     },
@@ -177,25 +160,6 @@ export default {
     },
     slug() {
       return this.$route.params.courseSlug;
-    },
-    // Vamos alterar o getter e setter do selected para poder alterar os valores do checkbox como se fosse um radio group
-    selected: {
-      get() {
-        return this.$data.computedSelection;
-      },
-      set(value) {
-        this.$data.cmpSelect = value;
-      },
-    },
-  },
-  watch: {
-    setCorrect(condition) {
-      this.correct = condition;
-    },
-    // Assim que houver mudança ele adquire o novo valor (que vem como array [antigoValor, novoValor]) e retiramos o antigo com shift()
-    cmpSelect(newQuestion) {
-      this.computedSelection = newQuestion;
-      if (this.computedSelection.length > 1) this.computedSelection.shift();
     },
   },
   mounted() {
@@ -209,30 +173,37 @@ export default {
       this.advanceCourse();
     },
     nextTest() {
-      if (this.$refs.form.validate()) {
+      if (this.selected !== '') {
         // Primeiro passo é verificar se a resposta está correta
         tests
           .post(`${process.env.endpoints.TEST}${this.test.id}/check-test`, {
-            chosenAlternative: this.computedSelection[0],
+            chosenAlternative: this.selected,
           })
           .then(res => {
-            if (res.data.isCorrect) {
-              // Como a resposta está certa a gente limpa a validação e escolha para o próximo teste
-              this.$refs.form.reset();
+            if (res.data.isCorrect === true) {
               this.getPointsAndNotificate();
-              // Se a resposta está certa a gente avança no curso
-            } else {
+            } else if (res.data.isCorrect === false) {
               if (this.try < 4) {
                 this.try++;
               }
-              this.computedSelection = [];
+              this.selected = '';
 
               this.error = 'error-form';
               setTimeout(() => {
                 this.error = '';
               }, 300);
+            } else {
+              this.$notifier.showMessage({
+                type: 'error',
+                message: 'Má conexão',
+              });
             }
           });
+      } else {
+        this.error = 'error-form';
+        setTimeout(() => {
+          this.error = '';
+        }, 300);
       }
     },
     getPointsAndNotificate() {
@@ -290,9 +261,6 @@ export default {
         this.onError,
       );
     },
-    setCorrect(condition) {
-      this.correct = condition;
-    },
     async advanceCourse() {
       this.loading = true;
       // advancing course step
@@ -307,6 +275,7 @@ export default {
 
       if (currentStep.type === 'TEST') {
         // case current step still a test, continue tests on this page
+        this.selected = '';
         this.loading = false;
       } else {
         // else, go to step url
@@ -381,6 +350,7 @@ h4 {
   background-image: url('../../../assets/background-fire.png');
   background-repeat: no-repeat;
   background-size: cover;
+  width: 100%;
 }
 .base {
   position: absolute;
@@ -434,22 +404,14 @@ h4 {
   font-weight: 600;
   font-size: 14px !important;
   font-family: 'Roboto';
+
+  span {
+    color: var(--primary);
+    font-weight: 400;
+  }
 }
-::v-deep .first-alternative > div > div > label:before {
-  content: 'A:';
-  @include inner-text-checkbox;
-}
-::v-deep .second-alternative > div > div > label:before {
-  content: 'B:';
-  @include inner-text-checkbox;
-}
-::v-deep .third-alternative > div > div > label:before {
-  content: 'C:';
-  @include inner-text-checkbox;
-}
-::v-deep .fourth-alternative > div > div > label:before {
-  content: 'D:';
-  @include inner-text-checkbox;
+::v-deep .v-radio {
+  margin-bottom: 17px !important;
 }
 ::v-deep .mdi-checkbox-blank-outline::before {
   content: url('https://api.iconify.design/bi:circle.svg?height=16');
@@ -461,8 +423,9 @@ h4 {
 }
 #close__btn {
   position: absolute;
-  top: 20px;
-  right: 20px;
+  top: 0;
+  right: 0;
+  padding: 20px;
 }
 ::v-deep .error--text {
   animation: none !important;

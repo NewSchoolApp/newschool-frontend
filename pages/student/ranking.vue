@@ -53,7 +53,7 @@
                 placeholder="Digite o nome da sua escola!"
                 :loading="isLoadingSchool"
                 :items="schools"
-                no-data-text="Nenhuma escola"
+                no-data-text="Digite o nome de uma escola"
                 label="Escola"
                 @keyup="searchTimeOut($event.target.value)"
               ></v-autocomplete>

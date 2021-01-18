@@ -27,14 +27,25 @@
           @click="goTo('notificacao')"
         />
         <div class="notification__number__container">
-          <div v-if="notifications.length" class="notification__number">
+          <div
+            v-if="notifications.length"
+            :class="
+              notifications.length < 100
+                ? 'notification__number'
+                : 'notification_high_number'
+            "
+          >
             <p
+              v-if="notifications.length < 100"
               :class="
                 notifications.length < 10
                   ? 'notification__low_text'
                   : 'notification__text'
               "
             >
+              {{ notifications.length }}
+            </p>
+            <p v-else class="notifications__high">
               {{ notifications.length }}
             </p>
           </div>
@@ -120,11 +131,15 @@ export default {
     },
     filteredList() {
       if (this.filtro) {
-        const exp = new RegExp(this.filtro
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "")
-        .toLowerCase().replace(" ", "-")
-        .trim(), 'i');
+        const exp = new RegExp(
+          this.filtro
+            .normalize('NFD')
+            .replace(/[\u0300-\u036F]/g, '')
+            .toLowerCase()
+            .replace(' ', '-')
+            .trim(),
+          'i',
+        );
         return this.courseList.filter(course => exp.test(course.slug));
       } else {
         return this.courseList;
@@ -212,6 +227,22 @@ export default {
   top: 13px;
 }
 
+.notification_high_number {
+  height: 12px;
+  width: 14px;
+  border-radius: 50px;
+  background: linear-gradient(
+    157.23deg,
+    #d63305 8.86%,
+    #cf3004 38.81%,
+    #bc2602 82.43%,
+    #b72401 90.69%
+  );
+  position: absolute;
+  right: 5px;
+  top: 13px;
+}
+
 .notification__text {
   color: white;
   font-size: 8px;
@@ -226,6 +257,13 @@ export default {
   position: absolute;
   top: 0.4px;
   right: 3px;
+}
+.notifications__high {
+  color: white;
+  font-size: 8px;
+  position: absolute;
+  top: 0.4px;
+  right: 0;
 }
 
 #bell {

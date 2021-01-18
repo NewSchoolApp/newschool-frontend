@@ -1,30 +1,29 @@
-import { http } from './config'
-import auth from './auth'
+import { http } from './config';
+import auth from './auth';
+import utils from '~/utils/index';
 
 /**
  * @author Leonardo Balsalobre
- * 
+ *
  * Serviço de alterar dados do usuário
  */
 
 export default {
-
-  update: (form) => {
+  update: form => {
     const { accessToken } = auth.getInfoAuth();
 
-    return http.put(`api/v1/user/me`, form, { headers: { 'Authorization': `${accessToken}` } });
+    return http.put(`api/v1/user/me`, form, {
+      headers: { Authorization: `${accessToken}` },
+    });
   },
 
-  updatePass: (form) => {
+  updatePass: async (form, userId) => {
     const { accessToken } = auth.getInfoAuth();
 
-    return http.put(
-      'api/v1/user/me/change-password',
-      form,
-      { headers: { 'Authorization': `${accessToken}` } }
-    )
-  }
-
-}
-
-
+    return http.put(`api/v1/user/${userId}/change-password`, form, {
+      headers: {
+        Authorization: `${accessToken}`,
+      },
+    });
+  },
+};
