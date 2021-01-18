@@ -245,14 +245,14 @@ export default {
   },
   methods: {
     gotoCertificate() {
-      $nuxt._router.push(
+      $nuxt._router.replace(
         `/aluno/certificado-info/${this.idUser}/${this.courseId}`,
       );
     },
     async gotoCourse() {
       await this.$store.dispatch('courses/refreshMyCourses');
 
-      $nuxt._router.push(`/aluno/curso/${this.courseSlug}`);
+      $nuxt._router.replace(`/aluno/curso/${this.courseSlug}`);
     },
     onSuccess(result) {
       http
@@ -284,7 +284,7 @@ export default {
       event.preventDefault();
       const options = {
         message: 'Se liga no certificado que eu ganhei, SELOKO!', // not supported on some apps (Facebook, Instagram)
-        subject: this.tryMessage, // fi. for email
+        subject: 'Certificado NewSchool', // fi. for email
         url: `http://newschool.us-east-2.elasticbeanstalk.com/#/pagina-certificado/${this.idUser}/${this.courseId}/0`,
         chooserTitle: 'Vem colar com nois!', // Android only, you can override the default share sheet title
       };
