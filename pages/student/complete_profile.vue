@@ -677,6 +677,7 @@ export default {
             this.loading = false;
             this.$notifier.showMessage({
               type: 'success',
+              message: 'As mudanças foram salvas com sucesso',
             });
             const signupFields = [
               'name',
@@ -701,14 +702,18 @@ export default {
             }
           })
           .catch(() => {
+            // eslint-disable-next-line no-unused-expressions
             this.$notifier.showMessage({
               type: 'error',
+              message:
+                'Alguma coisa nao saiu bem. Dá mais um confere nas infos.',
             }),
               (this.loading = false);
           });
       } else {
         this.$notifier.showMessage({
           type: 'error',
+          message: 'Alguma coisa nao saiu bem. Dá mais um confere nas infos.',
         });
       }
     },

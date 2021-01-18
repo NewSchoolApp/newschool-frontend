@@ -75,7 +75,7 @@ export default {
             this.snackbarBoldText = 'Show! ';
             this.snackbarText = state.snackbar.message
               ? `${state.snackbar.message} 👍`
-              : ' As mudanças foram salvas com sucesso';
+              : ' 👍';
             this.snackBorderColor = '#15CE9A';
             break;
           case 'error':
@@ -84,7 +84,7 @@ export default {
             this.snackbarBoldText = 'Ops! ';
             this.snackbarText = state.snackbar.message
               ? `${state.snackbar.message} 👎`
-              : ' Alguma coisa nao saiu bem. Dá mais um confere nas infos.';
+              : ' 👎';
             this.snackBorderColor = '#E93F66';
             break;
           case 'warning':
@@ -93,7 +93,7 @@ export default {
             this.snackbarBoldText = 'Calma ae. ';
             this.snackbarText = state.snackbar.message
               ? `${state.snackbar.message} ⚠️`
-              : ' Quer mesmo sair sem confirmar?';
+              : ' ⚠️';
             this.snackBorderColor = '#FFC866';
             break;
           default:
