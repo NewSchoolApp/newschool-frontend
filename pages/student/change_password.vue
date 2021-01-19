@@ -28,7 +28,7 @@
                 lazy-validation
               >
                 <v-text-field
-                  v-model="form.password"
+                  v-model="form.oldPassword"
                   label="Senha antiga *"
                   name="password"
                   :rules="passwordRules"
@@ -104,7 +104,7 @@ export default {
       isChanged: false,
       token: '',
       form: {
-        password: '',
+        oldPassword: '',
         newPassword: '',
         confirmNewPassword: '',
       },
@@ -149,7 +149,16 @@ export default {
             setTimeout(() => {
               this.loading = false;
             }, 500);
-            console.error(err);
+            if (err.response.status === 400) {
+              this.$notifier.showMessage({
+                type: 'error',
+                message: 'Senha antiga incorreta.',
+              });
+            } else {
+              this.$notifier.showMessage({
+                type: 'error',
+              });
+            }
           });
       } else {
         this.animateForm(false);
