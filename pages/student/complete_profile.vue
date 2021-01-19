@@ -305,6 +305,7 @@
 </router>
 
 <script>
+/* eslint-disable no-unused-expressions */
 import { mask } from 'vue-the-mask';
 import http from '~/services/http/generic';
 import utils from '~/utils/index';
@@ -441,30 +442,24 @@ export default {
           'profession',
           'address',
         ];
-
         const emptySignupFields = signupFields.filter(
           field => !res.data[field],
         );
         if (!emptySignupFields.length) {
           this.completeProfile = true;
         }
-
-        // eslint-disable-next-line no-unused-expressions
         res.data.birthday
           ? (this.form.birthday = this.resolveDate(res.data.birthday))
           : {};
-        // eslint-disable-next-line no-unused-expressions
         res.data.gender
           ? (this.form.gender = this.resolveGender(res.data.gender))
           : {};
-        // eslint-disable-next-line no-unused-expressions
         res.data.profile
           ? (this.form.profile = this.resolveProfile({
               profile: res.data.profile,
               api: true,
             }))
           : {};
-        // eslint-disable-next-line no-unused-expressions
         res.data.schooling
           ? (this.form.schooling = this.resolveSchooling({
               schooling: res.data.schooling,
@@ -475,7 +470,7 @@ export default {
         this.form.email = res.data.email;
         this.form.name = res.data.name;
         this.form.profession = res.data.profession;
-        res.data.profession === null
+        res.data.profession === ''
           ? (this.form.employed = false)
           : (this.form.employed = true);
         this.form.id = res.data.id;
@@ -700,7 +695,6 @@ export default {
             }
           })
           .catch(() => {
-            // eslint-disable-next-line no-unused-expressions
             this.$notifier.showMessage({
               type: 'error',
               message:
