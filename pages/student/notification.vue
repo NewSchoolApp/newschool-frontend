@@ -41,7 +41,7 @@
     </div>
 
     <div v-show="!loading" id="page">
-      <div v-if="notifications.length" id="total-cards">
+      <div v-if="notificationsToShow.length" id="total-cards">
         <div
           v-infinite-scroll="getUserList"
           class="cards"
@@ -94,7 +94,9 @@
       </div>
       <div v-else class="nothing">
         <div class="nothing-message">
-          Eita, Man@... Você ainda não tem nenhuma notificação. :(
+          Eita, Man@... Você ainda não tem nenhuma notificação{{
+            filterImportants ? ' importante' : ''
+          }}. :(
         </div>
         <v-img :src="require('~/assets/nothing.svg')" />
       </div>
