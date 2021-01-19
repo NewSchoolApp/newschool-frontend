@@ -104,7 +104,6 @@
                 v-model="form.profile"
                 filled
                 hide-no-data
-                hide-selected
                 :items="profileItems"
               />
             </v-col>
@@ -208,7 +207,6 @@
                 filled
                 :items="schools"
                 hide-no-data
-                hide-selected
                 :loading="isLoading"
                 @keyup="searchTimeOut($event.target.value)"
               ></v-autocomplete>

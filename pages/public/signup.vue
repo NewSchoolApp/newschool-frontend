@@ -49,7 +49,6 @@
                 label="Quem é você fora do app?"
                 required
                 hide-no-data
-                hide-selected
               ></v-select>
               <!-- <v-text-field
                 v-if="this.form.profile === 'Aluno'"
@@ -63,7 +62,6 @@
                 v-model="form.institutionName"
                 :items="schools"
                 hide-no-data
-                hide-selected
                 :loading="isLoading"
                 placeholder="Digite o nome da sua escola"
                 label="Onde estuda?"
@@ -153,6 +151,20 @@ export default {
       emailRules: [
         v => !!v || 'Digite o e-mail',
         v => /.+@.+\..+/.test(v) || 'E-mail inválido',
+      ],
+    };
+  },
+
+  head() {
+    return {
+      title: this.title,
+      meta: [
+        {
+          hid: 'description',
+          name: 'description',
+          content:
+            'Cadastra-se no aplicativo da New School - Levamos educação de qualidade na linguagem da quebrada para as periferias do Brasil, através da tecnologia e da curadoria de conteúdos baseados nas habilidades do futuro.',
+        },
       ],
     };
   },
@@ -310,20 +322,6 @@ export default {
     loadClientCredentials() {
       return utils.getExternalCredentials();
     },
-  },
-
-  head() {
-    return {
-      title: this.title,
-      meta: [
-        {
-          hid: 'description',
-          name: 'description',
-          content:
-            'Cadastra-se no aplicativo da New School - Levamos educação de qualidade na linguagem da quebrada para as periferias do Brasil, através da tecnologia e da curadoria de conteúdos baseados nas habilidades do futuro.',
-        },
-      ],
-    };
   },
 };
 </script>
