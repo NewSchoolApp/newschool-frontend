@@ -1,6 +1,6 @@
 <template>
   <div class="background">
-    <HeaderBar :title="'CERTIFICADO'" :back-page="true" />
+    <HeaderBar :title="'CERTIFICADO'" :back-page="false" />
     <v-container>
       <div v-if="loading">
         <div class="container-spinner">
