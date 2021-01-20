@@ -159,7 +159,6 @@ export default {
   methods: {
     checkDate(notification) {
       const hourAndMinute = notification.createdAt.slice(11, 16).split(':');
-      console.log(hourAndMinute);
       const notificationDateHourAndMinute = `${this.convertDay(
         Number(hourAndMinute[0]),
       )}:${hourAndMinute[1]}`;
