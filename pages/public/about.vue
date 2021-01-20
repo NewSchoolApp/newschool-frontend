@@ -38,7 +38,7 @@
               <iframe
                 width="350"
                 height="300"
-                :src="urlVideo"
+                :src="urlVideo2"
                 frameborder="0"
                 allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"
                 allowfullscreen
@@ -48,7 +48,7 @@
               <iframe
                 width="350"
                 height="300"
-                :src="urlVideo2"
+                :src="urlVideo"
                 frameborder="0"
                 allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"
                 allowfullscreen
