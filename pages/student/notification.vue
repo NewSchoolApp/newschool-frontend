@@ -134,7 +134,7 @@ export default {
     loading: true,
     notifications: [],
     dialog: false,
-    filterImportants: false,
+    filterImportants: false
   }),
   computed: {
     user() {
@@ -208,24 +208,7 @@ export default {
       http
         .getAll(`${process.env.endpoints.NOTIFICATIONS}/user/${this.user.id}`)
         .then(response => {
-          const importantNotifications = response.data
-            .filter(item => item.important)
-            .reduce((acc, cur) => {
-              acc.push(cur);
-              acc = acc.map(item => cur);
-              return acc;
-            }, []);
-          const normalNotifications = response.data.filter(
-            item => !item.important,
-          );
-          const filteredImportantNotifications = [
-            ...new Set(importantNotifications),
-          ];
-
-          this.notifications = [
-            ...filteredImportantNotifications,
-            ...normalNotifications,
-          ];
+          this.notifications = response.data;
         });
     },
     convertDay(day) {
