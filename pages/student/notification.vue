@@ -159,9 +159,10 @@ export default {
   methods: {
     checkDate(notification) {
       const hourAndMinute = notification.createdAt.slice(11, 16).split(':');
-      const notificationDateHourAndMinute = `${Number(hourAndMinute[0]) - 3}:${
-        hourAndMinute[1]
-      }`;
+      console.log(hourAndMinute);
+      const notificationDateHourAndMinute = `${this.convertDay(
+        Number(hourAndMinute[0]),
+      )}:${hourAndMinute[1]}`;
       const notificationMonthAndDay = notification.createdAt.slice(5, 10);
       const today = new Date().getDate();
       const month = new Date().getMonth() + 1;
@@ -227,6 +228,17 @@ export default {
             ...normalNotifications,
           ];
         });
+    },
+    convertDay(day) {
+      if (day >= 0 && day < 3) {
+        const days = {
+          0: 21,
+          1: 22,
+          2: 23,
+        };
+        return days[day];
+      }
+      return day - 3;
     },
     goToNotification(link) {
       this.loading = true;

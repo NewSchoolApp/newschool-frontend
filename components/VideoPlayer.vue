@@ -31,11 +31,15 @@ export default {
     },
   },
   beforeDestroy() {
-    window.plugins.insomnia.allowSleepAgain()
+    if (window.plugins) {
+      window.plugins.insomnia.allowSleepAgain();
+    }
   },
   methods: {
     playVideo() {
-      window.plugins.insomnia.keepAwake();
+      if (window.plugins) {
+        window.plugins.insomnia.keepAwake();
+      }
       this.playing = true;
       setTimeout(() => {
         this.$refs.youtube.player.playVideo();
