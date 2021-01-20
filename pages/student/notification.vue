@@ -134,7 +134,7 @@ export default {
     loading: true,
     notifications: [],
     dialog: false,
-    filterImportants: false
+    filterImportants: false,
   }),
   computed: {
     user() {
@@ -159,7 +159,7 @@ export default {
   methods: {
     checkDate(notification) {
       const [hours, minutes] = notification.createdAt.slice(11, 16).split(':');
-      const notificationDateHourAndMinute = `${this.convertDay(
+      const notificationDateHourAndMinute = `${this.convertHour(
         Number(hours),
       )}:${minutes}`;
       const notificationMonthAndDay = notification.createdAt.slice(5, 10);
@@ -211,16 +211,12 @@ export default {
           this.notifications = response.data;
         });
     },
-    convertDay(day) {
-      if (day >= 0 && day < 3) {
-        const days = {
-          0: 21,
-          1: 22,
-          2: 23,
-        };
-        return days[day];
+    convertHour(hour) {
+      if (hour >= 0 && hour < 3) {
+        const HOUR_INCREMENT = 21;
+        return hour + HOUR_INCREMENT;
       }
-      return day - 3;
+      return hour - 3;
     },
     goToNotification(link) {
       this.loading = true;
