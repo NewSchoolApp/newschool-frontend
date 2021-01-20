@@ -87,9 +87,46 @@
                 required
                 @click:append="() => (showConfirmPass = !showConfirmPass)"
               ></v-text-field>
+              
+                
+              <div class="terms">
+                <v-checkbox v-model="agree" />
+                <div>
+                  Declaro que li e concordo com os <span class="link" @click="dialog = true">Termos e Condições de Uso</span> do New School App
+                </div>
+              </div>
+              
+              <v-dialog
+                width="500"
+                v-model="dialog"
+              >             
+                <v-card>
+                  <v-card-title class="headline grey lighten-2">
+                    Termos
+                  </v-card-title>
+          
+                  <v-card-text>
+                    Os termos ainda estão sendo formulados.
+                  </v-card-text>
+          
+                  <v-divider></v-divider>
+          
+                  <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn
+                      color="primary"
+                      text
+                      @click="dialog = false; agree = true"
+                    >
+                      Aceitar
+                    </v-btn>
+                  </v-card-actions>
+                </v-card>
+              </v-dialog> 
               <v-btn class="btn-block btn-primary" @click="submit">
                 Cadastrar
               </v-btn>
+
             </v-form>
           </v-col>
           <v-col cols="12" class="text-center">
@@ -115,6 +152,8 @@ import { http } from '~/services/http/config';
 export default {
   data() {
     return {
+      agree: false,
+      dialog: false,
       title: 'Cadastro',
       status: true,
       loading: false,
@@ -184,7 +223,7 @@ export default {
 
   methods: {
     submit() {
-      if (this.$refs.form.validate()) {
+      if (this.$refs.form.validate() && this.agree) {
         const postObject = Object.assign({}, this.form);
         const profileEnum = {
           'Aluno de escola': 'STUDENT',
@@ -399,5 +438,18 @@ export default {
 
 .error-form {
   animation: nono 300ms, intro paused;
+}
+
+.terms {
+  font-family: 'Roboto';
+  font-size: 15px;
+  display: -webkit-box;
+  -webkit-box-align: center;
+  margin-right: 40px;
+}
+
+.link {
+  font-weight: 700;
+  color: var(--primary)
 }
 </style>
