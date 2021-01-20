@@ -158,20 +158,20 @@ export default {
   },
   methods: {
     checkDate(notification) {
-      const hourAndMinute = notification.createdAt.slice(11, 16).split(':');
+      const [hours, minutes] = notification.createdAt.slice(11, 16).split(':');
       const notificationDateHourAndMinute = `${this.convertDay(
-        Number(hourAndMinute[0]),
-      )}:${hourAndMinute[1]}`;
+        Number(hours),
+      )}:${minutes}`;
       const notificationMonthAndDay = notification.createdAt.slice(5, 10);
       const today = new Date().getDate();
       const month = new Date().getMonth() + 1;
-      const dateSplited = notificationMonthAndDay.split('-');
+      const [dateMonth, dateDay] = notificationMonthAndDay.split('-');
 
-      if (dateSplited[1] < today || dateSplited[0] < month) {
-        if (today - dateSplited[1] === 1) {
+      if (dateDay < today || dateMonth < month) {
+        if (today - dateDay === 1) {
           return `Ontem - ${notificationDateHourAndMinute}`;
         } else {
-          return `${dateSplited[1]}/${dateSplited[0]} - ${notificationDateHourAndMinute}`;
+          return `${dateDay}/${dateMonth} - ${notificationDateHourAndMinute}`;
         }
       } else {
         return notificationDateHourAndMinute;
