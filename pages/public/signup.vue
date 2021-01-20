@@ -190,7 +190,7 @@ export default {
       emailRules: [
         v => !!v || 'Digite o e-mail',
         v => /.+@.+\..+/.test(v) || 'E-mail inválido',
-      ],      
+      ],
     };
   },
 
