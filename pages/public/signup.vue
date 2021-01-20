@@ -124,7 +124,7 @@
                 </v-card>
               </v-dialog> 
               <v-btn class="btn-block btn-primary" @click="submit">
-                Cadastrar              
+                Cadastrar
               </v-btn>
 
             </v-form>
@@ -190,10 +190,7 @@ export default {
       emailRules: [
         v => !!v || 'Digite o e-mail',
         v => /.+@.+\..+/.test(v) || 'E-mail inválido',
-      ],
-      termRule: [
-        v => !!v
-      ]
+      ],      
     };
   },
 
