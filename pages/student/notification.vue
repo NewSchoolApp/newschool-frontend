@@ -158,20 +158,20 @@ export default {
   },
   methods: {
     checkDate(notification) {
-      const hourAndMinute = notification.createdAt.slice(11, 16).split(':');
-      const notificationDateHourAndMinute = `${Number(hourAndMinute[0]) - 3}:${
-        hourAndMinute[1]
-      }`;
+      const [hours, minutes] = notification.createdAt.slice(11, 16).split(':');
+      const notificationDateHourAndMinute = `${this.convertHour(
+        Number(hours),
+      )}:${minutes}`;
       const notificationMonthAndDay = notification.createdAt.slice(5, 10);
       const today = new Date().getDate();
       const month = new Date().getMonth() + 1;
-      const dateSplited = notificationMonthAndDay.split('-');
+      const [dateMonth, dateDay] = notificationMonthAndDay.split('-');
 
-      if (dateSplited[1] < today || dateSplited[0] < month) {
-        if (today - dateSplited[1] === 1) {
+      if (dateDay < today || dateMonth < month) {
+        if (today - dateDay === 1) {
           return `Ontem - ${notificationDateHourAndMinute}`;
         } else {
-          return `${dateSplited[1]}/${dateSplited[0]} - ${notificationDateHourAndMinute}`;
+          return `${dateDay}/${dateMonth} - ${notificationDateHourAndMinute}`;
         }
       } else {
         return notificationDateHourAndMinute;
@@ -208,25 +208,15 @@ export default {
       http
         .getAll(`${process.env.endpoints.NOTIFICATIONS}/user/${this.user.id}`)
         .then(response => {
-          const importantNotifications = response.data
-            .filter(item => item.important)
-            .reduce((acc, cur) => {
-              acc.push(cur);
-              acc = acc.map(item => cur);
-              return acc;
-            }, []);
-          const normalNotifications = response.data.filter(
-            item => !item.important,
-          );
-          const filteredImportantNotifications = [
-            ...new Set(importantNotifications),
-          ];
-
-          this.notifications = [
-            ...filteredImportantNotifications,
-            ...normalNotifications,
-          ];
+          this.notifications = response.data;
         });
+    },
+    convertHour(hour) {
+      if (hour >= 0 && hour < 3) {
+        const HOUR_INCREMENT = 21;
+        return hour + HOUR_INCREMENT;
+      }
+      return hour - 3;
     },
     goToNotification(link) {
       this.loading = true;

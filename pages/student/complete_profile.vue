@@ -605,6 +605,10 @@ export default {
             for (const response of res.data) {
               this.schools.push(response.school.toUpperCase());
             }
+            if (!res.data.length) {
+              this.isLoading = false;
+              this.schools.push(school.toUpperCase());
+            }
             this.schools.sort((a, b) => {
               return a.localeCompare(b);
             });

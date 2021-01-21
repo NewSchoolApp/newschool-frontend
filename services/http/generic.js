@@ -13,21 +13,21 @@ http.interceptors.request.use(config => {
 });
 
 // Interceptor para gaurd e redirecionamento
-// TODO criar um arquivo específico para inetrceptors
-http.interceptors.response.use(
-  response => {
-    return response;
-  },
-  error => {
-    if (error.response.statusCode === 401) {
-      localStorage.clear();
-      $nuxt._router.push('/login');
-    } else {
-      return Promise.reject(error);
-    }
-    return config;
-  },
-);
+// TODO criar um arquivo específico para interceptors
+// http.interceptors.response.use(
+//   response => {
+//     return response;
+//   },
+//   error => {
+//     if (error.response.statusCode === 401) {
+//       localStorage.clear();
+//       $nuxt._router.push('/login');
+//     } else {
+//       return Promise.reject(error);
+//     }
+//     return config;
+//   },
+// );
 
 addInterceptorError(http);
 /**
