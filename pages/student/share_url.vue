@@ -1,5 +1,5 @@
 <template>
-  <div class="notification__content">
+  <div>
     <div id="close">
       <v-icon id="close-btn" color="primary" @click="goBack"
         >mdi-close-circle</v-icon
@@ -7,13 +7,12 @@
     </div>
     <div class="bg__fire" />
 
-    <div class="notification">
-      <img
-        class="notification__image"
-        :src="require('~/assets/happy.svg')"
-        alt=""
-      />
-    </div>
+    <img
+      class="notification__image"
+      :src="require('~/assets/happy.png')"
+      alt=""
+    />
+
     <div class="messages">
       <h1 class="message">
         Ganhe pontos!
@@ -100,27 +99,19 @@ export default {
 #close-btn {
   position: absolute;
   right: 20px;
-  top: 50px;
+  top: 20px;
   cursor: pointer;
   font-size: 30px;
 }
-
 .mdi-close-circle::before {
   color: var(--primary);
   width: 20px;
   height: 20px;
   z-index: 9999999;
 }
-.notification {
-  width: 193px;
-  height: 193px;
-  margin: 40% auto 10%;
-}
-
 .messages {
   padding: 0 2em;
 }
-
 .message {
   font-size: 20px;
   color: rgb(26, 26, 26);
@@ -139,7 +130,6 @@ export default {
 .btn__container {
   text-align: center;
 }
-
 .btn-block {
   width: 90%;
   margin: 15% auto;
@@ -147,7 +137,6 @@ export default {
   font-size: 16px;
   font-weight: 700;
 }
-
 h3 {
   font-weight: 900;
   font-size: 1em;
@@ -155,7 +144,6 @@ h3 {
   text-align: center;
   color: var(--primary);
 }
-
 h4 {
   font-weight: 500;
   padding-top: 1em;
@@ -164,32 +152,8 @@ h4 {
   font-size: 14px;
 }
 .notification__image {
-  position: absolute;
-  left: -12px;
-  top: 10%;
-  z-index: 999;
+  margin-top: 80px;
   width: 100%;
-  max-height: 280px;
+  height: auto;
 }
-@media (min-width: 480px) {
-  .notification__content {
-    top: 0;
-    height: 100vh;
-  }
-  .messages {
-    margin-top: -12%;
-  }
-  .notification__image {
-    top: 10%;
-  }
-  .btn-block {
-    width: 96%;
-    padding: 5px auto;
-  }
-
-  #page {
-    height: 100vh;
-    overflow: hidden;
-  }
-}</style
->>
+</style>
