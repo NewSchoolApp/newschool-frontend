@@ -137,7 +137,7 @@ export default {
     commentPost: '',
     loading: true,
     posting: false,
-    items: ['Mais salves', 'Mais recentes', 'Mais atigos', 'Meus comentarios'],
+    items: ['Mais salves', 'Mais recentes', 'Mais antigos', 'Meus comentarios'],
     sortBy: 'Mais salves',
   }),
   computed: {
@@ -183,7 +183,7 @@ export default {
           return this.comments.sort(function(a, b) {
             return Date.parse(a.createdAt) < Date.parse(b.createdAt) ? 1 : -1;
           });
-        case 'Mais atigos':
+        case 'Mais antigos':
           // eslint-disable-next-line vue/no-side-effects-in-computed-properties
           return this.comments.sort(function(a, b) {
             return Date.parse(a.createdAt) > Date.parse(b.createdAt) ? 1 : -1;
@@ -210,37 +210,72 @@ export default {
     },
   },
   mounted() {
-    document.addEventListener("fullscreenchange", function() {
-      if (document.fullscreenElement) window.screen.orientation.unlock();
-    }, false);
+    document.addEventListener(
+      'fullscreenchange',
+      function() {
+        if (document.fullscreenElement) window.screen.orientation.unlock();
+      },
+      false,
+    );
 
-    document.addEventListener("msfullscreenchange", function() {
-      if (document.msFullscreenElement) window.screen.orientation.unlock();
-    }, false);
+    document.addEventListener(
+      'msfullscreenchange',
+      function() {
+        if (document.msFullscreenElement) window.screen.orientation.unlock();
+      },
+      false,
+    );
 
-    document.addEventListener("mozfullscreenchange", function() {
-      if (document.mozFullScreen) window.screen.orientation.unlock();
-    }, false);
+    document.addEventListener(
+      'mozfullscreenchange',
+      function() {
+        if (document.mozFullScreen) window.screen.orientation.unlock();
+      },
+      false,
+    );
 
-    document.addEventListener("webkitfullscreenchange", function() {
-      if (document.webkitIsFullScreen) window.screen.orientation.unlock();
-    }, false);
+    document.addEventListener(
+      'webkitfullscreenchange',
+      function() {
+        if (document.webkitIsFullScreen) window.screen.orientation.unlock();
+      },
+      false,
+    );
 
-    document.addEventListener("fullscreenchange", function() {
-      if (!document.fullscreenElement) window.screen.orientation.lock('portrait');
-    }, false);
+    document.addEventListener(
+      'fullscreenchange',
+      function() {
+        if (!document.fullscreenElement)
+          window.screen.orientation.lock('portrait');
+      },
+      false,
+    );
 
-    document.addEventListener("msfullscreenchange", function() {
-      if (!document.msFullscreenElement) window.screen.orientation.lock('portrait');
-    }, false);
+    document.addEventListener(
+      'msfullscreenchange',
+      function() {
+        if (!document.msFullscreenElement)
+          window.screen.orientation.lock('portrait');
+      },
+      false,
+    );
 
-    document.addEventListener("mozfullscreenchange", function() {
-      if (!document.mozFullScreen) window.screen.orientation.lock('portrait');
-    }, false);
+    document.addEventListener(
+      'mozfullscreenchange',
+      function() {
+        if (!document.mozFullScreen) window.screen.orientation.lock('portrait');
+      },
+      false,
+    );
 
-    document.addEventListener("webkitfullscreenchange", function() {
-      if (!document.webkitIsFullScreen) window.screen.orientation.lock('portrait');
-    }, false);
+    document.addEventListener(
+      'webkitfullscreenchange',
+      function() {
+        if (!document.webkitIsFullScreen)
+          window.screen.orientation.lock('portrait');
+      },
+      false,
+    );
 
     this.getComments();
     this.loading = false;
