@@ -210,37 +210,72 @@ export default {
     },
   },
   mounted() {
-    document.addEventListener("fullscreenchange", function() {
-      if (document.fullscreenElement) window.screen.orientation.unlock();
-    }, false);
+    document.addEventListener(
+      'fullscreenchange',
+      function() {
+        if (document.fullscreenElement) window.screen.orientation.unlock();
+      },
+      false,
+    );
 
-    document.addEventListener("msfullscreenchange", function() {
-      if (document.msFullscreenElement) window.screen.orientation.unlock();
-    }, false);
+    document.addEventListener(
+      'msfullscreenchange',
+      function() {
+        if (document.msFullscreenElement) window.screen.orientation.unlock();
+      },
+      false,
+    );
 
-    document.addEventListener("mozfullscreenchange", function() {
-      if (document.mozFullScreen) window.screen.orientation.unlock();
-    }, false);
+    document.addEventListener(
+      'mozfullscreenchange',
+      function() {
+        if (document.mozFullScreen) window.screen.orientation.unlock();
+      },
+      false,
+    );
 
-    document.addEventListener("webkitfullscreenchange", function() {
-      if (document.webkitIsFullScreen) window.screen.orientation.unlock();
-    }, false);
+    document.addEventListener(
+      'webkitfullscreenchange',
+      function() {
+        if (document.webkitIsFullScreen) window.screen.orientation.unlock();
+      },
+      false,
+    );
 
-    document.addEventListener("fullscreenchange", function() {
-      if (!document.fullscreenElement) window.screen.orientation.lock('portrait');
-    }, false);
+    document.addEventListener(
+      'fullscreenchange',
+      function() {
+        if (!document.fullscreenElement)
+          window.screen.orientation.lock('portrait');
+      },
+      false,
+    );
 
-    document.addEventListener("msfullscreenchange", function() {
-      if (!document.msFullscreenElement) window.screen.orientation.lock('portrait');
-    }, false);
+    document.addEventListener(
+      'msfullscreenchange',
+      function() {
+        if (!document.msFullscreenElement)
+          window.screen.orientation.lock('portrait');
+      },
+      false,
+    );
 
-    document.addEventListener("mozfullscreenchange", function() {
-      if (!document.mozFullScreen) window.screen.orientation.lock('portrait');
-    }, false);
+    document.addEventListener(
+      'mozfullscreenchange',
+      function() {
+        if (!document.mozFullScreen) window.screen.orientation.lock('portrait');
+      },
+      false,
+    );
 
-    document.addEventListener("webkitfullscreenchange", function() {
-      if (!document.webkitIsFullScreen) window.screen.orientation.lock('portrait');
-    }, false);
+    document.addEventListener(
+      'webkitfullscreenchange',
+      function() {
+        if (!document.webkitIsFullScreen)
+          window.screen.orientation.lock('portrait');
+      },
+      false,
+    );
 
     this.getComments();
     this.loading = false;
@@ -298,7 +333,7 @@ export default {
         }
       } else {
         // else, go to step url
-        $nuxt._router.push(currentStep.stepUrl);
+        $nuxt._router.replace(currentStep.stepUrl);
       }
     },
   },
