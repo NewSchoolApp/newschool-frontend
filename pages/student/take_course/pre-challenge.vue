@@ -18,7 +18,7 @@
     </div>
     <div class="btn__container">
       <button class="btn-block btn-primary" @click="goToChallenge">
-        SO VAMO!
+        SÓ VAMO!
       </button>
     </div>
   </div>

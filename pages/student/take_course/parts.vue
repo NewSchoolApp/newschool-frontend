@@ -333,7 +333,7 @@ export default {
         }
       } else {
         // else, go to step url
-        $nuxt._router.push(currentStep.stepUrl);
+        $nuxt._router.replace(currentStep.stepUrl);
       }
     },
   },
