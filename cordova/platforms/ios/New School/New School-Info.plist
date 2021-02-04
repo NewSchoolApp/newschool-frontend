@@ -28,21 +28,10 @@
 	<string/>
 	<key>NSMainNibFile~ipad</key>
 	<string/>
+	<key>UILaunchStoryboardName</key>
+	<string>CDVLaunchScreen</string>
 	<key>UIRequiresFullScreen</key>
 	<true/>
-	<key>UISupportedInterfaceOrientations</key>
-	<array>
-		<string>UIInterfaceOrientationPortrait</string>
-		<string>UIInterfaceOrientationLandscapeLeft</string>
-		<string>UIInterfaceOrientationLandscapeRight</string>
-	</array>
-	<key>UISupportedInterfaceOrientations~ipad</key>
-	<array>
-		<string>UIInterfaceOrientationPortrait</string>
-		<string>UIInterfaceOrientationLandscapeLeft</string>
-		<string>UIInterfaceOrientationPortraitUpsideDown</string>
-		<string>UIInterfaceOrientationLandscapeRight</string>
-	</array>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSExceptionDomains</key>
@@ -69,27 +58,27 @@
 	</dict>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>This app requires photo library access to function properly.</string>
-	<key>FacebookAppID</key>
-	<string>384298599359690</string>
-	<key>FacebookDisplayName</key>
-	<string>NewSchool</string>
-	<key>FacebookHybridAppEvents</key>
-	<string>false</string>
 	<key>CFBundleURLTypes</key>
 	<array>
-		<dict>
-			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>fb384298599359690</string>
-			</array>
-		</dict>
 		<dict>
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>com.firebase.cordova</string>
 			</array>
 		</dict>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>fb384298599359690</string>
+			</array>
+		</dict>
 	</array>
+	<key>FacebookAppID</key>
+	<string>384298599359690</string>
+	<key>FacebookDisplayName</key>
+	<string>NewSchool</string>
+	<key>FacebookHybridAppEvents</key>
+	<string>false</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>fbapi</string>

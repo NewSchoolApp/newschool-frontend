@@ -18,14 +18,6 @@
       "APP_NAME": "NewSchool"
     }
   },
-  "cordova-plugin-inappbrowser": {
-    "source": {
-      "type": "registry",
-      "id": "cordova-plugin-inappbrowser@^3.2.0"
-    },
-    "is_top_level": true,
-    "variables": {}
-  },
   "cordova-plugin-x-socialsharing": {
     "source": {
       "type": "registry",
@@ -168,6 +160,14 @@
     "source": {
       "type": "registry",
       "id": "cordova-plugin-screen-orientation"
+    },
+    "is_top_level": true,
+    "variables": {}
+  },
+  "cordova-plugin-inappbrowser": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-plugin-inappbrowser@4.1.0"
     },
     "is_top_level": true,
     "variables": {}
