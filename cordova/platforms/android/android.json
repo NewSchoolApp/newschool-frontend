@@ -45,10 +45,6 @@
               "count": 1
             },
             {
-              "xml": "<feature name=\"InAppBrowser\"><param name=\"android-package\" value=\"org.apache.cordova.inappbrowser.InAppBrowser\" /></feature>",
-              "count": 1
-            },
-            {
               "xml": "<feature name=\"Printer\"><param name=\"android-package\" value=\"de.appplant.cordova.plugin.printer.Printer\" /></feature>",
               "count": 1
             },
@@ -74,6 +70,10 @@
             },
             {
               "xml": "<feature name=\"LaunchMyApp\"><param name=\"android-package\" value=\"nl.xservices.plugins.LaunchMyApp\" /></feature>",
+              "count": 1
+            },
+            {
+              "xml": "<feature name=\"InAppBrowser\"><param name=\"android-package\" value=\"org.apache.cordova.inappbrowser.InAppBrowser\" /></feature>",
               "count": 1
             }
           ]
@@ -224,9 +224,6 @@
       "FACEBOOK_ANDROID_SDK_VERSION": "5.5.2",
       "PACKAGE_NAME": "com.newschool.app"
     },
-    "cordova-plugin-inappbrowser": {
-      "PACKAGE_NAME": "com.newschool.app"
-    },
     "cordova-plugin-printer": {
       "PACKAGE_NAME": "com.newschool.app"
     },
@@ -257,6 +254,9 @@
       "ANDROID_HOST": " ",
       "ANDROID_PATHPREFIX": "/",
       "PACKAGE_NAME": "com.newschool.app"
+    },
+    "cordova-plugin-inappbrowser": {
+      "PACKAGE_NAME": "com.newschool.app"
     }
   },
   "dependent_plugins": {},
@@ -283,15 +283,6 @@
       "pluginId": "cordova-plugin-facebook4",
       "clobbers": [
         "facebookConnectPlugin"
-      ]
-    },
-    {
-      "id": "cordova-plugin-inappbrowser.inappbrowser",
-      "file": "plugins/cordova-plugin-inappbrowser/www/inappbrowser.js",
-      "pluginId": "cordova-plugin-inappbrowser",
-      "clobbers": [
-        "cordova.InAppBrowser.open",
-        "window.open"
       ]
     },
     {
@@ -348,13 +339,20 @@
       "clobbers": [
         "window.plugins.launchmyapp"
       ]
+    },
+    {
+      "id": "cordova-plugin-inappbrowser.inappbrowser",
+      "file": "plugins/cordova-plugin-inappbrowser/www/inappbrowser.js",
+      "pluginId": "cordova-plugin-inappbrowser",
+      "clobbers": [
+        "cordova.InAppBrowser.open"
+      ]
     }
   ],
   "plugin_metadata": {
     "com.darktalker.cordova.screenshot": "0.1.6",
     "com.santinowu.cordova.imagedownloader": "1.0.3",
     "cordova-plugin-facebook4": "6.2.0",
-    "cordova-plugin-inappbrowser": "3.2.0",
     "cordova-plugin-printer": "0.7.3",
     "cordova-plugin-whitelist": "1.3.4",
     "es6-promise-plugin": "4.2.2",
@@ -363,6 +361,7 @@
     "cordova-plugin-buildinfo": "4.0.0",
     "cordova-universal-links-plugin": "1.2.1",
     "cordova-plugin-browsertab": "0.2.0",
-    "cordova-plugin-customurlscheme": "5.0.2"
+    "cordova-plugin-customurlscheme": "5.0.2",
+    "cordova-plugin-inappbrowser": "4.1.0"
   }
 }
