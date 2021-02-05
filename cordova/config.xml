@@ -26,5 +26,6 @@
 <platform name="ios">
 <allow-intent href="itms:*"/>
 <allow-intent href="itms-apps:*"/>
+<allow-navigation href="https://*youtube.com/*"/>
 </platform>
 </widget>
