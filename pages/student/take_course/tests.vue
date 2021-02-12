@@ -72,36 +72,37 @@
       </div>
     </div>
     <div v-else class="inner-container">
-      <h3>{{ test.titulo || 'Título do Teste' }}</h3>
-      <h4 class="mt-5">
-        {{ test.pergunta || 'Enunciado do teste' }}
-      </h4>
+      <div class="content-wrap">
+        <h3>{{ test.titulo || 'Título do Teste' }}</h3>
+        <h4 class="mt-5">
+          {{ test.pergunta || 'Enunciado do teste' }}
+        </h4>
+        <v-radio-group v-model="selected" class="mt-12">
+          <v-radio value="A">
+            <template #label>
+              <div><span>A:</span> {{ test.primeira_alternativa }}</div>
+            </template>
+          </v-radio>
 
-      <v-radio-group v-model="selected" class="mt-12">
-        <v-radio value="A">
-          <template #label>
-            <div><span>A:</span> {{ test.primeira_alternativa }}</div>
-          </template>
-        </v-radio>
+          <v-radio value="B">
+            <template #label>
+              <div><span>B:</span> {{ test.segunda_alternativa }}</div>
+            </template>
+          </v-radio>
 
-        <v-radio value="B">
-          <template #label>
-            <div><span>B:</span> {{ test.segunda_alternativa }}</div>
-          </template>
-        </v-radio>
+          <v-radio value="C">
+            <template #label>
+              <div><span>C:</span> {{ test.terceira_alternativa }}</div>
+            </template>
+          </v-radio>
 
-        <v-radio value="C">
-          <template #label>
-            <div><span>C:</span> {{ test.terceira_alternativa }}</div>
-          </template>
-        </v-radio>
-
-        <v-radio value="D">
-          <template #label>
-            <div><span>D:</span> {{ test.quarta_alternativa }}</div>
-          </template>
-        </v-radio>
-      </v-radio-group>
+          <v-radio value="D">
+            <template #label>
+              <div><span>D:</span> {{ test.quarta_alternativa }}</div>
+            </template>
+          </v-radio>
+        </v-radio-group>
+      </div>
 
       <div class="base">
         <v-btn
@@ -358,6 +359,9 @@ h4 {
   background-repeat: no-repeat;
   background-size: cover;
   background-position: 100%;
+}
+.content-wrap {
+  padding-bottom: 90%; /* Footer height */
 }
 .base {
   position: absolute;
