@@ -339,18 +339,25 @@ h4 {
   z-index: 9999999;
 }
 .notification {
-  width: 193px;
-  height: 193px;
-  margin-top: 100px;
+  margin-top: 115px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+.notification__image {
+  height: 185px;
+  width: auto;
 }
 .bg__fire {
   position: absolute;
   padding: 0 20px;
   top: 0;
-  background-image: url('../../../assets/background-fire.png');
+  height: 100%;
+  width: 100%;
+  background-image: url('../../../assets/background-fire.jpg');
   background-repeat: no-repeat;
   background-size: cover;
-  width: 100%;
+  background-position: 100%;
 }
 .base {
   position: absolute;
@@ -365,6 +372,7 @@ h4 {
   line-height: 28px;
   letter-spacing: 0em;
   color: black;
+  margin-top: 32px;
 }
 .message__subtext {
   margin-top: 2%;
@@ -389,15 +397,6 @@ h4 {
   display: flex;
   align-items: center;
   justify-content: space-around;
-}
-.notification__image {
-  position: absolute;
-  top: 70px;
-  z-index: 999;
-  height: 190px;
-  width: auto;
-  left: 50%;
-  transform: translate(-50%);
 }
 ::v-deep .theme--light.v-label {
   color: rgb(0, 0, 0) !important;
