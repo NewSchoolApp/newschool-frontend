@@ -24,6 +24,11 @@
 <allow-intent href="market:*"/>
 </platform>
 <platform name="ios">
+<preference name="StatusBarOverlaysWebView" value="false" />
+<preference name="StatusBarBackgroundColor" value="#000000" />
+<preference name="StatusBarStyle" value="lightcontent" />
+<preference name="DisallowOverscroll" value="true" />
+<plugin spec="https://github.com/apache/cordova-plugin-statusbar.git" source="git" />
 <allow-intent href="itms:*"/>
 <allow-intent href="itms-apps:*"/>
 <allow-navigation href="https://*youtube.com/*"/>
