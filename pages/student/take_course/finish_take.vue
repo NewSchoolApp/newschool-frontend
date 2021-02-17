@@ -307,18 +307,11 @@ export default {
       }
     },
     postFeedback() {
-      if (this.postBody.feedback !== '') {
-        http.post(
-          `${process.env.endpoints.NPS}${this.idUser}/course/${this.courseId}`,
-          this.postBody,
-        );
-        this.activeDialog = 'end';
-      } else {
-        this.bindedClass = 'error-form';
-        setTimeout(() => {
-          this.bindedClass = '';
-        }, 500);
-      }
+      http.post(
+        `${process.env.endpoints.NPS}${this.idUser}/course/${this.courseId}`,
+        this.postBody,
+      );
+      this.activeDialog = 'end';
     },
     convertToSlug(str) {
       str = str.replace(/^\s+|\s+$/g, ''); // trim
