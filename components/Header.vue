@@ -48,7 +48,7 @@ export default {
 #head__bar {
   display: flex;
   justify-content: center;
-  padding: 1.5rem 0;
+  padding: 20px;
   position: relative;
   align-items: center;
   background: transparent;
