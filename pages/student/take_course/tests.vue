@@ -71,13 +71,13 @@
         </div>
       </div>
     </div>
-    <div v-else class="inner-container">
+    <div v-else class="test-screen">
       <div class="content-wrap">
         <h3>{{ test.titulo || 'Título do Teste' }}</h3>
-        <h4 class="mt-5">
+        <h4 class="mt-4">
           {{ test.pergunta || 'Enunciado do teste' }}
         </h4>
-        <v-radio-group v-model="selected" class="mt-12">
+        <v-radio-group v-model="selected" class="mt-4">
           <v-radio value="A">
             <template #label>
               <div><span>A:</span> {{ test.primeira_alternativa }}</div>
@@ -302,9 +302,9 @@ h1 {
 }
 h3 {
   font-family: 'Roboto';
-  font-weight: 900;
-  font-size: 14px;
-  line-height: 16px;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 28.13px;
   color: #1a1a1a;
 }
 h4 {
@@ -321,8 +321,7 @@ h4 {
   padding: 0em 2rem 0rem;
 }
 .inner-container {
-  margin: 1em 6px 0;
-  padding: 0 0.5em !important;
+  padding: 0 24px;
 }
 ::v-deep label {
   overflow: visible;
@@ -360,14 +359,18 @@ h4 {
   background-size: cover;
   background-position: 100%;
 }
+.test-screen {
+  display: flex;
+  justify-content: center;
+  margin: 0 20px;
+}
 .content-wrap {
-  padding-bottom: 90%; /* Footer height */
+  padding-bottom: 90%;
 }
 .base {
   position: absolute;
   bottom: 96px;
   width: 92%;
-  margin: 0 auto;
 }
 .message {
   font-family: Roboto;
@@ -435,5 +438,8 @@ h4 {
 }
 .error-form {
   animation: nono 300ms, intro paused;
+}
+::v-deep .v-radio {
+  align-items: initial;
 }
 </style>
