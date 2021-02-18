@@ -26,6 +26,7 @@
             ref="player"
             :youtube-url="currentPart.videoUrl.replace('watch?v=', 'embed/')"
             :thumbnail="currentCourse.capa.url"
+            @enableNext="enableNext()"
           />
         </div>
         <!-- Tabs -->
@@ -102,6 +103,7 @@
           <v-btn
             v-if="selectedTab == 0"
             class="btn-block btn-primary"
+            :disabled="disableBtn"
             @click="advanceCourse()"
           >
             Continuar
@@ -145,6 +147,7 @@ export default {
     items: ['Mais salves', 'Mais recentes', 'Mais antigos', 'Meus comentarios'],
     sortBy: 'Mais salves',
     completion: 0,
+    disableBtn: true,
   }),
   computed: {
     tooBig() {
@@ -351,6 +354,9 @@ export default {
       this.completion = myCourses.find(
         course => parseInt(course.courseId) === this.courseId,
       ).completion;
+    },
+    enableNext() {
+      this.disableBtn = false;
     },
   },
 };
