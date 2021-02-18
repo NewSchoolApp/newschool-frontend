@@ -8,7 +8,24 @@
       </v-icon>
     </div>
 
-    <youtube-vue v-else ref="youtube" :videoid="videoUrl" />
+    <youtube-vue
+      v-else
+      ref="youtube"
+      :videoid="videoUrl"
+      @ended="destroyPlayer()"
+    />
+
+    <!-- <iframe
+      v-else
+      ref="youtube"
+      width="560"
+      height="315"
+      src="https://www.youtube.com/embed/IQw-4JABPCM?autoplay=1"
+      frameborder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      allowfullscreen
+      @onPlayerStateChange="teste()"
+    ></iframe> -->
   </div>
 </template>
 <script>
@@ -22,6 +39,7 @@ export default {
   data() {
     return {
       playing: false,
+      teste: { constrols: 0 },
     };
   },
   computed: {
@@ -30,16 +48,38 @@ export default {
       return splited[splited.length - 1];
     },
   },
+  mounted() {
+    this.tag = window.document.createElement('script');
+  },
   beforeDestroy() {
-    window.plugins.insomnia.allowSleepAgain()
+    // window.plugins.insomnia.allowSleepAgain();
   },
   methods: {
     playVideo() {
-      window.plugins.insomnia.keepAwake();
+      // window.plugins.insomnia.keepAwake();
       this.playing = true;
       setTimeout(() => {
+        this.checkVideoProgression();
         this.$refs.youtube.player.playVideo();
       }, 100);
+    },
+    destroyPlayer() {
+      this.$refs.youtube.player.destroy();
+      this.playing = false;
+    },
+    async checkVideoProgression() {
+      if (this.$refs.youtube) {
+        const duration = await this.$refs.youtube.player.getDuration();
+        const currentTime = await this.$refs.youtube.player.getCurrentTime();
+
+        if ((duration / 100) * 80 < currentTime) {
+          this.$emit('enableNext');
+        }
+
+        setTimeout(() => {
+          this.checkVideoProgression();
+        }, 5000);
+      }
     },
   },
 };
