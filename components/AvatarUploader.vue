@@ -49,15 +49,7 @@ export default {
     saving: false,
     loading: false,
     saved: false,
-    errorText: '',
     uploadFieldName: 'file',
-    maxSize: 1024,
-    rules: [
-      value =>
-        !value ||
-        value.size < 2000000 ||
-        'O tamanho da foto deve ser menor que 9mb!',
-    ],
   }),
   computed: {
     idUser() {
@@ -98,12 +90,12 @@ export default {
             type: 'error',
             message: 'Selecione uma imagem',
           });
-        } else if (size > 1040000) {
+        } else if (size > 7340032) {
           // size exemple:   1mb = 1048576 bytes
           // check whether the size is greater than the size limit
           this.$notifier.showMessage({
             type: 'error',
-            message: 'Escolha uma imagem menor que 1MB',
+            message: 'Escolha uma imagem menor que 7MB',
           });
         } else {
           // para exibir web
