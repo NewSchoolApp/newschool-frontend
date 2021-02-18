@@ -43,5 +43,5 @@ export default {
 
   verifyVideo(url) {
     return http.get(url)
-  }
+  },
 };

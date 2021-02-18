@@ -142,7 +142,7 @@ export default {
     commentPost: '',
     loading: true,
     posting: false,
-    items: ['Mais salves', 'Mais recentes', 'Mais atigos', 'Meus comentarios'],
+    items: ['Mais salves', 'Mais recentes', 'Mais antigos', 'Meus comentarios'],
     sortBy: 'Mais salves',
     completion: 0,
   }),
@@ -189,7 +189,7 @@ export default {
           return this.comments.sort(function(a, b) {
             return Date.parse(a.createdAt) < Date.parse(b.createdAt) ? 1 : -1;
           });
-        case 'Mais atigos':
+        case 'Mais antigos':
           // eslint-disable-next-line vue/no-side-effects-in-computed-properties
           return this.comments.sort(function(a, b) {
             return Date.parse(a.createdAt) > Date.parse(b.createdAt) ? 1 : -1;
