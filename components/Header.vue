@@ -43,12 +43,12 @@ export default {
   line-height: 1.2;
   font-weight: 900;
   text-align: center;
-  padding: 0 2.5rem !important;
+  padding: 0 50px !important;
 }
 #head__bar {
   display: flex;
   justify-content: center;
-  padding: 1.5rem 0;
+  padding: 20px;
   position: relative;
   align-items: center;
   background: transparent;

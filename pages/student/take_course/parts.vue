@@ -14,6 +14,12 @@
       </div>
 
       <v-col v-else class="pa-0">
+        <div class="progress-comp">
+          <small>{{ completion }}% concluído</small>
+          <div class="progress-bar">
+            <div class="progress-fill" :style="`width:${completion}%`" />
+          </div>
+        </div>
         <!-- Video Frame -->
         <div v-if="currentPart.videoUrl" id="video-iframe-container">
           <video-player
@@ -22,7 +28,6 @@
             :thumbnail="currentCourse.capa.url"
           />
         </div>
-
         <!-- Tabs -->
         <v-tabs id="tabs" v-model="selectedTab" height="35px">
           <v-tab>
@@ -139,6 +144,7 @@ export default {
     posting: false,
     items: ['Mais salves', 'Mais recentes', 'Mais antigos', 'Meus comentarios'],
     sortBy: 'Mais salves',
+    completion: 0,
   }),
   computed: {
     tooBig() {
@@ -210,6 +216,8 @@ export default {
     },
   },
   mounted() {
+    this.getCompletion();
+
     document.addEventListener(
       'fullscreenchange',
       function() {
@@ -336,6 +344,14 @@ export default {
         $nuxt._router.replace(currentStep.stepUrl);
       }
     },
+    async getCompletion() {
+      const myCourses = (
+        await http.getAll(`${process.env.endpoints.MY_COURSES}${this.user.id}`)
+      ).data;
+      this.completion = myCourses.find(
+        course => parseInt(course.courseId) === this.courseId,
+      ).completion;
+    },
   },
 };
 </script>
@@ -389,6 +405,10 @@ hr {
   font-weight: 500;
   color: grey;
   text-transform: none;
+}
+::v-deep .v-tab:nth-of-type(2) {
+  padding: 0;
+  justify-content: left;
 }
 ::v-deep .v-input__slot {
   min-height: 32px !important;
@@ -489,5 +509,26 @@ h4 {
   display: flex;
   margin-top: 0.6rem;
   flex-direction: column;
+}
+.progress-comp {
+  margin: 0 24px 6px;
+  flex-grow: 1;
+}
+.progress-bar {
+  height: 8px;
+  flex-grow: 1;
+  background-color: #e7e7e7;
+  border-radius: 3px;
+}
+.progress-fill {
+  height: 100%;
+  background-color: var(--primary);
+  border-radius: 3px;
+}
+.progress-comp small {
+  font-size: 10px;
+  font-weight: 400;
+  line-height: 12px;
+  letter-spacing: 0em;
 }
 </style>
