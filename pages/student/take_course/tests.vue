@@ -5,6 +5,9 @@
       :title="this.$store.state.courses.current.titulo"
       :route="`/aluno/curso/${slug}`"
     ></HeaderBar>
+    <v-btn rounded color="primary" dark @click="goBack()">
+      Rounded Button
+    </v-btn>
     <div v-if="loading">
       <div class="container-spinner">
         <v-progress-circular
@@ -77,7 +80,7 @@
         <h4 class="mt-4">
           {{ test.pergunta || 'Enunciado do teste' }}
         </h4>
-        <v-radio-group v-model="selected" class="mt-4">
+        <v-radio-group v-model="selected" class="mt-4" :readonly="readonly">
           <v-radio value="A">
             <template #label>
               <div><span>A:</span> {{ test.primeira_alternativa }}</div>
@@ -119,7 +122,7 @@
 
 <router>
   {
-    path: '/aluno/curso/:courseSlug/aula/teste'
+    path: '/aluno/curso/:courseSlug/aula/teste/:watchMode?'
   }
 </router>
 
@@ -145,10 +148,19 @@ export default {
     headerNotification: '',
     textNotification: '',
     error: '',
+    readonly: false,
+    watchMode: false,
   }),
   computed: {
+    currentWatching() {
+      return this.$store.state.courses.currentWatching;
+    },
     test() {
-      return this.$store.state.courses.currentTest;
+      if (this.watchMode) {
+        return this.currentWatching;
+      } else {
+        return this.$store.state.courses.currentTest;
+      }
     },
     idUser() {
       return this.$store.state.user.data.id;
@@ -163,8 +175,20 @@ export default {
       return this.$route.params.courseSlug;
     },
   },
+  async created() {
+    if (this.$route.params.watchMode) {
+      this.watchMode = true;
+    } else {
+      await this.$store.commit('courses/setCurrentWatching', {});
+      await this.$store.commit('courses/setCurrentPartOfWatching', {});
+    }
+  },
   mounted() {
     this.loading = false;
+
+    if (this.$route.params.watchMode) {
+      this.showCorrect();
+    }
   },
   methods: {
     resetBadgeAndContinue() {
@@ -282,6 +306,50 @@ export default {
         // else, go to step url
         $nuxt._router.replace(currentStep.stepUrl);
       }
+    },
+    async goBack() {
+      this.loading = true;
+
+      const currentPart =
+        this.currentPartOfWatching ||
+        (
+          await http.getAll(
+            `/api/v2/part/${this.test.parte.id || this.test.parte}`,
+          )
+        ).data;
+
+      const testOrder = this.test.ordem;
+
+      if (testOrder > 1) {
+        // ir para o teste anterior
+        const testToGo = currentPart.exercicios.find(
+          test => test.ordem === testOrder - 1,
+        );
+        await this.$store.commit('courses/setCurrentWatching', testToGo);
+        await this.$store.commit(
+          'courses/setCurrentPartOfWatching',
+          currentPart,
+        );
+        this.watchMode = true;
+        this.loading = false;
+        this.showCorrect();
+      } else {
+        // exibir a parte desse teste
+        await this.$store.commit('courses/setCurrentWatching', currentPart);
+        await this.$store.commit(
+          'courses/setCurrentPartOfWatching',
+          currentPart,
+        );
+        $nuxt._router.replace(`/aluno/curso/${currentPart.slug}/aula/parte/1`);
+      }
+    },
+    async showCorrect() {
+      const currentTestData = (
+        await http.getAll(`/api/v2/test/${this.currentWatching.id}`)
+      ).data;
+
+      this.selected = currentTestData.alternativa_certa;
+      this.readonly = true;
     },
   },
 };
