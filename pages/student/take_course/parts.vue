@@ -1,9 +1,10 @@
 <template>
   <div>
-    <header-bar :title="'Aula'" :route="`/aluno/curso/${slug}`"></header-bar>
-    <v-btn rounded color="primary" dark @click="goBack()">
-      Rounded Button
-    </v-btn>
+    <header-bar
+      :title="'Aula'"
+      :back-func="goBack"
+      :close-func="leaveCourse"
+    ></header-bar>
     <v-layout justify-center>
       <div v-if="loading">
         <div class="container-spinner">
@@ -319,6 +320,9 @@ export default {
     this.loading = false;
   },
   methods: {
+    leaveCourse() {
+      this.$router.push(`/aluno/curso/${this.slug}`);
+    },
     async getComments() {
       await http
         .getAll(`${process.env.endpoints.COMMENT}/${this.currentPart.id}`)

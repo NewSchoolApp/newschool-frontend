@@ -3,11 +3,9 @@
     <HeaderBar
       v-if="!correct"
       :title="this.$store.state.courses.current.titulo"
-      :route="`/aluno/curso/${slug}`"
+      :back-func="goBack"
+      :close-func="leaveCourse"
     ></HeaderBar>
-    <v-btn rounded color="primary" dark @click="goBack()">
-      Rounded Button
-    </v-btn>
     <div v-if="loading">
       <div class="container-spinner">
         <v-progress-circular
@@ -81,25 +79,25 @@
           {{ testToShow.pergunta || 'Enunciado do teste' }}
         </h4>
         <v-radio-group v-model="selected" class="mt-4" :readonly="readonly">
-          <v-radio value="A">
+          <v-radio value="A" :ripple="false">
             <template #label>
               <div><span>A:</span> {{ testToShow.primeira_alternativa }}</div>
             </template>
           </v-radio>
 
-          <v-radio value="B">
+          <v-radio value="B" :ripple="false">
             <template #label>
               <div><span>B:</span> {{ testToShow.segunda_alternativa }}</div>
             </template>
           </v-radio>
 
-          <v-radio value="C">
+          <v-radio value="C" :ripple="false">
             <template #label>
               <div><span>C:</span> {{ testToShow.terceira_alternativa }}</div>
             </template>
           </v-radio>
 
-          <v-radio value="D">
+          <v-radio value="D" :ripple="false">
             <template #label>
               <div><span>D:</span> {{ testToShow.quarta_alternativa }}</div>
             </template>
@@ -203,6 +201,9 @@ export default {
     }
   },
   methods: {
+    leaveCourse() {
+      this.$router.push(`/aluno/curso/${this.slug}`);
+    },
     resetBadgeAndContinue() {
       this.badgePoints = 0;
       this.try = 1;
@@ -526,8 +527,6 @@ h4 {
   background-position: 100%;
 }
 .test-screen {
-  display: flex;
-  justify-content: center;
   margin: 0 20px;
 }
 .content-wrap {
