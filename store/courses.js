@@ -8,6 +8,8 @@ export const state = () => ({
   currentLesson: {},
   currentPart: {},
   currentTest: {},
+  currentWatching: '',
+  currentPartOfWatching: '',
 });
 
 export const mutations = {
@@ -31,6 +33,12 @@ export const mutations = {
   },
   async setCurrentState(state, courseState) {
     state.currentState = courseState;
+  },
+  async setCurrentWatching(state, watching) {
+    state.currentWatching = watching;
+  },
+  async setCurrentPartOfWatching(state, partOfWatching) {
+    state.currentPartOfWatching = partOfWatching;
   },
 };
 
