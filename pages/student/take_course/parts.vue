@@ -178,6 +178,9 @@ export default {
         return this.$store.state.courses.currentPart;
       }
     },
+    test() {
+      return this.$store.state.courses.currentTest;
+    },
     currentWatching() {
       return this.$store.state.courses.currentWatching;
     },
@@ -239,6 +242,8 @@ export default {
       await this.$store.commit('courses/setCurrentWatching', '');
       await this.$store.commit('courses/setCurrentPartOfWatching', '');
     }
+
+    if (this.watchMode) this.disableBtn = false;
   },
   mounted() {
     this.getCompletion();
@@ -342,23 +347,27 @@ export default {
       }
     },
     async advanceCourse() {
-      this.loading = true;
-      // advancing course step
-      await http.post(
-        `${process.env.endpoints.ADVANCE_COURSE}/user/${this.idUser}/course/${this.courseId}`,
-      );
-
-      // cheking if this was the last step of the course
-      const currentStep = await this.$store.dispatch(
-        'courses/refreshCurrentStep',
-      );
-
-      if (currentStep.type === 'PART' || currentStep.type === 'LESSON') {
-        // case current step still a part or a lesson, continue on this page
-        this.loading = false;
+      if (this.watchMode) {
+        this.goFoward();
       } else {
-        // else, go to step url
-        $nuxt._router.replace(currentStep.stepUrl);
+        this.loading = true;
+        // advancing course step
+        await http.post(
+          `${process.env.endpoints.ADVANCE_COURSE}/user/${this.idUser}/course/${this.courseId}`,
+        );
+
+        // cheking if this was the last step of the course
+        const currentStep = await this.$store.dispatch(
+          'courses/refreshCurrentStep',
+        );
+
+        if (currentStep.type === 'PART' || currentStep.type === 'LESSON') {
+          // case current step still a part or a lesson, continue on this page
+          this.loading = false;
+        } else {
+          // else, go to step url
+          $nuxt._router.replace(currentStep.stepUrl);
+        }
       }
     },
     async getCompletion() {
@@ -375,11 +384,13 @@ export default {
     async goBack() {
       this.loading = true;
 
-      const currentPart = this.currentPartOfWatching || this.currentPart;
+      if (!this.watchMode) {
+        await this.$store.commit('courses/setCurrentTest', '');
+      }
 
+      const currentPart = this.currentPartOfWatching || this.currentPart;
       const partOrder = currentPart.ordem;
       const lessonId = currentPart.aula.id;
-
       const lessonOrder = currentPart.aula.ordem;
 
       if (partOrder > 1) {
@@ -410,19 +421,99 @@ export default {
     },
     async goTo(partToGo) {
       if (partToGo.exercicios.length) {
-        const testToGo = partToGo.exercicios[partToGo.exercicios.length - 1];
-        //* **exibir teste***
+        const testToGo = partToGo.exercicios.find(
+          test => test.ordem === partToGo.exercicios.length,
+        );
         await this.$store.commit('courses/setCurrentWatching', testToGo);
         await this.$store.commit('courses/setCurrentPartOfWatching', partToGo);
         $nuxt._router.replace(
           `/aluno/curso/${this.currentCourse.slug}/aula/teste/1`,
         );
       } else {
-        //* **exibir parte***
         await this.$store.commit('courses/setCurrentWatching', partToGo);
         await this.$store.commit('courses/setCurrentPartOfWatching', partToGo);
         this.watchMode = true;
         this.loading = false;
+      }
+    },
+    async goFoward() {
+      this.loading = true;
+
+      const currentPart = this.currentPartOfWatching;
+      const partOrder = currentPart.ordem;
+      const lessonId = currentPart.aula.id;
+      const lessonOrder = currentPart.aula.ordem;
+
+      if (currentPart.exercicios.length) {
+        const testToGo = currentPart.exercicios.find(test => test.ordem === 1);
+
+        if (this.test && testToGo.id === this.test.id) {
+          await this.$store.commit('courses/setCurrentWatching', '');
+          await this.$store.commit('courses/setCurrentPartOfWatching', '');
+
+          $nuxt._router.replace(
+            `/aluno/curso/${this.currentCourse.slug}/aula/teste`,
+          );
+        } else {
+          await this.$store.commit('courses/setCurrentWatching', testToGo);
+
+          $nuxt._router.replace(
+            `/aluno/curso/${this.currentCourse.slug}/aula/teste/1`,
+          );
+        }
+      } else {
+        const parts = (await http.getAll(`/api/v2/part/lesson/${lessonId}`))
+          .data;
+
+        if (part.ordem < parts.length) {
+          const partToGo = parts.find(part => part.ordem === partOrder + 1);
+
+          if (partToGo.id === this.currentPart.id) {
+            await this.$store.commit('courses/setCurrentWatching', '');
+            await this.$store.commit('courses/setCurrentPartOfWatching', '');
+            this.watchMode = false;
+            this.loading = false;
+          } else {
+            await this.$store.commit('courses/setCurrentWatching', partToGo);
+            await this.$store.commit(
+              'courses/setCurrentPartOfWatching',
+              partToGo,
+            );
+            await this.$store.commit(
+              'courses/setCurrentPartOfWatching',
+              partToGo,
+            );
+            this.loading = false;
+          }
+        } else {
+          const lessonToGo = this.currentCourse.aulas.find(
+            lesson => lesson.ordem === lessonOrder + 1,
+          );
+
+          const parts = (
+            await http.getAll(`/api/v2/part/lesson/${lessonToGo.id}`)
+          ).data;
+
+          const partToGo = parts[0];
+
+          if (partToGo.id === this.currentPart.id) {
+            await this.$store.commit('courses/setCurrentWatching', '');
+            await this.$store.commit('courses/setCurrentPartOfWatching', '');
+            this.watchMode = false;
+            this.loading = false;
+          } else {
+            await this.$store.commit('courses/setCurrentWatching', partToGo);
+            await this.$store.commit(
+              'courses/setCurrentPartOfWatching',
+              partToGo,
+            );
+            await this.$store.commit(
+              'courses/setCurrentPartOfWatching',
+              partToGo,
+            );
+            this.loading = false;
+          }
+        }
       }
     },
   },
