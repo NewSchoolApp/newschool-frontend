@@ -5,11 +5,14 @@
       class="btn-back"
       text
       icon
-      @click="comeBackPage"
+      @click="goBackPage"
     >
       <v-icon>mdi-arrow-left</v-icon>
     </v-btn>
     <h1 class="h1__theme">{{ title }}</h1>
+    <v-btn v-if="closeFunc" class="btn-close" text icon @click="closeFunc()">
+      <v-icon>mdi-close</v-icon>
+    </v-btn>
   </div>
 </template>
 
@@ -21,10 +24,12 @@
  * @param backPage botão para voltar ? true ou false
  */
 export default {
-  props: ['title', 'backPage', 'route'],
+  props: ['title', 'backPage', 'route', 'closeFunc', 'backFunc', 'closeFunc'],
   methods: {
-    comeBackPage() {
-      if (this.route) {
+    goBackPage() {
+      if (this.backFunc) {
+        this.backFunc();
+      } else if (this.route) {
         this.$router.push(this.route);
       } else {
         this.$router.back();
@@ -54,12 +59,17 @@ export default {
   background: transparent;
 }
 
-::v-deep .btn-back .theme--light.v-icon {
+::v-deep .btn-back .theme--light.v-icon,
+::v-deep .btn-close .theme--light.v-icon {
   color: var(--primary);
-  font-size: 35px;
+  font-size: 30px;
 }
 ::v-deep .btn-back {
   position: absolute;
   left: 1rem;
+}
+::v-deep .btn-close {
+  position: absolute;
+  right: 1rem;
 }
 </style>
