@@ -179,7 +179,7 @@ export default {
         return this.$store.state.courses.currentPart;
       }
     },
-    test() {
+    currentTest() {
       return this.$store.state.courses.currentTest;
     },
     currentWatching() {
@@ -385,139 +385,266 @@ export default {
     enableNext() {
       this.disableBtn = false;
     },
+    async goFoward() {
+      this.loading = true;
+
+      // define main constants of this step
+      const currentPart = this.watchMode
+        ? this.currentPartOfWatching
+        : this.currentPart;
+      const currentLesson = this.currentCourse.aulas.find(
+        lesson => lesson.id === currentPart.aula.id,
+      );
+
+      const nextTest = this.findNextTest(0, currentPart);
+
+      if (nextTest) {
+        if (this.currentTest && this.currentTest.id === nextTest.id) {
+          // exit watchmode and go to new test
+
+          this.goToTest(nextTest, currentPart, false);
+        } else {
+          // continue in watchmode and show next test
+
+          this.goToTest(nextTest, currentPart, true);
+        }
+      } else {
+        const nextPart = await this.findNextPart(
+          currentPart.ordem,
+          currentLesson,
+        );
+
+        if (nextPart) {
+          if (this.currentPart && this.currentPart.id === nextPart.id) {
+            // exit watchmodde and show new part
+            this.goToPart(nextPart, false);
+          } else {
+            // continue in watchmode and show next part
+            this.goToPart(nextPart, true);
+          }
+        } else {
+          const nextLesson = await this.findNextValidLesson(
+            currentLesson.ordem,
+            this.currentCourse,
+          );
+
+          if (nextLesson) {
+            const nextPart = await this.findNextPart(0, nextLesson);
+
+            if (this.currentPart && this.currentPart.id === nextPart.id) {
+              // exit watchmodde and show new part
+
+              this.goToPart(nextPart, false);
+            } else {
+              // continue in watchmode and show next part
+              this.goToPart(nextPart, true);
+            }
+          } else {
+            // go back to course main view
+            $nuxt._router.replace(`/aluno/curso/${this.currentCourse.slug}`);
+          }
+        }
+      }
+    },
     async goBack() {
       this.loading = true;
 
-      if (!this.watchMode) {
-        await this.$store.commit('courses/setCurrentTest', '');
-      }
+      // define main constants of this step
+      const currentPart = this.watchMode
+        ? this.currentPartOfWatching
+        : this.currentPart;
+      const currentLesson = this.currentCourse.aulas.find(
+        lesson => lesson.id === currentPart.aula.id,
+      );
 
-      const currentPart = this.currentPartOfWatching || this.currentPart;
-      const partOrder = currentPart.ordem;
-      const lessonId = currentPart.aula.id;
-      const lessonOrder = currentPart.aula.ordem;
+      const previousPart = await this.findPreviousPart(
+        currentPart.ordem,
+        currentLesson,
+      );
 
-      if (partOrder > 1) {
-        // ir para o ultimo teste da parte anterior
-        const parts = (await http.getAll(`/api/v2/part/lesson/${lessonId}`))
-          .data;
-
-        const partToGo = parts.find(part => part.ordem === partOrder - 1);
-
-        this.goTo(partToGo);
-      } else if (lessonOrder > 1) {
-        // ir para o ultimo teste da ultima parte da lesson anterior
-        const lessonToGo = this.currentCourse.aulas.find(
-          lesson => lesson.ordem === lessonOrder - 1,
+      if (previousPart) {
+        if (previousPart.exercicios.length) {
+          const previousTest = this.findPreviousTest(9999, previousPart);
+          this.goToTest(previousTest, previousPart, true);
+        } else {
+          this.goToPart(previousPart, true);
+        }
+      } else {
+        const previousLesson = await this.findPreviousValidLesson(
+          currentLesson.ordem,
+          this.currentCourse,
         );
 
-        const parts = (
-          await http.getAll(`/api/v2/part/lesson/${lessonToGo.id}`)
-        ).data;
+        if (previousLesson) {
+          const previousPart = await this.findPreviousPart(
+            9999,
+            previousLesson,
+          );
 
-        const partToGo = parts[parts.length - 1];
-
-        this.goTo(partToGo);
-      } else {
-        // voltar para os detalhes do curso
-        $nuxt._router.replace(`/aluno/curso/${currentPart.slug}`);
+          if (previousPart.exercicios.length) {
+            const previousTest = this.findPreviousTest(9999, previousPart);
+            this.goToTest(previousTest, previousPart, true);
+          } else {
+            this.goToPart(previousPart, true);
+          }
+        } else {
+          $nuxt._router.replace(`/aluno/curso/${this.currentCourse.slug}`);
+        }
       }
     },
-    async goTo(partToGo) {
-      if (partToGo.exercicios.length) {
-        const testToGo = partToGo.exercicios.find(
-          test => test.ordem === partToGo.exercicios.length,
+    findNextTest(currentTestOrder, currentPart) {
+      const laterTests = currentPart.exercicios.filter(
+        test => test.ordem > currentTestOrder,
+      );
+
+      const greaterOrders = laterTests.map(test => test.ordem);
+
+      if (greaterOrders.length) {
+        const nextTestOrder = Math.min(...greaterOrders);
+        return currentPart.exercicios.find(
+          test => test.ordem === nextTestOrder,
         );
-        await this.$store.commit('courses/setCurrentWatching', testToGo);
-        await this.$store.commit('courses/setCurrentPartOfWatching', partToGo);
+      } else {
+        return null;
+      }
+    },
+    async findNextPart(currentPartOrder, currentLesson) {
+      const parts = (
+        await http.getAll(`/api/v2/part/lesson/${currentLesson.id}`)
+      ).data;
+
+      const laterParts = parts.filter(part => part.ordem > currentPartOrder);
+
+      const greaterOrders = laterParts.map(part => part.ordem);
+
+      if (greaterOrders.length) {
+        const nextPartOrder = Math.min(...greaterOrders);
+        const nextPart = parts.find(part => part.ordem === nextPartOrder);
+
+        return nextPart;
+      } else {
+        return undefined;
+      }
+    },
+    async findNextValidLesson(currentLessonOrder, currentCourse) {
+      const laterLessons = currentCourse.aulas.filter(
+        lesson => lesson.ordem > currentLessonOrder,
+      );
+
+      const greaterOrders = laterLessons.map(lesson => lesson.ordem);
+
+      if (greaterOrders.length) {
+        const nextLessonOrder = Math.min(...greaterOrders);
+
+        for (let index = 0; index < greaterOrders.length; index++) {
+          const nextValidLesson = currentCourse.aulas.find(
+            lesson => lesson.ordem === nextLessonOrder + index,
+          );
+
+          const parts = (
+            await http.getAll(`/api/v2/part/lesson/${nextValidLesson.id}`)
+          ).data;
+
+          if (parts.length) return nextValidLesson;
+        }
+        return null;
+      } else {
+        return null;
+      }
+    },
+    async goToTest(test, part, watchMode) {
+      if (watchMode) {
+        await this.$store.commit('courses/setCurrentWatching', test);
+        await this.$store.commit('courses/setCurrentPartOfWatching', part);
+
         $nuxt._router.replace(
           `/aluno/curso/${this.currentCourse.slug}/aula/teste/1`,
         );
       } else {
-        await this.$store.commit('courses/setCurrentWatching', partToGo);
-        await this.$store.commit('courses/setCurrentPartOfWatching', partToGo);
+        await this.$store.commit('courses/setCurrentWatching', '');
+        await this.$store.commit('courses/setCurrentPartOfWatching', '');
+
+        $nuxt._router.replace(
+          `/aluno/curso/${this.currentCourse.slug}/aula/teste`,
+        );
+      }
+    },
+    async goToPart(part, watchMode) {
+      if (watchMode) {
+        await this.$store.commit('courses/setCurrentWatching', part);
+        await this.$store.commit('courses/setCurrentPartOfWatching', part);
+
         this.watchMode = true;
+        this.loading = false;
+      } else {
+        await this.$store.commit('courses/setCurrentWatching', '');
+        await this.$store.commit('courses/setCurrentPartOfWatching', '');
+
+        this.watchMode = false;
+        this.disableBtn = true;
         this.loading = false;
       }
     },
-    async goFoward() {
-      this.loading = true;
+    findPreviousTest(currentTestOrder, currentPart) {
+      const previousTests = currentPart.exercicios.filter(
+        test => test.ordem < currentTestOrder,
+      );
 
-      const currentPart = this.currentPartOfWatching;
-      const partOrder = currentPart.ordem;
-      const lessonId = currentPart.aula.id;
-      const lessonOrder = currentPart.aula.ordem;
+      const smallerOrders = previousTests.map(test => test.ordem);
 
-      if (currentPart.exercicios.length) {
-        const testToGo = currentPart.exercicios.find(test => test.ordem === 1);
-
-        if (this.test && testToGo.id === this.test.id) {
-          await this.$store.commit('courses/setCurrentWatching', '');
-          await this.$store.commit('courses/setCurrentPartOfWatching', '');
-
-          $nuxt._router.replace(
-            `/aluno/curso/${this.currentCourse.slug}/aula/teste`,
-          );
-        } else {
-          await this.$store.commit('courses/setCurrentWatching', testToGo);
-
-          $nuxt._router.replace(
-            `/aluno/curso/${this.currentCourse.slug}/aula/teste/1`,
-          );
-        }
+      if (smallerOrders.length) {
+        const previousTestOrder = Math.max(...smallerOrders);
+        return currentPart.exercicios.find(
+          test => test.ordem === previousTestOrder,
+        );
       } else {
-        const parts = (await http.getAll(`/api/v2/part/lesson/${lessonId}`))
-          .data;
+        return null;
+      }
+    },
+    async findPreviousPart(currentPartOrder, currentLesson) {
+      const parts = (
+        await http.getAll(`/api/v2/part/lesson/${currentLesson.id}`)
+      ).data;
 
-        if (part.ordem < parts.length) {
-          const partToGo = parts.find(part => part.ordem === partOrder + 1);
+      const previousParts = parts.filter(part => part.ordem < currentPartOrder);
 
-          if (partToGo.id === this.currentPart.id) {
-            await this.$store.commit('courses/setCurrentWatching', '');
-            await this.$store.commit('courses/setCurrentPartOfWatching', '');
-            this.watchMode = false;
-            this.loading = false;
-          } else {
-            await this.$store.commit('courses/setCurrentWatching', partToGo);
-            await this.$store.commit(
-              'courses/setCurrentPartOfWatching',
-              partToGo,
-            );
-            await this.$store.commit(
-              'courses/setCurrentPartOfWatching',
-              partToGo,
-            );
-            this.loading = false;
-          }
-        } else {
-          const lessonToGo = this.currentCourse.aulas.find(
-            lesson => lesson.ordem === lessonOrder + 1,
+      const smallerOrders = previousParts.map(part => part.ordem);
+
+      if (smallerOrders.length) {
+        const previousPartOrder = Math.max(...smallerOrders);
+        const prviousPart = parts.find(
+          part => part.ordem === previousPartOrder,
+        );
+
+        return prviousPart;
+      } else {
+        return undefined;
+      }
+    },
+    async findPreviousValidLesson(currentLessonOrder, currentCourse) {
+      const previousLessons = currentCourse.aulas.filter(
+        lesson => lesson.ordem < currentLessonOrder,
+      );
+
+      const smallerOrders = previousLessons.map(lesson => lesson.ordem);
+
+      if (smallerOrders.length) {
+        const previousLessonOrder = Math.max(...smallerOrders);
+
+        for (let index = 0; index < smallerOrders.length; index++) {
+          const previousValidLesson = currentCourse.aulas.find(
+            lesson => lesson.ordem === previousLessonOrder - index,
           );
 
           const parts = (
-            await http.getAll(`/api/v2/part/lesson/${lessonToGo.id}`)
+            await http.getAll(`/api/v2/part/lesson/${previousValidLesson.id}`)
           ).data;
 
-          const partToGo = parts[0];
-
-          if (partToGo.id === this.currentPart.id) {
-            await this.$store.commit('courses/setCurrentWatching', '');
-            await this.$store.commit('courses/setCurrentPartOfWatching', '');
-            this.watchMode = false;
-            this.loading = false;
-          } else {
-            await this.$store.commit('courses/setCurrentWatching', partToGo);
-            await this.$store.commit(
-              'courses/setCurrentPartOfWatching',
-              partToGo,
-            );
-            await this.$store.commit(
-              'courses/setCurrentPartOfWatching',
-              partToGo,
-            );
-            this.loading = false;
-          }
+          if (parts.length) return previousValidLesson;
         }
+        return null;
+      } else {
+        return null;
       }
     },
   },
