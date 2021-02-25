@@ -62,6 +62,7 @@ export const actions = {
     if (currentStep.data.doing === 'TEST') {
       // store data
       this.commit('courses/setCurrentTest', currentStep.data.test);
+      this.commit('courses/setCurrentPart', '');
 
       return {
         type: 'TEST',
@@ -82,6 +83,7 @@ export const actions = {
 
       // store data
       this.commit('courses/setCurrentPart', firstPart.data);
+      this.commit('courses/setCurrentTest', '');
 
       return {
         // no app nós nunca interagimos de forma direta com uma lesson, sendo assim esse método retornará o type lesson porém a url para interagir com o current step sera da primeira part dessa lesson
@@ -96,6 +98,7 @@ export const actions = {
 
       // store data
       this.commit('courses/setCurrentPart', part.data);
+      this.commit('courses/setCurrentTest', '');
 
       return {
         type: 'PART',

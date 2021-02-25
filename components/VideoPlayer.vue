@@ -1,4 +1,4 @@
-<template class="teste">
+<template>
   <div>
     <div v-if="!playing" id="course-thumbnail-backgorund" @click="playVideo()">
       <img id="course-thumbnail" :src="thumbnail" alt="imagem-curso" />
@@ -14,18 +14,6 @@
       :videoid="videoUrl"
       @ended="destroyPlayer()"
     />
-
-    <!-- <iframe
-      v-else
-      ref="youtube"
-      width="560"
-      height="315"
-      src="https://www.youtube.com/embed/IQw-4JABPCM?autoplay=1"
-      frameborder="0"
-      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-      allowfullscreen
-      @onPlayerStateChange="teste()"
-    ></iframe> -->
   </div>
 </template>
 <script>
@@ -39,7 +27,6 @@ export default {
   data() {
     return {
       playing: false,
-      teste: { constrols: 0 },
     };
   },
   computed: {

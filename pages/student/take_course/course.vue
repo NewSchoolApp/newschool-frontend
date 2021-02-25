@@ -48,9 +48,9 @@
         <v-btn
           v-else-if="courseState == 'COMPLETED'"
           class="btn-block btn-primary"
-          @click="goToCertificate()"
+          @click="watchCourse()"
         >
-          Certificado
+          Visualizar Curso
         </v-btn>
         <v-btn v-else class="btn-block btn-primary" @click="startCourse()">
           Iniciar
@@ -155,6 +155,22 @@ export default {
 
       // go to step url
       $nuxt._router.push(currentStep.stepUrl);
+    },
+    async watchCourse() {
+      this.loading = true;
+
+      const firstLessonId = this.course.aulas.find(lesson => lesson.ordem === 1)
+        .id;
+
+      const parts = (await http.getAll(`/api/v2/part/lesson/${firstLessonId}`))
+        .data;
+
+      const firstPart = parts.find(part => part.ordem === 1);
+
+      await this.$store.commit('courses/setCurrentWatching', firstPart);
+      await this.$store.commit('courses/setCurrentPartOfWatching', firstPart);
+
+      $nuxt._router.replace(`/aluno/curso/${firstPart.slug}/aula/parte/1`);
     },
   },
 };
