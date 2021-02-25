@@ -319,7 +319,9 @@ export default {
     },
     async showCorrect() {
       const currentTestData = (
-        await http.getAll(`/api/v2/test/${this.currentWatching.id}`)
+        await http.getAll(
+          `${process.env.endpoints.TEST}${this.currentWatching.id}`,
+        )
       ).data;
 
       this.selected = currentTestData.alternativa_certa.toUpperCase();
@@ -405,7 +407,9 @@ export default {
 
       if (!currentPart.id) {
         currentPart = (
-          await http.getAll(`/api/v2/part/${currentTest.parte.id}`)
+          await http.getAll(
+            `${process.env.endpoints.PARTS_BY_LESSON}/${currentTest.parte.id}`,
+          )
         ).data;
       }
 
@@ -438,7 +442,9 @@ export default {
     },
     async findNextPart(currentPartOrder, currentLesson) {
       const parts = (
-        await http.getAll(`/api/v2/part/lesson/${currentLesson.id}`)
+        await http.getAll(
+          `${process.env.endpoints.PARTS_BY_LESSON}/${currentLesson.id}`,
+        )
       ).data;
 
       const laterParts = parts.filter(part => part.ordem > currentPartOrder);
@@ -470,7 +476,9 @@ export default {
           );
 
           const parts = (
-            await http.getAll(`/api/v2/part/lesson/${nextValidLesson.id}`)
+            await http.getAll(
+              `${process.env.endpoints.PARTS_BY_LESSON}/${nextValidLesson.id}`,
+            )
           ).data;
 
           if (parts.length) return nextValidLesson;
