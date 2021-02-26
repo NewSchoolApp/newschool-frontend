@@ -22,6 +22,7 @@
       <v-btn v-if="closeFunc" class="btn-close" text icon @click="closeFunc()">
         <v-icon>mdi-close</v-icon>
       </v-btn>
+      <slot></slot>
     </div>
 
     <!-- <v-btn
