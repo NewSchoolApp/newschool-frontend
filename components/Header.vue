@@ -1,6 +1,30 @@
 <template>
-  <div id="head__bar">
-    <v-btn
+  <div id="header">
+    <div id="left" class="header-part">
+      <v-btn
+        v-if="backPage != false"
+        class="btn-back"
+        text
+        icon
+        @click="goBackPage"
+      >
+        <v-icon>mdi-arrow-left</v-icon>
+      </v-btn>
+    </div>
+
+    <div id="center" class="header-part">
+      <div class="h1__theme">
+        {{ title }}
+      </div>
+    </div>
+
+    <div id="right" class="header-part">
+      <v-btn v-if="closeFunc" class="btn-close" text icon @click="closeFunc()">
+        <v-icon>mdi-close</v-icon>
+      </v-btn>
+    </div>
+
+    <!-- <v-btn
       v-if="backPage != false"
       class="btn-back"
       text
@@ -12,7 +36,7 @@
     <h1 class="h1__theme">{{ title }}</h1>
     <v-btn v-if="closeFunc" class="btn-close" text icon @click="closeFunc()">
       <v-icon>mdi-close</v-icon>
-    </v-btn>
+    </v-btn> -->
   </div>
 </template>
 
@@ -44,32 +68,33 @@ export default {
   font-family: 'Roboto', sans-serif;
 }
 .h1__theme {
-  font-size: 1rem;
-  line-height: 1.2;
+  font-size: 21px;
   font-weight: 900;
   text-align: center;
-  padding: 0 50px !important;
 }
-#head__bar {
-  display: flex;
-  justify-content: center;
-  padding: 20px;
-  position: relative;
-  align-items: center;
-  background: transparent;
-}
-
 ::v-deep .btn-back .theme--light.v-icon,
 ::v-deep .btn-close .theme--light.v-icon {
   color: var(--primary);
-  font-size: 30px;
+  font-size: 27px;
 }
-::v-deep .btn-back {
-  position: absolute;
-  left: 1rem;
+#header {
+  display: flex;
+  margin: 20px;
 }
-::v-deep .btn-close {
-  position: absolute;
-  right: 1rem;
+
+.header-part {
+  display: flex;
+  align-items: center;
+}
+#left {
+  flex: 1;
+}
+#center {
+  flex: 6;
+  justify-content: center;
+}
+#right {
+  flex: 1;
+  justify-content: flex-end;
 }
 </style>

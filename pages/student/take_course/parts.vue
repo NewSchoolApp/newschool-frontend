@@ -1,10 +1,5 @@
 <template>
   <div>
-    <header-bar
-      :title="'Aula'"
-      :back-func="goBack"
-      :close-func="leaveCourse"
-    ></header-bar>
     <v-layout justify-center>
       <div v-if="loading">
         <div class="container-spinner">
@@ -18,6 +13,11 @@
       </div>
 
       <v-col v-else class="pa-0">
+        <header-bar
+          :title="currentPart.titulo"
+          :back-func="goBack"
+          :close-func="leaveCourse"
+        ></header-bar>
         <div class="progress-comp">
           <small>{{ completion }}% concluído</small>
           <div class="progress-bar">
