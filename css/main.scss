@@ -179,7 +179,7 @@ h4 {
   .v-input__slot {
     border-color: transparent !important;
     border-radius: 5px !important;
-    min-height: 48px !important;
+    min-height: 44px !important;
     margin: 0 0 3px;
   }
   .v-input input,
@@ -263,7 +263,6 @@ h4 {
   }
 }
 
-
 .search-field {
   //see home for exemple
 
@@ -324,4 +323,36 @@ h4 {
   label {
     color: rgba(0, 0, 0, 0.4) !important;
   }
+}
+
+.primary-select {
+  
+.v-input__control * {
+  margin: 0 !important;
+  padding: 0 !important;
+  align-items: center !important;
+  min-height: initial !important;
+  max-height: none !important;
+}
+.v-input__control ::placeholder {
+  font-size: 14px;
+  font-weight: normal;
+  color: #767676 !important;
+}
+.mdi::before {
+  font-size: 40px !important;
+  color: grey;
+}
+.v-input__slot {
+  padding: 0 16px !important;
+  height: 44px !important;
+  border-radius: 5px !important;
+}
+.v-input__slot::before,
+.v-input__slot::after {
+  display: none;
+}
+.v-select__selections :nth-child(2) {
+  display: none !important;
+}
 }
