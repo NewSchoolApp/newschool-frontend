@@ -1,10 +1,5 @@
 <template>
   <div>
-    <header-bar
-      :title="'Aula'"
-      :back-func="goBack"
-      :close-func="leaveCourse"
-    ></header-bar>
     <v-layout justify-center>
       <div v-if="loading">
         <div class="container-spinner">
@@ -18,6 +13,11 @@
       </div>
 
       <v-col v-else class="pa-0">
+        <header-bar
+          :title="currentPart.titulo"
+          :back-func="goBack"
+          :close-func="leaveCourse"
+        ></header-bar>
         <div class="progress-comp">
           <small>{{ completion }}% concluído</small>
           <div class="progress-bar">
@@ -325,7 +325,7 @@ export default {
     },
     async getComments() {
       await http
-        .getAll(`${process.env.endpoints.COMMENT}/${this.currentPart.id}`)
+        .getAll(`${process.env.endpoints.COMMENT}/part/${this.currentPart.id}`)
         .then(res => {
           this.comments = res.data;
         });
@@ -339,7 +339,7 @@ export default {
           userId: this.idUser,
           text: this.commentPost,
         };
-        http.post('/api/v1/comment', postBody).then(res => {
+        http.post(process.env.endpoints.COMMENT, postBody).then(res => {
           // refresh comments
           this.getComments();
 
@@ -510,7 +510,9 @@ export default {
     },
     async findNextPart(currentPartOrder, currentLesson) {
       const parts = (
-        await http.getAll(`/api/v2/part/lesson/${currentLesson.id}`)
+        await http.getAll(
+          `${process.env.endpoints.PARTS_BY_LESSON}/${currentLesson.id}`,
+        )
       ).data;
 
       const laterParts = parts.filter(part => part.ordem > currentPartOrder);
@@ -542,7 +544,9 @@ export default {
           );
 
           const parts = (
-            await http.getAll(`/api/v2/part/lesson/${nextValidLesson.id}`)
+            await http.getAll(
+              `${process.env.endpoints.PARTS_BY_LESSON}/${nextValidLesson.id}`,
+            )
           ).data;
 
           if (parts.length) return nextValidLesson;
@@ -603,7 +607,9 @@ export default {
     },
     async findPreviousPart(currentPartOrder, currentLesson) {
       const parts = (
-        await http.getAll(`/api/v2/part/lesson/${currentLesson.id}`)
+        await http.getAll(
+          `${process.env.endpoints.PARTS_BY_LESSON}/${currentLesson.id}`,
+        )
       ).data;
 
       const previousParts = parts.filter(part => part.ordem < currentPartOrder);
@@ -637,7 +643,9 @@ export default {
           );
 
           const parts = (
-            await http.getAll(`/api/v2/part/lesson/${previousValidLesson.id}`)
+            await http.getAll(
+              `${process.env.endpoints.PARTS_BY_LESSON}/${previousValidLesson.id}`,
+            )
           ).data;
 
           if (parts.length) return previousValidLesson;

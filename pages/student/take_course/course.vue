@@ -1,6 +1,5 @@
 <template>
   <div>
-    <HeaderBar :title="'Curso'" :route="'/aluno/home'"></HeaderBar>
     <div v-if="loading">
       <div class="container-spinner">
         <v-progress-circular
@@ -12,6 +11,7 @@
       </div>
     </div>
     <div v-else id="main-col">
+      <HeaderBar :title="'Curso'" :route="'/aluno/home'"></HeaderBar>
       <h1 id="title__course" class="h1__theme pb-3">{{ course.titulo }}</h1>
       <div class="mask__img">
         <img
@@ -273,5 +273,9 @@ h1 {
   position: absolute;
   bottom: 0;
   width: 100%;
+}
+
+::v-deep #header {
+  margin: 20px 0 40px;
 }
 </style>
