@@ -8,19 +8,46 @@
 
     <v-row id="header-row" justify="space-between">
       <div>Produtos</div>
-      <div>Saldo: 700NC</div>
+      <div>Saldo: {{ userPoints }}NC</div>
     </v-row>
     <navigation-bar />
 
-    <div id="products-grid">
-      <div v-for="product in filteredList" id="product-row" :key="product.id">
+    <!-- <div id="products-grid">
+      <div
+        v-for="product in filteredList"
+        id="product-row"
+        :key="product.id"
+        v-infinite-scroll="getRanking"
+        infinite-scroll-disabled="busy"
+      >
         <product-card
-          :name="product.nome"
-          :price="product.preco"
-          :img="product.img"
+          :name="product.name"
+          :price="product.points"
+          :img="
+            'https://elgstore.vteximg.com.br/arquivos/ids/159105/MGSS_elg_04.jpg?v=636882566685830000'
+          "
         />
       </div>
-    </div>
+    </div> -->
+
+    <masonry
+      id="products-masonry"
+      v-infinite-scroll="getProducts"
+      :cols="2"
+      :gutter="16"
+      infinite-scroll-disabled="busy"
+    >
+      <div v-for="product in filteredList" :key="product.id">
+        <product-card
+          :name="product.name"
+          :price="product.points"
+          :img="
+            'https://elgstore.vteximg.com.br/arquivos/ids/159105/MGSS_elg_04.jpg?v=636882566685830000'
+          "
+          :slug="product.slug"
+        />
+      </div>
+    </masonry>
     <bottom-drawer ref="drawer">
       <v-text-field
         filled
@@ -46,10 +73,12 @@
   }
 </router>
 <script>
+import infiniteScroll from 'vue-infinite-scroll';
 import NavigationBar from '~/components/NavigationBar.vue';
 import HeaderBar from '~/components/Header.vue';
 import BottomDrawer from '~/components/BottomDrawer.vue';
-
+import market from '~/services/http/market_place';
+import http from '~/services/http/generic';
 import ProductCard from '~/components/marketplace/ProductCard.vue';
 
 export default {
@@ -59,63 +88,10 @@ export default {
     BottomDrawer,
     ProductCard,
   },
+  directives: { infiniteScroll },
   data: () => ({
-    products: [
-      {
-        nome: 'Mouse Orbital Logitech Logitech Logitech',
-        preco: 50,
-        img:
-          'https://img.ibxk.com.br/2017/09/06/06123106796171.jpg?w=1200&h=675&mode=crop&scale=both',
-      },
-      {
-        nome: 'Teclado Logitech',
-        preco: 533,
-        img:
-          'https://www.oficinadosbits.com.br/fotos/extragrande/1408fe1/kit-teclado-e-mouse-sem-fio-logitech-combo-mk220-920-004431.jpg',
-      },
-      {
-        nome: 'produto3',
-        preco: 12,
-        img:
-          'https://img.ibxk.com.br/2017/09/06/06123106796171.jpg?w=1200&h=675&mode=crop&scale=both',
-      },
-      {
-        nome: 'Mouse Orbital Logitech',
-        preco: 50,
-        img:
-          'https://img.ibxk.com.br/2017/09/06/06123106796171.jpg?w=1200&h=675&mode=crop&scale=both',
-      },
-      {
-        nome: 'Teclado Logitech',
-        preco: 533,
-        img:
-          'https://www.oficinadosbits.com.br/fotos/extragrande/1408fe1/kit-teclado-e-mouse-sem-fio-logitech-combo-mk220-920-004431.jpg',
-      },
-      {
-        nome: 'produto3',
-        preco: 12,
-        img:
-          'https://img.ibxk.com.br/2017/09/06/06123106796171.jpg?w=1200&h=675&mode=crop&scale=both',
-      },
-      {
-        nome: 'Mouse Orbital Logitech',
-        preco: 50,
-        img:
-          'https://img.ibxk.com.br/2017/09/06/06123106796171.jpg?w=1200&h=675&mode=crop&scale=both',
-      },
-      {
-        nome: 'Teclado Logitech',
-        preco: 533,
-        img:
-          'https://www.oficinadosbits.com.br/fotos/extragrande/1408fe1/kit-teclado-e-mouse-sem-fio-logitech-combo-mk220-920-004431.jpg',
-      },
-      {
-        nome: 'produto3',
-        preco: 12,
-        img:
-          'https://img.ibxk.com.br/2017/09/06/06123106796171.jpg?w=1200&h=675&mode=crop&scale=both',
-      },
-    ],
+    userPoints: 0,
+    products: [],
     history: [
       'Celular Motorola G6 Plus',
       'Entrevista Link API',
@@ -130,6 +106,8 @@ export default {
     ],
     filter: '',
     appliedFilter: '',
+    page: 0,
+    busy: false,
   }),
   computed: {
     filteredList() {
@@ -148,6 +126,13 @@ export default {
         return this.products;
       }
     },
+    idUser() {
+      return this.$store.state.user.data.id;
+    },
+  },
+  async mounted() {
+    this.getUserScore();
+    await this.getProducts();
   },
   methods: {
     applyFilter() {
@@ -158,6 +143,35 @@ export default {
     searchAgain(value) {
       this.appliedFilter = value;
       this.$refs.drawer.toggleDrawer();
+    },
+    async getProducts() {
+      if (!this.busy) {
+        this.busy = true;
+
+        const res = (
+          await market.getAll(
+            `${process.env.endpoints.MARKETPLACE.ITENS}?page=${this.page +
+              1}&limit=8`,
+          )
+        ).data;
+
+        if (res.length) {
+          this.busy = false;
+        }
+
+        res.forEach(item => {
+          this.products.push(item);
+        });
+
+        this.page += 1;
+      }
+    },
+    async getUserScore() {
+      this.userPoints = (
+        await http.getAll(
+          `${process.env.endpoints.RANKING}/user/${this.idUser}?timeRange=YEAR`,
+        )
+      ).data.points;
     },
   },
 };
@@ -177,6 +191,9 @@ export default {
   margin: initial;
   padding: initial;
 }
+#header-row {
+  margin-bottom: 40px;
+}
 #header-row :nth-child(1) {
   font-size: 18px;
   font-weight: 700;
@@ -185,7 +202,6 @@ export default {
   color: #585858;
 }
 #header-row :nth-child(2) {
-  margin-bottom: 40px;
   font-size: 18px;
   font-weight: 700;
   line-height: 21px;
@@ -202,11 +218,11 @@ export default {
 ::v-deep #header {
   margin: 24px 0;
 }
-#products-grid {
+/* #products-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-gap: 16px;
-}
+} */
 #product-row:nth-child(odd) {
   margin-right: 4px;
 }

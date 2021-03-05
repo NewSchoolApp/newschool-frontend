@@ -1,5 +1,5 @@
 <template>
-  <div id="product-card">
+  <div id="product-card" v-ripple @click="goToProduct">
     <div id="img-viewport" :style="`background-image: url(${img});`" />
     <div id="product-info">
       <div>{{ name }}</div>
@@ -10,8 +10,12 @@
 
 <script>
 export default {
-  props: ['name', 'price', 'img'],
-  methods: {},
+  props: ['name', 'price', 'img', 'slug'],
+  methods: {
+    goToProduct() {
+      $nuxt._router.push(`/aluno/marketplace/product/${this.slug}`);
+    },
+  },
 };
 </script>
 
@@ -20,7 +24,6 @@ export default {
   font-family: 'Roboto';
 }
 #product-card {
-  height: 22vh;
   border-radius: 4px;
   overflow: hidden;
   background-color: #f5f5f5;
@@ -28,7 +31,7 @@ export default {
   flex-direction: column;
 }
 #img-viewport {
-  flex: 1;
+  height: 21vh;
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
