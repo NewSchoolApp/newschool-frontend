@@ -24,6 +24,30 @@
 <allow-intent href="market:*"/>
 </platform>
 <platform name="ios">
+<preference name="prerendered-icon" value="true" />
+<!-- iOS 8.0+ -->
+<!-- iPhone 6 Plus  -->
+<icon src="res/ios/Icon-App-60x60@3x.png" width="180" height="180" />
+<!-- Spotlight Icon -->
+<icon src="res/ios/Icon-App-40x40@1x.png" width="40" height="40" />
+<icon src="res/ios/Icon-App-40x40@2x.png" width="80" height="80" />
+<!-- iOS 7.0+ -->
+<!-- iPhone / iPod Touch  -->
+<icon src="res/ios/Icon-App-60x60@2x.png" width="120" height="120" />
+<!-- iPad -->
+<icon src="res/ios/Icon-App-76x76@1x.png" width="76" height="76" />
+<icon src="res/ios/Icon-App-76x76@2x.png" width="152" height="152" />
+<!-- iOS 6.1 -->
+<!-- iPhone / iPod Touch -->
+<icon src="res/ios/Icon-App-29x29@2x.png" width="57" height="57" />
+<icon src="res/ios/Icon-App-29x29@3x.png" width="114" height="114" />
+<!-- iPad -->
+<icon src="res/ios/Icon-App-76x76@1x.png" width="72" height="72" />
+<icon src="res/ios/Icon-App-76x76@2x.png" width="144" height="144" />
+<!-- iPad Pro -->
+<icon src="res/ios/Icon-App-83.5x83.5@2x.png" width="167" height="167" />
+<!-- iPad Pro -->
+<icon src="res/ios/Icon-App-83.5x83.5@2x.png" width="167" height="167" />
 <preference name="StatusBarOverlaysWebView" value="false" />
 <preference name="StatusBarBackgroundColor" value="#000000" />
 <preference name="StatusBarStyle" value="lightcontent" />

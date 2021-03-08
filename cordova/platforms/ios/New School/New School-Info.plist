@@ -34,59 +34,8 @@
 	<true/>
 	<key>NSAppTransportSecurity</key>
 	<dict>
-		<key>NSExceptionDomains</key>
-		<dict>
-			<key>m.facebook.com</key>
-			<dict/>
-			<key>graph.facebook.com</key>
-			<dict/>
-			<key>api.facebook.com</key>
-			<dict/>
-			<key>fbcdn.net</key>
-			<dict>
-				<key>NSIncludesSubdomains</key>
-				<true/>
-			</dict>
-			<key>akamaihd.net</key>
-			<dict>
-				<key>NSIncludesSubdomains</key>
-				<true/>
-			</dict>
-		</dict>
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>This app requires photo library access to function properly.</string>
-	<key>CFBundleURLTypes</key>
-	<array>
-		<dict>
-			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>com.firebase.cordova</string>
-			</array>
-		</dict>
-		<dict>
-			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>fb384298599359690</string>
-			</array>
-		</dict>
-	</array>
-	<key>FacebookAppID</key>
-	<string>384298599359690</string>
-	<key>FacebookDisplayName</key>
-	<string>NewSchool</string>
-	<key>FacebookHybridAppEvents</key>
-	<string>false</string>
-	<key>LSApplicationQueriesSchemes</key>
-	<array>
-		<string>fbapi</string>
-		<string>fb-messenger-api</string>
-		<string>fbauth2</string>
-		<string>fbshareextension</string>
-	</array>
-	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>This app requires photo library access to function properly.</string>
 </dict>
 </plist>
