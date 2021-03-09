@@ -11,9 +11,5 @@
       "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
     }
   },
-  "dependent_plugins": {},
-  "modules": [],
-  "plugin_metadata": {
-    "cordova-plugin-splashscreen": "6.0.0"
-  }
+  "dependent_plugins": {}
 }

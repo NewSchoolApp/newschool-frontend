@@ -11,6 +11,7 @@
     "cordova-plugin-inappbrowser": "^4.1.0",
     "cordova-plugin-insomnia": "git+https://github.com/EddyVerbruggen/Insomnia-PhoneGap-Plugin.git",
     "cordova-plugin-printer": "^0.7.3",
+    "cordova-plugin-splashscreen": "^6.0.0",
     "cordova-plugin-whitelist": "1"
   },
   "cordova": {
@@ -41,7 +42,8 @@
       },
       "cordova-plugin-insomnia": {},
       "cordova-plugin-screen-orientation": {},
-      "cordova-plugin-inappbrowser": {}
+      "cordova-plugin-inappbrowser": {},
+      "cordova-plugin-splashscreen": {}
     },
     "platforms": [
       "browser",
