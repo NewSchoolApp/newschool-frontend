@@ -24,7 +24,7 @@
           :name="product.name"
           :price="product.points"
           :img="
-            'https://elgstore.vteximg.com.br/arquivos/ids/159105/MGSS_elg_04.jpg?v=636882566685830000'
+            'https://a-static.mlcdn.com.br/618x463/mouse-gamer-logitech-g-pro-hero-optico-16000dpi-6-botoes-pro/magazineluiza/223329300/73b0a24b258f1d114ca12b2209bdefc9.jpg'
           "
           :slug="product.slug"
         />

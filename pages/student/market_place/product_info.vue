@@ -12,7 +12,7 @@
   <div v-else id="main-div">
     <div v-if="currentStep === stepEnum.PRODUCT_INFO" id="wrapper">
       <div id="content">
-        <header-bar title="Produto" :back-page="true"></header-bar>
+        <header-bar title="Produto" :back-page="true" :back-func="rewindStep"></header-bar>
         <v-row id="header-row" justify="space-between">
           <div id="product-title">{{ productInfo.name }}</div>
           <div id="balance">Saldo: {{ userPoints }}NC</div>
@@ -20,7 +20,7 @@
         <div
           id="img-viewport"
           :style="
-            `background-image: url(https://elgstore.vteximg.com.br/arquivos/ids/159105/MGSS_elg_04.jpg?v=636882566685830000);`
+            `background-image: url(https://a-static.mlcdn.com.br/618x463/mouse-gamer-logitech-g-pro-hero-optico-16000dpi-6-botoes-pro/magazineluiza/223329300/73b0a24b258f1d114ca12b2209bdefc9.jpg);`
           "
         />
         <v-row id="price-row">
@@ -42,7 +42,7 @@
 
     <div v-else-if="currentStep === stepEnum.PACKAGE_INFO" id="wrapper">
       <div id="content">
-        <header-bar title="Produto" :back-page="true"></header-bar>
+        <header-bar title="Produto" :back-page="true" :back-func="rewindStep"></header-bar>
         <v-row id="header-row" justify="space-between">
           <div id="product-title">{{ productInfo.name }}</div>
           <div id="balance">Saldo: {{ userPoints }}NC</div>
@@ -50,7 +50,7 @@
         <div
           id="img-viewport"
           :style="
-            `background-image: url('https://elgstore.vteximg.com.br/arquivos/ids/159105/MGSS_elg_04.jpg?v=636882566685830000');`
+            `background-image: url('https://a-static.mlcdn.com.br/618x463/mouse-gamer-logitech-g-pro-hero-optico-16000dpi-6-botoes-pro/magazineluiza/223329300/73b0a24b258f1d114ca12b2209bdefc9.jpg');`
           "
         />
         <v-row id="price-row">
@@ -88,7 +88,7 @@
 
     <div v-else-if="currentStep === stepEnum.SET_DATE" id="wrapper">
       <div id="content">
-        <header-bar title="Produto" :back-page="true"></header-bar>
+        <header-bar title="Produto" :back-page="true" :back-func="rewindStep"></header-bar>
         <div id="header-row" justify="space-between">
           <div id="header-msg">Qual o melhor dia pra você ir buscar?</div>
         </div>
@@ -112,7 +112,7 @@
 
     <div v-else-if="currentStep === stepEnum.SET_TIME" id="wrapper">
       <div id="content">
-        <header-bar title="Produto" :back-page="true"></header-bar>
+        <header-bar title="Produto" :back-page="true" :back-func="rewindStep"></header-bar>
         <div id="header-row" justify="space-between">
           <div id="header-msg">Agora é só escolher a hora:</div>
         </div>
@@ -152,7 +152,7 @@
 
     <div v-if="currentStep === stepEnum.CHECKOUT" id="wrapper">
       <div id="content">
-        <header-bar title="Produto" :back-page="true"></header-bar>
+        <header-bar title="Produto" :back-page="true" :back-func="rewindStep"></header-bar>
         <v-row id="header-row" justify="space-between">
           <div id="product-title">{{ productInfo.name }}</div>
           <div id="balance">Saldo: {{ userPoints }}NC</div>
@@ -160,7 +160,7 @@
         <div
           id="img-viewport"
           :style="
-            `background-image: url(https://elgstore.vteximg.com.br/arquivos/ids/159105/MGSS_elg_04.jpg?v=636882566685830000);`
+            `background-image: url(https://a-static.mlcdn.com.br/618x463/mouse-gamer-logitech-g-pro-hero-optico-16000dpi-6-botoes-pro/magazineluiza/223329300/73b0a24b258f1d114ca12b2209bdefc9.jpg);`
           "
         />
         <v-row id="price-row">
@@ -183,7 +183,7 @@
 
     <div v-if="currentStep === stepEnum.FINISHED" id="wrapper">
       <div id="content">
-        <header-bar title="Produto" :back-page="true"></header-bar>
+        <header-bar title="Produto" :back-page="true" :back-func="rewindStep"></header-bar>
         <v-row id="header-row" justify="space-between">
           <div id="header-msg">Mandou bem, agora é só ir lá!</div>
         </v-row>
@@ -234,7 +234,7 @@
       <div id="base">
         <v-btn
           class="btn-block btn-primary"
-          @click="currentStep = stepEnum.PACKAGE_INFO"
+          @click="rewindStep"
         >
           Voltar ao Início
         </v-btn>
@@ -431,6 +431,39 @@ export default {
 
       this.advanceStep();
       this.loading = false;
+    },
+    rewindStep() {
+      switch (this.currentStep) {
+        case this.stepEnum.PRODUCT_INFO:
+          $nuxt._router.replace('/aluno/marketplace');
+
+          break;
+
+        case this.stepEnum.PACKAGE_INFO:
+          this.currentStep = this.stepEnum.PRODUCT_INFO
+
+          break;
+
+        case this.stepEnum.SET_DATE:
+          this.currentStep = this.stepEnum.PACKAGE_INFO
+          
+          break;
+
+        case this.stepEnum.SET_TIME:
+          this.currentStep = this.stepEnum.SET_DATE
+
+          break;
+
+        case this.stepEnum.CHECKOUT:
+          this.currentStep = this.stepEnum.SET_TIME;
+
+          break;
+        
+        case this.stepEnum.FINISHED:
+          $nuxt._router.replace('/aluno/marketplace');
+          
+          break;
+      }
     },
   },
 };
