@@ -12,24 +12,6 @@
     </v-row>
     <navigation-bar />
 
-    <!-- <div id="products-grid">
-      <div
-        v-for="product in filteredList"
-        id="product-row"
-        :key="product.id"
-        v-infinite-scroll="getRanking"
-        infinite-scroll-disabled="busy"
-      >
-        <product-card
-          :name="product.name"
-          :price="product.points"
-          :img="
-            'https://elgstore.vteximg.com.br/arquivos/ids/159105/MGSS_elg_04.jpg?v=636882566685830000'
-          "
-        />
-      </div>
-    </div> -->
-
     <masonry
       id="products-masonry"
       v-infinite-scroll="getProducts"
@@ -48,21 +30,36 @@
         />
       </div>
     </masonry>
-    <bottom-drawer ref="drawer">
+    <bottom-drawer ref="drawer" @toggle="showSearchNull = false">
       <v-text-field
         filled
         :full-width="true"
         append-icon="mdi-magnify"
         placeholder="Pesquisar..."
-        @input="filter = $event"
-        @click:append="applyFilter"
+        @input="searchParam = $event"
+        @click:append="searchProducts"
       ></v-text-field>
-      <div v-for="item in history" id="history-list" :key="item.id">
-        <v-row v-ripple @click="searchAgain(item)">
-          <v-icon color="primary_light">mdi-history</v-icon>
-          <div>{{ item }}</div>
-        </v-row>
-        <v-divider></v-divider>
+      <template v-if="!showSearchNull">
+        <div v-for="item in searchHistory" id="history-list" :key="item.id">
+          <v-row
+            v-ripple
+            @click="
+              searchParam = item;
+              searchProducts();
+            "
+          >
+            <v-icon color="primary_light">mdi-history</v-icon>
+            <div>{{ item }}</div>
+          </v-row>
+          <v-divider></v-divider>
+        </div>
+      </template>
+      <div v-else id="search-fail">
+        <div>
+          Vish! Nenhum resultado encontrado para “{{ failedSearch }}”. Pesquisa
+          outra coisa aí!
+        </div>
+        <img src="~/assets/fail.svg" alt="Nada encontrado" />
       </div>
     </bottom-drawer>
   </div>
@@ -92,22 +89,16 @@ export default {
   data: () => ({
     userPoints: 0,
     products: [],
-    history: [
-      'Celular Motorola G6 Plus',
-      'Entrevista Link API',
-      'Celular Motorola G6 Plus',
-      'Celular Motorola G6 Plus',
-      'Celular Motorola G6 Plus',
-      'Celular Motorola G6 Plus',
-      'Celular Motorola G6 Plus',
-      'Celular Motorola G6 Plus',
-      'Celular Motorola G6 Plus',
-      'Celular Motorola G6 Plus',
-    ],
+    history: [],
     filter: '',
     appliedFilter: '',
     page: 0,
     busy: false,
+    searchParam: '',
+    searchHistory: [],
+    showSearchNull: false,
+    failedSearch: '',
+    localStorage: '',
   }),
   computed: {
     filteredList() {
@@ -131,8 +122,22 @@ export default {
     },
   },
   async mounted() {
+    // check if cordova localStorage is avaliable
+    if (window.localStorage) {
+      this.localStorage = window.localStorage;
+    } else {
+      this.localStorage = localStorage;
+    }
+
+    if (this.localStorage.searchHistory) {
+      this.searchHistory = JSON.parse(this.localStorage.searchHistory);
+    }
+
     this.getUserScore();
     await this.getProducts();
+  },
+  destroyed() {
+    this.localStorage.searchHistory = JSON.stringify(this.searchHistory);
   },
   methods: {
     applyFilter() {
@@ -144,6 +149,35 @@ export default {
       this.appliedFilter = value;
       this.$refs.drawer.toggleDrawer();
     },
+    async searchProducts() {
+      const productsBackup = this.products;
+      this.products = [];
+      this.page = 0;
+      this.busy = false;
+
+      await this.getProducts();
+
+      if (
+        this.searchParam &&
+        !this.searchHistory.find(x => x === this.searchParam)
+      ) {
+        if (this.searchHistory.length > 4) {
+          this.searchHistory.shift();
+        }
+        this.searchHistory.push(this.searchParam);
+      }
+
+      if (!this.products.length) {
+        this.products = productsBackup;
+        this.showSearchNull = true;
+        this.failedSearch = this.searchParam;
+      } else {
+        this.showSearchNull = false;
+        this.$refs.drawer.toggleDrawer();
+      }
+
+      this.searchParam = '';
+    },
     async getProducts() {
       if (!this.busy) {
         this.busy = true;
@@ -151,7 +185,9 @@ export default {
         const res = (
           await market.getAll(
             `${process.env.endpoints.MARKETPLACE.ITENS}?page=${this.page +
-              1}&limit=8`,
+              1}&limit=8&${
+              this.searchParam ? 'name[contains]=' + this.searchParam : false
+            }&quantity[gt]=0`,
           )
         ).data;
 
@@ -164,6 +200,8 @@ export default {
         });
 
         this.page += 1;
+
+        return res;
       }
     },
     async getUserScore() {
@@ -252,5 +290,9 @@ export default {
 }
 ::v-deep .v-icon {
   outline: none;
+}
+#search-fail :nth-child(1) {
+  margin: 24px 0 42px;
+  font-size: 14px;
 }
 </style>

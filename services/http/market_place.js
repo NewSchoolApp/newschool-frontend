@@ -1,6 +1,6 @@
 import Axios from 'axios';
-import { addInterceptorError } from './error-interceptor';
-import utils from '~/utils/index';
+// import { addInterceptorError } from './error-interceptor';
+// import utils from '~/utils/index';
 
 const http = Axios.create({
   baseURL: process.env.marketUrl,
