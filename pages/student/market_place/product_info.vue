@@ -329,16 +329,6 @@ export default {
       const newDate = new Date(dateString + 'T00:00:00');
       return newDate > new Date(Date.now());
     },
-    addToShopCart() {
-      if (this.userPoints >= this.productInfo.points) {
-        this.currentStep = this.stepEnum.PACKAGE_INFO;
-      } else {
-        this.$notifier.showMessage({
-          type: 'error',
-          message: 'Você não tem pontos suficiente para essa troca',
-        });
-      }
-    },
     advanceStep() {
       switch (this.currentStep) {
         case this.stepEnum.PRODUCT_INFO:
@@ -359,21 +349,18 @@ export default {
               type: 'error',
               message: `Selecione algum tipo de retirada.`,
             });
-          } else if (
-            this.quantity &&
-            this.quantity <= this.productInfo.quantity
-          ) {
-            this.currentStep = this.stepEnum.SET_DATE;
           } else if (!this.quantity) {
             this.$notifier.showMessage({
               type: 'error',
               message: `Digite alguma quantidade.`,
             });
-          } else {
+          } else if (!this.userPoints >= this.productInfo.points * this.quantity) {
             this.$notifier.showMessage({
               type: 'error',
-              message: `Não temos ${this.quantity} em estoque.`,
+              message: `Você não tem pontos o suficiente`,
             });
+          } else {
+            this.currentStep = this.stepEnum.SET_DATE;
           }
 
           break;
