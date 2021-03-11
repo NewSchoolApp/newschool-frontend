@@ -25,7 +25,6 @@ export default {
   }),
   methods: {
     toggleDrawer() {
-      console.log('toggleDrawer-comp');
       if (this.active) {
         this.fadeAnimation = 'opacity: 0%';
         this.slideAnimation = 'bottom: -100%';
@@ -39,6 +38,8 @@ export default {
           this.slideAnimation = 'bottom: 0';
         }, 1);
       }
+
+      this.$emit('toggle');
     },
   },
 };
@@ -50,7 +51,7 @@ export default {
 }
 #bottom-drawer {
   opacity: 0%;
-  transition: opacity 0.3s;
+  transition: opacity 0.3s, bottom 0.3s;
 }
 #drawer-overlay {
   background-color: black;

@@ -34,10 +34,7 @@
       </div>
 
       <div id="base">
-        <v-btn
-          class="btn-block btn-primary"
-          @click="currentStep = stepEnum.PACKAGE_INFO"
-        >
+        <v-btn class="btn-block btn-primary" @click="advanceStep">
           Trocar
         </v-btn>
       </div>
@@ -63,28 +60,27 @@
         <div class="select-label">
           Quantidade:
         </div>
-        <v-text-field
+        <v-select
+          v-model="quantity"
           class="primary-text-field input"
           filled
-          type="number"
+          :items="quantitySelect"
           placeholder="Digite a quantidade"
           :hide-details="true"
         />
         <div class="select-label">Retirada:</div>
         <v-select
+          v-model="shippingType"
           class="primary-select input"
           filled
-          :items="sendOptions"
+          :items="shippingOptions"
           placeholder="Selecione"
           :hide-details="true"
         />
       </div>
 
       <div id="base">
-        <v-btn
-          class="btn-block btn-primary"
-          @click="currentStep = stepEnum.SET_DATE"
-        >
+        <v-btn class="btn-block btn-primary" @click="advanceStep">
           continuar
         </v-btn>
       </div>
@@ -108,10 +104,7 @@
         </v-date-picker>
       </div>
       <div id="base">
-        <v-btn
-          class="btn-block btn-primary"
-          @click="currentStep = stepEnum.SET_TIME"
-        >
+        <v-btn class="btn-block btn-primary" @click="advanceStep">
           continuar
         </v-btn>
       </div>
@@ -151,10 +144,7 @@
         </div>
       </div>
       <div id="base">
-        <v-btn
-          class="btn-block btn-primary"
-          @click="currentStep = stepEnum.CHECKOUT"
-        >
+        <v-btn class="btn-block btn-primary" @click="advanceStep">
           continuar
         </v-btn>
       </div>
@@ -185,10 +175,7 @@
       </div>
 
       <div id="base">
-        <v-btn
-          class="btn-block btn-primary"
-          @click="currentStep = stepEnum.FINISHED"
-        >
+        <v-btn class="btn-block btn-primary" @click="createOrder">
           Finalizar
         </v-btn>
       </div>
@@ -288,7 +275,10 @@ export default {
       FINISHED: 'FINISHED',
     },
     currentStep: 'PRODUCT_INFO',
-    sendOptions: ['Retirar na New School', 'Receber em casa'],
+    shippingOptions: ['Retirar na New School'],
+    shippingType: '',
+    quantitySelect: [],
+    quantity: '',
     date: '',
     time: '',
   }),
@@ -315,6 +305,13 @@ export default {
           `${process.env.endpoints.MARKETPLACE.ITENS}/slug/${this.$route.params.slug}`,
         )
       ).data;
+
+      this.generateQuantitySelect(this.productInfo.quantity);
+    },
+    generateQuantitySelect(quantity) {
+      for (let index = 1; index <= quantity; index++) {
+        this.quantitySelect.push(index);
+      }
     },
     async getUserScore() {
       this.userPoints = (
@@ -331,6 +328,109 @@ export default {
     allowedDates(dateString) {
       const newDate = new Date(dateString + 'T00:00:00');
       return newDate > new Date(Date.now());
+    },
+    addToShopCart() {
+      if (this.userPoints >= this.productInfo.points) {
+        this.currentStep = this.stepEnum.PACKAGE_INFO;
+      } else {
+        this.$notifier.showMessage({
+          type: 'error',
+          message: 'Você não tem pontos suficiente para essa troca',
+        });
+      }
+    },
+    advanceStep() {
+      switch (this.currentStep) {
+        case this.stepEnum.PRODUCT_INFO:
+          if (this.userPoints >= this.productInfo.points) {
+            this.currentStep = this.stepEnum.PACKAGE_INFO;
+          } else {
+            this.$notifier.showMessage({
+              type: 'error',
+              message: 'Você não tem pontos suficiente para essa troca',
+            });
+          }
+
+          break;
+
+        case this.stepEnum.PACKAGE_INFO:
+          if (!this.shippingType) {
+            this.$notifier.showMessage({
+              type: 'error',
+              message: `Selecione algum tipo de retirada.`,
+            });
+          } else if (
+            this.quantity &&
+            this.quantity <= this.productInfo.quantity
+          ) {
+            this.currentStep = this.stepEnum.SET_DATE;
+          } else if (!this.quantity) {
+            this.$notifier.showMessage({
+              type: 'error',
+              message: `Digite alguma quantidade.`,
+            });
+          } else {
+            this.$notifier.showMessage({
+              type: 'error',
+              message: `Não temos ${this.quantity} em estoque.`,
+            });
+          }
+
+          break;
+
+        case this.stepEnum.SET_DATE:
+          if (this.date) {
+            this.currentStep = this.stepEnum.SET_TIME;
+          } else {
+            this.$notifier.showMessage({
+              type: 'error',
+              message: `Escolha alguma data.`,
+            });
+          }
+
+          break;
+
+        case this.stepEnum.SET_TIME:
+          if (this.time) {
+            this.currentStep = this.stepEnum.CHECKOUT;
+          } else {
+            this.$notifier.showMessage({
+              type: 'error',
+              message: `Escolha algum horário.`,
+            });
+          }
+
+          break;
+
+        case this.stepEnum.CHECKOUT:
+          this.currentStep = this.stepEnum.FINISHED;
+
+          break;
+      }
+    },
+    async createOrder() {
+      this.loading = true;
+
+      await market
+        .post(process.env.endpoints.MARKETPLACE.ORDER, {
+          itemId: this.productInfo.id,
+          userId: this.idUser,
+          quantity: parseInt(this.quantity),
+          content: {
+            withdrawalDate: `${this.date}T${this.time}:00:00Z`,
+          },
+        })
+        .catch(() => {
+          this.$notifier.showMessage({
+            type: 'error',
+            message: 'Houve algum problema com o nosso serviço de troca',
+          });
+
+          return null;
+        });
+
+      this.advanceStep();
+      this.loading = false;
     },
   },
 };
