@@ -692,23 +692,22 @@ h4 {
 ::v-deep .v-radio {
   align-items: initial;
 }
-
 #main-div {
   margin: 0 24px 100px;
 }
-
 #wrapper {
   position: relative;
 }
-
 #content {
   min-height: calc(100vh - 150px);
   padding-bottom: 100px;
 }
-
 #base {
   width: 100%;
   position: relative;
   bottom: 0px;
+}
+::v-deep #header {
+  margin: 20px 0;
 }
 </style>
