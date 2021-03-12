@@ -832,12 +832,10 @@ h4 {
 #wrapper {
   position: relative;
 }
-
 #content {
   min-height: calc(100vh - 150px);
   padding-bottom: 100px;
 }
-
 #base {
   width: 100%;
   position: relative;

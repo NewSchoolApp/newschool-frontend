@@ -10,51 +10,55 @@
         />
       </div>
     </div>
-    <div v-else id="main-col">
-      <HeaderBar :title="'Curso'" :route="'/aluno/home'"></HeaderBar>
-      <h1 id="title__course" class="h1__theme pb-3">{{ course.titulo }}</h1>
-      <div class="mask__img">
-        <img
-          v-if="showThumb"
-          :src="course.capa.url"
-          alt="imagem-curso"
-          title="imagem curso"
-          @error="imageLoadError"
-        />
-      </div>
-      <div class="info__box">
-        <section>
-          <div class="course__info pt-4 pb-4">
-            <div class="author__info">
-              <h1 class="h1__theme">Professor&nbsp;&nbsp;&nbsp;&nbsp;</h1>
-              <p id="author__name">{{ course.nomeDoAutor }}</p>
-            </div>
-            <div class="mural" @click="goToMural">
-              <p>Mural</p>
-            </div>
+    <div v-else id="main-div">
+      <div id="wrapper">
+        <div id="content">
+          <HeaderBar :title="'Curso'" :route="'/aluno/home'"></HeaderBar>
+          <h1 id="title__course" class="h1__theme pb-3">{{ course.titulo }}</h1>
+          <div class="mask__img">
+            <img
+              v-if="showThumb"
+              :src="course.capa.url"
+              alt="imagem-curso"
+              title="imagem curso"
+              @error="imageLoadError"
+            />
           </div>
-        </section>
-        <p id="description">{{ course.descricao }}</p>
-      </div>
+          <div class="info__box">
+            <section>
+              <div class="course__info pt-4 pb-4">
+                <div class="author__info">
+                  <h1 class="h1__theme">Professor&nbsp;&nbsp;&nbsp;&nbsp;</h1>
+                  <p id="author__name">{{ course.nomeDoAutor }}</p>
+                </div>
+                <div class="mural" @click="goToMural">
+                  <p>Mural</p>
+                </div>
+              </div>
+            </section>
+            <p id="description">{{ course.descricao }}</p>
+          </div>
+        </div>
 
-      <div class="base">
-        <v-btn
-          v-if="courseState == 'TAKEN'"
-          class="btn-block btn-primary"
-          @click="continueCourse()"
-        >
-          Continuar
-        </v-btn>
-        <v-btn
-          v-else-if="courseState == 'COMPLETED'"
-          class="btn-block btn-primary"
-          @click="watchCourse()"
-        >
-          Visualizar Curso
-        </v-btn>
-        <v-btn v-else class="btn-block btn-primary" @click="startCourse()">
-          Iniciar
-        </v-btn>
+        <div id="base">
+          <v-btn
+            v-if="courseState == 'TAKEN'"
+            class="btn-block btn-primary"
+            @click="continueCourse()"
+          >
+            Continuar
+          </v-btn>
+          <v-btn
+            v-else-if="courseState == 'COMPLETED'"
+            class="btn-block btn-primary"
+            @click="watchCourse()"
+          >
+            Visualizar Curso
+          </v-btn>
+          <v-btn v-else class="btn-block btn-primary" @click="startCourse()">
+            Iniciar
+          </v-btn>
+        </div>
       </div>
     </div>
     <navigation-bar />
@@ -274,8 +278,22 @@ h1 {
   bottom: 0;
   width: 100%;
 }
-
+#main-div {
+  margin: 0 24px 100px;
+}
+#wrapper {
+  position: relative;
+}
+#content {
+  min-height: calc(100vh - 150px);
+  padding-bottom: 100px;
+}
+#base {
+  width: 100%;
+  position: relative;
+  bottom: 0px;
+}
 ::v-deep #header {
-  margin: 20px 0 40px;
+  margin: 20px 0;
 }
 </style>
