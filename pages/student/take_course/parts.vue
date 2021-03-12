@@ -1,6 +1,5 @@
 <template>
   <div>
-    <header-bar :title="'Aula'" :route="`/aluno/curso/${slug}`"></header-bar>
     <v-layout justify-center>
       <div v-if="loading">
         <div class="container-spinner">
@@ -14,15 +13,26 @@
       </div>
 
       <v-col v-else class="pa-0">
+        <header-bar
+          :title="currentPart.titulo"
+          :back-func="goBack"
+          :close-func="leaveCourse"
+        ></header-bar>
+        <div class="progress-comp">
+          <small>{{ completion }}% concluído</small>
+          <div class="progress-bar">
+            <div class="progress-fill" :style="`width:${completion}%`" />
+          </div>
+        </div>
         <!-- Video Frame -->
         <div v-if="currentPart.videoUrl" id="video-iframe-container">
           <video-player
             ref="player"
             :youtube-url="currentPart.videoUrl.replace('watch?v=', 'embed/')"
             :thumbnail="currentCourse.capa.url"
+            @enableNext="enableNext()"
           />
         </div>
-
         <!-- Tabs -->
         <v-tabs id="tabs" v-model="selectedTab" height="35px">
           <v-tab>
@@ -97,6 +107,7 @@
           <v-btn
             v-if="selectedTab == 0"
             class="btn-block btn-primary"
+            :disabled="disableBtn"
             @click="advanceCourse()"
           >
             Continuar
@@ -110,7 +121,7 @@
 
 <router>
   {
-    path: '/aluno/curso/:courseSlug/aula/parte/:autoPlay?'
+    path: '/aluno/curso/:courseSlug/aula/parte/:watchMode?'
   }
 </router>
 
@@ -139,6 +150,9 @@ export default {
     posting: false,
     items: ['Mais salves', 'Mais recentes', 'Mais antigos', 'Meus comentarios'],
     sortBy: 'Mais salves',
+    completion: 0,
+    disableBtn: true,
+    watchMode: false,
   }),
   computed: {
     tooBig() {
@@ -159,7 +173,20 @@ export default {
       return this.$store.state.courses.current;
     },
     currentPart() {
-      return this.$store.state.courses.currentPart;
+      if (this.$store.state.courses.currentWatching) {
+        return this.$store.state.courses.currentWatching;
+      } else {
+        return this.$store.state.courses.currentPart;
+      }
+    },
+    currentTest() {
+      return this.$store.state.courses.currentTest;
+    },
+    currentWatching() {
+      return this.$store.state.courses.currentWatching;
+    },
+    currentPartOfWatching() {
+      return this.$store.state.courses.currentPartOfWatching;
     },
     idUser() {
       return this.$store.state.user.data.id;
@@ -209,7 +236,19 @@ export default {
       return amount;
     },
   },
+  async created() {
+    if (this.$route.params.watchMode) {
+      this.watchMode = true;
+    } else {
+      await this.$store.commit('courses/setCurrentWatching', '');
+      await this.$store.commit('courses/setCurrentPartOfWatching', '');
+    }
+
+    if (this.watchMode) this.disableBtn = false;
+  },
   mounted() {
+    this.getCompletion();
+
     document.addEventListener(
       'fullscreenchange',
       function() {
@@ -279,16 +318,14 @@ export default {
 
     this.getComments();
     this.loading = false;
-
-    // play video if there is an ongoing course
-    if (this.$route.params.autoPlay) {
-      this.$refs.player.playVideo();
-    }
   },
   methods: {
+    leaveCourse() {
+      this.$router.push(`/aluno/curso/${this.slug}`);
+    },
     async getComments() {
       await http
-        .getAll(`${process.env.endpoints.COMMENT}/${this.currentPart.id}`)
+        .getAll(`${process.env.endpoints.COMMENT}/part/${this.currentPart.id}`)
         .then(res => {
           this.comments = res.data;
         });
@@ -302,7 +339,7 @@ export default {
           userId: this.idUser,
           text: this.commentPost,
         };
-        http.post('/api/v1/comment', postBody).then(res => {
+        http.post(process.env.endpoints.COMMENT, postBody).then(res => {
           // refresh comments
           this.getComments();
 
@@ -314,26 +351,308 @@ export default {
       }
     },
     async advanceCourse() {
+      if (this.watchMode) {
+        this.goFoward();
+      } else {
+        this.loading = true;
+        // advancing course step
+        await http.post(
+          `${process.env.endpoints.ADVANCE_COURSE}/user/${this.idUser}/course/${this.courseId}`,
+        );
+
+        // cheking if this was the last step of the course
+        const currentStep = await this.$store.dispatch(
+          'courses/refreshCurrentStep',
+        );
+
+        if (currentStep.type === 'PART' || currentStep.type === 'LESSON') {
+          // case current step still a part or a lesson, continue on this page
+          this.loading = false;
+        } else {
+          // else, go to step url
+          $nuxt._router.replace(currentStep.stepUrl);
+        }
+      }
+    },
+    async getCompletion() {
+      const myCourses = (
+        await http.getAll(`${process.env.endpoints.MY_COURSES}${this.user.id}`)
+      ).data;
+      this.completion = myCourses.find(
+        course => parseInt(course.courseId) === this.courseId,
+      ).completion;
+    },
+    enableNext() {
+      this.disableBtn = false;
+    },
+    async goFoward() {
       this.loading = true;
-      // advancing course step
-      await http.post(
-        `${process.env.endpoints.ADVANCE_COURSE}/user/${this.idUser}/course/${this.courseId}`,
+
+      // define main constants of this step
+      const currentPart = this.watchMode
+        ? this.currentPartOfWatching
+        : this.currentPart;
+      const currentLesson = this.currentCourse.aulas.find(
+        lesson => lesson.id === currentPart.aula.id,
       );
 
-      // cheking if this was the last step of the course
-      const currentStep = await this.$store.dispatch(
-        'courses/refreshCurrentStep',
-      );
+      const nextTest = this.findNextTest(0, currentPart);
 
-      if (currentStep.type === 'PART' || currentStep.type === 'LESSON') {
-        // case current step still a part or a lesson, continue on this page and play the next course video
-        this.loading = false;
-        if (this.$refs.player) {
-          this.$refs.player.playVideo();
+      if (nextTest) {
+        if (this.currentTest && this.currentTest.id === nextTest.id) {
+          // exit watchmode and go to new test
+
+          this.goToTest(nextTest, currentPart, false);
+        } else {
+          // continue in watchmode and show next test
+
+          this.goToTest(nextTest, currentPart, true);
         }
       } else {
-        // else, go to step url
-        $nuxt._router.replace(currentStep.stepUrl);
+        const nextPart = await this.findNextPart(
+          currentPart.ordem,
+          currentLesson,
+        );
+
+        if (nextPart) {
+          if (this.currentPart && this.currentPart.id === nextPart.id) {
+            // exit watchmodde and show new part
+            this.goToPart(nextPart, false);
+          } else {
+            // continue in watchmode and show next part
+            this.goToPart(nextPart, true);
+          }
+        } else {
+          const nextLesson = await this.findNextValidLesson(
+            currentLesson.ordem,
+            this.currentCourse,
+          );
+
+          if (nextLesson) {
+            const nextPart = await this.findNextPart(0, nextLesson);
+
+            if (this.currentPart && this.currentPart.id === nextPart.id) {
+              // exit watchmodde and show new part
+
+              this.goToPart(nextPart, false);
+            } else {
+              // continue in watchmode and show next part
+              this.goToPart(nextPart, true);
+            }
+          } else {
+            // go back to course main view
+            $nuxt._router.replace(`/aluno/curso/${this.currentCourse.slug}`);
+          }
+        }
+      }
+    },
+    async goBack() {
+      this.loading = true;
+
+      // define main constants of this step
+      const currentPart = this.watchMode
+        ? this.currentPartOfWatching
+        : this.currentPart;
+      const currentLesson = this.currentCourse.aulas.find(
+        lesson => lesson.id === currentPart.aula.id,
+      );
+
+      const previousPart = await this.findPreviousPart(
+        currentPart.ordem,
+        currentLesson,
+      );
+
+      if (previousPart) {
+        if (previousPart.exercicios.length) {
+          const previousTest = this.findPreviousTest(9999, previousPart);
+          this.goToTest(previousTest, previousPart, true);
+        } else {
+          this.goToPart(previousPart, true);
+        }
+      } else {
+        const previousLesson = await this.findPreviousValidLesson(
+          currentLesson.ordem,
+          this.currentCourse,
+        );
+
+        if (previousLesson) {
+          const previousPart = await this.findPreviousPart(
+            9999,
+            previousLesson,
+          );
+
+          if (previousPart.exercicios.length) {
+            const previousTest = this.findPreviousTest(9999, previousPart);
+            this.goToTest(previousTest, previousPart, true);
+          } else {
+            this.goToPart(previousPart, true);
+          }
+        } else {
+          $nuxt._router.replace(`/aluno/curso/${this.currentCourse.slug}`);
+        }
+      }
+    },
+    findNextTest(currentTestOrder, currentPart) {
+      const laterTests = currentPart.exercicios.filter(
+        test => test.ordem > currentTestOrder,
+      );
+
+      const greaterOrders = laterTests.map(test => test.ordem);
+
+      if (greaterOrders.length) {
+        const nextTestOrder = Math.min(...greaterOrders);
+        return currentPart.exercicios.find(
+          test => test.ordem === nextTestOrder,
+        );
+      } else {
+        return null;
+      }
+    },
+    async findNextPart(currentPartOrder, currentLesson) {
+      const parts = (
+        await http.getAll(
+          `${process.env.endpoints.PARTS_BY_LESSON}/${currentLesson.id}`,
+        )
+      ).data;
+
+      const laterParts = parts.filter(part => part.ordem > currentPartOrder);
+
+      const greaterOrders = laterParts.map(part => part.ordem);
+
+      if (greaterOrders.length) {
+        const nextPartOrder = Math.min(...greaterOrders);
+        const nextPart = parts.find(part => part.ordem === nextPartOrder);
+
+        return nextPart;
+      } else {
+        return undefined;
+      }
+    },
+    async findNextValidLesson(currentLessonOrder, currentCourse) {
+      const laterLessons = currentCourse.aulas.filter(
+        lesson => lesson.ordem > currentLessonOrder,
+      );
+
+      const greaterOrders = laterLessons.map(lesson => lesson.ordem);
+
+      if (greaterOrders.length) {
+        const nextLessonOrder = Math.min(...greaterOrders);
+
+        for (let index = 0; index < greaterOrders.length; index++) {
+          const nextValidLesson = currentCourse.aulas.find(
+            lesson => lesson.ordem === nextLessonOrder + index,
+          );
+
+          const parts = (
+            await http.getAll(
+              `${process.env.endpoints.PARTS_BY_LESSON}/${nextValidLesson.id}`,
+            )
+          ).data;
+
+          if (parts.length) return nextValidLesson;
+        }
+        return null;
+      } else {
+        return null;
+      }
+    },
+    async goToTest(test, part, watchMode) {
+      if (watchMode) {
+        await this.$store.commit('courses/setCurrentWatching', test);
+        await this.$store.commit('courses/setCurrentPartOfWatching', part);
+
+        $nuxt._router.replace(
+          `/aluno/curso/${this.currentCourse.slug}/aula/teste/1`,
+        );
+      } else {
+        await this.$store.commit('courses/setCurrentWatching', '');
+        await this.$store.commit('courses/setCurrentPartOfWatching', '');
+
+        $nuxt._router.replace(
+          `/aluno/curso/${this.currentCourse.slug}/aula/teste`,
+        );
+      }
+    },
+    async goToPart(part, watchMode) {
+      if (watchMode) {
+        await this.$store.commit('courses/setCurrentWatching', part);
+        await this.$store.commit('courses/setCurrentPartOfWatching', part);
+
+        this.watchMode = true;
+        this.loading = false;
+      } else {
+        await this.$store.commit('courses/setCurrentWatching', '');
+        await this.$store.commit('courses/setCurrentPartOfWatching', '');
+
+        this.watchMode = false;
+        this.disableBtn = true;
+        this.loading = false;
+      }
+    },
+    findPreviousTest(currentTestOrder, currentPart) {
+      const previousTests = currentPart.exercicios.filter(
+        test => test.ordem < currentTestOrder,
+      );
+
+      const smallerOrders = previousTests.map(test => test.ordem);
+
+      if (smallerOrders.length) {
+        const previousTestOrder = Math.max(...smallerOrders);
+        return currentPart.exercicios.find(
+          test => test.ordem === previousTestOrder,
+        );
+      } else {
+        return null;
+      }
+    },
+    async findPreviousPart(currentPartOrder, currentLesson) {
+      const parts = (
+        await http.getAll(
+          `${process.env.endpoints.PARTS_BY_LESSON}/${currentLesson.id}`,
+        )
+      ).data;
+
+      const previousParts = parts.filter(part => part.ordem < currentPartOrder);
+
+      const smallerOrders = previousParts.map(part => part.ordem);
+
+      if (smallerOrders.length) {
+        const previousPartOrder = Math.max(...smallerOrders);
+        const prviousPart = parts.find(
+          part => part.ordem === previousPartOrder,
+        );
+
+        return prviousPart;
+      } else {
+        return undefined;
+      }
+    },
+    async findPreviousValidLesson(currentLessonOrder, currentCourse) {
+      const previousLessons = currentCourse.aulas.filter(
+        lesson => lesson.ordem < currentLessonOrder,
+      );
+
+      const smallerOrders = previousLessons.map(lesson => lesson.ordem);
+
+      if (smallerOrders.length) {
+        const previousLessonOrder = Math.max(...smallerOrders);
+
+        for (let index = 0; index < smallerOrders.length; index++) {
+          const previousValidLesson = currentCourse.aulas.find(
+            lesson => lesson.ordem === previousLessonOrder - index,
+          );
+
+          const parts = (
+            await http.getAll(
+              `${process.env.endpoints.PARTS_BY_LESSON}/${previousValidLesson.id}`,
+            )
+          ).data;
+
+          if (parts.length) return previousValidLesson;
+        }
+        return null;
+      } else {
+        return null;
       }
     },
   },
@@ -389,6 +708,10 @@ hr {
   font-weight: 500;
   color: grey;
   text-transform: none;
+}
+::v-deep .v-tab:nth-of-type(2) {
+  padding: 0;
+  justify-content: left;
 }
 ::v-deep .v-input__slot {
   min-height: 32px !important;
@@ -489,5 +812,26 @@ h4 {
   display: flex;
   margin-top: 0.6rem;
   flex-direction: column;
+}
+.progress-comp {
+  margin: 0 24px 6px;
+  flex-grow: 1;
+}
+.progress-bar {
+  height: 8px;
+  flex-grow: 1;
+  background-color: #e7e7e7;
+  border-radius: 3px;
+}
+.progress-fill {
+  height: 100%;
+  background-color: var(--primary);
+  border-radius: 3px;
+}
+.progress-comp small {
+  font-size: 10px;
+  font-weight: 400;
+  line-height: 12px;
+  letter-spacing: 0em;
 }
 </style>
