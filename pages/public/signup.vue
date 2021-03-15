@@ -147,6 +147,7 @@
 </router>
 
 <script scoped>
+import Axios from 'axios';
 import auth from '../../services/http/auth';
 import utils from '~/utils/index';
 import { http } from '~/services/http/config';

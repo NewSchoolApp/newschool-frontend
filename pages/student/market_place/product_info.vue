@@ -47,7 +47,7 @@
     <div v-else-if="currentStep === stepEnum.PACKAGE_INFO" id="wrapper">
       <div id="content">
         <header-bar
-          title="Produto"
+          title="Item Escolhido"
           :back-page="true"
           :back-func="rewindStep"
         ></header-bar>
@@ -65,7 +65,7 @@
           <div>Por:</div>
           <div>{{ productInfo.points }} NC</div>
         </v-row>
-        <div class="select-label">
+        <div class="input-label">
           Quantidade:
         </div>
         <v-select
@@ -76,7 +76,7 @@
           placeholder="Selecione a quantidade"
           :hide-details="true"
         />
-        <div class="select-label">Retirada:</div>
+        <div class="input-label">Retirada:</div>
         <v-select
           v-model="shippingType"
           class="primary-select input"
@@ -94,10 +94,12 @@
       </div>
     </div>
 
+    <!-- withdraw -->
+
     <div v-else-if="currentStep === stepEnum.SET_DATE" id="wrapper">
       <div id="content">
         <header-bar
-          title="Produto"
+          title="Retirada"
           :back-page="true"
           :back-func="rewindStep"
         ></header-bar>
@@ -125,7 +127,7 @@
     <div v-else-if="currentStep === stepEnum.SET_TIME" id="wrapper">
       <div id="content">
         <header-bar
-          title="Produto"
+          title="Retirada"
           :back-page="true"
           :back-func="rewindStep"
         ></header-bar>
@@ -166,10 +168,10 @@
       </div>
     </div>
 
-    <div v-if="currentStep === stepEnum.CHECKOUT" id="wrapper">
+    <div v-else-if="currentStep === stepEnum.WITHDRAW_CHECKOUT" id="wrapper">
       <div id="content">
         <header-bar
-          title="Produto"
+          title="Confirmação"
           :back-page="true"
           :back-func="rewindStep"
         ></header-bar>
@@ -201,10 +203,10 @@
       </div>
     </div>
 
-    <div v-if="currentStep === stepEnum.FINISHED" id="wrapper">
+    <div v-else-if="currentStep === stepEnum.WITHDRAW_FINISHED" id="wrapper">
       <div id="content">
         <header-bar
-          title="Produto"
+          title="Localização"
           :back-page="true"
           :back-func="rewindStep"
         ></header-bar>
@@ -256,12 +258,159 @@
         </div>
       </div>
       <div id="base">
-        <v-btn class="btn-block btn-primary" @click="rewindStep">
+        <v-btn class="btn-block btn-primary" @click="advanceStep">
           Voltar ao Início
         </v-btn>
       </div>
     </div>
 
+    <!-- mail -->
+
+    <div v-else-if="currentStep === stepEnum.PRE_CONTACT" id="wrapper">
+      <div id="content">
+        <header-bar
+          title="Receber em Casa"
+          :back-page="true"
+          :back-func="rewindStep"
+        ></header-bar>
+        <v-row id="header-row" justify="space-between">
+          <div id="header-msg">
+            Para receber em casa, completa aí, que o time da New School entrar
+            em contato.
+          </div>
+        </v-row>
+        <img src="~/assets/greetings.svg" alt="Salve" />
+      </div>
+      <div id="base">
+        <v-btn class="btn-block btn-primary" @click="advanceStep">
+          Continuar
+        </v-btn>
+      </div>
+    </div>
+
+    <div v-else-if="currentStep === stepEnum.CONTACT" id="wrapper">
+      <div id="content">
+        <header-bar
+          title="Receber em Casa"
+          :back-page="true"
+          :back-func="rewindStep"
+        ></header-bar>
+        <v-row id="header-row" justify="space-between">
+          <div id="header-msg">Completa aí:</div>
+        </v-row>
+        <div>
+          <div class="input-label">
+            Nome
+          </div>
+          <v-text-field
+            ref="contactInfoName"
+            v-model="contactInfo.name"
+            class="primary-text-field input"
+            filled
+            placeholder="Digite seu nome completo"
+            :hide-details="true"
+          />
+          <div class="input-label">
+            Whatsapp
+          </div>
+          <v-text-field
+            ref="contactInfoWhatsapp"
+            v-model="contactInfo.whatsapp"
+            class="primary-text-field input"
+            filled
+            placeholder="Digite telefone para contato ou Whatsapp"
+            :hide-details="true"
+            type="number"
+          />
+          <div class="input-label">
+            Email
+          </div>
+          <v-text-field
+            ref="contactInfoEmail"
+            v-model="contactInfo.email"
+            class="primary-text-field input"
+            filled
+            placeholder="Digite seu email"
+            :hide-details="true"
+          />
+          <div class="input-label">
+            Contato para recado
+          </div>
+          <v-text-field
+            ref="contactInfoContact"
+            v-model="contactInfo.contact"
+            class="primary-text-field input"
+            filled
+            placeholder="Digite um segundo número para contato"
+            :hide-details="true"
+            type="number"
+          />
+        </div>
+      </div>
+      <div id="base">
+        <v-btn class="btn-block btn-primary" @click="advanceStep">
+          Continuar
+        </v-btn>
+      </div>
+    </div>
+
+    <div v-else-if="currentStep === stepEnum.MAIL_CHECKOUT" id="wrapper">
+      <div id="content">
+        <header-bar
+          title="Confirmação"
+          :back-page="true"
+          :back-func="rewindStep"
+        ></header-bar>
+        <v-row id="header-row" justify="space-between">
+          <div id="product-title">{{ productInfo.name }}</div>
+          <div id="balance">Saldo: {{ userPoints }}NC</div>
+        </v-row>
+        <div
+          id="img-viewport"
+          :style="
+            `background-image: url(https://a-static.mlcdn.com.br/618x463/mouse-gamer-logitech-g-pro-hero-optico-16000dpi-6-botoes-pro/magazineluiza/223329300/73b0a24b258f1d114ca12b2209bdefc9.jpg);`
+          "
+        />
+        <v-row id="price-row">
+          <div>Por:</div>
+          <div>{{ productInfo.points }} NC</div>
+        </v-row>
+        <div id="shipping-info">
+          <div>Dados pessoais</div>
+          <div>{{ contactInfo.name }}</div>
+          <div>{{ contactInfo.whatsapp }}</div>
+          <div>{{ contactInfo.email }}</div>
+          <div>{{ contactInfo.contact }}</div>
+        </div>
+      </div>
+
+      <div id="base">
+        <v-btn class="btn-block btn-primary" @click="advanceStep">
+          Finalizar
+        </v-btn>
+      </div>
+    </div>
+
+    <div v-else-if="currentStep === stepEnum.MAIL_FINISHED" id="wrapper">
+      <div id="content">
+        <header-bar
+          title="Finalizado"
+          :back-page="true"
+          :back-func="rewindStep"
+        ></header-bar>
+        <v-row id="header-row" justify="space-between">
+          <div id="header-msg">
+            Tudo certo. Agora é só aguardar, a New School entrar em contato.
+          </div>
+        </v-row>
+        <img class="px-6" src="~/assets/wellDone.svg" alt="Finalizado" />
+      </div>
+      <div id="base">
+        <v-btn class="btn-block btn-primary" @click="advanceStep">
+          Voltar ao Início
+        </v-btn>
+      </div>
+    </div>
     <navigation-bar />
   </div>
 </template>
@@ -292,16 +441,26 @@ export default {
       PACKAGE_INFO: 'PACKAGE_INFO',
       SET_DATE: 'SET_DATE',
       SET_TIME: 'SET_TIME',
-      CHECKOUT: 'CHECKOUT',
-      FINISHED: 'FINISHED',
+      WITHDRAW_CHECKOUT: 'WITHDRAW_CHECKOUT',
+      WITHDRAW_FINISHED: 'WITHDRAW_FINISHED',
+      PRE_CONTACT: 'PRE_CONTACT',
+      CONTACT: 'CONTACT',
+      MAIL_CHECKOUT: 'MAIL_CHECKOUT',
+      MAIL_FINISHED: 'MAIL_FINISHED',
     },
     currentStep: 'PRODUCT_INFO',
-    shippingOptions: ['Retirar na New School'],
+    shippingOptions: ['Retirar na New School', 'Receber em casa'],
     shippingType: '',
     quantitySelect: [],
     quantity: '',
     date: '',
     time: '',
+    contactInfo: {
+      name: '',
+      whatsapp: '',
+      email: '',
+      contact: '',
+    },
   }),
   computed: {
     idUser() {
@@ -383,8 +542,10 @@ export default {
               type: 'error',
               message: `Você não tem pontos o suficiente`,
             });
-          } else {
+          } else if (this.shippingType === 'Retirar na New School') {
             this.currentStep = this.stepEnum.SET_DATE;
+          } else {
+            this.currentStep = this.stepEnum.PRE_CONTACT;
           }
 
           break;
@@ -403,7 +564,7 @@ export default {
 
         case this.stepEnum.SET_TIME:
           if (this.time) {
-            this.currentStep = this.stepEnum.CHECKOUT;
+            this.currentStep = this.stepEnum.WITHDRAW_CHECKOUT;
           } else {
             this.$notifier.showMessage({
               type: 'error',
@@ -413,8 +574,46 @@ export default {
 
           break;
 
-        case this.stepEnum.CHECKOUT:
-          this.currentStep = this.stepEnum.FINISHED;
+        case this.stepEnum.WITHDRAW_CHECKOUT:
+          this.currentStep = this.stepEnum.WITHDRAW_FINISHED;
+
+          break;
+
+        case this.stepEnum.PRE_CONTACT:
+          this.currentStep = this.stepEnum.CONTACT;
+
+          break;
+
+        case this.stepEnum.CONTACT:
+          if (!this.contactInfo.name) this.$refs.contactInfoName.error = true;
+
+          if (!this.contactInfo.whatsapp)
+            this.$refs.contactInfoWhatsapp.error = true;
+
+          if (!this.contactInfo.email) this.$refs.contactInfoEmail.error = true;
+
+          if (!this.contactInfo.contact)
+            this.$refs.contactInfoContact.error = true;
+
+          if (
+            this.contactInfo.name &&
+            this.contactInfo.whatsapp &&
+            this.contactInfo.email &&
+            this.contactInfo.contact
+          ) {
+            this.currentStep = this.stepEnum.MAIL_CHECKOUT;
+          }
+
+          break;
+
+        case this.stepEnum.MAIL_CHECKOUT:
+          this.currentStep = this.stepEnum.MAIL_FINISHED;
+
+          break;
+
+        case this.stepEnum.MAIL_FINISHED:
+        case this.stepEnum.WITHDRAW_FINISHED:
+          $nuxt._router.replace('/aluno/marketplace');
 
           break;
       }
@@ -456,6 +655,7 @@ export default {
           break;
 
         case this.stepEnum.SET_DATE:
+        case this.stepEnum.PRE_CONTACT:
           this.currentStep = this.stepEnum.PACKAGE_INFO;
 
           break;
@@ -465,12 +665,23 @@ export default {
 
           break;
 
-        case this.stepEnum.CHECKOUT:
+        case this.stepEnum.WITHDRAW_CHECKOUT:
           this.currentStep = this.stepEnum.SET_TIME;
 
           break;
 
-        case this.stepEnum.FINISHED:
+        case this.stepEnum.CONTACT:
+          this.currentStep = this.stepEnum.PRE_CONTACT;
+
+          break;
+
+        case this.stepEnum.MAIL_CHECKOUT:
+          this.currentStep = this.stepEnum.CONTACT;
+
+          break;
+
+        case this.stepEnum.MAIL_FINISHED:
+        case this.stepEnum.WITHDRAW_FINISHED:
           $nuxt._router.replace('/aluno/marketplace');
 
           break;
@@ -482,6 +693,11 @@ export default {
 <style scoped>
 * {
   font-family: Roboto;
+}
+img {
+  width: 100%;
+  height: 100%;
+  margin-top: 48px;
 }
 .row {
   margin: initial;
@@ -574,7 +790,7 @@ export default {
   align-items: flex-end;
   color: #737373;
 }
-.select-label {
+.input-label {
   font-weight: normal;
   font-size: 14px;
   color: var(--primary);
