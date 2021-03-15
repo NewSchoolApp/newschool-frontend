@@ -1,11 +1,5 @@
 <template>
   <div>
-    <HeaderBar
-      v-if="!correct"
-      :title="this.$store.state.courses.current.titulo"
-      :back-func="goBack"
-      :close-func="leaveCourse"
-    ></HeaderBar>
     <div v-if="loading">
       <div class="container-spinner">
         <v-progress-circular
@@ -72,46 +66,51 @@
         </div>
       </div>
     </div>
-    <div v-else class="test-screen">
-      <div class="content-wrap">
-        <h3>{{ testToShow.titulo || 'Título do Teste' }}</h3>
-        <h4 class="mt-4">
-          {{ testToShow.pergunta || 'Enunciado do teste' }}
-        </h4>
-        <v-radio-group v-model="selected" class="mt-4" :readonly="readonly">
-          <v-radio value="A" :ripple="false">
-            <template #label>
-              <div><span>A:</span> {{ testToShow.primeira_alternativa }}</div>
-            </template>
-          </v-radio>
+    <div v-else id="main-div">
+      <div id="wrapper">
+        <div id="content">
+          <HeaderBar
+            v-if="!correct"
+            :title="this.$store.state.courses.current.titulo"
+            :back-func="goBack"
+            :close-func="leaveCourse"
+          ></HeaderBar>
+          <h3>{{ testToShow.titulo || 'Título do Teste' }}</h3>
+          <h4 class="mt-4">
+            {{ testToShow.pergunta || 'Enunciado do teste' }}
+          </h4>
+          <v-radio-group v-model="selected" class="mt-4" :readonly="readonly">
+            <v-radio value="A" :ripple="false">
+              <template #label>
+                <div><span>A:</span> {{ testToShow.primeira_alternativa }}</div>
+              </template>
+            </v-radio>
 
-          <v-radio value="B" :ripple="false">
-            <template #label>
-              <div><span>B:</span> {{ testToShow.segunda_alternativa }}</div>
-            </template>
-          </v-radio>
+            <v-radio value="B" :ripple="false">
+              <template #label>
+                <div><span>B:</span> {{ testToShow.segunda_alternativa }}</div>
+              </template>
+            </v-radio>
 
-          <v-radio value="C" :ripple="false">
-            <template #label>
-              <div><span>C:</span> {{ testToShow.terceira_alternativa }}</div>
-            </template>
-          </v-radio>
+            <v-radio value="C" :ripple="false">
+              <template #label>
+                <div><span>C:</span> {{ testToShow.terceira_alternativa }}</div>
+              </template>
+            </v-radio>
 
-          <v-radio value="D" :ripple="false">
-            <template #label>
-              <div><span>D:</span> {{ testToShow.quarta_alternativa }}</div>
-            </template>
-          </v-radio>
-        </v-radio-group>
-      </div>
+            <v-radio value="D" :ripple="false">
+              <template #label>
+                <div><span>D:</span> {{ testToShow.quarta_alternativa }}</div>
+              </template>
+            </v-radio>
+          </v-radio-group>
+        </div>
 
-      <div class="base">
-        <v-btn
-          :class="'btn-block btn-primary btn-fixed ' + error"
-          @click="nextTest"
-        >
-          Próximo
-        </v-btn>
+        <div class="base">
+          <v-btn :class="'btn-block btn-primary ' + error" @click="nextTest">
+            Próximo
+          </v-btn>
+        </div>
       </div>
     </div>
     <navigation-bar v-if="!correct" />
@@ -614,15 +613,14 @@ h4 {
   background-position: 100%;
 }
 .test-screen {
-  margin: 0 20px;
+  padding: 0 20px;
 }
 .content-wrap {
-  padding-bottom: 90%;
+  padding-bottom: 180px;
 }
 .base {
-  position: absolute;
-  bottom: 96px;
-  width: 92%;
+  width: 100%;
+  margin-bottom: 100px;
 }
 .message {
   font-family: Roboto;
@@ -693,5 +691,23 @@ h4 {
 }
 ::v-deep .v-radio {
   align-items: initial;
+}
+#main-div {
+  margin: 0 24px 100px;
+}
+#wrapper {
+  position: relative;
+}
+#content {
+  min-height: calc(100vh - 150px);
+  padding-bottom: 100px;
+}
+#base {
+  width: 100%;
+  position: relative;
+  bottom: 0px;
+}
+::v-deep #header {
+  margin: 20px 0;
 }
 </style>
