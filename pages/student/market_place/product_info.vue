@@ -23,9 +23,7 @@
         </v-row>
         <div
           id="img-viewport"
-          :style="
-            `background-image: url(https://a-static.mlcdn.com.br/618x463/mouse-gamer-logitech-g-pro-hero-optico-16000dpi-6-botoes-pro/magazineluiza/223329300/73b0a24b258f1d114ca12b2209bdefc9.jpg);`
-          "
+          :style="`background-image: url(${productInfo.photo});`"
         />
         <v-row id="price-row">
           <div>Por:</div>
@@ -57,9 +55,7 @@
         </v-row>
         <div
           id="img-viewport"
-          :style="
-            `background-image: url('https://a-static.mlcdn.com.br/618x463/mouse-gamer-logitech-g-pro-hero-optico-16000dpi-6-botoes-pro/magazineluiza/223329300/73b0a24b258f1d114ca12b2209bdefc9.jpg');`
-          "
+          :style="`background-image: url('${productInfo.photo}');`"
         />
         <v-row id="price-row">
           <div>Por:</div>
@@ -181,9 +177,7 @@
         </v-row>
         <div
           id="img-viewport"
-          :style="
-            `background-image: url(https://a-static.mlcdn.com.br/618x463/mouse-gamer-logitech-g-pro-hero-optico-16000dpi-6-botoes-pro/magazineluiza/223329300/73b0a24b258f1d114ca12b2209bdefc9.jpg);`
-          "
+          :style="`background-image: url(${productInfo.photo});`"
         />
         <v-row id="price-row">
           <div>Por:</div>
@@ -367,9 +361,7 @@
         </v-row>
         <div
           id="img-viewport"
-          :style="
-            `background-image: url(https://a-static.mlcdn.com.br/618x463/mouse-gamer-logitech-g-pro-hero-optico-16000dpi-6-botoes-pro/magazineluiza/223329300/73b0a24b258f1d114ca12b2209bdefc9.jpg);`
-          "
+          :style="`background-image: url(${productInfo.photo});`"
         />
         <v-row id="price-row">
           <div>Por:</div>
