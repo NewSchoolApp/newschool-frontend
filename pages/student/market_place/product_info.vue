@@ -191,7 +191,10 @@
       </div>
 
       <div id="base">
-        <v-btn class="btn-block btn-primary" @click="createOrder">
+        <v-btn
+          class="btn-block btn-primary"
+          @click="createOrder(orderTypeEnum.WITHDRAW)"
+        >
           Finalizar
         </v-btn>
       </div>
@@ -377,7 +380,10 @@
       </div>
 
       <div id="base">
-        <v-btn class="btn-block btn-primary" @click="advanceStep">
+        <v-btn
+          class="btn-block btn-primary"
+          @click="createOrder(orderTypeEnum.MAIL)"
+        >
           Finalizar
         </v-btn>
       </div>
@@ -452,6 +458,10 @@ export default {
       whatsapp: '',
       email: '',
       contact: '',
+    },
+    orderTypeEnum: {
+      WITHDRAW: 'WITHDRAW',
+      MAIL: 'MAIL',
     },
   }),
   computed: {
@@ -610,17 +620,32 @@ export default {
           break;
       }
     },
-    async createOrder() {
+    async createOrder(orderType) {
       this.loading = true;
+
+      let content;
+
+      if (orderType === this.orderTypeEnum.MAIL) {
+        content = {
+          contactInfo: this.contactInfo,
+        };
+      } else if (orderType === this.orderTypeEnum.WITHDRAW) {
+        content = {
+          withdrawalDate: `${this.date}T${this.time}:00:00Z`,
+        };
+      } else {
+        this.$notifier.showMessage({
+          type: 'error',
+          message: 'Tipo de pedido inválido',
+        });
+      }
 
       await market
         .post(process.env.endpoints.MARKETPLACE.ORDER, {
           itemId: this.productInfo.id,
           userId: this.idUser,
           quantity: parseInt(this.quantity),
-          content: {
-            withdrawalDate: `${this.date}T${this.time}:00:00Z`,
-          },
+          content,
         })
         .catch(() => {
           this.$notifier.showMessage({
