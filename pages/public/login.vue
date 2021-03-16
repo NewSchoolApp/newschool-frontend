@@ -109,10 +109,25 @@ export default {
       v => !!v || 'Digite a senha',
       v => (v && v.length >= 6) || 'A senha deve ter no mínimo 6 caracteres',
     ],
+    localStorage: {},
+    dataString: { email: '', password: '' },
   }),
   mounted() {
     window.screen.orientation.lock('portrait');
     this.loginSocialReturn();
+
+    if (window.localStorage) {
+      this.localStorage = window.localStorage;
+    } else {
+      this.localStorage = localStorage;
+    }
+
+    if (this.localStorage.dataString) {
+      this.dataString = JSON.parse(atob(this.localStorage.dataString));
+
+      this.email = atob(this.dataString.email);
+      this.password = atob(this.dataString.password);
+    }
   },
 
   methods: {
@@ -143,6 +158,19 @@ export default {
         });
     },
     async submit() {
+      if (
+        atob(this.dataString.email) !== this.email ||
+        atob(this.dataString.password) !== this.password
+      ) {
+        this.localStorage.clear();
+        this.localStorage.dataString = btoa(
+          JSON.stringify({
+            email: btoa(this.email),
+            password: btoa(this.password),
+          }),
+        );
+      }
+
       event.preventDefault();
       try {
         if (this.$refs.form.validate()) {
@@ -155,6 +183,7 @@ export default {
           this.animateForm(false);
         }
       } catch (err) {
+        console.log(err);
         this.$notifier.showMessage({
           type: 'error',
           message: 'Usuário ou senha incorretos!',

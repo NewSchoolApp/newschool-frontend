@@ -90,11 +90,11 @@
 
               <div class="terms">
                 <v-checkbox v-model="agree" />
-                <div>
+                <div id="terms-message">
                   Declaro que li e concordo com os
-                  <span class="link" @click="dialog = true"
-                    >Termos e Condições de Uso</span
-                  >
+                  <span class="link" @click="dialog = true">
+                    Termos e Condições de Uso
+                  </span>
                   do New School App
                 </div>
               </div>
@@ -194,6 +194,7 @@ export default {
         v => !!v || 'Digite o e-mail',
         v => /.+@.+\..+/.test(v) || 'E-mail inválido',
       ],
+      localStorage: {},
     };
   },
   computed: {
@@ -208,10 +209,17 @@ export default {
   },
   mounted() {
     this.inviteKey = this.$route.params.inviteKey;
+
+    if (window.localStorage) {
+      this.localStorage = window.localStorage;
+    } else {
+      this.localStorage = localStorage;
+    }
   },
 
   methods: {
     submit() {
+      this.localStorage.clear();
       if (this.$refs.form.validate() && this.agree) {
         const postObject = Object.assign({}, this.form);
         const profileEnum = {
@@ -446,9 +454,13 @@ export default {
 .terms {
   font-family: 'Roboto';
   font-size: 15px;
-  display: -webkit-box;
-  -webkit-box-align: center;
-  margin-right: 40px;
+  display: flex;
+  align-items: baseline;
+}
+
+#terms-message {
+  top: -3px;
+  position: relative;
 }
 
 .link {

@@ -98,7 +98,7 @@ export default {
     searchHistory: [],
     showSearchNull: false,
     failedSearch: '',
-    localStorage: '',
+    localStorage: {},
   }),
   computed: {
     filteredList() {

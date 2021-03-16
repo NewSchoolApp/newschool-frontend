@@ -74,6 +74,7 @@ export default {
     Avatar,
   },
   data: () => ({
+    localStorage: {},
     menu: [
       {
         id: 1,
@@ -142,6 +143,11 @@ export default {
       this.auth = true;
       this.pushAdminOnlyOptions();
     }
+    if (window.localStorage) {
+      this.localStorage = window.localStorage;
+    } else {
+      this.localStorage = localStorage;
+    }
   },
   methods: {
     ...mapActions('user', ['clearInfoUser']),
@@ -154,7 +160,7 @@ export default {
     logout() {
       this.logoutSocial().then(() => {
         $nuxt._router.push('/login');
-        localStorage.clear();
+        this.localStorage.removeItem('auth');
         this.clearInfoUser();
       });
     },
