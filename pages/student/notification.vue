@@ -88,7 +88,7 @@
                   {{ notification.content.badge.badgeDescription }}
                 </h1>
                 <h1 v-if="notification.type == notificationType.MARKETPLACE">
-                  Você comprou {{ notification.content.item.name }}!
+                  NOTIFICAÇÃO MARKETPLACE {{ notification.content.status }}
                 </h1>
                 <h1
                   v-if="notification.type == notificationType.OTHER"
