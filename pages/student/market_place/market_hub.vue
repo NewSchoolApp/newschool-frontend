@@ -23,9 +23,7 @@
         <product-card
           :name="product.name"
           :price="product.points"
-          :img="
-            'https://a-static.mlcdn.com.br/618x463/mouse-gamer-logitech-g-pro-hero-optico-16000dpi-6-botoes-pro/magazineluiza/223329300/73b0a24b258f1d114ca12b2209bdefc9.jpg'
-          "
+          :img="product.photo"
           :slug="product.slug"
         />
       </div>
@@ -189,12 +187,12 @@ export default {
               this.searchParam ? 'name[contains]=' + this.searchParam : false
             }&quantity[gt]=0`,
           )
-        ).data;
+        ).data.content;
 
         if (res.length) {
           this.busy = false;
         }
-
+        console.log(res);
         res.forEach(item => {
           this.products.push(item);
         });
