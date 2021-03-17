@@ -806,6 +806,17 @@ img {
   display: flex;
   align-items: flex-end;
   color: #737373;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+
+  -ms-word-break: break-all;
+  word-break: break-all;
+  word-break: break-word;
+
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
 }
 .input-label {
   font-weight: normal;
