@@ -405,9 +405,10 @@ export default {
         : this.currentPart;
 
       if (!currentPart.id) {
+        console.log('____________', currentTest.parte.id);
         currentPart = (
           await http.getAll(
-            `${process.env.endpoints.PARTS_BY_LESSON}/${currentTest.parte.id}`,
+            `${process.env.endpoints.PART_BY_ID}/${currentTest.parte.id}`,
           )
         ).data;
       }
