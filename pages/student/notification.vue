@@ -71,7 +71,7 @@
                   @click="removeNotification(notification)"
                 />
 
-                <h1
+                <!-- <h1
                   @click="
                     notification.content.semearSiteUrl
                       ? goToNotification(notification.content.semearSiteUrl)
@@ -83,6 +83,18 @@
                       ? notification.content.badge.badgeDescription
                       : 'Clique e acesse o site do Parceiro'
                   }}
+                </h1> -->
+                <h1 v-if="notification.type == notificationType.GAMEFICATION">
+                  {{ notification.content.badge.badgeDescription }}
+                </h1>
+                <h1 v-if="notification.type == notificationType.MARKETPLACE">
+                  Você comprou {{ notification.content.item.name }}!
+                </h1>
+                <h1
+                  v-if="notification.type == notificationType.OTHER"
+                  @click="goToNotification(notification.content.semearSiteUrl)"
+                >
+                  Clique e acesse o site do Parceiro
                 </h1>
                 <div>
                   <p id="continue__text">{{ checkDate(notification) }}</p>
@@ -135,6 +147,11 @@ export default {
     notifications: [],
     dialog: false,
     filterImportants: false,
+    notificationType: {
+      OTHER: 'OTHER',
+      GAMEFICATION: 'GAMEFICATION',
+      MARKETPLACE: 'MARKETPLACE',
+    },
   }),
   computed: {
     user() {

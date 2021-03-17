@@ -57,6 +57,22 @@ import { mapActions } from 'vuex';
 import auth from '~/services/http/auth';
 
 export default {
+  filters: {
+    simplifyName(name) {
+      if (!name) {
+        return '';
+      }
+      const regex = /^(\S*\s+\S+).*/; // Regex para remover todos os caracteres após o segundo espaço em branco
+      const numberOfNames = name.split(' ').length;
+      if (numberOfNames > 2) {
+        return regex.exec(name)[1];
+      }
+      return name;
+    },
+  },
+  components: {
+    Avatar,
+  },
   data: () => ({
     menu: [
       {
@@ -107,8 +123,26 @@ export default {
         icon: 'mdi-phone-message-outline',
         link: '/contato',
       },
+      {
+        id: 9,
+        label: 'Loja',
+        icon: 'mdi-shopping',
+        link: '/aluno/marketplace',
+      },
     ],
   }),
+  computed: {
+    user() {
+      return this.$store.state.user.data;
+    },
+  },
+  mounted() {
+    const { status } = auth.isTokenValid();
+    if (status) {
+      this.auth = true;
+      this.pushAdminOnlyOptions();
+    }
+  },
   methods: {
     ...mapActions('user', ['clearInfoUser']),
     /**
@@ -126,8 +160,7 @@ export default {
     },
     navigateAndCloseMenu(route) {
       $nuxt._router.push(route);
-      if($nuxt.$route.path === route)
-        this.closeMenu();
+      if ($nuxt.$route.path === route) this.closeMenu();
     },
     pushAdminOnlyOptions() {
       if (this.$store.state.user.data.role === 'ADMIN') {
@@ -146,34 +179,6 @@ export default {
       }
       return this.$auth.logout();
     },
-  },
-  computed: {
-    user() {
-      return this.$store.state.user.data;
-    },
-  },
-  mounted() {
-    const { status } = auth.isTokenValid();
-    if (status) {
-      this.auth = true;
-      this.pushAdminOnlyOptions();
-    }
-  },
-  filters: {
-    simplifyName(name) {
-      if (!name) {
-        return '';
-      }
-      const regex = /^(\S*\s+\S+).*/; // Regex para remover todos os caracteres após o segundo espaço em branco
-      const numberOfNames = name.split(' ').length;
-      if (numberOfNames > 2) {
-        return regex.exec(name)[1];
-      }
-      return name;
-    },
-  },
-  components: {
-    Avatar,
   },
 };
 </script>

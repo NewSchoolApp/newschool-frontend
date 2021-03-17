@@ -1,4 +1,4 @@
-<template class="teste">
+<template>
   <div>
     <div v-if="!playing" id="course-thumbnail-backgorund" @click="playVideo()">
       <img id="course-thumbnail" :src="thumbnail" alt="imagem-curso" />
@@ -8,7 +8,12 @@
       </v-icon>
     </div>
 
-    <youtube-vue v-else ref="youtube" :videoid="videoUrl" />
+    <youtube-vue
+      v-else
+      ref="youtube"
+      :videoid="videoUrl"
+      @ended="destroyPlayer()"
+    />
   </div>
 </template>
 <script>
@@ -30,6 +35,9 @@ export default {
       return splited[splited.length - 1];
     },
   },
+  mounted() {
+    this.tag = window.document.createElement('script');
+  },
   beforeDestroy() {
     if (window.plugins) {
       window.plugins.insomnia.allowSleepAgain();
@@ -42,8 +50,27 @@ export default {
       }
       this.playing = true;
       setTimeout(() => {
+        this.checkVideoProgression();
         this.$refs.youtube.player.playVideo();
       }, 100);
+    },
+    destroyPlayer() {
+      this.$refs.youtube.player.destroy();
+      this.playing = false;
+    },
+    async checkVideoProgression() {
+      if (this.$refs.youtube) {
+        const duration = await this.$refs.youtube.player.getDuration();
+        const currentTime = await this.$refs.youtube.player.getCurrentTime();
+
+        if ((duration / 100) * 80 < currentTime) {
+          this.$emit('enableNext');
+        }
+
+        setTimeout(() => {
+          this.checkVideoProgression();
+        }, 5000);
+      }
     },
   },
 };

@@ -166,8 +166,10 @@ export default {
       'http://newschool.us-east-2.elasticbeanstalk.com',
     baseUrl:
       process.env.VUE_APP_BASE_URL ||
-       'https://9ddlz0bte4.execute-api.us-east-2.amazonaws.com/prod',
       //'https://9ddlz0bte4.execute-api.us-east-2.amazonaws.com/dev',
+      // 'https://9ddlz0bte4.execute-api.us-east-2.amazonaws.com/prod',
+      'https://9ddlz0bte4.execute-api.us-east-2.amazonaws.com/dev',
+    marketUrl: 'https://q4cw73dgy1.execute-api.us-east-2.amazonaws.com/dev',
     credentials: {
       name: process.env.VUE_APP_CLIENT_CREDENTIAL_NAME || 'NEWSCHOOL@FRONT',
       secret:
@@ -199,7 +201,7 @@ export default {
       STATE: 'api/v1/state',
 
       // social
-      COMMENT: '/api/v1/comment/part',
+      COMMENT: '/api/v1/comment',
       NOTIFICATIONS: 'api/v1/notification',
       FACEBOOK_LOGIN: 'oauth/facebook/token',
       GOOGLE_LOGIN: 'oauth/google/token',
@@ -238,6 +240,11 @@ export default {
       COURSE_VIEWS: '/api/v1/dashboard/course/views',
       NS_CERTIFICATED_QUANTITY: '/api/v1/dashboard/course-taken/user/quantity',
       CERTIFICATE_QUANTITY: '/api/v1/dashboard/certificate/quantity',
+
+      MARKETPLACE: {
+        ITENS: '/api/v1/item',
+        ORDER: '/api/v1/order',
+      },
     },
     endpointCertificateCourseTaken: {
       CERTIFICATES_COURSE_TAKEN_ME: 'api/v2/course-taken/certificate/user/',
@@ -462,6 +469,7 @@ export default {
         },
         light: {
           primary: '#6600cc',
+          primary_light: '#B380E6',
         },
       },
     },

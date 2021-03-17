@@ -1,6 +1,5 @@
 <template>
   <div>
-    <HeaderBar :title="'Curso'" :route="'/aluno/home'"></HeaderBar>
     <div v-if="loading">
       <div class="container-spinner">
         <v-progress-circular
@@ -12,6 +11,7 @@
       </div>
     </div>
     <div v-else id="main-col">
+      <HeaderBar :title="'Curso'" :route="'/aluno/home'"></HeaderBar>
       <h1 id="title__course" class="h1__theme pb-3">{{ course.titulo }}</h1>
       <div class="mask__img">
         <img
@@ -48,9 +48,9 @@
         <v-btn
           v-else-if="courseState == 'COMPLETED'"
           class="btn-block btn-primary"
-          @click="goToCertificate()"
+          @click="watchCourse()"
         >
-          Certificado
+          Visualizar Curso
         </v-btn>
         <v-btn v-else class="btn-block btn-primary" @click="startCourse()">
           Iniciar
@@ -156,6 +156,22 @@ export default {
       // go to step url
       $nuxt._router.push(currentStep.stepUrl);
     },
+    async watchCourse() {
+      this.loading = true;
+
+      const firstLessonId = this.course.aulas.find(lesson => lesson.ordem === 1)
+        .id;
+
+      const parts = (await http.getAll(`/api/v2/part/lesson/${firstLessonId}`))
+        .data;
+
+      const firstPart = parts.find(part => part.ordem === 1);
+
+      await this.$store.commit('courses/setCurrentWatching', firstPart);
+      await this.$store.commit('courses/setCurrentPartOfWatching', firstPart);
+
+      $nuxt._router.replace(`/aluno/curso/${firstPart.slug}/aula/parte/1`);
+    },
   },
 };
 </script>
@@ -257,5 +273,9 @@ h1 {
   position: absolute;
   bottom: 0;
   width: 100%;
+}
+
+::v-deep #header {
+  margin: 20px 0 40px;
 }
 </style>

@@ -3,7 +3,8 @@
     <HeaderBar
       v-if="!correct"
       :title="this.$store.state.courses.current.titulo"
-      :route="`/aluno/curso/${slug}`"
+      :back-func="goBack"
+      :close-func="leaveCourse"
     ></HeaderBar>
     <div v-if="loading">
       <div class="container-spinner">
@@ -71,37 +72,38 @@
         </div>
       </div>
     </div>
-    <div v-else class="inner-container">
-      <h3>{{ test.titulo || 'Título do Teste' }}</h3>
-      <h4 class="mt-5">
-        {{ test.pergunta || 'Enunciado do teste' }}
-      </h4>
+    <div v-else class="test-screen">
+      <div class="content-wrap">
+        <h3>{{ testToShow.titulo || 'Título do Teste' }}</h3>
+        <h4 class="mt-4">
+          {{ testToShow.pergunta || 'Enunciado do teste' }}
+        </h4>
+        <v-radio-group v-model="selected" class="mt-4" :readonly="readonly">
+          <v-radio value="A" :ripple="false">
+            <template #label>
+              <div><span>A:</span> {{ testToShow.primeira_alternativa }}</div>
+            </template>
+          </v-radio>
 
-      <v-radio-group v-model="selected" class="mt-12">
-        <v-radio value="A">
-          <template #label>
-            <div><span>A:</span> {{ test.primeira_alternativa }}</div>
-          </template>
-        </v-radio>
+          <v-radio value="B" :ripple="false">
+            <template #label>
+              <div><span>B:</span> {{ testToShow.segunda_alternativa }}</div>
+            </template>
+          </v-radio>
 
-        <v-radio value="B">
-          <template #label>
-            <div><span>B:</span> {{ test.segunda_alternativa }}</div>
-          </template>
-        </v-radio>
+          <v-radio value="C" :ripple="false">
+            <template #label>
+              <div><span>C:</span> {{ testToShow.terceira_alternativa }}</div>
+            </template>
+          </v-radio>
 
-        <v-radio value="C">
-          <template #label>
-            <div><span>C:</span> {{ test.terceira_alternativa }}</div>
-          </template>
-        </v-radio>
-
-        <v-radio value="D">
-          <template #label>
-            <div><span>D:</span> {{ test.quarta_alternativa }}</div>
-          </template>
-        </v-radio>
-      </v-radio-group>
+          <v-radio value="D" :ripple="false">
+            <template #label>
+              <div><span>D:</span> {{ testToShow.quarta_alternativa }}</div>
+            </template>
+          </v-radio>
+        </v-radio-group>
+      </div>
 
       <div class="base">
         <v-btn
@@ -118,13 +120,12 @@
 
 <router>
   {
-    path: '/aluno/curso/:courseSlug/aula/teste'
+    path: '/aluno/curso/:courseSlug/aula/teste/:watchMode?'
   }
 </router>
 
 <script>
 import NavigationBar from '~/components/NavigationBar';
-import tests from '~/services/http/generic';
 import http from '~/services/http/generic';
 import HeaderBar from '~/components/Header.vue';
 
@@ -144,10 +145,31 @@ export default {
     headerNotification: '',
     textNotification: '',
     error: '',
+    readonly: false,
+    watchMode: false,
   }),
   computed: {
-    test() {
+    currentCourse() {
+      return this.$store.state.courses.current;
+    },
+    currentWatching() {
+      return this.$store.state.courses.currentWatching;
+    },
+    currentPartOfWatching() {
+      return this.$store.state.courses.currentPartOfWatching;
+    },
+    testToShow() {
+      if (this.watchMode) {
+        return this.currentWatching;
+      } else {
+        return this.$store.state.courses.currentTest;
+      }
+    },
+    currentTest() {
       return this.$store.state.courses.currentTest;
+    },
+    currentPart() {
+      return this.$store.state.courses.currentPart;
     },
     idUser() {
       return this.$store.state.user.data.id;
@@ -162,43 +184,60 @@ export default {
       return this.$route.params.courseSlug;
     },
   },
-  mounted() {
+  async created() {
+    if (this.$route.params.watchMode) {
+      this.watchMode = true;
+    } else {
+      await this.$store.commit('courses/setCurrentWatching', {});
+      await this.$store.commit('courses/setCurrentPartOfWatching', {});
+    }
+  },
+  async mounted() {
     this.loading = false;
+
+    if (this.$route.params.watchMode) {
+      await this.showCorrect();
+    }
   },
   methods: {
+    leaveCourse() {
+      this.$router.push(`/aluno/curso/${this.slug}`);
+    },
     resetBadgeAndContinue() {
       this.badgePoints = 0;
       this.try = 1;
       this.correct = false;
       this.advanceCourse();
     },
-    nextTest() {
-      if (this.selected !== '') {
+    async nextTest() {
+      if (this.watchMode) {
+        this.goFoward();
+      } else if (this.selected !== '') {
         // Primeiro passo é verificar se a resposta está correta
-        tests
-          .post(`${process.env.endpoints.TEST}${this.test.id}/check-test`, {
-            chosenAlternative: this.selected,
-          })
-          .then(res => {
-            if (res.data.isCorrect === true) {
-              this.getPointsAndNotificate();
-            } else if (res.data.isCorrect === false) {
-              if (this.try < 4) {
-                this.try++;
-              }
-              this.selected = '';
+        const checkTest = (
+          await http.post(
+            `${process.env.endpoints.TEST}${this.testToShow.id}/check-test`,
+            {
+              chosenAlternative: this.selected,
+            },
+          )
+        ).data.isCorrect;
 
-              this.error = 'error-form';
-              setTimeout(() => {
-                this.error = '';
-              }, 300);
-            } else {
-              this.$notifier.showMessage({
-                type: 'error',
-                message: 'Má conexão',
-              });
-            }
-          });
+        if (checkTest) {
+          this.getPointsAndNotificate();
+          // advancing course step
+          await http.post(
+            `${process.env.endpoints.ADVANCE_COURSE}/user/${this.idUser}/course/${this.courseId}`,
+          );
+        } else if (!checkTest) {
+          this.try++;
+        }
+        this.selected = '';
+
+        this.error = 'error-form';
+        setTimeout(() => {
+          this.error = '';
+        }, 300);
       } else {
         this.error = 'error-form';
         setTimeout(() => {
@@ -263,10 +302,6 @@ export default {
     },
     async advanceCourse() {
       this.loading = true;
-      // advancing course step
-      await http.post(
-        `${process.env.endpoints.ADVANCE_COURSE}/user/${this.idUser}/course/${this.courseId}`,
-      );
 
       // case this course is not finished, go to next step
       const currentStep = await this.$store.dispatch(
@@ -280,6 +315,226 @@ export default {
       } else {
         // else, go to step url
         $nuxt._router.replace(currentStep.stepUrl);
+      }
+    },
+    async showCorrect() {
+      const currentTestData = (
+        await http.getAll(
+          `${process.env.endpoints.TEST}${this.currentWatching.id}`,
+        )
+      ).data;
+
+      this.selected = currentTestData.alternativa_certa.toUpperCase();
+      this.readonly = true;
+    },
+    async goFoward() {
+      this.loading = true;
+
+      // define main constants of this step
+      const currentWatchingTeste = this.currentWatching;
+      const currentPart = this.currentPartOfWatching;
+      const currentLesson = this.currentCourse.aulas.find(
+        lesson => lesson.id === currentPart.aula.id,
+      );
+
+      const nextTest = this.findNextTest(
+        currentWatchingTeste.ordem,
+        currentPart,
+      );
+
+      if (nextTest) {
+        if (this.currentTest && this.currentTest.id === nextTest.id) {
+          // exit watchmode and show new test
+
+          this.goToTest(nextTest, currentPart, false);
+        } else {
+          // continue in watchmode and show next test
+
+          this.goToTest(nextTest, currentPart, true);
+        }
+      } else {
+        const nextPart = await this.findNextPart(
+          currentPart.ordem,
+          currentLesson,
+        );
+
+        if (nextPart) {
+          if (this.currentPart && this.currentPart.id === nextPart.id) {
+            // exit watchmode and show new part
+
+            this.goToPart(nextPart, false);
+          } else {
+            // continue in watchmode and show next part
+
+            this.goToPart(nextPart, true);
+          }
+        } else {
+          const nextLesson = await this.findNextValidLesson(
+            currentLesson.ordem,
+            this.currentCourse,
+          );
+
+          if (nextLesson) {
+            const nextPart = await this.findNextPart(0, nextLesson);
+
+            if (this.currentPart && this.currentPart.id === nextPart.id) {
+              // exit watchmode and show new part
+
+              this.goToPart(nextPart, false);
+            } else {
+              // continue in watchmode and show next part
+
+              this.goToPart(nextPart, true);
+            }
+          } else {
+            // go back to course main view
+
+            $nuxt._router.replace(`/aluno/curso/${this.currentCourse.slug}`);
+          }
+        }
+      }
+    },
+    async goBack() {
+      this.loading = true;
+
+      // define main constants of this step
+      const currentTest = this.watchMode
+        ? this.currentWatching
+        : this.currentTest;
+      let currentPart = this.watchMode
+        ? this.currentPartOfWatching
+        : this.currentPart;
+
+      if (!currentPart.id) {
+        currentPart = (
+          await http.getAll(
+            `${process.env.endpoints.PARTS_BY_LESSON}/${currentTest.parte.id}`,
+          )
+        ).data;
+      }
+
+      const previousTest = this.findPreviousTest(
+        currentTest.ordem,
+        currentPart,
+      );
+
+      if (previousTest) {
+        this.goToTest(previousTest, currentPart, true);
+      } else {
+        this.goToPart(currentPart, true);
+      }
+    },
+    findNextTest(currentTestOrder, currentPart) {
+      const laterTests = currentPart.exercicios.filter(
+        test => test.ordem > currentTestOrder,
+      );
+
+      const greaterOrders = laterTests.map(test => test.ordem);
+
+      if (greaterOrders.length) {
+        const nextTestOrder = Math.min(...greaterOrders);
+        return currentPart.exercicios.find(
+          test => test.ordem === nextTestOrder,
+        );
+      } else {
+        return null;
+      }
+    },
+    async findNextPart(currentPartOrder, currentLesson) {
+      const parts = (
+        await http.getAll(
+          `${process.env.endpoints.PARTS_BY_LESSON}/${currentLesson.id}`,
+        )
+      ).data;
+
+      const laterParts = parts.filter(part => part.ordem > currentPartOrder);
+
+      const greaterOrders = laterParts.map(part => part.ordem);
+
+      if (greaterOrders.length) {
+        const nextPartOrder = Math.min(...greaterOrders);
+        const nextPart = parts.find(part => part.ordem === nextPartOrder);
+
+        return nextPart;
+      } else {
+        return undefined;
+      }
+    },
+    async findNextValidLesson(currentLessonOrder, currentCourse) {
+      const laterLessons = currentCourse.aulas.filter(
+        lesson => lesson.ordem > currentLessonOrder,
+      );
+
+      const greaterOrders = laterLessons.map(lesson => lesson.ordem);
+
+      if (greaterOrders.length) {
+        const nextLessonOrder = Math.min(...greaterOrders);
+
+        for (let index = 0; index < greaterOrders.length; index++) {
+          const nextValidLesson = currentCourse.aulas.find(
+            lesson => lesson.ordem === nextLessonOrder + index,
+          );
+
+          const parts = (
+            await http.getAll(
+              `${process.env.endpoints.PARTS_BY_LESSON}/${nextValidLesson.id}`,
+            )
+          ).data;
+
+          if (parts.length) return nextValidLesson;
+        }
+        return null;
+      } else {
+        return null;
+      }
+    },
+    async goToTest(test, part, watchMode) {
+      if (watchMode) {
+        await this.$store.commit('courses/setCurrentWatching', test);
+        await this.$store.commit('courses/setCurrentPartOfWatching', part);
+
+        this.watchMode = true;
+        await this.showCorrect();
+        this.loading = false;
+      } else {
+        await this.$store.commit('courses/setCurrentWatching', '');
+        await this.$store.commit('courses/setCurrentPartOfWatching', '');
+
+        this.readonly = false;
+        this.selected = '';
+        this.watchMode = false;
+        this.loading = false;
+      }
+    },
+    async goToPart(part, watchMode) {
+      if (watchMode) {
+        await this.$store.commit('courses/setCurrentWatching', part);
+        await this.$store.commit('courses/setCurrentPartOfWatching', part);
+        $nuxt._router.replace(
+          `/aluno/curso/${this.currentCourse.slug}/aula/parte/1`,
+        );
+      } else {
+        await this.$store.commit('courses/setCurrentWatching', '');
+        await this.$store.commit('courses/setCurrentPartOfWatching', '');
+        $nuxt._router.replace(
+          `/aluno/curso/${this.currentCourse.slug}/aula/parte`,
+        );
+      }
+    },
+    findPreviousTest(currentTestOrder, currentPart) {
+      const previousTests = currentPart.exercicios.filter(
+        test => test.ordem < currentTestOrder,
+      );
+
+      const smallerOrders = previousTests.map(test => test.ordem);
+
+      if (smallerOrders.length) {
+        const previousTestOrder = Math.max(...smallerOrders);
+        return currentPart.exercicios.find(
+          test => test.ordem === previousTestOrder,
+        );
+      } else {
+        return null;
       }
     },
   },
@@ -301,9 +556,9 @@ h1 {
 }
 h3 {
   font-family: 'Roboto';
-  font-weight: 900;
-  font-size: 14px;
-  line-height: 16px;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 28.13px;
   color: #1a1a1a;
 }
 h4 {
@@ -320,8 +575,7 @@ h4 {
   padding: 0em 2rem 0rem;
 }
 .inner-container {
-  margin: 1em 6px 0;
-  padding: 0 0.5em !important;
+  padding: 0 24px;
 }
 ::v-deep label {
   overflow: visible;
@@ -339,24 +593,36 @@ h4 {
   z-index: 9999999;
 }
 .notification {
-  width: 193px;
-  height: 193px;
-  margin-top: 100px;
+  margin-top: 115px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+.notification__image {
+  height: 185px;
+  width: auto;
 }
 .bg__fire {
   position: absolute;
   padding: 0 20px;
   top: 0;
-  background-image: url('../../../assets/background-fire.png');
+  height: 100%;
+  width: 100%;
+  background-image: url('../../../assets/background-fire.jpg');
   background-repeat: no-repeat;
   background-size: cover;
-  width: 100%;
+  background-position: 100%;
+}
+.test-screen {
+  margin: 0 20px;
+}
+.content-wrap {
+  padding-bottom: 90%;
 }
 .base {
   position: absolute;
   bottom: 96px;
   width: 92%;
-  margin: 0 auto;
 }
 .message {
   font-family: Roboto;
@@ -365,6 +631,7 @@ h4 {
   line-height: 28px;
   letter-spacing: 0em;
   color: black;
+  margin-top: 32px;
 }
 .message__subtext {
   margin-top: 2%;
@@ -389,15 +656,6 @@ h4 {
   display: flex;
   align-items: center;
   justify-content: space-around;
-}
-.notification__image {
-  position: absolute;
-  top: 70px;
-  z-index: 999;
-  height: 190px;
-  width: auto;
-  left: 50%;
-  transform: translate(-50%);
 }
 ::v-deep .theme--light.v-label {
   color: rgb(0, 0, 0) !important;
@@ -432,5 +690,8 @@ h4 {
 }
 .error-form {
   animation: nono 300ms, intro paused;
+}
+::v-deep .v-radio {
+  align-items: initial;
 }
 </style>
