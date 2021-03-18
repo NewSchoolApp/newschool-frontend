@@ -1,5 +1,8 @@
 <template>
-  <div id="main-div">
+  <div v-if="loading" class="container-spinner">
+    <v-progress-circular :size="70" :width="5" indeterminate color="#6600cc" />
+  </div>
+  <div v-else id="main-div">
     <header-bar title="Loja" :back-page="true">
       <v-icon id="magnify" v-ripple @click="$refs.drawer.toggleDrawer()"
         >mdi-magnify</v-icon
@@ -12,7 +15,16 @@
     </v-row>
     <navigation-bar />
 
+    <div v-if="productListLoading" class="container-spinner">
+      <v-progress-circular
+        :size="70"
+        :width="5"
+        indeterminate
+        color="#6600cc"
+      />
+    </div>
     <masonry
+      v-else-if="filteredList.length"
       id="products-masonry"
       v-infinite-scroll="getProducts"
       :cols="2"
@@ -23,14 +35,25 @@
         <product-card
           :name="product.name"
           :price="product.points"
-          :img="
-            'https://a-static.mlcdn.com.br/618x463/mouse-gamer-logitech-g-pro-hero-optico-16000dpi-6-botoes-pro/magazineluiza/223329300/73b0a24b258f1d114ca12b2209bdefc9.jpg'
-          "
+          :img="product.photo"
           :slug="product.slug"
         />
       </div>
     </masonry>
-    <bottom-drawer ref="drawer" @toggle="showSearchNull = false">
+    <div v-else class="nothing">
+      <div class="nothing-message">
+        Eita, Man@... Estamos sem nenhum produto no momento.
+      </div>
+      <v-img :src="require('~/assets/nothing.svg')" />
+    </div>
+
+    <bottom-drawer
+      ref="drawer"
+      @toggle="
+        showSearchNull = false;
+        searchParam = '';
+      "
+    >
       <v-text-field
         filled
         :full-width="true"
@@ -87,6 +110,8 @@ export default {
   },
   directives: { infiniteScroll },
   data: () => ({
+    loading: true,
+    productListLoading: false,
     userPoints: 0,
     products: [],
     history: [],
@@ -98,7 +123,7 @@ export default {
     searchHistory: [],
     showSearchNull: false,
     failedSearch: '',
-    localStorage: '',
+    localStorage: {},
   }),
   computed: {
     filteredList() {
@@ -135,6 +160,7 @@ export default {
 
     this.getUserScore();
     await this.getProducts();
+    this.loading = false;
   },
   destroyed() {
     this.localStorage.searchHistory = JSON.stringify(this.searchHistory);
@@ -150,7 +176,9 @@ export default {
       this.$refs.drawer.toggleDrawer();
     },
     async searchProducts() {
+      this.productListLoading = true;
       const productsBackup = this.products;
+
       this.products = [];
       this.page = 0;
       this.busy = false;
@@ -176,7 +204,7 @@ export default {
         this.$refs.drawer.toggleDrawer();
       }
 
-      this.searchParam = '';
+      this.productListLoading = false;
     },
     async getProducts() {
       if (!this.busy) {
@@ -187,9 +215,9 @@ export default {
             `${process.env.endpoints.MARKETPLACE.ITENS}?page=${this.page +
               1}&limit=8&${
               this.searchParam ? 'name[contains]=' + this.searchParam : false
-            }&quantity[gt]=0`,
+            }&quantity[gt]=0&enabled=true`,
           )
-        ).data;
+        ).data.content;
 
         if (res.length) {
           this.busy = false;
@@ -205,11 +233,19 @@ export default {
       }
     },
     async getUserScore() {
-      this.userPoints = (
+      const totalPoints = (
         await http.getAll(
-          `${process.env.endpoints.RANKING}/user/${this.idUser}?timeRange=YEAR`,
+          `${process.env.endpoints.RANKING}/user/${this.idUser}/total-points`,
         )
       ).data.points;
+
+      const spentPoints = (
+        await market.getAll(
+          `${process.env.endpoints.MARKETPLACE.ORDER}/user/${this.idUser}/used-points`,
+        )
+      ).data.usedPoints;
+
+      this.userPoints = totalPoints - spentPoints;
     },
   },
 };
@@ -294,5 +330,19 @@ export default {
 #search-fail :nth-child(1) {
   margin: 24px 0 42px;
   font-size: 14px;
+}
+.nothing {
+  font-family: Roboto;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 19px;
+  letter-spacing: 0px;
+  text-align: center;
+  color: #484848;
+  padding: 100px 0;
+}
+.nothing-message {
+  padding-bottom: 64px;
 }
 </style>

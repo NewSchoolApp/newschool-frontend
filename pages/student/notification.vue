@@ -70,25 +70,11 @@
                   alt=""
                   @click="removeNotification(notification)"
                 />
-
-                <!-- <h1
-                  @click="
-                    notification.content.semearSiteUrl
-                      ? goToNotification(notification.content.semearSiteUrl)
-                      : ''
-                  "
-                >
-                  {{
-                    notification.content.badge
-                      ? notification.content.badge.badgeDescription
-                      : 'Clique e acesse o site do Parceiro'
-                  }}
-                </h1> -->
                 <h1 v-if="notification.type == notificationType.GAMEFICATION">
                   {{ notification.content.badge.badgeDescription }}
                 </h1>
                 <h1 v-if="notification.type == notificationType.MARKETPLACE">
-                  Você comprou {{ notification.content.item.name }}!
+                  {{ mktNotificationMessage[notification.content.status] }}
                 </h1>
                 <h1
                   v-if="notification.type == notificationType.OTHER"
@@ -151,6 +137,17 @@ export default {
       OTHER: 'OTHER',
       GAMEFICATION: 'GAMEFICATION',
       MARKETPLACE: 'MARKETPLACE',
+    },
+    mktNotificationMessage: {
+      SEPARATING: 'Produto em separação.',
+      SENT: 'Produto enviado.',
+      WAITING_FOR_WITHDRAWAL: 'Produto disponível para retirada.',
+      NOTIFYING_COMPANY:
+        'Noficaremos a empresa reponsável pelo serviço adquirido.',
+      COMPANY_NOTIFIED:
+        'Empresa responsável pelo produto adquirido foi notificada.',
+      DONE: 'Pedido finalizado com sucesso',
+      CANCELED: 'Pedido cancelado.',
     },
   }),
   computed: {

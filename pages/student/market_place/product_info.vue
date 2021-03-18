@@ -23,9 +23,7 @@
         </v-row>
         <div
           id="img-viewport"
-          :style="
-            `background-image: url(https://a-static.mlcdn.com.br/618x463/mouse-gamer-logitech-g-pro-hero-optico-16000dpi-6-botoes-pro/magazineluiza/223329300/73b0a24b258f1d114ca12b2209bdefc9.jpg);`
-          "
+          :style="`background-image: url(${productInfo.photo});`"
         />
         <v-row id="price-row">
           <div>Por:</div>
@@ -57,9 +55,7 @@
         </v-row>
         <div
           id="img-viewport"
-          :style="
-            `background-image: url('https://a-static.mlcdn.com.br/618x463/mouse-gamer-logitech-g-pro-hero-optico-16000dpi-6-botoes-pro/magazineluiza/223329300/73b0a24b258f1d114ca12b2209bdefc9.jpg');`
-          "
+          :style="`background-image: url('${productInfo.photo}');`"
         />
         <v-row id="price-row">
           <div>Por:</div>
@@ -68,23 +64,25 @@
         <div class="input-label">
           Quantidade:
         </div>
-        <v-select
-          v-model="quantity"
-          class="primary-text-field input"
-          filled
-          :items="quantitySelect"
-          placeholder="Selecione a quantidade"
-          :hide-details="true"
-        />
-        <div class="input-label">Retirada:</div>
-        <v-select
-          v-model="shippingType"
-          class="primary-select input"
-          filled
-          :items="shippingOptions"
-          placeholder="Selecione"
-          :hide-details="true"
-        />
+        <v-form ref="form">
+          <v-select
+            v-model="quantity"
+            class="primary-text-field input"
+            filled
+            :items="quantitySelect"
+            placeholder="Selecione a quantidade"
+            :rules="notNull"
+          />
+          <div class="input-label">Retirada:</div>
+          <v-select
+            v-model="shippingType"
+            class="primary-select input"
+            filled
+            :items="shippingOptions"
+            placeholder="Selecione"
+            :rules="notNull"
+          />
+        </v-form>
       </div>
 
       <div id="base">
@@ -181,9 +179,7 @@
         </v-row>
         <div
           id="img-viewport"
-          :style="
-            `background-image: url(https://a-static.mlcdn.com.br/618x463/mouse-gamer-logitech-g-pro-hero-optico-16000dpi-6-botoes-pro/magazineluiza/223329300/73b0a24b258f1d114ca12b2209bdefc9.jpg);`
-          "
+          :style="`background-image: url(${productInfo.photo});`"
         />
         <v-row id="price-row">
           <div>Por:</div>
@@ -197,7 +193,10 @@
       </div>
 
       <div id="base">
-        <v-btn class="btn-block btn-primary" @click="createOrder">
+        <v-btn
+          class="btn-block btn-primary"
+          @click="createOrder(orderTypeEnum.WITHDRAW)"
+        >
           Finalizar
         </v-btn>
       </div>
@@ -275,8 +274,11 @@
         ></header-bar>
         <v-row id="header-row" justify="space-between">
           <div id="header-msg">
-            Para receber em casa, completa aí, que o time da New School entrar
-            em contato.
+            {{
+              productInfo.type === 'SERVICE'
+                ? 'Completa aí, que o time da New School entrar em contato.'
+                : 'Para receber em casa, completa aí, que o time da New School entrar em contato.'
+            }}
           </div>
         </v-row>
         <img src="~/assets/greetings.svg" alt="Salve" />
@@ -298,7 +300,8 @@
         <v-row id="header-row" justify="space-between">
           <div id="header-msg">Completa aí:</div>
         </v-row>
-        <div>
+
+        <v-form ref="form">
           <div class="input-label">
             Nome
           </div>
@@ -308,7 +311,7 @@
             class="primary-text-field input"
             filled
             placeholder="Digite seu nome completo"
-            :hide-details="true"
+            :rules="notNull"
           />
           <div class="input-label">
             Whatsapp
@@ -319,8 +322,8 @@
             class="primary-text-field input"
             filled
             placeholder="Digite telefone para contato ou Whatsapp"
-            :hide-details="true"
             type="number"
+            :rules="phoneRules"
           />
           <div class="input-label">
             Email
@@ -331,7 +334,7 @@
             class="primary-text-field input"
             filled
             placeholder="Digite seu email"
-            :hide-details="true"
+            :rules="emailRules"
           />
           <div class="input-label">
             Contato para recado
@@ -342,10 +345,10 @@
             class="primary-text-field input"
             filled
             placeholder="Digite um segundo número para contato"
-            :hide-details="true"
             type="number"
+            :rules="phoneRules"
           />
-        </div>
+        </v-form>
       </div>
       <div id="base">
         <v-btn class="btn-block btn-primary" @click="advanceStep">
@@ -367,9 +370,7 @@
         </v-row>
         <div
           id="img-viewport"
-          :style="
-            `background-image: url(https://a-static.mlcdn.com.br/618x463/mouse-gamer-logitech-g-pro-hero-optico-16000dpi-6-botoes-pro/magazineluiza/223329300/73b0a24b258f1d114ca12b2209bdefc9.jpg);`
-          "
+          :style="`background-image: url(${productInfo.photo});`"
         />
         <v-row id="price-row">
           <div>Por:</div>
@@ -385,7 +386,10 @@
       </div>
 
       <div id="base">
-        <v-btn class="btn-block btn-primary" @click="advanceStep">
+        <v-btn
+          class="btn-block btn-primary"
+          @click="createOrder(orderTypeEnum.MAIL)"
+        >
           Finalizar
         </v-btn>
       </div>
@@ -461,6 +465,19 @@ export default {
       email: '',
       contact: '',
     },
+    orderTypeEnum: {
+      WITHDRAW: 'WITHDRAW',
+      MAIL: 'MAIL',
+    },
+    emailRules: [
+      v => !!v || 'Digite o e-mail',
+      v => /.+@.+\..+/.test(v) || 'E-mail inválido',
+    ],
+    notNull: [v => !!v || 'Esse campo não pode estar em branco'],
+    phoneRules: [
+      v => !!v || 'Esse campo não pode estar em branco',
+      v => (v && v.length >= 10) || 'Deve ter no mínimo 8 caracteres + DDD',
+    ],
   }),
   computed: {
     idUser() {
@@ -494,11 +511,19 @@ export default {
       }
     },
     async getUserScore() {
-      this.userPoints = (
+      const totalPoints = (
         await http.getAll(
-          `${process.env.endpoints.RANKING}/user/${this.idUser}?timeRange=YEAR`,
+          `${process.env.endpoints.RANKING}/user/${this.idUser}/total-points`,
         )
       ).data.points;
+
+      const spentPoints = (
+        await market.getAll(
+          `${process.env.endpoints.MARKETPLACE.ORDER}/user/${this.idUser}/used-points`,
+        )
+      ).data.usedPoints;
+
+      this.userPoints = totalPoints - spentPoints;
     },
     weekDays(dateString) {
       const weekDays = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'];
@@ -512,7 +537,9 @@ export default {
     advanceStep() {
       switch (this.currentStep) {
         case this.stepEnum.PRODUCT_INFO:
-          if (this.userPoints >= this.productInfo.points) {
+          if (this.productInfo.type === 'SERVICE') {
+            this.currentStep = this.stepEnum.PRE_CONTACT;
+          } else if (this.userPoints >= this.productInfo.points) {
             this.currentStep = this.stepEnum.PACKAGE_INFO;
           } else {
             this.$notifier.showMessage({
@@ -524,28 +551,17 @@ export default {
           break;
 
         case this.stepEnum.PACKAGE_INFO:
-          if (!this.shippingType) {
-            this.$notifier.showMessage({
-              type: 'error',
-              message: `Selecione algum tipo de retirada.`,
-            });
-          } else if (!this.quantity) {
-            this.$notifier.showMessage({
-              type: 'error',
-              message: `Digite alguma quantidade.`,
-            });
-          } else if (
-            !this.userPoints >=
-            this.productInfo.points * this.quantity
-          ) {
-            this.$notifier.showMessage({
-              type: 'error',
-              message: `Você não tem pontos o suficiente`,
-            });
-          } else if (this.shippingType === 'Retirar na New School') {
-            this.currentStep = this.stepEnum.SET_DATE;
-          } else {
-            this.currentStep = this.stepEnum.PRE_CONTACT;
+          if (this.$refs.form.validate()) {
+            if (!this.userPoints >= this.productInfo.points * this.quantity) {
+              this.$notifier.showMessage({
+                type: 'error',
+                message: `Você não tem pontos o suficiente`,
+              });
+            } else if (this.shippingType === 'Retirar na New School') {
+              this.currentStep = this.stepEnum.SET_DATE;
+            } else {
+              this.currentStep = this.stepEnum.PRE_CONTACT;
+            }
           }
 
           break;
@@ -585,22 +601,7 @@ export default {
           break;
 
         case this.stepEnum.CONTACT:
-          if (!this.contactInfo.name) this.$refs.contactInfoName.error = true;
-
-          if (!this.contactInfo.whatsapp)
-            this.$refs.contactInfoWhatsapp.error = true;
-
-          if (!this.contactInfo.email) this.$refs.contactInfoEmail.error = true;
-
-          if (!this.contactInfo.contact)
-            this.$refs.contactInfoContact.error = true;
-
-          if (
-            this.contactInfo.name &&
-            this.contactInfo.whatsapp &&
-            this.contactInfo.email &&
-            this.contactInfo.contact
-          ) {
+          if (this.$refs.form.validate()) {
             this.currentStep = this.stepEnum.MAIL_CHECKOUT;
           }
 
@@ -618,28 +619,49 @@ export default {
           break;
       }
     },
-    async createOrder() {
+    async createOrder(orderType) {
       this.loading = true;
 
-      await market
+      let content;
+
+      if (orderType === this.orderTypeEnum.MAIL) {
+        content = {
+          orderType: this.orderTypeEnum.MAIL,
+          contactInfo: this.contactInfo,
+        };
+      } else if (orderType === this.orderTypeEnum.WITHDRAW) {
+        content = {
+          orderType: this.orderTypeEnum.WITHDRAW,
+          withdrawalDate: `${this.date}T${this.time}:00:00Z`,
+        };
+      } else {
+        this.$notifier.showMessage({
+          type: 'error',
+          message: 'Tipo de pedido inválido',
+        });
+      }
+
+      const post = await market
         .post(process.env.endpoints.MARKETPLACE.ORDER, {
           itemId: this.productInfo.id,
           userId: this.idUser,
-          quantity: parseInt(this.quantity),
-          content: {
-            withdrawalDate: `${this.date}T${this.time}:00:00Z`,
-          },
+          quantity:
+            this.productInfo.type === 'SERVICE' ? 1 : parseInt(this.quantity),
+          content,
         })
         .catch(() => {
           this.$notifier.showMessage({
             type: 'error',
             message: 'Houve algum problema com o nosso serviço de troca',
           });
-
-          return null;
+          return false;
         });
 
-      this.advanceStep();
+      if (!post) {
+        this.currentStep = this.stepEnum.PRODUCT_INFO;
+      } else {
+        this.advanceStep();
+      }
       this.loading = false;
     },
     rewindStep() {
@@ -656,7 +678,11 @@ export default {
 
         case this.stepEnum.SET_DATE:
         case this.stepEnum.PRE_CONTACT:
-          this.currentStep = this.stepEnum.PACKAGE_INFO;
+          if (this.productInfo.type === 'SERVICE') {
+            this.currentStep = this.stepEnum.PRODUCT_INFO;
+          } else {
+            this.currentStep = this.stepEnum.PACKAGE_INFO;
+          }
 
           break;
 
@@ -690,7 +716,7 @@ export default {
   },
 };
 </script>
-<style scoped>
+<style scoped lang="scss">
 * {
   font-family: Roboto;
 }
@@ -789,15 +815,23 @@ img {
   display: flex;
   align-items: flex-end;
   color: #737373;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+
+  -ms-word-break: break-all;
+  word-break: break-all;
+  word-break: break-word;
+
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
 }
 .input-label {
   font-weight: normal;
   font-size: 14px;
   color: var(--primary);
   margin-bottom: 4px;
-}
-.input {
-  margin-bottom: 16px;
 }
 ::v-deep .v-picker {
   width: 100%;
