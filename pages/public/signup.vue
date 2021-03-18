@@ -92,14 +92,18 @@
                 <v-checkbox v-model="agree" />
                 <div id="terms-message">
                   Declaro que li e concordo com os
-                  <span class="link" @click="dialog = true">
+                  <span class="link" @click="termsDialog = true">
                     Termos e Condições de Uso
+                  </span>
+                  e com
+                  <span class="link" @click="privacyDialog = true">
+                    A Política de Privacidade
                   </span>
                   do New School App
                 </div>
               </div>
 
-              <v-dialog v-model="dialog" width="500">
+              <v-dialog v-model="termsDialog" width="500">
                 <v-card>
                   <v-card-title class="headline grey lighten-2">
                     Termos
@@ -113,15 +117,168 @@
 
                   <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn
-                      color="primary"
-                      text
-                      @click="
-                        dialog = false;
-                        agree = true;
-                      "
-                    >
-                      Aceitar
+                    <v-btn color="primary" text @click="termsDialog = false">
+                      Fechar
+                    </v-btn>
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>
+              <v-dialog v-model="privacyDialog" width="500">
+                <v-card>
+                  <v-card-title class="headline grey lighten-2">
+                    Políticas de Privacidade
+                  </v-card-title>
+
+                  <v-card-text
+                    ><br />
+                    Salve, salve! Que daora que você está aqui! A New School
+                    acredita no poder da educação e da tecnologia para formar
+                    cidadãos capazes de transformar suas próprias realidades.
+                    Nós queremos impactar a vida dos jovens das periferias de
+                    todo o país, formando os novos protagonistas de todas as
+                    quebradas, favelas, subúrbios, comunidades, ou como quer que
+                    você chame, aí no seu Estado. Quando você utiliza nossos
+                    serviços, fornece algumas informações para que possamos
+                    atingir as suas expectativas em relação à qualidade do nosso
+                    produto, e também para que possamos fazer comunicações
+                    necessárias para construir nosso relacionamento atual e
+                    futuro, certo? Assim, entendemos que você está confiando em
+                    nós, para proteger suas informações e essa é a nossa
+                    responsa. Você está aqui para saber quais dados coletamos,
+                    para que utilizamos estes dados e como estamos fazendo isso.
+                    Nós vamos detalhar isso abaixo, em nossa Política de
+                    Privacidade e Proteção de Dados (Política). Por favor, leia
+                    esse documento atentamente, pois ele lhe ajudará a gerenciar
+                    melhor todos os seus direitos, conforme a nova lei
+                    brasileira 13.709/2018 (LGPD).
+                    <br />
+                    <br />
+                    <h4>DADOS QUE COLETAMOS</h4>
+                    Logo abaixo trazemos uma lista dos dados que coletamos e as
+                    finalidades de tratamento.
+                    <br />
+                    <br />
+                    <h4>PODEMOS COLETAR OU VOCÊ PODERÁ NOS FORNECER</h4>
+                    Para se cadastrar no App, obrigatoriamente, você só precisa
+                    mesmo fornecer seu primeiro nome e email, mas se você quiser
+                    realizar o cadastro completo para ter uma experiência mais
+                    daora dentro do App, pode complementar com os seguintes
+                    dados: Nome completo, seu gênero, sua quebrada, seu e-mail,
+                    telefone (WhatsApp), escolaridade e o seu trampo, se você
+                    estiver trampando. A finalidade de recolhermos estes dados
+                    pessoais é direcionar o seu acesso aos cursos, ampliar o
+                    nosso relacionamento, enviar ofertas e comunicados de novos
+                    cursos, lembretes de calendários, divulgar promoções e
+                    descontos de parceiros, cumprir com obrigações legais e
+                    alertas de segurança. Usamos esses dados, também, para
+                    informar sobre novidades, funcionalidades, conteúdos,
+                    notícias e eventos relacionados aos nossos serviços. Além
+                    disso, os dados também são utilizados para a sua proteção,
+                    seja para cumprir obrigações legais e assim assegurar seus
+                    direitos ou até mesmo para prevenir alguma fraude.
+                    <br />
+                    <br />
+                    Além disso, esclarecemos os motivos específicos pelos quais
+                    precisaremos tratar os seus dados (cumprir obrigações
+                    legais, atender suas expectativas e melhorar nossa relação).
+                    Caso você esteja no terceiro ano do ensino médio, você pode
+                    optar ou não por compartilhar seus dados com nossos
+                    Parceiros, para saber todos os detalhes sobre este
+                    compartilhamento, basta fazer o login em nosso App e acessar
+                    a “Central LGPD”, lá explicamos tudo. E tem mais, pode rolar
+                    uma internacionalização dos dados devido ao uso de recurso
+                    de armazenamento em nuvem, mas tá tranquilo, independente de
+                    onde for armazenados, a gente se preocupa em tomar todas as
+                    medidas de segurança necessárias!
+                    <br />
+                    <br />
+                    <h4>PRAZO E LOCAL DE ARMAZENAMENTO DOS DADOS</h4>
+                    Nós guardamos seus dados por períodos diferentes, utilizando
+                    diversas tecnologias, de acordo com a natureza do dado e de
+                    acordo com determinações legais. Seus dados serão
+                    armazenados pelo prazo em que durar a nossa relação, até
+                    você pedir o apagamento ou até todos os prazos legais de
+                    guarda acabarem, e quando esse prazo acabar, serão
+                    definitivamente eliminados.
+                    <br />
+                    <br />
+                    <h4>ACESSIBILIDADE DOS DADOS PESSOAIS</h4>
+                    Você pode exportar uma cópia das suas informações ou
+                    excluí-las a qualquer momento, desde que não envolvam
+                    informações relacionadas a segredo comercial ou não haja
+                    impeditivos legais para fazer isso.
+                    <br />
+                    <br />
+                    <h4>Quais opções eu possuo?</h4>
+                    <ul>
+                      <li>
+                        Caso você preferir não receber e-mails, correspondências
+                        ou publicidades relativas aos nossos produtos e
+                        serviços, basta nos informar quando você fornecer as
+                        suas informações pessoais ou seguir as instruções
+                        contidas em nossos sites para remover o seu nome da
+                        nossa lista(s) de correspondências.
+                      </li>
+                      <li>
+                        Você tem o direito de acessar (revisar, corrigir,
+                        alterar ou apagar) as suas informações pessoais entrando
+                        em contato com a gente, pelo contato@akiehnewschool.com
+                      </li>
+                      <li>
+                        Caso você tenha criado um "perfil de usuário" em nosso
+                        aplicativo, você poderá alterar as suas informações após
+                        fazer o login, clicando em “quem sou”
+                      </li>
+                    </ul>
+                    <br />
+                    <br />
+                    <h4>E em relação à segurança das informações?</h4>
+                    <ul>
+                      <li>
+                        Quando você fornece informações pessoais, nós empregamos
+                        determinadas medidas de segurança, tais como encriptação
+                        quando apropriado.
+                      </li>
+                      <li>
+                        As informações pessoais que você nos fornece podem vir a
+                        ser transmitidas, usadas, armazenadas e de outras formas
+                        processadas fora do país em que você registrou essas
+                        informações, ou seja tem a possibilidade dos dados irem
+                        para um pais com leis de proteção diferentes.
+                      </li>
+                      <li>
+                        Independentemente de onde essas atividades ocorrerem,
+                        tomamos medidas adequadas para assegurar que as suas
+                        informações serão tratadas de forma segura.
+                      </li>
+                    </ul>
+                    <br />
+                    <br />
+                    <h4>E em relação à privacidade dos meus filhos?</h4>
+                    <ul>
+                      <li>
+                        Os nossos aplicativo destina-se apenas ao uso por
+                        pessoas com mais de 16 anos. Pessoas com menos de 16
+                        anos não deverão submeter informações pessoais à New
+                        School sem que tenha o consentimento dos pais ou
+                        responsáveis, que poderá ser acessado em nosso Termo e
+                        Condições de Uso.
+                      </li>
+                    </ul>
+                    <br />
+                    <br />
+                    <h4>CANAL DE CONTATO</h4>
+                    Em caso de qualquer dúvida com relação às disposições da
+                    Política, você poderá entrar em contato com nosso DPO
+                    através do email contato@akiehnewschool.com
+                  </v-card-text>
+
+                  <v-divider></v-divider>
+
+                  <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn color="primary" text @click="privacyDialog = false">
+                      Fechar
                     </v-btn>
                   </v-card-actions>
                 </v-card>
@@ -156,7 +313,8 @@ export default {
   data() {
     return {
       agree: false,
-      dialog: false,
+      termsDialog: false,
+      privacyDialog: true,
       title: 'Cadastro',
       status: true,
       loading: false,
