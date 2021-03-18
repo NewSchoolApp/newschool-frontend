@@ -106,11 +106,209 @@
               <v-dialog v-model="termsDialog" width="500">
                 <v-card>
                   <v-card-title class="headline grey lighten-2">
-                    Termos
+                    Termos de Uso
                   </v-card-title>
 
                   <v-card-text>
-                    Os termos ainda estão sendo formulados.
+                    Com o objetivo de esclarecer as obrigações e
+                    responsabilidades criamos este Termo de Uso para que vocês,
+                    que são os nossos usuários, saibam quais são as regras para
+                    usar o nosso aplicativo.
+                    <br />
+                    <br />
+                    <h4>1. QUEM SOMOS</h4>
+                    A New School acredita no poder da educação e da tecnologia
+                    para formar cidadãos capazes de transformar suas próprias
+                    realidades. Nós queremos impactar a vida dos jovens das
+                    periferias de todo o país, formando os novos protagonistas
+                    de todas as quebradas, favelas, subúrbios, comunidades. É
+                    IMPORTANTE QUE VOCÊ LEIA ATENTAMENTE OS TERMOS DE USO DO
+                    NOSSO APLICATIVO. AO SE REGISTRAR, VOCÊ RECONHECE QUE LEU,
+                    ENTENDEU E CONCORDA EM CUMPRIR OS SEGUINTES TERMOS,
+                    INCLUINDO A POLÍTICA DE PRIVACIDADE DA NEW SCHOO E QUAISQUER
+                    DIRETRIZES ADICIONAIS. Se você é pai ou representante legal
+                    e fornece o consentimento para que seu filho se inscreva no
+                    nosso aplicativo, você concorda em estar obrigado por estes
+                    termos de serviço em respeito ao uso do nosso aplicativo por
+                    um menor de idade. Se você é representante ou funcionário da
+                    escola e inscreve um usuário da escola você concorda, em
+                    nome da sua instituição, que o usuário da escola está
+                    comprometido por estes termos de serviço, a menos que a
+                    instituição tenha um contrato de serviço específico e por
+                    escrito com a New School que aceite estes termos em nome dos
+                    usuários escolares.
+                    <br />
+                    <br />
+                    <h4>2. CADASTRO</h4>
+                    Para usar o nosso aplicativo, será necessário que cria uma
+                    conta, pela qual você é o responsável. É muito importante
+                    que você guarde essa senha em um lugar seguro, pois é
+                    através de sua conta que você terá acesso aos seus cursos,
+                    certificados e newcoins. Se você suspeitar que alguém esteja
+                    acessando sua conta, deve imediatamente entrar em contato
+                    com a nossa equipe de suporte através do nosso site
+                    http://www.akiehnewschool.com/
+                    <br />
+                    <br />
+                    <h4>3. CONDIÇÕES GERAIS DE ACESSO AOS CURSOS:</h4>
+                    3.1. Ao aceitar este Termo de Uso, você tem o direito não
+                    exclusivo, intransferível e limitado de entrar em nossa
+                    Plataforma, e acessar os nossos Cursos, unicamente para uso
+                    pessoal e não comercial. A New School reserva-se o direito
+                    de bloquear o acesso do Membro a nossa Plataforma se
+                    constatar alguma irregularidade.
+                    <br />
+                    <br />
+                    3.2. Você concorda que os Cursos são para o seu uso pessoal
+                    e não comercial e que ninguém além de você usará a sua conta
+                    para acessar os Cursos. Você não tem direitos de cópia,
+                    reprodução ou alteração no todo ou em parte, de qualquer
+                    parte dos Cursos de propriedade da New School.
+                    <br />
+                    <br />
+                    3.3. Além da licença limitada de uso estabelecida nestes
+                    Termos de Uso, você não tem qualquer outro direito, título
+                    ou propriedade sobre os Cursos. Você entende e reconhece
+                    que, em quaisquer circunstâncias, os seus direitos com
+                    relação ao Cursos serão limitados pelos direitos autorais
+                    e/ou leis de propriedade intelectual aplicáveis e ainda por
+                    estes Termos de Uso.
+                    <br />
+                    <br />
+                    3.4. A New School poderá modificar os Cursos e/ou Conteúdo
+                    ou descontinuar a sua disponibilidade a qualquer momento.
+                    <br />
+                    <br />
+                    3.5. Quaisquer mudanças, inclusões e/ou alterações nos
+                    Cursos entrarão em vigor imediatamente após sua divulgação
+                    na Plataforma, não havendo necessidade de aceite prévio pelo
+                    Usuário.
+                    <br />
+                    <br />
+                    3.6 A utilização contínua do Aplicativo ou dos Cursos após a
+                    divulgação de eventuais mudanças, inclusões e/ou alterações,
+                    confirmará a aceitação destas pelo Usuário.
+                    <br />
+                    <br />
+                    3.7. A New School comunicará aos Usuários as eventuais
+                    alterações destes Termos de Uso.
+                    <br />
+                    <br />
+                    3.8. Você não deve tentar nem apoiar as tentativas de
+                    terceiros para driblar, reverter a engenharia, decodificar,
+                    decompilar, desmontar ou fraudar ou interferir de qualquer
+                    forma com aspectos dos Cursos. Você não deve distribuir,
+                    intercambiar, modificar, vender ou revender ou retransmitir
+                    a qualquer pessoa qualquer parte dos Cursos, incluindo, mas
+                    não se limitando, a qualquer texto, imagem ou áudio, para
+                    qualquer finalidade empresarial comercial ou pública. Você
+                    concorda em não copiar, vender, distribuir ou transferir o
+                    Conteúdo e/ou Cursos New School.
+                    <br />
+                    <br />
+                    <h4>
+                      4. CONDIÇÕES PARA SUSPENSÃO OU TÉRMINO DOS SERVIÇOS.
+                    </h4>
+                    4.1.Os seguintes tipos de ação e comportamento não são
+                    aceitos no aplicativo da New School e são passíveis de
+                    suspensão e/ou término imediato do seu status de Membro:
+                    <br />
+                    <br />
+                    (a) Uso de nossa Plataforma para:
+                    <br />
+                    <br />
+                    (i) ameaçar ou intimidar outra pessoa de qualquer forma,
+                    incluindo a restrição ou inibição do uso de nossa
+                    Plataforma; (ii) personificar qualquer pessoa (incluindo a
+                    equipe do New School ou outros Membros), ou atestar
+                    falsamente afiliação ou representação de qualquer pessoa ou
+                    companhia, através do uso de endereços de e-mail similares,
+                    apelidos, ou a criação de contas falsas ou qualquer outro
+                    método ou procedimento; (iii) disfarçar a origem de
+                    quaisquer Informações Públicas que sejam transmitidas a
+                    terceiros; (iv) perseguir ou perturbar outra pessoa; (v)
+                    coletar ou armazenar dados pessoais de outros usuários;
+                    <br />
+                    <br />
+                    (b) Postar quaisquer Informações Públicas ou outro material:
+                    (i) que seja ilegal, ofensivo, racista, preconceituoso,
+                    ameaçador, abusivo, perturbador, difamatório, intimidador,
+                    vulgar, obsceno, profano, acusatório, que invada a
+                    privacidade de outrem (inclusive a postagem de e-mails
+                    privados ou informações de contato de outros usuários),
+                    odioso, racial, eticamente ou de qualquer outra forma
+                    contestável, incluindo quaisquer Informações Públicas ou
+                    outro material que possa ser considerado um discurso de
+                    ódio; (ii) que seja obsceno, pornográfico ou adulto por
+                    natureza; (iii) que você não tenha o direito de
+                    disponibilizar por qualquer lei ou por contrato; (iv) que
+                    infrinja qualquer patente, marca registrada, segredo
+                    comercial, direitos autorais ou quaisquer outros direitos de
+                    propriedade intelectual ou direitos de terceiros; (v) que
+                    seja qualquer tipo de propaganda ou material promocional não
+                    solicitado, ou qualquer outra forma de solicitação
+                    (incluindo, mas não se limitando a “spam”, “junk mail”, e
+                    correntes de e-mail); ou (vi) que seja de qualquer outra
+                    forma inapropriado ou postado de má fé;
+                    <br />
+                    <br />
+                    (c) Encorajar outrem a violar os Termos de Uso ou se recusar
+                    a seguir instruções da equipe do New School;
+                    <br />
+                    <br />
+                    (d) Violar (intencional ou não intencionalmente) os Termos
+                    de Uso, ou de qualquer lei, ordenação, estatuto ou
+                    regulamento local, estadual, nacional ou internacional
+                    aplicável.
+                    <br />
+                    <br />
+                    4.2. Mesmo que nós proibamos o conteúdo e as condutas acima,
+                    você entende e concorda que você poderá vir a ser exposto a
+                    tais condutas e conteúdos e que usa a Plataforma a seu
+                    próprio risco. Para os propósitos destes Termos de Uso,
+                    “postar” inclui o upload, a postagem, distribuição,
+                    compartilhamento, envio de mensagens e/ou e-mails,
+                    publicação, transmissão ou disponibilização de alguma outra
+                    forma.
+                    <br />
+                    <br />
+                    4.3. Sem se limitar ao disposto acima, a New School tem o
+                    direito de remover quaisquer Informações Públicas ou outro
+                    material que viole esses Termos de Uso ou seja de outra
+                    maneira questionável.
+                    <br />
+                    <br />
+                    <h4>5. DISPOSIÇÕES GERAIS</h4>
+                    5.1. Estes Termos de Uso, juntamente com a Política de
+                    Privacidade publicada no nosso aplicativo, constituem o
+                    acordo integral entre as Partes com relação ao objeto em
+                    questão, e substituem todos os acordos anteriores, escritos
+                    ou verbais.
+                    <br />
+                    <br />
+                    5.2. As Partes são contratantes independentes, não
+                    resultando este instrumento na criação de qualquer
+                    sociedade, franquia, representação de vendas ou relações que
+                    não as expressamente previstas nestes Termos de Uso.
+                    <br />
+                    <br />
+                    5.3. Caso qualquer uma das cláusulas e condições destes
+                    Termos de Uso venha a ser declarada nula, no todo ou em
+                    parte, por qualquer motivo legal ou contratual, as demais
+                    cláusulas continuarão em pleno vigor e efeito.
+                    <br />
+                    <br />
+                    5.4. A tolerância ou o não exercício, por qualquer das
+                    Partes, de quaisquer direitos a ela assegurados nestes
+                    Termos de Uso ou na lei em geral não importará em novação ou
+                    em renúncia a qualquer desses direitos, podendo a referida
+                    Parte exercê-los durante a vigência destes Termos de Uso.
+                    <br />
+                    <br />
+                    <h4>6. ENTRE EM CONTATO CONOSCO</h4>
+                    6.1. Se você tiver qualquer dúvida, poderá entrar em contato
+                    com o nosso time pelo email contato@akiehnewschool.com, ou
+                    através do nosso site http://www.akiehnewschool.com/
                   </v-card-text>
 
                   <v-divider></v-divider>
