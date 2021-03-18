@@ -64,23 +64,25 @@
         <div class="input-label">
           Quantidade:
         </div>
-        <v-select
-          v-model="quantity"
-          class="primary-text-field input"
-          filled
-          :items="quantitySelect"
-          placeholder="Selecione a quantidade"
-          :hide-details="true"
-        />
-        <div class="input-label">Retirada:</div>
-        <v-select
-          v-model="shippingType"
-          class="primary-select input"
-          filled
-          :items="shippingOptions"
-          placeholder="Selecione"
-          :hide-details="true"
-        />
+        <v-form ref="form">
+          <v-select
+            v-model="quantity"
+            class="primary-text-field input"
+            filled
+            :items="quantitySelect"
+            placeholder="Selecione a quantidade"
+            :rules="notNull"
+          />
+          <div class="input-label">Retirada:</div>
+          <v-select
+            v-model="shippingType"
+            class="primary-select input"
+            filled
+            :items="shippingOptions"
+            placeholder="Selecione"
+            :rules="notNull"
+          />
+        </v-form>
       </div>
 
       <div id="base">
@@ -298,7 +300,8 @@
         <v-row id="header-row" justify="space-between">
           <div id="header-msg">Completa aí:</div>
         </v-row>
-        <div>
+
+        <v-form ref="form">
           <div class="input-label">
             Nome
           </div>
@@ -308,7 +311,7 @@
             class="primary-text-field input"
             filled
             placeholder="Digite seu nome completo"
-            :hide-details="true"
+            :rules="notNull"
           />
           <div class="input-label">
             Whatsapp
@@ -319,8 +322,8 @@
             class="primary-text-field input"
             filled
             placeholder="Digite telefone para contato ou Whatsapp"
-            :hide-details="true"
             type="number"
+            :rules="phoneRules"
           />
           <div class="input-label">
             Email
@@ -331,7 +334,7 @@
             class="primary-text-field input"
             filled
             placeholder="Digite seu email"
-            :hide-details="true"
+            :rules="emailRules"
           />
           <div class="input-label">
             Contato para recado
@@ -342,10 +345,10 @@
             class="primary-text-field input"
             filled
             placeholder="Digite um segundo número para contato"
-            :hide-details="true"
             type="number"
+            :rules="phoneRules"
           />
-        </div>
+        </v-form>
       </div>
       <div id="base">
         <v-btn class="btn-block btn-primary" @click="advanceStep">
@@ -466,6 +469,15 @@ export default {
       WITHDRAW: 'WITHDRAW',
       MAIL: 'MAIL',
     },
+    emailRules: [
+      v => !!v || 'Digite o e-mail',
+      v => /.+@.+\..+/.test(v) || 'E-mail inválido',
+    ],
+    notNull: [v => !!v || 'Esse campo não pode estar em branco'],
+    phoneRules: [
+      v => !!v || 'Esse campo não pode estar em branco',
+      v => (v && v.length >= 10) || 'Deve ter no mínimo 8 caracteres + DDD',
+    ],
   }),
   computed: {
     idUser() {
@@ -539,28 +551,17 @@ export default {
           break;
 
         case this.stepEnum.PACKAGE_INFO:
-          if (!this.shippingType) {
-            this.$notifier.showMessage({
-              type: 'error',
-              message: `Selecione algum tipo de retirada.`,
-            });
-          } else if (!this.quantity) {
-            this.$notifier.showMessage({
-              type: 'error',
-              message: `Digite alguma quantidade.`,
-            });
-          } else if (
-            !this.userPoints >=
-            this.productInfo.points * this.quantity
-          ) {
-            this.$notifier.showMessage({
-              type: 'error',
-              message: `Você não tem pontos o suficiente`,
-            });
-          } else if (this.shippingType === 'Retirar na New School') {
-            this.currentStep = this.stepEnum.SET_DATE;
-          } else {
-            this.currentStep = this.stepEnum.PRE_CONTACT;
+          if (this.$refs.form.validate()) {
+            if (!this.userPoints >= this.productInfo.points * this.quantity) {
+              this.$notifier.showMessage({
+                type: 'error',
+                message: `Você não tem pontos o suficiente`,
+              });
+            } else if (this.shippingType === 'Retirar na New School') {
+              this.currentStep = this.stepEnum.SET_DATE;
+            } else {
+              this.currentStep = this.stepEnum.PRE_CONTACT;
+            }
           }
 
           break;
@@ -600,22 +601,7 @@ export default {
           break;
 
         case this.stepEnum.CONTACT:
-          if (!this.contactInfo.name) this.$refs.contactInfoName.error = true;
-
-          if (!this.contactInfo.whatsapp)
-            this.$refs.contactInfoWhatsapp.error = true;
-
-          if (!this.contactInfo.email) this.$refs.contactInfoEmail.error = true;
-
-          if (!this.contactInfo.contact)
-            this.$refs.contactInfoContact.error = true;
-
-          if (
-            this.contactInfo.name &&
-            this.contactInfo.whatsapp &&
-            this.contactInfo.email &&
-            this.contactInfo.contact
-          ) {
+          if (this.$refs.form.validate()) {
             this.currentStep = this.stepEnum.MAIL_CHECKOUT;
           }
 
@@ -730,7 +716,7 @@ export default {
   },
 };
 </script>
-<style scoped>
+<style scoped lang="scss">
 * {
   font-family: Roboto;
 }
@@ -846,9 +832,6 @@ img {
   font-size: 14px;
   color: var(--primary);
   margin-bottom: 4px;
-}
-.input {
-  margin-bottom: 16px;
 }
 ::v-deep .v-picker {
   width: 100%;
