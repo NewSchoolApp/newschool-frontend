@@ -1,5 +1,8 @@
 <template>
-  <div id="main-div">
+  <div v-if="loading" class="container-spinner">
+    <v-progress-circular :size="70" :width="5" indeterminate color="#6600cc" />
+  </div>
+  <div v-else id="main-div">
     <header-bar title="Loja" :back-page="true">
       <v-icon id="magnify" v-ripple @click="$refs.drawer.toggleDrawer()"
         >mdi-magnify</v-icon
@@ -12,8 +15,16 @@
     </v-row>
     <navigation-bar />
 
+    <div v-if="productListLoading" class="container-spinner">
+      <v-progress-circular
+        :size="70"
+        :width="5"
+        indeterminate
+        color="#6600cc"
+      />
+    </div>
     <masonry
-      v-if="filteredList.length"
+      v-else-if="filteredList.length"
       id="products-masonry"
       v-infinite-scroll="getProducts"
       :cols="2"
@@ -36,7 +47,13 @@
       <v-img :src="require('~/assets/nothing.svg')" />
     </div>
 
-    <bottom-drawer ref="drawer" @toggle="showSearchNull = false">
+    <bottom-drawer
+      ref="drawer"
+      @toggle="
+        showSearchNull = false;
+        searchParam = '';
+      "
+    >
       <v-text-field
         filled
         :full-width="true"
@@ -93,6 +110,8 @@ export default {
   },
   directives: { infiniteScroll },
   data: () => ({
+    loading: true,
+    productListLoading: false,
     userPoints: 0,
     products: [],
     history: [],
@@ -141,6 +160,7 @@ export default {
 
     this.getUserScore();
     await this.getProducts();
+    this.loading = false;
   },
   destroyed() {
     this.localStorage.searchHistory = JSON.stringify(this.searchHistory);
@@ -156,7 +176,9 @@ export default {
       this.$refs.drawer.toggleDrawer();
     },
     async searchProducts() {
+      this.productListLoading = true;
       const productsBackup = this.products;
+
       this.products = [];
       this.page = 0;
       this.busy = false;
@@ -182,7 +204,7 @@ export default {
         this.$refs.drawer.toggleDrawer();
       }
 
-      this.searchParam = '';
+      this.productListLoading = false;
     },
     async getProducts() {
       if (!this.busy) {
@@ -200,7 +222,7 @@ export default {
         if (res.length) {
           this.busy = false;
         }
-        console.log(res);
+
         res.forEach(item => {
           this.products.push(item);
         });

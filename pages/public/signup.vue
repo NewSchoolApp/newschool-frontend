@@ -314,7 +314,7 @@ export default {
     return {
       agree: false,
       termsDialog: false,
-      privacyDialog: true,
+      privacyDialog: false,
       title: 'Cadastro',
       status: true,
       loading: false,
