@@ -29,6 +29,9 @@ export default {
   background-color: #f5f5f5;
   display: flex;
   flex-direction: column;
+  margin-bottom: 16px;
+  -webkit-box-shadow: 0px 0px 15px -5px #0000005d;
+  box-shadow: 0px 0px 15px -5px #0000005d;
 }
 #img-viewport {
   height: 21vh;

@@ -12,108 +12,114 @@
         </div>
       </div>
 
-      <v-col v-else class="pa-0">
-        <header-bar
-          :title="currentPart.titulo"
-          :back-func="goBack"
-          :close-func="leaveCourse"
-        ></header-bar>
-        <div class="progress-comp">
-          <small>{{ completion }}% concluído</small>
-          <div class="progress-bar">
-            <div class="progress-fill" :style="`width:${completion}%`" />
+      <div v-else id="main-div">
+        <div id="wrapper">
+          <div id="content">
+            <header-bar
+              :title="this.$store.state.courses.current.titulo"
+              :back-func="goBack"
+              :close-func="leaveCourse"
+            ></header-bar>
+            <div class="progress-comp">
+              <small>{{ completion }}% concluído</small>
+              <div class="progress-bar">
+                <div class="progress-fill" :style="`width:${completion}%`" />
+              </div>
+            </div>
+            <!-- Video Frame -->
+            <div v-if="currentPart.videoUrl" id="video-iframe-container">
+              <video-player
+                ref="player"
+                :youtube-url="
+                  currentPart.videoUrl.replace('watch?v=', 'embed/')
+                "
+                :thumbnail="currentCourse.capa.url"
+                @enableNext="enableNext()"
+              />
+            </div>
+            <!-- Tabs -->
+            <v-tabs id="tabs" v-model="selectedTab" height="35px">
+              <v-tab>
+                Informação
+              </v-tab>
+              <v-tab>
+                Dúvidas e Comentários
+              </v-tab>
+            </v-tabs>
+
+            <!-- Info / Comments -->
+            <v-tabs-items id="part-info" v-model="selectedTab">
+              <!-- info -->
+              <v-tab-item>
+                <h3>{{ currentPart.titulo }}</h3>
+                <h4>{{ currentPart.descricao }}</h4>
+              </v-tab-item>
+
+              <!-- comments -->
+              <v-tab-item>
+                <v-col id="comments">
+                  <v-row justify="space-between" class="ma-0">
+                    <h3 class="comments__number pb-5">
+                      {{ commentsAmount || 0 }} Comentários
+                    </h3>
+                    <div
+                      v-if="!posting"
+                      :class="
+                        'publish-btn pt-4 ' +
+                          (commentPost && !tooBig ? 'primary--text' : {})
+                      "
+                      @click="postComment"
+                    >
+                      Publicar
+                    </div>
+                  </v-row>
+                  <v-row justify="center" class="top-row">
+                    <v-avatar size="40" class="mt-1">
+                      <img v-if="user.photo" :src="user.photo" />
+                      <img v-else :src="require(`~/assets/person.svg`)" />
+                    </v-avatar>
+                    <v-text-field
+                      v-model="commentPost"
+                      :loading="posting"
+                      class="light-text-field mt-2 ml-2"
+                      placeholder="Escreva seu comentario"
+                      outlined
+                      :messages="tooBigWarn"
+                      :error="tooBig"
+                      @keyup.enter="postComment"
+                    ></v-text-field>
+                  </v-row>
+                  <v-row justify="center" class="pt-3">
+                    <v-select
+                      height="10"
+                      :items="items"
+                      item-value="Mais salves"
+                      value="Mais salves"
+                      @change="sortBy = $event"
+                    ></v-select>
+                  </v-row>
+                  <hr />
+                  <div v-for="comment in sortedComments" :key="comment.id">
+                    <comment-card :comment="comment"></comment-card>
+                    <hr />
+                  </div>
+                </v-col>
+              </v-tab-item>
+            </v-tabs-items>
+          </div>
+
+          <div class="base">
+            <v-btn
+              v-if="selectedTab == 0"
+              class="btn-block btn-primary"
+              :disabled="disableBtn"
+              @click="advanceCourse()"
+            >
+              Continuar
+            </v-btn>
           </div>
         </div>
-        <!-- Video Frame -->
-        <div v-if="currentPart.videoUrl" id="video-iframe-container">
-          <video-player
-            ref="player"
-            :youtube-url="currentPart.videoUrl.replace('watch?v=', 'embed/')"
-            :thumbnail="currentCourse.capa.url"
-            @enableNext="enableNext()"
-          />
-        </div>
-        <!-- Tabs -->
-        <v-tabs id="tabs" v-model="selectedTab" height="35px">
-          <v-tab>
-            Informação
-          </v-tab>
-          <v-tab>
-            Dúvidas e Comentários
-          </v-tab>
-        </v-tabs>
-
-        <!-- Info / Comments -->
-        <v-tabs-items id="part-info" v-model="selectedTab">
-          <!-- info -->
-          <v-tab-item>
-            <h3>{{ currentPart.titulo }}</h3>
-            <h4>{{ currentPart.descricao }}</h4>
-          </v-tab-item>
-
-          <!-- comments -->
-          <v-tab-item>
-            <v-col id="comments">
-              <v-row justify="space-between" class="ma-0">
-                <h3 class="comments__number pb-5">
-                  {{ commentsAmount || 0 }} Comentários
-                </h3>
-                <div
-                  v-if="!posting"
-                  :class="
-                    'publish-btn pt-4 ' +
-                      (commentPost && !tooBig ? 'primary--text' : {})
-                  "
-                  @click="postComment"
-                >
-                  Publicar
-                </div>
-              </v-row>
-              <v-row justify="center" class="top-row">
-                <v-avatar size="40" class="mt-1">
-                  <img v-if="user.photo" :src="user.photo" />
-                  <img v-else :src="require(`~/assets/person.svg`)" />
-                </v-avatar>
-                <v-text-field
-                  v-model="commentPost"
-                  :loading="posting"
-                  class="light-text-field mt-2 ml-2"
-                  placeholder="Escreva seu comentario"
-                  outlined
-                  :messages="tooBigWarn"
-                  :error="tooBig"
-                  @keyup.enter="postComment"
-                ></v-text-field>
-              </v-row>
-              <v-row justify="center" class="pt-3">
-                <v-select
-                  height="10"
-                  :items="items"
-                  item-value="Mais salves"
-                  value="Mais salves"
-                  @change="sortBy = $event"
-                ></v-select>
-              </v-row>
-              <hr />
-              <div v-for="comment in sortedComments" :key="comment.id">
-                <comment-card :comment="comment"></comment-card>
-                <hr />
-              </div>
-            </v-col>
-          </v-tab-item>
-        </v-tabs-items>
-
-        <div class="base">
-          <v-btn
-            v-if="selectedTab == 0"
-            class="btn-block btn-primary"
-            :disabled="disableBtn"
-            @click="advanceCourse()"
-          >
-            Continuar
-          </v-btn>
-        </div>
-      </v-col>
+      </div>
     </v-layout>
     <navigation-bar />
   </div>
@@ -668,15 +674,7 @@ hr {
   margin: 0 -36px 0;
   border: 2px solid #f7f7f7;
 }
-
-.base {
-  padding: 0 24px 80px !important;
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-}
 #video-iframe-container {
-  padding: 0 24px;
   width: 100%;
   padding-top: 10px;
   display: flex;
@@ -688,13 +686,11 @@ hr {
   padding-bottom: 24px;
 }
 #part-info {
-  padding: 0 24px 200px;
   display: flex;
   margin-top: 0.6rem;
   flex-direction: column;
 }
 ::v-deep .v-slide-group__content {
-  padding: 0 24px;
   border-bottom: 4px solid #f7f7f7 !important;
 }
 ::v-deep .v-tabs-slider-wrapper {
@@ -803,18 +799,13 @@ h4 {
 .top-row {
   margin: -5px 0;
 }
-.base {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-}
 .info__box {
   display: flex;
   margin-top: 0.6rem;
   flex-direction: column;
 }
 .progress-comp {
-  margin: 0 24px 6px;
+  margin-bottom: 6px;
   flex-grow: 1;
 }
 .progress-bar {
@@ -833,5 +824,24 @@ h4 {
   font-weight: 400;
   line-height: 12px;
   letter-spacing: 0em;
+}
+#main-div {
+  margin: 0 24px 100px;
+}
+
+#wrapper {
+  position: relative;
+}
+#content {
+  min-height: calc(100vh - 150px);
+  padding-bottom: 100px;
+}
+#base {
+  width: 100%;
+  position: relative;
+  bottom: 0px;
+}
+::v-deep #header {
+  margin: 20px 0;
 }
 </style>
