@@ -272,8 +272,11 @@
         ></header-bar>
         <v-row id="header-row" justify="space-between">
           <div id="header-msg">
-            Para receber em casa, completa aí, que o time da New School entrar
-            em contato.
+            {{
+              productInfo.type === 'SERVICE'
+                ? 'Completa aí, que o time da New School entrar em contato.'
+                : 'Para receber em casa, completa aí, que o time da New School entrar em contato.'
+            }}
           </div>
         </v-row>
         <img src="~/assets/greetings.svg" alt="Salve" />
@@ -514,7 +517,9 @@ export default {
     advanceStep() {
       switch (this.currentStep) {
         case this.stepEnum.PRODUCT_INFO:
-          if (this.userPoints >= this.productInfo.points) {
+          if (this.productInfo.type === 'SERVICE') {
+            this.currentStep = this.stepEnum.PRE_CONTACT;
+          } else if (this.userPoints >= this.productInfo.points) {
             this.currentStep = this.stepEnum.PACKAGE_INFO;
           } else {
             this.$notifier.showMessage({
@@ -627,10 +632,12 @@ export default {
 
       if (orderType === this.orderTypeEnum.MAIL) {
         content = {
+          orderType: this.orderTypeEnum.MAIL,
           contactInfo: this.contactInfo,
         };
       } else if (orderType === this.orderTypeEnum.WITHDRAW) {
         content = {
+          orderType: this.orderTypeEnum.WITHDRAW,
           withdrawalDate: `${this.date}T${this.time}:00:00Z`,
         };
       } else {
@@ -640,11 +647,12 @@ export default {
         });
       }
 
-      await market
+      const post = await market
         .post(process.env.endpoints.MARKETPLACE.ORDER, {
           itemId: this.productInfo.id,
           userId: this.idUser,
-          quantity: parseInt(this.quantity),
+          quantity:
+            this.productInfo.type === 'SERVICE' ? 1 : parseInt(this.quantity),
           content,
         })
         .catch(() => {
@@ -652,11 +660,14 @@ export default {
             type: 'error',
             message: 'Houve algum problema com o nosso serviço de troca',
           });
-
-          return null;
+          return false;
         });
 
-      this.advanceStep();
+      if (!post) {
+        this.currentStep = this.stepEnum.PRODUCT_INFO;
+      } else {
+        this.advanceStep();
+      }
       this.loading = false;
     },
     rewindStep() {
@@ -673,7 +684,11 @@ export default {
 
         case this.stepEnum.SET_DATE:
         case this.stepEnum.PRE_CONTACT:
-          this.currentStep = this.stepEnum.PACKAGE_INFO;
+          if (this.productInfo.type === 'SERVICE') {
+            this.currentStep = this.stepEnum.PRODUCT_INFO;
+          } else {
+            this.currentStep = this.stepEnum.PACKAGE_INFO;
+          }
 
           break;
 

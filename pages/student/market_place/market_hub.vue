@@ -185,7 +185,7 @@ export default {
             `${process.env.endpoints.MARKETPLACE.ITENS}?page=${this.page +
               1}&limit=8&${
               this.searchParam ? 'name[contains]=' + this.searchParam : false
-            }&quantity[gt]=0`,
+            }&quantity[gt]=0&enabled=true`,
           )
         ).data.content;
 
