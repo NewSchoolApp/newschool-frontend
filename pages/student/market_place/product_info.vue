@@ -499,11 +499,19 @@ export default {
       }
     },
     async getUserScore() {
-      this.userPoints = (
+      const totalPoints = (
         await http.getAll(
-          `${process.env.endpoints.RANKING}/user/${this.idUser}?timeRange=YEAR`,
+          `${process.env.endpoints.RANKING}/user/${this.idUser}/total-points`,
         )
       ).data.points;
+
+      const spentPoints = (
+        await market.getAll(
+          `${process.env.endpoints.MARKETPLACE.ORDER}/user/${this.idUser}/used-points`,
+        )
+      ).data.usedPoints;
+
+      this.userPoints = totalPoints - spentPoints;
     },
     weekDays(dateString) {
       const weekDays = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'];

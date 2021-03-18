@@ -13,6 +13,7 @@
     <navigation-bar />
 
     <masonry
+      v-if="filteredList.length"
       id="products-masonry"
       v-infinite-scroll="getProducts"
       :cols="2"
@@ -28,6 +29,13 @@
         />
       </div>
     </masonry>
+    <div v-else class="nothing">
+      <div class="nothing-message">
+        Eita, Man@... Estamos sem nenhum produto no momento.
+      </div>
+      <v-img :src="require('~/assets/nothing.svg')" />
+    </div>
+
     <bottom-drawer ref="drawer" @toggle="showSearchNull = false">
       <v-text-field
         filled
@@ -203,11 +211,19 @@ export default {
       }
     },
     async getUserScore() {
-      this.userPoints = (
+      const totalPoints = (
         await http.getAll(
-          `${process.env.endpoints.RANKING}/user/${this.idUser}?timeRange=YEAR`,
+          `${process.env.endpoints.RANKING}/user/${this.idUser}/total-points`,
         )
       ).data.points;
+
+      const spentPoints = (
+        await market.getAll(
+          `${process.env.endpoints.MARKETPLACE.ORDER}/user/${this.idUser}/used-points`,
+        )
+      ).data.usedPoints;
+
+      this.userPoints = totalPoints - spentPoints;
     },
   },
 };
@@ -292,5 +308,19 @@ export default {
 #search-fail :nth-child(1) {
   margin: 24px 0 42px;
   font-size: 14px;
+}
+.nothing {
+  font-family: Roboto;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 19px;
+  letter-spacing: 0px;
+  text-align: center;
+  color: #484848;
+  padding: 100px 0;
+}
+.nothing-message {
+  padding-bottom: 64px;
 }
 </style>
