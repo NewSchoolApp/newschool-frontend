@@ -56,6 +56,9 @@
     },
     "cordova-plugin-inappbrowser": {
       "PACKAGE_NAME": "com.newschool.app"
+    },
+    "cordova-plugin-splashscreen": {
+      "PACKAGE_NAME": "com.newschool.app"
     }
   },
   "dependent_plugins": {

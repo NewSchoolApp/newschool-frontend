@@ -102,6 +102,14 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
       "clobbers": [
         "cordova.InAppBrowser.open"
       ]
+    },
+    {
+      "id": "cordova-plugin-splashscreen.SplashScreen",
+      "file": "plugins/cordova-plugin-splashscreen/www/splashscreen.js",
+      "pluginId": "cordova-plugin-splashscreen",
+      "clobbers": [
+        "navigator.splashscreen"
+      ]
     }
   ];
   module.exports.metadata = {
@@ -119,6 +127,7 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
     "cordova-universal-links-plugin": "1.2.1",
     "cordova-plugin-insomnia": "4.3.0",
     "cordova-plugin-screen-orientation": "3.0.2",
-    "cordova-plugin-inappbrowser": "4.1.0"
+    "cordova-plugin-inappbrowser": "4.1.0",
+    "cordova-plugin-splashscreen": "6.0.0"
   };
 });
