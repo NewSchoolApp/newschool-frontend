@@ -171,9 +171,9 @@ export default {
         handoff: 'Fica tranquilo, você vai receber seu pedido em breve.',
       },
       WAITING_FOR_WITHDRAWAL: {
-        message: 'Seu pedido está disponível.',
+        message: 'Tudo certo com o seu pedido.',
         handoff:
-          'Conforme agendado, seu pedido já está disponível na New School.',
+          'Seu pedido estará disponível na New School no horário agendado.',
       },
       NOTIFYING_COMPANY: {
         message: 'Daremos um salve sobre seu serviço.',
