@@ -146,13 +146,13 @@
             @toggle="time = $event"
           />
           <toggle
-            :value="12"
+            :value="14"
             label="14:00"
             :model="time"
             @toggle="time = $event"
           />
           <toggle
-            :value="13"
+            :value="16"
             label="16:00"
             :model="time"
             @toggle="time = $event"
