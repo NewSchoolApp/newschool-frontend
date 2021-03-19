@@ -346,7 +346,7 @@
             filled
             placeholder="Digite um segundo número para contato"
             type="number"
-            :rules="phoneRules"
+            :rules="nullablePhoneRules"
           />
         </v-form>
       </div>
@@ -469,6 +469,9 @@ export default {
       WITHDRAW: 'WITHDRAW',
       MAIL: 'MAIL',
     },
+    nullablePhoneRules: [
+      v => (!v || v.length >= 10) || 'Deve ter no mínimo 8 caracteres + DDD',
+    ],
     emailRules: [
       v => !!v || 'Digite o e-mail',
       v => /.+@.+\..+/.test(v) || 'E-mail inválido',

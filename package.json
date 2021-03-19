@@ -19,6 +19,7 @@
     "lint-staged": "lint-staged",
     "cordova-ios": "npm run build-spa && npm run replace-relative-paths && npm run copy-cordova && npm run run-ios;",
     "cordova-android": "npm run build-spa && npm run replace-relative-paths && npm run copy-cordova && npm run run-android;",
+    "cordova-build": "npm run build-spa && npm run replace-relative-paths && npm run copy-cordova",
     "build-spa": "nuxt build --spa",
     "replace-relative-paths": "replace '/nuxtfiles/' 'nuxtfiles/' dist --recursive && replace '/assets/' 'nuxtfiles/' dist --recursive && replace '(href|src|\"href\"|\"src\")=\"/' '$1=\"../' dist --recursive && replace '(href|src|\"href\"|\"src\"):\"/' '$1:\"../' dist --recursive",
     "copy-cordova": "cp -R dist/* cordova/www/",
