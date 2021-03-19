@@ -55,4 +55,5 @@
     </platform>
     <engine name="browser" />
     <engine name="android" />
+    <engine name="ios" spec="^6.0.0" />
 </widget>
