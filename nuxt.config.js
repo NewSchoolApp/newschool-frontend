@@ -166,10 +166,11 @@ export default {
       'http://newschool.us-east-2.elasticbeanstalk.com',
     baseUrl:
       process.env.VUE_APP_BASE_URL ||
-      //'https://9ddlz0bte4.execute-api.us-east-2.amazonaws.com/dev',
-      // 'https://9ddlz0bte4.execute-api.us-east-2.amazonaws.com/prod',
-      'https://9ddlz0bte4.execute-api.us-east-2.amazonaws.com/dev',
-    marketUrl: 'https://q4cw73dgy1.execute-api.us-east-2.amazonaws.com/dev',
+      // 'https://9ddlz0bte4.execute-api.us-east-2.amazonaws.com/dev',
+      'https://9ddlz0bte4.execute-api.us-east-2.amazonaws.com/prod',
+    marketUrl:
+      // 'https://q4cw73dgy1.execute-api.us-east-2.amazonaws.com/dev',
+      'https://q4cw73dgy1.execute-api.us-east-2.amazonaws.com/prod',
     credentials: {
       name: process.env.VUE_APP_CLIENT_CREDENTIAL_NAME || 'NEWSCHOOL@FRONT',
       secret:

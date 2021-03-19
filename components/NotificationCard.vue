@@ -1,18 +1,39 @@
 <template>
-  <div class="card" :class="notification.special ? 'special' : ''">
-    <div class="header__info">
-      <img src="~/assets/gabs-small.svg" />
-      <img
-        class="cross__button"
-        src="~/assets/cross-button.svg"
-        alt=""
-        @click="removeNotification(notification.id)"
-      />
+  <div>
+    <div class="notidicationCard" :class="special ? 'special' : ''">
+      <div class="notificationBody">
+        <div
+          v-if="img"
+          id="img-viewport"
+          :style="`background-image: url(${img});`"
+        />
+        <v-icon v-else-if="icon" id="cardIcon">{{ icon }}</v-icon>
+        <img v-else id="img-viewport" src="~/assets/gabs-small.svg" />
 
-      <h1>{{ notification.content.badge.badgeDescription }}</h1>
-      <div>
-        <p id="continue__text">{{ notificationDate }}</p>
+        <div class="notificationMessages" @click="bodyClick">
+          <div id="primaryMessage">{{ primaryMessage }}</div>
+          <div id="secoundaryMessage">{{ secoundaryMessage }}</div>
+        </div>
+
+        <div id="btn-container">
+          <v-icon id="closeBtn" @click="closeClick"> mdi-close-circle</v-icon>
+          <div v-if="!handoffMessage" id="dateText">{{ date }}</div>
+          <v-icon
+            v-else
+            id="handoffBtn"
+            :class="handoff ? 'rotate180' : false"
+            @click="handoff = !handoff"
+            >mdi-chevron-down</v-icon
+          >
+        </div>
       </div>
+    </div>
+    <div v-if="handoff" id="notificationHandoff">
+      <div></div>
+      <div>
+        {{ handoffMessage }}
+      </div>
+      <div></div>
     </div>
   </div>
 </template>
@@ -21,15 +42,25 @@
 import http from '~/services/http/generic';
 export default {
   name: 'NotificationCard',
-  props: ['notification'],
+  props: [
+    'primaryMessage',
+    'date',
+    'secoundaryMessage',
+    'handoffMessage',
+    'img',
+    'icon',
+    'special',
+  ],
 
   data: () => ({
     notificationDate: '',
+    handoff: false,
   }),
-  mounted() {
-    this.checkDate();
-  },
+  mounted() {},
   methods: {
+    bodyClick() {
+      this.$emit('bodyClick');
+    },
     checkDate() {
       const notificationDateHourAndMinute = this.notification.createdAt.slice(
         11,
@@ -49,9 +80,8 @@ export default {
         this.notificationDate = notificationDateHourAndMinute;
       }
     },
-    removeNotification(id) {
-      alert(id);
-      http.putByURL(`${process.env.endpoints.NOTIFICATION}/${id}/see`);
+    closeClick() {
+      this.$emit('closeClick');
     },
   },
 };
@@ -61,78 +91,105 @@ export default {
 * {
   font-family: Roboto;
   transition: 0.2 ease-in;
+  outline: none;
 }
-#page {
-  height: 100%;
+.rotate180 {
+  transform: rotateX(180deg);
+  -webkit-transform: rotateX(180deg);
 }
-h1 {
-  font-size: 0.8rem;
+.notificationMessages {
+  flex: 16;
+}
+#primaryMessage {
+  font-size: 12px;
   font-weight: 400;
   line-height: 12px;
-  letter-spacing: 0em;
-  text-align: left;
-  min-width: 185px;
   color: rgb(26, 26, 26);
-  max-width: 70%;
+}
+#secoundaryMessage {
+  font-size: 12px;
+  line-height: 24px;
+  text-decoration-line: underline;
+  color: #737373;
 }
 .container__list {
   margin-bottom: 5rem;
 }
-.card {
-  margin: 0.3rem 0.9rem;
-  position: relative;
-  padding: 0.9rem;
+.notidicationCard {
+  margin: 8px 16px;
+  padding: 8px 0;
   background: #fff;
-  box-shadow: 0px 12px 20px 0px #00000026;
+  box-shadow: 0px 4px 12px 0px #00000026;
   border-radius: 2px;
-  display: -webkit-box;
   display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
   flex-direction: column;
-  -webkit-box-pack: justify;
   justify-content: space-between;
 }
-.btn-back {
-  width: unset !important;
+.notidicationCard div {
+  padding: 0 8px;
 }
-.header__info {
+.notificationBody {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
-::v-deep .v-btn--icon.v-size--default {
-  height: unset;
-  color: var(--primary);
-}
-.cross__button {
-  position: absolute;
-  right: 20px;
-  top: 10px;
-}
-
 .special {
   border-left: 5px solid red;
 }
-
-::v-deep .v-progress-linear {
-  margin-bottom: 35px;
-}
-::v-deep .v-progress-linear__background {
-  opacity: 100%;
-  background-color: #cecece !important;
-}
-
-#continue__text {
+#dateText {
   font-size: 8px;
   font-weight: 300;
-  min-width: 55px;
-  line-height: 9px;
-  text-align: right;
   color: rgb(63, 61, 86);
-  text-transform: none;
-  letter-spacing: 0em;
-  position: relative;
-  top: 26px;
+  text-align: center;
+}
+#btn-container {
+  height: 100%;
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+#handoffBtn {
+  color: var(--primary);
+  padding: 8px;
+}
+#closeBtn {
+  color: #67d4c7;
+  font-size: 20px;
+  padding: 8px;
+}
+#notificationHandoff {
+  margin: -8px 16px 0;
+  padding: 16px;
+  font-size: 12px;
+  line-height: 16px;
+  color: #1a1a1a;
+  background-color: #f5f5f5;
+  display: flex;
+}
+#notificationHandoff div {
+  padding: 0 8px;
+}
+#notificationHandoff :nth-child(1) {
+  flex: 2;
+}
+#notificationHandoff :nth-child(2) {
+  flex: 15;
+}
+#notificationHandoff :nth-child(3) {
+  flex: 2;
+}
+#img-viewport {
+  height: 40px;
+  flex: 2;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+#cardIcon {
+  padding: 0 8px;
+  color: var(--primary);
+  flex: 2;
+  font-size: 24px;
 }
 </style>
