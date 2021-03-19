@@ -9,8 +9,6 @@
       <div id="slot">
         <slot />
       </div>
-      <div id="drawer-bottom"></div>
-      <div id="drawer-handle"></div>
     </div>
   </div>
 </template>
@@ -88,22 +86,6 @@ export default {
   letter-spacing: 0em;
   color: #1a1a1a;
   margin-bottom: 16px;
-}
-#drawer-bottom {
-  width: 100%;
-  height: 75px;
-  position: fixed;
-  bottom: 0;
-  background-image: linear-gradient(rgba(255, 255, 255, 0), rgb(255, 255, 255));
-}
-#drawer-handle {
-  width: 50%;
-  height: 7px;
-  background-color: #494949;
-  border-radius: 4px;
-  margin-top: 16px;
-  position: fixed;
-  bottom: 10px;
 }
 #slot {
   width: 100%;

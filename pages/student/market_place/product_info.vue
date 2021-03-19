@@ -12,16 +12,18 @@
   <div v-else id="main-div">
     <div v-if="currentStep === stepEnum.PRODUCT_INFO" id="wrapper">
       <div id="content">
-        <header-bar title="Produto" :back-page="true" :back-func="rewindStep"></header-bar>
+        <header-bar
+          title="Produto"
+          :back-page="true"
+          :back-func="rewindStep"
+        ></header-bar>
         <v-row id="header-row" justify="space-between">
           <div id="product-title">{{ productInfo.name }}</div>
           <div id="balance">Saldo: {{ userPoints }}NC</div>
         </v-row>
         <div
           id="img-viewport"
-          :style="
-            `background-image: url(https://a-static.mlcdn.com.br/618x463/mouse-gamer-logitech-g-pro-hero-optico-16000dpi-6-botoes-pro/magazineluiza/223329300/73b0a24b258f1d114ca12b2209bdefc9.jpg);`
-          "
+          :style="`background-image: url(${productInfo.photo});`"
         />
         <v-row id="price-row">
           <div>Por:</div>
@@ -42,41 +44,45 @@
 
     <div v-else-if="currentStep === stepEnum.PACKAGE_INFO" id="wrapper">
       <div id="content">
-        <header-bar title="Produto" :back-page="true" :back-func="rewindStep"></header-bar>
+        <header-bar
+          title="Item Escolhido"
+          :back-page="true"
+          :back-func="rewindStep"
+        ></header-bar>
         <v-row id="header-row" justify="space-between">
           <div id="product-title">{{ productInfo.name }}</div>
           <div id="balance">Saldo: {{ userPoints }}NC</div>
         </v-row>
         <div
           id="img-viewport"
-          :style="
-            `background-image: url('https://a-static.mlcdn.com.br/618x463/mouse-gamer-logitech-g-pro-hero-optico-16000dpi-6-botoes-pro/magazineluiza/223329300/73b0a24b258f1d114ca12b2209bdefc9.jpg');`
-          "
+          :style="`background-image: url('${productInfo.photo}');`"
         />
         <v-row id="price-row">
           <div>Por:</div>
           <div>{{ productInfo.points }} NC</div>
         </v-row>
-        <div class="select-label">
+        <div class="input-label">
           Quantidade:
         </div>
-        <v-select
-          v-model="quantity"
-          class="primary-text-field input"
-          filled
-          :items="quantitySelect"
-          placeholder="Digite a quantidade"
-          :hide-details="true"
-        />
-        <div class="select-label">Retirada:</div>
-        <v-select
-          v-model="shippingType"
-          class="primary-select input"
-          filled
-          :items="shippingOptions"
-          placeholder="Selecione"
-          :hide-details="true"
-        />
+        <v-form ref="form">
+          <v-select
+            v-model="quantity"
+            class="primary-text-field input"
+            filled
+            :items="quantitySelect"
+            placeholder="Selecione a quantidade"
+            :rules="notNull"
+          />
+          <div class="input-label">Retirada:</div>
+          <v-select
+            v-model="shippingType"
+            class="primary-select input"
+            filled
+            :items="shippingOptions"
+            placeholder="Selecione"
+            :rules="notNull"
+          />
+        </v-form>
       </div>
 
       <div id="base">
@@ -86,9 +92,15 @@
       </div>
     </div>
 
+    <!-- withdraw -->
+
     <div v-else-if="currentStep === stepEnum.SET_DATE" id="wrapper">
       <div id="content">
-        <header-bar title="Produto" :back-page="true" :back-func="rewindStep"></header-bar>
+        <header-bar
+          title="Retirada"
+          :back-page="true"
+          :back-func="rewindStep"
+        ></header-bar>
         <div id="header-row" justify="space-between">
           <div id="header-msg">Qual o melhor dia pra você ir buscar?</div>
         </div>
@@ -112,7 +124,11 @@
 
     <div v-else-if="currentStep === stepEnum.SET_TIME" id="wrapper">
       <div id="content">
-        <header-bar title="Produto" :back-page="true" :back-func="rewindStep"></header-bar>
+        <header-bar
+          title="Retirada"
+          :back-page="true"
+          :back-func="rewindStep"
+        ></header-bar>
         <div id="header-row" justify="space-between">
           <div id="header-msg">Agora é só escolher a hora:</div>
         </div>
@@ -150,18 +166,20 @@
       </div>
     </div>
 
-    <div v-if="currentStep === stepEnum.CHECKOUT" id="wrapper">
+    <div v-else-if="currentStep === stepEnum.WITHDRAW_CHECKOUT" id="wrapper">
       <div id="content">
-        <header-bar title="Produto" :back-page="true" :back-func="rewindStep"></header-bar>
+        <header-bar
+          title="Confirmação"
+          :back-page="true"
+          :back-func="rewindStep"
+        ></header-bar>
         <v-row id="header-row" justify="space-between">
           <div id="product-title">{{ productInfo.name }}</div>
           <div id="balance">Saldo: {{ userPoints }}NC</div>
         </v-row>
         <div
           id="img-viewport"
-          :style="
-            `background-image: url(https://a-static.mlcdn.com.br/618x463/mouse-gamer-logitech-g-pro-hero-optico-16000dpi-6-botoes-pro/magazineluiza/223329300/73b0a24b258f1d114ca12b2209bdefc9.jpg);`
-          "
+          :style="`background-image: url(${productInfo.photo});`"
         />
         <v-row id="price-row">
           <div>Por:</div>
@@ -175,15 +193,22 @@
       </div>
 
       <div id="base">
-        <v-btn class="btn-block btn-primary" @click="createOrder">
+        <v-btn
+          class="btn-block btn-primary"
+          @click="createOrder(orderTypeEnum.WITHDRAW)"
+        >
           Finalizar
         </v-btn>
       </div>
     </div>
 
-    <div v-if="currentStep === stepEnum.FINISHED" id="wrapper">
+    <div v-else-if="currentStep === stepEnum.WITHDRAW_FINISHED" id="wrapper">
       <div id="content">
-        <header-bar title="Produto" :back-page="true" :back-func="rewindStep"></header-bar>
+        <header-bar
+          title="Localização"
+          :back-page="true"
+          :back-func="rewindStep"
+        ></header-bar>
         <v-row id="header-row" justify="space-between">
           <div id="header-msg">Mandou bem, agora é só ir lá!</div>
         </v-row>
@@ -232,15 +257,164 @@
         </div>
       </div>
       <div id="base">
-        <v-btn
-          class="btn-block btn-primary"
-          @click="rewindStep"
-        >
+        <v-btn class="btn-block btn-primary" @click="advanceStep">
           Voltar ao Início
         </v-btn>
       </div>
     </div>
 
+    <!-- mail -->
+
+    <div v-else-if="currentStep === stepEnum.PRE_CONTACT" id="wrapper">
+      <div id="content">
+        <header-bar
+          title="Receber em Casa"
+          :back-page="true"
+          :back-func="rewindStep"
+        ></header-bar>
+        <v-row id="header-row" justify="space-between">
+          <div id="header-msg">
+            {{
+              productInfo.type === 'SERVICE'
+                ? 'Completa aí, que o time da New School entrar em contato.'
+                : 'Para receber em casa, completa aí, que o time da New School entrar em contato.'
+            }}
+          </div>
+        </v-row>
+        <img src="~/assets/greetings.svg" alt="Salve" />
+      </div>
+      <div id="base">
+        <v-btn class="btn-block btn-primary" @click="advanceStep">
+          Continuar
+        </v-btn>
+      </div>
+    </div>
+
+    <div v-else-if="currentStep === stepEnum.CONTACT" id="wrapper">
+      <div id="content">
+        <header-bar
+          title="Receber em Casa"
+          :back-page="true"
+          :back-func="rewindStep"
+        ></header-bar>
+        <v-row id="header-row" justify="space-between">
+          <div id="header-msg">Completa aí:</div>
+        </v-row>
+
+        <v-form ref="form">
+          <div class="input-label">
+            Nome
+          </div>
+          <v-text-field
+            ref="contactInfoName"
+            v-model="contactInfo.name"
+            class="primary-text-field input"
+            filled
+            placeholder="Digite seu nome completo"
+            :rules="notNull"
+          />
+          <div class="input-label">
+            Whatsapp
+          </div>
+          <v-text-field
+            ref="contactInfoWhatsapp"
+            v-model="contactInfo.whatsapp"
+            class="primary-text-field input"
+            filled
+            placeholder="Digite telefone para contato ou Whatsapp"
+            type="number"
+            :rules="phoneRules"
+          />
+          <div class="input-label">
+            Email
+          </div>
+          <v-text-field
+            ref="contactInfoEmail"
+            v-model="contactInfo.email"
+            class="primary-text-field input"
+            filled
+            placeholder="Digite seu email"
+            :rules="emailRules"
+          />
+          <div class="input-label">
+            Contato para recado
+          </div>
+          <v-text-field
+            ref="contactInfoContact"
+            v-model="contactInfo.contact"
+            class="primary-text-field input"
+            filled
+            placeholder="Digite um segundo número para contato"
+            type="number"
+            :rules="phoneRules"
+          />
+        </v-form>
+      </div>
+      <div id="base">
+        <v-btn class="btn-block btn-primary" @click="advanceStep">
+          Continuar
+        </v-btn>
+      </div>
+    </div>
+
+    <div v-else-if="currentStep === stepEnum.MAIL_CHECKOUT" id="wrapper">
+      <div id="content">
+        <header-bar
+          title="Confirmação"
+          :back-page="true"
+          :back-func="rewindStep"
+        ></header-bar>
+        <v-row id="header-row" justify="space-between">
+          <div id="product-title">{{ productInfo.name }}</div>
+          <div id="balance">Saldo: {{ userPoints }}NC</div>
+        </v-row>
+        <div
+          id="img-viewport"
+          :style="`background-image: url(${productInfo.photo});`"
+        />
+        <v-row id="price-row">
+          <div>Por:</div>
+          <div>{{ productInfo.points }} NC</div>
+        </v-row>
+        <div id="shipping-info">
+          <div>Dados pessoais</div>
+          <div>{{ contactInfo.name }}</div>
+          <div>{{ contactInfo.whatsapp }}</div>
+          <div>{{ contactInfo.email }}</div>
+          <div>{{ contactInfo.contact }}</div>
+        </div>
+      </div>
+
+      <div id="base">
+        <v-btn
+          class="btn-block btn-primary"
+          @click="createOrder(orderTypeEnum.MAIL)"
+        >
+          Finalizar
+        </v-btn>
+      </div>
+    </div>
+
+    <div v-else-if="currentStep === stepEnum.MAIL_FINISHED" id="wrapper">
+      <div id="content">
+        <header-bar
+          title="Finalizado"
+          :back-page="true"
+          :back-func="rewindStep"
+        ></header-bar>
+        <v-row id="header-row" justify="space-between">
+          <div id="header-msg">
+            Tudo certo. Agora é só aguardar, a New School entrar em contato.
+          </div>
+        </v-row>
+        <img class="px-6" src="~/assets/wellDone.svg" alt="Finalizado" />
+      </div>
+      <div id="base">
+        <v-btn class="btn-block btn-primary" @click="advanceStep">
+          Voltar ao Início
+        </v-btn>
+      </div>
+    </div>
     <navigation-bar />
   </div>
 </template>
@@ -271,16 +445,39 @@ export default {
       PACKAGE_INFO: 'PACKAGE_INFO',
       SET_DATE: 'SET_DATE',
       SET_TIME: 'SET_TIME',
-      CHECKOUT: 'CHECKOUT',
-      FINISHED: 'FINISHED',
+      WITHDRAW_CHECKOUT: 'WITHDRAW_CHECKOUT',
+      WITHDRAW_FINISHED: 'WITHDRAW_FINISHED',
+      PRE_CONTACT: 'PRE_CONTACT',
+      CONTACT: 'CONTACT',
+      MAIL_CHECKOUT: 'MAIL_CHECKOUT',
+      MAIL_FINISHED: 'MAIL_FINISHED',
     },
     currentStep: 'PRODUCT_INFO',
-    shippingOptions: ['Retirar na New School'],
+    shippingOptions: ['Retirar na New School', 'Receber em casa'],
     shippingType: '',
     quantitySelect: [],
     quantity: '',
     date: '',
     time: '',
+    contactInfo: {
+      name: '',
+      whatsapp: '',
+      email: '',
+      contact: '',
+    },
+    orderTypeEnum: {
+      WITHDRAW: 'WITHDRAW',
+      MAIL: 'MAIL',
+    },
+    emailRules: [
+      v => !!v || 'Digite o e-mail',
+      v => /.+@.+\..+/.test(v) || 'E-mail inválido',
+    ],
+    notNull: [v => !!v || 'Esse campo não pode estar em branco'],
+    phoneRules: [
+      v => !!v || 'Esse campo não pode estar em branco',
+      v => (v && v.length >= 10) || 'Deve ter no mínimo 8 caracteres + DDD',
+    ],
   }),
   computed: {
     idUser() {
@@ -314,11 +511,19 @@ export default {
       }
     },
     async getUserScore() {
-      this.userPoints = (
+      const totalPoints = (
         await http.getAll(
-          `${process.env.endpoints.RANKING}/user/${this.idUser}?timeRange=YEAR`,
+          `${process.env.endpoints.RANKING}/user/${this.idUser}/total-points`,
         )
       ).data.points;
+
+      const spentPoints = (
+        await market.getAll(
+          `${process.env.endpoints.MARKETPLACE.ORDER}/user/${this.idUser}/used-points`,
+        )
+      ).data.usedPoints;
+
+      this.userPoints = totalPoints - spentPoints;
     },
     weekDays(dateString) {
       const weekDays = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'];
@@ -329,20 +534,12 @@ export default {
       const newDate = new Date(dateString + 'T00:00:00');
       return newDate > new Date(Date.now());
     },
-    addToShopCart() {
-      if (this.userPoints >= this.productInfo.points) {
-        this.currentStep = this.stepEnum.PACKAGE_INFO;
-      } else {
-        this.$notifier.showMessage({
-          type: 'error',
-          message: 'Você não tem pontos suficiente para essa troca',
-        });
-      }
-    },
     advanceStep() {
       switch (this.currentStep) {
         case this.stepEnum.PRODUCT_INFO:
-          if (this.userPoints >= this.productInfo.points) {
+          if (this.productInfo.type === 'SERVICE') {
+            this.currentStep = this.stepEnum.PRE_CONTACT;
+          } else if (this.userPoints >= this.productInfo.points) {
             this.currentStep = this.stepEnum.PACKAGE_INFO;
           } else {
             this.$notifier.showMessage({
@@ -354,26 +551,17 @@ export default {
           break;
 
         case this.stepEnum.PACKAGE_INFO:
-          if (!this.shippingType) {
-            this.$notifier.showMessage({
-              type: 'error',
-              message: `Selecione algum tipo de retirada.`,
-            });
-          } else if (
-            this.quantity &&
-            this.quantity <= this.productInfo.quantity
-          ) {
-            this.currentStep = this.stepEnum.SET_DATE;
-          } else if (!this.quantity) {
-            this.$notifier.showMessage({
-              type: 'error',
-              message: `Digite alguma quantidade.`,
-            });
-          } else {
-            this.$notifier.showMessage({
-              type: 'error',
-              message: `Não temos ${this.quantity} em estoque.`,
-            });
+          if (this.$refs.form.validate()) {
+            if (!this.userPoints >= this.productInfo.points * this.quantity) {
+              this.$notifier.showMessage({
+                type: 'error',
+                message: `Você não tem pontos o suficiente`,
+              });
+            } else if (this.shippingType === 'Retirar na New School') {
+              this.currentStep = this.stepEnum.SET_DATE;
+            } else {
+              this.currentStep = this.stepEnum.PRE_CONTACT;
+            }
           }
 
           break;
@@ -392,7 +580,7 @@ export default {
 
         case this.stepEnum.SET_TIME:
           if (this.time) {
-            this.currentStep = this.stepEnum.CHECKOUT;
+            this.currentStep = this.stepEnum.WITHDRAW_CHECKOUT;
           } else {
             this.$notifier.showMessage({
               type: 'error',
@@ -402,34 +590,78 @@ export default {
 
           break;
 
-        case this.stepEnum.CHECKOUT:
-          this.currentStep = this.stepEnum.FINISHED;
+        case this.stepEnum.WITHDRAW_CHECKOUT:
+          this.currentStep = this.stepEnum.WITHDRAW_FINISHED;
+
+          break;
+
+        case this.stepEnum.PRE_CONTACT:
+          this.currentStep = this.stepEnum.CONTACT;
+
+          break;
+
+        case this.stepEnum.CONTACT:
+          if (this.$refs.form.validate()) {
+            this.currentStep = this.stepEnum.MAIL_CHECKOUT;
+          }
+
+          break;
+
+        case this.stepEnum.MAIL_CHECKOUT:
+          this.currentStep = this.stepEnum.MAIL_FINISHED;
+
+          break;
+
+        case this.stepEnum.MAIL_FINISHED:
+        case this.stepEnum.WITHDRAW_FINISHED:
+          $nuxt._router.replace('/aluno/marketplace');
 
           break;
       }
     },
-    async createOrder() {
+    async createOrder(orderType) {
       this.loading = true;
 
-      await market
+      let content;
+
+      if (orderType === this.orderTypeEnum.MAIL) {
+        content = {
+          orderType: this.orderTypeEnum.MAIL,
+          contactInfo: this.contactInfo,
+        };
+      } else if (orderType === this.orderTypeEnum.WITHDRAW) {
+        content = {
+          orderType: this.orderTypeEnum.WITHDRAW,
+          withdrawalDate: `${this.date}T${this.time}:00:00Z`,
+        };
+      } else {
+        this.$notifier.showMessage({
+          type: 'error',
+          message: 'Tipo de pedido inválido',
+        });
+      }
+
+      const post = await market
         .post(process.env.endpoints.MARKETPLACE.ORDER, {
           itemId: this.productInfo.id,
           userId: this.idUser,
-          quantity: parseInt(this.quantity),
-          content: {
-            withdrawalDate: `${this.date}T${this.time}:00:00Z`,
-          },
+          quantity:
+            this.productInfo.type === 'SERVICE' ? 1 : parseInt(this.quantity),
+          content,
         })
         .catch(() => {
           this.$notifier.showMessage({
             type: 'error',
             message: 'Houve algum problema com o nosso serviço de troca',
           });
-
-          return null;
+          return false;
         });
 
-      this.advanceStep();
+      if (!post) {
+        this.currentStep = this.stepEnum.PRODUCT_INFO;
+      } else {
+        this.advanceStep();
+      }
       this.loading = false;
     },
     rewindStep() {
@@ -440,37 +672,58 @@ export default {
           break;
 
         case this.stepEnum.PACKAGE_INFO:
-          this.currentStep = this.stepEnum.PRODUCT_INFO
+          this.currentStep = this.stepEnum.PRODUCT_INFO;
 
           break;
 
         case this.stepEnum.SET_DATE:
-          this.currentStep = this.stepEnum.PACKAGE_INFO
-          
+        case this.stepEnum.PRE_CONTACT:
+          if (this.productInfo.type === 'SERVICE') {
+            this.currentStep = this.stepEnum.PRODUCT_INFO;
+          } else {
+            this.currentStep = this.stepEnum.PACKAGE_INFO;
+          }
+
           break;
 
         case this.stepEnum.SET_TIME:
-          this.currentStep = this.stepEnum.SET_DATE
+          this.currentStep = this.stepEnum.SET_DATE;
 
           break;
 
-        case this.stepEnum.CHECKOUT:
+        case this.stepEnum.WITHDRAW_CHECKOUT:
           this.currentStep = this.stepEnum.SET_TIME;
 
           break;
-        
-        case this.stepEnum.FINISHED:
+
+        case this.stepEnum.CONTACT:
+          this.currentStep = this.stepEnum.PRE_CONTACT;
+
+          break;
+
+        case this.stepEnum.MAIL_CHECKOUT:
+          this.currentStep = this.stepEnum.CONTACT;
+
+          break;
+
+        case this.stepEnum.MAIL_FINISHED:
+        case this.stepEnum.WITHDRAW_FINISHED:
           $nuxt._router.replace('/aluno/marketplace');
-          
+
           break;
       }
     },
   },
 };
 </script>
-<style scoped>
+<style scoped lang="scss">
 * {
   font-family: Roboto;
+}
+img {
+  width: 100%;
+  height: 100%;
+  margin-top: 48px;
 }
 .row {
   margin: initial;
@@ -562,15 +815,23 @@ export default {
   display: flex;
   align-items: flex-end;
   color: #737373;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+
+  -ms-word-break: break-all;
+  word-break: break-all;
+  word-break: break-word;
+
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
 }
-.select-label {
+.input-label {
   font-weight: normal;
   font-size: 14px;
   color: var(--primary);
   margin-bottom: 4px;
-}
-.input {
-  margin-bottom: 16px;
 }
 ::v-deep .v-picker {
   width: 100%;

@@ -39,8 +39,17 @@
         </v-card>
       </v-dialog>
     </div>
-
-    <div v-show="!loading" id="page">
+    <div v-if="loading">
+      <div class="container-spinner">
+        <v-progress-circular
+          :size="70"
+          :width="5"
+          indeterminate
+          color="#6600cc"
+        />
+      </div>
+    </div>
+    <div v-else id="page">
       <div v-if="notificationsToShow.length" id="total-cards">
         <div
           v-infinite-scroll="getUserList"
@@ -52,54 +61,59 @@
             <div
               v-for="notification of notificationsToShow"
               :key="notification.id"
-              class="card"
-              :class="notification.type === 'OTHER' ? 'special' : ''"
             >
-              <div class="header__info">
-                <img
-                  src="~/assets/gabs-small.svg"
-                  @click="
-                    notification.content.semearSiteUrl
-                      ? goToNotification(notification.content.semearSiteUrl)
-                      : ''
+              <NotificationCard
+                v-if="notification.type === 'GAMEFICATION'"
+                :primary-message="notification.content.badge.badgeDescription"
+                :date="checkDate(notification.createdAt)"
+                @closeClick="removeNotification(notification)"
+              ></NotificationCard>
+              <div v-else-if="notification.type === 'MARKETPLACE'">
+                <NotificationCard
+                  v-if="notification.content.status === 'CANCELED'"
+                  :primary-message="
+                    mktNotificationMessage[notification.content.status].message
                   "
-                />
-                <img
-                  class="cross__button"
-                  src="~/assets/cross-button.svg"
-                  alt=""
-                  @click="removeNotification(notification)"
-                />
-
-                <!-- <h1
-                  @click="
-                    notification.content.semearSiteUrl
-                      ? goToNotification(notification.content.semearSiteUrl)
-                      : ''
+                  :secoundary-message="`Ref: ${notification.content.item.name}`"
+                  :date="checkDate(notification.createdAt)"
+                  :special="true"
+                  :handoff-message="
+                    canceledReasons[notification.content.cancelation.reason]
                   "
-                >
-                  {{
-                    notification.content.badge
-                      ? notification.content.badge.badgeDescription
-                      : 'Clique e acesse o site do Parceiro'
-                  }}
-                </h1> -->
-                <h1 v-if="notification.type == notificationType.GAMEFICATION">
-                  {{ notification.content.badge.badgeDescription }}
-                </h1>
-                <h1 v-if="notification.type == notificationType.MARKETPLACE">
-                  Você comprou {{ notification.content.item.name }}!
-                </h1>
-                <h1
-                  v-if="notification.type == notificationType.OTHER"
-                  @click="goToNotification(notification.content.semearSiteUrl)"
-                >
-                  Clique e acesse o site do Parceiro
-                </h1>
-                <div>
-                  <p id="continue__text">{{ checkDate(notification) }}</p>
-                </div>
+                  :img="notification.content.item.photo"
+                  @closeClick="removeNotification(notification)"
+                ></NotificationCard>
+                <NotificationCard
+                  v-else
+                  :primary-message="
+                    mktNotificationMessage[notification.content.status].message
+                  "
+                  :secoundary-message="`Ref: ${notification.content.item.name}`"
+                  :date="checkDate(notification.createdAt)"
+                  :handoff-message="
+                    mktNotificationMessage[notification.content.status].handoff
+                  "
+                  :img="
+                    notification.content.item.type === 'PRODUCT'
+                      ? notification.content.item.photo
+                      : false
+                  "
+                  :icon="
+                    notification.content.item.type === 'SERVICE'
+                      ? 'mdi-check-circle-outline'
+                      : false
+                  "
+                  @closeClick="removeNotification(notification)"
+                ></NotificationCard>
               </div>
+              <NotificationCard
+                v-else-if="notification.type === 'OTHER'"
+                primary-message="Toque para acessar o site do parceiro."
+                :date="checkDate(notification.createdAt)"
+                :special="true"
+                @closeClick="removeNotification(notification)"
+                @bodyClick="goToNotification"
+              ></NotificationCard>
             </div>
           </transition-group>
         </div>
@@ -113,16 +127,7 @@
         <v-img :src="require('~/assets/nothing.svg')" />
       </div>
     </div>
-    <div v-if="loading">
-      <div class="container-spinner">
-        <v-progress-circular
-          :size="70"
-          :width="5"
-          indeterminate
-          color="#6600cc"
-        />
-      </div>
-    </div>
+
     <navigation-bar />
   </div>
 </template>
@@ -133,12 +138,15 @@
 <script>
 import NavigationBar from '~/components/NavigationBar.vue';
 import HeaderBar from '~/components/Header.vue';
+import NotificationCard from '~/components/NotificationCard.vue';
+
 import http from '~/services/http/generic';
 
 export default {
   components: {
     NavigationBar,
     HeaderBar,
+    NotificationCard,
   },
   transition: 'bounce',
 
@@ -151,6 +159,38 @@ export default {
       OTHER: 'OTHER',
       GAMEFICATION: 'GAMEFICATION',
       MARKETPLACE: 'MARKETPLACE',
+    },
+    mktNotificationMessage: {
+      SEPARATING: {
+        message: 'Aí sim hein! Recebemos seu pedido.',
+        handoff:
+          'Fique atento que vamos te dar um salve pra fazer sua entrega.',
+      },
+      SENT: {
+        message: 'Da hora! Seu pedido está a caminho.',
+        handoff: 'Fica tranquilo, você vai receber seu pedido em breve.',
+      },
+      WAITING_FOR_WITHDRAWAL: {
+        message: 'Tudo certo com o seu pedido.',
+        handoff:
+          'Seu pedido estará disponível na New School no horário agendado.',
+      },
+      NOTIFYING_COMPANY: {
+        message: 'Daremos um salve sobre seu serviço.',
+        handoff: 'Te daremos um salve assim que nosso parceiro for contactado.',
+      },
+      COMPANY_NOTIFIED: {
+        message: 'Já demos um salve sobre seu serviço.',
+        handoff:
+          'Nosso parceiro vai te dar um toque sobre o seu serviço. Ele já está confirmado.',
+      },
+      DONE: { message: 'Seu pedido foi finalizado com sucesso.', handoff: '' },
+      CANCELED: { message: 'Que zica! Seu pedido foi cancelado.', handoff: '' },
+    },
+    canceledReasons: {
+      NOT_IN_STOCK: 'Não tinhamos esse produto em estoque.',
+      DOES_NOT_EXISTS: 'Esse produto não existe.',
+      NOT_ENOUGH_POINTS: 'Você não tinha Newcoins suficientes.',
     },
   }),
   computed: {
@@ -169,17 +209,15 @@ export default {
   },
   async mounted() {
     await this.getNotifications();
-    setTimeout(() => {
-      this.loading = false;
-    }, 400);
+    this.loading = false;
   },
   methods: {
-    checkDate(notification) {
-      const [hours, minutes] = notification.createdAt.slice(11, 16).split(':');
+    checkDate(date) {
+      const [hours, minutes] = date.slice(11, 16).split(':');
       const notificationDateHourAndMinute = `${this.convertHour(
         Number(hours),
       )}:${minutes}`;
-      const notificationMonthAndDay = notification.createdAt.slice(5, 10);
+      const notificationMonthAndDay = date.slice(5, 10);
       const today = new Date().getDate();
       const month = new Date().getMonth() + 1;
       const [dateMonth, dateDay] = notificationMonthAndDay.split('-');
@@ -220,13 +258,12 @@ export default {
       //   this.loading = false;
       // }, 700);
     },
-    getNotifications() {
-      this.notifications = [];
-      http
-        .getAll(`${process.env.endpoints.NOTIFICATIONS}/user/${this.user.id}`)
-        .then(response => {
-          this.notifications = response.data;
-        });
+    async getNotifications() {
+      this.notifications = (
+        await http.getAll(
+          `${process.env.endpoints.NOTIFICATIONS}/user/${this.user.id}`,
+        )
+      ).data;
     },
     convertHour(hour) {
       if (hour >= 0 && hour < 3) {

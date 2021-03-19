@@ -106,7 +106,7 @@
 import NavigationBar from '~/components/NavigationBar.vue';
 import CourseCard from '~/components/CourseCard';
 import http from '~/services/http/generic';
-import utils from "~/utils/index";
+import utils from '~/utils/index';
 
 export default {
   components: {
@@ -162,8 +162,8 @@ export default {
       $nuxt._router.push(`/aluno/${path}`);
     },
     async getNotifications() {
-      this.notifications = 
-        (await http.getAll(
+      this.notifications = (
+        await http.getAll(
           `${process.env.endpoints.NOTIFICATIONS}/user/${this.user.id}`,
         )
       ).data;
@@ -171,7 +171,7 @@ export default {
     async getUserScore() {
       this.userPoints = (
         await http.getAll(
-          `${process.env.endpoints.RANKING}/user/${this.user.id}?timeRange=YEAR`,
+          `${process.env.endpoints.RANKING}/user/${this.user.id}/total-points`,
         )
       ).data.points;
     },
