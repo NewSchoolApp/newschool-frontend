@@ -1,5 +1,5 @@
 <template>
-  <div v-if="auth">
+  <div class="container" v-if="auth">
     <side-menu v-show="viewMenu" class="intro-transition"></side-menu>
 
     <v-bottom-navigation
@@ -85,7 +85,12 @@ export default {
   },
 };
 </script>
-
+<style>
+.v-item-group.v-bottom-navigation--fixed {
+    height: calc(56px + env(safe-area-inset-bottom, 0px)) !important;
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+</style>
 <style scoped>
 >>> .v-item-group.v-bottom-navigation--horizontal .v-btn > .v-btn__content {
   flex-direction: column-reverse !important;

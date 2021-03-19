@@ -52,7 +52,7 @@
               Cadastrar
             </v-btn>
           </v-col>
-          <v-col cols="12" class="text-center">
+          <v-col v-if="enableFacebook" cols="12" class="text-center">
             <v-btn text color="white" @click="loginSocial('facebook')">
               <v-icon dark left>mdi-facebook</v-icon>Entrar com Facebook
             </v-btn>
@@ -90,13 +90,16 @@ import auth from '~/services/http/auth';
 import utils from '~/utils/index';
 import { http } from '~/services/http/config';
 
+const ENABLE_FACEBOOK_LOGIN_IOS = false;
+
+
 export default {
   data: () => ({
     // flags
     status: true,
     loading: false,
     showPass: false,
-
+    enableFacebook: ENABLE_FACEBOOK_LOGIN_IOS || window.cordova?.platformId == "android",
     title: 'Entrar',
 
     email: '',
