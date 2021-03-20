@@ -407,7 +407,7 @@
             Tudo certo. Agora é só aguardar, a New School entrar em contato.
           </div>
         </v-row>
-        <img class="px-6" src="~/assets/wellDone.svg" alt="Finalizado" />
+        <img class="px-6 wellDone" src="~/assets/wellDone.svg" alt="Finalizado" />
       </div>
       <div id="base">
         <v-btn class="btn-block btn-primary" @click="advanceStep">
@@ -942,5 +942,8 @@ img {
   background: url('../../../assets/paraisopolis-default.jpg');
   background-size: cover;
   background-position: 50%;
+}
+.wellDone {
+  max-height: 50vh;
 }
 </style>
