@@ -93,7 +93,13 @@ export default {
       return this.$store.state.user.data;
     },
   },
-
+  mounted() {
+    if (window.localStorage) {
+      this.localStorage = window.localStorage;
+    } else {
+      this.localStorage = localStorage;
+    }
+  },
   methods: {
     goToChangePassword() {
       $nuxt._router.push('/aluno/alterar-senha');
@@ -102,8 +108,9 @@ export default {
       $nuxt._router.push('/aluno/indicar-app');
     },
     goToExit() {
-      localStorage.clear();
+      this.$auth.loggedIn && this.$auth.logout();
       $nuxt._router.push('/login');
+      this.localStorage.removeItem('auth');
       this.clearInfoUser();
     },
     goToCertificates() {
