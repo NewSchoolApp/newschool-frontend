@@ -889,9 +889,11 @@ img {
   justify-content: center;
   align-items: center;
   position: relative;
+  z-index: 2 !important;
 }
-.v-progress-circular {
+::v-deep .v-progress-circular {
   position: absolute !important;
+  z-index: 1 !important;
 }
 #finished-info {
   margin-top: 16px;
