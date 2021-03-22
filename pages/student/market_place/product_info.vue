@@ -491,7 +491,7 @@ export default {
     },
   },
   async mounted() {
-    this.getUserScore();
+    await this.getUserScore();
     await this.getProductInfo();
     this.loading = false;
   },
@@ -503,7 +503,12 @@ export default {
         )
       ).data;
 
-      this.generateQuantitySelect(this.productInfo.quantity);
+      // only show the quantity that the user is able to get with current score
+      const MIN = 1;
+      const MAX = this.productInfo.quantity;
+      const parsed = parseInt(this.userPoints / this.productInfo.points);
+
+      this.generateQuantitySelect(Math.min(Math.max(parsed, MIN), MAX));
     },
     generateQuantitySelect(quantity) {
       for (let index = 1; index <= quantity; index++) {
