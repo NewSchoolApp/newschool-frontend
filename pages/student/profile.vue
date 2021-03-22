@@ -56,6 +56,7 @@ import Avatar from 'vue-avatar';
 import NavigationBar from '~/components/NavigationBar.vue';
 import HeaderBar from '~/components/Header.vue';
 import AvatarUploader from '~/components/AvatarUploader.vue';
+import utils from '~/utils/index';
 
 export default {
   components: {
@@ -108,6 +109,7 @@ export default {
       $nuxt._router.push('/aluno/indicar-app');
     },
     goToExit() {
+      utils.hideIosStatusBar();
       this.$auth.loggedIn && this.$auth.logout();
       $nuxt._router.push('/login');
       this.localStorage.removeItem('auth');

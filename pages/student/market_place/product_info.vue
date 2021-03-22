@@ -222,7 +222,7 @@
             />
             <iframe
               id="gmap_canvas"
-              src="https://maps.google.com/maps?q=Rua%20Carlos%20Faria,%20273%20%20Jd%20Rapouso%20Tavares&t=&z=17&ie=UTF8&iwloc=&output=embed"
+              src="https://maps.google.com/maps?q=Rua%20Carlos%20Faria,%294%20%20Jd%20Rapouso%20Tavares&t=&z=17&ie=UTF8&iwloc=&output=embed"
               frameborder="0"
               scrolling="no"
               marginheight="0"
@@ -237,7 +237,7 @@
                 <v-icon>mdi-map-marker-outline</v-icon>
               </div>
               <div id="body">
-                Rua Carlos Faria, 273 Jd Rapouso Tavares - Zona Oeste Butantã -
+                Rua Carlos Faria, 294 Jd Rapouso Tavares - Zona Oeste Butantã -
                 São Paulo - Brasil
               </div>
               <v-divider></v-divider>
@@ -407,7 +407,7 @@
             Tudo certo. Agora é só aguardar, a New School entrar em contato.
           </div>
         </v-row>
-        <img class="px-6" src="~/assets/wellDone.svg" alt="Finalizado" />
+        <img class="px-6 wellDone" src="~/assets/wellDone.svg" alt="Finalizado" />
       </div>
       <div id="base">
         <v-btn class="btn-block btn-primary" @click="advanceStep">
@@ -942,5 +942,8 @@ img {
   background: url('../../../assets/paraisopolis-default.jpg');
   background-size: cover;
   background-position: 50%;
+}
+.wellDone {
+  max-height: 50vh;
 }
 </style>
