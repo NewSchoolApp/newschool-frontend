@@ -34,33 +34,20 @@
             </h4>
           </main>
           <footer>
-            <div class="assignature">
-              <div class="professor ">
-                <div class="asn">
-                  <img
-                    class="asn_img"
-                    src="../../assets/assinatura.png"
-                    alt=""
-                  />
-                </div>
-                <h6 class="medium__text">PROFESSOR</h6>
-              </div>
-              <div class="director ">
-                <div class="asn">
-                  <img
-                    class="asn_img"
-                    src="../../assets/assinatura.png"
-                    alt=""
-                  />
-                </div>
-                <h6 class="medium__text">DIRETORIA</h6>
-              </div>
+            <div class="signature">
+              <img
+                class="signature-img"
+                src="../../assets/assinaturaSergio.png"
+                alt=""
+              />
+              <div class="signature-text">DIRETORIA</div>
+
+              <img
+                class="new__logo"
+                src="../../assets/NS-Logo-vertical.svg"
+                alt=""
+              />
             </div>
-            <img
-              class="new__logo"
-              src="../../assets/NS-Logo-vertical.svg"
-              alt=""
-            />
           </footer>
         </div>
       </div>
@@ -215,33 +202,20 @@ h3 {
 .new__logo {
   display: none;
 }
-.assignature {
-  margin-top: -55px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  .professor,
-  .director {
-    width: 50%;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: flex-start;
-  }
-  .asn {
-    border-bottom: 1px solid black;
-    width: 75%;
-  }
-}
-.asn_img {
-  width: 91px;
-  height: 192px;
-  margin-left: 26px;
-  margin-bottom: -80px;
-}
 h6 {
   font-size: 12px !important;
   margin-top: 2%;
+}
+.signature {
+  margin-top: 24px;
+}
+.signature-img {
+  width: 150px;
+  border-bottom: 1px solid;
+}
+.signature-text {
+  font-size: 12px;
+  font-weight: bold;
 }
 
 @media (min-width: 700px) {
@@ -265,16 +239,6 @@ h6 {
   .user {
     font-size: 25px;
   }
-  .assignature {
-    justify-content: flex-start;
-  }
-  .asn_img {
-    width: 150px;
-    height: 250px;
-    margin-left: 20px;
-    margin-bottom: -110px;
-  }
-
   .new__logo {
     width: 200px;
     height: 200px;
@@ -287,13 +251,20 @@ h6 {
   #head__bar {
     display: none;
   }
-  .assignature .professor,
-  .assignature .director {
-    width: 30%;
-  }
 
   .background {
     border: 20px solid #6600cc;
+  }
+  .signature {
+    margin-top: 24px;
+  }
+  .signature-img {
+    width: 200px;
+    border-bottom: 1px solid;
+  }
+  .signature-text {
+    font-size: 12px;
+    font-weight: bold;
   }
 }
 
@@ -330,16 +301,6 @@ h6 {
   .user {
     font-size: 25px;
   }
-  .assignature {
-    justify-content: flex-start;
-  }
-  .asn_img {
-    width: 150px;
-    height: 250px;
-    margin-left: 20px;
-    margin-bottom: -110px;
-  }
-
   .new__logo {
     width: 200px;
     height: 200px;
@@ -352,13 +313,19 @@ h6 {
   #head__bar {
     display: none;
   }
-  .assignature .professor,
-  .assignature .director {
-    width: 30%;
-  }
-
   .background {
     border: 20px solid #6600cc;
+  }
+  .signature {
+    margin-top: 24px;
+  }
+  .signature-img {
+    width: 200px;
+    border-bottom: 1px solid;
+  }
+  .signature-text {
+    font-size: 12px;
+    font-weight: bold;
   }
 }
 </style>

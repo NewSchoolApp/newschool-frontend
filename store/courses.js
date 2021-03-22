@@ -45,7 +45,10 @@ export const mutations = {
 export const actions = {
   async refreshAllCourses() {
     const allCourses = await http.getAll(process.env.endpoints.COURSE);
-    this.commit('courses/setAll', allCourses.data);
+    this.commit(
+      'courses/setAll',
+      allCourses.data.sort((a, b) => (a.id > b.id ? -1 : 1)),
+    );
   },
   async refreshMyCourses() {
     const myCourses = await http.getAll(
