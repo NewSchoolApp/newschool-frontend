@@ -19,7 +19,7 @@
         ></header-bar>
         <v-row id="header-row" justify="space-between">
           <div id="product-title">{{ productInfo.name }}</div>
-          <div id="balance">Saldo: {{ userPoints }}NC</div>
+          <div id="balance">Saldo: {{ userPoints || 0 }}NC</div>
         </v-row>
         <div
           id="img-viewport"
@@ -51,7 +51,7 @@
         ></header-bar>
         <v-row id="header-row" justify="space-between">
           <div id="product-title">{{ productInfo.name }}</div>
-          <div id="balance">Saldo: {{ userPoints }}NC</div>
+          <div id="balance">Saldo: {{ userPoints || 0 }}NC</div>
         </v-row>
         <div
           id="img-viewport"
@@ -175,7 +175,7 @@
         ></header-bar>
         <v-row id="header-row" justify="space-between">
           <div id="product-title">{{ productInfo.name }}</div>
-          <div id="balance">Saldo: {{ userPoints }}NC</div>
+          <div id="balance">Saldo: {{ userPoints || 0 }}NC</div>
         </v-row>
         <div
           id="img-viewport"
@@ -366,7 +366,7 @@
         ></header-bar>
         <v-row id="header-row" justify="space-between">
           <div id="product-title">{{ productInfo.name }}</div>
-          <div id="balance">Saldo: {{ userPoints }}NC</div>
+          <div id="balance">Saldo: {{ userPoints || 0 }}NC</div>
         </v-row>
         <div
           id="img-viewport"
