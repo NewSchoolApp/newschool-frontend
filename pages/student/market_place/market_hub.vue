@@ -207,13 +207,14 @@ export default {
       this.productListLoading = false;
     },
     async getProducts() {
+      console.log('getprodfsfsdf');
       if (!this.busy) {
         this.busy = true;
 
         const res = (
           await market.getAll(
             `${process.env.endpoints.MARKETPLACE.ITENS}?page=${this.page +
-              1}&limit=8&${
+              1}&limit=99&${
               this.searchParam ? 'name[contains]=' + this.searchParam : false
             }&quantity[gt]=0&enabled=true`,
           )
