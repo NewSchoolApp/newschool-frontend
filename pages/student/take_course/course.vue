@@ -36,7 +36,7 @@
                 </div>
               </div>
             </section>
-            <p id="description" v-html="course.descricao"></p>
+            <p id="description"></p>
           </div>
         </div>
 
@@ -93,6 +93,9 @@ export default {
     idUser() {
       return this.$store.state.user.data.id;
     },
+  },
+  updated() {
+    document.getElementById("description").innerHTML = this?.course?.descricao;
   },
   mounted() {
     this.checkCourseState();
