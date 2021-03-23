@@ -1,28 +1,28 @@
 {
-  "_from": "cordova-plugin-inappbrowser@3.2.0",
-  "_id": "cordova-plugin-inappbrowser@3.2.0",
+  "_from": "cordova-plugin-inappbrowser@4.1.0",
+  "_id": "cordova-plugin-inappbrowser@4.1.0",
   "_inBundle": false,
-  "_integrity": "sha512-tYsK0H9M8POmJTVnfyIsiRgoOxnypa9IQIbf/Hsgi7vbgUYRHtBUfvXwq4RhMqLIVrCeJLXF2hTXTDNY0a/eTA==",
+  "_integrity": "sha512-jPvcwDx2/L5ZbVG69NT2xmlG1E+MljRxkdsFpgj/5aoaF4oPqxg44J/bYxJNWgQtGnRSRWoqCRmU7FgmmMNMxA==",
   "_location": "/cordova-plugin-inappbrowser",
   "_phantomChildren": {},
   "_requested": {
     "type": "version",
     "registry": true,
-    "raw": "cordova-plugin-inappbrowser@3.2.0",
+    "raw": "cordova-plugin-inappbrowser@4.1.0",
     "name": "cordova-plugin-inappbrowser",
     "escapedName": "cordova-plugin-inappbrowser",
-    "rawSpec": "3.2.0",
+    "rawSpec": "4.1.0",
     "saveSpec": null,
-    "fetchSpec": "3.2.0"
+    "fetchSpec": "4.1.0"
   },
   "_requiredBy": [
-    "#USER",
-    "/"
+    "#DEV:/",
+    "#USER"
   ],
-  "_resolved": "https://registry.npmjs.org/cordova-plugin-inappbrowser/-/cordova-plugin-inappbrowser-3.2.0.tgz",
-  "_shasum": "8615e1510dcf796875b420416331b768fee28d86",
-  "_spec": "cordova-plugin-inappbrowser@3.2.0",
-  "_where": "/Users/filipefelice/Projetos/Newschool/MVPFinal/newschool-frontend/cordova",
+  "_resolved": "https://registry.npmjs.org/cordova-plugin-inappbrowser/-/cordova-plugin-inappbrowser-4.1.0.tgz",
+  "_shasum": "6010809d1cd813c546f65e4e41dc2b9ed97179e4",
+  "_spec": "cordova-plugin-inappbrowser@4.1.0",
+  "_where": "/Users/eem/side_projects/newschool-frontend/cordova",
   "author": {
     "name": "Apache Software Foundation"
   },
@@ -43,13 +43,7 @@
   "deprecated": false,
   "description": "Cordova InAppBrowser Plugin",
   "devDependencies": {
-    "eslint": "^4.0.0",
-    "eslint-config-semistandard": "^11.0.0",
-    "eslint-config-standard": "^10.2.1",
-    "eslint-plugin-import": "^2.3.0",
-    "eslint-plugin-node": "^5.0.0",
-    "eslint-plugin-promise": "^3.5.0",
-    "eslint-plugin-standard": "^3.0.1"
+    "@cordova/eslint-config": "^3.0.0"
   },
   "engines": {
     "cordovaDependencies": {
@@ -57,6 +51,10 @@
         "cordova": ">=3.1.0"
       },
       "4.0.0": {
+        "cordova": ">=3.1.0",
+        "cordova-ios": ">=4.0.0"
+      },
+      "5.0.0": {
         "cordova": ">100"
       }
     }
@@ -82,9 +80,9 @@
     "url": "git+https://github.com/apache/cordova-plugin-inappbrowser.git"
   },
   "scripts": {
-    "eslint": "node node_modules/eslint/bin/eslint www && node node_modules/eslint/bin/eslint src && node node_modules/eslint/bin/eslint tests",
-    "test": "npm run eslint"
+    "lint": "eslint .",
+    "test": "npm run lint"
   },
   "types": "./types/index.d.ts",
-  "version": "3.2.0"
+  "version": "4.1.0"
 }

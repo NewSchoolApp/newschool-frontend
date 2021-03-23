@@ -23,7 +23,7 @@
     "replace-relative-paths": "replace '/nuxtfiles/' 'nuxtfiles/' dist --recursive && replace '/assets/' 'nuxtfiles/' dist --recursive && replace '(href|src|\"href\"|\"src\")=\"/' '$1=\"../' dist --recursive && replace '(href|src|\"href\"|\"src\"):\"/' '$1:\"../' dist --recursive",
     "copy-cordova": "cp -R dist/* cordova/www/",
     "clear-cordova": "rm -R cordova/www/*",
-    "run-ios": "cd cordova && cordova run ios --buildFlag='-UseModernBuildSystem=0' --target='iPhone-X, 12.2'",
+    "run-ios": "cd cordova && cordova run ios --buildFlag='-UseModernBuildSystem=0'",
     "run-android": "cd cordova && cordova run android"
   },
   "lint-staged": {
