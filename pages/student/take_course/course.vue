@@ -36,7 +36,7 @@
                 </div>
               </div>
             </section>
-            <p id="description">{{ course.descricao }}</p>
+            <p id="description" v-html="course.descricao"></p>
           </div>
         </div>
 
