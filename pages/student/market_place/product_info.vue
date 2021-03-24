@@ -276,8 +276,8 @@
           <div id="header-msg">
             {{
               productInfo.type === 'SERVICE'
-                ? 'Completa aí, que o time da New School entrar em contato.'
-                : 'Para receber em casa, completa aí, que o time da New School entrar em contato.'
+                ? 'Completa aí, que o time da New School vai entrar em contato.'
+                : 'Para receber em casa, completa aí, que o time da New School vai entrar em contato.'
             }}
           </div>
         </v-row>
