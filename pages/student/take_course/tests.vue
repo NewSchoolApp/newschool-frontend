@@ -68,7 +68,7 @@
     </div>
     <div v-else id="main-div">
       <div id="wrapper">
-        <div id="content">
+        <div id="content" v-bind:class="[isIos ? 'iosspacing' : 'normalspacing']">
           <HeaderBar
             v-if="!correct"
             :title="this.$store.state.courses.current.titulo"
@@ -148,6 +148,9 @@ export default {
     watchMode: false,
   }),
   computed: {
+    isIos() {
+      return window.cordova?.platformId === 'ios';
+    },
     currentCourse() {
       return this.$store.state.courses.current;
     },
@@ -700,7 +703,6 @@ h4 {
   position: relative;
 }
 #content {
-  min-height: calc(100vh - 150px);
   padding-bottom: 100px;
 }
 #base {
@@ -711,4 +713,13 @@ h4 {
 ::v-deep #header {
   margin: 20px 0;
 }
+
+.iosspacing {
+  min-height: calc(100vh - 200px);
+}
+
+.normalspacing {
+  min-height: calc(100vh - 150px);
+}
+
 </style>
