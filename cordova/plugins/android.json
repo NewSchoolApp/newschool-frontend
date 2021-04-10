@@ -36,9 +36,6 @@
       "FACEBOOK_ANDROID_SDK_VERSION": "5.5.2",
       "PACKAGE_NAME": "com.newschool.app"
     },
-    "cordova-plugin-printer": {
-      "PACKAGE_NAME": "com.newschool.app"
-    },
     "cordova-plugin-whitelist": {
       "PACKAGE_NAME": "com.newschool.app"
     },
@@ -58,6 +55,10 @@
       "PACKAGE_NAME": "com.newschool.app"
     },
     "cordova-plugin-splashscreen": {
+      "PACKAGE_NAME": "com.newschool.app"
+    },
+    "cordova-plugin-printer": {
+      "ANDROID_SUPPORT_V4_VERSION": "28.+",
       "PACKAGE_NAME": "com.newschool.app"
     }
   },

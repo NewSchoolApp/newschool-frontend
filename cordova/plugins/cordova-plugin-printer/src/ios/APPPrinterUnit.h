@@ -1,5 +1,5 @@
 /*
- Copyright 2013-2016 appPlant GmbH
+ Copyright 2013 appPlant GmbH
 
  Licensed to the Apache Software Foundation (ASF) under one
  or more contributor license agreements.  See the NOTICE file
@@ -19,16 +19,8 @@
  under the License.
  */
 
-#import <Cordova/CDVPlugin.h>
+@interface APPPrinterUnit : NSObject
 
-@interface APPPrinter : CDVPlugin <UIPrintInteractionControllerDelegate>
-
-- (void) check:(CDVInvokedUrlCommand *)command;
-
-- (void) types:(CDVInvokedUrlCommand *)command;
-
-- (void) pick:(CDVInvokedUrlCommand *)command;
-
-- (void) print:(CDVInvokedUrlCommand *)command;
++ (double) convert:(nullable id)unit;
 
 @end

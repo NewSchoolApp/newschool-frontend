@@ -1,5 +1,5 @@
 /*
- Copyright 2013-2016 appPlant GmbH
+ Copyright 2013 appPlant GmbH
 
  Licensed to the Apache Software Foundation (ASF) under one
  or more contributor license agreements.  See the NOTICE file
@@ -19,16 +19,40 @@
  under the License.
  */
 
-#import <Cordova/CDVPlugin.h>
+#include "APPPrinterPaper.h"
+#include "APPPrinterUnit.h"
 
-@interface APPPrinter : CDVPlugin <UIPrintInteractionControllerDelegate>
+@implementation APPPrinterPaper
 
-- (void) check:(CDVInvokedUrlCommand *)command;
+#pragma mark -
+#pragma mark Init
 
-- (void) types:(CDVInvokedUrlCommand *)command;
+- (id) initWithDictionary:(NSDictionary*)spec
+{
+    self = [self init];
 
-- (void) pick:(CDVInvokedUrlCommand *)command;
+    _size   = CGSizeMake([APPPrinterUnit convert:spec[@"width"]],
+                         [APPPrinterUnit convert:spec[@"height"]]);
 
-- (void) print:(CDVInvokedUrlCommand *)command;
+    _length = [APPPrinterUnit convert:spec[@"length"]];
+
+    return self;
+}
+
+#pragma mark -
+#pragma mark Public
+
+- (UIPrintPaper*) bestPaperFromArray:(NSArray<UIPrintPaper *> *)list
+{
+    UIPrintPaper* paper;
+
+    if (_size.height || _size.width)
+    {
+        paper = [UIPrintPaper bestPaperForPageSize:_size
+                               withPapersFromArray:list];
+    }
+
+    return paper;
+}
 
 @end

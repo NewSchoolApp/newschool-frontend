@@ -21,7 +21,7 @@
 
 #import <Cordova/CDVPlugin.h>
 
-@interface APPPrinter : CDVPlugin <UIPrintInteractionControllerDelegate>
+@interface APPPrinter : CDVPlugin
 
 - (void) check:(CDVInvokedUrlCommand *)command;
 

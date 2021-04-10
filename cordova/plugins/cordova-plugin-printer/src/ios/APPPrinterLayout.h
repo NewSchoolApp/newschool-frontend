@@ -1,5 +1,5 @@
 /*
- Copyright 2013-2016 appPlant GmbH
+ Copyright 2013 appPlant GmbH
 
  Licensed to the Apache Software Foundation (ASF) under one
  or more contributor license agreements.  See the NOTICE file
@@ -19,16 +19,14 @@
  under the License.
  */
 
-#import <Cordova/CDVPlugin.h>
+@interface APPPrinterLayout : NSObject
 
-@interface APPPrinter : CDVPlugin <UIPrintInteractionControllerDelegate>
++ (UIPrintFormatter *) configureFormatter:(UIPrintFormatter *)formatter withSettings:(nullable NSDictionary *)settings;
 
-- (void) check:(CDVInvokedUrlCommand *)command;
+@property(nonatomic) UIEdgeInsets contentInsets;
 
-- (void) types:(CDVInvokedUrlCommand *)command;
+@property(nonatomic) CGFloat maximumContentHeight;
 
-- (void) pick:(CDVInvokedUrlCommand *)command;
-
-- (void) print:(CDVInvokedUrlCommand *)command;
+@property(nonatomic) CGFloat maximumContentWidth;
 
 @end

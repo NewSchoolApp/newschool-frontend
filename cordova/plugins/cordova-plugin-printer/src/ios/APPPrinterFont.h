@@ -1,5 +1,6 @@
+
 /*
- Copyright 2013-2016 appPlant GmbH
+ Copyright 2013 appPlant GmbH
 
  Licensed to the Apache Software Foundation (ASF) under one
  or more contributor license agreements.  See the NOTICE file
@@ -19,16 +20,16 @@
  under the License.
  */
 
-#import <Cordova/CDVPlugin.h>
+@interface APPPrinterFont : NSObject
 
-@interface APPPrinter : CDVPlugin <UIPrintInteractionControllerDelegate>
+- (instancetype) initWithDictionary:(NSDictionary *)spec;
 
-- (void) check:(CDVInvokedUrlCommand *)command;
+- (UIFont *)font;
 
-- (void) types:(CDVInvokedUrlCommand *)command;
+- (UIColor *)color;
 
-- (void) pick:(CDVInvokedUrlCommand *)command;
+- (NSTextAlignment) alignment;
 
-- (void) print:(CDVInvokedUrlCommand *)command;
+- (NSDictionary<NSAttributedStringKey, id> *)attributes;
 
 @end
