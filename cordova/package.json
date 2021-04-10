@@ -25,7 +25,7 @@
       "cordova-plugin-x-socialsharing": {},
       "cordova-plugin-printer": {},
       "com.santinowu.cordova.imagedownloader": {
-        "PHOTOLIBRARY_USAGE_DESCRIPTION": "Requires permission for saving image into Photos"
+        "PHOTOLIBRARY_USAGE_DESCRIPTION": "This feature is needed for changing the user's profile picture"
       },
       "com.darktalker.cordova.screenshot": {},
       "cordova-plugin-androidx": {},
@@ -51,7 +51,6 @@
     ]
   },
   "dependencies": {
-    "cordova-ios": "^6.0.0",
     "cordova-plugin-browsertab": "0.2.0",
     "cordova-plugin-buildinfo": "4.0.0",
     "cordova-plugin-compat": "1.2.0",
