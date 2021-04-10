@@ -1,7 +1,7 @@
 <template>
   <div id="page" class="container-page">
     <main>
-      <section id="info">
+      <section v-bind:class="[isIos ? 'iosspacing' : 'normalspacing']" id="info">
         <div id="avatar">
           <div class="flex-center border-profile-photo">
             <div class="flex-center profile-container">
@@ -137,6 +137,9 @@ export default {
     user() {
       return this.$store.state.user.data;
     },
+    isIos() {
+      return window.cordova?.platformId === 'ios';
+    }
   },
   mounted() {
     const { status } = auth.isTokenValid();
@@ -193,6 +196,7 @@ export default {
 
 <style lang="scss" scoped>
 .container-page {
+  margin-top: 20px;
   z-index: 2;
 }
 
@@ -224,6 +228,14 @@ export default {
 .text-menu {
   text-transform: uppercase;
 }
+
+.iosspacing {
+  margin-top: 32px;
+}
+
+.normalspacing {
+}
+
 
 .mdi-library-books::before {
   content: url('https://api.iconify.design/mdi-library-books.svg?color=rgb(105%2C0%2C204)&height=24');

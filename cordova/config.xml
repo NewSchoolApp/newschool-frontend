@@ -25,6 +25,14 @@
         <allow-intent href="market:*" />
     </platform>
     <platform name="ios">
+    <config-file target="*-Info.plist" parent="CFBundleURLTypes">
+        <array>
+            <dict>
+                <key>NSCameraUsageDescription</key>
+                <string>This feature is needed for changing the user's profile picture</string>
+            </dict>
+        </array>
+    </config-file>
         <preference name="prerendered-icon" value="true" />
         <icon height="180" src="res/ios/Icon-App-60x60@3x.png" width="180" />
         <icon height="40" src="res/ios/Icon-App-40x40@1x.png" width="40" />

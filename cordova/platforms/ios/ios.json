@@ -99,6 +99,10 @@
             {
               "xml": "<array><dict><key>CFBundleURLSchemes</key><array><string>fb384298599359690</string></array></dict></array>",
               "count": 1
+            },
+            {
+              "xml": "<array><dict><key>NSCameraUsageDescription</key><string>This feature is needed for changing the user's profile picture</string></dict></array>",
+              "count": 1
             }
           ],
           "FacebookAppID": [
