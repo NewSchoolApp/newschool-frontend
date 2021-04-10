@@ -14,7 +14,7 @@
 
       <div v-else id="main-div">
         <div id="wrapper">
-          <div id="content">
+          <div id="content" v-bind:class="[isIos ? 'iosspacing' : 'normalspacing']">
             <header-bar
               :title="this.$store.state.courses.current.titulo"
               :back-func="goBack"
@@ -161,6 +161,9 @@ export default {
     watchMode: false,
   }),
   computed: {
+    isIos() {
+      return window.cordova?.platformId === 'ios';
+    },
     tooBig() {
       if (this.commentPost.length > 255) {
         return true;
@@ -833,8 +836,6 @@ h4 {
   position: relative;
 }
 #content {
-  min-height: calc(100vh - 150px);
-  padding-bottom: 100px;
 }
 #base {
   width: 100%;
@@ -844,4 +845,15 @@ h4 {
 ::v-deep #header {
   margin: 20px 0;
 }
+
+.iosspacing {
+  min-height: calc(100vh - 200px);
+  padding-bottom: 50px;
+}
+
+.normalspacing {
+  min-height: calc(100vh - 150px);
+  padding-bottom: 100px;
+}
+
 </style>

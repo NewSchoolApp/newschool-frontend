@@ -40,7 +40,7 @@
           </div>
         </div>
 
-        <div id="base">
+        <div v-bind:class="[isIos ? 'iosspacing' : 'normalspacing']" id="base">
           <v-btn
             v-if="courseState == 'TAKEN'"
             class="btn-block btn-primary"
@@ -93,6 +93,9 @@ export default {
     idUser() {
       return this.$store.state.user.data.id;
     },
+    isIos() {
+      return window.cordova?.platformId === 'ios';
+    }
   },
   updated() {
     document.getElementById("description").innerHTML = this?.course?.descricao;
@@ -294,9 +297,17 @@ h1 {
 #base {
   width: 100%;
   position: relative;
-  bottom: 0px;
 }
 ::v-deep #header {
   margin: 20px 0;
 }
+
+.iosspacing {
+  bottom: 50px;
+}
+
+.normalspacing {
+  bottom: 0px;
+}
+
 </style>
