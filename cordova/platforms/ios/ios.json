@@ -66,6 +66,12 @@
               "xml": "<string>This app requires photo library access to function properly.</string>",
               "count": 1
             }
+          ],
+          "NSCameraUsageDescription": [
+            {
+              "xml": "<string>This feature is needed for changing the user's profile picture</string>",
+              "count": 1
+            }
           ]
         }
       },
