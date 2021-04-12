@@ -356,6 +356,7 @@ dependencies {
     implementation "androidx.browser:browser:1.2.0"
     implementation "com.facebook.android:facebook-android-sdk:5.5.2"
     implementation "androidx.legacy:legacy-support-v4:1.0.0"
+    implementation "com.android.support:support-v4:28.+"
     // SUB-PROJECT DEPENDENCIES END
 }
 

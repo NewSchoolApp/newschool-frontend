@@ -49,15 +49,6 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
       ]
     },
     {
-      "id": "cordova-plugin-printer.Printer",
-      "file": "plugins/cordova-plugin-printer/www/printer.js",
-      "pluginId": "cordova-plugin-printer",
-      "clobbers": [
-        "plugin.printer",
-        "cordova.plugins.printer"
-      ]
-    },
-    {
       "id": "es6-promise-plugin.Promise",
       "file": "plugins/es6-promise-plugin/www/promise.js",
       "pluginId": "es6-promise-plugin",
@@ -110,6 +101,14 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
       "clobbers": [
         "navigator.splashscreen"
       ]
+    },
+    {
+      "id": "cordova-plugin-printer.Printer",
+      "file": "plugins/cordova-plugin-printer/www/printer.js",
+      "pluginId": "cordova-plugin-printer",
+      "clobbers": [
+        "cordova.plugins.printer"
+      ]
     }
   ];
   module.exports.metadata = {
@@ -120,7 +119,6 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
     "cordova-plugin-buildinfo": "4.0.0",
     "cordova-plugin-customurlscheme": "5.0.2",
     "cordova-plugin-facebook4": "6.2.0",
-    "cordova-plugin-printer": "0.7.3",
     "cordova-plugin-whitelist": "1.3.4",
     "es6-promise-plugin": "4.2.2",
     "cordova-plugin-x-socialsharing": "6.0.2",
@@ -128,6 +126,7 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
     "cordova-plugin-insomnia": "4.3.0",
     "cordova-plugin-screen-orientation": "3.0.2",
     "cordova-plugin-inappbrowser": "4.1.0",
-    "cordova-plugin-splashscreen": "6.0.0"
+    "cordova-plugin-splashscreen": "6.0.0",
+    "cordova-plugin-printer": "0.8.0"
   };
 });

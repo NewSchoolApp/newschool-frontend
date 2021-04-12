@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget android-versionCode="10012" id="com.newschool.app" version="2.0.9" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>New School</name>
+    <name>NewSchool</name>
     <description> New School App </description>
     <author email="newschool@http://newschool-api-dev2.eba-gxtzwa9m.us-east-2.elasticbeanstalk.com" href="http://cordova.io"> New School Team </author>
     <content src="index.html" />
@@ -25,15 +25,23 @@
         <allow-intent href="market:*" />
     </platform>
     <platform name="ios">
+    <config-file target="*-Info.plist" parent="NSCameraUsageDescription">
+        <string>This feature is needed for changing the user's profile picture</string>
+    </config-file>
         <preference name="prerendered-icon" value="true" />
         <icon height="180" src="res/ios/Icon-App-60x60@3x.png" width="180" />
         <icon height="40" src="res/ios/Icon-App-40x40@1x.png" width="40" />
+        <icon height="60" src="res/ios/Icon-App-20x20@3x.png" width="60" />
         <icon height="80" src="res/ios/Icon-App-40x40@2x.png" width="80" />
         <icon height="120" src="res/ios/Icon-App-60x60@2x.png" width="120" />
         <icon height="76" src="res/ios/Icon-App-76x76@1x.png" width="76" />
         <icon height="152" src="res/ios/Icon-App-76x76@2x.png" width="152" />
         <icon height="57" src="res/ios/Icon-App-29x29@2x.png" width="57" />
+        <icon height="58" src="res/ios/Icon-App-29x29@2x.png" width="58" />
+        <icon height="50" src="res/ios/Icon-App-29x29@2x.png" width="50" />
+        <icon height="29" src="res/ios/Icon-App-29x29@1x.png" width="29" />
         <icon height="114" src="res/ios/Icon-App-29x29@3x.png" width="114" />
+        <icon height="100" src="res/ios/Icon-App-29x29@3x.png" width="100" />
         <icon height="72" src="res/ios/Icon-App-76x76@1x.png" width="72" />
         <icon height="144" src="res/ios/Icon-App-76x76@2x.png" width="144" />
         <icon height="167" src="res/ios/Icon-App-83.5x83.5@2x.png" width="167" />
@@ -55,5 +63,4 @@
     </platform>
     <engine name="browser" />
     <engine name="android" />
-    <engine name="ios" spec="^6.0.0" />
 </widget>
