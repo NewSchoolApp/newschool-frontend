@@ -1,0 +1,1625 @@
+[
+  {
+    "id": 1,
+    "titulo": "Futurismo e Inovação ",
+    "descricao": "Carros voadores, robôs por todos os lados… Será que tudo isso faz sentido? Bem vindo a bordo da nave espacial! Neste curso, vamos abordar tudo isso com o professor Thiago Lima. Aproveita a viagem, galera!",
+    "nomeDoAutor": "Thiago Lima",
+    "descricaoDoAutor": "O nome do cara é Thiago Lima, mas pode chamar de Kapivara. Um trocadilho do animal que te representa no mundo. Amigo leal, que não esconde sua ambição de fazer a diferença no planeta Terra",
+    "horas": 1,
+    "slug": "futurismo-e-inovacao",
+    "published_at": "2020-12-10T14:48:24.902Z",
+    "created_at": "2020-11-20T22:02:50.964Z",
+    "updated_at": "2020-12-21T20:33:05.881Z",
+    "trilhas": [
+      "Profissional"
+    ],
+    "capa": {
+      "id": 4,
+      "name": "futurismo.jpg",
+      "alternativeText": "",
+      "caption": "",
+      "width": 760,
+      "height": 440,
+      "formats": {
+        "small": {
+          "ext": ".jpg",
+          "url": "https://cms-platform-management-prod.s3.us-east-2.amazonaws.com/small_futurismo_c5c7bfcd76.jpg",
+          "hash": "small_futurismo_c5c7bfcd76",
+          "mime": "image/jpeg",
+          "name": "small_futurismo.jpg",
+          "path": null,
+          "size": 21.93,
+          "width": 500,
+          "height": 289
+        },
+        "medium": {
+          "ext": ".jpg",
+          "url": "https://cms-platform-management-prod.s3.us-east-2.amazonaws.com/medium_futurismo_c5c7bfcd76.jpg",
+          "hash": "medium_futurismo_c5c7bfcd76",
+          "mime": "image/jpeg",
+          "name": "medium_futurismo.jpg",
+          "path": null,
+          "size": 40.83,
+          "width": 750,
+          "height": 434
+        },
+        "thumbnail": {
+          "ext": ".jpg",
+          "url": "https://cms-platform-management-prod.s3.us-east-2.amazonaws.com/thumbnail_futurismo_c5c7bfcd76.jpg",
+          "hash": "thumbnail_futurismo_c5c7bfcd76",
+          "mime": "image/jpeg",
+          "name": "thumbnail_futurismo.jpg",
+          "path": null,
+          "size": 7.25,
+          "width": 245,
+          "height": 142
+        }
+      },
+      "hash": "futurismo_c5c7bfcd76",
+      "ext": ".jpg",
+      "mime": "image/jpeg",
+      "size": 42.45,
+      "url": "https://cms-platform-management-prod.s3.us-east-2.amazonaws.com/futurismo_c5c7bfcd76.jpg",
+      "previewUrl": null,
+      "provider": "aws-s3",
+      "provider_metadata": null,
+      "created_at": "2020-12-21T20:32:36.208Z",
+      "updated_at": "2020-12-21T20:32:36.222Z"
+    },
+    "aulas": [
+      {
+        "id": 2,
+        "titulo": "Consciência sobre o futuro",
+        "descricao": "Descobrindo como se preparar para o futuro a partir de agora.",
+        "ordem": 2,
+        "curso": 1,
+        "published_at": "2020-11-20T22:18:52.114Z",
+        "created_at": "2020-11-20T22:18:47.761Z",
+        "updated_at": "2020-12-21T20:33:05.879Z"
+      },
+      {
+        "id": 8,
+        "titulo": "Tendências do Futuro",
+        "descricao": "Descobrindo como prever o futuro com base nas tendências tecnológicas.",
+        "ordem": 8,
+        "curso": 1,
+        "published_at": "2020-11-20T22:20:52.901Z",
+        "created_at": "2020-11-20T22:20:51.562Z",
+        "updated_at": "2020-12-21T20:33:05.879Z"
+      },
+      {
+        "id": 3,
+        "titulo": "Transformação de Mindset",
+        "descricao": "Entendendo como a mudança de mentalidade da nossa sociedade está impactando o nosso futuro. ",
+        "ordem": 3,
+        "curso": 1,
+        "published_at": "2020-11-20T22:19:11.179Z",
+        "created_at": "2020-11-20T22:19:07.973Z",
+        "updated_at": "2020-12-21T20:33:05.879Z"
+      },
+      {
+        "id": 5,
+        "titulo": "O Tempo",
+        "descricao": "Entendendo como o tempo é estudado e investigado dentro do Futurismo.",
+        "ordem": 5,
+        "curso": 1,
+        "published_at": "2020-11-20T22:20:00.174Z",
+        "created_at": "2020-11-20T22:19:59.118Z",
+        "updated_at": "2020-12-21T20:33:05.879Z"
+      },
+      {
+        "id": 1,
+        "titulo": "Princípios do Futurismo",
+        "descricao": "Entendendo os conceitos do Futurismo e da inovação.",
+        "ordem": 1,
+        "curso": 1,
+        "published_at": "2020-11-20T22:17:42.752Z",
+        "created_at": "2020-11-20T22:15:45.274Z",
+        "updated_at": "2020-12-21T20:33:05.879Z"
+      },
+      {
+        "id": 4,
+        "titulo": "Futurismo & Liderança",
+        "descricao": "Desvendando as características da verdadeira liderança do futuro.",
+        "ordem": 4,
+        "curso": 1,
+        "published_at": "2020-11-20T22:19:45.193Z",
+        "created_at": "2020-11-20T22:19:44.093Z",
+        "updated_at": "2020-12-21T20:33:05.879Z"
+      },
+      {
+        "id": 6,
+        "titulo": "Criando um novo futuro",
+        "descricao": "Aprendendo a utilizar nossas ideias para projetar o futuro que gostaríamos de viver.",
+        "ordem": 6,
+        "curso": 1,
+        "published_at": "2020-11-20T22:20:18.502Z",
+        "created_at": "2020-11-20T22:20:16.455Z",
+        "updated_at": "2020-12-21T20:33:05.879Z"
+      },
+      {
+        "id": 7,
+        "titulo": "Os Padrões Sociais",
+        "descricao": "Entendendo como tomar decisões levando em consideração a sustentabilidade, os padrões da sociedade e os ricos.",
+        "ordem": 7,
+        "curso": 1,
+        "published_at": "2020-11-20T22:20:36.998Z",
+        "created_at": "2020-11-20T22:20:35.166Z",
+        "updated_at": "2020-12-21T20:33:05.879Z"
+      }
+    ],
+    "ordenacao_da_trilhas": [],
+    "pilars": []
+  },
+  {
+    "id": 6,
+    "titulo": "Habilidades do Futuro",
+    "descricao": "Neste curso, falaremos das habilidades necessárias para o mercado de trabalho do futuro. Você sabia que mais da metade das profissões que existem hoje serão extintas nos próximos anos? Cola na grade e vamos desvendar isso juntos!",
+    "nomeDoAutor": "Camile Just",
+    "descricaoDoAutor": "Pode chama-la de Cah. Curitibana e que adora viajar. É empreendedora daquelas muito guerreira. Tem como missão empoderar outras mulheres a se tornarem protagonistas de suas vidas também. Camile adora um café e fazer novas amizades. Nas suas horas vagas, p",
+    "horas": 1,
+    "slug": "habilidades-do-futuro",
+    "published_at": "2020-12-17T17:22:50.610Z",
+    "created_at": "2020-12-17T17:18:19.672Z",
+    "updated_at": "2020-12-21T20:33:18.300Z",
+    "trilhas": [
+      "Profissional"
+    ],
+    "capa": {
+      "id": 2,
+      "name": "habildiades dofuturo.jpeg",
+      "alternativeText": "",
+      "caption": "",
+      "width": 750,
+      "height": 500,
+      "formats": {
+        "small": {
+          "ext": ".jpeg",
+          "url": "https://cms-platform-management-prod.s3.us-east-2.amazonaws.com/small_habildiades_dofuturo_1841049e47.jpeg",
+          "hash": "small_habildiades_dofuturo_1841049e47",
+          "mime": "image/jpeg",
+          "name": "small_habildiades dofuturo.jpeg",
+          "path": null,
+          "size": 23.87,
+          "width": 500,
+          "height": 333
+        },
+        "thumbnail": {
+          "ext": ".jpeg",
+          "url": "https://cms-platform-management-prod.s3.us-east-2.amazonaws.com/thumbnail_habildiades_dofuturo_1841049e47.jpeg",
+          "hash": "thumbnail_habildiades_dofuturo_1841049e47",
+          "mime": "image/jpeg",
+          "name": "thumbnail_habildiades dofuturo.jpeg",
+          "path": null,
+          "size": 7.92,
+          "width": 234,
+          "height": 156
+        }
+      },
+      "hash": "habildiades_dofuturo_1841049e47",
+      "ext": ".jpeg",
+      "mime": "image/jpeg",
+      "size": 41.11,
+      "url": "https://cms-platform-management-prod.s3.us-east-2.amazonaws.com/habildiades_dofuturo_1841049e47.jpeg",
+      "previewUrl": null,
+      "provider": "aws-s3",
+      "provider_metadata": null,
+      "created_at": "2020-12-21T20:32:36.144Z",
+      "updated_at": "2020-12-21T20:32:36.172Z"
+    },
+    "aulas": [
+      {
+        "id": 16,
+        "titulo": "O Futuro do Trabalho",
+        "descricao": "Descobrindo as novas formas de trabalho que foram criadas a partir da Era Digital.",
+        "ordem": 3,
+        "curso": 6,
+        "published_at": "2020-12-17T17:47:38.114Z",
+        "created_at": "2020-12-17T17:43:54.715Z",
+        "updated_at": "2020-12-21T20:33:18.299Z"
+      },
+      {
+        "id": 32,
+        "titulo": "As Habilidades do Futuro",
+        "descricao": "Mapeando as habilidades mais importantes para a construção do futuro do trabalho após a Era Digital.",
+        "ordem": 4,
+        "curso": 6,
+        "published_at": "2020-12-17T17:45:50.383Z",
+        "created_at": "2020-12-17T17:43:54.715Z",
+        "updated_at": "2020-12-21T20:33:18.299Z"
+      },
+      {
+        "id": 37,
+        "titulo": "As Tendências do Trabalho",
+        "descricao": "Conhecendo algumas das tendências do mercado de trabalho na Era Digital.",
+        "ordem": 2,
+        "curso": 6,
+        "published_at": "2020-12-17T17:46:03.053Z",
+        "created_at": "2020-12-17T17:43:54.715Z",
+        "updated_at": "2020-12-21T20:33:18.299Z"
+      },
+      {
+        "id": 22,
+        "titulo": "As 3 Revoluções Humanas",
+        "descricao": "Entendendo como as mudanças sociais transformaram nossa sociedade ao longo da História.",
+        "ordem": 1,
+        "curso": 6,
+        "published_at": "2020-12-17T17:45:38.841Z",
+        "created_at": "2020-12-17T17:43:54.715Z",
+        "updated_at": "2020-12-21T20:33:18.299Z"
+      }
+    ],
+    "ordenacao_da_trilhas": [],
+    "pilars": []
+  },
+  {
+    "id": 5,
+    "titulo": "Liderança: Seja o capitão do time!",
+    "descricao": "Mano, já pensou em aprender liderança com referências de Filosofia, Sociologia e Ciências Políticas? Tudo isso apresentadas pelo prof mais top das galáxias que vai ensinar como ser um líder legítimo? Então, cola na grade e #partiu aprender.",
+    "nomeDoAutor": "Thiago Lima",
+    "descricaoDoAutor": "O nome do cara é Thiago Lima, mas pode chamar de Kapivara. Um trocadilho do animal que te representa no mundo. Amigo leal, que não esconde sua ambição de fazer a diferença no planeta Terra. Por trás desse menino sonhador, existe alguém que não abre mão de",
+    "horas": 1,
+    "slug": "lideranca:-seja-o-capitao-do-time!",
+    "published_at": "2020-12-17T17:23:43.475Z",
+    "created_at": "2020-12-17T17:18:19.672Z",
+    "updated_at": "2020-12-21T20:33:29.826Z",
+    "trilhas": [
+      "Social"
+    ],
+    "capa": {
+      "id": 9,
+      "name": "sejaolider.jpeg",
+      "alternativeText": "",
+      "caption": "",
+      "width": 1350,
+      "height": 900,
+      "formats": {
+        "large": {
+          "ext": ".jpeg",
+          "url": "https://cms-platform-management-prod.s3.us-east-2.amazonaws.com/large_sejaolider_47127e5a41.jpeg",
+          "hash": "large_sejaolider_47127e5a41",
+          "mime": "image/jpeg",
+          "name": "large_sejaolider.jpeg",
+          "path": null,
+          "size": 94.61,
+          "width": 1000,
+          "height": 667
+        },
+        "small": {
+          "ext": ".jpeg",
+          "url": "https://cms-platform-management-prod.s3.us-east-2.amazonaws.com/small_sejaolider_47127e5a41.jpeg",
+          "hash": "small_sejaolider_47127e5a41",
+          "mime": "image/jpeg",
+          "name": "small_sejaolider.jpeg",
+          "path": null,
+          "size": 29.9,
+          "width": 500,
+          "height": 333
+        },
+        "medium": {
+          "ext": ".jpeg",
+          "url": "https://cms-platform-management-prod.s3.us-east-2.amazonaws.com/medium_sejaolider_47127e5a41.jpeg",
+          "hash": "medium_sejaolider_47127e5a41",
+          "mime": "image/jpeg",
+          "name": "medium_sejaolider.jpeg",
+          "path": null,
+          "size": 57.86,
+          "width": 750,
+          "height": 500
+        },
+        "thumbnail": {
+          "ext": ".jpeg",
+          "url": "https://cms-platform-management-prod.s3.us-east-2.amazonaws.com/thumbnail_sejaolider_47127e5a41.jpeg",
+          "hash": "thumbnail_sejaolider_47127e5a41",
+          "mime": "image/jpeg",
+          "name": "thumbnail_sejaolider.jpeg",
+          "path": null,
+          "size": 9.37,
+          "width": 234,
+          "height": 156
+        }
+      },
+      "hash": "sejaolider_47127e5a41",
+      "ext": ".jpeg",
+      "mime": "image/jpeg",
+      "size": 156.69,
+      "url": "https://cms-platform-management-prod.s3.us-east-2.amazonaws.com/sejaolider_47127e5a41.jpeg",
+      "previewUrl": null,
+      "provider": "aws-s3",
+      "provider_metadata": null,
+      "created_at": "2020-12-21T20:32:37.531Z",
+      "updated_at": "2020-12-21T20:32:37.538Z"
+    },
+    "aulas": [
+      {
+        "id": 50,
+        "titulo": "Liderança + Autonomia",
+        "descricao": "Entendendo a ligação entre autonomia e liderança. ",
+        "ordem": 4,
+        "curso": 5,
+        "published_at": "2020-12-17T17:47:17.217Z",
+        "created_at": "2020-12-17T17:43:54.715Z",
+        "updated_at": "2020-12-21T20:33:29.824Z"
+      },
+      {
+        "id": 36,
+        "titulo": "Exercício do poder",
+        "descricao": "Entendendo a importância do exercício do poder para a liderança. ",
+        "ordem": 2,
+        "curso": 5,
+        "published_at": "2020-12-17T17:46:50.661Z",
+        "created_at": "2020-12-17T17:43:54.715Z",
+        "updated_at": "2020-12-21T20:33:29.824Z"
+      },
+      {
+        "id": 30,
+        "titulo": "Exercício Prático",
+        "descricao": "Descobrindo como isso tudo funciona na prática.",
+        "ordem": 5,
+        "curso": 5,
+        "published_at": "2020-12-17T17:46:54.037Z",
+        "created_at": "2020-12-17T17:43:54.715Z",
+        "updated_at": "2020-12-21T20:33:29.824Z"
+      },
+      {
+        "id": 38,
+        "titulo": "A Legitimidade",
+        "descricao": "Entendendo os princípios da legitimidade.",
+        "ordem": 1,
+        "curso": 5,
+        "published_at": "2020-12-17T17:45:31.351Z",
+        "created_at": "2020-12-17T17:43:54.715Z",
+        "updated_at": "2020-12-21T20:33:29.824Z"
+      },
+      {
+        "id": 17,
+        "titulo": "Tipos de Exercício do Poder",
+        "descricao": "Conhecendo os tipos de exercício do poder na prática.",
+        "ordem": 3,
+        "curso": 5,
+        "published_at": "2020-12-17T17:48:09.626Z",
+        "created_at": "2020-12-17T17:43:54.715Z",
+        "updated_at": "2020-12-21T20:33:29.824Z"
+      },
+      {
+        "id": 11,
+        "titulo": "O Exemplo do Líder",
+        "descricao": "Aprendendo a ser um exemplo como líder na prática. ",
+        "ordem": 6,
+        "curso": 5,
+        "published_at": "2020-12-17T17:47:31.659Z",
+        "created_at": "2020-12-17T17:43:54.715Z",
+        "updated_at": "2020-12-21T20:33:29.824Z"
+      }
+    ],
+    "ordenacao_da_trilhas": [],
+    "pilars": []
+  },
+  {
+    "id": 9,
+    "titulo": "Programação além do código",
+    "descricao": "Você gosta de computadores? O que acha de aprender a falar com eles? Vem assistir essas aulas de programação e descobrir o mundo da linguagem das máquinas.",
+    "nomeDoAutor": "Danrley Morais",
+    "descricaoDoAutor": "Um garoto muito especial, que mesmo diante de todos os obstáculos que qualquer jovem de periferia enfrenta para se destacar no mercado, BRILHOU. Começou sua carreira de programador muito cedo, depois de muita dedicação e esforço, seu trabalho foi reconhec",
+    "horas": 1,
+    "slug": "programacao-alem-do-codigo",
+    "published_at": "2020-12-20T16:01:35.556Z",
+    "created_at": "2020-12-17T17:18:19.672Z",
+    "updated_at": "2021-01-21T00:45:02.783Z",
+    "trilhas": [
+      "Profissional"
+    ],
+    "capa": {
+      "id": 8,
+      "name": "programacaoalemdocodigo.jpeg",
+      "alternativeText": "",
+      "caption": "",
+      "width": 1350,
+      "height": 900,
+      "formats": {
+        "large": {
+          "ext": ".jpeg",
+          "url": "https://cms-platform-management-prod.s3.us-east-2.amazonaws.com/large_programacaoalemdocodigo_8018a6398b.jpeg",
+          "hash": "large_programacaoalemdocodigo_8018a6398b",
+          "mime": "image/jpeg",
+          "name": "large_programacaoalemdocodigo.jpeg",
+          "path": null,
+          "size": 66.68,
+          "width": 1000,
+          "height": 667
+        },
+        "small": {
+          "ext": ".jpeg",
+          "url": "https://cms-platform-management-prod.s3.us-east-2.amazonaws.com/small_programacaoalemdocodigo_8018a6398b.jpeg",
+          "hash": "small_programacaoalemdocodigo_8018a6398b",
+          "mime": "image/jpeg",
+          "name": "small_programacaoalemdocodigo.jpeg",
+          "path": null,
+          "size": 24.47,
+          "width": 500,
+          "height": 333
+        },
+        "medium": {
+          "ext": ".jpeg",
+          "url": "https://cms-platform-management-prod.s3.us-east-2.amazonaws.com/medium_programacaoalemdocodigo_8018a6398b.jpeg",
+          "hash": "medium_programacaoalemdocodigo_8018a6398b",
+          "mime": "image/jpeg",
+          "name": "medium_programacaoalemdocodigo.jpeg",
+          "path": null,
+          "size": 44.24,
+          "width": 750,
+          "height": 500
+        },
+        "thumbnail": {
+          "ext": ".jpeg",
+          "url": "https://cms-platform-management-prod.s3.us-east-2.amazonaws.com/thumbnail_programacaoalemdocodigo_8018a6398b.jpeg",
+          "hash": "thumbnail_programacaoalemdocodigo_8018a6398b",
+          "mime": "image/jpeg",
+          "name": "thumbnail_programacaoalemdocodigo.jpeg",
+          "path": null,
+          "size": 7.31,
+          "width": 234,
+          "height": 156
+        }
+      },
+      "hash": "programacaoalemdocodigo_8018a6398b",
+      "ext": ".jpeg",
+      "mime": "image/jpeg",
+      "size": 104.66,
+      "url": "https://cms-platform-management-prod.s3.us-east-2.amazonaws.com/programacaoalemdocodigo_8018a6398b.jpeg",
+      "previewUrl": null,
+      "provider": "aws-s3",
+      "provider_metadata": null,
+      "created_at": "2020-12-21T20:32:37.303Z",
+      "updated_at": "2020-12-21T20:32:37.317Z"
+    },
+    "aulas": [
+      {
+        "id": 24,
+        "titulo": "Operadores",
+        "descricao": "Entendendo o que são operadores e como eles são aplicados na prática.",
+        "ordem": 6,
+        "curso": 9,
+        "published_at": "2020-12-17T17:47:47.000Z",
+        "created_at": "2020-12-17T17:43:54.715Z",
+        "updated_at": "2021-01-21T00:45:02.781Z"
+      },
+      {
+        "id": 42,
+        "titulo": "Introdução à programação",
+        "descricao": "Entendendo o que é programação, sua história e onde podemos encontrá-la atualmente.",
+        "ordem": 1,
+        "curso": 9,
+        "published_at": "2020-12-17T17:47:14.451Z",
+        "created_at": "2020-12-17T17:43:54.715Z",
+        "updated_at": "2021-01-21T00:45:02.781Z"
+      },
+      {
+        "id": 18,
+        "titulo": "As Bases da Programação",
+        "descricao": "Nesta aula iremos aprender os pilares da programação, que o fortalece cada dia mais.",
+        "ordem": 4,
+        "curso": 9,
+        "published_at": "2020-12-17T17:45:42.219Z",
+        "created_at": "2020-12-17T17:43:54.715Z",
+        "updated_at": "2021-01-21T00:45:02.781Z"
+      },
+      {
+        "id": 43,
+        "titulo": "As Linguagens de Programação",
+        "descricao": "Entendendo como as linguagens de programação funcionam, como utilizamos elas na prática e como o computador as interpreta.",
+        "ordem": 7,
+        "curso": 9,
+        "published_at": "2020-12-17T17:45:54.496Z",
+        "created_at": "2020-12-17T17:43:54.715Z",
+        "updated_at": "2021-01-21T00:45:02.781Z"
+      },
+      {
+        "id": 15,
+        "titulo": "O Futuro da Programação",
+        "descricao": "Entendendo por que é importante aprender a programar e onde um programador pode atuar no futuro. ",
+        "ordem": 2,
+        "curso": 9,
+        "published_at": "2020-12-17T17:47:34.597Z",
+        "created_at": "2020-12-17T17:43:54.715Z",
+        "updated_at": "2021-01-21T00:45:02.781Z"
+      },
+      {
+        "id": 20,
+        "titulo": "Tipos de dados, variáveis e constantes",
+        "descricao": "Aprendendo sobre dados, variáveis e constantes. ",
+        "ordem": 5,
+        "curso": 9,
+        "published_at": "2020-12-17T17:48:06.311Z",
+        "created_at": "2020-12-17T17:43:54.715Z",
+        "updated_at": "2021-01-21T00:45:02.781Z"
+      },
+      {
+        "id": 21,
+        "titulo": "Humanos x Robôs",
+        "descricao": "Entendendo as tendências tecnológicas, o quão distantes estamos dos robôs e como a programação pode impactar nossas vidas.",
+        "ordem": 3,
+        "curso": 9,
+        "published_at": "2020-12-17T17:47:09.180Z",
+        "created_at": "2020-12-17T17:43:54.715Z",
+        "updated_at": "2021-01-21T00:45:02.781Z"
+      },
+      {
+        "id": 39,
+        "titulo": "Programação além da teoria",
+        "descricao": "Descobrindo como começar a usar a programação a partir de amanhã. ",
+        "ordem": 8,
+        "curso": 9,
+        "published_at": "2020-12-17T17:47:55.141Z",
+        "created_at": "2020-12-17T17:43:54.715Z",
+        "updated_at": "2021-01-21T00:45:02.781Z"
+      }
+    ],
+    "ordenacao_da_trilhas": [],
+    "pilars": []
+  },
+  {
+    "id": 7,
+    "titulo": "Matemática na prática",
+    "descricao": "Você sabia que todos os computadores operam baseados em modelos matemáticos chamados de funções? No século da automação, as funções te ajudam a compreender o funcionamento do mundo à sua volta. Vamos explorar conceitos e aplicabilidades práticas, desenvolvendo nossa habilidade com os números!",
+    "nomeDoAutor": "João Batista",
+    "descricaoDoAutor": "João é aquele garoto sinônimo de disciplina, superação e sucesso. Nas horas vagas, gosta de escutar música, tocar um violão e ler seus livros preferidos. O cara veio de uma escola do interior do Paraná e, hoje, é referência na melhor escola de negócios do",
+    "horas": 1,
+    "slug": "matematica-na-pratica",
+    "published_at": "2020-12-17T17:25:56.492Z",
+    "created_at": "2020-12-17T17:18:19.672Z",
+    "updated_at": "2021-01-11T17:57:49.580Z",
+    "trilhas": [
+      "Educacional"
+    ],
+    "capa": {
+      "id": 5,
+      "name": "matematica.jpeg",
+      "alternativeText": "",
+      "caption": "",
+      "width": 750,
+      "height": 500,
+      "formats": {
+        "small": {
+          "ext": ".jpeg",
+          "url": "https://cms-platform-management-prod.s3.us-east-2.amazonaws.com/small_matematica_da991a82e4.jpeg",
+          "hash": "small_matematica_da991a82e4",
+          "mime": "image/jpeg",
+          "name": "small_matematica.jpeg",
+          "path": null,
+          "size": 29.13,
+          "width": 500,
+          "height": 333
+        },
+        "thumbnail": {
+          "ext": ".jpeg",
+          "url": "https://cms-platform-management-prod.s3.us-east-2.amazonaws.com/thumbnail_matematica_da991a82e4.jpeg",
+          "hash": "thumbnail_matematica_da991a82e4",
+          "mime": "image/jpeg",
+          "name": "thumbnail_matematica.jpeg",
+          "path": null,
+          "size": 8.4,
+          "width": 234,
+          "height": 156
+        }
+      },
+      "hash": "matematica_da991a82e4",
+      "ext": ".jpeg",
+      "mime": "image/jpeg",
+      "size": 56.75,
+      "url": "https://cms-platform-management-prod.s3.us-east-2.amazonaws.com/matematica_da991a82e4.jpeg",
+      "previewUrl": null,
+      "provider": "aws-s3",
+      "provider_metadata": null,
+      "created_at": "2020-12-21T20:32:36.218Z",
+      "updated_at": "2020-12-21T20:32:36.230Z"
+    },
+    "aulas": [
+      {
+        "id": 48,
+        "titulo": "Diferentes funções",
+        "descricao": "Aprendendo os tipos de funções e seus resultados geométricos.",
+        "ordem": 6,
+        "curso": 7,
+        "published_at": "2020-12-17T17:46:41.820Z",
+        "created_at": "2020-12-17T17:43:54.715Z",
+        "updated_at": "2021-01-11T17:57:49.579Z"
+      },
+      {
+        "id": 47,
+        "titulo": "Relações binárias e plano cartesiano",
+        "descricao": " Aprendendo o que são relações binárias e como usar o plano cartesiano",
+        "ordem": 4,
+        "curso": 7,
+        "published_at": "2020-12-17T17:47:59.310Z",
+        "created_at": "2020-12-17T17:43:54.715Z",
+        "updated_at": "2021-01-11T17:57:49.579Z"
+      },
+      {
+        "id": 29,
+        "titulo": "Aplicando na prática",
+        "descricao": " Entendendo como podemos utilizar os conceitos da matemática na prática.",
+        "ordem": 7,
+        "curso": 7,
+        "published_at": "2020-12-17T17:45:35.625Z",
+        "created_at": "2020-12-17T17:43:54.715Z",
+        "updated_at": "2021-01-11T17:57:49.579Z"
+      },
+      {
+        "id": 14,
+        "titulo": "Conjuntos numéricos e derivados",
+        "descricao": "Descobrindo o que há por trás dos conjuntos numéricos e de seus derivados.",
+        "ordem": 3,
+        "curso": 7,
+        "published_at": "2020-12-17T17:46:28.849Z",
+        "created_at": "2020-12-17T17:43:54.715Z",
+        "updated_at": "2021-01-11T17:57:49.579Z"
+      },
+      {
+        "id": 9,
+        "titulo": "Subconjuntos e operações",
+        "descricao": "Aprendendo as principais operações dos conjuntos e subconjuntos.",
+        "ordem": 2,
+        "curso": 7,
+        "published_at": "2020-12-17T17:48:02.707Z",
+        "created_at": "2020-12-17T17:43:54.715Z",
+        "updated_at": "2021-01-11T17:57:49.579Z"
+      },
+      {
+        "id": 31,
+        "titulo": "As funções",
+        "descricao": " Entendendo o que são funções e para que elas servem.",
+        "ordem": 5,
+        "curso": 7,
+        "published_at": "2020-12-17T17:45:46.180Z",
+        "created_at": "2020-12-17T17:43:54.715Z",
+        "updated_at": "2021-01-11T17:57:49.579Z"
+      },
+      {
+        "id": 46,
+        "titulo": "Conjuntos",
+        "descricao": "Entendendo os conceitos técnicos dos conjuntos.",
+        "ordem": 1,
+        "curso": 7,
+        "published_at": "2020-12-17T17:46:24.768Z",
+        "created_at": "2020-12-17T17:43:54.715Z",
+        "updated_at": "2021-01-11T17:57:49.579Z"
+      }
+    ],
+    "ordenacao_da_trilhas": [],
+    "pilars": []
+  },
+  {
+    "id": 8,
+    "titulo": "Fotografia na Raça",
+    "descricao": "Você é uma pessoa que curte tirar fotos para o Instagram, mas nunca acerta o ângulo ou a luz para a fotografia perfeita? Então, se prepare e coloca o capacete!",
+    "nomeDoAutor": "Felipe Tiê",
+    "descricaoDoAutor": "Felipe, que prefere ser chamado de Tiê, é um cara pra lá de especial. Sabe falar de qualquer assunto. Tem pouco idade, mas já trabalhou de tudo nessa vida. Agora, se tem uma coisa que ele curte e sabe melhor que ninguém, é fotografia e equipamentos de aud",
+    "horas": 1,
+    "slug": "fotografia-na-raca",
+    "published_at": "2020-12-17T17:20:42.148Z",
+    "created_at": "2020-12-17T17:18:19.672Z",
+    "updated_at": "2021-01-19T17:11:49.572Z",
+    "trilhas": [
+      "Profissional"
+    ],
+    "capa": {
+      "id": 3,
+      "name": "fotografia.jpeg",
+      "alternativeText": "",
+      "caption": "",
+      "width": 667,
+      "height": 500,
+      "formats": {
+        "small": {
+          "ext": ".jpeg",
+          "url": "https://cms-platform-management-prod.s3.us-east-2.amazonaws.com/small_fotografia_5b7555643e.jpeg",
+          "hash": "small_fotografia_5b7555643e",
+          "mime": "image/jpeg",
+          "name": "small_fotografia.jpeg",
+          "path": null,
+          "size": 31.87,
+          "width": 500,
+          "height": 375
+        },
+        "thumbnail": {
+          "ext": ".jpeg",
+          "url": "https://cms-platform-management-prod.s3.us-east-2.amazonaws.com/thumbnail_fotografia_5b7555643e.jpeg",
+          "hash": "thumbnail_fotografia_5b7555643e",
+          "mime": "image/jpeg",
+          "name": "thumbnail_fotografia.jpeg",
+          "path": null,
+          "size": 7.02,
+          "width": 208,
+          "height": 156
+        }
+      },
+      "hash": "fotografia_5b7555643e",
+      "ext": ".jpeg",
+      "mime": "image/jpeg",
+      "size": 50.78,
+      "url": "https://cms-platform-management-prod.s3.us-east-2.amazonaws.com/fotografia_5b7555643e.jpeg",
+      "previewUrl": null,
+      "provider": "aws-s3",
+      "provider_metadata": null,
+      "created_at": "2020-12-21T20:32:36.186Z",
+      "updated_at": "2020-12-21T20:32:36.203Z"
+    },
+    "aulas": [
+      {
+        "id": 25,
+        "titulo": "Fotografia ",
+        "descricao": "Você é daquelas pessoas que curte tirar FOTOGRAFIA? Então, se prepare e coloca o capacete! ",
+        "ordem": 1,
+        "curso": 8,
+        "published_at": "2020-12-17T17:46:57.404Z",
+        "created_at": "2020-12-17T17:43:54.715Z",
+        "updated_at": "2021-01-19T17:11:49.570Z"
+      },
+      {
+        "id": 45,
+        "titulo": "Tudo sobre a luz",
+        "descricao": "Descobrindo os segredos da luz na fotografia e como utilizar o flash. ",
+        "ordem": 3,
+        "curso": 8,
+        "published_at": "2021-01-06T08:35:11.777Z",
+        "created_at": "2020-12-17T17:43:54.715Z",
+        "updated_at": "2021-01-19T17:11:49.570Z"
+      },
+      {
+        "id": 44,
+        "titulo": "A Fotografia na Publicidade",
+        "descricao": "Entendendo como a Fotografia pode influenciar na atenção e na tomada de decisão das pessoas. ",
+        "ordem": 4,
+        "curso": 8,
+        "published_at": "2021-01-06T08:35:07.717Z",
+        "created_at": "2020-12-17T17:43:54.715Z",
+        "updated_at": "2021-01-19T17:11:49.570Z"
+      },
+      {
+        "id": 35,
+        "titulo": "Enquadramentos de fotografia",
+        "descricao": "Aprendendo a utilizar diversos tipos de enquadramentos nas suas fotografias.",
+        "ordem": 6,
+        "curso": 8,
+        "published_at": "2021-01-06T08:35:03.301Z",
+        "created_at": "2020-12-17T17:43:54.715Z",
+        "updated_at": "2021-01-19T17:11:49.570Z"
+      },
+      {
+        "id": 10,
+        "titulo": "Fotografia fora da caixa",
+        "descricao": "Aprendendo como explorar a Fotografia em outros espaços e contextos. ",
+        "ordem": 5,
+        "curso": 8,
+        "published_at": "2021-01-06T08:34:56.987Z",
+        "created_at": "2020-12-17T17:43:54.715Z",
+        "updated_at": "2021-01-19T17:11:49.570Z"
+      },
+      {
+        "id": 27,
+        "titulo": "O Mundo das Cores",
+        "descricao": "Entendendo tudo sobre as cores, suas origens e significados.",
+        "ordem": 2,
+        "curso": 8,
+        "published_at": "2021-01-06T08:35:00.364Z",
+        "created_at": "2020-12-17T17:43:54.715Z",
+        "updated_at": "2021-01-19T17:11:49.570Z"
+      }
+    ],
+    "ordenacao_da_trilhas": [],
+    "pilars": []
+  },
+  {
+    "id": 3,
+    "titulo": "Literatura Sem Tédio",
+    "descricao": "Literatura é muito mais do que livros e história, é um encontro com a nossa cultura. Se você também já se perdeu no meio de todo aquele monte de autores, períodos e tipos de textos, este curso é para você. Cola aí e vem aprender Literatura de um jeito massa!",
+    "nomeDoAutor": "Fabio Carradini",
+    "descricaoDoAutor": " Fabio Carradini é um verdadeiro showman em pessoa quando o assunto é dar aula. Se tem alguém conhecido e amado entre os jovens, esse cara é o Prof. Fabio. Todos que já tiveram aula com ele jamais esquecem do seu nome e do seu poder de oratória. Sem conta",
+    "horas": 1,
+    "slug": "literatura-sem-tedio",
+    "published_at": "2020-12-17T17:24:32.061Z",
+    "created_at": "2020-12-17T17:18:19.672Z",
+    "updated_at": "2021-01-11T17:27:24.364Z",
+    "trilhas": [
+      "Educacional"
+    ],
+    "capa": {
+      "id": 6,
+      "name": "literatura.jpeg",
+      "alternativeText": "",
+      "caption": "",
+      "width": 751,
+      "height": 500,
+      "formats": {
+        "small": {
+          "ext": ".jpeg",
+          "url": "https://cms-platform-management-prod.s3.us-east-2.amazonaws.com/small_literatura_851533acb5.jpeg",
+          "hash": "small_literatura_851533acb5",
+          "mime": "image/jpeg",
+          "name": "small_literatura.jpeg",
+          "path": null,
+          "size": 37.84,
+          "width": 500,
+          "height": 333
+        },
+        "medium": {
+          "ext": ".jpeg",
+          "url": "https://cms-platform-management-prod.s3.us-east-2.amazonaws.com/medium_literatura_851533acb5.jpeg",
+          "hash": "medium_literatura_851533acb5",
+          "mime": "image/jpeg",
+          "name": "medium_literatura.jpeg",
+          "path": null,
+          "size": 72.5,
+          "width": 750,
+          "height": 499
+        },
+        "thumbnail": {
+          "ext": ".jpeg",
+          "url": "https://cms-platform-management-prod.s3.us-east-2.amazonaws.com/thumbnail_literatura_851533acb5.jpeg",
+          "hash": "thumbnail_literatura_851533acb5",
+          "mime": "image/jpeg",
+          "name": "thumbnail_literatura.jpeg",
+          "path": null,
+          "size": 10.14,
+          "width": 234,
+          "height": 156
+        }
+      },
+      "hash": "literatura_851533acb5",
+      "ext": ".jpeg",
+      "mime": "image/jpeg",
+      "size": 72.96,
+      "url": "https://cms-platform-management-prod.s3.us-east-2.amazonaws.com/literatura_851533acb5.jpeg",
+      "previewUrl": null,
+      "provider": "aws-s3",
+      "provider_metadata": null,
+      "created_at": "2020-12-21T20:32:36.261Z",
+      "updated_at": "2020-12-21T20:32:36.266Z"
+    },
+    "aulas": [
+      {
+        "id": 49,
+        "titulo": "O que é Literatura?",
+        "descricao": "Entenda a importância da Literatura e como ela é estudada.",
+        "ordem": 1,
+        "curso": 3,
+        "published_at": "2020-12-17T17:47:44.213Z",
+        "created_at": "2020-12-17T17:43:54.715Z",
+        "updated_at": "2021-01-11T17:27:24.363Z"
+      },
+      {
+        "id": 26,
+        "titulo": "Humanismo + Gil Vicente",
+        "descricao": "Entenda melhor o Humanismo e conheça seu principal autor.",
+        "ordem": 4,
+        "curso": 3,
+        "published_at": "2020-12-17T17:47:05.091Z",
+        "created_at": "2020-12-17T17:43:54.715Z",
+        "updated_at": "2021-01-11T17:27:24.363Z"
+      },
+      {
+        "id": 33,
+        "titulo": "Diferentes cantigas + Humanismo",
+        "descricao": "Entenda a diferença entre os tipos de cantigas do Trovadorismo e aprenda sobre o Humanismo.",
+        "ordem": 3,
+        "curso": 3,
+        "published_at": "2020-12-17T17:46:37.841Z",
+        "created_at": "2020-12-17T17:43:54.715Z",
+        "updated_at": "2021-01-11T17:27:24.363Z"
+      },
+      {
+        "id": 41,
+        "titulo": "Trovadorismo + Cantigas",
+        "descricao": "Entenda o Trovadorismo e as cantigas.",
+        "ordem": 2,
+        "curso": 3,
+        "published_at": "2020-12-17T17:48:12.993Z",
+        "created_at": "2020-12-17T17:43:54.715Z",
+        "updated_at": "2021-01-11T17:27:24.363Z"
+      },
+      {
+        "id": 28,
+        "titulo": " Classicismo + Sonetos",
+        "descricao": " Entenda o Classicismo e o formato de texto utilizado na época.",
+        "ordem": 5,
+        "curso": 3,
+        "published_at": "2020-12-17T17:46:15.231Z",
+        "created_at": "2020-12-17T17:43:54.715Z",
+        "updated_at": "2021-01-11T17:27:24.363Z"
+      }
+    ],
+    "ordenacao_da_trilhas": [],
+    "pilars": []
+  },
+  {
+    "id": 4,
+    "titulo": "PNL = Programação Neurolinguística ",
+    "descricao": "Depois de assistir essas aulas, você nunca mais será a mesma pessoa e conquistará todos os seus objetivos.  Mudará a forma de pensar sobre o cérebro e seu subconsciente.  Pode pá e cola pra conferir #PARTIUPNL",
+    "nomeDoAutor": "Roberto Gonçalves",
+    "descricaoDoAutor": "Roberto, se quiser, pode chama-lo de BOB também. Faz parte do grupo mundial de voluntários dos cursos do famoso americano Tony Robbins. O Bob tem um coração gigante e adora ajudar as pessoas que estão começando. Um cara mega, ultra, blaster inteligente. E",
+    "horas": 5,
+    "slug": "pnl-programacao-neurolinguistica",
+    "published_at": "2020-12-20T15:33:18.302Z",
+    "created_at": "2020-12-17T17:18:19.672Z",
+    "updated_at": "2021-01-11T17:55:55.371Z",
+    "trilhas": [
+      "Profissional"
+    ],
+    "capa": {
+      "id": 7,
+      "name": "pnl.jpeg",
+      "alternativeText": "",
+      "caption": "",
+      "width": 889,
+      "height": 500,
+      "formats": {
+        "small": {
+          "ext": ".jpeg",
+          "url": "https://cms-platform-management-prod.s3.us-east-2.amazonaws.com/small_pnl_fc7f3e8f8f.jpeg",
+          "hash": "small_pnl_fc7f3e8f8f",
+          "mime": "image/jpeg",
+          "name": "small_pnl.jpeg",
+          "path": null,
+          "size": 5.18,
+          "width": 500,
+          "height": 281
+        },
+        "medium": {
+          "ext": ".jpeg",
+          "url": "https://cms-platform-management-prod.s3.us-east-2.amazonaws.com/medium_pnl_fc7f3e8f8f.jpeg",
+          "hash": "medium_pnl_fc7f3e8f8f",
+          "mime": "image/jpeg",
+          "name": "medium_pnl.jpeg",
+          "path": null,
+          "size": 8.38,
+          "width": 750,
+          "height": 422
+        },
+        "thumbnail": {
+          "ext": ".jpeg",
+          "url": "https://cms-platform-management-prod.s3.us-east-2.amazonaws.com/thumbnail_pnl_fc7f3e8f8f.jpeg",
+          "hash": "thumbnail_pnl_fc7f3e8f8f",
+          "mime": "image/jpeg",
+          "name": "thumbnail_pnl.jpeg",
+          "path": null,
+          "size": 2.39,
+          "width": 245,
+          "height": 138
+        }
+      },
+      "hash": "pnl_fc7f3e8f8f",
+      "ext": ".jpeg",
+      "mime": "image/jpeg",
+      "size": 10.12,
+      "url": "https://cms-platform-management-prod.s3.us-east-2.amazonaws.com/pnl_fc7f3e8f8f.jpeg",
+      "previewUrl": null,
+      "provider": "aws-s3",
+      "provider_metadata": null,
+      "created_at": "2020-12-21T20:32:36.701Z",
+      "updated_at": "2020-12-21T20:32:36.708Z"
+    },
+    "aulas": [
+      {
+        "id": 12,
+        "titulo": "O Ciclo do Sucesso",
+        "descricao": "Entendendo qual é o impacto que as crenças têm sobre nossos resultados e como alcançar o sucesso.",
+        "ordem": 4,
+        "curso": 4,
+        "published_at": "2020-12-17T17:47:23.800Z",
+        "created_at": "2020-12-17T17:43:54.715Z",
+        "updated_at": "2021-01-11T17:55:55.368Z"
+      },
+      {
+        "id": 34,
+        "titulo": "Crenças e Veículos",
+        "descricao": "Entendendo como utilizar nossas crenças e valores para impactar positivamente a sociedade.",
+        "ordem": 6,
+        "curso": 4,
+        "published_at": "2020-12-17T17:46:32.731Z",
+        "created_at": "2020-12-17T17:43:54.715Z",
+        "updated_at": "2021-01-11T17:55:55.368Z"
+      },
+      {
+        "id": 13,
+        "titulo": "Conceitos de PNL",
+        "descricao": "Programação Neurolinguística ou simplesmente PNL é uma ciência que estuda os modelos mentais, desde como eles se formam até como afetam nosso comportamento e aprendizagem. ",
+        "ordem": 2,
+        "curso": 4,
+        "published_at": "2020-12-17T17:46:19.620Z",
+        "created_at": "2020-12-17T17:43:54.715Z",
+        "updated_at": "2021-01-11T17:55:55.368Z"
+      },
+      {
+        "id": 19,
+        "titulo": "As Necessidades Humanas ",
+        "descricao": "Entendendo o comportamento e as necessidades emocionais que moldam nossa realidade.",
+        "ordem": 5,
+        "curso": 4,
+        "published_at": "2020-12-17T17:45:58.512Z",
+        "created_at": "2020-12-17T17:43:54.715Z",
+        "updated_at": "2021-01-11T17:55:55.368Z"
+      },
+      {
+        "id": 23,
+        "titulo": "Os Princípios da PNL",
+        "descricao": " Entendendo o que é PNL, sua origem e quais são os principais conceitos da teoria.",
+        "ordem": 1,
+        "curso": 4,
+        "published_at": "2020-12-17T17:47:49.822Z",
+        "created_at": "2020-12-17T17:43:54.715Z",
+        "updated_at": "2021-01-11T17:55:55.368Z"
+      },
+      {
+        "id": 40,
+        "titulo": "A Tríade da PNL",
+        "descricao": "Vamos entender como funciona nosso desempenho e o que é entusiasmo.",
+        "ordem": 3,
+        "curso": 4,
+        "published_at": "2020-12-17T17:46:09.902Z",
+        "created_at": "2020-12-17T17:43:54.715Z",
+        "updated_at": "2021-01-11T17:55:55.368Z"
+      }
+    ],
+    "ordenacao_da_trilhas": [],
+    "pilars": []
+  },
+  {
+    "id": 15,
+    "titulo": "Liberdade (Lançamento)",
+    "descricao": "Já parou para se perguntar se você é livre? Realmente livre? Já conversou com alguém sobre isso? Isso já passou pela sua cabeça? Será que sabemos usar nossa liberdade?",
+    "nomeDoAutor": "Jotapê e Ronald",
+    "descricaoDoAutor": "...",
+    "horas": 1,
+    "slug": "liberdade-(lancamento)",
+    "published_at": "2021-02-01T17:28:12.086Z",
+    "created_at": "2021-01-29T20:48:54.538Z",
+    "updated_at": "2021-03-22T15:58:43.624Z",
+    "trilhas": [
+      "Socioemocional"
+    ],
+    "capa": {
+      "id": 11,
+      "name": "liberdade.png",
+      "alternativeText": "",
+      "caption": "",
+      "width": 1920,
+      "height": 872,
+      "formats": {
+        "large": {
+          "ext": ".png",
+          "url": "https://cms-platform-management-prod.s3.us-east-2.amazonaws.com/large_liberdade_4cd543c2c5.png",
+          "hash": "large_liberdade_4cd543c2c5",
+          "mime": "image/png",
+          "name": "large_liberdade.png",
+          "path": null,
+          "size": 750.09,
+          "width": 1000,
+          "height": 454
+        },
+        "small": {
+          "ext": ".png",
+          "url": "https://cms-platform-management-prod.s3.us-east-2.amazonaws.com/small_liberdade_4cd543c2c5.png",
+          "hash": "small_liberdade_4cd543c2c5",
+          "mime": "image/png",
+          "name": "small_liberdade.png",
+          "path": null,
+          "size": 237.47,
+          "width": 500,
+          "height": 227
+        },
+        "medium": {
+          "ext": ".png",
+          "url": "https://cms-platform-management-prod.s3.us-east-2.amazonaws.com/medium_liberdade_4cd543c2c5.png",
+          "hash": "medium_liberdade_4cd543c2c5",
+          "mime": "image/png",
+          "name": "medium_liberdade.png",
+          "path": null,
+          "size": 469.55,
+          "width": 750,
+          "height": 341
+        },
+        "thumbnail": {
+          "ext": ".png",
+          "url": "https://cms-platform-management-prod.s3.us-east-2.amazonaws.com/thumbnail_liberdade_4cd543c2c5.png",
+          "hash": "thumbnail_liberdade_4cd543c2c5",
+          "mime": "image/png",
+          "name": "thumbnail_liberdade.png",
+          "path": null,
+          "size": 67.31,
+          "width": 245,
+          "height": 111
+        }
+      },
+      "hash": "liberdade_4cd543c2c5",
+      "ext": ".png",
+      "mime": "image/png",
+      "size": 1876.51,
+      "url": "https://cms-platform-management-prod.s3.us-east-2.amazonaws.com/liberdade_4cd543c2c5.png",
+      "previewUrl": null,
+      "provider": "aws-s3",
+      "provider_metadata": null,
+      "created_at": "2021-02-01T17:26:38.771Z",
+      "updated_at": "2021-02-02T15:22:12.058Z"
+    },
+    "aulas": [
+      {
+        "id": 57,
+        "titulo": "Liberdade",
+        "descricao": "Já parou para se perguntar se você é livre? Realmente livre? Já conversou com alguém sobre isso? Isso já passou pela sua cabeça? Será que sabemos usar nossa liberdade?",
+        "ordem": 1,
+        "curso": 15,
+        "published_at": "2021-02-01T17:28:09.585Z",
+        "created_at": "2021-01-29T20:49:19.207Z",
+        "updated_at": "2021-03-22T15:58:43.622Z"
+      }
+    ],
+    "ordenacao_da_trilhas": [],
+    "pilars": []
+  },
+  {
+    "id": 14,
+    "titulo": "Medo (Lançamento)",
+    "descricao": "Estar sozinho, quarto escuro, perder alguém, altura, palhaços e agulhas. Tudo isso pode causar medo em nós. O medo pode ter tantas formas diferentes e mesmo assim não falamos dele, por quê não falamos sobre nossos medos?",
+    "nomeDoAutor": "Sergio Barreto e Ronald",
+    "descricaoDoAutor": "...",
+    "horas": 1,
+    "slug": "medo-(lancamento)",
+    "published_at": "2021-02-01T17:25:17.695Z",
+    "created_at": "2021-01-29T20:24:29.087Z",
+    "updated_at": "2021-03-22T15:59:25.710Z",
+    "trilhas": [
+      "Socioemocional"
+    ],
+    "capa": {
+      "id": 10,
+      "name": "medo.png",
+      "alternativeText": "",
+      "caption": "",
+      "width": 1919,
+      "height": 870,
+      "formats": {
+        "large": {
+          "ext": ".png",
+          "url": "https://cms-platform-management-prod.s3.us-east-2.amazonaws.com/large_medo_9794c32b32.png",
+          "hash": "large_medo_9794c32b32",
+          "mime": "image/png",
+          "name": "large_medo.png",
+          "path": null,
+          "size": 457.37,
+          "width": 1000,
+          "height": 453
+        },
+        "small": {
+          "ext": ".png",
+          "url": "https://cms-platform-management-prod.s3.us-east-2.amazonaws.com/small_medo_9794c32b32.png",
+          "hash": "small_medo_9794c32b32",
+          "mime": "image/png",
+          "name": "small_medo.png",
+          "path": null,
+          "size": 147.16,
+          "width": 500,
+          "height": 227
+        },
+        "medium": {
+          "ext": ".png",
+          "url": "https://cms-platform-management-prod.s3.us-east-2.amazonaws.com/medium_medo_9794c32b32.png",
+          "hash": "medium_medo_9794c32b32",
+          "mime": "image/png",
+          "name": "medium_medo.png",
+          "path": null,
+          "size": 284.37,
+          "width": 750,
+          "height": 340
+        },
+        "thumbnail": {
+          "ext": ".png",
+          "url": "https://cms-platform-management-prod.s3.us-east-2.amazonaws.com/thumbnail_medo_9794c32b32.png",
+          "hash": "thumbnail_medo_9794c32b32",
+          "mime": "image/png",
+          "name": "thumbnail_medo.png",
+          "path": null,
+          "size": 47.64,
+          "width": 245,
+          "height": 111
+        }
+      },
+      "hash": "medo_9794c32b32",
+      "ext": ".png",
+      "mime": "image/png",
+      "size": 1234.26,
+      "url": "https://cms-platform-management-prod.s3.us-east-2.amazonaws.com/medo_9794c32b32.png",
+      "previewUrl": null,
+      "provider": "aws-s3",
+      "provider_metadata": null,
+      "created_at": "2021-02-01T17:26:37.344Z",
+      "updated_at": "2021-02-02T15:22:41.166Z"
+    },
+    "aulas": [
+      {
+        "id": 54,
+        "titulo": "Medo",
+        "descricao": "Estar sozinho, quarto escuro, perder alguém, altura, palhaços e agulhas. Tudo isso pode causar medo em nós. O medo pode ter tantas formas diferentes e mesmo assim não falamos dele, por quê não falamos sobre nossos medos?",
+        "ordem": 1,
+        "curso": 14,
+        "published_at": "2021-02-01T17:25:08.066Z",
+        "created_at": "2021-01-29T20:25:34.718Z",
+        "updated_at": "2021-03-22T15:59:25.708Z"
+      }
+    ],
+    "ordenacao_da_trilhas": [],
+    "pilars": []
+  },
+  {
+    "id": 13,
+    "titulo": "Projeto X (Lançamento)",
+    "descricao": "Metas, sonhos, objetivos, como alcançar esses caras se no dia a dia e só prejuízo?",
+    "nomeDoAutor": "Kim Uehara e Gabriel Alves",
+    "descricaoDoAutor": "...",
+    "horas": 1,
+    "slug": "projeto-x-(lancamento)",
+    "published_at": "2021-02-01T17:29:24.597Z",
+    "created_at": "2021-01-29T17:01:40.479Z",
+    "updated_at": "2021-03-22T15:59:35.075Z",
+    "trilhas": [
+      "Educacional"
+    ],
+    "capa": {
+      "id": 12,
+      "name": "projeto x.png",
+      "alternativeText": "",
+      "caption": "",
+      "width": 1919,
+      "height": 868,
+      "formats": {
+        "large": {
+          "ext": ".png",
+          "url": "https://cms-platform-management-prod.s3.us-east-2.amazonaws.com/large_projeto_x_87877d8248.png",
+          "hash": "large_projeto_x_87877d8248",
+          "mime": "image/png",
+          "name": "large_projeto x.png",
+          "path": null,
+          "size": 545.43,
+          "width": 1000,
+          "height": 452
+        },
+        "small": {
+          "ext": ".png",
+          "url": "https://cms-platform-management-prod.s3.us-east-2.amazonaws.com/small_projeto_x_87877d8248.png",
+          "hash": "small_projeto_x_87877d8248",
+          "mime": "image/png",
+          "name": "small_projeto x.png",
+          "path": null,
+          "size": 167.98,
+          "width": 500,
+          "height": 226
+        },
+        "medium": {
+          "ext": ".png",
+          "url": "https://cms-platform-management-prod.s3.us-east-2.amazonaws.com/medium_projeto_x_87877d8248.png",
+          "hash": "medium_projeto_x_87877d8248",
+          "mime": "image/png",
+          "name": "medium_projeto x.png",
+          "path": null,
+          "size": 336.14,
+          "width": 750,
+          "height": 339
+        },
+        "thumbnail": {
+          "ext": ".png",
+          "url": "https://cms-platform-management-prod.s3.us-east-2.amazonaws.com/thumbnail_projeto_x_87877d8248.png",
+          "hash": "thumbnail_projeto_x_87877d8248",
+          "mime": "image/png",
+          "name": "thumbnail_projeto x.png",
+          "path": null,
+          "size": 48.17,
+          "width": 245,
+          "height": 111
+        }
+      },
+      "hash": "projeto_x_87877d8248",
+      "ext": ".png",
+      "mime": "image/png",
+      "size": 1400.91,
+      "url": "https://cms-platform-management-prod.s3.us-east-2.amazonaws.com/projeto_x_87877d8248.png",
+      "previewUrl": null,
+      "provider": "aws-s3",
+      "provider_metadata": null,
+      "created_at": "2021-02-01T17:26:38.927Z",
+      "updated_at": "2021-02-02T15:23:02.821Z"
+    },
+    "aulas": [
+      {
+        "id": 52,
+        "titulo": "Projeto X",
+        "descricao": "Metas, sonhos, objetivos, como alcançar esses caras se no dia a dia e só prejuízo?",
+        "ordem": 1,
+        "curso": 13,
+        "published_at": "2021-02-01T17:29:21.258Z",
+        "created_at": "2021-01-29T17:05:14.619Z",
+        "updated_at": "2021-03-22T15:59:35.074Z"
+      }
+    ],
+    "ordenacao_da_trilhas": [],
+    "pilars": []
+  },
+  {
+    "id": 19,
+    "titulo": "Preconceito (Lançamento)",
+    "descricao": "Por que a gente ri de como os outros são? O preconceito nos impede de ser como queremos ser? Alguns dizem que é só mimimi, será que é mesmo?",
+    "nomeDoAutor": "Camila e Gabriel",
+    "descricaoDoAutor": "...",
+    "horas": 1,
+    "slug": "preconceito-(lancamento)",
+    "published_at": "2021-03-22T05:00:41.685Z",
+    "created_at": "2021-03-21T16:48:28.006Z",
+    "updated_at": "2021-03-22T15:59:52.935Z",
+    "trilhas": [
+      "Social"
+    ],
+    "capa": {
+      "id": 14,
+      "name": "thumb-preconceito.png",
+      "alternativeText": "",
+      "caption": "",
+      "width": 1100,
+      "height": 600,
+      "formats": {
+        "large": {
+          "ext": ".png",
+          "url": "https://cms-platform-management-prod.s3.us-east-2.amazonaws.com/large_thumb_preconceito_b5fc86e846.png",
+          "hash": "large_thumb_preconceito_b5fc86e846",
+          "mime": "image/png",
+          "name": "large_thumb-preconceito.png",
+          "path": null,
+          "size": 1151.91,
+          "width": 1000,
+          "height": 545
+        },
+        "small": {
+          "ext": ".png",
+          "url": "https://cms-platform-management-prod.s3.us-east-2.amazonaws.com/small_thumb_preconceito_b5fc86e846.png",
+          "hash": "small_thumb_preconceito_b5fc86e846",
+          "mime": "image/png",
+          "name": "small_thumb-preconceito.png",
+          "path": null,
+          "size": 321.25,
+          "width": 500,
+          "height": 273
+        },
+        "medium": {
+          "ext": ".png",
+          "url": "https://cms-platform-management-prod.s3.us-east-2.amazonaws.com/medium_thumb_preconceito_b5fc86e846.png",
+          "hash": "medium_thumb_preconceito_b5fc86e846",
+          "mime": "image/png",
+          "name": "medium_thumb-preconceito.png",
+          "path": null,
+          "size": 682.4,
+          "width": 750,
+          "height": 409
+        },
+        "thumbnail": {
+          "ext": ".png",
+          "url": "https://cms-platform-management-prod.s3.us-east-2.amazonaws.com/thumbnail_thumb_preconceito_b5fc86e846.png",
+          "hash": "thumbnail_thumb_preconceito_b5fc86e846",
+          "mime": "image/png",
+          "name": "thumbnail_thumb-preconceito.png",
+          "path": null,
+          "size": 87.53,
+          "width": 245,
+          "height": 134
+        }
+      },
+      "hash": "thumb_preconceito_b5fc86e846",
+      "ext": ".png",
+      "mime": "image/png",
+      "size": 1184.15,
+      "url": "https://cms-platform-management-prod.s3.us-east-2.amazonaws.com/thumb_preconceito_b5fc86e846.png",
+      "previewUrl": null,
+      "provider": "aws-s3",
+      "provider_metadata": null,
+      "created_at": "2021-03-21T19:56:47.935Z",
+      "updated_at": "2021-03-22T14:27:59.519Z"
+    },
+    "aulas": [
+      {
+        "id": 61,
+        "titulo": "Preconceito",
+        "descricao": "Por que a gente ri de como os outros são? O preconceito nos impede de ser como queremos ser? Alguns dizem que é só mimimi, será que é mesmo?",
+        "ordem": 1,
+        "curso": 19,
+        "published_at": "2021-03-22T05:00:50.543Z",
+        "created_at": "2021-03-21T16:49:50.601Z",
+        "updated_at": "2021-03-22T15:59:52.934Z"
+      }
+    ],
+    "ordenacao_da_trilhas": [],
+    "pilars": []
+  },
+  {
+    "id": 17,
+    "titulo": "Amor (Lançamento)",
+    "descricao": "Amor, cada um tem uma opinião sobre, algumas pessoas querem ter um daqueles que só de olhar pra pessoa o coração já acelera, outros fogem com medo do que aconteceu no passado, tem quem ame estando sozinho, quem ama quando esta com todo mundo. Vamos trocar esse papo?",
+    "nomeDoAutor": "Maju e Lucão",
+    "descricaoDoAutor": "...",
+    "horas": 1,
+    "slug": "amor-(lancamento)",
+    "published_at": "2021-03-21T22:42:31.477Z",
+    "created_at": "2021-03-18T12:12:16.704Z",
+    "updated_at": "2021-03-22T15:57:53.701Z",
+    "trilhas": [
+      "Socioemocional"
+    ],
+    "capa": {
+      "id": 16,
+      "name": "thumb-amor.png",
+      "alternativeText": "",
+      "caption": "",
+      "width": 1100,
+      "height": 600,
+      "formats": {
+        "large": {
+          "ext": ".png",
+          "url": "https://cms-platform-management-prod.s3.us-east-2.amazonaws.com/large_thumb_amor_15b616fa53.png",
+          "hash": "large_thumb_amor_15b616fa53",
+          "mime": "image/png",
+          "name": "large_thumb-amor.png",
+          "path": null,
+          "size": 1167.65,
+          "width": 1000,
+          "height": 545
+        },
+        "small": {
+          "ext": ".png",
+          "url": "https://cms-platform-management-prod.s3.us-east-2.amazonaws.com/small_thumb_amor_15b616fa53.png",
+          "hash": "small_thumb_amor_15b616fa53",
+          "mime": "image/png",
+          "name": "small_thumb-amor.png",
+          "path": null,
+          "size": 323.89,
+          "width": 500,
+          "height": 273
+        },
+        "medium": {
+          "ext": ".png",
+          "url": "https://cms-platform-management-prod.s3.us-east-2.amazonaws.com/medium_thumb_amor_15b616fa53.png",
+          "hash": "medium_thumb_amor_15b616fa53",
+          "mime": "image/png",
+          "name": "medium_thumb-amor.png",
+          "path": null,
+          "size": 691.09,
+          "width": 750,
+          "height": 409
+        },
+        "thumbnail": {
+          "ext": ".png",
+          "url": "https://cms-platform-management-prod.s3.us-east-2.amazonaws.com/thumbnail_thumb_amor_15b616fa53.png",
+          "hash": "thumbnail_thumb_amor_15b616fa53",
+          "mime": "image/png",
+          "name": "thumbnail_thumb-amor.png",
+          "path": null,
+          "size": 87.69,
+          "width": 245,
+          "height": 134
+        }
+      },
+      "hash": "thumb_amor_15b616fa53",
+      "ext": ".png",
+      "mime": "image/png",
+      "size": 1207.88,
+      "url": "https://cms-platform-management-prod.s3.us-east-2.amazonaws.com/thumb_amor_15b616fa53.png",
+      "previewUrl": null,
+      "provider": "aws-s3",
+      "provider_metadata": null,
+      "created_at": "2021-03-21T19:58:49.232Z",
+      "updated_at": "2021-03-22T14:24:27.185Z"
+    },
+    "aulas": [
+      {
+        "id": 59,
+        "titulo": "Amor",
+        "descricao": "Amor, cada um tem uma opinião sobre, algumas pessoas querem ter um daqueles que só de olhar pra pessoa o coração já acelera, outros fogem com medo do que aconteceu no passado, tem quem ame estando sozinho, quem ama quando esta com todo mundo. Vamos trocar esse papo?",
+        "ordem": 1,
+        "curso": 17,
+        "published_at": "2021-03-21T22:42:48.924Z",
+        "created_at": "2021-03-18T12:16:37.331Z",
+        "updated_at": "2021-03-22T15:57:53.699Z"
+      }
+    ],
+    "ordenacao_da_trilhas": [],
+    "pilars": []
+  },
+  {
+    "id": 18,
+    "titulo": "E depois da escola? (Lançamento)",
+    "descricao": "Várias vivências na época de escola né. As brincadeiras com os amigos, as broncas dos professores, a comida da tia, até mesmo os romances vividos. Mas e agora? E depois da escola? Vamos te apresentar uma nova responsa, a correria que fazemos pra continuar estudando e entrar nesse mundo universitário que a faculdade nos oferece. Tá preparado? Bora nessa!\n<br></br>\n<br></br>\nO Instituto Semear preparou um Ebook com informações para te ajudar a passar no vestibular, da uma olhada:\n<br></br>\n<a href=\"https://drive.google.com/file/d/15C49g_VMUe7lC8TxyCxllHQaTf60bs4f/view\">Instituto Semear Como Passar no Vestibular</a>",
+    "nomeDoAutor": "Ronald e Gabão",
+    "descricaoDoAutor": "...",
+    "horas": 1,
+    "slug": "e-depois-da-escola-(lancamento)",
+    "published_at": "2021-03-21T22:54:37.231Z",
+    "created_at": "2021-03-18T16:59:09.859Z",
+    "updated_at": "2021-03-23T21:14:30.267Z",
+    "trilhas": [
+      "Educacional"
+    ],
+    "capa": {
+      "id": 15,
+      "name": "thumb-depois-da-escola.png",
+      "alternativeText": "",
+      "caption": "",
+      "width": 1100,
+      "height": 600,
+      "formats": {
+        "large": {
+          "ext": ".png",
+          "url": "https://cms-platform-management-prod.s3.us-east-2.amazonaws.com/large_thumb_depois_da_escola_f89d0ca5aa.png",
+          "hash": "large_thumb_depois_da_escola_f89d0ca5aa",
+          "mime": "image/png",
+          "name": "large_thumb-depois-da-escola.png",
+          "path": null,
+          "size": 900.08,
+          "width": 1000,
+          "height": 545
+        },
+        "small": {
+          "ext": ".png",
+          "url": "https://cms-platform-management-prod.s3.us-east-2.amazonaws.com/small_thumb_depois_da_escola_f89d0ca5aa.png",
+          "hash": "small_thumb_depois_da_escola_f89d0ca5aa",
+          "mime": "image/png",
+          "name": "small_thumb-depois-da-escola.png",
+          "path": null,
+          "size": 259.66,
+          "width": 500,
+          "height": 273
+        },
+        "medium": {
+          "ext": ".png",
+          "url": "https://cms-platform-management-prod.s3.us-east-2.amazonaws.com/medium_thumb_depois_da_escola_f89d0ca5aa.png",
+          "hash": "medium_thumb_depois_da_escola_f89d0ca5aa",
+          "mime": "image/png",
+          "name": "medium_thumb-depois-da-escola.png",
+          "path": null,
+          "size": 537.79,
+          "width": 750,
+          "height": 409
+        },
+        "thumbnail": {
+          "ext": ".png",
+          "url": "https://cms-platform-management-prod.s3.us-east-2.amazonaws.com/thumbnail_thumb_depois_da_escola_f89d0ca5aa.png",
+          "hash": "thumbnail_thumb_depois_da_escola_f89d0ca5aa",
+          "mime": "image/png",
+          "name": "thumbnail_thumb-depois-da-escola.png",
+          "path": null,
+          "size": 75.15,
+          "width": 245,
+          "height": 134
+        }
+      },
+      "hash": "thumb_depois_da_escola_f89d0ca5aa",
+      "ext": ".png",
+      "mime": "image/png",
+      "size": 865.05,
+      "url": "https://cms-platform-management-prod.s3.us-east-2.amazonaws.com/thumb_depois_da_escola_f89d0ca5aa.png",
+      "previewUrl": null,
+      "provider": "aws-s3",
+      "provider_metadata": null,
+      "created_at": "2021-03-21T19:58:42.672Z",
+      "updated_at": "2021-03-22T14:28:13.125Z"
+    },
+    "aulas": [
+      {
+        "id": 60,
+        "titulo": "E depois da escola?",
+        "descricao": "Várias vivências na época de escola né. As brincadeiras com os amigos, as broncas dos professores, a comida da tia, até mesmo os romances vividos. Mas e agora? E depois da escola? Vamos te apresentar uma nova responsa, a correria que fazemos pra continuar estudando e entrar nesse mundo universitário que a faculdade nos oferece. Tá preparado? Bora nessa!",
+        "ordem": 1,
+        "curso": 18,
+        "published_at": "2021-03-21T22:54:48.529Z",
+        "created_at": "2021-03-18T17:01:04.122Z",
+        "updated_at": "2021-03-23T21:14:30.266Z"
+      }
+    ],
+    "ordenacao_da_trilhas": [],
+    "pilars": []
+  }
+]

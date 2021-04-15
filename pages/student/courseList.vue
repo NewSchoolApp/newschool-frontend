@@ -10,108 +10,47 @@
     </div>
   </div>
   <div v-else id="page">
+    <HeaderBar class="mb-7" :title="pilarName" :back-page="true"></HeaderBar>
     <v-col id="main-col">
-      <v-row justify="end">
-        <img
-          class="header_img"
-          :src="require(`~/assets/trophy-home.png`)"
-          @click="goTo('ranking')"
-        />
-        <img
-          id="bell"
-          :src="
-            require(`~/assets/${
-              notifications.length ? 'bell' : 'bell-home-colorized'
-            }.svg`)
-          "
-          @click="goTo('notificacao')"
-        />
-        <div class="notification__number__container">
-          <div
-            v-if="notifications.length"
-            :class="
-              notifications.length < 100
-                ? 'notification__number'
-                : 'notification_high_number'
-            "
-          >
-            <p
-              v-if="notifications.length < 100"
-              :class="
-                notifications.length < 10
-                  ? 'notification__low_text'
-                  : 'notification__text'
-              "
-            >
-              {{ notifications.length }}
-            </p>
-            <p v-else class="notifications__high">
-              {{ notifications.length }}
-            </p>
-          </div>
-        </div>
-      </v-row>
-
-      <!-- Header-bar -->
-      <v-row id="header" align="center">
-        <v-avatar size="55">
-          <img
-            v-if="user.photo"
-            class="user__image"
-            :src="user.photo"
-            @click="goTo('perfil')"
-          />
-          <img
-            v-else
-            :src="require(`~/assets/person.svg`)"
-            @click="goTo('perfil')"
-          />
-        </v-avatar>
-
-        <v-col>
-          <h1 class="welcome-title">
-            {{ 'Salve, ' + userName + '!' }}
-          </h1>
-          <h1 class="welcome-subtitle">Seja bem-vindo</h1>
-        </v-col>
-
-        <h1 class="xp">{{ userPoints || 0 }} NC</h1>
-      </v-row>
-
       <!-- Search Field -->
       <v-text-field
         v-model="filtro"
         class="search-field"
-        label="Encontre Pilares"
+        label="Encontre Cursos"
         outlined
         prepend-inner-icon="mdi-magnify"
         autocomplete="off"
       />
 
       <!-- Course Title -->
-      <p id="title">Pilares</p>
+      <!-- <p id="title">Cursos</p> -->
 
       <!-- Course Cards  -->
       <course-card
-        v-for="trail in filteredList"
-        :key="trail.id"
-        :course="trail"
+        v-for="course in coursesByTrail"
+        :key="course.id"
+        :course="course"
       />
     </v-col>
     <navigation-bar />
   </div>
 </template>
-
+<router>
+    path: "/list-de-cursos/:trilha"
+</router>
 <script>
 import NavigationBar from '~/components/NavigationBar.vue';
+import HeaderBar from '~/components/Header.vue';
 import CourseCard from '~/components/CourseCard';
 import http from '~/services/http/generic';
 import utils from '~/utils/index';
+import mockCourses from '~/services/mocks/course/coursesMock.json';
 
 export default {
   components: {
     NavigationBar,
     CourseCard,
+    HeaderBar,
   },
   data: () => ({
     title: 'Bem-vindo',
@@ -120,40 +59,41 @@ export default {
     notifications: '',
     userPoints: '',
     trails: '',
+    coursesByTrail: [],
   }),
   computed: {
     courseList() {
       return this.$store.state.courses.all;
+    },
+
+    pilarName() {
+      return this.$route.params.trilha;
     },
     trailList() {
       const trails = [
         {
           id: 1,
           titulo: 'Socioemocional',
-          capa:
+          photo:
             'https://cms-platform-management-dev.s3.us-east-2.amazonaws.com/2_029125dfb7.jpg',
-          pilar: true,
         },
         {
           id: 2,
           titulo: 'Educacional',
-          capa:
+          photo:
             'https://cms-platform-management-dev.s3.us-east-2.amazonaws.com/2_029125dfb7.jpg',
-          pilar: true,
         },
         {
           id: 3,
           titulo: 'Profissional',
-          capa:
+          photo:
             'https://cms-platform-management-dev.s3.us-east-2.amazonaws.com/2_029125dfb7.jpg',
-          pilar: true,
         },
         {
           id: 4,
           titulo: 'Social',
-          capa:
+          photo:
             'https://cms-platform-management-dev.s3.us-east-2.amazonaws.com/2_029125dfb7.jpg',
-          pilar: true,
         },
       ];
       return trails;
@@ -175,7 +115,7 @@ export default {
             .trim(),
           'i',
         );
-        return this.trailList.filter(trail => exp.test(trail.titulo));
+        return this.trailList.filter(trail => exp.test(trail.name));
       } else {
         return this.trailList;
       }
@@ -188,6 +128,11 @@ export default {
 
     await this.getNotifications();
     await this.getUserScore();
+    const trail = this.$route.params.trilha;
+
+    this.coursesByTrail = mockCourses.filter(course =>
+      course.trilhas.includes(trail),
+    );
 
     this.loading = false;
   },

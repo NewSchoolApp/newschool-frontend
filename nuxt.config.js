@@ -41,6 +41,12 @@ export default {
             component: resolve(__dirname, 'pages/student/certificates.vue'),
           },
           {
+            path: 'lista-de-cursos/:trilha',
+            name: 'lista-cursos',
+            props: true,
+            component: resolve(__dirname, 'pages/student/courseList.vue'),
+          },
+          {
             path: 'alterar-dados',
             name: 'alterar-dados',
             component: resolve(
@@ -168,9 +174,8 @@ export default {
       process.env.VUE_APP_BASE_URL ||
       // 'https://9ddlz0bte4.execute-api.us-east-2.amazonaws.com/dev',
       'https://9ddlz0bte4.execute-api.us-east-2.amazonaws.com/prod',
-    marketUrl:
-      // 'https://q4cw73dgy1.execute-api.us-east-2.amazonaws.com/dev',
-      'https://q4cw73dgy1.execute-api.us-east-2.amazonaws.com/prod',
+    // 'https://q4cw73dgy1.execute-api.us-east-2.amazonaws.com/dev',
+    marketUrl: 'https://q4cw73dgy1.execute-api.us-east-2.amazonaws.com/prod',
     credentials: {
       name: process.env.VUE_APP_CLIENT_CREDENTIAL_NAME || 'NEWSCHOOL@FRONT',
       secret:
@@ -214,6 +219,7 @@ export default {
       // course
       COURSE: '/api/v2/course',
       COURSE_BY_SLUG: '/api/v2/course/slug/',
+      TRAILS: '/api/v2/trail',
 
       // course taken
       MY_COURSES: 'api/v2/course-taken/user/',
@@ -272,7 +278,8 @@ export default {
       },
       {
         name: 'viewport',
-        content: 'width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no',
+        content:
+          'width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no',
       },
       {
         hid: 'og:title',
