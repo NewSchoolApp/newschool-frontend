@@ -230,19 +230,9 @@ export default {
     filteredList() {
       const totalList = [...this.trailList, ...this.pilarList];
       if (this.filtro) {
-        const exp = new RegExp(
-          this.filtro
-            .normalize('NFD')
-            .replace(/[\u0300-\u036F]/g, '')
-            .toLowerCase()
-            .replace(' ', '-')
-            .trim(),
-          'i',
-        );
-        return totalList.filter(trail => exp.test(trail.titulo));
-      } else {
-        return totalList;
+        return totalList.filter(trail => trail.titulo.includes(this.filtro));
       }
+      return totalList;
     },
   },
 
