@@ -36,7 +36,7 @@ export default {
   },
   methods: {
     async openCourse() {
-      if (this.course.pilar) {
+      if (this.course.pilar || this.course.trilha) {
         return $nuxt._router.push(
           `/aluno/lista-de-cursos/${this.course.titulo}`,
         );

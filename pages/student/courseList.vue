@@ -67,7 +67,11 @@ export default {
     },
 
     pilarName() {
-      return this.$route.params.trilha;
+      const name =
+        this.$route.params.trilha === 'Você se conhece'
+          ? 'Você se conhece?'
+          : this.$route.params.trilha;
+      return name;
     },
     trailList() {
       const trails = [
@@ -115,7 +119,7 @@ export default {
             .trim(),
           'i',
         );
-        return this.trailList.filter(trail => exp.test(trail.name));
+        return this.trailList.filter(trail => exp.test(trail.titulo));
       } else {
         return this.trailList;
       }
@@ -128,10 +132,9 @@ export default {
 
     await this.getNotifications();
     await this.getUserScore();
-    const trail = this.$route.params.trilha;
 
     this.coursesByTrail = mockCourses.filter(course =>
-      course.trilhas.includes(trail),
+      course.trilhas.includes(this.pilarName),
     );
 
     this.loading = false;

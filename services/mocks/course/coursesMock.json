@@ -148,7 +148,7 @@
         "updated_at": "2020-12-21T20:33:05.879Z"
       }
     ],
-    "ordenacao_da_trilhas": [],
+    "ordenacao_da_pilhas": [],
     "pilars": []
   },
   {
@@ -163,7 +163,8 @@
     "created_at": "2020-12-17T17:18:19.672Z",
     "updated_at": "2020-12-21T20:33:18.300Z",
     "trilhas": [
-      "Profissional"
+      "Profissional",
+      "Assuma o controle"
     ],
     "capa": {
       "id": 2,
@@ -249,7 +250,7 @@
         "updated_at": "2020-12-21T20:33:18.299Z"
       }
     ],
-    "ordenacao_da_trilhas": [],
+    "ordenacao_da_pilhas": [],
     "pilars": []
   },
   {
@@ -264,7 +265,9 @@
     "created_at": "2020-12-17T17:18:19.672Z",
     "updated_at": "2020-12-21T20:33:29.826Z",
     "trilhas": [
-      "Social"
+      "Social",
+      "Construa seu castelo",
+      "Assuma o controle"
     ],
     "capa": {
       "id": 9,
@@ -392,7 +395,7 @@
         "updated_at": "2020-12-21T20:33:29.824Z"
       }
     ],
-    "ordenacao_da_trilhas": [],
+    "ordenacao_da_pilhas": [],
     "pilars": []
   },
   {
@@ -407,7 +410,8 @@
     "created_at": "2020-12-17T17:18:19.672Z",
     "updated_at": "2021-01-21T00:45:02.783Z",
     "trilhas": [
-      "Profissional"
+      "Profissional",
+      "Números e o bicho de 7 cabeças"
     ],
     "capa": {
       "id": 8,
@@ -555,7 +559,7 @@
         "updated_at": "2021-01-21T00:45:02.781Z"
       }
     ],
-    "ordenacao_da_trilhas": [],
+    "ordenacao_da_pilhas": [],
     "pilars": []
   },
   {
@@ -570,7 +574,8 @@
     "created_at": "2020-12-17T17:18:19.672Z",
     "updated_at": "2021-01-11T17:57:49.580Z",
     "trilhas": [
-      "Educacional"
+      "Educacional",
+      "Números e o bicho de 7 cabeças"
     ],
     "capa": {
       "id": 5,
@@ -686,7 +691,7 @@
         "updated_at": "2021-01-11T17:57:49.579Z"
       }
     ],
-    "ordenacao_da_trilhas": [],
+    "ordenacao_da_pilhas": [],
     "pilars": []
   },
   {
@@ -701,7 +706,8 @@
     "created_at": "2020-12-17T17:18:19.672Z",
     "updated_at": "2021-01-19T17:11:49.572Z",
     "trilhas": [
-      "Profissional"
+      "Profissional",
+      "Mó paz"
     ],
     "capa": {
       "id": 3,
@@ -807,7 +813,7 @@
         "updated_at": "2021-01-19T17:11:49.570Z"
       }
     ],
-    "ordenacao_da_trilhas": [],
+    "ordenacao_da_pilhas": [],
     "pilars": []
   },
   {
@@ -822,7 +828,9 @@
     "created_at": "2020-12-17T17:18:19.672Z",
     "updated_at": "2021-01-11T17:27:24.364Z",
     "trilhas": [
-      "Educacional"
+      "Educacional",
+      "Construa seu castelo",
+      "Mó paz"
     ],
     "capa": {
       "id": 6,
@@ -929,7 +937,7 @@
         "updated_at": "2021-01-11T17:27:24.363Z"
       }
     ],
-    "ordenacao_da_trilhas": [],
+    "ordenacao_da_pilhas": [],
     "pilars": []
   },
   {
@@ -944,7 +952,8 @@
     "created_at": "2020-12-17T17:18:19.672Z",
     "updated_at": "2021-01-11T17:55:55.371Z",
     "trilhas": [
-      "Profissional"
+      "Profissional",
+      "Construa seu castelo"
     ],
     "capa": {
       "id": 7,
@@ -1061,7 +1070,7 @@
         "updated_at": "2021-01-11T17:55:55.368Z"
       }
     ],
-    "ordenacao_da_trilhas": [],
+    "ordenacao_da_pilhas": [],
     "pilars": []
   },
   {
@@ -1076,7 +1085,11 @@
     "created_at": "2021-01-29T20:48:54.538Z",
     "updated_at": "2021-03-22T15:58:43.624Z",
     "trilhas": [
-      "Socioemocional"
+      "Socioemocional",
+      "Números e o bicho de 7 cabeças",
+      "Expandindo a mente",
+      "Você se conhece?",
+      "Assuma o controle"
     ],
     "capa": {
       "id": 11,
@@ -1154,7 +1167,7 @@
         "updated_at": "2021-03-22T15:58:43.622Z"
       }
     ],
-    "ordenacao_da_trilhas": [],
+    "ordenacao_da_pilhas": [],
     "pilars": []
   },
   {
@@ -1169,7 +1182,10 @@
     "created_at": "2021-01-29T20:24:29.087Z",
     "updated_at": "2021-03-22T15:59:25.710Z",
     "trilhas": [
-      "Socioemocional"
+      "Socioemocional",
+      "Construa seu castelo",
+      "Você se conhece?",
+      "Assuma o controle"
     ],
     "capa": {
       "id": 10,
@@ -1247,7 +1263,7 @@
         "updated_at": "2021-03-22T15:59:25.708Z"
       }
     ],
-    "ordenacao_da_trilhas": [],
+    "ordenacao_da_pilhas": [],
     "pilars": []
   },
   {
@@ -1262,7 +1278,8 @@
     "created_at": "2021-01-29T17:01:40.479Z",
     "updated_at": "2021-03-22T15:59:35.075Z",
     "trilhas": [
-      "Educacional"
+      "Educacional",
+      "Expandindo a mente"
     ],
     "capa": {
       "id": 12,
@@ -1340,7 +1357,7 @@
         "updated_at": "2021-03-22T15:59:35.074Z"
       }
     ],
-    "ordenacao_da_trilhas": [],
+    "ordenacao_da_pilhas": [],
     "pilars": []
   },
   {
@@ -1355,7 +1372,10 @@
     "created_at": "2021-03-21T16:48:28.006Z",
     "updated_at": "2021-03-22T15:59:52.935Z",
     "trilhas": [
-      "Social"
+      "Social",
+      "Construa seu castelo",
+      "Você se conhece?",
+      "Mó paz"
     ],
     "capa": {
       "id": 14,
@@ -1433,7 +1453,7 @@
         "updated_at": "2021-03-22T15:59:52.934Z"
       }
     ],
-    "ordenacao_da_trilhas": [],
+    "ordenacao_da_pilhas": [],
     "pilars": []
   },
   {
@@ -1448,7 +1468,9 @@
     "created_at": "2021-03-18T12:12:16.704Z",
     "updated_at": "2021-03-22T15:57:53.701Z",
     "trilhas": [
-      "Socioemocional"
+      "Socioemocional",
+      "Assuma o controle",
+      "Mó paz"
     ],
     "capa": {
       "id": 16,
@@ -1526,7 +1548,7 @@
         "updated_at": "2021-03-22T15:57:53.699Z"
       }
     ],
-    "ordenacao_da_trilhas": [],
+    "ordenacao_da_pilhas": [],
     "pilars": []
   },
   {
@@ -1541,7 +1563,11 @@
     "created_at": "2021-03-18T16:59:09.859Z",
     "updated_at": "2021-03-23T21:14:30.267Z",
     "trilhas": [
-      "Educacional"
+      "Educacional",
+      "Números e o bicho de 7 cabeças",
+      "Construa seu castelo",
+      "Você se conhece?",
+      "Expandindo a mente"
     ],
     "capa": {
       "id": 15,
@@ -1619,7 +1645,7 @@
         "updated_at": "2021-03-23T21:14:30.266Z"
       }
     ],
-    "ordenacao_da_trilhas": [],
+    "ordenacao_da_pilhas": [],
     "pilars": []
   }
 ]

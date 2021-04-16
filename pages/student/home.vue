@@ -82,21 +82,36 @@
       <v-text-field
         v-model="filtro"
         class="search-field"
-        label="Encontre Pilares"
+        label="Encontre..."
         outlined
         prepend-inner-icon="mdi-magnify"
         autocomplete="off"
       />
 
-      <!-- Course Title -->
-      <p id="title">Pilares</p>
-
-      <!-- Course Cards  -->
-      <course-card
-        v-for="trail in filteredList"
-        :key="trail.id"
-        :course="trail"
-      />
+      <div v-if="!filtro">
+        <p id="title">Trilhas</p>
+        <course-card
+          v-for="pilar in pilarList"
+          :key="pilar.id"
+          :course="pilar"
+        />
+      </div>
+      <br />
+      <div v-if="!filtro">
+        <p id="title">Pilares</p>
+        <course-card
+          v-for="trail in trailList"
+          :key="trail.id"
+          :course="trail"
+        />
+      </div>
+      <div v-if="filtro">
+        <course-card
+          v-for="item in filteredList"
+          :key="item.id"
+          :course="item"
+        />
+      </div>
     </v-col>
     <navigation-bar />
   </div>
@@ -119,7 +134,8 @@ export default {
     filtro: '',
     notifications: '',
     userPoints: '',
-    trails: '',
+    trails: [],
+    pilars: [],
   }),
   computed: {
     courseList() {
@@ -158,6 +174,53 @@ export default {
       ];
       return trails;
     },
+    pilarList() {
+      const pilars = [
+        {
+          id: 5,
+          titulo: 'Números e o bicho de 7 cabeças',
+          capa:
+            'https://cms-platform-management-dev.s3.us-east-2.amazonaws.com/2_029125dfb7.jpg',
+          trilha: true,
+        },
+        {
+          id: 6,
+          titulo: 'Construa seu castelo',
+          capa:
+            'https://cms-platform-management-dev.s3.us-east-2.amazonaws.com/2_029125dfb7.jpg',
+          trilha: true,
+        },
+        {
+          id: 7,
+          titulo: 'Expandindo a mente',
+          capa:
+            'https://cms-platform-management-dev.s3.us-east-2.amazonaws.com/2_029125dfb7.jpg',
+          trilha: true,
+        },
+        {
+          id: 8,
+          titulo: 'Você se conhece?',
+          capa:
+            'https://cms-platform-management-dev.s3.us-east-2.amazonaws.com/2_029125dfb7.jpg',
+          trilha: true,
+        },
+        {
+          id: 9,
+          titulo: 'Assuma o controle',
+          capa:
+            'https://cms-platform-management-dev.s3.us-east-2.amazonaws.com/2_029125dfb7.jpg',
+          trilha: true,
+        },
+        {
+          id: 10,
+          titulo: 'Mó paz',
+          capa:
+            'https://cms-platform-management-dev.s3.us-east-2.amazonaws.com/2_029125dfb7.jpg',
+          trilha: true,
+        },
+      ];
+      return pilars;
+    },
     user() {
       return this.$store.state.user.data;
     },
@@ -165,6 +228,7 @@ export default {
       return this.user.name.split(' ')[0];
     },
     filteredList() {
+      const totalList = [...this.trailList, ...this.pilarList];
       if (this.filtro) {
         const exp = new RegExp(
           this.filtro
@@ -175,9 +239,9 @@ export default {
             .trim(),
           'i',
         );
-        return this.trailList.filter(trail => exp.test(trail.titulo));
+        return totalList.filter(trail => exp.test(trail.titulo));
       } else {
-        return this.trailList;
+        return totalList;
       }
     },
   },
@@ -240,7 +304,7 @@ export default {
   color: var(--primary);
   line-height: 16.4px;
   font-weight: 900;
-  font-size: 0.9rem;
+  font-size: 1.2rem;
   margin-bottom: 16px;
 }
 
