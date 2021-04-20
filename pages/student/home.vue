@@ -239,8 +239,11 @@ export default {
     },
     filteredList() {
       const totalList = [...this.trailList, ...this.pilarList];
+
       if (this.filtro) {
-        return totalList.filter(trail => trail.titulo.includes(this.filtro));
+        return totalList.filter(trail =>
+          trail.titulo.toLowerCase().includes(this.filtro.toLowerCase()),
+        );
       }
       return totalList;
     },
