@@ -146,29 +146,33 @@ export default {
         {
           id: 1,
           titulo: 'Socioemocional',
-          capa:
-            'https://cms-platform-management-dev.s3.us-east-2.amazonaws.com/2_029125dfb7.jpg',
+          capa: {
+            url: require('~/assets/socioemocional.svg'),
+          },
           pilar: true,
         },
         {
           id: 2,
           titulo: 'Educacional',
-          capa:
-            'https://cms-platform-management-dev.s3.us-east-2.amazonaws.com/2_029125dfb7.jpg',
+          capa: {
+            url: require('~/assets/educacional.svg'),
+          },
           pilar: true,
         },
         {
           id: 3,
           titulo: 'Profissional',
-          capa:
-            'https://cms-platform-management-dev.s3.us-east-2.amazonaws.com/2_029125dfb7.jpg',
+          capa: {
+            url: require('~/assets/profissional.svg'),
+          },
           pilar: true,
         },
         {
           id: 4,
           titulo: 'Social',
-          capa:
-            'https://cms-platform-management-dev.s3.us-east-2.amazonaws.com/2_029125dfb7.jpg',
+          capa: {
+            url: require('~/assets/social.svg'),
+          },
           pilar: true,
         },
       ];
@@ -179,43 +183,49 @@ export default {
         {
           id: 5,
           titulo: 'Números e o bicho de 7 cabeças',
-          capa:
-            'https://cms-platform-management-dev.s3.us-east-2.amazonaws.com/2_029125dfb7.jpg',
+          capa: {
+            url: require('~/assets/numeros.svg'),
+          },
           trilha: true,
         },
         {
           id: 6,
           titulo: 'Construa seu castelo',
-          capa:
-            'https://cms-platform-management-dev.s3.us-east-2.amazonaws.com/2_029125dfb7.jpg',
+          capa: {
+            url: require('~/assets/construa-castelo.svg'),
+          },
           trilha: true,
         },
         {
           id: 7,
           titulo: 'Expandindo a mente',
-          capa:
-            'https://cms-platform-management-dev.s3.us-east-2.amazonaws.com/2_029125dfb7.jpg',
+          capa: {
+            url: require('~/assets/expandindo-mente.svg'),
+          },
           trilha: true,
         },
         {
           id: 8,
           titulo: 'Você se conhece?',
-          capa:
-            'https://cms-platform-management-dev.s3.us-east-2.amazonaws.com/2_029125dfb7.jpg',
+          capa: {
+            url: require('~/assets/voce-conhece.svg'),
+          },
           trilha: true,
         },
         {
           id: 9,
           titulo: 'Assuma o controle',
-          capa:
-            'https://cms-platform-management-dev.s3.us-east-2.amazonaws.com/2_029125dfb7.jpg',
+          capa: {
+            url: require('~/assets/assuma-controle.svg'),
+          },
           trilha: true,
         },
         {
           id: 10,
           titulo: 'Mó paz',
-          capa:
-            'https://cms-platform-management-dev.s3.us-east-2.amazonaws.com/2_029125dfb7.jpg',
+          capa: {
+            url: require('~/assets/mo-paz.svg'),
+          },
           trilha: true,
         },
       ];

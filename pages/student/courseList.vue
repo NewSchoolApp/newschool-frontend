@@ -13,14 +13,14 @@
     <HeaderBar class="mb-7" :title="pilarName" :back-page="true"></HeaderBar>
     <v-col id="main-col">
       <!-- Search Field -->
-      <v-text-field
+      <!-- <v-text-field
         v-model="filtro"
         class="search-field"
         label="Encontre Cursos"
         outlined
         prepend-inner-icon="mdi-magnify"
         autocomplete="off"
-      />
+      /> -->
 
       <!-- Course Title -->
       <!-- <p id="title">Cursos</p> -->
