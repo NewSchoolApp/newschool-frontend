@@ -10,123 +10,47 @@
     </div>
   </div>
   <div v-else id="page">
+    <HeaderBar class="mb-7" :title="pilarName" :back-page="true"></HeaderBar>
     <v-col id="main-col">
-      <v-row justify="end">
-        <img
-          class="header_img"
-          :src="require(`~/assets/trophy-home.png`)"
-          @click="goTo('ranking')"
-        />
-        <img
-          id="bell"
-          :src="
-            require(`~/assets/${
-              notifications.length ? 'bell' : 'bell-home-colorized'
-            }.svg`)
-          "
-          @click="goTo('notificacao')"
-        />
-        <div class="notification__number__container">
-          <div
-            v-if="notifications.length"
-            :class="
-              notifications.length < 100
-                ? 'notification__number'
-                : 'notification_high_number'
-            "
-          >
-            <p
-              v-if="notifications.length < 100"
-              :class="
-                notifications.length < 10
-                  ? 'notification__low_text'
-                  : 'notification__text'
-              "
-            >
-              {{ notifications.length }}
-            </p>
-            <p v-else class="notifications__high">
-              {{ notifications.length }}
-            </p>
-          </div>
-        </div>
-      </v-row>
-
-      <!-- Header-bar -->
-      <v-row id="header" align="center">
-        <v-avatar size="55">
-          <img
-            v-if="user.photo"
-            class="user__image"
-            :src="user.photo"
-            @click="goTo('perfil')"
-          />
-          <img
-            v-else
-            :src="require(`~/assets/person.svg`)"
-            @click="goTo('perfil')"
-          />
-        </v-avatar>
-
-        <v-col>
-          <h1 class="welcome-title">
-            {{ 'Salve, ' + userName + '!' }}
-          </h1>
-          <h1 class="welcome-subtitle">Seja bem-vindo</h1>
-        </v-col>
-
-        <h1 class="xp">{{ userPoints || 0 }} NC</h1>
-      </v-row>
-
       <!-- Search Field -->
-      <v-text-field
+      <!-- <v-text-field
         v-model="filtro"
         class="search-field"
-        label="Encontre..."
+        label="Encontre Cursos"
         outlined
         prepend-inner-icon="mdi-magnify"
         autocomplete="off"
-      />
+      /> -->
 
-      <div v-if="!filtro">
-        <p id="title">Trilhas</p>
-        <course-card
-          v-for="pilar in pilarList"
-          :key="pilar.id"
-          :course="pilar"
-        />
-      </div>
-      <br />
-      <div v-if="!filtro">
-        <p id="title">Pilares</p>
-        <course-card
-          v-for="trail in trailList"
-          :key="trail.id"
-          :course="trail"
-        />
-      </div>
-      <div v-if="filtro">
-        <course-card
-          v-for="item in filteredList"
-          :key="item.id"
-          :course="item"
-        />
-      </div>
+      <!-- Course Title -->
+      <!-- <p id="title">Cursos</p> -->
+
+      <!-- Course Cards  -->
+      <course-card
+        v-for="course in coursesByTrail"
+        :key="course.id"
+        :course="course"
+      />
     </v-col>
     <navigation-bar />
   </div>
 </template>
-
+<router>
+    path: "/list-de-cursos/:trilha"
+</router>
 <script>
 import NavigationBar from '~/components/NavigationBar.vue';
+import HeaderBar from '~/components/Header.vue';
 import CourseCard from '~/components/CourseCard';
 import http from '~/services/http/generic';
 import utils from '~/utils/index';
+import mockCourses from '~/services/mocks/course/coursesMock.json';
 
 export default {
   components: {
     NavigationBar,
     CourseCard,
+    HeaderBar,
   },
   data: () => ({
     title: 'Bem-vindo',
@@ -134,102 +58,49 @@ export default {
     filtro: '',
     notifications: '',
     userPoints: '',
-    trails: [],
-    pilars: [],
+    trails: '',
+    coursesByTrail: [],
   }),
   computed: {
     courseList() {
       return this.$store.state.courses.all;
+    },
+
+    pilarName() {
+      const name =
+        this.$route.params.trilha === 'Você se conhece'
+          ? 'Você se conhece?'
+          : this.$route.params.trilha;
+      return name;
     },
     trailList() {
       const trails = [
         {
           id: 1,
           titulo: 'Socioemocional',
-          capa: {
-            url: require('~/assets/socioemocional.svg'),
-          },
-          pilar: true,
+          photo:
+            'https://cms-platform-management-dev.s3.us-east-2.amazonaws.com/2_029125dfb7.jpg',
         },
         {
           id: 2,
           titulo: 'Educacional',
-          capa: {
-            url: require('~/assets/educacional.svg'),
-          },
-          pilar: true,
+          photo:
+            'https://cms-platform-management-dev.s3.us-east-2.amazonaws.com/2_029125dfb7.jpg',
         },
         {
           id: 3,
           titulo: 'Profissional',
-          capa: {
-            url: require('~/assets/profissional.svg'),
-          },
-          pilar: true,
+          photo:
+            'https://cms-platform-management-dev.s3.us-east-2.amazonaws.com/2_029125dfb7.jpg',
         },
         {
           id: 4,
           titulo: 'Social',
-          capa: {
-            url: require('~/assets/social.svg'),
-          },
-          pilar: true,
+          photo:
+            'https://cms-platform-management-dev.s3.us-east-2.amazonaws.com/2_029125dfb7.jpg',
         },
       ];
       return trails;
-    },
-    pilarList() {
-      const pilars = [
-        {
-          id: 5,
-          titulo: 'Números e o bicho de 7 cabeças',
-          capa: {
-            url: require('~/assets/numeros.svg'),
-          },
-          trilha: true,
-        },
-        {
-          id: 6,
-          titulo: 'Construa seu castelo',
-          capa: {
-            url: require('~/assets/construa-castelo.svg'),
-          },
-          trilha: true,
-        },
-        {
-          id: 7,
-          titulo: 'Expandindo a mente',
-          capa: {
-            url: require('~/assets/expandindo-mente.svg'),
-          },
-          trilha: true,
-        },
-        {
-          id: 8,
-          titulo: 'Você se conhece?',
-          capa: {
-            url: require('~/assets/voce-conhece.svg'),
-          },
-          trilha: true,
-        },
-        {
-          id: 9,
-          titulo: 'Assuma o controle',
-          capa: {
-            url: require('~/assets/assuma-controle.svg'),
-          },
-          trilha: true,
-        },
-        {
-          id: 10,
-          titulo: 'Mó paz',
-          capa: {
-            url: require('~/assets/mo-paz.svg'),
-          },
-          trilha: true,
-        },
-      ];
-      return pilars;
     },
     user() {
       return this.$store.state.user.data;
@@ -238,14 +109,20 @@ export default {
       return this.user.name.split(' ')[0];
     },
     filteredList() {
-      const totalList = [...this.trailList, ...this.pilarList];
-
       if (this.filtro) {
-        return totalList.filter(trail =>
-          trail.titulo.toLowerCase().includes(this.filtro.toLowerCase()),
+        const exp = new RegExp(
+          this.filtro
+            .normalize('NFD')
+            .replace(/[\u0300-\u036F]/g, '')
+            .toLowerCase()
+            .replace(' ', '-')
+            .trim(),
+          'i',
         );
+        return this.trailList.filter(trail => exp.test(trail.titulo));
+      } else {
+        return this.trailList;
       }
-      return totalList;
     },
   },
 
@@ -255,6 +132,10 @@ export default {
 
     await this.getNotifications();
     await this.getUserScore();
+
+    this.coursesByTrail = mockCourses.filter(course =>
+      course.trilhas.includes(this.pilarName),
+    );
 
     this.loading = false;
   },
@@ -307,7 +188,7 @@ export default {
   color: var(--primary);
   line-height: 16.4px;
   font-weight: 900;
-  font-size: 1.2rem;
+  font-size: 0.9rem;
   margin-bottom: 16px;
 }
 

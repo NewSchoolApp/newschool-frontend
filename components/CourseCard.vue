@@ -36,6 +36,12 @@ export default {
   },
   methods: {
     async openCourse() {
+      if (this.course.pilar || this.course.trilha) {
+        return $nuxt._router.push(
+          `/aluno/lista-de-cursos/${this.course.titulo}`,
+        );
+      }
+
       // store this course on VueX
       await this.$store.commit('courses/setCurrent', this.course);
       // go tho course page

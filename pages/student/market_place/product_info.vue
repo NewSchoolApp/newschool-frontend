@@ -276,8 +276,8 @@
           <div id="header-msg">
             {{
               productInfo.type === 'SERVICE'
-                ? 'Completa aí, que o time da New School entrar em contato.'
-                : 'Para receber em casa, completa aí, que o time da New School entrar em contato.'
+                ? 'Completa aí, que o time da New School vai entrar em contato.'
+                : 'Para receber em casa, completa aí, que o time da New School vai entrar em contato.'
             }}
           </div>
         </v-row>
@@ -545,10 +545,12 @@ export default {
     advanceStep() {
       switch (this.currentStep) {
         case this.stepEnum.PRODUCT_INFO:
-          if (this.productInfo.type === 'SERVICE') {
-            this.currentStep = this.stepEnum.PRE_CONTACT;
-          } else if (this.userPoints >= this.productInfo.points) {
-            this.currentStep = this.stepEnum.PACKAGE_INFO;
+          if (this.userPoints >= this.productInfo.points) {
+            if (this.productInfo.type === 'SERVICE') {
+              this.currentStep = this.stepEnum.PRE_CONTACT;
+            } else {
+              this.currentStep = this.stepEnum.PACKAGE_INFO;
+            }
           } else {
             this.$notifier.showMessage({
               type: 'error',
