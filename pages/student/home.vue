@@ -146,6 +146,7 @@ export default {
         {
           id: 1,
           titulo: 'Socioemocional',
+          courses: ['amor', 'liberdade', 'medo'],
           capa: {
             url: require('~/assets/socioemocional.svg'),
           },
@@ -154,6 +155,12 @@ export default {
         {
           id: 2,
           titulo: 'Educacional',
+          courses: [
+            'literatura sem tédio',
+            'matemática na prática',
+            'projeto X',
+            'e depois da escola?',
+          ],
           capa: {
             url: require('~/assets/educacional.svg'),
           },
@@ -162,6 +169,13 @@ export default {
         {
           id: 3,
           titulo: 'Profissional',
+          courses: [
+            'programação além do código',
+            'futurismo e inovação',
+            'habilidades do futuro',
+            'fotografia na raça',
+            'pnl',
+          ],
           capa: {
             url: require('~/assets/profissional.svg'),
           },
@@ -170,6 +184,7 @@ export default {
         {
           id: 4,
           titulo: 'Social',
+          courses: ['liderança seja o capitão do time', 'preconceito'],
           capa: {
             url: require('~/assets/social.svg'),
           },
@@ -183,6 +198,12 @@ export default {
         {
           id: 5,
           titulo: 'Números e o bicho de 7 cabeças',
+          courses: [
+            'programação além do código',
+            'matemática na prática',
+            'liberdade',
+            'e depois da escola?',
+          ],
           capa: {
             url: require('~/assets/numeros.svg'),
           },
@@ -191,6 +212,14 @@ export default {
         {
           id: 6,
           titulo: 'Construa seu castelo',
+          courses: [
+            'liderança',
+            'literatura Sem Tédio',
+            'pnl = programação Neurolinguística',
+            'e depois da escola?',
+            'medo',
+            'preconceito',
+          ],
           capa: {
             url: require('~/assets/construa-castelo.svg'),
           },
@@ -199,6 +228,7 @@ export default {
         {
           id: 7,
           titulo: 'Expandindo a mente',
+          courses: ['liberdade', 'projeto X', 'e depois da escola?'],
           capa: {
             url: require('~/assets/expandindo-mente.svg'),
           },
@@ -207,6 +237,7 @@ export default {
         {
           id: 8,
           titulo: 'Você se conhece?',
+          courses: ['preconceito', 'medo', 'liberdade', 'e depois da escola?'],
           capa: {
             url: require('~/assets/voce-conhece.svg'),
           },
@@ -215,6 +246,13 @@ export default {
         {
           id: 9,
           titulo: 'Assuma o controle',
+          courses: [
+            'habilidades do Futuro',
+            'liderança: Seja o capitão do time!',
+            'liberdade',
+            'medo',
+            'amor',
+          ],
           capa: {
             url: require('~/assets/assuma-controle.svg'),
           },
@@ -223,6 +261,12 @@ export default {
         {
           id: 10,
           titulo: 'Mó paz',
+          courses: [
+            'fotografia na raça',
+            'literatura sem tédio',
+            'preconceito',
+            'amor',
+          ],
           capa: {
             url: require('~/assets/mo-paz.svg'),
           },
@@ -241,8 +285,10 @@ export default {
       const totalList = [...this.trailList, ...this.pilarList];
 
       if (this.filtro) {
-        return totalList.filter(trail =>
-          trail.titulo.toLowerCase().includes(this.filtro.toLowerCase()),
+        return totalList.filter(
+          trail =>
+            trail.titulo.toLowerCase().includes(this.filtro.toLowerCase()) ||
+            trail.courses.includes(this.filtro.toLowerCase()),
         );
       }
       return totalList;
