@@ -98,7 +98,9 @@ export default {
     }
   },
   updated() {
-    document.getElementById("description").innerHTML = this?.course?.descricao;
+    var descriptionEl = document.getElementById("description");
+    if(!descriptionEl) return;
+    descriptionEl.innerHTML = this?.course?.descricao;
   },
   mounted() {
     this.checkCourseState();
