@@ -55,9 +55,6 @@
     <feature name="Insomnia">
         <param name="ios-package" value="Insomnia" />
     </feature>
-    <feature name="Printer">
-        <param name="ios-package" value="APPPrinter" />
-    </feature>
     <feature name="CDVOrientation">
         <param name="ios-package" value="CDVOrientation" />
     </feature>
@@ -68,6 +65,9 @@
     <feature name="UniversalLinks">
         <param name="ios-package" value="CULPlugin" />
         <param name="onload" value="true" />
+    </feature>
+    <feature name="Printer">
+        <param name="ios-package" value="APPPrinter" />
     </feature>
     <name>New School</name>
     <description> New School App </description>

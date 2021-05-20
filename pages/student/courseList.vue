@@ -134,7 +134,7 @@ export default {
     await this.getUserScore();
 
     this.coursesByTrail = mockCourses.filter(course =>
-      course.trilhas.includes(this.pilarName),
+      course.trilhas?.includes(this.pilarName),
     );
 
     this.loading = false;

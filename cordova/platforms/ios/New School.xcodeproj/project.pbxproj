@@ -26,7 +26,6 @@
 		E3169550291C47699CBAE7E0 /* CDVWKInAppBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = 27721697EACE467DB00AA129 /* CDVWKInAppBrowser.m */; };
 		0B4254B6C3A441679891715E /* CDVWKInAppBrowserUIDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DB18C34537B4062BB2A0C6F /* CDVWKInAppBrowserUIDelegate.m */; };
 		D5C6692B10C84F349E255BD1 /* Insomnia.m in Sources */ = {isa = PBXBuildFile; fileRef = FB3E17B86780471794BA82D7 /* Insomnia.m */; };
-		DB79E282679A4894B7E55B0E /* APPPrinter.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D798EDEF7404C5B97DC9C33 /* APPPrinter.m */; };
 		EC83656E0C0347A09205676B /* CDVOrientation.m in Sources */ = {isa = PBXBuildFile; fileRef = BE1DFDA747834BA0931DDBA0 /* CDVOrientation.m */; };
 		10ABE907ED5D404ABAC184A9 /* NSString+SSURLEncoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DD5CE7F4006476C903CF979 /* NSString+SSURLEncoding.m */; };
 		AF8B4DB111E24B48818E0A04 /* SocialSharing.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A0965B3821941DE9A04CDAC /* SocialSharing.m */; };
@@ -42,6 +41,15 @@
 		9C207EF6FE8C426CA0593DAB /* CULConfigXmlParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E5B7AE6BB149FAB97D6469 /* CULConfigXmlParser.m */; };
 		A4275D62405B47D0AAE3C748 /* CULConfigJsonParser.m in Sources */ = {isa = PBXBuildFile; fileRef = CB551B10B73A40C0B7D282CC /* CULConfigJsonParser.m */; };
 		3A060767931E45C5A6EDAC2F /* NSBundle+CULPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D341754C8D34FC6A8FC3345 /* NSBundle+CULPlugin.m */; };
+		2D6410E2241D4F10A9F343FE /* APPPrinter.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B896E7429A24E0784389C15 /* APPPrinter.m */; };
+		3737EAB186104FE1AE274441 /* APPPrinterInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = A60BBD840EFA45CEB4B2B705 /* APPPrinterInfo.m */; };
+		554C26C50C85482AA725E77D /* APPPrinterItem.m in Sources */ = {isa = PBXBuildFile; fileRef = CF48F2A832B941F092639020 /* APPPrinterItem.m */; };
+		E9C456DA874F4162AADEFAE5 /* APPPrinterLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 741E292E506D4B4BAC00C988 /* APPPrinterLayout.m */; };
+		A192DF8DECD3433DB6BF3981 /* APPPrinterPaper.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DE75237A9AA4E68AE7A69FB /* APPPrinterPaper.m */; };
+		B7C26E79698148D2BA4D19FF /* APPPrinterRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 25C4C52BEBF8435C9C09B3DD /* APPPrinterRenderer.m */; };
+		1A79BF17B73D47D4A9571C15 /* APPPrinterFont.m in Sources */ = {isa = PBXBuildFile; fileRef = E721DFDCB5A7481B89DA11B4 /* APPPrinterFont.m */; };
+		011C91EB3DA8427B9A5F7F46 /* APPPrinterUnit.m in Sources */ = {isa = PBXBuildFile; fileRef = D3EDE405B1784C4F897717F8 /* APPPrinterUnit.m */; };
+		031B109C9D4F4C44B8529114 /* UIPrintInteractionController+APPPrinter.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EFAB533F11D486B9BDF9298 /* UIPrintInteractionController+APPPrinter.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -113,8 +121,6 @@
 		5A24942332164465BE9C8E9A /* CDVWKInAppBrowserUIDelegate.h */ = {isa = PBXFileReference; name = "CDVWKInAppBrowserUIDelegate.h"; path = "cordova-plugin-inappbrowser/CDVWKInAppBrowserUIDelegate.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
 		FB3E17B86780471794BA82D7 /* Insomnia.m */ = {isa = PBXFileReference; name = "Insomnia.m"; path = "cordova-plugin-insomnia/Insomnia.m"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; explicitFileType = undefined; includeInIndex = 0; };
 		47A9A711C05C4C178DA7A926 /* Insomnia.h */ = {isa = PBXFileReference; name = "Insomnia.h"; path = "cordova-plugin-insomnia/Insomnia.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
-		8D798EDEF7404C5B97DC9C33 /* APPPrinter.m */ = {isa = PBXFileReference; name = "APPPrinter.m"; path = "cordova-plugin-printer/APPPrinter.m"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; explicitFileType = undefined; includeInIndex = 0; };
-		900E5183007D4EA0B7ED949E /* APPPrinter.h */ = {isa = PBXFileReference; name = "APPPrinter.h"; path = "cordova-plugin-printer/APPPrinter.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
 		BE1DFDA747834BA0931DDBA0 /* CDVOrientation.m */ = {isa = PBXFileReference; name = "CDVOrientation.m"; path = "cordova-plugin-screen-orientation/CDVOrientation.m"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; explicitFileType = undefined; includeInIndex = 0; };
 		F29D62F4E36E4611AABDF74D /* CDVOrientation.h */ = {isa = PBXFileReference; name = "CDVOrientation.h"; path = "cordova-plugin-screen-orientation/CDVOrientation.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
 		1DD5CE7F4006476C903CF979 /* NSString+SSURLEncoding.m */ = {isa = PBXFileReference; name = "NSString+SSURLEncoding.m"; path = "cordova-plugin-x-socialsharing/NSString+SSURLEncoding.m"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; explicitFileType = undefined; includeInIndex = 0; };
@@ -143,6 +149,24 @@
 		219A278F88A84D308D8D6CB8 /* CULConfigXmlParser.h */ = {isa = PBXFileReference; name = "CULConfigXmlParser.h"; path = "cordova-universal-links-plugin/Parser/XML/CULConfigXmlParser.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
 		1CFCAD42A99D4F86A7E76D86 /* CULConfigJsonParser.h */ = {isa = PBXFileReference; name = "CULConfigJsonParser.h"; path = "cordova-universal-links-plugin/Parser/JSON/CULConfigJsonParser.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
 		B845BF35F7424FB4988579DB /* NSBundle+CULPlugin.h */ = {isa = PBXFileReference; name = "NSBundle+CULPlugin.h"; path = "cordova-universal-links-plugin/Utils/NSBundle+CULPlugin.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
+		7B896E7429A24E0784389C15 /* APPPrinter.m */ = {isa = PBXFileReference; name = "APPPrinter.m"; path = "cordova-plugin-printer/APPPrinter.m"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; explicitFileType = undefined; includeInIndex = 0; };
+		A60BBD840EFA45CEB4B2B705 /* APPPrinterInfo.m */ = {isa = PBXFileReference; name = "APPPrinterInfo.m"; path = "cordova-plugin-printer/APPPrinterInfo.m"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; explicitFileType = undefined; includeInIndex = 0; };
+		CF48F2A832B941F092639020 /* APPPrinterItem.m */ = {isa = PBXFileReference; name = "APPPrinterItem.m"; path = "cordova-plugin-printer/APPPrinterItem.m"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; explicitFileType = undefined; includeInIndex = 0; };
+		741E292E506D4B4BAC00C988 /* APPPrinterLayout.m */ = {isa = PBXFileReference; name = "APPPrinterLayout.m"; path = "cordova-plugin-printer/APPPrinterLayout.m"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; explicitFileType = undefined; includeInIndex = 0; };
+		1DE75237A9AA4E68AE7A69FB /* APPPrinterPaper.m */ = {isa = PBXFileReference; name = "APPPrinterPaper.m"; path = "cordova-plugin-printer/APPPrinterPaper.m"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; explicitFileType = undefined; includeInIndex = 0; };
+		25C4C52BEBF8435C9C09B3DD /* APPPrinterRenderer.m */ = {isa = PBXFileReference; name = "APPPrinterRenderer.m"; path = "cordova-plugin-printer/APPPrinterRenderer.m"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; explicitFileType = undefined; includeInIndex = 0; };
+		E721DFDCB5A7481B89DA11B4 /* APPPrinterFont.m */ = {isa = PBXFileReference; name = "APPPrinterFont.m"; path = "cordova-plugin-printer/APPPrinterFont.m"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; explicitFileType = undefined; includeInIndex = 0; };
+		D3EDE405B1784C4F897717F8 /* APPPrinterUnit.m */ = {isa = PBXFileReference; name = "APPPrinterUnit.m"; path = "cordova-plugin-printer/APPPrinterUnit.m"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; explicitFileType = undefined; includeInIndex = 0; };
+		9EFAB533F11D486B9BDF9298 /* UIPrintInteractionController+APPPrinter.m */ = {isa = PBXFileReference; name = "UIPrintInteractionController+APPPrinter.m"; path = "cordova-plugin-printer/UIPrintInteractionController+APPPrinter.m"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; explicitFileType = undefined; includeInIndex = 0; };
+		A90D917B72E742B3BF26E6CF /* APPPrinter.h */ = {isa = PBXFileReference; name = "APPPrinter.h"; path = "cordova-plugin-printer/APPPrinter.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
+		7286BFC6A0AF4AA2AB4C6AA8 /* APPPrinterInfo.h */ = {isa = PBXFileReference; name = "APPPrinterInfo.h"; path = "cordova-plugin-printer/APPPrinterInfo.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
+		E81D7C1663244CB8AA00B204 /* APPPrinterItem.h */ = {isa = PBXFileReference; name = "APPPrinterItem.h"; path = "cordova-plugin-printer/APPPrinterItem.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
+		08858D1E1170485DB6A29044 /* APPPrinterLayout.h */ = {isa = PBXFileReference; name = "APPPrinterLayout.h"; path = "cordova-plugin-printer/APPPrinterLayout.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
+		013910D84F2F4766BAB1EB55 /* APPPrinterPaper.h */ = {isa = PBXFileReference; name = "APPPrinterPaper.h"; path = "cordova-plugin-printer/APPPrinterPaper.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
+		74E954A804F74A2D92FB548D /* APPPrinterRenderer.h */ = {isa = PBXFileReference; name = "APPPrinterRenderer.h"; path = "cordova-plugin-printer/APPPrinterRenderer.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
+		AE86F881C3DF4A27B08C4F2B /* APPPrinterFont.h */ = {isa = PBXFileReference; name = "APPPrinterFont.h"; path = "cordova-plugin-printer/APPPrinterFont.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
+		9B56C14942E74B0DB62E26DB /* APPPrinterUnit.h */ = {isa = PBXFileReference; name = "APPPrinterUnit.h"; path = "cordova-plugin-printer/APPPrinterUnit.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
+		5AA8F8CEDBE14019A46704F0 /* UIPrintInteractionController+APPPrinter.h */ = {isa = PBXFileReference; name = "UIPrintInteractionController+APPPrinter.h"; path = "cordova-plugin-printer/UIPrintInteractionController+APPPrinter.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -286,8 +310,6 @@
 				5A24942332164465BE9C8E9A /* CDVWKInAppBrowserUIDelegate.h */,
 				FB3E17B86780471794BA82D7 /* Insomnia.m */,
 				47A9A711C05C4C178DA7A926 /* Insomnia.h */,
-				8D798EDEF7404C5B97DC9C33 /* APPPrinter.m */,
-				900E5183007D4EA0B7ED949E /* APPPrinter.h */,
 				BE1DFDA747834BA0931DDBA0 /* CDVOrientation.m */,
 				F29D62F4E36E4611AABDF74D /* CDVOrientation.h */,
 				1DD5CE7F4006476C903CF979 /* NSString+SSURLEncoding.m */,
@@ -314,6 +336,24 @@
 				219A278F88A84D308D8D6CB8 /* CULConfigXmlParser.h */,
 				1CFCAD42A99D4F86A7E76D86 /* CULConfigJsonParser.h */,
 				B845BF35F7424FB4988579DB /* NSBundle+CULPlugin.h */,
+				7B896E7429A24E0784389C15 /* APPPrinter.m */,
+				A60BBD840EFA45CEB4B2B705 /* APPPrinterInfo.m */,
+				CF48F2A832B941F092639020 /* APPPrinterItem.m */,
+				741E292E506D4B4BAC00C988 /* APPPrinterLayout.m */,
+				1DE75237A9AA4E68AE7A69FB /* APPPrinterPaper.m */,
+				25C4C52BEBF8435C9C09B3DD /* APPPrinterRenderer.m */,
+				E721DFDCB5A7481B89DA11B4 /* APPPrinterFont.m */,
+				D3EDE405B1784C4F897717F8 /* APPPrinterUnit.m */,
+				9EFAB533F11D486B9BDF9298 /* UIPrintInteractionController+APPPrinter.m */,
+				A90D917B72E742B3BF26E6CF /* APPPrinter.h */,
+				7286BFC6A0AF4AA2AB4C6AA8 /* APPPrinterInfo.h */,
+				E81D7C1663244CB8AA00B204 /* APPPrinterItem.h */,
+				08858D1E1170485DB6A29044 /* APPPrinterLayout.h */,
+				013910D84F2F4766BAB1EB55 /* APPPrinterPaper.h */,
+				74E954A804F74A2D92FB548D /* APPPrinterRenderer.h */,
+				AE86F881C3DF4A27B08C4F2B /* APPPrinterFont.h */,
+				9B56C14942E74B0DB62E26DB /* APPPrinterUnit.h */,
+				5AA8F8CEDBE14019A46704F0 /* UIPrintInteractionController+APPPrinter.h */,
 			);
 			name = Plugins;
 			path = "New School/Plugins";
@@ -494,7 +534,6 @@
 				E3169550291C47699CBAE7E0 /* CDVWKInAppBrowser.m in Sources */,
 				0B4254B6C3A441679891715E /* CDVWKInAppBrowserUIDelegate.m in Sources */,
 				D5C6692B10C84F349E255BD1 /* Insomnia.m in Sources */,
-				DB79E282679A4894B7E55B0E /* APPPrinter.m in Sources */,
 				EC83656E0C0347A09205676B /* CDVOrientation.m in Sources */,
 				10ABE907ED5D404ABAC184A9 /* NSString+SSURLEncoding.m in Sources */,
 				AF8B4DB111E24B48818E0A04 /* SocialSharing.m in Sources */,
@@ -508,6 +547,15 @@
 				9C207EF6FE8C426CA0593DAB /* CULConfigXmlParser.m in Sources */,
 				A4275D62405B47D0AAE3C748 /* CULConfigJsonParser.m in Sources */,
 				3A060767931E45C5A6EDAC2F /* NSBundle+CULPlugin.m in Sources */,
+				2D6410E2241D4F10A9F343FE /* APPPrinter.m in Sources */,
+				3737EAB186104FE1AE274441 /* APPPrinterInfo.m in Sources */,
+				554C26C50C85482AA725E77D /* APPPrinterItem.m in Sources */,
+				E9C456DA874F4162AADEFAE5 /* APPPrinterLayout.m in Sources */,
+				A192DF8DECD3433DB6BF3981 /* APPPrinterPaper.m in Sources */,
+				B7C26E79698148D2BA4D19FF /* APPPrinterRenderer.m in Sources */,
+				1A79BF17B73D47D4A9571C15 /* APPPrinterFont.m in Sources */,
+				011C91EB3DA8427B9A5F7F46 /* APPPrinterUnit.m in Sources */,
+				031B109C9D4F4C44B8529114 /* UIPrintInteractionController+APPPrinter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
