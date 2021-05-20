@@ -1647,5 +1647,84 @@
     ],
     "ordenacao_da_pilhas": [],
     "pilars": []
+  },
+  {
+    "id": 20,
+    "titulo": "Ditadura Militar (Lançamento)",
+    "descricao": "Já pensaram que a tal democracia que temos hoje não tínhamos anos atrás?\nNa história do Brasil passamos por um momento de muita repressão, violência e medo.\nSe a NewSchool fosse criada nessa época, simplesmente ela não poderia existir.\nEsse período foi chamado de Ditadura Militar, quer saber como foi essa loucura que durou anos?\nCola com noix! \n",
+    "nomeDoAutor": "Emily e Lucão",
+    "descricaoDoAutor": "...",
+    "horas": 1,
+    "slug": "ditadura-militar-(lancamento)",
+    "published_at": "2021-05-20T02:23:46.067Z",
+    "created_at": "2021-05-20T01:18:17.966Z",
+    "updated_at": "2021-05-20T02:23:46.086Z",
+    "capa": {
+      "id": 17,
+      "name": "CAPA.jpg",
+      "alternativeText": "",
+      "caption": "",
+      "width": 1920,
+      "height": 1080,
+      "formats": {
+        "large": {
+          "ext": ".jpg",
+          "url": "https://cms-platform-management-prod.s3.us-east-2.amazonaws.com/large_CAPA_fe4258d9e2.jpg",
+          "hash": "large_CAPA_fe4258d9e2",
+          "mime": "image/jpeg",
+          "name": "large_CAPA.jpg",
+          "path": null,
+          "size": 57.86,
+          "width": 1000,
+          "height": 563
+        },
+        "small": {
+          "ext": ".jpg",
+          "url": "https://cms-platform-management-prod.s3.us-east-2.amazonaws.com/small_CAPA_fe4258d9e2.jpg",
+          "hash": "small_CAPA_fe4258d9e2",
+          "mime": "image/jpeg",
+          "name": "small_CAPA.jpg",
+          "path": null,
+          "size": 20.7,
+          "width": 500,
+          "height": 281
+        },
+        "medium": {
+          "ext": ".jpg",
+          "url": "https://cms-platform-management-prod.s3.us-east-2.amazonaws.com/medium_CAPA_fe4258d9e2.jpg",
+          "hash": "medium_CAPA_fe4258d9e2",
+          "mime": "image/jpeg",
+          "name": "medium_CAPA.jpg",
+          "path": null,
+          "size": 37.09,
+          "width": 750,
+          "height": 422
+        },
+        "thumbnail": {
+          "ext": ".jpg",
+          "url": "https://cms-platform-management-prod.s3.us-east-2.amazonaws.com/thumbnail_CAPA_fe4258d9e2.jpg",
+          "hash": "thumbnail_CAPA_fe4258d9e2",
+          "mime": "image/jpeg",
+          "name": "thumbnail_CAPA.jpg",
+          "path": null,
+          "size": 7.22,
+          "width": 245,
+          "height": 138
+        }
+      },
+      "hash": "CAPA_fe4258d9e2",
+      "ext": ".jpg",
+      "mime": "image/jpeg",
+      "size": 147.24,
+      "url": "https://cms-platform-management-prod.s3.us-east-2.amazonaws.com/CAPA_fe4258d9e2.jpg",
+      "previewUrl": null,
+      "provider": "aws-s3",
+      "provider_metadata": null,
+      "created_at": "2021-05-20T01:16:43.783Z",
+      "updated_at": "2021-05-20T01:35:51.818Z"
+    },
+    "aulas": [],
+    "ordenacao_da_trilhas": [],
+    "pilars": []
   }
 ]

@@ -160,6 +160,7 @@ export default {
             'matemática na prática',
             'projeto X',
             'e depois da escola?',
+            'Ditadura Militar (Lançamento)'
           ],
           capa: {
             url: require('~/assets/educacional.svg'),
