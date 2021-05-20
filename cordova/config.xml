@@ -54,5 +54,4 @@
         <allow-navigation href="https://*youtube.com/*" />
     </platform>
     <engine name="android" />
-    <engine name="ios" spec="^6.0.0" />
 </widget>
