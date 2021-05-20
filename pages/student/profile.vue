@@ -56,6 +56,7 @@ import Avatar from 'vue-avatar';
 import NavigationBar from '~/components/NavigationBar.vue';
 import HeaderBar from '~/components/Header.vue';
 import AvatarUploader from '~/components/AvatarUploader.vue';
+import utils from '~/utils/index';
 
 export default {
   components: {
@@ -93,7 +94,13 @@ export default {
       return this.$store.state.user.data;
     },
   },
-
+  mounted() {
+    if (window.localStorage) {
+      this.localStorage = window.localStorage;
+    } else {
+      this.localStorage = localStorage;
+    }
+  },
   methods: {
     goToChangePassword() {
       $nuxt._router.push('/aluno/alterar-senha');
@@ -102,8 +109,10 @@ export default {
       $nuxt._router.push('/aluno/indicar-app');
     },
     goToExit() {
-      localStorage.clear();
+      utils.hideIosStatusBar();
+      this.$auth.loggedIn && this.$auth.logout();
       $nuxt._router.push('/login');
+      this.localStorage.removeItem('auth');
       this.clearInfoUser();
     },
     goToCertificates() {

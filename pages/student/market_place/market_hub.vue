@@ -11,7 +11,7 @@
 
     <v-row id="header-row" justify="space-between">
       <div>Produtos</div>
-      <div>Saldo: {{ userPoints }}NC</div>
+      <div>Saldo: {{ userPoints || 0 }}NC</div>
     </v-row>
     <navigation-bar />
 

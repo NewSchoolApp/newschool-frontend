@@ -55,6 +55,7 @@
 import Avatar from 'vue-avatar';
 import { mapActions } from 'vuex';
 import auth from '~/services/http/auth';
+import utils from '~/utils/index';
 
 export default {
   filters: {
@@ -160,6 +161,7 @@ export default {
     logout() {
       this.logoutSocial().then(() => {
         $nuxt._router.push('/login');
+        utils.hideIosStatusBar();
         this.localStorage.removeItem('auth');
         this.clearInfoUser();
       });

@@ -46,8 +46,9 @@
       "cordova-plugin-splashscreen": {}
     },
     "platforms": [
+      "android",
       "browser",
-      "android"
+      "ios"
     ]
   },
   "dependencies": {
@@ -56,6 +57,8 @@
     "cordova-plugin-compat": "1.2.0",
     "cordova-plugin-customurlscheme": "5.0.2",
     "cordova-plugin-facebook4": "6.4.0",
+    "cordova-plugin-insomnia": "4.1.0",
+    "cordova-plugin-whitelist": "1",
     "cordova-universal-links-plugin-fix": "1.2.1"
   }
 }
