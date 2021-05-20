@@ -1659,6 +1659,9 @@
     "published_at": "2021-05-20T02:23:46.067Z",
     "created_at": "2021-05-20T01:18:17.966Z",
     "updated_at": "2021-05-20T02:23:46.086Z",
+    "trilhas": [
+      "Educacional"
+    ],
     "capa": {
       "id": 17,
       "name": "CAPA.jpg",
