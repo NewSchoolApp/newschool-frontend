@@ -26,6 +26,11 @@
     </platform>
     <platform name="ios">
         <preference name="prerendered-icon" value="true" />
+        <icon height="20" src="res/ios/Icon-App-20x20@1x.png" width="20" />
+        <icon height="29" src="res/ios/Icon-App-29x29@1x.png" width="29" />
+        <icon height="58" src="res/ios/Icon-App-29x29@2x.png" width="58" />
+        <icon height="87" src="res/ios/Icon-App-29x29@3x.png" width="87" />
+        <icon height="40" src="res/ios/Icon-App-60x60@1x.png" width="60" />
         <icon height="180" src="res/ios/Icon-App-60x60@3x.png" width="180" />
         <icon height="40" src="res/ios/Icon-App-40x40@1x.png" width="40" />
         <icon height="80" src="res/ios/Icon-App-40x40@2x.png" width="80" />
@@ -38,6 +43,7 @@
         <icon height="144" src="res/ios/Icon-App-76x76@2x.png" width="144" />
         <icon height="167" src="res/ios/Icon-App-83.5x83.5@2x.png" width="167" />
         <icon height="167" src="res/ios/Icon-App-83.5x83.5@2x.png" width="167" />
+        <icon height="1024" src="res/ios/ItunesArtwork@2x.png" width="1024" />
         <splash src="res/screen/ios/Default@2x~iphone~anyany.png" />
         <splash src="res/screen/ios/Default@2x~ipad~anyany.png" />
         <splash src="res/screen/ios/Default@2x~iphone~comany.png" />
