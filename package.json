@@ -44,7 +44,7 @@
     "@nuxtjs/vuetify": "^1.0.0",
     "chart.js": "^2.9.3",
     "com.darktalker.cordova.screenshot": "^0.1.6",
-    "cordova-android": "^10.0.0",
+    "cordova-android": "^8.0.0",
     "cordova-plugin-facebook4": "^6.2.0",
     "cordova-plugin-file-downloader": "^0.4.0",
     "cordova-plugin-insomnia": "^4.3.0",
