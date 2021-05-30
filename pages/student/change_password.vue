@@ -1,13 +1,17 @@
 <template>
   <div>
-    <HeaderBar :title="'MUDAR A SENHA'" :backPage="true"></HeaderBar>
+    <HeaderBar :title="'ALTERAR A SENHA'" :back-page="true" />
 
     <v-layout justify-center>
       <div v-if="loading" class="spiner-container">
-        <v-progress-circular :size="70" :width="5" indeterminate></v-progress-circular>
+        <v-progress-circular
+          :size="70"
+          :width="5"
+          indeterminate
+        ></v-progress-circular>
       </div>
 
-      <v-flex xs10 sm8 md6 ref="flex" v-else>
+      <v-flex v-else ref="flex" xs10 sm8 md6>
         <v-container>
           <v-row>
             <v-col cols="12">
@@ -17,57 +21,56 @@
 
           <v-row>
             <v-col cols="12">
-              <v-form ref="form" v-model="status" lazy-validation v-if="!isChanged">
+              <v-form
+                v-if="!isChanged"
+                ref="form"
+                v-model="status"
+                lazy-validation
+              >
                 <v-text-field
-                  color="#60c"
-                  v-model="form.password"
+                  v-model="form.oldPassword"
                   label="Senha antiga *"
                   name="password"
                   :rules="passwordRules"
                   :type="showPass ? 'password' : 'text'"
                   :append-icon="showPass ? 'mdi-eye-off' : 'mdi-eye'"
-                  @click:append="() => (showPass = !showPass)"
                   required
+                  @click:append="() => (showPass = !showPass)"
                 ></v-text-field>
                 <v-text-field
-                  color="#60c"
                   v-model="form.newPassword"
                   label="Nova senha *"
                   :rules="passwordRules"
                   :type="showNewPass ? 'password' : 'text'"
                   :append-icon="showNewPass ? 'mdi-eye-off' : 'mdi-eye'"
-                  @click:append="() => (showNewPass = !showNewPass)"
                   required
+                  @click:append="() => (showNewPass = !showNewPass)"
                 ></v-text-field>
                 <v-text-field
-                  color="#60c"
                   v-model="form.confirmNewPassword"
                   label="Confirmar nova senha *"
                   :rules="confirmPasswordRules"
                   :type="showConfirmNewPass ? 'password' : 'text'"
                   :append-icon="showConfirmNewPass ? 'mdi-eye-off' : 'mdi-eye'"
-                  @click:append="() => (showConfirmNewPass = !showConfirmNewPass)"
                   required
+                  @click:append="
+                    () => (showConfirmNewPass = !showConfirmNewPass)
+                  "
                 ></v-text-field>
-                <v-btn
-                  class="change-btn"
-                  color="#60c"
-                  dark
-                  block
-                  depressed
-                  large
-                  @click="switchPassword"
-                >Mudar Senha</v-btn>
+                <v-btn class="btn-block btn-primary" @click="switchPassword"
+                  >Alterar Senha
+                </v-btn>
               </v-form>
 
               <div v-else>
-                <p class="change-status">Senha Mudada!</p>
+                <p class="change-status">Senha Alterada!</p>
               </div>
             </v-col>
           </v-row>
         </v-container>
       </v-flex>
     </v-layout>
+    <navigation-bar />
   </div>
 </template>
 
@@ -83,11 +86,13 @@
 import auth from '../../services/http/auth';
 import users from '../../services/http/users';
 import HeaderBar from '~/components/Header.vue';
+import NavigationBar from '~/components/NavigationBar.vue';
 
 export default {
-  name: 'changePassword',
+  name: 'ChangePassword',
   components: {
     HeaderBar,
+    NavigationBar,
   },
   data() {
     return {
@@ -99,7 +104,7 @@ export default {
       isChanged: false,
       token: '',
       form: {
-        password: '',
+        oldPassword: '',
         newPassword: '',
         confirmNewPassword: '',
       },
@@ -115,13 +120,24 @@ export default {
     };
   },
 
+  computed: {
+    confirmPasswordRules() {
+      return [
+        v => !!v || 'Confirme a senha',
+        () =>
+          this.form.confirmNewPassword === this.form.newPassword ||
+          'As senhas devem ser idênticas.',
+      ];
+    },
+  },
+
   methods: {
     switchPassword() {
       if (this.$refs.form.validate()) {
         this.animateForm(true);
 
         users
-          .updatePass(this.form)
+          .updatePass(this.form, this.$store.state.user.data.id)
           .then(res => {
             this.loading = false;
             this.isChanged = true;
@@ -133,7 +149,16 @@ export default {
             setTimeout(() => {
               this.loading = false;
             }, 500);
-            console.error(err);
+            if (err.response.status === 400) {
+              this.$notifier.showMessage({
+                type: 'error',
+                message: 'Senha antiga incorreta.',
+              });
+            } else {
+              this.$notifier.showMessage({
+                type: 'error',
+              });
+            }
           });
       } else {
         this.animateForm(false);
@@ -153,7 +178,7 @@ export default {
           this.$refs.flex.classList.remove('error-form');
         }, 500);
       }
-      document.querySelector("html").style.overflow = "scroll";
+      document.querySelector('html').style.overflow = 'scroll';
     },
 
     goBack() {
@@ -163,28 +188,10 @@ export default {
       $nuxt._router.push('/aluno/home');
     },
   },
-
-  computed: {
-    confirmPasswordRules() {
-      return [
-        v => !!v || 'Confirme a senha',
-        () =>
-          this.form.confirmNewPassword === this.form.newPassword ||
-          'As senhas devem ser idênticas.',
-      ];
-    },
-  },
 };
 </script>
 
 <style scoped>
-@import url('https://fonts.googleapis.com/css?family=Montserrat:400,500,900&display=swap');
-
-/* Global */
-* {
-  font-family: 'Montserrat', Helvetica, Arial, sans-serif !important;
-}
-
 .flex {
   animation: intro 300ms backwards;
   animation-delay: 350ms;
@@ -192,25 +199,6 @@ export default {
 
 .layout {
   background: #fff !important;
-}
-
-/* Spinner */
-.spiner-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 100vh;
-}
-
-/* Page */
-.page-title {
-  font-size: 16px;
-  font-weight: 900;
-  line-height: 19px;
-  text-align: center;
-  text-transform: uppercase;
-  color: #6600cc;
 }
 
 .relative-col {
@@ -222,74 +210,6 @@ export default {
   margin: 0 auto;
   width: 375px;
   max-width: 100%;
-}
-
-::v-deep .theme--light.v-btn::before {
-  background-color: transparent;
-}
-
-/* inputs */
-::v-deep .theme--light.v-text-field {
-  margin-top: 0;
-}
-
-::v-deep .theme--light.v-input:not(.v-input--is-disabled) input {
-  font-size: 12px;
-  color: #60c;
-}
-
-::v-deep
-  .theme--light.v-text-field:not(.v-input--has-state)
-  > .v-input__control
-  > .v-input__slot:hover:before {
-  border-color: #60c;
-}
-
-::v-deep .theme--light.v-label,
-::v-deep .theme--light.v-icon {
-  font-size: 12px;
-  font-weight: 600;
-  line-height: 15px;
-  color: #aa56ff;
-}
-
-::v-deep .btn-back .theme--light.v-icon {
-  color: #60c;
-  font-size: 25px;
-}
-
-::v-deep .theme--light.v-icon {
-  font-size: 20px;
-}
-
-::v-deep .change-btn {
-  margin-top: 20px;
-  width: 100%;
-  box-shadow: 0 4px 5px gray !important;
-}
-::v-deep .v-text-field {
-  margin: 0 6% 0 6% !important;
-}
-
-::v-deep .v-btn__content {
-  color: #fff;
-  font-size: 12px;
-  font-weight: 900;
-  line-height: 15px;
-}
-
-::v-deep
-  .theme--light.v-text-field
-  > .v-input__control
-  > .v-input__slot::before {
-  border-color: #aa56ff;
-}
-
-::v-deep
-  .v-text-field.v-input--has-state
-  > .v-input__control
-  > .v-input__slot:before {
-  border-color: #ff5252; /* cor da borda quando der estado de erro */
 }
 
 ::v-deep .v-messages__message {
@@ -311,6 +231,19 @@ export default {
   font-size: 18px;
   line-height: 22px;
   text-align: center;
-  color: #60c;
+  color: var(--primary);
+}
+
+::v-deep .btn-primary {
+  margin-bottom: 50px;
+}
+
+@media (max-width: 320px) {
+  * {
+    margin-top: -5px;
+  }
+  ::v-deep .h1__theme {
+    font-size: 20px;
+  }
 }
 </style>

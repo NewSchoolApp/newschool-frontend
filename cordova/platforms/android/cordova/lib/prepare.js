@@ -16,12 +16,11 @@
     specific language governing permissions and limitations
     under the License.
 */
-/* eslint no-useless-escape: 0 */
 
-var Q = require('q');
-var fs = require('fs');
+var fs = require('fs-extra');
 var path = require('path');
-var shell = require('shelljs');
+const nopt = require('nopt');
+const glob = require('fast-glob');
 var events = require('cordova-common').events;
 var AndroidManifest = require('./AndroidManifest');
 var checkReqs = require('./check_reqs');
@@ -32,11 +31,24 @@ var FileUpdater = require('cordova-common').FileUpdater;
 var PlatformJson = require('cordova-common').PlatformJson;
 var PlatformMunger = require('cordova-common').ConfigChanges.PlatformMunger;
 var PluginInfoProvider = require('cordova-common').PluginInfoProvider;
+const utils = require('./utils');
 
 const GradlePropertiesParser = require('./config/GradlePropertiesParser');
 
+function parseArguments (argv) {
+    return nopt({
+        // `jvmargs` is a valid option however, we don't actually want to parse it because we want the entire string as is.
+        // jvmargs: String
+    }, {}, argv || [], 0);
+}
+
 module.exports.prepare = function (cordovaProject, options) {
     var self = this;
+
+    let args = {};
+    if (options && options.options) {
+        args = parseArguments(options.options.argv);
+    }
 
     var platformJson = PlatformJson.load(this.locations.root, this.platform);
     var munger = new PlatformMunger(this.platform, this.locations.root, platformJson, new PluginInfoProvider());
@@ -47,17 +59,30 @@ module.exports.prepare = function (cordovaProject, options) {
     const minSdkVersion = this._config.getPreference('android-minSdkVersion', 'android');
     const maxSdkVersion = this._config.getPreference('android-maxSdkVersion', 'android');
     const targetSdkVersion = this._config.getPreference('android-targetSdkVersion', 'android');
+    const androidXEnabled = this._config.getPreference('AndroidXEnabled', 'android');
+    const isGradlePluginKotlinEnabled = this._config.getPreference('GradlePluginKotlinEnabled', 'android');
+    const gradlePluginKotlinCodeStyle = this._config.getPreference('GradlePluginKotlinCodeStyle', 'android');
 
-    let gradlePropertiesUserConfig = {};
+    const gradlePropertiesUserConfig = {};
     if (minSdkVersion) gradlePropertiesUserConfig.cdvMinSdkVersion = minSdkVersion;
     if (maxSdkVersion) gradlePropertiesUserConfig.cdvMaxSdkVersion = maxSdkVersion;
     if (targetSdkVersion) gradlePropertiesUserConfig.cdvTargetSdkVersion = targetSdkVersion;
+    if (args.jvmargs) gradlePropertiesUserConfig['org.gradle.jvmargs'] = args.jvmargs;
+    if (isGradlePluginKotlinEnabled) {
+        gradlePropertiesUserConfig['kotlin.code.style'] = gradlePluginKotlinCodeStyle || 'official';
+    }
 
-    let gradlePropertiesParser = new GradlePropertiesParser(this.locations.root);
+    // Both 'useAndroidX' and 'enableJetifier' are linked together.
+    if (androidXEnabled) {
+        gradlePropertiesUserConfig['android.useAndroidX'] = androidXEnabled;
+        gradlePropertiesUserConfig['android.enableJetifier'] = androidXEnabled;
+    }
+
+    const gradlePropertiesParser = new GradlePropertiesParser(this.locations.root);
     gradlePropertiesParser.configure(gradlePropertiesUserConfig);
 
     // Update own www dir with project's www assets and plugins' assets and js-files
-    return Q.when(updateWww(cordovaProject, this.locations)).then(function () {
+    return Promise.resolve(updateWww(cordovaProject, this.locations)).then(function () {
         // update project according to config.xml changes.
         return updateProjectAccordingTo(self._config, self.locations);
     }).then(function () {
@@ -77,13 +102,13 @@ module.exports.clean = function (options) {
     var projectRoot = path.resolve(this.root, '../..');
     if ((options && options.noPrepare) || !fs.existsSync(this.locations.configXml) ||
             !fs.existsSync(this.locations.configXml)) {
-        return Q();
+        return Promise.resolve();
     }
 
     var projectConfig = new ConfigParser(this.locations.configXml);
 
     var self = this;
-    return Q().then(function () {
+    return Promise.resolve().then(function () {
         cleanWww(projectRoot, self.locations);
         cleanIcons(projectRoot, projectConfig, path.relative(projectRoot, self.locations.res));
         cleanSplashes(projectRoot, projectConfig, path.relative(projectRoot, self.locations.res));
@@ -110,7 +135,7 @@ function updateConfigFilesFrom (sourceConfig, configMunger, locations) {
 
     // First cleanup current config and merge project's one into own
     // Overwrite platform config.xml with defaults.xml.
-    shell.cp('-f', locations.defaultConfigXml, locations.configXml);
+    fs.copySync(locations.defaultConfigXml, locations.configXml);
 
     // Then apply config changes from global munge to all config files
     // in project (including project's config)
@@ -186,11 +211,11 @@ function updateProjectAccordingTo (platformConfig, locations) {
     var strings = xmlHelpers.parseElementtreeSync(locations.strings);
 
     var name = platformConfig.name();
-    strings.find('string[@name="app_name"]').text = name.replace(/\'/g, '\\\'');
+    strings.find('string[@name="app_name"]').text = name.replace(/'/g, '\\\'');
 
     var shortName = platformConfig.shortName && platformConfig.shortName();
     if (shortName && shortName !== name) {
-        strings.find('string[@name="launcher_name"]').text = shortName.replace(/\'/g, '\\\'');
+        strings.find('string[@name="launcher_name"]').text = shortName.replace(/'/g, '\\\'');
     }
 
     fs.writeFileSync(locations.strings, strings.write({ indent: 4 }), 'utf-8');
@@ -212,9 +237,10 @@ function updateProjectAccordingTo (platformConfig, locations) {
         .write();
 
     // Java file paths shouldn't be hard coded
-    var javaPattern = path.join(locations.javaSrc, manifestId.replace(/\./g, '/'), '*.java');
-    var java_files = shell.ls(javaPattern).filter(function (f) {
-        return shell.grep(/extends\s+CordovaActivity/g, f);
+    const javaDirectory = path.join(locations.javaSrc, manifestId.replace(/\./g, '/'));
+    const java_files = glob.sync('**/*.java', { cwd: javaDirectory, absolute: true }).filter(f => {
+        const contents = fs.readFileSync(f, 'utf-8');
+        return /extends\s+CordovaActivity/.test(contents);
     });
 
     if (java_files.length === 0) {
@@ -223,18 +249,24 @@ function updateProjectAccordingTo (platformConfig, locations) {
         events.emit('log', 'Multiple candidate Java files that extend CordovaActivity found. Guessing at the first one, ' + java_files[0]);
     }
 
-    var destFile = path.join(locations.root, 'app', 'src', 'main', 'java', androidPkgName.replace(/\./g, '/'), path.basename(java_files[0]));
-    shell.mkdir('-p', path.dirname(destFile));
-    shell.sed(/package [\w\.]*;/, 'package ' + androidPkgName + ';', java_files[0]).to(destFile);
+    const destFile = java_files[0];
+
+    // var destFile = path.join(locations.root, 'app', 'src', 'main', 'java', androidPkgName.replace(/\./g, '/'), path.basename(java_files[0]));
+    // fs.ensureDirSync(path.dirname(destFile));
+    // events.emit('verbose', java_files[0]);
+    // events.emit('verbose', destFile);
+    // console.log(locations);
+    // fs.copySync(java_files[0], destFile);
+    utils.replaceFileContents(destFile, /package [\w.]*;/, 'package ' + androidPkgName + ';');
     events.emit('verbose', 'Wrote out Android package name "' + androidPkgName + '" to ' + destFile);
 
-    var removeOrigPkg = checkReqs.isWindows() || checkReqs.isDarwin() ?
-        manifestId.toUpperCase() !== androidPkgName.toUpperCase() :
-        manifestId !== androidPkgName;
+    var removeOrigPkg = checkReqs.isWindows() || checkReqs.isDarwin()
+        ? manifestId.toUpperCase() !== androidPkgName.toUpperCase()
+        : manifestId !== androidPkgName;
 
     if (removeOrigPkg) {
         // If package was name changed we need to remove old java with main activity
-        shell.rm('-Rf', java_files[0]);
+        fs.removeSync(java_files[0]);
         // remove any empty directories
         var currentDir = path.dirname(java_files[0]);
         var sourcesRoot = path.resolve(locations.root, 'src');
@@ -270,11 +302,12 @@ function default_versionCode (version) {
 }
 
 function getImageResourcePath (resourcesDir, type, density, name, sourceName) {
-    if (/\.9\.png$/.test(sourceName)) {
-        name = name.replace(/\.png$/, '.9.png');
-    }
-    var resourcePath = path.join(resourcesDir, (density ? type + '-' + density : type), name);
-    return resourcePath;
+    // Use same extension as source with special case for 9-Patch files
+    const ext = sourceName.endsWith('.9.png')
+        ? '.9.png' : path.extname(sourceName).toLowerCase();
+
+    const subDir = density ? `${type}-${density}` : type;
+    return path.join(resourcesDir, subDir, name + ext);
 }
 
 function getAdaptiveImageResourcePath (resourcesDir, type, density, name, sourceName) {
@@ -283,6 +316,15 @@ function getAdaptiveImageResourcePath (resourcesDir, type, density, name, source
     }
     var resourcePath = path.join(resourcesDir, (density ? type + '-' + density + '-v26' : type), name);
     return resourcePath;
+}
+
+function makeSplashCleanupMap (projectRoot, resourcesDir) {
+    // Build an initial resource map that deletes all existing splash screens
+    const existingSplashPaths = glob.sync(
+        `${resourcesDir.replace(/\\/g, '/')}/drawable-*/screen.{png,9.png,webp,jpg,jpeg}`,
+        { cwd: projectRoot }
+    );
+    return makeCleanResourceMap(existingSplashPaths);
 }
 
 function updateSplashes (cordovaProject, platformResourcesDir) {
@@ -294,7 +336,8 @@ function updateSplashes (cordovaProject, platformResourcesDir) {
         return;
     }
 
-    var resourceMap = mapImageResources(cordovaProject.root, platformResourcesDir, 'drawable', 'screen.png');
+    // Build an initial resource map that deletes all existing splash screens
+    const resourceMap = makeSplashCleanupMap(cordovaProject.root, platformResourcesDir);
 
     var hadMdpi = false;
     resources.forEach(function (resource) {
@@ -305,14 +348,14 @@ function updateSplashes (cordovaProject, platformResourcesDir) {
             hadMdpi = true;
         }
         var targetPath = getImageResourcePath(
-            platformResourcesDir, 'drawable', resource.density, 'screen.png', path.basename(resource.src));
+            platformResourcesDir, 'drawable', resource.density, 'screen', path.basename(resource.src));
         resourceMap[targetPath] = resource.src;
     });
 
     // There's no "default" drawable, so assume default == mdpi.
     if (!hadMdpi && resources.defaultResource) {
         var targetPath = getImageResourcePath(
-            platformResourcesDir, 'drawable', 'mdpi', 'screen.png', path.basename(resources.defaultResource.src));
+            platformResourcesDir, 'drawable', 'mdpi', 'screen', path.basename(resources.defaultResource.src));
         resourceMap[targetPath] = resources.defaultResource.src;
     }
 
@@ -324,7 +367,8 @@ function updateSplashes (cordovaProject, platformResourcesDir) {
 function cleanSplashes (projectRoot, projectConfig, platformResourcesDir) {
     var resources = projectConfig.getSplashScreens('android');
     if (resources.length > 0) {
-        var resourceMap = mapImageResources(projectRoot, platformResourcesDir, 'drawable', 'screen.png');
+        const resourceMap = makeSplashCleanupMap(projectRoot, platformResourcesDir);
+
         events.emit('verbose', 'Cleaning splash screens at ' + platformResourcesDir);
 
         // No source paths are specified in the map, so updatePaths() will delete the target files.
@@ -334,7 +378,7 @@ function cleanSplashes (projectRoot, projectConfig, platformResourcesDir) {
 }
 
 function updateIcons (cordovaProject, platformResourcesDir) {
-    let icons = cordovaProject.projectConfig.getIcons('android');
+    const icons = cordovaProject.projectConfig.getIcons('android');
 
     // Skip if there are no app defined icons in config.xml
     if (icons.length === 0) {
@@ -344,14 +388,14 @@ function updateIcons (cordovaProject, platformResourcesDir) {
 
     // 1. loop icons determin if there is an error in the setup.
     // 2. during initial loop, also setup for legacy support.
-    let errorMissingAttributes = [];
-    let errorLegacyIconNeeded = [];
+    const errorMissingAttributes = [];
+    const errorLegacyIconNeeded = [];
     let hasAdaptive = false;
     icons.forEach((icon, key) => {
         if (
-            (icon.background && !icon.foreground)
-            || (!icon.background && icon.foreground)
-            || (!icon.background && !icon.foreground && !icon.src)
+            (icon.background && !icon.foreground) ||
+            (!icon.background && icon.foreground) ||
+            (!icon.background && !icon.foreground && !icon.src)
         ) {
             errorMissingAttributes.push(icon.density ? icon.density : 'size=' + (icon.height || icon.width));
         }
@@ -360,10 +404,10 @@ function updateIcons (cordovaProject, platformResourcesDir) {
             hasAdaptive = true;
 
             if (
-                !icon.src
-                && (
-                    icon.foreground.startsWith('@color')
-                    || path.extname(path.basename(icon.foreground)) === '.xml'
+                !icon.src &&
+                (
+                    icon.foreground.startsWith('@color') ||
+                    path.extname(path.basename(icon.foreground)) === '.xml'
                 )
             ) {
                 errorLegacyIconNeeded.push(icon.density ? icon.density : 'size=' + (icon.height || icon.width));
@@ -373,7 +417,7 @@ function updateIcons (cordovaProject, platformResourcesDir) {
         }
     });
 
-    let errorMessage = [];
+    const errorMessage = [];
     if (errorMissingAttributes.length > 0) {
         errorMessage.push('One of the following attributes are set but missing the other for the density type: ' + errorMissingAttributes.join(', ') + '. Please ensure that all require attributes are defined.');
     }
@@ -396,7 +440,7 @@ function updateIcons (cordovaProject, platformResourcesDir) {
         mapImageResources(cordovaProject.root, platformResourcesDir, 'mipmap', 'ic_launcher.xml')
     );
 
-    let preparedIcons = prepareIcons(icons);
+    const preparedIcons = prepareIcons(icons);
 
     if (hasAdaptive) {
         resourceMap = updateIconResourceForAdaptive(preparedIcons, resourceMap, platformResourcesDir);
@@ -409,8 +453,8 @@ function updateIcons (cordovaProject, platformResourcesDir) {
 }
 
 function updateIconResourceForAdaptive (preparedIcons, resourceMap, platformResourcesDir) {
-    let android_icons = preparedIcons.android_icons;
-    let default_icon = preparedIcons.default_icon;
+    const android_icons = preparedIcons.android_icons;
+    const default_icon = preparedIcons.default_icon;
 
     // The source paths for icons and splashes are relative to
     // project's config.xml location, so we use it as base path.
@@ -419,12 +463,17 @@ function updateIconResourceForAdaptive (preparedIcons, resourceMap, platformReso
     let targetPathBackground;
     let targetPathForeground;
 
-    for (let density in android_icons) {
+    for (const density in android_icons) {
         let backgroundVal = '@mipmap/ic_launcher_background';
         let foregroundVal = '@mipmap/ic_launcher_foreground';
 
         background = android_icons[density].background;
         foreground = android_icons[density].foreground;
+
+        if (!background || !foreground) {
+            // This icon isn't an adaptive icon, so skip it
+            continue;
+        }
 
         if (background.startsWith('@color')) {
             // Colors Use Case
@@ -459,7 +508,7 @@ function updateIconResourceForAdaptive (preparedIcons, resourceMap, platformReso
     <foreground android:drawable="` + foregroundVal + `" />
 </adaptive-icon>`;
 
-        let launcherXmlPath = path.join(platformResourcesDir, 'mipmap-' + density + '-v26', 'ic_launcher.xml');
+        const launcherXmlPath = path.join(platformResourcesDir, 'mipmap-' + density + '-v26', 'ic_launcher.xml');
 
         // Remove the XML from the resourceMap so the file does not get removed.
         delete resourceMap[launcherXmlPath];
@@ -503,19 +552,19 @@ function updateIconResourceForAdaptive (preparedIcons, resourceMap, platformReso
 }
 
 function updateIconResourceForLegacy (preparedIcons, resourceMap, platformResourcesDir) {
-    let android_icons = preparedIcons.android_icons;
-    let default_icon = preparedIcons.default_icon;
+    const android_icons = preparedIcons.android_icons;
+    const default_icon = preparedIcons.default_icon;
 
     // The source paths for icons and splashes are relative to
     // project's config.xml location, so we use it as base path.
     for (var density in android_icons) {
-        var targetPath = getImageResourcePath(platformResourcesDir, 'mipmap', density, 'ic_launcher.png', path.basename(android_icons[density].src));
+        var targetPath = getImageResourcePath(platformResourcesDir, 'mipmap', density, 'ic_launcher', path.basename(android_icons[density].src));
         resourceMap[targetPath] = android_icons[density].src;
     }
 
     // There's no "default" drawable, so assume default == mdpi.
     if (default_icon && !android_icons.mdpi) {
-        var defaultTargetPath = getImageResourcePath(platformResourcesDir, 'mipmap', 'mdpi', 'ic_launcher.png', path.basename(default_icon.src));
+        var defaultTargetPath = getImageResourcePath(platformResourcesDir, 'mipmap', 'mdpi', 'ic_launcher', path.basename(default_icon.src));
         resourceMap[defaultTargetPath] = default_icon.src;
     }
 
@@ -533,7 +582,7 @@ function prepareIcons (icons) {
         192: 'xxxhdpi'
     };
 
-    let android_icons = {};
+    const android_icons = {};
     let default_icon;
 
     // find the best matching icon for a given density or size
@@ -563,8 +612,8 @@ function prepareIcons (icons) {
 
         if (!size && !icon.density) {
             if (default_icon) {
-                let found = {};
-                let favor = {};
+                const found = {};
+                const favor = {};
 
                 // populating found icon.
                 if (icon.background && icon.foreground) {
@@ -607,7 +656,7 @@ function cleanIcons (projectRoot, projectConfig, platformResourcesDir) {
         return;
     }
 
-    let resourceMap = Object.assign(
+    const resourceMap = Object.assign(
         {},
         mapImageResources(projectRoot, platformResourcesDir, 'mipmap', 'ic_launcher.png'),
         mapImageResources(projectRoot, platformResourcesDir, 'mipmap', 'ic_launcher_foreground.png'),
@@ -627,11 +676,22 @@ function cleanIcons (projectRoot, projectConfig, platformResourcesDir) {
  * Gets a map containing resources of a specified name from all drawable folders in a directory.
  */
 function mapImageResources (rootDir, subDir, type, resourceName) {
-    var pathMap = {};
-    shell.ls(path.join(rootDir, subDir, type + '-*')).forEach(function (drawableFolder) {
-        var imagePath = path.join(subDir, path.basename(drawableFolder), resourceName);
+    const pathMap = {};
+    const globOptions = { cwd: path.join(rootDir, subDir), onlyDirectories: true };
+    glob.sync(type + '-*', globOptions).forEach(drawableFolder => {
+        const imagePath = path.join(subDir, drawableFolder, resourceName);
         pathMap[imagePath] = null;
     });
+    return pathMap;
+}
+
+/** Returns resource map that deletes all given paths */
+function makeCleanResourceMap (resourcePaths) {
+    const pathMap = {};
+    resourcePaths.map(path.normalize)
+        .forEach(resourcePath => {
+            pathMap[resourcePath] = null;
+        });
     return pathMap;
 }
 
@@ -667,8 +727,7 @@ function cleanFileResources (projectRoot, projectConfig, platformDir) {
         });
 
         FileUpdater.updatePaths(
-            resourceMap, {
-                rootDir: projectRoot, all: true }, logFileOp);
+            resourceMap, { rootDir: projectRoot, all: true }, logFileOp);
     }
 }
 

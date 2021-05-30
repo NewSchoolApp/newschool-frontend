@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin xmlns="http://www.phonegap.com/ns/plugins/1.0"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        id="cordova-plugin-androidx"
+        version="3.0.0">
+
+    <name>cordova-plugin-androidx</name>
+    <description>Cordova/Phonegap plugin to enable AndroidX</description>
+    <author>Dave Alden</author>
+    
+    <engines>
+      <engine name="cordova" version=">=8.0.0" />
+        <engine name="cordova-android" version="<9.0.0" />
+    </engines>
+
+    <platform name="android">
+        <hook type="after_prepare" src="scripts/apply-to-gradle.properties.js" />
+    </platform>
+
+</plugin>

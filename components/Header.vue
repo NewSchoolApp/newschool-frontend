@@ -1,9 +1,43 @@
 <template>
-  <div id="head__bar">
-    <v-btn class="btn-back" text icon @click="comeBackPage" v-if="backPage">
+  <div id="header">
+    <div id="left" class="header-part">
+      <v-btn
+        v-if="backPage != false"
+        class="btn-back"
+        text
+        icon
+        @click="goBackPage"
+      >
+        <v-icon>mdi-arrow-left</v-icon>
+      </v-btn>
+    </div>
+
+    <div id="center" class="header-part">
+      <div class="h1__theme">
+        {{ title }}
+      </div>
+    </div>
+
+    <div id="right" class="header-part">
+      <v-btn v-if="closeFunc" class="btn-close" text icon @click="closeFunc()">
+        <v-icon>mdi-close</v-icon>
+      </v-btn>
+      <slot></slot>
+    </div>
+
+    <!-- <v-btn
+      v-if="backPage != false"
+      class="btn-back"
+      text
+      icon
+      @click="goBackPage"
+    >
       <v-icon>mdi-arrow-left</v-icon>
     </v-btn>
     <h1 class="h1__theme">{{ title }}</h1>
+    <v-btn v-if="closeFunc" class="btn-close" text icon @click="closeFunc()">
+      <v-icon>mdi-close</v-icon>
+    </v-btn> -->
   </div>
 </template>
 
@@ -15,10 +49,12 @@
  * @param backPage botão para voltar ? true ou false
  */
 export default {
-  props: ['title', 'backPage', 'route'],
+  props: ['title', 'backPage', 'route', 'closeFunc', 'backFunc', 'closeFunc'],
   methods: {
-    comeBackPage() {
-      if (this.route) {
+    goBackPage() {
+      if (this.backFunc) {
+        this.backFunc();
+      } else if (this.route) {
         this.$router.push(this.route);
       } else {
         this.$router.back();
@@ -29,24 +65,37 @@ export default {
 </script>
 
 <style scoped>
-.h1__theme {
-  font-size: 1.4444rem;
+* {
+  font-family: 'Roboto', sans-serif;
 }
-#head__bar {
+.h1__theme {
+  font-size: 21px;
+  font-weight: 900;
+  text-align: center;
+}
+::v-deep .btn-back .theme--light.v-icon,
+::v-deep .btn-close .theme--light.v-icon {
+  color: var(--primary);
+  font-size: 27px;
+}
+#header {
   display: flex;
-  justify-content: center;
-  padding: 1.2rem;
-  position: relative;
-  align-items: center;
-  background: transparent;
+  margin: 20px;
 }
 
-::v-deep .btn-back .theme--light.v-icon {
-  color: #60c;
-  font-size: 35px;
+.header-part {
+  display: flex;
+  align-items: center;
 }
-::v-deep .btn-back {
-  position: absolute;
-  left: 1rem;
+#left {
+  flex: 1;
+}
+#center {
+  flex: 6;
+  justify-content: center;
+}
+#right {
+  flex: 1;
+  justify-content: flex-end;
 }
 </style>

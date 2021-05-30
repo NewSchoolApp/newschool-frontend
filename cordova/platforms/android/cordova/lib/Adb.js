@@ -17,50 +17,47 @@
     under the License.
 */
 
-var Q = require('q');
 var os = require('os');
+var execa = require('execa');
 var events = require('cordova-common').events;
-var spawn = require('cordova-common').superspawn.spawn;
 var CordovaError = require('cordova-common').CordovaError;
 
 var Adb = {};
 
-function isDevice (line) {
-    return line.match(/\w+\tdevice/) && !line.match(/emulator/);
-}
-
-function isEmulator (line) {
-    return line.match(/device/) && line.match(/emulator/);
-}
-
 /**
  * Lists available/connected devices and emulators
- *
- * @param   {Object}   opts            Various options
- * @param   {Boolean}  opts.emulators  Specifies whether this method returns
- *   emulators only
  *
  * @return  {Promise<String[]>}        list of available/connected
  *   devices/emulators
  */
-Adb.devices = function (opts) {
-    return spawn('adb', ['devices'], { cwd: os.tmpdir() }).then(function (output) {
-        return output.split('\n').filter(function (line) {
-            // Filter out either real devices or emulators, depending on options
-            return (line && opts && opts.emulators) ? isEmulator(line) : isDevice(line);
-        }).map(function (line) {
-            return line.replace(/\tdevice/, '').replace('\r', '');
-        });
-    });
+Adb.devices = async function () {
+    const { stdout } = await execa('adb', ['devices'], { cwd: os.tmpdir() });
+
+    // Split into lines & drop first one (header)
+    const rawDeviceLines = stdout.trim().split(/\r?\n/).slice(1);
+
+    return rawDeviceLines
+        .map(line => line.split('\t'))
+
+        // We are only interested in fully booted devices & emulators. These
+        // have a state of `device`. For a list of all the other possible states
+        // see https://github.com/aosp-mirror/platform_system_core/blob/2abdb1eb5b83c8f39874644af576c869815f5c5b/adb/transport.cpp#L1129
+        .filter(([, state]) => state === 'device')
+
+        .map(([id]) => id);
 };
 
-Adb.install = function (target, packagePath, opts) {
+Adb.install = function (target, packagePath, { replace = false, execOptions = {} } = {}) {
     events.emit('verbose', 'Installing apk ' + packagePath + ' on target ' + target + '...');
+
     var args = ['-s', target, 'install'];
-    if (opts && opts.replace) args.push('-r');
-    return spawn('adb', args.concat(packagePath), { cwd: os.tmpdir() }).then(function (output) {
-        // 'adb install' seems to always returns no error, even if installation fails
-        // so we catching output to detect installation failure
+    if (replace) args.push('-r');
+
+    const opts = { cwd: os.tmpdir(), ...execOptions };
+
+    return execa('adb', args.concat(packagePath), opts).then(({ stdout: output }) => {
+        // adb does not return an error code even if installation fails. Instead it puts a specific
+        // message to stdout, so we have to use RegExp matching to detect installation failure.
         if (output.match(/Failure/)) {
             if (output.match(/INSTALL_PARSE_FAILED_NO_CERTIFICATES/)) {
                 output += '\n\n' + 'Sign the build using \'-- --keystore\' or \'--buildConfig\'' +
@@ -70,31 +67,30 @@ Adb.install = function (target, packagePath, opts) {
                     '\nEither uninstall an app or increment the versionCode.';
             }
 
-            return Q.reject(new CordovaError('Failed to install apk to device: ' + output));
+            throw new CordovaError('Failed to install apk to target: ' + output);
         }
     });
 };
 
 Adb.uninstall = function (target, packageId) {
     events.emit('verbose', 'Uninstalling package ' + packageId + ' from target ' + target + '...');
-    return spawn('adb', ['-s', target, 'uninstall', packageId], { cwd: os.tmpdir() });
+    return execa('adb', ['-s', target, 'uninstall', packageId], { cwd: os.tmpdir() }).then(({ stdout }) => stdout);
 };
 
 Adb.shell = function (target, shellCommand) {
     events.emit('verbose', 'Running adb shell command "' + shellCommand + '" on target ' + target + '...');
     var args = ['-s', target, 'shell'];
     shellCommand = shellCommand.split(/\s+/);
-    return spawn('adb', args.concat(shellCommand), { cwd: os.tmpdir() }).catch(function (output) {
-        return Q.reject(new CordovaError('Failed to execute shell command "' +
-            shellCommand + '"" on device: ' + output));
-    });
+    return execa('adb', args.concat(shellCommand), { cwd: os.tmpdir() })
+        .then(({ stdout }) => stdout)
+        .catch(error => Promise.reject(new CordovaError(`Failed to execute shell command "${shellCommand}" on device: ${error}`)));
 };
 
 Adb.start = function (target, activityName) {
     events.emit('verbose', 'Starting application "' + activityName + '" on target ' + target + '...');
-    return Adb.shell(target, 'am start -W -a android.intent.action.MAIN -n' + activityName).catch(function (output) {
-        return Q.reject(new CordovaError('Failed to start application "' +
-            activityName + '"" on device: ' + output));
+    return Adb.shell(target, 'am start -W -a android.intent.action.MAIN -n' + activityName).catch((error) => {
+        return Promise.reject(new CordovaError('Failed to start application "' +
+            activityName + '"" on device: ' + error));
     });
 };
 

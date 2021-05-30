@@ -1,7 +1,11 @@
 <template>
   <div>
     <div class="bg"></div>
-    <HeaderBar class="top" :title="'O QUE É A NEW SCHOOL?'" :backPage="true"></HeaderBar>
+    <HeaderBar
+      class="top"
+      :title="'O que é a New School?'"
+      :back-page="true"
+    ></HeaderBar>
     <div class="container">
       <v-layout text-left>
         <v-flex>
@@ -16,18 +20,40 @@
             </p>
             <p>
               A gente leva
-              <span>educação de qualidade</span> traduzida na linguagem da quebrada para todo o Brasil
-              através da
-              <span>tecnologia</span> e de conteúdos baseados nas novas
+              <span>educação de qualidade</span> traduzida na linguagem da
+              quebrada para todo o Brasil através da <span>tecnologia</span> e
+              de conteúdos baseados nas novas
               <span>habilidades do futuro.</span>
             </p>
             <p>
               Nosso objetivo é formar
-              <span>protagonistas</span> por meio de um conceito diferente de educação prática, futurista e
+              <span>protagonistas</span> por meio de um conceito diferente de
+              educação prática, futurista e
               <span>descolada.</span>
-              Criamos experiências transformadoras de aprendizagem para que jovens como você encarem melhor os
+              Criamos experiências transformadoras de aprendizagem para que
+              jovens como você encarem melhor os
               <span>desafios da vida.</span>
             </p>
+            <div style="position:relative;">
+              <iframe
+                width="350"
+                height="300"
+                :src="urlVideo2"
+                frameborder="0"
+                allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen
+              ></iframe>
+              <br />
+              <br />
+              <iframe
+                width="350"
+                height="300"
+                :src="urlVideo"
+                frameborder="0"
+                allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen
+              ></iframe>
+            </div>
           </div>
         </v-flex>
       </v-layout>
@@ -44,23 +70,38 @@
 <script>
 import NavigationBar from '~/components/NavigationBar.vue';
 import HeaderBar from '~/components/Header.vue';
+import VideoPlayer from '~/components/VideoPlayer.vue';
 
 export default {
   components: {
     HeaderBar,
     NavigationBar,
+    VideoPlayer,
+  },
+  data: () => ({
+    urlVideo: 'https://www.youtube.com/embed/u4O8wE0gYO0',
+    urlVideo2: 'https://www.youtube.com/embed/OXxSY4PNr-o',
+    loading: true,
+  }),
+  methods: {
+    stop() {
+      this.$refs.player.player.stopVideo();
+    },
   },
 };
 </script>
+
 <style scoped>
 ::v-deep .text {
   width: 100%;
-  color: #6600cc;
+  color: var(--primary);
   font-family: 'Montserrat';
   text-transform: uppercase;
 }
 ::v-deep .container {
   max-width: 500px;
+  margin: 0 auto 18%;
+  padding: 0 24px;
 }
 ::v-deep .subtext {
   width: 100%;
@@ -75,23 +116,31 @@ export default {
   background-size: cover;
   background-position: center;
 }
+
 ::v-deep .subtext span {
   font-weight: 700;
 }
+
 p ::v-deep .subtext p {
   width: 70%;
   margin: 0 15%;
   margin: 15px;
 }
-@media (max-width: 375px) {
-  .top {
-    width: 90%;
-    margin: 0 5%;
-    text-align: center;
-  }
+
+::v-deep .h1__theme {
+  font-size: 1.3rem;
+  width: 80%;
+  text-align: center;
+}
+#header_bar {
+  z-index: 9999;
+}
+.video-iframe-container {
+  margin: 0 auto;
+  padding: 0 24px;
 }
 
+.video__size {
+  height: 200px;
+}
 </style>
-
-
-

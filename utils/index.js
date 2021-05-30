@@ -43,5 +43,15 @@ export default {
 
   verifyVideo(url) {
     return http.get(url)
+  },
+
+  hideIosStatusBar() {
+    var element = document.getElementById("__statusBarIos");
+    if(element) {
+      element.parentNode.removeChild(element);
+      var layout = document.getElementById("__layout");
+      layout.style.paddingTop = "0px";
+    }
   }
+
 };

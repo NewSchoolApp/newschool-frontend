@@ -1,171 +1,128 @@
 <template>
-  <div>
-    <HeaderBar :title="'Certificados'" :back-page="true"></HeaderBar>
-    <v-container v-if="certificates.length" class="main">
-      <div v-for="certificate in certificates" :key="certificate.id" class="cards-box">
-        <div class="content-image" @click="goToCertificate(certificate.course.id)">
-          <button>
-            <img class="background-img" :src="certificate.course.thumbUrl" alt />
-          </button>
-          <img class="medal" src="~/assets/medalha-imagem.svg" alt="Imagem de uma medalha" />
+  <div v-if="loading">
+    <div class="container-spinner">
+      <v-progress-circular
+        :size="70"
+        :width="5"
+        indeterminate
+        color="#6600cc"
+      />
+    </div>
+  </div>
+  <div v-else id="page" class="px-7">
+    <div id="layout-certificates">
+      <h3 class="h3-title py-8">Meus Certificados</h3>
+      <v-container v-if="certificates.length" class="container pa-0">
+        <div
+          v-for="certificate in certificates"
+          :key="certificate.id"
+          class="cards-box"
+        >
+          <certificate-card :certificate="certificate" />
         </div>
-        <div class="footer">
-          <div class="title-and-socialMedias">
-            <button type="button" @click="goToCertificate">
-              <strong class="certificate-title">{{ certificate.course.title }}</strong>
-              <p>{{ certificate.user.name }}</p>
-            </button>
-          </div>
-          <div class="sharing-icons">
-            <shareBtn :url="mountUrlCertificate(certificate.course.id)" :title="'Certificado de conclusão de curso New School'" :description="certificate.course.title"/>
-          </div>
+      </v-container>
+      <div v-else class="nothing">
+        <div class="nothing-message">
+          Eita, Man@... Você ainda não tem nenhum certificado. :(
         </div>
+        <v-img :src="require('~/assets/nothing.svg')" />
       </div>
-    </v-container>
-    <NothingToShow v-else title="Vixe :/" message="Você ainda não tem nenhum certificado. :(" />
+    </div>
+    <navigation-bar />
   </div>
 </template>
-
 <script>
-import shareBtn from '~/components/ShareBtn.vue';
+import NavigationBar from '~/components/NavigationBar.vue';
 import http from '~/services/http/generic';
-import HeaderBar from '~/components/Header.vue';
-import NothingToShow from '~/components/NothingToShow';
+import CertificateCard from '~/components/CertificateCard';
 
 export default {
   components: {
-    shareBtn,
-    HeaderBar,
-    NothingToShow,
+    NavigationBar,
+    CertificateCard,
   },
   data: () => ({
+    loading: true,
     certificates: [],
   }),
-  mounted() {
-    http
-      .getAll(
+  computed: {
+    allCourses() {
+      return this.$store.state.courses.all;
+    },
+  },
+  async mounted() {
+    this.certificates = (
+      await http.getAll(
         `${process.env.endpoints.CERTIFICATES_ME}${this.$store.state.user.data.id}`,
       )
-      .then(certificates => {
-        this.certificates = certificates.data;
-      })
-      .catch(error => console.log(error));
-  },
-  methods: {
-    goToCertificate(id) {
-      // eslint-disable-next-line no-undef
-      $nuxt._router.push(
-        `/pagina-certificado/${this.$store.state.user.data.id}/${id}`,
+    ).data;
+
+    this.certificates.forEach(certificate => {
+      const courseOfCertificate = this.allCourses.find(
+        course => course.id == certificate.courseId,
       );
-    },
-    backgroundClass(certificateBackgroundName) {
-      return `background-image: url(${certificateBackgroundName})`;
-    },
-    mountUrlCertificate(id) {
-      return `/pagina-certificado/${this.$store.state.user.data.id}/${id}`;
-    },
+      certificate.course = courseOfCertificate;
+    });
+
+    this.loading = false;
   },
 };
 </script>
 
-<router>
-  path: "/certificados"
-</router>
-
 <style lang="scss" scoped>
-* {
-  margin: 0;
-  padding: 0;
-  outline: 0;
+.cards-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 700px;
+  width: 100%;
+  margin-bottom: 25px;
+}
 
-  button {
-    cursor: pointer !important;
+.container {
+  margin-bottom: 25px;
+}
+/*Large devices (desktops, 992px and up)*/
+@media (min-width: 992px) {
+  #page {
+    display: flex;
+    justify-content: center;
+  }
+  #layout-certificates {
+    display: flex;
+    flex-direction: column;
+    max-width: 700px;
+    width: 700px;
+    padding: 20px 24px 50px 24px;
   }
 }
 
-.main {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  max-width: 100%;
-
-  .content-image {
-    position: relative;
+/*Large devices (desktops, 992px and up)*/
+@media (min-width: 992px) {
+  #page {
     display: flex;
     justify-content: center;
-    align-items: center;
-    width: 80%;
-    height: 14rem;
-    overflow: hidden;
-    background: #6600cc;
   }
-
-  .background-img {
-    max-width: 100%;
-    opacity: 0.1;
-  }
-
-  .medal {
-    position: absolute;
-  }
-
-  .cards-box {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    max-width: 500px;
-    margin-bottom: 25px;
-
-    .background-image {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-
-      width: 200px;
-      height: 115px;
-      box-shadow: 0 2.5px 3px 0px rgba(0, 0, 0, 0.42);
-    }
-
-    .footer {
-      display: flex;
-      text-align: center;
-      justify-content: space-between;
-      width: 80%;
-
-      .title-and-socialMedias {
-        .certificate-title {
-          display: flex;
-          align-items: center;
-          font-family: Montserrat;
-          font-style: normal;
-          font-weight: 600;
-          font-size: 12px;
-          line-height: 15px;
-          color: #1a1a1a;
-          padding-left: 5px;
-          text-align: center;
-        }
-
-        .sharing-icons {
-          position: absolute;
-          margin: 4px 0 0 226px;
-        }
-      }
-
-      p {
-        display: flex;
-        align-items: center;
-        font-family: Montserrat;
-        font-style: normal;
-        font-weight: 300;
-        font-size: 10px;
-        line-height: 12px;
-        padding-left: 5px;
-        color: #1a1a1a;
-        margin-top: 7px;
-      }
-    }
-  }
+}
+.h3-title {
+  font-family: Montserrat;
+  font-size: 16px;
+  font-weight: 900;
+  line-height: 20px;
+  letter-spacing: 0em;
+}
+.nothing {
+  font-family: Roboto;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 19px;
+  letter-spacing: 0px;
+  text-align: center;
+  color: #484848;
+  padding: 92px 16px;
+}
+.nothing-message {
+  padding-bottom: 64px;
 }
 </style>

@@ -1,39 +1,53 @@
 <template>
-  <div class="container-page">
+  <div id="page" class="container-page">
     <main>
       <section id="info">
         <div id="avatar">
           <div class="flex-center border-profile-photo">
             <div class="flex-center profile-container">
-              <avatar :username="user.name | simplifyName" :size="90"></avatar>
+              <img v-if="user.photo" :src="user.photo" />
+              <avatar
+                v-else
+                :username="user.name | simplifyName"
+                :size="90"
+              ></avatar>
             </div>
           </div>
         </div>
-        <div class="flex-center" id="flex-info-user">
-          <h1>{{user.name}}</h1>
-          <p>{{user.type}}</p>
-          <v-btn id="btnLogout" small outlined color="error" width="80px" @click="logout">Sair</v-btn>
+        <div id="flex-info-user" class="flex-center">
+          <h1>{{ user.name }}</h1>
+          <p>{{ user.type }}</p>
+          <v-btn
+            id="btnLogout"
+            small
+            outlined
+            color="error"
+            width="80px"
+            @click="logout"
+            >Sair</v-btn
+          >
+        </div>
+        <div id="close">
+          <v-icon id="close-btn" color="primary" @click="closeMenu()"
+            >mdi-close-circle</v-icon
+          >
         </div>
       </section>
-      <div id="close">
-        <v-icon id="close-btn" color="primary" @click="closeMenu()">mdi-close-circle</v-icon>
-      </div>
     </main>
-    <section class="menu-list">
-      <router-link
+    <div class="menu-list">
+      <div
+        v-for="item in menu"
+        :key="item.id"
         tag="div"
         class="item-menu"
-        v-for="item in menu"
-        v-bind:key="item.id"
-        :to="item.link"
-        v-on:click.native="closeMenu()"
+        @click="navigateAndCloseMenu(item.link)"
       >
         <div>
-          <v-icon color="primary">{{item.icon}}</v-icon>
+          <v-icon color="primary">{{ item.icon }}</v-icon>
         </div>
-        <p class="text-menu">{{item.label}}</p>
-      </router-link>
-    </section>
+        <p class="text-menu">{{ item.label }}</p>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -41,94 +55,9 @@
 import Avatar from 'vue-avatar';
 import { mapActions } from 'vuex';
 import auth from '~/services/http/auth';
+import utils from '~/utils/index';
 
 export default {
-  data: () => ({
-    menu: [
-      {
-        id: 1,
-        label: 'Meu Perfil',
-        icon: 'mdi-account',
-        link: 'perfil',
-      },
-      {
-        id: 2,
-        label: 'Meus Cursos',
-        icon: 'mdi-library',
-        link: 'meus-cursos',
-      },
-      {
-        id: 3,
-        label: 'Meus Certificados',
-        icon: 'mdi-school',
-        link: 'certificados',
-      },
-      {
-        id: 4,
-        label: 'Cola com Nóix',
-        icon: 'mdi-gesture-double-tap',
-        link: '/contribua',
-      },
-      {
-        id: 5,
-        label: 'O que é a new school?',
-        icon: 'mdi-library-books',
-        link: '/sobre',
-      },
-      // { id: 6, label: "Ajuda", icon: "mdi-hand-right", link: "/ajuda" },
-      {
-        id: 7,
-        label: 'Fale com a gente',
-        icon: 'mdi-phone-message-outline',
-        link: '/contato',
-      },
-      {
-        id: 8,
-        label: 'Apoie a new school',
-        icon: 'mdi-volume-high',
-        link: '/investidores',
-      },
-    ],
-  }),
-  methods: {
-    ...mapActions('user', ['clearInfoUser']),
-    /**
-     * Método para fechar o side-menu
-     */
-    closeMenu() {
-      document.getElementById('menu-btn').click();
-    },
-    logout() {
-      this.logoutSocial().then(() => {
-        $nuxt._router.push('/login');
-        localStorage.clear();
-        this.clearInfoUser();
-      });
-    },
-    changeRoutingIfAdmin() {
-      if (this.$store.state.user.data.role === 'ADMIN') {
-        this.menu[1].link = '/admin/listar-cursos';
-      }
-    },
-    logoutSocial() {
-      if (!this.$auth.loggedIn) {
-        return Promise.resolve();
-      }
-      return this.$auth.logout();
-    },
-  },
-  computed: {
-    user() {
-      return this.$store.state.user.data;
-    },
-  },
-  mounted() {
-    const { status } = auth.isTokenValid();
-    if (status) {
-      this.auth = true;
-      this.changeRoutingIfAdmin();
-    }
-  },
   filters: {
     simplifyName(name) {
       if (!name) {
@@ -145,6 +74,120 @@ export default {
   components: {
     Avatar,
   },
+  data: () => ({
+    localStorage: {},
+    menu: [
+      {
+        id: 1,
+        label: 'Meu Perfil',
+        icon: 'mdi-account',
+        link: '/aluno/perfil',
+      },
+      {
+        id: 2,
+        label: 'Meus Cursos',
+        icon: 'mdi-library',
+        link: '/aluno/meus-cursos',
+      },
+      {
+        id: 3,
+        label: 'Meus Certificados',
+        icon: 'mdi-school',
+        link: '/aluno/certificados',
+      },
+      {
+        id: 4,
+        label: 'Ranking',
+        icon: 'mdi-trophy',
+        link: '/aluno/ranking',
+      },
+      {
+        id: 9,
+        label: 'Loja',
+        icon: 'mdi-shopping',
+        link: '/aluno/marketplace',
+      },
+      {
+        id: 5,
+        label: 'O que é a new school?',
+        icon: 'mdi-library-books',
+        link: '/sobre',
+      },
+      {
+        id: 6,
+        label: 'Cola com Nóix',
+        icon: 'mdi-gesture-double-tap',
+        link: '/voluntarios',
+      },
+      {
+        id: 7,
+        label: 'Apoie a new school',
+        icon: 'mdi-volume-high',
+        link: '/contribua',
+      },
+      {
+        id: 8,
+        label: 'Fale com a gente',
+        icon: 'mdi-phone-message-outline',
+        link: '/contato',
+      },
+    ],
+  }),
+  computed: {
+    user() {
+      return this.$store.state.user.data;
+    },
+  },
+  mounted() {
+    const { status } = auth.isTokenValid();
+    if (status) {
+      this.auth = true;
+      this.pushAdminOnlyOptions();
+    }
+    if (window.localStorage) {
+      this.localStorage = window.localStorage;
+    } else {
+      this.localStorage = localStorage;
+    }
+  },
+  methods: {
+    ...mapActions('user', ['clearInfoUser']),
+    /**
+     * Método para fechar o side-menu
+     */
+    closeMenu() {
+      document.getElementById('menu-btn').click();
+    },
+    logout() {
+      this.logoutSocial().then(() => {
+        $nuxt._router.push('/login');
+        utils.hideIosStatusBar();
+        this.localStorage.removeItem('auth');
+        this.clearInfoUser();
+      });
+    },
+    navigateAndCloseMenu(route) {
+      $nuxt._router.push(route);
+      if ($nuxt.$route.path === route) this.closeMenu();
+    },
+    pushAdminOnlyOptions() {
+      if (this.$store.state.user.data.role === 'ADMIN') {
+        this.menu[1].link = '/admin/listar-cursos';
+        this.menu.push({
+          id: 9,
+          label: 'Dashboard',
+          icon: 'mdi-chart-bar',
+          link: '/admin/dashboard',
+        });
+      }
+    },
+    logoutSocial() {
+      if (!this.$auth.loggedIn) {
+        return Promise.resolve();
+      }
+      return this.$auth.logout();
+    },
+  },
 };
 </script>
 
@@ -152,8 +195,16 @@ export default {
 .container-page {
   z-index: 2;
 }
+
 #btnLogout {
   margin-top: 5px;
+}
+
+.mdi-close-circle::before {
+  color: var(--primary);
+  position: absolute;
+  right: 22px;
+  top: 33px;
 }
 
 .container-page > main {
@@ -174,10 +225,45 @@ export default {
   text-transform: uppercase;
 }
 
+.mdi-library-books::before {
+  content: url('https://api.iconify.design/mdi-library-books.svg?color=rgb(105%2C0%2C204)&height=24');
+  vertical-align: -0.125em;
+}
+
 h1 {
-  font-size: 1.4rem;
-  font-weight: 600;
+  font-size: 1rem;
+  font-weight: 500;
+  color: black;
   text-transform: capitalize;
+}
+
+.menu-list {
+  max-width: 500px;
+  display: flex;
+  flex-direction: column;
+  height: calc(100% - 250px);
+}
+
+.item-menu {
+  display: -webkit-box;
+  display: flex;
+  width: 100%;
+  padding: 13px;
+  border-bottom: solid 1px #e8e8e8;
+  -webkit-box-align: center;
+  align-items: center;
+  color: var(--primary) !important;
+  cursor: pointer;
+  div {
+    width: 50px;
+    display: -webkit-box;
+    display: flex;
+    -webkit-box-pack: center;
+    justify-content: center;
+    margin-right: 2rem;
+  }
+  flex-grow: 1;
+  min-height: 35px;
 }
 
 .container-page {
@@ -225,26 +311,6 @@ h1 {
   }
 }
 
-.item-menu {
-  display: -webkit-box;
-  display: flex;
-  width: 100%;
-  padding: 13px;
-  border-bottom: solid 1px #e8e8e8;
-  -webkit-box-align: center;
-  align-items: center;
-  color: #6600cc !important;
-  cursor: pointer;
-  div {
-    width: 50px;
-    display: -webkit-box;
-    display: flex;
-    -webkit-box-pack: center;
-    justify-content: center;
-    margin-right: 2rem;
-  }
-}
-
 .item-menu:hover {
   background-color: rgb(232, 209, 255);
 }
@@ -260,10 +326,5 @@ p {
 }
 h4 {
   font-weight: 600;
-}
-@media (max-width: 320px) {
-  .item-menu {
-    height: 42px;
-  }
 }
 </style>

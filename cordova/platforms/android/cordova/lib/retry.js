@@ -1,5 +1,3 @@
-#!/usr/bin/env node
-
 /*
     Licensed to the Apache Software Foundation (ASF) under one
     or more contributor license agreements.  See the NOTICE file
@@ -23,7 +21,7 @@
 
 var events = require('cordova-common').events;
 
-/*
+/**
  * Retry a promise-returning function a number of times, propagating its
  * results on success or throwing its error on a failed final attempt.
  *
@@ -33,32 +31,13 @@ var events = require('cordova-common').events;
  *
  * @returns {Promise}
  */
-module.exports.retryPromise = function (attemptsLeft, promiseFunction) {
-
-    // NOTE:
-    //      get all trailing arguments, by skipping the first two (attemptsLeft and
-    //      promiseFunction) because they shouldn't get passed to promiseFunction
-    var promiseFunctionArguments = Array.prototype.slice.call(arguments, 2);
-
-    return promiseFunction.apply(undefined, promiseFunctionArguments).then(
-        // on success pass results through
-        function onFulfilled (value) {
-            return value;
-        },
-
-        // on rejection either retry, or throw the error
-        function onRejected (error) {
-            attemptsLeft -= 1;
-
-            if (attemptsLeft < 1) {
-                throw error;
-            }
-
+module.exports.retryPromise = async function (attemptsLeft, promiseFunction, ...args) {
+    while (true) {
+        try {
+            return await promiseFunction(...args);
+        } catch (error) {
+            if (--attemptsLeft < 1) throw error;
             events.emit('verbose', 'A retried call failed. Retrying ' + attemptsLeft + ' more time(s).');
-
-            // retry call self again with the same arguments, except attemptsLeft is now lower
-            var fullArguments = [attemptsLeft, promiseFunction].concat(promiseFunctionArguments);
-            return module.exports.retryPromise.apply(undefined, fullArguments);
         }
-    );
+    }
 };

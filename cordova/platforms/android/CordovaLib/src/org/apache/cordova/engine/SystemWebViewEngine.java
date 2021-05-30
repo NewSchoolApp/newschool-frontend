@@ -113,7 +113,7 @@ public class SystemWebViewEngine implements CordovaWebViewEngine {
                 //sometimes this can be called after calling webview.destroy() on destroy()
                 //thus resulting in a NullPointerException
                 if(webView!=null) {
-                   webView.setNetworkAvailable(value); 
+                   webView.setNetworkAvailable(value);
                 }
             }
             @Override
@@ -151,6 +151,15 @@ public class SystemWebViewEngine implements CordovaWebViewEngine {
         settings.setJavaScriptEnabled(true);
         settings.setJavaScriptCanOpenWindowsAutomatically(true);
         settings.setLayoutAlgorithm(LayoutAlgorithm.NORMAL);
+
+        /**
+         * https://developer.android.com/reference/android/webkit/WebSettings#setAllowFileAccess(boolean)
+         * 
+         * SDK >= 30 has recently set this value to false by default.
+         * It is recommended to turn off this settings To prevent possible security issues targeting Build.VERSION_CODES.Q and earlier.
+         * For existing functionality, this setting is set to true. In a future release, this should be defaulted to false.
+         */
+        settings.setAllowFileAccess(true);
 
         String manufacturer = android.os.Build.MANUFACTURER;
         LOG.d(TAG, "CordovaWebView is running on device made by: " + manufacturer);

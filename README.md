@@ -1,19 +1,18 @@
-# NewSchool-frontend  
+# NewSchool-frontend
+
 [![releases](https://img.shields.io/badge/Changelog-Releases-orange)](https://github.com/NewSchoolBR/newschool-frontend/releases)
 
 > Frontend da New School, desenvolvido em VueJs, Nuxt e Vuetify
 
-> **Ambiente de DEV:** https://newschoolbr-dev.herokuapp.com/
+> **Ambiente de DEV:** http://newschool.us-east-2.elasticbeanstalk.com
 
-> **Ambiente de QA:** https://newschoolbr-qa.herokuapp.com/
-
-> **Ambiente de PROD:** https://newschoolapp.com.br/
+> **Ambiente de PROD:** http://newschool.us-east-2.elasticbeanstalk.com
 
 ## Como rodar o projeto
 
 https://www.youtube.com/watch?v=4-nc3Ig7jxk&t=3s
 
-``` bash
+```bash
 # install dependencies
 $ npm install
 
@@ -33,6 +32,7 @@ For detailed explanation on how things work, check out [Nuxt.js docs](https://nu
 ## Guidelines
 
 > ### Variáveis de ambiente necessárias para execução do projeto
+
 ```
 GA_TOKEN: Variável com o token do Google Analytics do ambiente
 ```
@@ -55,11 +55,10 @@ https://join.slack.com/t/newschoolgrupo/shared_invite/enQtODQ4NjUyMjAzNTUzLTg3NT
 
 3 - FAÇA PARTE DA EQUIPE NO TRELLO
 
-https://trello.com/invite/b/2MHuWn0C/b1a15b7112ea11b856cfa78174a6f72d/projeto-new-school-app
+https://trello.com/b/hY1tozEd/ns-squad
 
 3.1 - PEGUE UMA TAREFA NO TRELLO.
 
-- https://trello.com/b/2MHuWn0C/projeto-new-school-app
 - Coloque no seu nome e mova para DOING.
 
 4 - GITHUB
@@ -83,12 +82,10 @@ Depois de concluir e testar, envie e aguarde o PULL REQUEST ser aprovado.
 
 5 - MISSÃO CUMPRIDA. VC AJUDOU O PROJETO. ❤️
 
-API NO AMBIENTE DEV: 
+API NO AMBIENTE DEV:
 
-http://newschoolbrapi-dev.herokuapp.com/swagger/#/default 
+http://newschool-api-dev2.eba-gxtzwa9m.us-east-2.elasticbeanstalk.com/swagger/#/
 
-CONFIRA OS LAYOUTS NO FIGMA: 
+CONFIRA OS LAYOUTS NO FIGMA:
 
 https://www.figma.com/file/whTp4hE6ZQR3V8LBxSZnjv/NewSchool?node-id=0%3A1
-
-## Código de conduta

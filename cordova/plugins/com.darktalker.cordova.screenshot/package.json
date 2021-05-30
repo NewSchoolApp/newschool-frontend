@@ -1,0 +1,68 @@
+{
+  "_from": "git+https://github.com/gitawego/cordova-screenshot.git",
+  "_id": "com.darktalker.cordova.screenshot@0.1.6",
+  "_inBundle": false,
+  "_integrity": "",
+  "_location": "/com.darktalker.cordova.screenshot",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "git",
+    "raw": "https://github.com/gitawego/cordova-screenshot.git",
+    "rawSpec": "https://github.com/gitawego/cordova-screenshot.git",
+    "saveSpec": "git+https://github.com/gitawego/cordova-screenshot.git",
+    "fetchSpec": "https://github.com/gitawego/cordova-screenshot.git",
+    "gitCommittish": null
+  },
+  "_requiredBy": [
+    "#DEV:/",
+    "#USER"
+  ],
+  "_resolved": "git+https://github.com/gitawego/cordova-screenshot.git#2f2d763e1df4752e51eec1db3b623d72043d90fb",
+  "_spec": "https://github.com/gitawego/cordova-screenshot.git",
+  "_where": "/home/leonardo/Documents/Leonardo/Newschool/newschool-frontend/cordova",
+  "author": {
+    "name": "Hongbo LU"
+  },
+  "bugs": {
+    "url": "https://github.com/gitawego/cordova-screenshot/issues"
+  },
+  "bundleDependencies": false,
+  "cordova": {
+    "id": "com.darktalker.cordova.screenshot",
+    "platforms": [
+      "android",
+      "ios",
+      "osx"
+    ]
+  },
+  "deprecated": false,
+  "description": "screenshot PhoneGap Plugin for Android",
+  "devDependencies": {
+    "sync-cordova-xml": "^0.4.0"
+  },
+  "engines": [
+    {
+      "name": "cordova",
+      "version": ">=3.0.0"
+    }
+  ],
+  "homepage": "https://github.com/gitawego/cordova-screenshot#readme",
+  "keywords": [
+    "cordova",
+    "screenshot",
+    "ecosystem:cordova",
+    "cordova-android",
+    "cordova-ios",
+    "cordova-osx"
+  ],
+  "license": "MIT",
+  "name": "com.darktalker.cordova.screenshot",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gitawego/cordova-screenshot.git"
+  },
+  "scripts": {
+    "version": "sync-cordova-xml package.json plugin.xml --output plugin.xml && git add plugin.xml"
+  },
+  "version": "0.1.6"
+}

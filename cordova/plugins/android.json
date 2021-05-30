@@ -7,8 +7,30 @@
     "files": {}
   },
   "installed_plugins": {
+    "com.darktalker.cordova.screenshot": {
+      "PACKAGE_NAME": "com.newschool.app"
+    },
+    "com.santinowu.cordova.imagedownloader": {
+      "PACKAGE_NAME": "com.newschool.app"
+    },
+    "cordova-plugin-androidx-adapter": {
+      "PACKAGE_NAME": "com.newschool.app"
+    },
+    "cordova-plugin-browsertab": {
+      "PACKAGE_NAME": "com.newschool.app"
+    },
+    "cordova-plugin-buildinfo": {
+      "PACKAGE_NAME": "com.newschool.app"
+    },
+    "cordova-plugin-customurlscheme": {
+      "URL_SCHEME": "com.firebase.cordova",
+      "ANDROID_SCHEME": " ",
+      "ANDROID_HOST": " ",
+      "ANDROID_PATHPREFIX": "/",
+      "PACKAGE_NAME": "com.newschool.app"
+    },
     "cordova-plugin-facebook4": {
-      "APP_ID": "1584605795055838",
+      "APP_ID": "384298599359690",
       "APP_NAME": "NewSchool",
       "FACEBOOK_HYBRID_APP_EVENTS": "false",
       "FACEBOOK_ANDROID_SDK_VERSION": "5.5.2",
@@ -17,9 +39,31 @@
     "cordova-plugin-inappbrowser": {
       "PACKAGE_NAME": "com.newschool.app"
     },
+    "cordova-plugin-insomnia": {
+      "PACKAGE_NAME": "com.newschool.app"
+    },
+    "cordova-plugin-printer": {
+      "PACKAGE_NAME": "com.newschool.app"
+    },
+    "cordova-plugin-screen-orientation": {
+      "PACKAGE_NAME": "com.newschool.app"
+    },
+    "cordova-plugin-splashscreen": {
+      "PACKAGE_NAME": "com.newschool.app"
+    },
     "cordova-plugin-whitelist": {
+      "PACKAGE_NAME": "com.newschool.app"
+    },
+    "cordova-plugin-x-socialsharing": {
+      "PACKAGE_NAME": "com.newschool.app"
+    },
+    "cordova-universal-links-plugin": {
       "PACKAGE_NAME": "com.newschool.app"
     }
   },
-  "dependent_plugins": {}
+  "dependent_plugins": {
+    "es6-promise-plugin": {
+      "PACKAGE_NAME": "com.newschool.app"
+    }
+  }
 }

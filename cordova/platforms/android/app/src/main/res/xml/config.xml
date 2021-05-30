@@ -1,5 +1,21 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.newschool.app" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget android-versionCode="10018" id="com.newschool.app" version="2.0.14" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <feature name="Screenshot">
+        <param name="android-package" value="com.darktalker.cordova.screenshot.Screenshot" />
+    </feature>
+    <feature name="ImageDownloader">
+        <param name="android-package" value="com.santinowu.cordova.imagedownloader.ImageDownloader" />
+        <param name="onload" value="true" />
+    </feature>
+    <feature name="BrowserTab">
+        <param name="android-package" value="com.google.cordova.plugin.browsertab.BrowserTab" />
+    </feature>
+    <feature name="BuildInfo">
+        <param name="android-package" value="org.apache.cordova.buildinfo.BuildInfo" />
+    </feature>
+    <feature name="LaunchMyApp">
+        <param name="android-package" value="nl.xservices.plugins.LaunchMyApp" />
+    </feature>
     <feature name="FacebookConnectPlugin">
         <param name="android-package" value="org.apache.cordova.facebook.ConnectPlugin" />
         <param name="onload" value="true" />
@@ -12,17 +28,33 @@
     <feature name="InAppBrowser">
         <param name="android-package" value="org.apache.cordova.inappbrowser.InAppBrowser" />
     </feature>
+    <feature name="Insomnia">
+        <param name="android-package" value="nl.xservices.plugins.Insomnia" />
+    </feature>
+    <feature name="Printer">
+        <param name="android-package" value="de.appplant.cordova.plugin.printer.Printer" />
+    </feature>
+    <feature name="CDVOrientation">
+        <param name="android-package" value="cordova.plugins.screenorientation.CDVOrientation" />
+    </feature>
+    <feature name="SplashScreen">
+        <param name="android-package" value="org.apache.cordova.splashscreen.SplashScreen" />
+        <param name="onload" value="true" />
+    </feature>
     <feature name="Whitelist">
         <param name="android-package" value="org.apache.cordova.whitelist.WhitelistPlugin" />
         <param name="onload" value="true" />
     </feature>
+    <feature name="SocialSharing">
+        <param name="android-package" value="nl.xservices.plugins.SocialSharing" />
+    </feature>
+    <feature name="UniversalLinks">
+        <param name="android-package" value="com.nordnetab.cordova.ul.UniversalLinksPlugin" />
+        <param name="onload" value="true" />
+    </feature>
     <name>New School</name>
-    <description>
-        New School App
-    </description>
-    <author email="newschool@newschoolapp.com.br" href="http://cordova.io">
-        New School Team
-    </author>
+    <description> New School App </description>
+    <author email="newschool@http://newschool-api-dev2.eba-gxtzwa9m.us-east-2.elasticbeanstalk.com" href="http://cordova.io"> New School Team </author>
     <content src="index.html" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
@@ -37,15 +69,10 @@
     <icon density="xhdpi" src="res/android/96px.png" />
     <icon density="xxhdpi" src="res/android/144px.png" />
     <icon density="xxxhdpi" src="res/android/192px.png" />
-    <splash density="land-hdpi" src="res/screen/android/l320.jpg" />
-    <splash density="land-ldpi" src="res/screen/android/l320.jpg" />
-    <splash density="land-mdpi" src="res/screen/android/l480.jpg" />
-    <splash density="land-xhdpi" src="res/screen/android/l1280.jpg" />
-    <splash density="port-hdpi" src="res/screen/android/l800.jpg" />
-    <splash density="port-ldpi" src="res/screen/android/l320.jpg" />
-    <splash density="port-mdpi" src="res/screen/android/l480.jpg" />
-    <splash density="port-xhdpi" src="res/screen/android/l1280.jpg" />
+    <splash density="port-ldpi" src="res/screen/android/l480.jpg" />
+    <splash density="land-ldpi" src="res/screen/android/l480.jpg" />
     <allow-intent href="market:*" />
     <preference name="loglevel" value="DEBUG" />
-    <preference name="android-minSdkVersion" value="19" />
+    <preference name="android-minSdkVersion" value="22" />
+    <preference name="SplashScreen" value="none" />
 </widget>
