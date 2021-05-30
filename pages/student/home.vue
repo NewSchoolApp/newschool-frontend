@@ -87,22 +87,29 @@
         prepend-inner-icon="mdi-magnify"
         autocomplete="off"
       />
-
       <div v-if="!filtro">
-        <p id="title">Trilhas</p>
+        <p id="title">Em destaque</p>
         <course-card
-          v-for="pilar in pilarList"
-          :key="pilar.id"
-          :course="pilar"
-        />
-      </div>
-      <br />
+            v-for="course in courseList"
+            :key="course.id"
+            :course="course"
+          />
+       </div>
       <div v-if="!filtro">
         <p id="title">Pilares</p>
         <course-card
           v-for="trail in trailList"
           :key="trail.id"
           :course="trail"
+        />
+      </div>
+      <br />
+       <div v-if="!filtro">
+        <p id="title">Trilhas</p>
+        <course-card
+          v-for="pilar in pilarList"
+          :key="pilar.id"
+          :course="pilar"
         />
       </div>
       <div v-if="filtro">
@@ -139,7 +146,9 @@ export default {
   }),
   computed: {
     courseList() {
-      return this.$store.state.courses.all;
+      return this.$store.state.courses.all.filter(
+          course => course.id == 18
+      );
     },
     trailList() {
       const trails = [
@@ -289,7 +298,7 @@ export default {
         return totalList.filter(
           trail =>
             trail.titulo.toLowerCase().includes(this.filtro.toLowerCase()) ||
-            trail.courses.includes(this.filtro.toLowerCase()),
+            trail.courses.find(course => course.toLowerCase().includes(this.filtro.toLowerCase()))
         );
       }
       return totalList;

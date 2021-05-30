@@ -16,6 +16,7 @@ export default {
     if(window.cordova?.platformId == "ios") {
       const layout = document.getElementById("__layout");
       const newDiv = document.createElement("div");
+      newDiv.setAttribute("id", "__statusBarIos");
       newDiv.style.height = "32px";
       newDiv.style.width = "200vw";
       newDiv.style.position = "fixed";

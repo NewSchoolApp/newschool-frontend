@@ -19,7 +19,7 @@
         ></header-bar>
         <v-row id="header-row" justify="space-between">
           <div id="product-title">{{ productInfo.name }}</div>
-          <div id="balance">Saldo: {{ userPoints }}NC</div>
+          <div id="balance">Saldo: {{ userPoints || 0 }}NC</div>
         </v-row>
         <div
           id="img-viewport"
@@ -51,7 +51,7 @@
         ></header-bar>
         <v-row id="header-row" justify="space-between">
           <div id="product-title">{{ productInfo.name }}</div>
-          <div id="balance">Saldo: {{ userPoints }}NC</div>
+          <div id="balance">Saldo: {{ userPoints || 0 }}NC</div>
         </v-row>
         <div
           id="img-viewport"
@@ -146,13 +146,13 @@
             @toggle="time = $event"
           />
           <toggle
-            :value="12"
+            :value="14"
             label="14:00"
             :model="time"
             @toggle="time = $event"
           />
           <toggle
-            :value="13"
+            :value="16"
             label="16:00"
             :model="time"
             @toggle="time = $event"
@@ -175,7 +175,7 @@
         ></header-bar>
         <v-row id="header-row" justify="space-between">
           <div id="product-title">{{ productInfo.name }}</div>
-          <div id="balance">Saldo: {{ userPoints }}NC</div>
+          <div id="balance">Saldo: {{ userPoints || 0 }}NC</div>
         </v-row>
         <div
           id="img-viewport"
@@ -222,7 +222,7 @@
             />
             <iframe
               id="gmap_canvas"
-              src="https://maps.google.com/maps?q=Rua%20Carlos%20Faria,%20273%20%20Jd%20Rapouso%20Tavares&t=&z=17&ie=UTF8&iwloc=&output=embed"
+              src="https://maps.google.com/maps?q=Rua%20Carlos%20Faria,%294%20%20Jd%20Rapouso%20Tavares&t=&z=17&ie=UTF8&iwloc=&output=embed"
               frameborder="0"
               scrolling="no"
               marginheight="0"
@@ -237,7 +237,7 @@
                 <v-icon>mdi-map-marker-outline</v-icon>
               </div>
               <div id="body">
-                Rua Carlos Faria, 273 Jd Rapouso Tavares - Zona Oeste Butantã -
+                Rua Carlos Faria, 294 Jd Rapouso Tavares - Zona Oeste Butantã -
                 São Paulo - Brasil
               </div>
               <v-divider></v-divider>
@@ -346,7 +346,7 @@
             filled
             placeholder="Digite um segundo número para contato"
             type="number"
-            :rules="phoneRules"
+            :rules="nullablePhoneRules"
           />
         </v-form>
       </div>
@@ -366,7 +366,7 @@
         ></header-bar>
         <v-row id="header-row" justify="space-between">
           <div id="product-title">{{ productInfo.name }}</div>
-          <div id="balance">Saldo: {{ userPoints }}NC</div>
+          <div id="balance">Saldo: {{ userPoints || 0 }}NC</div>
         </v-row>
         <div
           id="img-viewport"
@@ -407,7 +407,7 @@
             Tudo certo. Agora é só aguardar, a New School entrar em contato.
           </div>
         </v-row>
-        <img class="px-6" src="~/assets/wellDone.svg" alt="Finalizado" />
+        <img class="px-6 wellDone" src="~/assets/wellDone.svg" alt="Finalizado" />
       </div>
       <div id="base">
         <v-btn class="btn-block btn-primary" @click="advanceStep">
@@ -469,6 +469,9 @@ export default {
       WITHDRAW: 'WITHDRAW',
       MAIL: 'MAIL',
     },
+    nullablePhoneRules: [
+      v => (!v || v.length >= 10) || 'Deve ter no mínimo 8 caracteres + DDD',
+    ],
     emailRules: [
       v => !!v || 'Digite o e-mail',
       v => /.+@.+\..+/.test(v) || 'E-mail inválido',
@@ -948,5 +951,8 @@ img {
   background: url('../../../assets/paraisopolis-default.jpg');
   background-size: cover;
   background-position: 50%;
+}
+.wellDone {
+  max-height: 50vh;
 }
 </style>

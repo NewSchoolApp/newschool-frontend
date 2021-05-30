@@ -55,6 +55,7 @@
 import Avatar from 'vue-avatar';
 import { mapActions } from 'vuex';
 import auth from '~/services/http/auth';
+import utils from '~/utils/index';
 
 export default {
   filters: {
@@ -101,6 +102,12 @@ export default {
         link: '/aluno/ranking',
       },
       {
+        id: 9,
+        label: 'Loja',
+        icon: 'mdi-shopping',
+        link: '/aluno/marketplace',
+      },
+      {
         id: 5,
         label: 'O que é a new school?',
         icon: 'mdi-library-books',
@@ -123,12 +130,6 @@ export default {
         label: 'Fale com a gente',
         icon: 'mdi-phone-message-outline',
         link: '/contato',
-      },
-      {
-        id: 9,
-        label: 'Loja',
-        icon: 'mdi-shopping',
-        link: '/aluno/marketplace',
       },
     ],
   }),
@@ -160,6 +161,7 @@ export default {
     logout() {
       this.logoutSocial().then(() => {
         $nuxt._router.push('/login');
+        utils.hideIosStatusBar();
         this.localStorage.removeItem('auth');
         this.clearInfoUser();
       });

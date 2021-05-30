@@ -14,7 +14,7 @@
 
       <div v-else id="main-div">
         <div id="wrapper">
-          <div id="content">
+          <div id="content" v-bind:class="[isIos ? 'iosspacing' : 'normalspacing']">
             <header-bar
               :title="this.$store.state.courses.current.titulo"
               :back-func="goBack"
@@ -52,7 +52,7 @@
               <!-- info -->
               <v-tab-item>
                 <h3>{{ currentPart.titulo }}</h3>
-                <h4>{{ currentPart.descricao }}</h4>
+                <h4 id="description">{{ currentPart.descricao }}</h4>
               </v-tab-item>
 
               <!-- comments -->
@@ -160,7 +160,13 @@ export default {
     disableBtn: true,
     watchMode: false,
   }),
+  updated() {
+    document.getElementById("description").innerHTML = this?.currentPart?.descricao;
+  },
   computed: {
+    isIos() {
+      return window.cordova?.platformId === 'ios';
+    },
     tooBig() {
       if (this.commentPost.length > 255) {
         return true;
@@ -833,8 +839,6 @@ h4 {
   position: relative;
 }
 #content {
-  min-height: calc(100vh - 150px);
-  padding-bottom: 100px;
 }
 #base {
   width: 100%;
@@ -844,4 +848,15 @@ h4 {
 ::v-deep #header {
   margin: 20px 0;
 }
+
+.iosspacing {
+  min-height: calc(100vh - 200px);
+  padding-bottom: 50px;
+}
+
+.normalspacing {
+  min-height: calc(100vh - 150px);
+  padding-bottom: 100px;
+}
+
 </style>

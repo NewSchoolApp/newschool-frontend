@@ -99,7 +99,7 @@
                   <span class="link" @click="privacyDialog = true">
                     A Política de Privacidade
                   </span>
-                  do New School App
+                  da New School App
                 </div>
               </div>
 
