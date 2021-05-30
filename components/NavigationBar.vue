@@ -61,6 +61,13 @@ export default {
         link: '/aluno/certificados',
         class: '',
       },
+      {
+        id: 5,
+        name: 'Loja',
+        icon: 'mdi-shopping',
+        link: '/aluno/marketplace',
+        class: '',
+      },
     ],
   }),
   mounted() {

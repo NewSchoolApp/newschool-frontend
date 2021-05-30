@@ -36,7 +36,19 @@
       "FACEBOOK_ANDROID_SDK_VERSION": "5.5.2",
       "PACKAGE_NAME": "com.newschool.app"
     },
+    "cordova-plugin-inappbrowser": {
+      "PACKAGE_NAME": "com.newschool.app"
+    },
+    "cordova-plugin-insomnia": {
+      "PACKAGE_NAME": "com.newschool.app"
+    },
     "cordova-plugin-printer": {
+      "PACKAGE_NAME": "com.newschool.app"
+    },
+    "cordova-plugin-screen-orientation": {
+      "PACKAGE_NAME": "com.newschool.app"
+    },
+    "cordova-plugin-splashscreen": {
       "PACKAGE_NAME": "com.newschool.app"
     },
     "cordova-plugin-whitelist": {
@@ -46,18 +58,6 @@
       "PACKAGE_NAME": "com.newschool.app"
     },
     "cordova-universal-links-plugin": {
-      "PACKAGE_NAME": "com.newschool.app"
-    },
-    "cordova-plugin-insomnia": {
-      "PACKAGE_NAME": "com.newschool.app"
-    },
-    "cordova-plugin-screen-orientation": {
-      "PACKAGE_NAME": "com.newschool.app"
-    },
-    "cordova-plugin-inappbrowser": {
-      "PACKAGE_NAME": "com.newschool.app"
-    },
-    "cordova-plugin-splashscreen": {
       "PACKAGE_NAME": "com.newschool.app"
     }
   },

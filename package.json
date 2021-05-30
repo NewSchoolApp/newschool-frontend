@@ -22,10 +22,14 @@
     "cordova-build": "npm run build-spa && npm run replace-relative-paths && npm run copy-cordova",
     "build-spa": "nuxt build --spa",
     "replace-relative-paths": "replace '/nuxtfiles/' 'nuxtfiles/' dist --recursive && replace '/assets/' 'nuxtfiles/' dist --recursive && replace '(href|src|\"href\"|\"src\")=\"/' '$1=\"../' dist --recursive && replace '(href|src|\"href\"|\"src\"):\"/' '$1:\"../' dist --recursive",
+    "replace-relative-paths-win": "node ./scripts/replace-relative-paths",
     "copy-cordova": "cp -R dist/* cordova/www/",
     "clear-cordova": "rm -R cordova/www/*",
     "run-ios": "cd cordova && cordova run ios --buildFlag='-UseModernBuildSystem=0'",
-    "run-android": "cd cordova && cordova run android"
+    "run-android": "cd cordova && cordova run android",
+    "clear-cordova-win": "rmdir /s/q cordova\\www && mkdir cordova\\www",
+    "copy-cordova-win": "xcopy /E /I /Y dist cordova\\www",
+    "cordova-win": "npm run build-spa && npm run replace-relative-paths-win && npm run copy-cordova-win && npm run run-android"
   },
   "lint-staged": {
     "*.js": "eslint --ignore-path .gitignore",
@@ -54,13 +58,16 @@
     "fibers": "^5.0.0",
     "firebase": "^8.0.1",
     "fs": "0.0.1-security",
+    "mkpath": "^1.0.0",
     "moment": "^2.24.0",
     "ms": "^2.1.2",
     "node-properties-parser": "0.0.2",
+    "node-version-compare": "^1.0.3",
     "nuxt": "^2.11.0",
     "nuxt-i18n": "^6.4.1",
     "properties-parser": "^0.3.1",
     "pusher-js": "^7.0.1",
+    "recursive-readdir": "^2.2.2",
     "replace": "^1.2.0",
     "vue-avatar": "^2.1.8",
     "vue-chartjs": "^3.5.1",
@@ -69,6 +76,7 @@
     "vue-masonry-css": "^1.0.3",
     "vue-social-sharing": "^2.4.7",
     "vue-the-mask": "^0.11.1",
+    "xml2js": "^0.4.23",
     "youtube-vue": "^2.0.8"
   },
   "devDependencies": {

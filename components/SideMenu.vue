@@ -102,6 +102,12 @@ export default {
         link: '/aluno/ranking',
       },
       {
+        id: 9,
+        label: 'Loja',
+        icon: 'mdi-shopping',
+        link: '/aluno/marketplace',
+      },
+      {
         id: 5,
         label: 'O que é a new school?',
         icon: 'mdi-library-books',
@@ -124,12 +130,6 @@ export default {
         label: 'Fale com a gente',
         icon: 'mdi-phone-message-outline',
         link: '/contato',
-      },
-      {
-        id: 9,
-        label: 'Loja',
-        icon: 'mdi-shopping',
-        link: '/aluno/marketplace',
       },
     ],
   }),

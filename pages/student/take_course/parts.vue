@@ -52,7 +52,7 @@
               <!-- info -->
               <v-tab-item>
                 <h3>{{ currentPart.titulo }}</h3>
-                <h4>{{ currentPart.descricao }}</h4>
+                <h4 id="description">{{ currentPart.descricao }}</h4>
               </v-tab-item>
 
               <!-- comments -->
@@ -160,6 +160,9 @@ export default {
     disableBtn: true,
     watchMode: false,
   }),
+  updated() {
+    document.getElementById("description").innerHTML = this?.currentPart?.descricao;
+  },
   computed: {
     isIos() {
       return window.cordova?.platformId === 'ios';

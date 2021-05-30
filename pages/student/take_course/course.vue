@@ -13,7 +13,7 @@
     <div v-else id="main-div">
       <div id="wrapper">
         <div id="content">
-          <HeaderBar :title="'Curso'" :route="'/aluno/home'"></HeaderBar>
+          <HeaderBar :title="'Curso'"></HeaderBar>
           <h1 id="title__course" class="h1__theme pb-3">{{ course.titulo }}</h1>
           <div class="mask__img">
             <img

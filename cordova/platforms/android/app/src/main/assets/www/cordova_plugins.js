@@ -49,6 +49,22 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
       ]
     },
     {
+      "id": "cordova-plugin-inappbrowser.inappbrowser",
+      "file": "plugins/cordova-plugin-inappbrowser/www/inappbrowser.js",
+      "pluginId": "cordova-plugin-inappbrowser",
+      "clobbers": [
+        "cordova.InAppBrowser.open"
+      ]
+    },
+    {
+      "id": "cordova-plugin-insomnia.Insomnia",
+      "file": "plugins/cordova-plugin-insomnia/www/Insomnia.js",
+      "pluginId": "cordova-plugin-insomnia",
+      "clobbers": [
+        "window.plugins.insomnia"
+      ]
+    },
+    {
       "id": "cordova-plugin-printer.Printer",
       "file": "plugins/cordova-plugin-printer/www/printer.js",
       "pluginId": "cordova-plugin-printer",
@@ -62,6 +78,22 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
       "file": "plugins/es6-promise-plugin/www/promise.js",
       "pluginId": "es6-promise-plugin",
       "runs": true
+    },
+    {
+      "id": "cordova-plugin-screen-orientation.screenorientation",
+      "file": "plugins/cordova-plugin-screen-orientation/www/screenorientation.js",
+      "pluginId": "cordova-plugin-screen-orientation",
+      "clobbers": [
+        "cordova.plugins.screenorientation"
+      ]
+    },
+    {
+      "id": "cordova-plugin-splashscreen.SplashScreen",
+      "file": "plugins/cordova-plugin-splashscreen/www/splashscreen.js",
+      "pluginId": "cordova-plugin-splashscreen",
+      "clobbers": [
+        "navigator.splashscreen"
+      ]
     },
     {
       "id": "cordova-plugin-x-socialsharing.SocialSharing",
@@ -78,38 +110,6 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
       "clobbers": [
         "universalLinks"
       ]
-    },
-    {
-      "id": "cordova-plugin-insomnia.Insomnia",
-      "file": "plugins/cordova-plugin-insomnia/www/Insomnia.js",
-      "pluginId": "cordova-plugin-insomnia",
-      "clobbers": [
-        "window.plugins.insomnia"
-      ]
-    },
-    {
-      "id": "cordova-plugin-screen-orientation.screenorientation",
-      "file": "plugins/cordova-plugin-screen-orientation/www/screenorientation.js",
-      "pluginId": "cordova-plugin-screen-orientation",
-      "clobbers": [
-        "cordova.plugins.screenorientation"
-      ]
-    },
-    {
-      "id": "cordova-plugin-inappbrowser.inappbrowser",
-      "file": "plugins/cordova-plugin-inappbrowser/www/inappbrowser.js",
-      "pluginId": "cordova-plugin-inappbrowser",
-      "clobbers": [
-        "cordova.InAppBrowser.open"
-      ]
-    },
-    {
-      "id": "cordova-plugin-splashscreen.SplashScreen",
-      "file": "plugins/cordova-plugin-splashscreen/www/splashscreen.js",
-      "pluginId": "cordova-plugin-splashscreen",
-      "clobbers": [
-        "navigator.splashscreen"
-      ]
     }
   ];
   module.exports.metadata = {
@@ -120,14 +120,14 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
     "cordova-plugin-buildinfo": "4.0.0",
     "cordova-plugin-customurlscheme": "5.0.2",
     "cordova-plugin-facebook4": "6.2.0",
-    "cordova-plugin-printer": "0.7.3",
-    "cordova-plugin-whitelist": "1.3.4",
-    "es6-promise-plugin": "4.2.2",
-    "cordova-plugin-x-socialsharing": "6.0.2",
-    "cordova-universal-links-plugin": "1.2.1",
-    "cordova-plugin-insomnia": "4.3.0",
-    "cordova-plugin-screen-orientation": "3.0.2",
     "cordova-plugin-inappbrowser": "4.1.0",
-    "cordova-plugin-splashscreen": "6.0.0"
+    "cordova-plugin-insomnia": "4.3.0",
+    "cordova-plugin-printer": "0.7.3",
+    "es6-promise-plugin": "4.2.2",
+    "cordova-plugin-screen-orientation": "3.0.2",
+    "cordova-plugin-splashscreen": "6.0.0",
+    "cordova-plugin-whitelist": "1.3.4",
+    "cordova-plugin-x-socialsharing": "6.0.2",
+    "cordova-universal-links-plugin": "1.2.1"
   };
 });
