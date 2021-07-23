@@ -190,7 +190,6 @@ export default {
       },
     },
     dateEnd: process.env.OPENING_DATE || '25/01/2020',
-
     endpoints: {
       // app data
       TOTAL_USERS: '/api/v1/user',
@@ -220,6 +219,8 @@ export default {
       COURSE: '/api/v2/course',
       COURSE_BY_SLUG: '/api/v2/course/slug/',
       TRAILS: '/api/v2/trail',
+      PILARS: '/api/v2/pilar',
+      HIGHLIGHTS: '/api/v2/highlight',
 
       // course taken
       MY_COURSES: 'api/v2/course-taken/user/',
@@ -252,12 +253,19 @@ export default {
         ITENS: '/api/v1/item',
         ORDER: '/api/v1/order',
       },
+      CMS: {
+        CAMPANHAS: '/campanhas/'
+      },
     },
     endpointCertificateCourseTaken: {
       CERTIFICATES_COURSE_TAKEN_ME: 'api/v2/course-taken/certificate/user/',
       LOGIN: 'oauth/token',
     },
     GATOKEN: process.env.GA_TOKEN,
+    CMS: {
+      URL: 'http://ec2-13-59-134-79.us-east-2.compute.amazonaws.com:1337',
+      Token: ''
+    },
   },
   // uncomment for cordova release on android/ios
   mode: 'spa',

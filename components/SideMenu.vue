@@ -163,6 +163,7 @@ export default {
         $nuxt._router.push('/login');
         utils.hideIosStatusBar();
         this.localStorage.removeItem('auth');
+        this.localStorage.clear();
         this.clearInfoUser();
       });
     },

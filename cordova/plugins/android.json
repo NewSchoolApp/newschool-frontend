@@ -59,6 +59,12 @@
     },
     "cordova-universal-links-plugin": {
       "PACKAGE_NAME": "com.newschool.app"
+    },
+    "cordova-install-referrer-api": {
+      "PACKAGE_NAME": "com.newschool.app"
+    },
+    "cordova-plugin-device": {
+      "PACKAGE_NAME": "com.newschool.app"
     }
   },
   "dependent_plugins": {

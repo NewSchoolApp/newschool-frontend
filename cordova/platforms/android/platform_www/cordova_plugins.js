@@ -110,6 +110,22 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
       "clobbers": [
         "universalLinks"
       ]
+    },
+    {
+      "id": "cordova-install-referrer-api.referrer",
+      "file": "plugins/cordova-install-referrer-api/www/referrer.js",
+      "pluginId": "cordova-install-referrer-api",
+      "clobbers": [
+        "cordova.plugins.referrer"
+      ]
+    },
+    {
+      "id": "cordova-plugin-device.device",
+      "file": "plugins/cordova-plugin-device/www/device.js",
+      "pluginId": "cordova-plugin-device",
+      "clobbers": [
+        "device"
+      ]
     }
   ];
   module.exports.metadata = {
@@ -128,6 +144,8 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
     "cordova-plugin-splashscreen": "6.0.0",
     "cordova-plugin-whitelist": "1.3.4",
     "cordova-plugin-x-socialsharing": "6.0.2",
-    "cordova-universal-links-plugin": "1.2.1"
+    "cordova-universal-links-plugin": "1.2.1",
+    "cordova-install-referrer-api": "0.1.5",
+    "cordova-plugin-device": "2.0.3"
   };
 });

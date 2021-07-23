@@ -42,12 +42,12 @@ export default {
     auth: false,
     menu: [
       { id: 1, name: 'Início', icon: 'mdi-home-outline', link: '/aluno/home' },
-      {
-        id: 2,
-        name: 'Perfil',
-        icon: 'mdi-account-outline',
-        link: '/aluno/perfil',
-      },
+      // {
+      //   id: 2,
+      //   name: 'Perfil',
+      //   icon: 'mdi-account-outline',
+      //   link: '/aluno/perfil',
+      // },
       {
         id: 3,
         name: 'Meus Cursos',

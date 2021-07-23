@@ -1,0 +1,53 @@
+{
+  "_from": "cordova-install-referrer-api",
+  "_id": "cordova-install-referrer-api@0.0.1",
+  "_inBundle": false,
+  "_integrity": "sha512-p9Ya7pw9qa1dqDUEaivJSc3pYfY2KW1i1FEB6ymzQCfsZCPBxQvjQUxnI9I+aLlvCKbrMZMTBezHmK/2SwdZcg==",
+  "_location": "/cordova-install-referrer-api",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "tag",
+    "registry": true,
+    "raw": "cordova-install-referrer-api",
+    "name": "cordova-install-referrer-api",
+    "escapedName": "cordova-install-referrer-api",
+    "rawSpec": "",
+    "saveSpec": null,
+    "fetchSpec": "latest"
+  },
+  "_requiredBy": [
+    "#DEV:/",
+    "#USER"
+  ],
+  "_resolved": "https://registry.npmjs.org/cordova-install-referrer-api/-/cordova-install-referrer-api-0.0.1.tgz",
+  "_shasum": "94f95e76ed145d25a88ed40d4539d24eb3dd3953",
+  "_spec": "cordova-install-referrer-api",
+  "_where": "C:\\Fonte\\NS\\newschool-frontend\\cordova",
+  "author": {
+    "name": "Aleksey Solomonov"
+  },
+  "bugs": {
+    "url": "https://github.com/byorty/cordova-install-referrer-api.git/issues"
+  },
+  "bundleDependencies": false,
+  "cordova": {
+    "id": "cordova-install-referrer-api",
+    "platforms": [
+      "android"
+    ]
+  },
+  "deprecated": false,
+  "description": "Cordova Install Referrer API",
+  "homepage": "https://github.com/byorty/cordova-install-referrer-api.git#README",
+  "keywords": [
+    "ecosystem:cordova",
+    "cordova-android"
+  ],
+  "license": "MIT",
+  "name": "cordova-install-referrer-api",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/byorty/cordova-install-referrer-api.git"
+  },
+  "version": "0.0.1"
+}

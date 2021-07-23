@@ -90,6 +90,7 @@
 import auth from '~/services/http/auth';
 import utils from '~/utils/index';
 import { http } from '~/services/http/config';
+import cms from '~/services/http/cms';
 
 const ENABLE_FACEBOOK_LOGIN_IOS = false;
 
@@ -131,7 +132,11 @@ export default {
 
       this.email = atob(this.dataString.email);
       this.password = atob(this.dataString.password);
+
+      this.submit();
     }
+
+    this.logReferrer();
   },
 
   methods: {
@@ -175,7 +180,6 @@ export default {
         );
       }
 
-      event.preventDefault();
       try {
         if (this.$refs.form.validate()) {
           this.loading = true;
@@ -256,7 +260,32 @@ export default {
       this.loading = true;
       this.$auth.loginWith(provider);
     },
+    logReferrer() {
+      if (window.hasOwnProperty('cordova')) {
+         this.sendReferrer();
+      }
+    },
+    sendReferrer() {
+      cordova.plugins.referrer.get().then((referrer) => {
 
+          const userReferrer = {
+              UniversalId:device.uuid,
+              InstallBeginDatetime:new Date(referrer.installBeginTimestamp*1000),
+              InstallBeginTimestamp:referrer.installBeginTimestamp.toString(),
+              ClickTimestamp:referrer.clickTimestamp.toString(),
+              Referrer:referrer.referrer,
+              Model:device.model,
+              Platform:device.platform,
+              Version:device.version,
+          };
+
+          cms.post(`${process.env.endpoints.CMS.CAMPANHAS}`, userReferrer).catch(error => {
+            console.log(error);
+          });
+        }).catch((error) => {
+            console.error(error);
+        });
+    },
     getFacebookCredentials() {
       return {
         id: this.$store.state.auth.user.id,

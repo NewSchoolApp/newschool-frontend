@@ -36,15 +36,14 @@ export default {
   },
   methods: {
     async openCourse() {
-      if (this.course.pilar || this.course.trilha) {
-        return $nuxt._router.push(
-          `/aluno/lista-de-cursos/${this.course.titulo}`,
-        );
+      if (!this.course.nomeDoAutor) {
+        await this.$store.commit('courses/setAll', this.course.cursos);
+        return $nuxt._router.push(`/aluno/lista-de-cursos/${this.course.titulo}`);
       }
 
       // store this course on VueX
       await this.$store.commit('courses/setCurrent', this.course);
-      // go tho course page
+      // go to course page
       if (this.user.data.role == 'ADMIN') {
         $nuxt._router.push(`/admin/curso/${this.course.slug}`);
       } else {

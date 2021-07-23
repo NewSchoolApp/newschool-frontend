@@ -27,7 +27,7 @@
 
       <!-- Course Cards  -->
       <course-card
-        v-for="course in coursesByTrail"
+        v-for="course in courseList"
         :key="course.id"
         :course="course"
       />
@@ -58,8 +58,7 @@ export default {
     filtro: '',
     notifications: '',
     userPoints: '',
-    trails: '',
-    coursesByTrail: [],
+    trails: ''
   }),
   computed: {
     courseList() {
@@ -127,15 +126,10 @@ export default {
   },
 
   async mounted() {
-    await this.$store.dispatch('courses/refreshAllCourses');
     await this.$store.dispatch('courses/refreshMyCourses');
 
     await this.getNotifications();
     await this.getUserScore();
-
-    this.coursesByTrail = mockCourses.filter(course =>
-      course.trilhas.includes(this.pilarName),
-    );
 
     this.loading = false;
   },

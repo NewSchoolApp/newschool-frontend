@@ -130,6 +130,28 @@ module.exports = [
         "clobbers": [
             "universalLinks"
         ]
+    },
+    {
+        "file": "plugins/cordova-install-referrer-api/www/referrer.js",
+        "id": "cordova-install-referrer-api.referrer",
+        "pluginId": "cordova-install-referrer-api",
+        "clobbers": [
+            "cordova.plugins.referrer"
+        ]
+    },
+    {
+        "file": "plugins/cordova-plugin-device/www/device.js",
+        "id": "cordova-plugin-device.device",
+        "pluginId": "cordova-plugin-device",
+        "clobbers": [
+            "device"
+        ]
+    },
+    {
+        "file": "plugins/cordova-plugin-device/src/browser/DeviceProxy.js",
+        "id": "cordova-plugin-device.DeviceProxy",
+        "pluginId": "cordova-plugin-device",
+        "runs": true
     }
 ];
 module.exports.metadata = 
@@ -152,7 +174,9 @@ module.exports.metadata =
     "cordova-plugin-whitelist": "1.3.4",
     "es6-promise-plugin": "4.2.2",
     "cordova-plugin-x-socialsharing": "6.0.2",
-    "cordova-universal-links-plugin": "1.2.1"
+    "cordova-universal-links-plugin": "1.2.1",
+    "cordova-install-referrer-api": "0.1.5",
+    "cordova-plugin-device": "2.0.3"
 }
 // BOTTOM OF METADATA
 });

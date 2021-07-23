@@ -179,5 +179,21 @@
     },
     "is_top_level": true,
     "variables": {}
+  },
+  "cordova-install-referrer-api": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-install-referrer-api"
+    },
+    "is_top_level": true,
+    "variables": {}
+  },
+  "cordova-plugin-device": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-plugin-device"
+    },
+    "is_top_level": true,
+    "variables": {}
   }
 }

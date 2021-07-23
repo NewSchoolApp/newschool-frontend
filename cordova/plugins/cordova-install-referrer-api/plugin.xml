@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin id="cordova-install-referrer-api"
+    version="0.1.5"
+    xmlns="http://apache.org/cordova/ns/plugins/1.0"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <name>Cordova Install Referrer API</name>
+
+    <engines>
+        <engine name="cordova-android" version=">=8.0.0" />
+    </engines>
+
+    <js-module src="www/referrer.js" name="referrer">
+        <clobbers target="cordova.plugins.referrer" />
+    </js-module>
+
+    <platform name="android">
+        <config-file target="res/xml/config.xml" parent="/*">
+            <feature name="Referrer">
+                <param name="android-package" value="com.github.byorty.Referrer"/>
+            </feature>
+        </config-file>
+
+        <source-file src="src/android/Referrer.java" target-dir="src/com/github/byorty"/>
+
+        <framework src="com.android.installreferrer:installreferrer:1.0" />
+    </platform>
+</plugin>

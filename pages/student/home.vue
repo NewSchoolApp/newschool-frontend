@@ -90,26 +90,26 @@
       <div v-if="!filtro">
         <p id="title">Em destaque</p>
         <course-card
-            v-for="course in courseList"
-            :key="course.id"
-            :course="course"
-          />
+          v-for="course in this.highlights[0].cursos"
+          :key="course.id"
+          :course="course"
+        />
        </div>
       <div v-if="!filtro">
         <p id="title">Pilares</p>
         <course-card
-          v-for="trail in trailList"
-          :key="trail.id"
-          :course="trail"
+          v-for="pilar in this.pilars"
+          :key="pilar.id"
+          :course="pilar"
         />
       </div>
       <br />
        <div v-if="!filtro">
         <p id="title">Trilhas</p>
         <course-card
-          v-for="pilar in pilarList"
-          :key="pilar.id"
-          :course="pilar"
+          v-for="trail in this.trails"
+          :key="trail.id"
+          :course="trail"
         />
       </div>
       <div v-if="filtro">
@@ -143,148 +143,9 @@ export default {
     userPoints: '',
     trails: [],
     pilars: [],
+    highlights: [],
   }),
   computed: {
-    courseList() {
-      return this.$store.state.courses.all.filter(
-          course => course.id == 18
-      );
-    },
-    trailList() {
-      const trails = [
-        {
-          id: 1,
-          titulo: 'Socioemocional',
-          courses: ['amor', 'liberdade', 'medo'],
-          capa: {
-            url: require('~/assets/socioemocional.svg'),
-          },
-          pilar: true,
-        },
-        {
-          id: 2,
-          titulo: 'Educacional',
-          courses: [
-            'literatura sem tédio',
-            'matemática na prática',
-            'projeto X',
-            'e depois da escola?',
-            'ditadura militar'
-          ],
-          capa: {
-            url: require('~/assets/educacional.svg'),
-          },
-          pilar: true,
-        },
-        {
-          id: 3,
-          titulo: 'Profissional',
-          courses: [
-            'programação além do código',
-            'futurismo e inovação',
-            'habilidades do futuro',
-            'fotografia na raça',
-            'pnl',
-          ],
-          capa: {
-            url: require('~/assets/profissional.svg'),
-          },
-          pilar: true,
-        },
-        {
-          id: 4,
-          titulo: 'Social',
-          courses: ['liderança seja o capitão do time', 'preconceito'],
-          capa: {
-            url: require('~/assets/social.svg'),
-          },
-          pilar: true,
-        },
-      ];
-      return trails;
-    },
-    pilarList() {
-      const pilars = [
-        {
-          id: 5,
-          titulo: 'Números e o bicho de 7 cabeças',
-          courses: [
-            'programação além do código',
-            'matemática na prática',
-            'liberdade',
-            'e depois da escola?',
-          ],
-          capa: {
-            url: require('~/assets/numeros.svg'),
-          },
-          trilha: true,
-        },
-        {
-          id: 6,
-          titulo: 'Construa seu castelo',
-          courses: [
-            'liderança',
-            'literatura Sem Tédio',
-            'pnl = programação Neurolinguística',
-            'e depois da escola?',
-            'medo',
-            'preconceito',
-          ],
-          capa: {
-            url: require('~/assets/construa-castelo.svg'),
-          },
-          trilha: true,
-        },
-        {
-          id: 7,
-          titulo: 'Expandindo a mente',
-          courses: ['liberdade', 'projeto X', 'e depois da escola?'],
-          capa: {
-            url: require('~/assets/expandindo-mente.svg'),
-          },
-          trilha: true,
-        },
-        {
-          id: 8,
-          titulo: 'Você se conhece?',
-          courses: ['preconceito', 'medo', 'liberdade', 'e depois da escola?'],
-          capa: {
-            url: require('~/assets/voce-conhece.svg'),
-          },
-          trilha: true,
-        },
-        {
-          id: 9,
-          titulo: 'Assuma o controle',
-          courses: [
-            'habilidades do Futuro',
-            'liderança: Seja o capitão do time!',
-            'liberdade',
-            'medo',
-            'amor',
-          ],
-          capa: {
-            url: require('~/assets/assuma-controle.svg'),
-          },
-          trilha: true,
-        },
-        {
-          id: 10,
-          titulo: 'Mó paz',
-          courses: [
-            'fotografia na raça',
-            'literatura sem tédio',
-            'preconceito',
-            'amor',
-          ],
-          capa: {
-            url: require('~/assets/mo-paz.svg'),
-          },
-          trilha: true,
-        },
-      ];
-      return pilars;
-    },
     user() {
       return this.$store.state.user.data;
     },
@@ -292,13 +153,13 @@ export default {
       return this.user.name.split(' ')[0];
     },
     filteredList() {
-      const totalList = [...this.trailList, ...this.pilarList];
+      const totalList = [...this.trails, ...this.pilars];
 
       if (this.filtro) {
         return totalList.filter(
           trail =>
             trail.titulo.toLowerCase().includes(this.filtro.toLowerCase()) ||
-            trail.courses.find(course => course.toLowerCase().includes(this.filtro.toLowerCase()))
+            trail.cursos.find(course => course.titulo.toLowerCase().includes(this.filtro.toLowerCase()))
         );
       }
       return totalList;
@@ -309,6 +170,9 @@ export default {
     await this.$store.dispatch('courses/refreshAllCourses');
     await this.$store.dispatch('courses/refreshMyCourses');
 
+    await this.getPilars();
+    await this.getTrails();
+    await this.getHighlights();
     await this.getNotifications();
     await this.getUserScore();
 
@@ -325,9 +189,15 @@ export default {
         )
       ).data;
     },
-    // async getTrails() {
-    //   this.trails = (await http.getAll(`${process.env.endpoints.TRAILS}`)).data;
-    // },
+    async getTrails() {
+       this.trails = (await http.getAll(`${process.env.endpoints.TRAILS}`)).data;
+    },
+    async getPilars() {
+       this.pilars = (await http.getAll(`${process.env.endpoints.PILARS}`)).data;
+    },
+     async getHighlights() {
+       this.highlights = (await http.getAll(`${process.env.endpoints.HIGHLIGHTS}`)).data;
+    },
     async getUserScore() {
       this.userPoints = (
         await http.getAll(
