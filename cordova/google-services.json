@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "886841116385",
+    "project_id": "newschoolapp-71420",
+    "storage_bucket": "newschoolapp-71420.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:886841116385:android:e08ee75001ea1874ed59a0",
+        "android_client_info": {
+          "package_name": "com.newschool.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "886841116385-9m4579bcj4l1oh7puued5cv5859hj9uv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAhK7GYaAZwLV_iamlKwoxW3eiFtK3szOE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "886841116385-9m4579bcj4l1oh7puued5cv5859hj9uv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

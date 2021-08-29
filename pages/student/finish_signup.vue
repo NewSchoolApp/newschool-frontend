@@ -7,7 +7,7 @@
         :src="require('~/assets/finish_signup.svg')"
         alt=""
       />
-      <h1 class="points">+ 30 NC</h1>
+      <h1 class="points">+ 100 NC</h1>
     </div>
     <div class="messages">
       <h1 class="message">

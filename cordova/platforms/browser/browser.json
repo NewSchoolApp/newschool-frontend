@@ -114,6 +114,15 @@
     },
     "cordova-plugin-device": {
       "PACKAGE_NAME": "io.cordova.hellocordova"
+    },
+    "cordova-plugin-fcm": {
+      "PACKAGE_NAME": "io.cordova.hellocordova"
+    },
+    "cordova-plugin-firebasex": {
+      "FIREBASE_ANALYTICS_COLLECTION_ENABLED": "true",
+      "FIREBASE_PERFORMANCE_COLLECTION_ENABLED": "true",
+      "FIREBASE_CRASHLYTICS_COLLECTION_ENABLED": "true",
+      "PACKAGE_NAME": "io.cordova.hellocordova"
     }
   },
   "dependent_plugins": {},
@@ -270,6 +279,14 @@
       "id": "cordova-plugin-device.DeviceProxy",
       "pluginId": "cordova-plugin-device",
       "runs": true
+    },
+    {
+      "file": "plugins/cordova-plugin-fcm/www/FCMPlugin.js",
+      "id": "cordova-plugin-fcm.FCMPlugin",
+      "pluginId": "cordova-plugin-fcm",
+      "clobbers": [
+        "FCMPlugin"
+      ]
     }
   ],
   "plugin_metadata": {
@@ -292,6 +309,8 @@
     "cordova-plugin-x-socialsharing": "6.0.2",
     "cordova-universal-links-plugin": "1.2.1",
     "cordova-install-referrer-api": "0.1.5",
-    "cordova-plugin-device": "2.0.3"
+    "cordova-plugin-device": "2.0.3",
+    "cordova-plugin-fcm": "2.1.2",
+    "cordova-plugin-firebasex": "13.0.1"
   }
 }

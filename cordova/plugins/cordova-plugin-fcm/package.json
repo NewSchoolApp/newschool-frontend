@@ -1,0 +1,65 @@
+{
+  "_from": "cordova-plugin-fcm",
+  "_id": "cordova-plugin-fcm@2.1.2",
+  "_inBundle": false,
+  "_integrity": "sha1-Xy98EsFlVtIdMCHn062J4hWCV0c=",
+  "_location": "/cordova-plugin-fcm",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "tag",
+    "registry": true,
+    "raw": "cordova-plugin-fcm",
+    "name": "cordova-plugin-fcm",
+    "escapedName": "cordova-plugin-fcm",
+    "rawSpec": "",
+    "saveSpec": null,
+    "fetchSpec": "latest"
+  },
+  "_requiredBy": [
+    "#DEV:/",
+    "#USER"
+  ],
+  "_resolved": "https://registry.npmjs.org/cordova-plugin-fcm/-/cordova-plugin-fcm-2.1.2.tgz",
+  "_shasum": "5f2f7c12c16556d21d3021e7d3ad89e215825747",
+  "_spec": "cordova-plugin-fcm",
+  "_where": "C:\\Fonte\\NS\\newschool-frontend\\cordova",
+  "author": {
+    "name": "Felipe Echanique Torres",
+    "email": "felipe.echanique@gmail.com"
+  },
+  "bugs": {
+    "url": "https://github.com/fechanique/cordova-plugin-fcm/issues"
+  },
+  "bundleDependencies": false,
+  "cordova_name": "Cordova FCM Push Plugin",
+  "deprecated": false,
+  "description": "Google Firebase Cloud Messaging Cordova Push Plugin",
+  "engines": [],
+  "englishdoc": "",
+  "homepage": "https://github.com/fechanique/cordova-plugin-fcm#readme",
+  "issue": "",
+  "keywords": [
+    "ecosystem:cordova",
+    "cordova-android",
+    "cordova-ios",
+    "notifications",
+    "push",
+    "firebase",
+    "fcm",
+    "ios",
+    "android",
+    "cordova"
+  ],
+  "license": "MIT",
+  "name": "cordova-plugin-fcm",
+  "platforms": [
+    "android",
+    "ios"
+  ],
+  "repo": "",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fechanique/cordova-plugin-fcm.git"
+  },
+  "version": "2.1.2"
+}

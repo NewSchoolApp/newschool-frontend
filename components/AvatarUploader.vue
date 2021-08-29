@@ -90,13 +90,6 @@ export default {
             type: 'error',
             message: 'Selecione uma imagem',
           });
-        } else if (size > 7340032) {
-          // size exemple:   1mb = 1048576 bytes
-          // check whether the size is greater than the size limit
-          this.$notifier.showMessage({
-            type: 'error',
-            message: 'Escolha uma imagem menor que 7MB',
-          });
         } else {
           // para exibir web
           const imageURL = URL.createObjectURL(imageFile);

@@ -95,6 +95,14 @@
             {
               "xml": "<feature name=\"Device\"><param name=\"android-package\" value=\"org.apache.cordova.device.Device\" /></feature>",
               "count": 1
+            },
+            {
+              "xml": "<feature name=\"FCMPlugin\"><param name=\"android-package\" value=\"com.gae.scaffolder.plugin.FCMPlugin\" /><param name=\"onload\" value=\"true\" /></feature>",
+              "count": 1
+            },
+            {
+              "xml": "<feature name=\"FirebasePlugin\"><param name=\"android-package\" value=\"org.apache.cordova.firebase.FirebasePlugin\" /><param name=\"onload\" value=\"true\" /></feature>",
+              "count": 1
             }
           ]
         }
@@ -108,11 +116,11 @@
             },
             {
               "xml": "<uses-permission android:name=\"android.permission.INTERNET\" />",
-              "count": 1
+              "count": 2
             },
             {
               "xml": "<uses-permission android:name=\"android.permission.ACCESS_NETWORK_STATE\" />",
-              "count": 1
+              "count": 2
             },
             {
               "xml": "<uses-permission android:name=\"android.permission.CHANGE_NETWORK_STATE\" />",
@@ -128,6 +136,10 @@
             },
             {
               "xml": "<uses-permission android:name=\"android.permission.ACCESS_WIFI_STATE\" />",
+              "count": 1
+            },
+            {
+              "xml": "<uses-permission android:name=\"android.permission.WAKE_LOCK\" />",
               "count": 1
             }
           ],
@@ -153,6 +165,38 @@
             {
               "xml": "<activity android:configChanges=\"keyboard|keyboardHidden|screenLayout|screenSize|orientation\" android:label=\"@string/fb_app_name\" android:name=\"com.facebook.FacebookActivity\" />",
               "count": 1
+            },
+            {
+              "xml": "<service android:enabled=\"true\" android:exported=\"false\" android:name=\"com.google.android.gms.measurement.AppMeasurementService\" />",
+              "count": 1
+            },
+            {
+              "xml": "<service android:name=\"org.apache.cordova.firebase.FirebasePluginMessagingService\"><intent-filter><action android:name=\"com.google.firebase.MESSAGING_EVENT\" /></intent-filter></service>",
+              "count": 1
+            },
+            {
+              "xml": "<receiver android:name=\"org.apache.cordova.firebase.OnNotificationOpenReceiver\" />",
+              "count": 1
+            },
+            {
+              "xml": "<meta-data android:name=\"com.google.firebase.messaging.default_notification_color\" android:resource=\"@color/accent\" />",
+              "count": 1
+            },
+            {
+              "xml": "<meta-data android:name=\"com.google.firebase.messaging.default_notification_channel_id\" android:value=\"@string/default_notification_channel_id\" />",
+              "count": 1
+            },
+            {
+              "xml": "<meta-data android:name=\"firebase_analytics_collection_enabled\" android:value=\"true\" />",
+              "count": 1
+            },
+            {
+              "xml": "<meta-data android:name=\"firebase_performance_collection_enabled\" android:value=\"true\" />",
+              "count": 1
+            },
+            {
+              "xml": "<meta-data android:name=\"firebase_crashlytics_collection_enabled\" android:value=\"true\" />",
+              "count": 1
             }
           ],
           "/manifest/application": [
@@ -168,6 +212,18 @@
                 "android:supportsRtl": "true",
                 "android:usesCleartextTraffic": "true"
               }
+            },
+            {
+              "xml": "<activity android:exported=\"true\" android:launchMode=\"singleTop\" android:name=\"com.gae.scaffolder.plugin.FCMPluginActivity\"><intent-filter><action android:name=\"FCM_PLUGIN_ACTIVITY\" /><category android:name=\"android.intent.category.DEFAULT\" /></intent-filter></activity>",
+              "count": 1
+            },
+            {
+              "xml": "<service android:name=\"com.gae.scaffolder.plugin.MyFirebaseMessagingService\"><intent-filter><action android:name=\"com.google.firebase.MESSAGING_EVENT\" /></intent-filter></service>",
+              "count": 1
+            },
+            {
+              "xml": "<service android:name=\"com.gae.scaffolder.plugin.MyFirebaseInstanceIDService\"><intent-filter><action android:name=\"com.google.firebase.INSTANCE_ID_EVENT\" /></intent-filter></service>",
+              "count": 1
             }
           ],
           "/*/application": [
@@ -296,6 +352,33 @@
       "PACKAGE_NAME": "com.newschool.app"
     },
     "cordova-plugin-device": {
+      "PACKAGE_NAME": "com.newschool.app"
+    },
+    "cordova-plugin-fcm": {
+      "PACKAGE_NAME": "com.newschool.app"
+    },
+    "cordova-plugin-firebasex": {
+      "FIREBASE_ANALYTICS_COLLECTION_ENABLED": "true",
+      "FIREBASE_PERFORMANCE_COLLECTION_ENABLED": "true",
+      "FIREBASE_CRASHLYTICS_COLLECTION_ENABLED": "true",
+      "ANDROID_ICON_ACCENT": "#FF00FFFF",
+      "ANDROID_FIREBASE_PERFORMANCE_MONITORING": "false",
+      "ANDROID_PLAY_SERVICES_TAGMANAGER_VERSION": "17.0.0",
+      "ANDROID_PLAY_SERVICES_AUTH_VERSION": "19.0.0",
+      "ANDROID_FIREBASE_ANALYTICS_VERSION": "19.0.0",
+      "ANDROID_FIREBASE_MESSAGING_VERSION": "22.0.0",
+      "ANDROID_FIREBASE_CONFIG_VERSION": "21.0.0",
+      "ANDROID_FIREBASE_PERF_VERSION": "20.0.2",
+      "ANDROID_FIREBASE_AUTH_VERSION": "21.0.1",
+      "ANDROID_FIREBASE_INAPPMESSAGING_VERSION": "20.0.0",
+      "ANDROID_FIREBASE_FIRESTORE_VERSION": "23.0.2",
+      "ANDROID_FIREBASE_FUNCTIONS_VERSION": "20.0.0",
+      "ANDROID_FIREBASE_IID_VERSION": "21.1.0",
+      "ANDROID_FIREBASE_INSTALLATIONS_VERSION": "17.0.0",
+      "ANDROID_FIREBASE_CRASHLYTICS_VERSION": "18.1.0",
+      "ANDROID_FIREBASE_CRASHLYTICS_NDK_VERSION": "18.1.0",
+      "ANDROID_GSON_VERSION": "2.8.7",
+      "ANDROID_FIREBASE_PERF_GRADLE_PLUGIN_VERSION": "1.4.0",
       "PACKAGE_NAME": "com.newschool.app"
     }
   },
@@ -427,6 +510,22 @@
       "clobbers": [
         "device"
       ]
+    },
+    {
+      "id": "cordova-plugin-fcm.FCMPlugin",
+      "file": "plugins/cordova-plugin-fcm/www/FCMPlugin.js",
+      "pluginId": "cordova-plugin-fcm",
+      "clobbers": [
+        "FCMPlugin"
+      ]
+    },
+    {
+      "id": "cordova-plugin-firebasex.FirebasePlugin",
+      "file": "plugins/cordova-plugin-firebasex/www/firebase.js",
+      "pluginId": "cordova-plugin-firebasex",
+      "clobbers": [
+        "FirebasePlugin"
+      ]
     }
   ],
   "plugin_metadata": {
@@ -447,6 +546,8 @@
     "cordova-plugin-x-socialsharing": "6.0.2",
     "cordova-universal-links-plugin": "1.2.1",
     "cordova-install-referrer-api": "0.1.5",
-    "cordova-plugin-device": "2.0.3"
+    "cordova-plugin-device": "2.0.3",
+    "cordova-plugin-fcm": "2.1.2",
+    "cordova-plugin-firebasex": "13.0.1"
   }
 }

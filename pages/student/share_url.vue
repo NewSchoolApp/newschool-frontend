@@ -19,7 +19,7 @@
       </h1>
     </div>
     <div class="share__achievement">
-      <p>Ganhe 1 NC cada vez que 3 amigos se cadastrarem na New School.</p>
+      <p>Ganhe 50 NC cada vez que 3 amigos se cadastrarem na New School.</p>
       <div class="btn__container">
         <button
           class="btn-block btn-primary"

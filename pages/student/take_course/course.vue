@@ -36,7 +36,7 @@
                 </div>
               </div>
             </section>
-            <p id="description"></p>
+            <p id="description">{{ course.descricao }}</p>
           </div>
         </div>
 
@@ -98,7 +98,7 @@ export default {
     }
   },
   updated() {
-    document.getElementById("description").innerHTML = this?.course?.descricao;
+
   },
   mounted() {
     this.checkCourseState();
@@ -169,18 +169,21 @@ export default {
     async watchCourse() {
       this.loading = true;
 
-      const firstLessonId = this.course.aulas.find(lesson => lesson.ordem === 1)
-        .id;
-
-      const parts = (await http.getAll(`/api/v2/part/lesson/${firstLessonId}`))
+      const course = (await http.getAll(`/api/v2/course/${this.course.id}`))
         .data;
+
+      this.$store.commit('courses/setCurrent', course);
+
+      const firstLessonId = course.aulas.find(lesson => lesson.ordem === 1).id;
+
+      const parts = (await http.getAll(`/api/v2/part/lesson/${firstLessonId}`)).data;
 
       const firstPart = parts.find(part => part.ordem === 1);
 
       await this.$store.commit('courses/setCurrentWatching', firstPart);
       await this.$store.commit('courses/setCurrentPartOfWatching', firstPart);
 
-      $nuxt._router.replace(`/aluno/curso/${firstPart.slug}/aula/parte/1`);
+      $nuxt._router.replace(`/aluno/curso/${course.slug}/aula/parte/1?watchMode=true`);
     },
   },
 };

@@ -126,6 +126,22 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
       "clobbers": [
         "device"
       ]
+    },
+    {
+      "id": "cordova-plugin-fcm.FCMPlugin",
+      "file": "plugins/cordova-plugin-fcm/www/FCMPlugin.js",
+      "pluginId": "cordova-plugin-fcm",
+      "clobbers": [
+        "FCMPlugin"
+      ]
+    },
+    {
+      "id": "cordova-plugin-firebasex.FirebasePlugin",
+      "file": "plugins/cordova-plugin-firebasex/www/firebase.js",
+      "pluginId": "cordova-plugin-firebasex",
+      "clobbers": [
+        "FirebasePlugin"
+      ]
     }
   ];
   module.exports.metadata = {
@@ -146,6 +162,8 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
     "cordova-plugin-x-socialsharing": "6.0.2",
     "cordova-universal-links-plugin": "1.2.1",
     "cordova-install-referrer-api": "0.1.5",
-    "cordova-plugin-device": "2.0.3"
+    "cordova-plugin-device": "2.0.3",
+    "cordova-plugin-fcm": "2.1.2",
+    "cordova-plugin-firebasex": "13.0.1"
   };
 });

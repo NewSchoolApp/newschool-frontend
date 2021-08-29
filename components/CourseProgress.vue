@@ -45,6 +45,7 @@ export default {
   props: ['course'],
   methods: {
     goToCourse() {
+      console.log(this.course);
       this.$store.commit('courses/setCurrent', this.course);
       $nuxt._router.push(`/aluno/curso/${this.course.courseTakenData.slug}`);
     },

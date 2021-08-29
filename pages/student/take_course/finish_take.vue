@@ -14,7 +14,7 @@
       <v-col align="center">
         <v-col>
           <img src="~/assets/congrats.svg" alt="vencedor" />
-          <div class="score"><strong>+ 30 NC</strong></div>
+          <div class="score"><strong>+ 100 NC</strong></div>
         </v-col>
         <v-col class="pad0">
           <h1 class="white-info">Parabéns {{ nameUser }}!!</h1>

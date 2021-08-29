@@ -404,6 +404,7 @@ export default {
       const currentPart = this.watchMode
         ? this.currentPartOfWatching
         : this.currentPart;
+
       const currentLesson = this.currentCourse.aulas.find(
         lesson => lesson.id === currentPart.aula.id,
       );
