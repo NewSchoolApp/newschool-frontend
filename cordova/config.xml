@@ -16,21 +16,25 @@
     <allow-intent href="geo:*" />
     <platform name="android">
         <preference name="android-minSdkVersion" value="23" />
-        <preference name="SplashScreen" value="none"/>
-        <preference name="android:usesCleartextTraffic" value="true"/>
+        <preference name="SplashScreen" value="none" />
+        <preference name="android:usesCleartextTraffic" value="true" />
         <icon density="ldpi" src="res/android/36px.png" />
         <icon density="mdpi" src="res/android/48px.png" />
         <icon density="hdpi" src="res/android/72px.png" />
         <icon density="xhdpi" src="res/android/96px.png" />
         <icon density="xxhdpi" src="res/android/144px.png" />
         <icon density="xxxhdpi" src="res/android/192px.png" />
-        <splash src="res/screen/android/l480.jpg" density="port-ldpi"/>
-        <splash src="res/screen/android/l480.jpg" density="land-ldpi"/>
+        <splash density="port-ldpi" src="res/screen/android/l480.jpg" />
+        <splash density="land-ldpi" src="res/screen/android/l480.jpg" />
         <allow-intent href="market:*" />
     </platform>
     <platform name="ios">
         <preference name="prerendered-icon" value="true" />
-        <icon height="180" src="res/ios/Icon-App-60x60@3x.png" width="180" />
+        <icon height="60" src="res/ios/Icon-App-20x20@3x.png" width="60" />
+        <icon height="58" src="res/ios/Icon-App-29x29@2x.png" width="58" />
+        <icon height="50" src="res/ios/Icon-App-29x29@2x.png" width="50" />
+        <icon height="29" src="res/ios/Icon-App-29x29@1x.png" width="29" />
+        <icon height="100" src="res/ios/Icon-App-29x29@3x.png" width="100" />
         <icon height="40" src="res/ios/Icon-App-40x40@1x.png" width="40" />
         <icon height="80" src="res/ios/Icon-App-40x40@2x.png" width="80" />
         <icon height="120" src="res/ios/Icon-App-60x60@2x.png" width="120" />
@@ -41,8 +45,7 @@
         <icon height="72" src="res/ios/Icon-App-76x76@1x.png" width="72" />
         <icon height="144" src="res/ios/Icon-App-76x76@2x.png" width="144" />
         <icon height="167" src="res/ios/Icon-App-83.5x83.5@2x.png" width="167" />
-        <icon height="167" src="res/ios/Icon-App-83.5x83.5@2x.png" width="167" />
-        <splash src="res/screen/ios/Default@2x~iphone~anyany.png" />
+        <icon height="167" src="res/ios/Icon-App-83.5x83.5@2x.png" width="167" />        <splash src="res/screen/ios/Default@2x~iphone~anyany.png" />
         <splash src="res/screen/ios/Default@2x~ipad~anyany.png" />
         <splash src="res/screen/ios/Default@2x~iphone~comany.png" />
         <splash src="res/screen/ios/Default@2x~ipad~comany.png" />
@@ -52,12 +55,16 @@
         <preference name="StatusBarBackgroundColor" value="#000000" />
         <preference name="StatusBarStyle" value="lightcontent" />
         <preference name="DisallowOverscroll" value="true" />
+        <preference name="WKWebViewOnly" value="true" />
+        <feature name="CDVWKWebViewEngine">
+            <param name="ios-package" value="CDVWKWebViewEngine" />
+        </feature>
+        <preference name="CordovaWebViewEngine" value="CDVWKWebViewEngine" />
         <plugin source="git" spec="https://github.com/apache/cordova-plugin-statusbar.git" />
         <allow-intent href="itms:*" />
         <allow-intent href="itms-apps:*" />
         <allow-navigation href="https://*youtube.com/*" />
     </platform>
     <engine name="android" />
-    <engine name="ios" spec="^6.0.0" />
     <engine name="browser" />
 </widget>

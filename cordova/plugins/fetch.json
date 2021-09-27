@@ -7,24 +7,16 @@
     "is_top_level": true,
     "variables": {}
   },
-  "cordova-plugin-facebook4": {
-    "source": {
-      "type": "registry",
-      "id": "cordova-plugin-facebook4"
-    },
-    "is_top_level": true,
-    "variables": {
-      "APP_ID": "384298599359690",
-      "APP_NAME": "NewSchool"
-    }
-  },
   "cordova-plugin-x-socialsharing": {
     "source": {
       "type": "registry",
       "id": "cordova-plugin-x-socialsharing"
     },
     "is_top_level": true,
-    "variables": {}
+    "variables": {
+      "PHOTO_LIBRARY_ADD_USAGE_DESCRIPTION": "This app requires photo library access to function properly.",
+      "PHOTO_LIBRARY_USAGE_DESCRIPTION": "This app requires photo library access to function properly."
+    }
   },
   "es6-promise-plugin": {
     "source": {
@@ -37,7 +29,7 @@
   "cordova-plugin-printer": {
     "source": {
       "type": "registry",
-      "id": "cordova-plugin-printer@0.7.3"
+      "id": "cordova-plugin-printer@^0.8.0"
     },
     "is_top_level": true,
     "variables": {}
@@ -80,7 +72,9 @@
       "id": "https://github.com/Santino-Wu/cordova-plugin-imagedownloader.git"
     },
     "is_top_level": true,
-    "variables": {}
+    "variables": {
+      "PHOTOLIBRARY_USAGE_DESCRIPTION": "Requires permission for saving image into Photos"
+    }
   },
   "com.darktalker.cordova.screenshot": {
     "source": {
@@ -167,7 +161,7 @@
   "cordova-plugin-inappbrowser": {
     "source": {
       "type": "registry",
-      "id": "cordova-plugin-inappbrowser@4.1.0"
+      "id": "cordova-plugin-inappbrowser@^4.1.0"
     },
     "is_top_level": true,
     "variables": {}
@@ -183,7 +177,7 @@
   "cordova-install-referrer-api": {
     "source": {
       "type": "registry",
-      "id": "cordova-install-referrer-api"
+      "id": "cordova-install-referrer-api@0.0.1"
     },
     "is_top_level": true,
     "variables": {}
@@ -191,7 +185,15 @@
   "cordova-plugin-device": {
     "source": {
       "type": "registry",
-      "id": "cordova-plugin-device"
+      "id": "cordova-plugin-device@^2.0.3"
+    },
+    "is_top_level": true,
+    "variables": {}
+  },
+  "cordova-plugin-wkwebview-engine": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-plugin-wkwebview-engine"
     },
     "is_top_level": true,
     "variables": {}

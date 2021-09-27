@@ -62,24 +62,6 @@ function createProjectObject (projectPath, projectName) {
 }
 
 /**
- * Gets the resolved bundle identifier from a project.
- * Resolves the variable set in INFO.plist, if any (simple case)
- *
- * @param {*} projectObject
- */
-function getBundleIdentifier (projectObject) {
-    const packageName = projectObject.getPackageName();
-    let bundleIdentifier = packageName;
-
-    const variables = packageName.match(/\$\((\w+)\)/); // match $(VARIABLE), if any
-    if (variables && variables.length >= 2) {
-        bundleIdentifier = projectObject.xcode.getBuildProperty(variables[1]);
-    }
-
-    return bundleIdentifier;
-}
-
-/**
  * Returns a promise that resolves to the default simulator target; the logic here
  * matches what `cordova emulate ios` does.
  *
@@ -89,6 +71,7 @@ function getBundleIdentifier (projectObject) {
  * @return {Promise}
  */
 function getDefaultSimulatorTarget () {
+    events.emit('log', 'Select last emulator from list as default.');
     return require('./listEmulatorBuildTargets').run()
         .then(emulators => {
             let targetEmulator;
@@ -233,7 +216,7 @@ module.exports.run = buildOpts => {
             }
 
             const project = createProjectObject(projectPath, projectName);
-            const bundleIdentifier = getBundleIdentifier(project);
+            const bundleIdentifier = project.getPackageName();
             const exportOptions = { compileBitcode: false, method: 'development' };
 
             if (buildOpts.packageType) {

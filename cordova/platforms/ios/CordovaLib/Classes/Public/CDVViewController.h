@@ -37,6 +37,7 @@
 }
 
 @property (nonatomic, readonly, weak) IBOutlet UIView* webView;
+@property (nonatomic, readonly, strong) UIView* launchView;
 
 @property (nonatomic, readonly, strong) NSMutableDictionary* pluginObjects;
 @property (nonatomic, readonly, strong) NSDictionary* pluginsMap;
@@ -62,7 +63,7 @@
 - (NSString*)appURLScheme;
 - (NSURL*)errorURL;
 
-- (UIColor*)colorFromColorString:(NSString*)colorString;
+- (UIColor*)colorFromColorString:(NSString*)colorString CDV_DEPRECATED(7.0.0, "Use BackgroundColor in xcassets");
 - (NSArray*)parseInterfaceOrientations:(NSArray*)orientations;
 - (BOOL)supportsOrientation:(UIInterfaceOrientation)orientation;
 

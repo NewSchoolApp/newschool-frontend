@@ -51,6 +51,7 @@ module.exports.prepare = function (cordovaProject, options) {
         .then(() => {
             updateIcons(cordovaProject, this.locations);
             updateLaunchStoryboardImages(cordovaProject, this.locations);
+            updateBackgroundColor(cordovaProject, this.locations);
             updateFileResources(cordovaProject, this.locations);
         })
         .then(() => {
@@ -79,6 +80,7 @@ module.exports.clean = function (options) {
         cleanWww(projectRoot, this.locations);
         cleanIcons(projectRoot, projectConfig, this.locations);
         cleanLaunchStoryboardImages(projectRoot, projectConfig, this.locations);
+        cleanBackgroundColor(projectRoot, projectConfig, this.locations);
         cleanFileResources(projectRoot, projectConfig, this.locations);
     });
 };
@@ -398,6 +400,123 @@ function cleanIcons (projectRoot, projectConfig, locations) {
     }
 }
 
+/**
+ * Returns the directory for the BackgroundColor.colorset asset, or null if no
+ * xcassets exist.
+ *
+ * @param  {string} projectRoot        The project's root directory
+ * @param  {string} platformProjDir    The platform's project directory
+ */
+function getBackgroundColorDir (projectRoot, platformProjDir) {
+    if (folderExists(path.join(projectRoot, platformProjDir, 'Images.xcassets/'))) {
+        return path.join(platformProjDir, 'Images.xcassets', 'BackgroundColor.colorset');
+    } else {
+        return null;
+    }
+}
+
+function colorPreferenceToComponents (pref) {
+    if (!pref || !pref.match(/^(#[0-9A-Fa-f]{3}|(0x|#)([0-9A-Fa-f]{2})?[0-9A-Fa-f]{6})$/)) {
+        return {
+            platform: 'ios',
+            reference: 'systemBackgroundColor'
+        };
+    }
+
+    let red = 'FF';
+    let green = 'FF';
+    let blue = 'FF';
+    let alpha = 1.0;
+
+    if (pref[0] === '#' && pref.length === 4) {
+        red = pref[1] + pref[1];
+        green = pref[2] + pref[2];
+        blue = pref[3] + pref[3];
+    }
+
+    if (pref.length >= 7 && (pref[0] === '#' || pref.substring(0, 2) === '0x')) {
+        let offset = pref[0] === '#' ? 1 : 2;
+
+        if (pref.substring(offset).length === 8) {
+            alpha = parseInt(pref.substring(offset, offset + 2), 16) / 255.0;
+            offset += 2;
+        }
+
+        red = pref.substring(offset, offset + 2);
+        green = pref.substring(offset + 2, offset + 4);
+        blue = pref.substring(offset + 4, offset + 6);
+    }
+
+    return {
+        'color-space': 'srgb',
+        components: {
+            red: '0x' + red.toUpperCase(),
+            green: '0x' + green.toUpperCase(),
+            blue: '0x' + blue.toUpperCase(),
+            alpha: alpha.toFixed(3)
+        }
+    };
+}
+
+/**
+ * Update the background color Contents.json in xcassets.
+ *
+ * @param {Object} cordovaProject The cordova project
+ * @param {Object} locations A dictionary containing useful location paths
+ */
+function updateBackgroundColor (cordovaProject, locations) {
+    const pref = cordovaProject.projectConfig.getPreference('BackgroundColor', 'ios') || '';
+
+    const platformProjDir = path.relative(cordovaProject.root, locations.xcodeCordovaProj);
+    const backgroundColorDir = getBackgroundColorDir(cordovaProject.root, platformProjDir);
+
+    if (backgroundColorDir) {
+        const contentsJSON = {
+            colors: [{
+                idiom: 'universal',
+                color: colorPreferenceToComponents(pref)
+            }],
+            info: {
+                author: 'Xcode',
+                version: 1
+            }
+        };
+
+        events.emit('verbose', 'Updating Background Color color set Contents.json');
+        fs.writeFileSync(path.join(cordovaProject.root, backgroundColorDir, 'Contents.json'),
+            JSON.stringify(contentsJSON, null, 2));
+    }
+}
+
+/**
+ * Resets the background color Contents.json in xcassets to default.
+ *
+ * @param {string} projectRoot Path to the project root
+ * @param {Object} projectConfig The project's config.xml
+ * @param {Object} locations A dictionary containing useful location paths
+ */
+function cleanBackgroundColor (projectRoot, projectConfig, locations) {
+    const platformProjDir = path.relative(projectRoot, locations.xcodeCordovaProj);
+    const backgroundColorDir = getBackgroundColorDir(projectRoot, platformProjDir);
+
+    if (backgroundColorDir) {
+        const contentsJSON = {
+            colors: [{
+                idiom: 'universal',
+                color: colorPreferenceToComponents(null)
+            }],
+            info: {
+                author: 'Xcode',
+                version: 1
+            }
+        };
+
+        events.emit('verbose', 'Cleaning Background Color color set Contents.json');
+        fs.writeFileSync(path.join(projectRoot, backgroundColorDir, 'Contents.json'),
+            JSON.stringify(contentsJSON, null, 2));
+    }
+}
+
 function updateFileResources (cordovaProject, locations) {
     const platformDir = path.relative(cordovaProject.root, locations.root);
     const files = cordovaProject.projectConfig.getFileResources('ios');
@@ -529,7 +648,8 @@ function cleanFileResources (projectRoot, projectConfig, locations) {
  *             height: 'any|com',
  *             filename: undefined|'Default@scale~idiom~widthheight.png',
  *             src: undefined|'path/to/original/matched/image/from/splash/screens.png',
- *             target: undefined|'path/to/asset/library/Default@scale~idiom~widthheight.png'
+ *             target: undefined|'path/to/asset/library/Default@scale~idiom~widthheight.png',
+ *             appearence: undefined|'dark'|'light'
  *         }, ...
  *     ]
  *
@@ -546,39 +666,46 @@ function mapLaunchStoryboardContents (splashScreens, launchStoryboardImagesDir) 
         iphone: ['1x', '2x', '3x']
     };
     const sizes = ['com', 'any'];
+    const appearences = ['', 'dark', 'light'];
 
     idioms.forEach(idiom => {
         scalesForIdiom[idiom].forEach(scale => {
             sizes.forEach(width => {
                 sizes.forEach(height => {
-                    const item = { idiom, scale, width, height };
+                    appearences.forEach(appearence => {
+                        const item = { idiom, scale, width, height };
 
-                    /* examples of the search pattern:
-                     *    scale   ~  idiom    ~   width    height
-                     *     @2x    ~ universal ~    any      any
-                     *     @3x    ~  iphone   ~    com      any
-                     *     @2x    ~   ipad    ~    com      any
-                     */
-                    const searchPattern = `@${scale}~${idiom}~${width}${height}`;
+                        if (appearence !== '') {
+                            item.appearence = appearence;
+                        }
 
-                    /* because old node versions don't have Array.find, the below is
-                     * functionally equivalent to this:
-                     *     var launchStoryboardImage = splashScreens.find(function(item) {
-                     *         return item.src.indexOf(searchPattern) >= 0;
-                     *     });
-                     */
-                    const launchStoryboardImage = splashScreens.reduce(
-                        (p, c) => (c.src.indexOf(searchPattern) >= 0) ? c : p,
-                        undefined
-                    );
+                        /* examples of the search pattern:
+                         *    scale   ~  idiom    ~   width    height ~ appearence
+                         *     @2x    ~ universal ~    any      any
+                         *     @3x    ~  iphone   ~    com      any   ~   dark
+                         *     @2x    ~   ipad    ~    com      any   ~   light
+                         */
+                        const searchPattern = '@' + scale + '~' + idiom + '~' + width + height + (appearence ? '~' + appearence : '');
 
-                    if (launchStoryboardImage) {
-                        item.filename = `Default${searchPattern}.png`;
-                        item.src = launchStoryboardImage.src;
-                        item.target = path.join(launchStoryboardImagesDir, item.filename);
-                    }
+                        /* because old node versions don't have Array.find, the below is
+                         * functionally equivalent to this:
+                         *     var launchStoryboardImage = splashScreens.find(function(item) {
+                         *         return (item.src.indexOf(searchPattern) >= 0) ? (appearence !== '' ? true : ((item.src.indexOf(searchPattern + '~light') >= 0 || (item.src.indexOf(searchPattern + '~dark') >= 0)) ? false : true)) : false;
+                         *     });
+                         */
+                        const launchStoryboardImage = splashScreens.reduce(
+                            (p, c) => (c.src.indexOf(searchPattern) >= 0) ? (appearence !== '' ? c : ((c.src.indexOf(searchPattern + '~light') >= 0 || (c.src.indexOf(searchPattern + '~dark') >= 0)) ? p : c)) : p,
+                            undefined
+                        );
 
-                    platformLaunchStoryboardImages.push(item);
+                        if (launchStoryboardImage) {
+                            item.filename = `Default${searchPattern}.png`;
+                            item.src = launchStoryboardImage.src;
+                            item.target = path.join(launchStoryboardImagesDir, item.filename);
+                        }
+
+                        platformLaunchStoryboardImages.push(item);
+                    });
                 });
             });
         });
@@ -624,6 +751,7 @@ function mapLaunchStoryboardResources (splashScreens, launchStoryboardImagesDir)
  *                 scale: '1x|2x|3x',
  *                 width-class: undefined|'compact',
  *                 height-class: undefined|'compact'
+ *                 ...
  *             }, ...
  *         ],
  *         info: {
@@ -661,6 +789,10 @@ function getLaunchStoryboardContentsJSON (splashScreens, launchStoryboardImagesD
         }
         if (item.height !== CDV_ANY_SIZE_CLASS) {
             newItem['height-class'] = IMAGESET_COMPACT_SIZE_CLASS;
+        }
+
+        if (item.appearence) {
+            newItem.appearances = [{ appearance: 'luminosity', value: item.appearence }];
         }
 
         // Xcode doesn't want a filename property if there's no image for these traits
