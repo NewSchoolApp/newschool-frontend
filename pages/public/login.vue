@@ -262,6 +262,26 @@ export default {
       this.$auth.loginWith(provider);
     },
     logReferrer() {
+
+      //const userReferrer = {
+      //        UniversalId:"31231234784847",
+      //        InstallBeginDatetime:new Date(),
+      //       InstallBeginTimestamp:"43224",
+      //        ClickTimestamp:"231232",
+      //        Referrer:"fdsdf",
+      //        Model:"RX111111",
+      //        Platform:"Android",
+      //        Version:"10",
+      //    };
+
+      //    console.log(userReferrer);
+      //    console.log(process.env.endpoints.CMS.CAMPANHAS);
+
+      //    cms.post(`${process.env.endpoints.CMS.CAMPANHAS}`, userReferrer).catch(error => {
+      //      console.log(error);
+      //      throw error;
+      //    });
+
       if (window.hasOwnProperty('cordova')) {
          this.sendReferrer();
 

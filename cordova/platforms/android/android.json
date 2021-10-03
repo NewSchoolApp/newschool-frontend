@@ -65,10 +65,6 @@
               "count": 1
             },
             {
-              "xml": "<feature name=\"Printer\"><param name=\"android-package\" value=\"de.appplant.cordova.plugin.printer.Printer\" /></feature>",
-              "count": 1
-            },
-            {
               "xml": "<feature name=\"CDVOrientation\"><param name=\"android-package\" value=\"cordova.plugins.screenorientation.CDVOrientation\" /></feature>",
               "count": 1
             },
@@ -327,9 +323,6 @@
     "cordova-plugin-insomnia": {
       "PACKAGE_NAME": "com.newschool.app"
     },
-    "cordova-plugin-printer": {
-      "PACKAGE_NAME": "com.newschool.app"
-    },
     "es6-promise-plugin": {
       "PACKAGE_NAME": "com.newschool.app"
     },
@@ -449,15 +442,6 @@
       ]
     },
     {
-      "id": "cordova-plugin-printer.Printer",
-      "file": "plugins/cordova-plugin-printer/www/printer.js",
-      "pluginId": "cordova-plugin-printer",
-      "clobbers": [
-        "plugin.printer",
-        "cordova.plugins.printer"
-      ]
-    },
-    {
       "id": "es6-promise-plugin.Promise",
       "file": "plugins/es6-promise-plugin/www/promise.js",
       "pluginId": "es6-promise-plugin",
@@ -538,7 +522,6 @@
     "cordova-plugin-facebook4": "6.2.0",
     "cordova-plugin-inappbrowser": "4.1.0",
     "cordova-plugin-insomnia": "4.3.0",
-    "cordova-plugin-printer": "0.7.3",
     "es6-promise-plugin": "4.2.2",
     "cordova-plugin-screen-orientation": "3.0.2",
     "cordova-plugin-splashscreen": "6.0.0",

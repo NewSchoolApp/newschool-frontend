@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget android-versionCode="10022" id="com.newschool.app" version="2.0.18" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget android-versionCode="10026" id="com.newschool.app" version="2.0.21" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <feature name="CDVWebViewEngine">
         <param name="ios-package" value="CDVWebViewEngine" />
     </feature>
@@ -54,9 +54,6 @@
     </feature>
     <feature name="Insomnia">
         <param name="ios-package" value="Insomnia" />
-    </feature>
-    <feature name="Printer">
-        <param name="ios-package" value="APPPrinter" />
     </feature>
     <feature name="CDVOrientation">
         <param name="ios-package" value="CDVOrientation" />

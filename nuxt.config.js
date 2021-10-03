@@ -264,7 +264,7 @@ export default {
     GATOKEN: process.env.GA_TOKEN,
     CMS: {
       URL: 'http://ec2-13-59-134-79.us-east-2.compute.amazonaws.com:1337',
-      Token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjI3MzA0NjA0LCJleHAiOjE2Mjk4OTY2MDR9.CY-ulCswi2wTYierICZPy4t7gbzZJ30oSRxGgYzHy5A'
+      Token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjMzMjkyNTc1LCJleHAiOjE2MzU4ODQ1NzV9.ZcAKF3kl6dKyMPrGz9DDvZDVpDY2LtRl2g8nh14wwog'
     },
   },
   // uncomment for cordova release on android/ios

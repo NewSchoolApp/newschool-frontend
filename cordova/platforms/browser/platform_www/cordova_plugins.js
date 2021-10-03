@@ -79,15 +79,6 @@ module.exports = [
         ]
     },
     {
-        "file": "plugins/cordova-plugin-printer/www/printer.js",
-        "id": "cordova-plugin-printer.Printer",
-        "pluginId": "cordova-plugin-printer",
-        "clobbers": [
-            "plugin.printer",
-            "cordova.plugins.printer"
-        ]
-    },
-    {
         "file": "plugins/cordova-plugin-screen-orientation/www/screenorientation.js",
         "id": "cordova-plugin-screen-orientation.screenorientation",
         "pluginId": "cordova-plugin-screen-orientation",
@@ -176,7 +167,6 @@ module.exports.metadata =
     "cordova-plugin-facebook4": "6.2.0",
     "cordova-plugin-inappbrowser": "4.1.0",
     "cordova-plugin-insomnia": "4.3.0",
-    "cordova-plugin-printer": "0.7.3",
     "cordova-plugin-screen-orientation": "3.0.2",
     "cordova-plugin-splashscreen": "6.0.0",
     "cordova-plugin-whitelist": "1.3.4",

@@ -387,12 +387,18 @@ export default {
       }
     },
     async getCompletion() {
+
       const myCourses = (
         await http.getAll(`${process.env.endpoints.MY_COURSES}${this.user.id}`)
       ).data;
+
       this.completion = myCourses.find(
         course => parseInt(course.courseId) === this.courseId,
       ).completion;
+
+      if (this.completion === 100 && this.disableBtn) {
+        this.completion = 80;
+      }
     },
     enableNext() {
       this.disableBtn = false;
