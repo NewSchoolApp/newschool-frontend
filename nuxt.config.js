@@ -155,6 +155,11 @@ export default {
           redirect: '/login',
         },
         {
+          path: 'netflix',
+          name: 'netflix',
+          component: resolve(__dirname, 'pages/public/netflix.vue'),
+        },
+        {
           path: '/recuperar-senha/:token',
           component: resolve(__dirname, 'pages/public/reset_password.vue'),
         },
