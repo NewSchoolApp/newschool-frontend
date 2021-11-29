@@ -155,7 +155,7 @@ export default {
 }
 
 .thumb-background {
-  background-color: var(--primary);
+  background-color: var(--secondary);
 
   top: 0;
   opacity: 0.4;

@@ -94,8 +94,8 @@ export default {
 </script>
 <style>
 .v-item-group.v-bottom-navigation--fixed {
-    height: calc(56px + env(safe-area-inset-bottom, 0px)) !important;
-    padding-bottom: env(safe-area-inset-bottom, 0px);
+  height: calc(56px + env(safe-area-inset-bottom, 0px)) !important;
+  padding-bottom: env(safe-area-inset-bottom, 0px);
 }
 </style>
 <style scoped>
@@ -106,8 +106,24 @@ export default {
   margin-right: 0 !important;
   padding-top: 5px;
 }
+
+::v-deep .theme--light.v-bottom-navigation {
+  /*background-image: linear-gradient(rgb(63, 39, 84), var(--secondary));*/
+  background-image: linear-gradient(rgb(39, 7, 104), var(--secondary));
+  opacity: 0.98;
+}
+
+::v-deep .theme--light.v-item-group.v-bottom-navigation .v-btn.v-btn--active {
+  color: var(--primary) !important;
+}
+
+::v-deep .theme--light.v-bottom-navigation .v-btn:not(.v-btn--active) {
+  color: #fff !important;
+}
+
 #page {
   margin-bottom: 5rem !important;
+  background-color: #fff;
 }
 .btn-fixed {
   height: 100% !important;
@@ -120,21 +136,21 @@ export default {
   color: var(--primary);
 }
 .mdi-library::before {
-  content: url('https://api.iconify.design/ic:outline-local-library.svg?color=rgb(112%2C112%2C112)&height=24');
+  /*content: url('https://api.iconify.design/ic:outline-local-library.svg?color=rgb(112%2C112%2C112)&height=24');*/
   vertical-align: -0.125em;
 }
 >>> .v-item-group.v-bottom-navigation
   .v-btn.v-btn--active
   .v-btn__content
   .mdi-library::before {
-  content: url('https://api.iconify.design/ic:outline-local-library.svg?color=rgb(102%2C0%2C204)&height=24');
+  /*content: url('https://api.iconify.design/ic:outline-local-library.svg?color=rgb(102%2C0%2C204)&height=24');*/
   vertical-align: -0.125em;
 }
 
 span {
   font-size: 8px;
   font-weight: 400;
-  color: rgb(115, 115, 115);
+  color: #fff;
   margin-top: 5px;
 }
 >>> .v-item-group.v-bottom-navigation

@@ -115,7 +115,7 @@ export default {
   padding: 0 58px 0;
 }
 .thumb-background {
-  background-color: var(--primary);
+  background-color: var(--secondary);
   position: absolute;
   top: 0;
   opacity: 0.4;

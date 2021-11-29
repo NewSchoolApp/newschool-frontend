@@ -253,7 +253,7 @@ h1 {
   border-bottom: solid 1px #e8e8e8;
   -webkit-box-align: center;
   align-items: center;
-  color: var(--primary) !important;
+  color: var(--secondary) !important;
   cursor: pointer;
   div {
     width: 50px;

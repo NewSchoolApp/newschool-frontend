@@ -18,6 +18,7 @@
         <preference name="android-minSdkVersion" value="23" />
         <preference name="SplashScreen" value="none"/>
         <preference name="android:usesCleartextTraffic" value="true"/>
+        <preference name="StatusBarOverlaysWebView" value="true" />
         <icon density="ldpi" src="res/android/36px.png" />
         <icon density="mdpi" src="res/android/48px.png" />
         <icon density="hdpi" src="res/android/72px.png" />

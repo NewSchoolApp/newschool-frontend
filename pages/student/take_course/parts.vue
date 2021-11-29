@@ -709,7 +709,7 @@ hr {
 ::v-deep .v-tabs-slider-wrapper {
   bottom: -4px !important;
   height: 4px !important;
-  color: var(--primary-light);
+  color: var(--secondary);
 }
 ::v-deep .v-tab {
   font-size: 11px !important;
@@ -729,7 +729,7 @@ h1 {
   font-weight: 900;
   font-size: 1em;
   line-height: 36px;
-  color: var(--primary);
+  color: var(--secondary);
 }
 @media screen and (max-width: 20.625em) {
   h1 {
@@ -766,7 +766,7 @@ h3 {
   line-height: normal;
   line-height: initial;
   text-align: left;
-  color: var(--primary);
+  color: var(--secondary);
 }
 h4 {
   font-weight: 400;
@@ -829,7 +829,7 @@ h4 {
 }
 .progress-fill {
   height: 100%;
-  background-color: var(--primary);
+  background-color: var(--secondary);
   border-radius: 3px;
 }
 .progress-comp small {

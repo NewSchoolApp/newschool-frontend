@@ -1,8 +1,14 @@
 @import url("https://fonts.googleapis.com/css?family=Montserrat:400,500,900&display=swap");
 
 :root {
-  --primary: #6600cc;
-  --primary-light: #aa56ff;
+  --primary: #f38a20;
+  --primary-light: #f38a20;
+  --secondary: #6600cc;
+}
+
+::v-deep .theme--light.v-bottom-navigation {
+  /*background-color: rgb(63, 39, 84);*/
+  background-color: var(--secondary);
 }
 
 /*#region InputsFields*/
@@ -43,7 +49,7 @@
 
 /* Esquema de cores tendo roxo como primário (Padrão) */
 .btn-primary {
-  background-color: var(--primary) !important;
+  background-color: var(--secondary) !important;
   box-shadow: 3px 3px 5px rgba(128, 128, 128, 0.8) !important;
   color: #fff !important;
   font-family: Roboto !important;
@@ -58,8 +64,8 @@
 /* Esquema de cores tendo branco como primário */
 .btn-white {
   background-color: #ffffff !important;
-  color: var(--primary) !important;
-  border: solid 1px var(--primary);
+  color: var(--secondary) !important;
+  border: solid 1px var(--secondary);
   box-shadow: none !important;
 }
 
@@ -132,7 +138,7 @@
 
 .h1__theme {
   font-weight: 900;
-  color: var(--primary);
+  color: var(--secondary);
 }
 
 .container-spinner {
@@ -162,7 +168,7 @@ h1,
 h2,
 h3,
 h4 {
-  color: var(--primary);
+  color: var(--secondary);
 }
 
 //VUETIFY CUSTOM UI COMPONENTS:
@@ -209,6 +215,8 @@ h4 {
   }
   .v-text-field__details {
     padding: 0 !important;
+    margin-bottom: 0px !important;
+    display: none;
   }
 
   //in case of v-autocomplete or v-select
@@ -221,7 +229,7 @@ h4 {
 .light-text-field {
   color: rgba(0, 0, 0, 0.7) !important;
 
-  input,
+input,
   ::placeholder {
     font-family: Roboto !important;
     font-size: 12px !important;
@@ -245,7 +253,7 @@ h4 {
   font-size: 14px !important;
   width: 100% !important;
 
-  input,
+input,
   ::placeholder {
     font-family: Roboto !important;
     font-size: 12px !important;
@@ -302,7 +310,7 @@ h4 {
 
   /* cor do ícone de lupa */
   .v-icon {
-    color: rgba(0, 0, 0, 0.9) !important;
+    color: #6600cc !important;
   }
 }
 
@@ -326,7 +334,7 @@ h4 {
 }
 
 .primary-select {
-  
+
 .v-input__control * {
   margin: 0 !important;
   padding: 0 !important;

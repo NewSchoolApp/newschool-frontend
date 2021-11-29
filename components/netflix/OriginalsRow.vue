@@ -1,47 +1,26 @@
 <template>
-  <div class="white--text">
-    <h2 class="font-weight-medium mb-3 mt-4 pa-5">NETFLIX ORIGINALS</h2>
+  <div class="sections white--text">
+    <h2 class="font-weight-medium mb-3">{{ title }}</h2>
     <v-slide-group
       v-model="model"
       active-class="success"
-      prev-icon="mdi-minus"
-      next-icon="mdi-plus"
-      show-arrows
-      dark
+      prev-icon="mdi-arrow-left"
+      next-icon="mdi-arrow-right"
+      hide-arrows
+      light
       width="100%"
     >
       <v-slide-item
-        v-for="movie in movies"
-        :key="movie.id"
+        v-for="course in courses"
+        :key="course.id"
         v-slot:default="{ active, toggle }"
       >
         <v-hover v-slot:default="{ hover }">
-          <v-card
-            :elevation="hover ? 12 : 0"
-            :color="active ? undefined : 'grey lighten-1'"
-            class="mr-3"
-            :class="{ 'on-hover': hover }"
-            height="100%"
-            width="110"
-            @click="toggle"
-          >
-            <v-img
-              :src="base_url + movie.poster_path"
-              aspect-ratio="1"
-              class=""
-              gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
-              height="200px"
-            >
-              <template v-slot:placeholder>
-                <v-row class="fill-height ma-0" align="center" justify="center">
-                  <v-progress-circular
-                    indeterminate
-                    color="grey lighten-5"
-                  ></v-progress-circular>
-                </v-row>
-              </template>
-            </v-img>
-          </v-card>
+          <CourseCard
+            :course="course"
+            :hover="true"
+            :active="active"
+            :toggle="toggle" />
         </v-hover>
       </v-slide-item>
     </v-slide-group>
@@ -49,26 +28,28 @@
 </template>
 
 <script>
-import axios from "@/plugins/axios";
-import requests from "../../requests";
+import CourseCard from "@/components/netflix/CourseCard.vue";
 
 export default {
+  components: {
+    CourseCard
+  },
+  props: {
+    title: {
+      type: String,
+      required: true,
+    },
+    courses: {
+      type: Object,
+      required: true,
+    },
+  },
   data: () => ({
     model: null,
-    movies: [],
     showLoading: true,
-    base_url: "https://image.tmdb.org/t/p/original/",
   }),
-  async mounted() {
-    this.showLoading = true;
-    try {
-      const response = await axios.get(requests.fetchNetflixOriginals);
-      this.movies = response.data.results;
-    } catch (error) {
-      console.error(error);
-    } finally {
-      this.showLoading = false;
-    }
+  mounted() {
+    this.showLoading = false;
   },
   methods: {},
 };
@@ -84,5 +65,21 @@ export default {
 
 .v-card:not(.on-hover) {
   opacity: 0.8;
+}
+
+.sections {
+  margin-top: 10px;
+}
+
+h1,
+h2,
+h3,
+h4,
+.font-weight-medium {
+  color: var(--primary) !important;
+}
+
+::v-deep .theme--light.v-icon {
+  color: #6600cc;
 }
 </style>

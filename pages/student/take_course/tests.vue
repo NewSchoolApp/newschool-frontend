@@ -666,7 +666,7 @@ h4 {
   font-family: 'Roboto';
 
   span {
-    color: var(--primary);
+    color: var(--secondary);
     font-weight: 400;
   }
 }

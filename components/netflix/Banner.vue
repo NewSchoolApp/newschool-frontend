@@ -1,65 +1,73 @@
 <template>
   <div class="ma-0">
-    <header class="banner" :style="headerStyle">
+    <header class="banner rounded-1" :style="headerStyle">
       <div class="banner__contents">
         <h1 class="banner__title">{{ bannerTitle }}</h1>
-        <div class="banner__buttons">
-          <button class="banner__button rounded-0">Play</button>
-          <button class="banner__button rounded-0">My List</button>
-        </div>
         <p class="banner__description">{{ truncateOverview }}</p>
+        <div class="banner__buttons">
+          <button class="banner__button rounded-0"
+            @click="openCourse()">Assistir</button>
+          <!--<button class="banner__button rounded-0">Meus cursos</button>-->
+        </div>
       </div>
       <div class="banner__fadeBottom" />
     </header>
   </div>
 </template>
-
 <script>
-
-import axios from "@/plugins/axios";
-import requests from "../../requests";
-
 export default {
+  props: {
+    highlights: {
+      type: Object,
+      required: true,
+    },
+  },
   data() {
     return {
       showLoading: true,
-      movie: {},
-      size: "cover",
-      position: "center center",
-      image: "",
+      course: {},
+      size: '100% 100%',
+      position: 'center center',
+      image: '',
     };
   },
   async mounted() {
     this.showLoading = true;
     try {
-      const response = await axios.get(requests.fetchNetflixOriginals);
-      const { results } = response.data;
-      const movieIndex = Math.floor(Math.random() * results.length - 1);
-      this.movie = results[movieIndex];
-      this.image = results[movieIndex]?.backdrop_path;
-      console.log("image here", this.image);
+      //const { cursos } = this.highlights[0];
+      const cursos = this.$store.state.courses.all;
+      const courseIndex = Math.floor(Math.random() * cursos.length - 1);
+      this.course = cursos[courseIndex];
+      this.image = cursos[courseIndex]?.capa.url;
     } catch (error) {
       console.error(error);
     } finally {
       this.showLoading = false;
     }
   },
+  methods: {
+    async openCourse() {
+      await this.$store.commit('courses/setCurrent', this.course);
+      $nuxt._router.push(`/aluno/curso/${this.course.slug}`);
+    },
+  },
   computed: {
     truncateOverview: function() {
       let n = 150;
-      const movieOverview = this.movie?.overview;
-      return movieOverview?.length > n
-        ? movieOverview.substr(0, n - 1) + "..."
-        : movieOverview;
+      const courseOverview = this.course?.descricao;
+      return courseOverview?.length > n
+        ? courseOverview.substr(0, n - 1) + "..."
+        : courseOverview;
     },
     bannerTitle: function() {
-      return this.movie?.title || this.movie?.name || this.movie?.original_name;
+      // return this.movie?.titulo || this.movie?.name || this.movie?.original_name;
+      return this.course?.titulo;
     },
     headerStyle: function() {
       return {
         backgroundSize: this.size,
         backgroundPosition: this.position,
-        backgroundImage: `url("https://image.tmdb.org/t/p/original/${this.image}")`,
+        backgroundImage: `linear-gradient(to top, rgba(0, 0, 0, 0.5), rgba(255, 0, 0, 0) 60%, transparent 50%), url("${this.image}")`,
       };
     },
   },
@@ -67,33 +75,77 @@ export default {
 </script>
 
 <style scoped>
-.banner {
-  color: white;
-  object-fit: contain;
-  height: 448px;
-  width: 100%;
+/*Large devices (desktops, 992px and up)*/
+@media (min-width: 768px) {
+  .banner {
+    color: white;
+    object-fit: contain;
+    height: 380px !important;
+    width: 100%;
+    border-radius: 5px;
+  }
+
+  .banner__contents {
+    margin-left: 10px;
+    padding-top: 120px;
+    height: 190px;
+  }
+
+  .banner__title {
+    font-size: 2rem;
+    font-weight: 800;
+    padding-bottom: 0.3rem;
+    color: #fff;
+    visibility: hidden;
+  }
+
+  .banner__description {
+    width: 45rem !important;
+    margin-top: 2.5rem;
+    line-height: 1.5;
+    padding-top: 1rem;
+    font-size: 0.9rem;
+    max-width: 360px;
+    height: 80px;
+  }
 }
 
-.banner__contents {
-  margin-left: 30px;
-  padding-top: 100px;
-  height: 190px;
+@media (max-width: 768px) {
+  .banner {
+    color: white;
+    object-fit: contain;
+    height: 300px !important;
+    width: 100%;
+    border-radius: 5px;
+  }
+
+  .banner__contents {
+    margin-left: 10px;
+    padding-top: 120px !important;
+    height: 190px;
+  }
+
+  .banner__title {
+    font-size: 2rem;
+    font-weight: 800;
+    padding-bottom: 0.3rem;
+    color: #fff;
+    display: none;
+  }
+
+  .banner__description {
+    width: 21rem;
+    margin-top: 2.5rem;
+    line-height: 1.5;
+    padding-top: 1rem;
+    font-size: 0.9rem;
+    max-width: 360px;
+    height: 80px;
+  }
 }
 
-.banner__title {
-  font-size: 3rem;
-  font-weight: 800;
-  padding-bottom: 0.3rem;
-}
-
-.banner__description {
-  width: 45rem;
-  margin-top: 1rem;
-  line-height: 1.5;
-  padding-top: 1rem;
-  font-size: 0.9rem;
-  max-width: 360px;
-  height: 80px;
+.banner__buttons {
+  text-align: right;
 }
 
 .banner__button {
@@ -112,17 +164,8 @@ export default {
 }
 
 .banner__button:hover {
-  color: #000;
-  background-color: #e6e6e6;
+  color: #fff;
+  background-color: rgba(120, 0, 209, 0.4);
   transition: all 0.2s;
 }
-/** .banner__fadeBottom {
-  height: 15rem;
-  background-image: linear-gradient(
-    180deg,
-    transparent,
-    rgba(37, 37, 37, 0.61),
-    #111
-  );
-} **/
 </style>

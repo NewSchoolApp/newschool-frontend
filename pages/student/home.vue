@@ -9,7 +9,7 @@
       />
     </div>
   </div>
-  <div v-else id="page">
+  <div v-else id="page" class="home__container">
     <v-col id="main-col">
       <v-row justify="end">
         <img
@@ -54,7 +54,7 @@
 
       <!-- Header-bar -->
       <v-row id="header" align="center">
-        <v-avatar size="55">
+        <v-avatar size="55" class="user-avatar">
           <img
             v-if="user.photo"
             class="user__image"
@@ -67,18 +67,16 @@
             @click="goTo('perfil')"
           />
         </v-avatar>
-
-        <v-col>
+        <v-col class="welcome-header">
           <h1 class="welcome-title">
             {{ 'Salve, ' + userName + '!' }}
           </h1>
           <h1 class="welcome-subtitle">Seja bem-vindo</h1>
         </v-col>
-
         <h1 class="xp">{{ userPoints || 0 }} NC</h1>
       </v-row>
-
-      <!-- Search Field -->
+      <Banner :highlights="highlights" />
+      <!-- Search Field
       <v-text-field
         v-model="filtro"
         class="search-field"
@@ -86,54 +84,35 @@
         outlined
         prepend-inner-icon="mdi-magnify"
         autocomplete="off"
-      />
-      <div v-if="!filtro">
-        <p id="title">Em destaque</p>
-        <course-card
-          v-for="course in this.highlights[0].cursos"
-          :key="course.id"
-          :course="course"
-        />
-       </div>
-      <div v-if="!filtro">
-        <p id="title">Pilares</p>
-        <course-card
-          v-for="pilar in this.pilars"
-          :key="pilar.id"
-          :course="pilar"
-        />
-      </div>
-      <br />
-       <div v-if="!filtro">
-        <p id="title">Trilhas</p>
-        <course-card
-          v-for="trail in this.trails"
-          :key="trail.id"
-          :course="trail"
-        />
-      </div>
-      <div v-if="filtro">
-        <course-card
-          v-for="item in filteredList"
-          :key="item.id"
-          :course="item"
-        />
-      </div>
+      /> -->
+      <OriginalsRow title="Em destaque" :courses="highlights[0].cursos" />
+      <OriginalsRow v-for="pilar in this.pilars"
+        :key="pilar.id"
+        :courses="pilar.cursos"
+        :title="pilar.titulo" />
+      <OriginalsRow v-for="trail in this.trails"
+        :key="trail.id"
+        :courses="trail.cursos"
+        :title="trail.titulo" />
     </v-col>
-    <navigation-bar />
+    <NavigationBar />
   </div>
 </template>
 
 <script>
-import NavigationBar from '~/components/NavigationBar.vue';
-import CourseCard from '~/components/CourseCard';
+import Row from "@/components/netflix/Row.vue";
+import OriginalsRow from "@/components/netflix/OriginalsRow.vue";
+import Banner from "@/components/netflix/Banner.vue";
 import http from '~/services/http/generic';
 import utils from '~/utils/index';
+import NavigationBar from '~/components/NavigationBar.vue';
 
 export default {
   components: {
+    Row,
+    OriginalsRow,
+    Banner,
     NavigationBar,
-    CourseCard,
   },
   data: () => ({
     title: 'Bem-vindo',
@@ -141,8 +120,10 @@ export default {
     filtro: '',
     notifications: '',
     userPoints: '',
-    trails: [],
+    pilarsUrl: process.env.endpoints.PILARS,
+    trailsUrl: process.env.endpoints.TRAILS,
     pilars: [],
+    trails: [],
     highlights: [],
   }),
   computed: {
@@ -152,7 +133,7 @@ export default {
     userName() {
       return this.user.name.split(' ')[0];
     },
-    filteredList() {
+    /* filteredList() {
       const totalList = [...this.trails, ...this.pilars];
 
       if (this.filtro) {
@@ -163,19 +144,16 @@ export default {
         );
       }
       return totalList;
-    },
+    }, */
   },
-
   async mounted() {
     await this.$store.dispatch('courses/refreshAllCourses');
     await this.$store.dispatch('courses/refreshMyCourses');
-
+    await this.getHighlights();
     await this.getPilars();
     await this.getTrails();
-    await this.getHighlights();
     await this.getNotifications();
     await this.getUserScore();
-
     this.loading = false;
   },
   methods: {
@@ -189,21 +167,21 @@ export default {
         )
       ).data;
     },
-    async getTrails() {
-       this.trails = (await http.getAll(`${process.env.endpoints.TRAILS}`)).data;
-    },
-    async getPilars() {
-       this.pilars = (await http.getAll(`${process.env.endpoints.PILARS}`)).data;
-    },
-     async getHighlights() {
-       this.highlights = (await http.getAll(`${process.env.endpoints.HIGHLIGHTS}`)).data;
-    },
     async getUserScore() {
       this.userPoints = (
         await http.getAll(
           `${process.env.endpoints.RANKING}/user/${this.user.id}/total-points`,
         )
       ).data.points;
+    },
+    async getPilars() {
+      this.pilars = (await http.getAll(`${process.env.endpoints.PILARS}`)).data;
+    },
+    async getTrails() {
+      this.trails = (await http.getAll(`${process.env.endpoints.TRAILS}`)).data;
+    },
+    async getHighlights() {
+      this.highlights = (await http.getAll(`${process.env.endpoints.HIGHLIGHTS}`)).data;
     },
   },
 };
@@ -212,13 +190,17 @@ export default {
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap');
 
+.home__container {
+  background-color: rgb(39, 7, 104);
+}
+
 * {
   font-family: 'Roboto', sans-serif;
 }
 
 #main-col {
-  padding: 20px 24px 50px 24px;
-  max-width: 700px;
+  padding: 5;
+  max-width: 1600px;
 }
 
 ::v-deep .row {
@@ -227,6 +209,14 @@ export default {
 }
 .user__image {
   object-fit: cover;
+}
+
+.user-avatar {
+  margin-top: -25px;
+}
+
+.welcome-header {
+  margin-top: -40px;
 }
 
 #title {
@@ -306,8 +296,7 @@ export default {
 
 #header {
   height: auto;
-  padding-bottom: 20px;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  padding-bottom: 15px;
 }
 
 .welcome {
@@ -326,7 +315,7 @@ h1 {
 .xp {
   font-weight: 900;
   font-size: 1rem;
-  color: rgba(26, 26, 26, 1);
+  color: #fff;
   flex: center;
 }
 
@@ -336,7 +325,7 @@ h1 {
 }
 
 .welcome-title {
-  color: #1a1a1a;
+  color: #fff;
   font-size: 0.87rem;
   font-weight: 900;
 }
@@ -370,12 +359,5 @@ h1 {
   color: var(--primary);
   padding: 1.25em 0 0.5em 1.6em;
   text-transform: uppercase;
-}
-/*Large devices (desktops, 992px and up)*/
-@media (min-width: 700px) {
-  #page {
-    display: flex;
-    justify-content: center;
-  }
 }
 </style>

@@ -63,6 +63,10 @@
         <param name="android-package" value="org.apache.cordova.firebase.FirebasePlugin" />
         <param name="onload" value="true" />
     </feature>
+    <feature name="StatusBar">
+        <param name="android-package" value="org.apache.cordova.statusbar.StatusBar" />
+        <param name="onload" value="true" />
+    </feature>
     <name>New School</name>
     <description> New School App </description>
     <author email="newschool@http://newschool-api-dev2.eba-gxtzwa9m.us-east-2.elasticbeanstalk.com" href="http://cordova.io"> New School Team </author>
@@ -87,4 +91,5 @@
     <preference name="android-minSdkVersion" value="23" />
     <preference name="SplashScreen" value="none" />
     <preference name="android:usesCleartextTraffic" value="true" />
+    <preference name="StatusBarOverlaysWebView" value="true" />
 </widget>

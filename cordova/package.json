@@ -15,6 +15,7 @@
     "cordova-plugin-inappbrowser": "^4.1.0",
     "cordova-plugin-insomnia": "git+https://github.com/EddyVerbruggen/Insomnia-PhoneGap-Plugin.git",
     "cordova-plugin-splashscreen": "^6.0.0",
+    "cordova-plugin-statusbar": "^2.4.3",
     "cordova-plugin-whitelist": "1"
   },
   "cordova": {
@@ -48,7 +49,8 @@
       "cordova-plugin-splashscreen": {},
       "cordova-install-referrer-api": {},
       "cordova-plugin-device": {},
-      "cordova-plugin-fcm": {}
+      "cordova-plugin-fcm": {},
+      "cordova-plugin-statusbar": {}
     },
     "platforms": [
       "ios",

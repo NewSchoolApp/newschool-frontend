@@ -778,7 +778,7 @@ img {
   font-weight: 700;
   line-height: 21px;
   letter-spacing: 0em;
-  color: var(--primary);
+  color: var(--secondary);
 }
 #header-msg {
   font-size: 18px;
@@ -816,7 +816,7 @@ img {
   font-weight: bold;
   font-size: 14px;
   line-height: 16px;
-  color: var(--primary);
+  color: var(--secondary);
   margin-bottom: 8px;
 }
 #description :nth-child(2) {

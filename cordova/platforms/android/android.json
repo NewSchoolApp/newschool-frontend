@@ -99,6 +99,10 @@
             {
               "xml": "<feature name=\"FirebasePlugin\"><param name=\"android-package\" value=\"org.apache.cordova.firebase.FirebasePlugin\" /><param name=\"onload\" value=\"true\" /></feature>",
               "count": 1
+            },
+            {
+              "xml": "<feature name=\"StatusBar\"><param name=\"android-package\" value=\"org.apache.cordova.statusbar.StatusBar\" /><param name=\"onload\" value=\"true\" /></feature>",
+              "count": 1
             }
           ]
         }
@@ -141,12 +145,22 @@
           ],
           "/manifest/application/activity": [
             {
-              "xml": "<intent-filter><action android:name=\"android.intent.action.VIEW\" /><category android:name=\"android.intent.category.DEFAULT\" /><category android:name=\"android.intent.category.BROWSABLE\" /><data android:scheme=\"com.firebase.cordova\" /></intent-filter>",
+              "xml": "<intent-filter><action android:name=\"android.intent.action.VIEW\" /><category android:name=\"android.intent.category.DEFAULT\" /><category android:name=\"android.intent.category.BROWSABLE\" /><data android:host=\" \" android:pathPrefix=\"/\" android:scheme=\" \" /></intent-filter>",
               "count": 1
             },
             {
-              "xml": "<intent-filter><action android:name=\"android.intent.action.VIEW\" /><category android:name=\"android.intent.category.DEFAULT\" /><category android:name=\"android.intent.category.BROWSABLE\" /><data android:host=\" \" android:pathPrefix=\"/\" android:scheme=\" \" /></intent-filter>",
-              "count": 1
+              "xml": "<activity android:theme=\"@android:style/Theme.NoTitleBar.Fullscreen\" />",
+              "count": 1,
+              "mode": "merge",
+              "id": "config.xml",
+              "oldAttrib": {
+                "android:configChanges": "orientation|keyboardHidden|keyboard|screenSize|locale|smallestScreenSize|screenLayout|uiMode",
+                "android:label": "@string/activity_name",
+                "android:launchMode": "singleTop",
+                "android:name": "MainActivity",
+                "android:theme": "@android:style/Theme.NoTitleBar.Fullscreen",
+                "android:windowSoftInputMode": "adjustResize"
+              }
             }
           ],
           "application": [
@@ -373,6 +387,9 @@
       "ANDROID_GSON_VERSION": "2.8.7",
       "ANDROID_FIREBASE_PERF_GRADLE_PLUGIN_VERSION": "1.4.0",
       "PACKAGE_NAME": "com.newschool.app"
+    },
+    "cordova-plugin-statusbar": {
+      "PACKAGE_NAME": "com.newschool.app"
     }
   },
   "dependent_plugins": {},
@@ -510,6 +527,14 @@
       "clobbers": [
         "FirebasePlugin"
       ]
+    },
+    {
+      "id": "cordova-plugin-statusbar.statusbar",
+      "file": "plugins/cordova-plugin-statusbar/www/statusbar.js",
+      "pluginId": "cordova-plugin-statusbar",
+      "clobbers": [
+        "window.StatusBar"
+      ]
     }
   ],
   "plugin_metadata": {
@@ -531,6 +556,7 @@
     "cordova-install-referrer-api": "0.1.5",
     "cordova-plugin-device": "2.0.3",
     "cordova-plugin-fcm": "2.1.2",
-    "cordova-plugin-firebasex": "13.0.1"
+    "cordova-plugin-firebasex": "13.0.1",
+    "cordova-plugin-statusbar": "2.4.3"
   }
 }

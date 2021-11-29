@@ -289,7 +289,7 @@ export default {
 
 ::v-deep .v-tabs-slider-wrapper {
   height: 4px !important;
-  color: var(--primary-light);
+  color: var(--secondary);
 }
 ::v-deep .v-tab {
   font-size: 11px !important;

@@ -5,12 +5,12 @@
       v-model="model"
       active-class="success"
       show-arrows
-      dark
+      light
       width="100%"
     >
       <v-slide-item
-        v-for="movie in movies"
-        :key="movie.id"
+        v-for="course in courses"
+        :key="course.id"
         v-slot:default="{ active, toggle }"
       >
         <v-hover v-slot:default="{ hover }">
@@ -24,7 +24,7 @@
             @click="toggle"
           >
             <v-img
-              :src="base_url + movie.poster_path"
+              :src="course.capa.url"
               @click="handleClick(movie)"
               aspect-ratio="1"
               class=""
@@ -56,7 +56,6 @@
 </template>
 
 <script>
-import axios from "@/plugins/axios";
 import movieTrailer from "movie-trailer";
 import getYouTubeID from "get-youtube-id";
 
@@ -66,28 +65,22 @@ export default {
       type: String,
       required: true,
     },
+    courses: {
+      type: Object,
+      required: true,
+    },
     fetchUrl: String,
   },
   data: () => ({
     model: null,
-    movies: [],
     showLoading: true,
-    base_url: "https://image.tmdb.org/t/p/original/",
     videoId: "",
     playerVars: {
       autoplay: 1,
     },
   }),
-  async mounted() {
-    this.showLoading = true;
-    try {
-      const response = await axios.get(this.fetchUrl);
-      this.movies = response.data.results;
-    } catch (error) {
-      console.error(error);
-    } finally {
-      this.showLoading = false;
-    }
+  mounted() {
+    this.showLoading = false;
   },
   methods: {
     handleClick(movie) {

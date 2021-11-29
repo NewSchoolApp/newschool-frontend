@@ -93,16 +93,16 @@ export default {
           const courseWithData = this.allCourses.find(
             course => course.id == myCourse.courseId,
           );
-          
+
           if(courseWithData) {
             // check if the challenge is done
             if (myCourse.completion === 100 && myCourse.challenge === null) {
               // force completion 99%
               myCourse.completion = 99;
             }
-  
+
             courseWithData.courseTakenData = myCourse;
-  
+
             this.myCourses.push(courseWithData);
           }
 

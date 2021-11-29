@@ -65,15 +65,6 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
       ]
     },
     {
-      "id": "cordova-plugin-printer.Printer",
-      "file": "plugins/cordova-plugin-printer/www/printer.js",
-      "pluginId": "cordova-plugin-printer",
-      "clobbers": [
-        "plugin.printer",
-        "cordova.plugins.printer"
-      ]
-    },
-    {
       "id": "es6-promise-plugin.Promise",
       "file": "plugins/es6-promise-plugin/www/promise.js",
       "pluginId": "es6-promise-plugin",
@@ -142,6 +133,14 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
       "clobbers": [
         "FirebasePlugin"
       ]
+    },
+    {
+      "id": "cordova-plugin-statusbar.statusbar",
+      "file": "plugins/cordova-plugin-statusbar/www/statusbar.js",
+      "pluginId": "cordova-plugin-statusbar",
+      "clobbers": [
+        "window.StatusBar"
+      ]
     }
   ];
   module.exports.metadata = {
@@ -154,7 +153,6 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
     "cordova-plugin-facebook4": "6.2.0",
     "cordova-plugin-inappbrowser": "4.1.0",
     "cordova-plugin-insomnia": "4.3.0",
-    "cordova-plugin-printer": "0.7.3",
     "es6-promise-plugin": "4.2.2",
     "cordova-plugin-screen-orientation": "3.0.2",
     "cordova-plugin-splashscreen": "6.0.0",
@@ -164,6 +162,7 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
     "cordova-install-referrer-api": "0.1.5",
     "cordova-plugin-device": "2.0.3",
     "cordova-plugin-fcm": "2.1.2",
-    "cordova-plugin-firebasex": "13.0.1"
+    "cordova-plugin-firebasex": "13.0.1",
+    "cordova-plugin-statusbar": "2.4.3"
   };
 });

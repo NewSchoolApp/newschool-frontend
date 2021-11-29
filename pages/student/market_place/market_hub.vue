@@ -35,6 +35,7 @@
         <product-card
           :name="product.name"
           :price="product.points"
+          :soldout="product.quantity == 0"
           :img="product.photo"
           :slug="product.slug"
         />
@@ -207,7 +208,6 @@ export default {
       this.productListLoading = false;
     },
     async getProducts() {
-      console.log('getprodfsfsdf');
       if (!this.busy) {
         this.busy = true;
 
@@ -216,9 +216,11 @@ export default {
             `${process.env.endpoints.MARKETPLACE.ITENS}?page=${this.page +
               1}&limit=99&${
               this.searchParam ? 'name[contains]=' + this.searchParam : false
-            }&quantity[gt]=0&enabled=true`,
+            }&enabled=true`,
           )
         ).data.content;
+
+        console.log(res);
 
         if (res.length) {
           this.busy = false;
@@ -281,7 +283,7 @@ export default {
   font-weight: 700;
   line-height: 21px;
   letter-spacing: 0em;
-  color: var(--primary);
+  color: var(--secondary);
 }
 #magnify {
   font-size: 28px;
