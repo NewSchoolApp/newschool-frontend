@@ -32,6 +32,7 @@
 		F39393B557494587A2C41520 /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 35F8160818484C6AB63A9CD0 /* libsqlite3.0.tbd */; };
 		DA40D4E959DF4EAE8B778098 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE95BC16841D4EF0A8339C9F /* Security.framework */; };
 		475434CCA47549F898D85AC3 /* CDVStatusBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 24D5DD84638E4665B5EBBF15 /* CDVStatusBar.m */; };
+		44717A84625A484FA4EB429E /* APPBadge.m in Sources */ = {isa = PBXBuildFile; fileRef = CDC92A7531CD45E0888F5FBE /* APPBadge.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -102,6 +103,8 @@
 		BE95BC16841D4EF0A8339C9F /* Security.framework */ = {isa = PBXFileReference; name = "Security.framework"; path = "System/Library/Frameworks/Security.framework"; sourceTree = SDKROOT; fileEncoding = undefined; lastKnownFileType = wrapper.framework; explicitFileType = undefined; includeInIndex = 0; };
 		24D5DD84638E4665B5EBBF15 /* CDVStatusBar.m */ = {isa = PBXFileReference; name = "CDVStatusBar.m"; path = "cordova-plugin-statusbar/CDVStatusBar.m"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; explicitFileType = undefined; includeInIndex = 0; };
 		A8907B2F7CC64F1F9A890426 /* CDVStatusBar.h */ = {isa = PBXFileReference; name = "CDVStatusBar.h"; path = "cordova-plugin-statusbar/CDVStatusBar.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
+		CDC92A7531CD45E0888F5FBE /* APPBadge.m */ = {isa = PBXFileReference; name = "APPBadge.m"; path = "cordova-plugin-badge/APPBadge.m"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; explicitFileType = undefined; includeInIndex = 0; };
+		E6DBF9F2776C4103A878C427 /* APPBadge.h */ = {isa = PBXFileReference; name = "APPBadge.h"; path = "cordova-plugin-badge/APPBadge.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -242,6 +245,8 @@
 				52B8EC0C2869460E864928A2 /* Firebase.h */,
 				24D5DD84638E4665B5EBBF15 /* CDVStatusBar.m */,
 				A8907B2F7CC64F1F9A890426 /* CDVStatusBar.h */,
+				CDC92A7531CD45E0888F5FBE /* APPBadge.m */,
+				E6DBF9F2776C4103A878C427 /* APPBadge.h */,
 			);
 			name = Plugins;
 			path = "New School/Plugins";
@@ -370,6 +375,7 @@
 				91EAAC3039194A6B856C8869 /* FCMPlugin.m in Sources */,
 				331A30A22A3347B2824244F7 /* AppDelegate+FCMPlugin.m in Sources */,
 				475434CCA47549F898D85AC3 /* CDVStatusBar.m in Sources */,
+				44717A84625A484FA4EB429E /* APPBadge.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -146,6 +146,7 @@ apply from: "../cordova-plugin-browsertab/app-BrowserTab.gradle"
 apply from: "../cordova-plugin-buildinfo/app-BuildInfo.gradle"
 apply from: "../cordova-plugin-fcm/app-FCMPlugin.gradle"
 apply from: "../cordova-plugin-firebasex/app-build.gradle"
+apply from: "../cordova-plugin-badge/app-badge.gradle"
 // PLUGIN GRADLE EXTENSIONS END
 
 def hasBuildExtras1 = file('build-extras.gradle').exists()

@@ -92,6 +92,9 @@
     },
     "cordova-plugin-statusbar": {
       "PACKAGE_NAME": "com.newschool.app"
+    },
+    "cordova-plugin-badge": {
+      "PACKAGE_NAME": "com.newschool.app"
     }
   },
   "dependent_plugins": {
