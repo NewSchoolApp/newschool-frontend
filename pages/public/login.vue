@@ -284,28 +284,9 @@ export default {
 
       if (window.hasOwnProperty('cordova')) {
         this.sendReferrer();
-
         //FCMPlugin.getToken(function(token) {
         //  alert(token);
         //});
-
-        FCMPlugin.subscribeToTopic('secret');
-
-        cordova.plugins.notification.badge.set(10);
-
-        FCMPlugin.onNotification(function(data) {
-          cordova.plugins.notification.badge.increase(1, function (badge) {
-            // badge is now 11 (10 + 1)
-          });
-
-          if (data.wasTapped) {
-            //Notification was received on device tray and tapped by the user.
-            //alert( JSON.stringify(data) );
-          } else {
-            //Notification was received in foreground. Maybe the user needs to be notified.
-            //alert( JSON.stringify(data) );
-          }
-        });
       }
     },
     sendReferrer() {

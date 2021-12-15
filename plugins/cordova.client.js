@@ -1,6 +1,6 @@
 export default (ctx, inject) => {
     const { app } = ctx
-  
+
     const cordovaApp = {
       // Application Constructor
       initialize() {
@@ -10,7 +10,7 @@ export default (ctx, inject) => {
           false
         )
       },
-  
+
       // deviceready Event Handler
       //
       // Bind any cordova events here. Common events are:
@@ -32,35 +32,42 @@ export default (ctx, inject) => {
          *
          *  context to "app" is avaialble, but beware only the app scope of a plugin (which means if any other plugin
          *  extends the app scope, it could be that it is not available yet)
-         */    
+         */
+
+        try {
+          this.initBadgeCount();
+        } catch (err) {
+
+        }
+
         try {
           this.initStatusBar()
         } catch (err) {
           // console.error('status bar failed', err)
         }
-  
+
         try {
           this.initWKWebView()
         } catch (err) {
           // console.error('init WKWebView failed', err)
         }
-  
+
         try {
           this.initCustomUrlScheme()
         } catch (err) {}
       },
-  
+
       initCustomUrlScheme() {
         window.handleOpenURL = url => {
           alert('DeepLink: ' + url)
         }
       },
-  
+
       initStatusBar() {
         window.StatusBar.overlaysWebView(false)
         window.StatusBar.backgroundColorByHexString('#009896')
       },
-  
+
       initWKWebView() {
         /* window.WkWebView.allowsBackForwardNavigationGestures(false)
         EventBus.$on('OpenInsidePages', count => {
@@ -71,16 +78,31 @@ export default (ctx, inject) => {
           }
         }) */
       },
+
+      initBadgeCount() {
+        cordova.plugins.notification.badge.configure({ autoClear: true });
+        //FCMPlugin.subscribeToTopic('secret');
+
+        cordova.plugins.notification.badge.requestPermission(function (granted) {
+          //cordova.plugins.notification.badge.set(0);
+        });
+
+        FCMPlugin.onNotification(function(data) {
+          cordova.plugins.notification.badge.increase(1, function (badge) {
+            //alert(badge);
+          });
+        });
+      },
     }
-  
+
     cordovaApp.initialize()
-  
+
     // patch redirect url for cordova - removes "formatUrl" call because it add "//" to the path
     app.context.redirect = (status, path, query) => {
       if (!status) {
         return
       }
-  
+
       app.context._redirected = true
       // if only 1 or 2 arguments: redirect('/') or redirect('/', { foo: 'bar' })
       let pathType = typeof path
@@ -105,9 +127,9 @@ export default (ctx, inject) => {
         })
       } else {
         // https://developer.mozilla.org/en-US/docs/Web/API/Location/replace
-  
+
         // path = formatUrl(path, query) removed
-  
+
         window.location.replace(path)
       }
     }
