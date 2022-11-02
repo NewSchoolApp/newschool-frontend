@@ -1,7 +1,7 @@
 {
   "devDependencies": {
     "com.darktalker.cordova.screenshot": "git+https://github.com/gitawego/cordova-screenshot.git",
-    "cordova": "^8.1.2",
+    "cordova": "^11.0.0",
     "cordova-android": "^9.1.0",
     "cordova-browser": "^6.0.0",
     "cordova-install-referrer-api": "0.0.1",
